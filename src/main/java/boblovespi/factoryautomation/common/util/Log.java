@@ -17,4 +17,14 @@ public class Log
 			logger = LogManager.getFormatterLogger(FactoryAutomation.MODID);
 		return logger;
 	}
+
+	public static void LogInfo(String s, Object o)
+	{
+		logger.info(s + ": " + o.toString());
+	}
+
+	public static void LogInfo(String s)
+	{
+		logger.info(s);
+	}
 }
