@@ -10,7 +10,7 @@ public interface FAItem
 {
 	String UnlocalizedName();
 
-	default String RegisteryName()
+	default String RegistryName()
 	{
 		return UnlocalizedName();
 	}

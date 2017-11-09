@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client;
 
 import boblovespi.factoryautomation.common.CommonProxy;
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 
 /**
@@ -13,5 +14,6 @@ public class ClientProxy extends CommonProxy
 	{
 		super.RegisterRenders();
 		FAItems.RegisterRenders();
+		FABlocks.RegisterRenders();
 	}
 }

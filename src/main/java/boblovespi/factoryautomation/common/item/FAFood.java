@@ -45,7 +45,7 @@ public class FAFood extends Item implements FAItem
 
 		this.unName = unName;
 		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegisteryName());
+		setRegistryName(RegistryName());
 		//setHasSubtypes(true);
 
 		amountOfFood = amount;
