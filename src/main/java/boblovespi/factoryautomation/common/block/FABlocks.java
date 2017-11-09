@@ -46,10 +46,6 @@ public class FABlocks
 		Log.getLogger()
 				.info("The other model resource location", loc.toString());
 
-		//		ModelBakery.registerItemVariants(block.ToBlock(), loc);
-		//		ModelLoader.setCustomModelResourceLocation(block.ToBlock(), meta, loc);
-		//		ModelLoader.setCustomMeshDefinition(block.ToBlock(), stack -> loc);
-
 		if (block.IsItemBlock())
 
 			ModelLoader.setCustomModelResourceLocation(
