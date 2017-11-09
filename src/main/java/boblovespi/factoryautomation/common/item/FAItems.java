@@ -2,15 +2,17 @@ package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,8 @@ public class FAItems
 
 	public static void Init()
 	{
+		items = new ArrayList<>(100);
+
 		slag = new FABaseItem("slag", CreativeTabs.MATERIALS);
 	}
 
@@ -40,17 +44,18 @@ public class FAItems
 
 		ModelResourceLocation loc = new ModelResourceLocation(
 				new ResourceLocation(FactoryAutomation.MODID,
-						item.GetMetaFilePath(0)), "inventory");
+						item.GetMetaFilePath(meta)), "inventory");
 
 		Log.getLogger()
 				.info("The other model resource location", loc.toString());
 
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
-				.register(item.ToItem(), meta, loc);
+		ModelBakery.registerItemVariants(item.ToItem(), loc);
+		ModelLoader.setCustomModelResourceLocation(item.ToItem(), meta, loc);
+		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
 	}
 
 	@SubscribeEvent
-	public void registerItem(RegistryEvent.Register<Item> event)
+	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
 		event.getRegistry().registerAll(items.toArray(new Item[] {}));
 	}
