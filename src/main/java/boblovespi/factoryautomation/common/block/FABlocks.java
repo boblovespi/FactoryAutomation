@@ -3,11 +3,8 @@ package boblovespi.factoryautomation.common.block;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -48,16 +45,6 @@ public class FABlocks
 
 		Log.getLogger()
 				.info("The other model resource location", loc.toString());
-
-		if (block.IsItemBlock())
-		{
-			ModelBakery.registerItemVariants(
-					Item.getItemFromBlock(block.ToBlock()), loc);
-			ModelLoader.setCustomModelResourceLocation(
-					Item.getItemFromBlock(block.ToBlock()), meta, loc);
-			ModelLoader.setCustomMeshDefinition(
-					Item.getItemFromBlock(block.ToBlock()), stack -> loc);
-		}
 	}
 
 	@SubscribeEvent

@@ -34,7 +34,23 @@ public class FAItems
 
 	public static void RegisterRenders()
 	{
-		RegisterRender(slag, 0);
+		for (Item item : items)
+		{
+			if (item instanceof FAItem)
+			{
+				if (item instanceof IMultiVarientItem)
+				{
+					// TODO: add code to register all renders for the item
+				} else
+				{
+					RegisterRender((FAItem) item, 0);
+				}
+			} else
+			{
+				// is a vanilla item, so we need to use a vanilla item method
+				RegisterVanillaRender(item);
+			}
+		}
 	}
 
 	public static void RegisterRender(FAItem item, int meta)
@@ -52,6 +68,12 @@ public class FAItems
 		ModelBakery.registerItemVariants(item.ToItem(), loc);
 		ModelLoader.setCustomModelResourceLocation(item.ToItem(), meta, loc);
 		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
+	}
+
+	public static void RegisterVanillaRender(Item item)
+	{
+		ModelResourceLocation loc = new ModelResourceLocation(
+				item.getRegistryName(), "inventory");
 	}
 
 	@SubscribeEvent
