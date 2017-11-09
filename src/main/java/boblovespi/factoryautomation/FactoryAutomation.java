@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation;
 
 import boblovespi.factoryautomation.common.CommonProxy;
+import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -32,7 +33,9 @@ public class FactoryAutomation
 	{
 		Log.getLogger().info("Preinitialization");
 
-		proxy.RegisterRenders();
+		FAItems.Init();
+
+		// proxy.RegisterRenders();
 
 		Log.getLogger().info("Preinitialization end");
 	}
