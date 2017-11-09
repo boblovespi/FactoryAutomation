@@ -4,7 +4,9 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -36,20 +38,27 @@ public class FABlocks
 
 	public static void RegisterRender(FABlock block, int meta)
 	{
-		Log.getLogger().info("The other file path",
+		Log.LogInfo("The other file path",
 				FactoryAutomation.MODID + ":" + block.GetMetaFilePath(meta));
 
 		ModelResourceLocation loc = new ModelResourceLocation(
 				new ResourceLocation(FactoryAutomation.MODID,
 						block.GetMetaFilePath(meta)), "inventory");
 
-		Log.getLogger()
-				.info("The other model resource location", loc.toString());
+		Log.LogInfo("The other model resource location", loc.toString());
+
+		if (block.IsItemBlock())
+		{
+			Log.LogInfo("Is a itemblock, registering item");
+			Item blockItem = Item.getItemFromBlock(block.ToBlock());
+			ModelLoader.setCustomModelResourceLocation(blockItem, 0,
+					loc);
+		}
 	}
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
-		event.getRegistry().registerAll(blocks.toArray(new Block[] {}));
+		blocks.forEach(event.getRegistry()::register);
 	}
 }

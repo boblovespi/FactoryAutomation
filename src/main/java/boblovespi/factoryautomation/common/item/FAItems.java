@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -36,13 +37,21 @@ public class FAItems
 	{
 		for (Item item : items)
 		{
-			Log.LogInfo("new item!\n\nItem unlocalized name", item.getUnlocalizedName());
-			Log.LogInfo("item ");
-			if (item instanceof FAItem)
+			Log.LogInfo("new item!");
+			Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
+			Log.LogInfo("item resource path",
+					item.getRegistryName().getResourcePath());
+			if (item instanceof ItemBlock)
 			{
-				if (item instanceof IMultiVarientItem)
+				Log.LogInfo("Is an itemblock, not taking any action");
+				continue;
+			}
+			else if (item instanceof FAItem)
+			{
+				if (item instanceof IMultiVariantItem)
 				{
 					// TODO: add code to register all renders for the item
+					IMultiVariantItem variantItem = (IMultiVariantItem) item;
 				} else
 				{
 					RegisterRender((FAItem) item, 0);
@@ -60,7 +69,7 @@ public class FAItems
 		Log.LogInfo("The other file path",
 				FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
 
-		ModelResourceLocation loc = new ModelResourceLocation(
+		final ModelResourceLocation loc = new ModelResourceLocation(
 				new ResourceLocation(FactoryAutomation.MODID,
 						item.GetMetaFilePath(meta)), "inventory");
 
@@ -74,7 +83,7 @@ public class FAItems
 	public static void RegisterVanillaRender(Item item)
 	{
 		Log.LogInfo("Registering a vanilla Item class");
-		ModelResourceLocation loc = new ModelResourceLocation(
+		final ModelResourceLocation loc = new ModelResourceLocation(
 				item.getRegistryName(), "inventory");
 		ModelBakery.registerItemVariants(item, loc);
 		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
@@ -85,6 +94,6 @@ public class FAItems
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
-		event.getRegistry().registerAll(items.toArray(new Item[] {}));
+		items.forEach(event.getRegistry()::register);
 	}
 }
