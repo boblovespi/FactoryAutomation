@@ -4,9 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -46,14 +44,15 @@ public class FABlocks
 						block.GetMetaFilePath(meta)), "inventory");
 
 		Log.LogInfo("The other model resource location", loc.toString());
-
-		if (block.IsItemBlock())
-		{
-			Log.LogInfo("Is a itemblock, registering item");
-			Item blockItem = Item.getItemFromBlock(block.ToBlock());
-			ModelLoader.setCustomModelResourceLocation(blockItem, 0,
-					loc);
-		}
+		//
+		//		if (block.IsItemBlock())
+		//		{
+		//			Log.LogInfo("Is a itemblock, registering item");
+		//			Item blockItem = Item.getItemFromBlock(block.ToBlock());
+		//			Log.LogInfo("itemblock unlocalized name",
+		//					blockItem.getUnlocalizedName());
+		//			ModelLoader.setCustomModelResourceLocation(blockItem, meta, loc);
+		//		}
 	}
 
 	@SubscribeEvent
