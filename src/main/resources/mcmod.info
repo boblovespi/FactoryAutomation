@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "modid": "factoryautomation",
+  "name": "Factory Automation",
+  "description": "A mod that does stuff.",
+  "version": "alpha 1.0.0",
+  "mcversion": "1.12.2",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["boblovespi", "ShtFish"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
