@@ -36,6 +36,8 @@ public class FAItems
 	{
 		for (Item item : items)
 		{
+			Log.LogInfo("new item!\n\nItem unlocalized name", item.getUnlocalizedName());
+			Log.LogInfo("item ");
 			if (item instanceof FAItem)
 			{
 				if (item instanceof IMultiVarientItem)
@@ -55,15 +57,14 @@ public class FAItems
 
 	public static void RegisterRender(FAItem item, int meta)
 	{
-		Log.getLogger().info("The other file path",
+		Log.LogInfo("The other file path",
 				FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
 
 		ModelResourceLocation loc = new ModelResourceLocation(
 				new ResourceLocation(FactoryAutomation.MODID,
 						item.GetMetaFilePath(meta)), "inventory");
 
-		Log.getLogger()
-				.info("The other model resource location", loc.toString());
+		Log.LogInfo("The other model resource location", loc);
 
 		ModelBakery.registerItemVariants(item.ToItem(), loc);
 		ModelLoader.setCustomModelResourceLocation(item.ToItem(), meta, loc);
@@ -72,12 +73,13 @@ public class FAItems
 
 	public static void RegisterVanillaRender(Item item)
 	{
-		Log.getLogger().info("Registering a vanilla Item class");
+		Log.LogInfo("Registering a vanilla Item class");
 		ModelResourceLocation loc = new ModelResourceLocation(
 				item.getRegistryName(), "inventory");
 		ModelBakery.registerItemVariants(item, loc);
 		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
 		ModelLoader.setCustomMeshDefinition(item, stack -> loc);
+		Log.LogInfo("Model resource location: ", loc);
 	}
 
 	@SubscribeEvent
