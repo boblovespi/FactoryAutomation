@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -24,12 +25,12 @@ public class FAItems
 
 	public static void Init()
 	{
-
+		slag = new FABaseItem("slag", CreativeTabs.MATERIALS);
 	}
 
 	public static void RegisterRenders()
 	{
-
+		RegisterRender(slag, 0);
 	}
 
 	public static void RegisterRender(FAItem item, int meta)

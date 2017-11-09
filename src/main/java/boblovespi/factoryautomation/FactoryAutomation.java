@@ -35,7 +35,7 @@ public class FactoryAutomation
 
 		FAItems.Init();
 
-		// proxy.RegisterRenders();
+		proxy.RegisterRenders();
 
 		Log.getLogger().info("Preinitialization end");
 	}
