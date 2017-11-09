@@ -72,8 +72,12 @@ public class FAItems
 
 	public static void RegisterVanillaRender(Item item)
 	{
+		Log.getLogger().info("Registering a vanilla Item class");
 		ModelResourceLocation loc = new ModelResourceLocation(
 				item.getRegistryName(), "inventory");
+		ModelBakery.registerItemVariants(item, loc);
+		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
+		ModelLoader.setCustomMeshDefinition(item, stack -> loc);
 	}
 
 	@SubscribeEvent
