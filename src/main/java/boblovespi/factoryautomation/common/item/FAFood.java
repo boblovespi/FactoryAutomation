@@ -57,6 +57,7 @@ public class FAFood extends Item implements FAItem
 		alwaysEdible = canAlwaysEat;
 
 		setCreativeTab(CreativeTabs.FOOD);
+		FAItems.items.add(this);
 
 	}
 

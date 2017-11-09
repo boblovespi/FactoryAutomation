@@ -18,7 +18,7 @@ public class FABaseItem extends Item implements FAItem
 		setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegisteryName());
 		setCreativeTab(ct);
-
+		FAItems.items.add(this);
 	}
 
 	@Override
