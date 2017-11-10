@@ -16,7 +16,8 @@ public class FABaseItem extends Item implements FAItem
 	{
 		this.unlocalizedName = unlocalizedName;
 		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
+		setRegistryName(
+				RegistryName() == null ? UnlocalizedName() : RegistryName());
 		setCreativeTab(ct);
 		FAItems.items.add(this);
 	}

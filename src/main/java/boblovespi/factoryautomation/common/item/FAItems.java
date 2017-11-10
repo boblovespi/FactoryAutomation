@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -21,18 +22,25 @@ import java.util.List;
 @Mod.EventBusSubscriber
 public class FAItems
 {
+	private static final AtomicBoolean isInit = new AtomicBoolean(false);
+
 	public static List<Item> items;
 
 	public static FAItem slag;
+	public static FAItem ingot;
 
 	public static void Init()
 	{
+		if (!isInit.compareAndSet(false, true))
+			return;
+
 		items = new ArrayList<>(100);
 
 		slag = new FABaseItem("slag", CreativeTabs.MATERIALS);
+		ingot = new Ingot();
 	}
 
-	public static void RegisterRenders()
+	public static void RegisterItemRenders()
 	{
 		for (Item item : items)
 		{
@@ -45,7 +53,7 @@ public class FAItems
 				if (item instanceof MultiTypeItem)
 				{
 					MultiTypeItem variantItem = (MultiTypeItem) item;
-					// TODO: finish
+					RegisterRenders(variantItem);
 				} else
 				{
 					RegisterRender((FAItem) item, 0);
@@ -76,7 +84,12 @@ public class FAItems
 
 	public static void RegisterRenders(MultiTypeItem item)
 	{
+		for (int meta = 0;
+			 meta < item.itemTypes.getEnumConstants().length; meta++)
+		{
 
+			RegisterRender(item, meta);
+		}
 	}
 
 	public static void RegisterVanillaRender(Item item)
@@ -93,6 +106,8 @@ public class FAItems
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
+		Init();
+
 		items.forEach(event.getRegistry()::register);
 	}
 }

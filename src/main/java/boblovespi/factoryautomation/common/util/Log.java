@@ -27,4 +27,9 @@ public class Log
 	{
 		logger.info(s);
 	}
+
+	public static void LogWarning(String s)
+	{
+		logger.warn(s);
+	}
 }

@@ -19,8 +19,6 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 			Class<T> types)
 	{
 		super(unlocalizedName, creativeTab);
-		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
 		setHasSubtypes(true);
 		itemTypes = types;
 	}

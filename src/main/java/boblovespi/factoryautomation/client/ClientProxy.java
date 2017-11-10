@@ -23,7 +23,7 @@ public class ClientProxy extends CommonProxy
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event)
 	{
-		FAItems.RegisterRenders();
+		FAItems.RegisterItemRenders();
 		FABlocks.RegisterRenders();
 	}
 }

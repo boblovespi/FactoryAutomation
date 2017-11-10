@@ -46,7 +46,8 @@ public class FactoryAutomation
 	public void Init(FMLInitializationEvent Event)
 	{
 		Log.getLogger().info("Initialization");
-		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
+		Log.LogInfo("Slag resource path",
+				FAItems.slag.ToItem().getRegistryName());
 		Log.getLogger().info("Initialization end");
 	}
 

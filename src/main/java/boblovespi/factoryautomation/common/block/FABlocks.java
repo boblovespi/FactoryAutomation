@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by Willi on 11/9/2017.
@@ -18,12 +19,17 @@ import java.util.List;
 @Mod.EventBusSubscriber
 public class FABlocks
 {
+	private static final AtomicBoolean isInit = new AtomicBoolean(false);
+
 	public static List<Block> blocks;
 
 	public static FABlock concrete;
 
 	public static void Init()
 	{
+		if (!isInit.compareAndSet(false, true))
+			return;
+
 		blocks = new ArrayList<>(100);
 
 		concrete = new Concrete();
@@ -58,6 +64,12 @@ public class FABlocks
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
+		Init();
+
+		if (blocks == null)
+			Log.LogWarning("Blocks is null!");
+		if (event == null || event.getRegistry() == null)
+			Log.LogWarning("Event is null!");
 		blocks.forEach(event.getRegistry()::register);
 	}
 }
