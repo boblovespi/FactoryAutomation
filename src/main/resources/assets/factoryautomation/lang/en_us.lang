@@ -7,6 +7,11 @@ item.ingot.tin.name=Tin Ingot
 item.ingot.bronze.name=Bronze Ingot
 item.ingot.steel.name=Steel Ingot
 
+item.ingot.copper.name=Copper Nugget
+item.ingot.tin.name=Tin Nugget
+item.ingot.bronze.name=Bronze Nugget
+item.ingot.steel.name=Steel Nugget
+
 # tiles
 
 tile.concrete.name=Concrete
