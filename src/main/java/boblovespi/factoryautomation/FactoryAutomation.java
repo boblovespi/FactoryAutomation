@@ -49,7 +49,7 @@ public class FactoryAutomation
 	{
 		Log.getLogger().info("Initialization");
 		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
-		//RecipieHandler.RegisterCraftingRecipes();
+		RecipieHandler.RegisterCraftingRecipes();
 		Log.getLogger().info("Initialization end");
 	}
 
