@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * Created by Willi on 11/9/2017.
+ * prefer use of the vanilla itemblock
  */
 @Deprecated
 public class FAItemBlock extends FABaseItem

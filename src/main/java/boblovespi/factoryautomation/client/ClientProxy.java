@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client;
 
 import boblovespi.factoryautomation.common.CommonProxy;
+import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -26,5 +27,12 @@ public class ClientProxy extends CommonProxy
 	{
 		FAItems.RegisterItemRenders();
 		FABlocks.RegisterRenders();
+	}
+
+	@Override
+	public void PreInit()
+	{
+		super.PreInit();
+		Config.ClientPreInit();
 	}
 }

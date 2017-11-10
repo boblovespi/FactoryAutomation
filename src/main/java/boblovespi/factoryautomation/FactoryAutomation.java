@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation;
 
 import boblovespi.factoryautomation.common.CommonProxy;
+import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 /**
  * Created by Willi on 11/8/2017.
  */
-@Mod(modid = FactoryAutomation.MODID, name = FactoryAutomation.NAME, version = FactoryAutomation.VERSION)
+@Mod(modid = FactoryAutomation.MODID, name = FactoryAutomation.NAME, version = FactoryAutomation.VERSION, guiFactory = FactoryAutomation.GUI_FACTORY)
 public class FactoryAutomation
 {
 
@@ -22,6 +23,7 @@ public class FactoryAutomation
 	public static final String NAME = "Factory Automation";
 	public static final String COMMON_PROXY_CLASS = "boblovespi.factoryautomation.common.CommonProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
+	public static final String GUI_FACTORY = "boblovespi.factoryautomation.common.config.ConfigGuiFactory";
 
 	@SidedProxy(serverSide = COMMON_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
 	private static CommonProxy proxy;
@@ -34,6 +36,9 @@ public class FactoryAutomation
 	public void PreInit(FMLPreInitializationEvent Event)
 	{
 		Log.getLogger().info("Preinitialization");
+
+		Config.PreInit();
+		proxy.PreInit();
 
 		FAItems.Init();
 		FABlocks.Init();

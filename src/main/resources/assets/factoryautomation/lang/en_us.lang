@@ -15,3 +15,10 @@ item.nugget.steel.name=Steel Nugget
 # tiles
 
 tile.concrete.name=Concrete
+
+# config
+gui.config.main_title=Factory Automation Configuration
+gui.config.category.test=Test
+gui.config.category.test.tooltip=A category for testing - not actually used
+gui.config.test.test_scalar.name=Test Scalar
+gui.config.test.test_scalar.comment=A scalar for testing config with
