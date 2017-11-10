@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class RecipieHandler
 {
+    public void registerIRecipes(){}
 
     public static void RegisterCraftingRecipes()
     {
