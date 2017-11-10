@@ -12,19 +12,13 @@ public class Ingot extends MultiTypeItem<Metals>
 {
 	public Ingot()
 	{
-		super("ingot", CreativeTabs.MATERIALS);
+		super("ingot", CreativeTabs.MATERIALS, Metals.class);
 	}
 
 	@Override
 	public String UnlocalizedName()
 	{
 		return "ingot";
-	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return null;
 	}
 
 	@Override
