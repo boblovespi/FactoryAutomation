@@ -10,38 +10,57 @@ import net.minecraft.util.NonNullList;
 /**
  * Created by Willi on 11/9/2017.
  */
-public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends FABaseItem
-		implements FAItem
+public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializable>
+		extends FABaseItem implements FAItem
 {
-		public MultiTypeItem(String unlocalizedName, CreativeTabs creativeTab)
-		{
-			super(unlocalizedName, creativeTab);
-			setUnlocalizedName(UnlocalizedName());
-			setRegistryName(RegistryName());
-			setHasSubtypes(true);
-		}
+	protected Class<T> itemTypes;
 
-		@Override
-		public String UnlocalizedName()
-		{
-			return "ingot";
-		}
+	public MultiTypeItem(String unlocalizedName, CreativeTabs creativeTab,
+			Class<T> types)
+	{
+		super(unlocalizedName, creativeTab);
+		setUnlocalizedName(UnlocalizedName());
+		setRegistryName(RegistryName());
+		setHasSubtypes(true);
+		itemTypes = types;
+	}
 
-		@Override
-		public String GetMetaFilePath(int meta)
-		{
-			return null;
-		}
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		T[] types = itemTypes.getEnumConstants();
 
-		@Override
-		public Item ToItem()
-		{
-			return this;
-		}
+		for (int i = 0; i < types.length; i++)
+			if (meta == i)
+				return getUnlocalizedName() + "_" + types[i].getName();
+
+		return getUnlocalizedName() + "_" + types[0].getName();
+	}
+
+	@Override
+	public Item ToItem()
+	{
+		return this;
+	}
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
+		for (int i = 0; i < itemTypes.getEnumConstants().length; i++)
+		{
+			items.add(new ItemStack(this, 1, i));
+		}
+	}
 
+	@Override
+	public String getUnlocalizedName(ItemStack stack)
+	{
+		T[] types = itemTypes.getEnumConstants();
+
+		for (int i = 0; i < types.length; i++)
+			if (stack.getItemDamage() == i)
+				return getUnlocalizedName() + "." + types[i].getName();
+
+		return getUnlocalizedName() + "." + types[0].getName();
 	}
 }
