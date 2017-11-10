@@ -13,10 +13,10 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 	TIN(3, "tin"),
 	BRONZE(4, "bronze"),
 	STEEL(5, "steel");
-	private int id;
-	private String name;
+	private final int id;
+	private final String name;
 
-	private Metals(int id, String name)
+	Metals(int id, String name)
 	{
 		this.id = id;
 		this.name = name;

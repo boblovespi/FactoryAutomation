@@ -70,7 +70,7 @@ public class FAItems
 		}
 	}
 
-	public static void RegisterRender(FAItem item, int meta)
+	private static void RegisterRender(FAItem item, int meta)
 	{
 		Log.LogInfo("The other file path",
 				FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
@@ -86,7 +86,7 @@ public class FAItems
 		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
 	}
 
-	public static void RegisterRenders(MultiTypeItem item)
+	private static void RegisterRenders(MultiTypeItem item)
 	{
 		for (int meta = 0;
 			 meta < item.itemTypes.getEnumConstants().length; meta++)
@@ -96,7 +96,7 @@ public class FAItems
 		}
 	}
 
-	public static void RegisterVanillaRender(Item item)
+	private static void RegisterVanillaRender(Item item)
 	{
 		Log.LogInfo("Registering a vanilla Item class");
 		final ModelResourceLocation loc = new ModelResourceLocation(

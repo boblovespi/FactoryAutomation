@@ -7,7 +7,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -27,6 +26,7 @@ import java.util.List;
 /**
  * Created by Willi on 11/9/2017.
  */
+@Deprecated
 public class FAItemBlock extends FABaseItem
 {
 
@@ -57,7 +57,7 @@ public class FAItemBlock extends FABaseItem
 
 		if (!itemstack.isEmpty() && player.canPlayerEdit(pos, facing, itemstack)
 				&& worldIn
-				.mayPlace(this.block, pos, false, facing, (Entity) null))
+				.mayPlace(this.block, pos, false, facing, null))
 		{
 			int i = this.getMetadata(itemstack.getMetadata());
 			IBlockState iblockstate1 = this.block
@@ -144,7 +144,7 @@ public class FAItemBlock extends FABaseItem
 			pos = pos.offset(side);
 		}
 
-		return worldIn.mayPlace(this.block, pos, false, side, (Entity) null);
+		return worldIn.mayPlace(this.block, pos, false, side, null);
 	}
 
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player,

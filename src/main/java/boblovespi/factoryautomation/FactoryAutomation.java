@@ -24,11 +24,12 @@ public class FactoryAutomation
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
 
 	@SidedProxy(serverSide = COMMON_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
-	public static CommonProxy proxy;
+	private static CommonProxy proxy;
 
 	@Mod.Instance(MODID)
 	public static FactoryAutomation instance;
 
+	@SuppressWarnings("unused")
 	@Mod.EventHandler
 	public void PreInit(FMLPreInitializationEvent Event)
 	{
@@ -42,6 +43,7 @@ public class FactoryAutomation
 		Log.getLogger().info("Preinitialization end");
 	}
 
+	@SuppressWarnings("unused")
 	@Mod.EventHandler
 	public void Init(FMLInitializationEvent Event)
 	{
@@ -51,6 +53,7 @@ public class FactoryAutomation
 		Log.getLogger().info("Initialization end");
 	}
 
+	@SuppressWarnings("unused")
 	@Mod.EventHandler
 	public void PostInit(FMLPostInitializationEvent Event)
 	{

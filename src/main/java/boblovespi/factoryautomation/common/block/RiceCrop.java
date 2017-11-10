@@ -220,4 +220,10 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 	//		if(plantable.getPlant(world, pos) instanceof RiceGrain)
 	//			return this
 	//	}
+
+	@Override
+	public boolean IsItemBlock()
+	{
+		return false;
+	}
 }

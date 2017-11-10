@@ -20,6 +20,7 @@ public class ClientProxy extends CommonProxy
 
 	}
 
+	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event)
 	{

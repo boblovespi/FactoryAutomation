@@ -10,7 +10,7 @@ import net.minecraft.item.Item;
 
 public class FABaseItem extends Item implements FAItem
 {
-	private String unlocalizedName;
+	private final String unlocalizedName;
 
 	public FABaseItem(String unlocalizedName, CreativeTabs ct)
 	{

@@ -42,7 +42,7 @@ public class FABlocks
 		RegisterRender(concrete, 0);
 	}
 
-	public static void RegisterRender(FABlock block, int meta)
+	private static void RegisterRender(FABlock block, int meta)
 	{
 		Log.LogInfo("The other file path",
 				FactoryAutomation.MODID + ":" + block.GetMetaFilePath(meta));
@@ -72,6 +72,7 @@ public class FABlocks
 			Log.LogWarning("Blocks is null!");
 		if (event == null || event.getRegistry() == null)
 			Log.LogWarning("Event is null!");
+		assert event != null;
 		blocks.forEach(event.getRegistry()::register);
 	}
 }
