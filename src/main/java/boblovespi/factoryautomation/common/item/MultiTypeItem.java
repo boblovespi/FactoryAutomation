@@ -13,7 +13,7 @@ import net.minecraft.util.NonNullList;
 public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializable>
 		extends FABaseItem implements FAItem
 {
-	private Class<T> itemTypes;
+	protected Class<T> itemTypes;
 
 	public MultiTypeItem(String unlocalizedName, CreativeTabs creativeTab,
 			Class<T> types)

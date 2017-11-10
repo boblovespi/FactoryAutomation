@@ -7,10 +7,10 @@ import net.minecraft.util.IStringSerializable;
  */
 public enum Metals implements IStringSerializable, IMultiTypeEnum
 {
-	COPPER(0, "copper"),
-	TIN(1, "tin"),
-	IRON(2, "iron"),
-	GOLD(3, "gold"),
+	IRON(0, "iron"),
+	GOLD(1, "gold"),
+	COPPER(2, "copper"),
+	TIN(3, "tin"),
 	BRONZE(4, "bronze"),
 	STEEL(5, "steel");
 	private int id;
