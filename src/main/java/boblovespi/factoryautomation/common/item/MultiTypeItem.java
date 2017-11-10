@@ -14,25 +14,31 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 		extends FABaseItem implements FAItem
 {
 	protected Class<T> itemTypes;
+	private String resourceFolder;
 
 	public MultiTypeItem(String unlocalizedName, CreativeTabs creativeTab,
-			Class<T> types)
+			Class<T> types, String resourceFolder)
 	{
 		super(unlocalizedName, creativeTab);
 		setHasSubtypes(true);
 		itemTypes = types;
+		this.resourceFolder = resourceFolder;
 	}
 
 	@Override
 	public String GetMetaFilePath(int meta)
 	{
+		String folder = (resourceFolder == null || resourceFolder.isEmpty()) ?
+				"" :
+				resourceFolder + "/";
+
 		T[] types = itemTypes.getEnumConstants();
 
 		for (int i = 0; i < types.length; i++)
 			if (meta == i)
-				return getUnlocalizedName() + "_" + types[i].getName();
+				return folder + UnlocalizedName() + "_" + types[i].getName();
 
-		return getUnlocalizedName() + "_" + types[0].getName();
+		return folder + UnlocalizedName() + "_" + types[0].getName();
 	}
 
 	@Override

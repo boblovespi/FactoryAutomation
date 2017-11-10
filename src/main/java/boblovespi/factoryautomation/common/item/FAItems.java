@@ -28,6 +28,7 @@ public class FAItems
 
 	public static FAItem slag;
 	public static FAItem ingot;
+	private static FAItem nugget;
 
 	public static void Init()
 	{
@@ -38,6 +39,7 @@ public class FAItems
 
 		slag = new FABaseItem("slag", CreativeTabs.MATERIALS);
 		ingot = new Ingot();
+		nugget = new Nugget();
 	}
 
 	public static void RegisterItemRenders()

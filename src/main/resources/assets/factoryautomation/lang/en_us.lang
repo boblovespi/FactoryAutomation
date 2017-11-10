@@ -2,6 +2,10 @@
 # items
 
 item.slag.name=Slag
+item.ingot.copper.name=Copper Ingot
+item.ingot.tin.name=Tin Ingot
+item.ingot.bronze.name=Bronze Ingot
+item.ingot.steel.name=Steel Ingot
 
 # tiles
 

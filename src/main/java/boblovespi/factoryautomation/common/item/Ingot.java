@@ -14,6 +14,11 @@ public class Ingot extends MetalItem
 		super("ingot");
 	}
 
+	protected Ingot(String unlocalizedName)
+	{
+		super(unlocalizedName);
+	}
+
 	@Override
 	public String GetMetaFilePath(int meta)
 	{
