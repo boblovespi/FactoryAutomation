@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -41,17 +40,12 @@ public class FAItems
 			Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
 			Log.LogInfo("item resource path",
 					item.getRegistryName().getResourcePath());
-			if (item instanceof ItemBlock)
+			if (item instanceof FAItem)
 			{
-				Log.LogInfo("Is an itemblock, not taking any action");
-				continue;
-			}
-			else if (item instanceof FAItem)
-			{
-				if (item instanceof IMultiVariantItem)
+				if (item instanceof MultiTypeItem)
 				{
-					// TODO: add code to register all renders for the item
-					IMultiVariantItem variantItem = (IMultiVariantItem) item;
+					MultiTypeItem variantItem = (MultiTypeItem) item;
+					// TODO: finish
 				} else
 				{
 					RegisterRender((FAItem) item, 0);
@@ -78,6 +72,11 @@ public class FAItems
 		ModelBakery.registerItemVariants(item.ToItem(), loc);
 		ModelLoader.setCustomModelResourceLocation(item.ToItem(), meta, loc);
 		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
+	}
+
+	public static void RegisterRenders(MultiTypeItem item)
+	{
+
 	}
 
 	public static void RegisterVanillaRender(Item item)

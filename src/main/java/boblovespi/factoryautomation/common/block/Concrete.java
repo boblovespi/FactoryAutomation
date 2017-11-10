@@ -1,12 +1,13 @@
 package boblovespi.factoryautomation.common.block;
 
-import boblovespi.factoryautomation.common.item.FAItemBlock;
+import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +26,9 @@ public class Concrete extends Block implements FABlock
 		setHardness(10);
 		setResistance(10000);
 		FABlocks.blocks.add(this);
-		new FAItemBlock(this);
+		//		new FAItemBlock(this);
+		FAItems.items.add(new ItemBlock(this)
+				.setRegistryName(this.getRegistryName()));
 	}
 
 	@Override

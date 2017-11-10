@@ -10,7 +10,7 @@ import net.minecraft.util.NonNullList;
  * Created by Willi on 11/9/2017.
  */
 public class MetalItem extends MultiTypeItem<Metals>
-		implements FAItem, IMultiVariantItem
+		implements FAItem
 {
 	private String unlocalizedName;
 
