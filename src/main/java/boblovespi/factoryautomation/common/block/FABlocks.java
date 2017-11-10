@@ -24,6 +24,7 @@ public class FABlocks
 	public static List<Block> blocks;
 
 	public static FABlock concrete;
+	public static FABlock riceCrop;
 
 	public static void Init()
 	{
@@ -33,6 +34,7 @@ public class FABlocks
 		blocks = new ArrayList<>(100);
 
 		concrete = new Concrete();
+		riceCrop = new RiceCrop();
 	}
 
 	public static void RegisterRenders()

@@ -1,0 +1,6 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "factoryautomation:blocks/rice_crop/stage2"
+  }
+}
