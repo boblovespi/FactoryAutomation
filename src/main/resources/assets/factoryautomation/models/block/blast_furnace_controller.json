@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "blocks/nether_brick",
+    "front": "factoryautomation:blocks/blast_furnace_controller",
+    "side": "blocks/nether_brick"
+  }
+}
