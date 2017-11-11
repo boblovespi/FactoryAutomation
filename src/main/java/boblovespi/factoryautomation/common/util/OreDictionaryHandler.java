@@ -19,6 +19,7 @@ public class OreDictionaryHandler {
         net.minecraftforge.oredict.OreDictionary.registerOre("nuggetCopper", new ItemStack(FAItems.nugget.ToItem(), 1, 2));
         net.minecraftforge.oredict.OreDictionary.registerOre("nuggetBronze", new ItemStack(FAItems.nugget.ToItem(), 1, 4));
         net.minecraftforge.oredict.OreDictionary.registerOre("nuggetSteel", new ItemStack(FAItems.nugget.ToItem(), 1, 5));
+        net.minecraftforge.oredict.OreDictionary.registerOre("copperAxe", FAItems.bronzeAxe.ToItem());
 
 
     }
