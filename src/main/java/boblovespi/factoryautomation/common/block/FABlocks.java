@@ -1,9 +1,11 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.ItemSlab;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,6 +27,8 @@ public class FABlocks
 
 	public static FABlock concrete;
 	public static FABlock riceCrop;
+	public static ConcreteSlab concreteSlab;
+	public static ConcreteSlab concreteDoubleSlab;
 
 	public static void Init()
 	{
@@ -35,6 +39,14 @@ public class FABlocks
 
 		concrete = new Concrete();
 		riceCrop = new RiceCrop();
+
+		concreteSlab = new ConcreteSlab.Half();
+		concreteDoubleSlab = new ConcreteSlab.Double();
+		FAItems.items.add(new ItemSlab(concreteSlab.ToBlock(),
+				concreteSlab.ToBlockSlab(), concreteDoubleSlab.ToBlockSlab())
+				.setUnlocalizedName(concreteSlab.UnlocalizedName())
+				.setRegistryName(concreteSlab.RegistryName()));
+
 	}
 
 	public static void RegisterRenders()

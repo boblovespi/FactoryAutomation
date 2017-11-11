@@ -50,7 +50,7 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
 	{
-		if (!isInCreativeTab(tab))
+		if (getCreativeTab() == tab)
 			return;
 		for (int i = 0; i < itemTypes.getEnumConstants().length; i++)
 		{

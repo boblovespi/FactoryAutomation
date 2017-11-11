@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSlab;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -42,6 +43,9 @@ public class FAItems
 		ingot = new Ingot();
 		nugget = new Nugget();
 		riceGrain = new RiceGrain();
+
+
+
 	}
 
 	public static void RegisterItemRenders()
