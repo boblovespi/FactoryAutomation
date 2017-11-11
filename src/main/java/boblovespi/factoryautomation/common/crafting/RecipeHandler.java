@@ -30,7 +30,9 @@ public class RecipeHandler
 	{
 		concrete = new ShapelessRecipes(FactoryAutomation.MODID,
 				new ItemStack(FABlocks.concrete.ToBlock()), NonNullList
-				.from(Ingredient.fromItem(FAItems.slag.ToItem()),
+				.from(Ingredient
+								.fromItems(FAItems.slag.ToItem(), Items.WATER_BUCKET,
+										Item.getItemFromBlock(Blocks.SAND)),
 						Ingredient.fromItem(Items.WATER_BUCKET), Ingredient
 								.fromItem(Item.getItemFromBlock(Blocks.SAND))));
 		concrete.setRegistryName(
