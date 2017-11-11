@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.crafting;
+package boblovespi.factoryautomation.common.init;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
