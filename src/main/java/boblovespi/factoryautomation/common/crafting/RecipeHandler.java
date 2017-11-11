@@ -4,7 +4,9 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
@@ -18,15 +20,22 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod.EventBusSubscriber
 
-public class RecipieHandler
+public class RecipeHandler
 {
+	private static IRecipe concrete;
+
+	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void registerIRecipes(RegistryEvent.Register<IRecipe> event)
 	{
-		NonNullList<Ingredient> n = NonNullList.create();
-		new ShapelessRecipes(FactoryAutomation.MODID,
-				new ItemStack(FABlocks.concrete.ToBlock()),
-				n.from(Ingredient.fromItem(FAItems.slag.ToItem())));
+		concrete = new ShapelessRecipes(FactoryAutomation.MODID,
+				new ItemStack(FABlocks.concrete.ToBlock()), NonNullList
+				.from(Ingredient.fromItem(FAItems.slag.ToItem()),
+						Ingredient.fromItem(Items.WATER_BUCKET), Ingredient
+								.fromItem(Item.getItemFromBlock(Blocks.SAND))));
+		concrete.setRegistryName(
+				new ResourceLocation(FactoryAutomation.MODID, "concrete"));
+		event.getRegistry().register(concrete);
 	}
 
 	public static void RegisterCraftingRecipes()

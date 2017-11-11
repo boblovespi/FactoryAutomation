@@ -3,7 +3,7 @@ package boblovespi.factoryautomation;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.crafting.RecipieHandler;
+import boblovespi.factoryautomation.common.crafting.RecipeHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraftforge.fml.common.Mod;
@@ -56,7 +56,7 @@ public class FactoryAutomation
 		Log.getLogger().info("Initialization");
 		Log.LogInfo("Slag resource path",
 				FAItems.slag.ToItem().getRegistryName());
-		RecipieHandler.RegisterCraftingRecipes();
+		RecipeHandler.RegisterCraftingRecipes();
 		Log.getLogger().info("Initialization end");
 	}
 
