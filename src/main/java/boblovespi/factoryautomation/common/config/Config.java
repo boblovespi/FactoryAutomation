@@ -20,10 +20,8 @@ import java.util.Objects;
  */
 public class Config
 {
-	public static Configuration config;
-
 	public static final String CATEGORY_NAME_TEST = "test";
-
+	public static Configuration config;
 	public static double testScalar;
 
 	public static void PreInit()

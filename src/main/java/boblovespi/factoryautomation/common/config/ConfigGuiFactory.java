@@ -19,6 +19,7 @@ import java.util.Set;
 /**
  * Created by Willi on 11/10/2017.
  */
+@SuppressWarnings("unused")
 public class ConfigGuiFactory implements IModGuiFactory
 {
 	@Override
