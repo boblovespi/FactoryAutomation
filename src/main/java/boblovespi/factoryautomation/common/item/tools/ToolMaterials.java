@@ -1,15 +1,9 @@
-package boblovespi.factoryautomation.common.init;
+package boblovespi.factoryautomation.common.item.tools;
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.item.Tools.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class ToolInit
+public class ToolMaterials
 {
 
 	public static final ToolMaterial bronzeMaterial = EnumHelper

@@ -1,14 +1,14 @@
-package boblovespi.factoryautomation.common.item.Tools;
+package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 
-public class ItemModHoe extends ItemHoe implements FAItem{
+public class FAHoe extends ItemHoe implements FAItem{
 	private final String unlocalizedName;
 
-	public ItemModHoe(ToolMaterial material, String unlocalizedName) {
+	public FAHoe(ToolMaterial material, String unlocalizedName) {
 		super(material);
 		this.unlocalizedName = unlocalizedName;
 		this.setUnlocalizedName(unlocalizedName);
