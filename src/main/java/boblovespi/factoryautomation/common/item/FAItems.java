@@ -6,7 +6,7 @@ import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.bronzeMaterial;
-
 
 /**
  * Created by Willi on 11/8/2017.
@@ -33,11 +32,11 @@ public class FAItems
 	public static FAItem ingot;
 	public static FAItem nugget;
 	public static FAItem riceGrain;
-	public static ItemPickaxe bronzePickaxe;
-	public static FAAxe bronzeAxe;
-	public static ItemHoe bronzeHoe;
-	public static ItemSpade bronzeShovel;
-	public static ItemSword bronzeSword;
+	public static FAItem bronzePickaxe;
+	public static FAItem bronzeAxe;
+	public static FAItem bronzeHoe;
+	public static FAItem bronzeShovel;
+	public static FAItem bronzeSword;
 
 	public static void Init()
 	{
@@ -50,14 +49,11 @@ public class FAItems
 		ingot = new Ingot();
 		nugget = new Nugget();
 		riceGrain = new RiceGrain();
-		bronzePickaxe = new FAPickaxe(bronzeMaterial, "bronzePickaxe");
-		bronzeAxe = new FAAxe(bronzeMaterial, "bronzeAxe");
-		bronzeHoe = new FAHoe(bronzeMaterial, "bronzeHoe");
-		bronzeShovel = new FAShovel(bronzeMaterial, "bronzeShovel");
-		bronzeSword = new FASword(bronzeMaterial, "bronzeSword");
-
-
-
+		bronzePickaxe = new FAPickaxe(bronzeMaterial, "bronze_pickaxe");
+		bronzeAxe = new FAAxe(bronzeMaterial, "bronze_axe");
+		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe");
+		bronzeShovel = new FAShovel(bronzeMaterial, "bronze_shovel");
+		bronzeSword = new FASword(bronzeMaterial, "bronze_sword");
 	}
 
 	public static void RegisterItemRenders()
