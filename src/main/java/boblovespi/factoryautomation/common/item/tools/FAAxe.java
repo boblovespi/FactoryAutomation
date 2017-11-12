@@ -1,7 +1,6 @@
-package boblovespi.factoryautomation.common.item.Tools;
+package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.item.FABaseItem;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import com.google.common.collect.Sets;
@@ -16,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.util.Set;
 
-public class ItemModAxe extends ItemTool implements FAItem
+public class FAAxe extends ItemTool implements FAItem
 {
 	private final String unlocalizedName;
 	private static final Set<Block> EFFECTIVE_ON = Sets
@@ -29,7 +28,7 @@ public class ItemModAxe extends ItemTool implements FAItem
 	private static final float[] ATTACK_SPEEDS = new float[] { -3.2F, -3.2F,
 			-3.1F, -3.0F, -3.0F };
 
-	public ItemModAxe(ToolMaterial material, String unlocalizedName)
+	public FAAxe(ToolMaterial material, String unlocalizedName)
 	{
 
 		super(material, EFFECTIVE_ON);
