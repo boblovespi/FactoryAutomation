@@ -1,13 +1,14 @@
-package boblovespi.factoryautomation.common.item.Tools;
+package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemPickaxe;
 
-public class ItemModSword extends ItemSword implements FAItem{
+public class FAPickaxe extends ItemPickaxe implements FAItem{
 	private final String unlocalizedName;
-	public ItemModSword(ToolMaterial material, String unlocalizedName) {
+
+	public FAPickaxe(ToolMaterial material, String unlocalizedName) {
 		super(material);
 		this.unlocalizedName = unlocalizedName;
 		this.setUnlocalizedName(unlocalizedName);

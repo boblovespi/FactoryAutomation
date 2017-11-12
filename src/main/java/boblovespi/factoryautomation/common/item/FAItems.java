@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.item.Tools.*;
+import boblovespi.factoryautomation.common.item.tools.*;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static boblovespi.factoryautomation.common.init.ToolInit.bronzeMaterial;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.bronzeMaterial;
 
 
 /**
@@ -34,7 +34,7 @@ public class FAItems
 	public static FAItem nugget;
 	public static FAItem riceGrain;
 	public static ItemPickaxe bronzePickaxe;
-	public static ItemModAxe bronzeAxe;
+	public static FAAxe bronzeAxe;
 	public static ItemHoe bronzeHoe;
 	public static ItemSpade bronzeShovel;
 	public static ItemSword bronzeSword;
@@ -50,11 +50,11 @@ public class FAItems
 		ingot = new Ingot();
 		nugget = new Nugget();
 		riceGrain = new RiceGrain();
-		bronzePickaxe = new ItemModPickaxe(bronzeMaterial, "bronzePickaxe");
-		bronzeAxe = new ItemModAxe(bronzeMaterial, "bronzeAxe");
-		bronzeHoe = new ItemModHoe(bronzeMaterial, "bronzeHoe");
-		bronzeShovel = new ItemModShovel(bronzeMaterial, "bronzeShovel");
-		bronzeSword = new ItemModSword(bronzeMaterial, "bronzeSword");
+		bronzePickaxe = new FAPickaxe(bronzeMaterial, "bronzePickaxe");
+		bronzeAxe = new FAAxe(bronzeMaterial, "bronzeAxe");
+		bronzeHoe = new FAHoe(bronzeMaterial, "bronzeHoe");
+		bronzeShovel = new FAShovel(bronzeMaterial, "bronzeShovel");
+		bronzeSword = new FASword(bronzeMaterial, "bronzeSword");
 
 
 
