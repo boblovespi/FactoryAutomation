@@ -6,7 +6,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,7 +14,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +47,8 @@ public class RecipeHandler
 					new ResourceLocation(FactoryAutomation.MODID,
 							"ingot_to_nugget_" + Metals.values()[i].getName()),
 					new ItemStack(FAItems.nugget.ToItem(), 9, i), "I", 'I',
-					new ItemStack(FAItems.ingot.ToItem(), 1, i));
+					"ingot" + StringUtils
+							.capitalize(Metals.values()[i].getName()));
 
 			ingotToNugget.setRegistryName(
 					new ResourceLocation(FactoryAutomation.MODID,
@@ -54,7 +58,8 @@ public class RecipeHandler
 					new ResourceLocation(FactoryAutomation.MODID,
 							"nugget_to_ingot_" + Metals.values()[i].getName()),
 					new ItemStack(FAItems.ingot.ToItem(), 1, i), "NNN", "NNN",
-					"NNN", 'N', new ItemStack(FAItems.nugget.ToItem(), 1, i));
+					"NNN", 'N', "nugget" + StringUtils
+					.capitalize(Metals.values()[i].getName()));
 
 			nuggetToIngot.setRegistryName(
 					new ResourceLocation(FactoryAutomation.MODID,
@@ -80,6 +85,55 @@ public class RecipeHandler
 		//		Log.getLogger().info("Registered Smelting Recipes");
 		//		GameRegistry.addSmelting(new ItemStack(FAItems.slag.ToItem()),
 		//				new ItemStack(FABlocks.concrete.ToBlock()), 0.7f);
+
+	}
+
+	private static void AddToolRecipies(String materialName,
+			@Nonnull Object ingot, @Nonnull Object stick,
+			@Nullable ItemPickaxe pickaxe, @Nullable ItemTool axe,
+			@Nullable ItemSword sword, @Nullable ItemHoe hoe,
+			@Nullable ItemSpade spade)
+	{
+		if (pickaxe != null)
+		{
+			ShapedOreRecipe r = new ShapedOreRecipe(
+					new ResourceLocation(FactoryAutomation.MODID,
+							materialName + "_pickaxe"), new ItemStack(pickaxe),
+					"iii", " s ", " s ", 'i', ingot, 's', stick);
+			recipes.add(r);
+		}
+		if (axe != null)
+		{
+			ShapedOreRecipe r = new ShapedOreRecipe(
+					new ResourceLocation(FactoryAutomation.MODID,
+							materialName + "_pickaxe"), new ItemStack(axe),
+					"ii", "is", " s", 'i', ingot, 's', stick);
+			recipes.add(r);
+		}
+		if (hoe != null)
+		{
+			ShapedOreRecipe r = new ShapedOreRecipe(
+					new ResourceLocation(FactoryAutomation.MODID,
+							materialName + "_axe"), new ItemStack(hoe), "ii",
+					" s", " s", 'i', ingot, 's', stick);
+			recipes.add(r);
+		}
+		if (sword != null)
+		{
+			ShapedOreRecipe r = new ShapedOreRecipe(
+					new ResourceLocation(FactoryAutomation.MODID,
+							materialName + "_sword"), new ItemStack(sword), "i",
+					"i", "s", 'i', ingot, 's', stick);
+			recipes.add(r);
+		}
+		if (spade != null)
+		{
+			ShapedOreRecipe r = new ShapedOreRecipe(
+					new ResourceLocation(FactoryAutomation.MODID,
+							materialName + "_spade"), new ItemStack(spade), "i",
+					"s", "s", 'i', ingot, 's', stick);
+			recipes.add(r);
+		}
 
 	}
 

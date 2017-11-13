@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.util;
+package boblovespi.factoryautomation.common.init;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
