@@ -74,22 +74,6 @@ public class RecipeHandler
 		event.getRegistry().registerAll(recipes.toArray(new IRecipe[] {}));
 	}
 
-	public static void RegisterCraftingRecipes()
-	{
-		//		GameRegistry.addShapelessRecipe(
-		//				new ResourceLocation(FactoryAutomation.MODID, "concrete"),
-		//				new ResourceLocation(""),
-		//				new ItemStack(FABlocks.concrete.ToBlock()),
-		//				Ingredient.fromItem(FAItems.slag.ToItem()),
-		//				Ingredient.fromItem(Items.WATER_BUCKET));
-		//		Log.getLogger().info("Registered Recipes");
-		//		//Smelting
-		//		Log.getLogger().info("Registered Smelting Recipes");
-		//		GameRegistry.addSmelting(new ItemStack(FAItems.slag.ToItem()),
-		//				new ItemStack(FABlocks.concrete.ToBlock()), 0.7f);
-
-	}
-
 	private static void AddToolRecipes(String materialName,
 			@Nonnull Object ingot, @Nonnull Object stick,
 			@Nullable FAItem pickaxe, @Nullable FAItem axe,

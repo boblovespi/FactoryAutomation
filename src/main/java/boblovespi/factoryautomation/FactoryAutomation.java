@@ -3,10 +3,9 @@ package boblovespi.factoryautomation;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.init.RecipeHandler;
+import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
-import boblovespi.factoryautomation.common.init.OreDictionaryHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -58,7 +57,6 @@ public class FactoryAutomation
         OreDictionaryHandler.registerOreDictionary();
 		Log.LogInfo("Slag resource path",
 				FAItems.slag.ToItem().getRegistryName());
-		RecipeHandler.RegisterCraftingRecipes();
 		Log.getLogger().info("Initialization end");
 	}
 
