@@ -9,7 +9,9 @@ public class ToolMaterials
 	public static final ToolMaterial bronzeMaterial = EnumHelper
 			.addToolMaterial(FactoryAutomation.MODID + ":bronze", 2, 251, 5.0F,
 					2.0F, 12);
-
+	public static final ToolMaterial steelMaterial = EnumHelper
+			.addToolMaterial(FactoryAutomation.MODID + ":steel", 3, 1920, 6.5f, 8,
+					3);
 
 
 //	public static void Register()

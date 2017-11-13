@@ -1,7 +1,6 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.item.tools.*;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -12,12 +11,14 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import boblovespi.factoryautomation.common.item.tools.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.bronzeMaterial;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.steelMaterial;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -37,6 +38,11 @@ public class FAItems
 	public static FAItem bronzeHoe;
 	public static FAItem bronzeShovel;
 	public static FAItem bronzeSword;
+	public static FAItem steelPickaxe;
+	public static FAItem steelAxe;
+	public static FAItem steelHoe;
+	public static FAItem steelShovel;
+	public static FAItem steelSword;
 
 	public static void Init()
 	{
@@ -54,6 +60,12 @@ public class FAItems
 		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe");
 		bronzeShovel = new FAShovel(bronzeMaterial, "bronze_shovel");
 		bronzeSword = new FASword(bronzeMaterial, "bronze_sword");
+		steelAxe = new FAAxe(steelMaterial, "steel_axe");
+		steelHoe = new FAHoe(steelMaterial, "steel_hoe");
+		steelShovel = new FAShovel(steelMaterial, "steel_shovel");
+		steelSword = new FASword(steelMaterial, "steel_sword");
+		steelPickaxe = new FAPickaxe(steelMaterial, "steel_pickaxe");
+
 	}
 
 	public static void RegisterItemRenders()
