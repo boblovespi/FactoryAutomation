@@ -1,12 +1,13 @@
-package boblovespi.factoryautomation.common.init;
+package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -91,48 +92,52 @@ public class RecipeHandler
 
 	private static void AddToolRecipes(String materialName,
 			@Nonnull Object ingot, @Nonnull Object stick,
-			@Nullable ItemPickaxe pickaxe, @Nullable ItemTool axe,
-			@Nullable ItemSword sword, @Nullable ItemHoe hoe,
-			@Nullable ItemSpade spade)
+			@Nullable FAItem pickaxe, @Nullable FAItem axe,
+			@Nullable FAItem sword, @Nullable FAItem hoe,
+			@Nullable FAItem spade)
 	{
 		if (pickaxe != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID,
-							materialName + "_pickaxe"), new ItemStack(pickaxe),
-					"iii", " s ", " s ", 'i', ingot, 's', stick);
+							materialName + "_pickaxe"),
+					new ItemStack(pickaxe.ToItem()), "iii", " s ", " s ", 'i',
+					ingot, 's', stick);
 			recipes.add(r);
 		}
 		if (axe != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID,
-							materialName + "_pickaxe"), new ItemStack(axe),
-					"ii", "is", " s", 'i', ingot, 's', stick);
+							materialName + "_pickaxe"),
+					new ItemStack(axe.ToItem()), "ii", "is", " s", 'i', ingot,
+					's', stick);
 			recipes.add(r);
 		}
 		if (hoe != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID,
-							materialName + "_axe"), new ItemStack(hoe), "ii",
-					" s", " s", 'i', ingot, 's', stick);
+							materialName + "_axe"), new ItemStack(hoe.ToItem()),
+					"ii", " s", " s", 'i', ingot, 's', stick);
 			recipes.add(r);
 		}
 		if (sword != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID,
-							materialName + "_sword"), new ItemStack(sword), "i",
-					"i", "s", 'i', ingot, 's', stick);
+							materialName + "_sword"),
+					new ItemStack(sword.ToItem()), "i", "i", "s", 'i', ingot,
+					's', stick);
 			recipes.add(r);
 		}
 		if (spade != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID,
-							materialName + "_spade"), new ItemStack(spade), "i",
-					"s", "s", 'i', ingot, 's', stick);
+							materialName + "_spade"),
+					new ItemStack(spade.ToItem()), "i", "s", "s", 'i', ingot,
+					's', stick);
 			recipes.add(r);
 		}
 
