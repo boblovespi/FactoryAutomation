@@ -25,6 +25,7 @@ public class OreDictionaryHandler
 			OreDictionary.registerOre("nugget" + StringUtils
 							.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.nugget.ToItem(), 1, i));
+
 		}
 
 	}

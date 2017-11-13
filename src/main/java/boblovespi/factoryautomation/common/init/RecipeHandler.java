@@ -67,6 +67,7 @@ public class RecipeHandler
 
 			recipes.add(ingotToNugget);
 			recipes.add(nuggetToIngot);
+
 		}
 
 		event.getRegistry().registerAll(recipes.toArray(new IRecipe[] {}));
