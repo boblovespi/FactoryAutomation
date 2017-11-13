@@ -88,7 +88,7 @@ public class RecipeHandler
 
 	}
 
-	private static void AddToolRecipies(String materialName,
+	private static void AddToolRecipes(String materialName,
 			@Nonnull Object ingot, @Nonnull Object stick,
 			@Nullable ItemPickaxe pickaxe, @Nullable ItemTool axe,
 			@Nullable ItemSword sword, @Nullable ItemHoe hoe,
