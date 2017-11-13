@@ -2,8 +2,10 @@ package boblovespi.factoryautomation.common.init;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import org.apache.commons.lang3.StringUtils;
 
 public class OreDictionaryHandler
 {
@@ -14,22 +16,16 @@ public class OreDictionaryHandler
 		OreDictionary.registerOre("slag", FAItems.slag.ToItem());
 		OreDictionary.registerOre("concrete", FABlocks.concrete.ToBlock());
 		OreDictionary.registerOre("rice", FAItems.riceGrain.ToItem());
-		OreDictionary.registerOre("ingotTin",
-				new ItemStack(FAItems.ingot.ToItem(), 1, 3));
-		OreDictionary.registerOre("ingotCopper",
-				new ItemStack(FAItems.ingot.ToItem(), 1, 2));
-		OreDictionary.registerOre("ingotBronze",
-				new ItemStack(FAItems.ingot.ToItem(), 1, 4));
-		OreDictionary.registerOre("ingotSteel",
-				new ItemStack(FAItems.ingot.ToItem(), 1, 5));
-		OreDictionary.registerOre("nuggetTin",
-				new ItemStack(FAItems.nugget.ToItem(), 1, 3));
-		OreDictionary.registerOre("nuggetCopper",
-				new ItemStack(FAItems.nugget.ToItem(), 1, 2));
-		OreDictionary.registerOre("nuggetBronze",
-				new ItemStack(FAItems.nugget.ToItem(), 1, 4));
-		OreDictionary.registerOre("nuggetSteel",
-				new ItemStack(FAItems.nugget.ToItem(), 1, 5));
+
+		for (int i = 2; i < Metals.values().length; i++)
+		{
+			OreDictionary.registerOre("ingot" + StringUtils
+							.capitalize(Metals.values()[i].getName()),
+					new ItemStack(FAItems.ingot.ToItem(), 1, i));
+			OreDictionary.registerOre("nugget" + StringUtils
+							.capitalize(Metals.values()[i].getName()),
+					new ItemStack(FAItems.nugget.ToItem(), 1, i));
+		}
 
 	}
 }
