@@ -14,4 +14,9 @@ public class CommonProxy
 	{
 
 	}
+
+	public void Init()
+	{
+
+	}
 }

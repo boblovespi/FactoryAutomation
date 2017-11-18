@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.common.item.tools.*;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -11,7 +12,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import boblovespi.factoryautomation.common.item.tools.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +43,7 @@ public class FAItems
 	public static FAItem steelHoe;
 	public static FAItem steelShovel;
 	public static FAItem steelSword;
+	public static FAItem coalCoke;
 
 	public static void Init()
 	{
@@ -65,6 +66,7 @@ public class FAItems
 		steelShovel = new FAShovel(steelMaterial, "steel_shovel");
 		steelSword = new FASword(steelMaterial, "steel_sword");
 		steelPickaxe = new FAPickaxe(steelMaterial, "steel_pickaxe");
+		coalCoke = new FAFuel("coal_coke", CreativeTabs.MATERIALS, 2000);
 
 	}
 
@@ -114,7 +116,6 @@ public class FAItems
 	private static void RegisterRenders(MultiTypeItem item)
 	{
 		for (int meta = 0;
-
 			 meta < item.itemTypes.getEnumConstants().length; meta++)
 		{
 

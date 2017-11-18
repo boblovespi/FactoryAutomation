@@ -1,12 +1,13 @@
 package boblovespi.factoryautomation;
 
 import boblovespi.factoryautomation.common.CommonProxy;
-import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.init.RecipeHandler;
+import boblovespi.factoryautomation.common.config.Config;
+import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
+import boblovespi.factoryautomation.common.handler.RecipeHandler;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
-import boblovespi.factoryautomation.common.init.OreDictionaryHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -26,12 +27,10 @@ public class FactoryAutomation
 	public static final String COMMON_PROXY_CLASS = "boblovespi.factoryautomation.common.CommonProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
 	public static final String GUI_FACTORY = "boblovespi.factoryautomation.common.config.ConfigGuiFactory";
-
+	@Mod.Instance(MODID)
+	public static FactoryAutomation instance = new FactoryAutomation();
 	@SidedProxy(serverSide = COMMON_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
 	private static CommonProxy proxy;
-
-	@Mod.Instance(MODID)
-	public static FactoryAutomation instance;
 
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
@@ -55,10 +54,12 @@ public class FactoryAutomation
 	public void Init(FMLInitializationEvent Event)
 	{
 		Log.getLogger().info("Initialization");
-        OreDictionaryHandler.registerOreDictionary();
+		proxy.Init();
+		OreDictionaryHandler.registerOreDictionary();
 		Log.LogInfo("Slag resource path",
 				FAItems.slag.ToItem().getRegistryName());
 		RecipeHandler.RegisterCraftingRecipes();
+		TileEntityHandler.RegisterTileEntities();
 		Log.getLogger().info("Initialization end");
 	}
 
