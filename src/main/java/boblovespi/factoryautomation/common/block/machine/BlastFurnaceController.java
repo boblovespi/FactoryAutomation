@@ -8,6 +8,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureController;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceController;
+import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
@@ -18,6 +19,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -38,6 +40,7 @@ public class BlastFurnaceController extends Block
 	// TODO: implement tile entity stuff
 
 	public static PropertyDirection FACING = BlockHorizontal.FACING;
+	private MultiblockStructurePattern structurePattern;
 
 	public BlastFurnaceController()
 	{
@@ -53,6 +56,35 @@ public class BlastFurnaceController extends Block
 		//		new FAItemBlock(this);
 		FAItems.items
 				.add(new ItemBlock(this).setRegistryName(getRegistryName()));
+
+		structurePattern = new MultiblockStructurePattern(new Block[][][] {
+				new Block[][] { new Block[] { Blocks.NETHER_BRICK,
+						FABlocks.blastFurnaceController.ToBlock(),
+						Blocks.NETHER_BRICK },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } },
+				new Block[][] {
+						new Block[] { Blocks.NETHER_BRICK, Blocks.CAULDRON,
+								Blocks.HOPPER },
+						new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK,
+								Blocks.IRON_BLOCK },
+						new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK,
+								Blocks.IRON_BLOCK },
+						new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK,
+								Blocks.IRON_BLOCK },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.HOPPER } }, new Block[][] {
+				new Block[] { Blocks.NETHER_BRICK, Blocks.NETHER_BRICK,
+						Blocks.NETHER_BRICK },
+				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
+				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
+				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
+				new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } } });
 	}
 
 	@Override
@@ -134,7 +166,7 @@ public class BlastFurnaceController extends Block
 			IBlockState state, EntityPlayer playerIn, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		if (!worldIn.isRemote)
+		if (!worldIn.isRemote && IsValidStructure(worldIn, pos, state))
 		{
 			playerIn.openGui(FactoryAutomation.instance,
 					GuiHandler.GuiID.BLAST_FURNACE.id, worldIn, pos.getX(),
@@ -146,6 +178,37 @@ public class BlastFurnaceController extends Block
 	@Override
 	public MultiblockStructurePattern GetPattern()
 	{
-		return null;
+		return structurePattern;
+	}
+
+	@Override
+	public boolean IsValidStructure(World world, BlockPos pos,
+			IBlockState state)
+	{
+		boolean isValid = true;
+		switch (state.getValue(FACING))
+		{
+		case EAST:
+			BlockPos lowerLeftFront = pos.north();
+			Block[][][] pattern = structurePattern.GetPattern();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[y].length; z++)
+					{
+						if (!Block.isEqualTo(pattern[x][y][z],world.getBlockState(lowerLeftFront.add(x, y, z)).getBlock()))
+						{
+							isValid = false;
+						}
+						Log.LogInfo("block in world", world.getBlockState(lowerLeftFront.add(x, y, z)).getBlock().getLocalizedName());
+						Log.LogInfo("block in pattern");
+					}
+				}
+			}
+			break;
+		}
+		return isValid;
 	}
 }

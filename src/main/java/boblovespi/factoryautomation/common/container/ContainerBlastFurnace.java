@@ -15,7 +15,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by Willi on 11/12/2017.
@@ -41,16 +41,16 @@ public class ContainerBlastFurnace extends Container
 				TileEntityBlastFurnaceController.TUYERE_SLOT, 8, 8));
 		addSlotToContainer(new SlotRestrictedItem(handler,
 				TileEntityBlastFurnaceController.IRON_SLOT, 47, 17,
-				Arrays.asList(Items.IRON_INGOT)));
+				Collections.singletonList(Items.IRON_INGOT)));
 		addSlotToContainer(new SlotRestrictedItem(handler,
 				TileEntityBlastFurnaceController.FLUX_SLOT, 65, 17,
-				Arrays.asList(Items.REDSTONE)));
+				Collections.singletonList(Items.REDSTONE)));
 		addSlotToContainer(new SlotRestrictedItem(handler,
 				TileEntityBlastFurnaceController.COKE_SLOTS[0], 47, 53,
-				Arrays.asList(FAItems.coalCoke.ToItem())));
+				Collections.singletonList(FAItems.coalCoke.ToItem())));
 		addSlotToContainer(new SlotRestrictedItem(handler,
 				TileEntityBlastFurnaceController.COKE_SLOTS[1], 65, 53,
-				Arrays.asList(FAItems.coalCoke.ToItem())));
+				Collections.singletonList(FAItems.coalCoke.ToItem())));
 		addSlotToContainer(new SlotOutputItem(handler,
 				TileEntityBlastFurnaceController.OUTPUT_SLOT, 116, 35));
 		addSlotToContainer(new SlotOutputItem(handler,

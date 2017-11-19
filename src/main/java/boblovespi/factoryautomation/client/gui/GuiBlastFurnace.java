@@ -82,4 +82,12 @@ public class GuiBlastFurnace extends GuiContainer
 						this.ySize - 96 + 2, 4210752);
 
 	}
+
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
+		drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		renderHoveredToolTip(mouseX, mouseY);
+	}
 }
