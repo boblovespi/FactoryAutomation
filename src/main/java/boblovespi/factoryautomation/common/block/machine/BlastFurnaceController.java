@@ -188,7 +188,8 @@ public class BlastFurnaceController extends Block
 		boolean isValid = true;
 		switch (state.getValue(FACING))
 		{
-		case EAST:
+		case WEST:
+		{
 			BlockPos lowerLeftFront = pos.north();
 			Block[][][] pattern = structurePattern.GetPattern();
 
@@ -196,7 +197,7 @@ public class BlastFurnaceController extends Block
 			{
 				for (int y = 0; y < pattern[x].length; y++)
 				{
-					for (int z = 0; z < pattern[y].length; z++)
+					for (int z = 0; z < pattern[x][y].length; z++)
 					{
 						if (!Block.isEqualTo(pattern[x][y][z],
 								world.getBlockState(lowerLeftFront.add(x, y, z))
@@ -207,11 +208,98 @@ public class BlastFurnaceController extends Block
 						Log.LogInfo("block in world",
 								world.getBlockState(lowerLeftFront.add(x, y, z))
 										.getBlock().getLocalizedName());
-						Log.LogInfo("block in pattern");
+						Log.LogInfo("block in pattern",
+								pattern[x][y][z].getLocalizedName());
 					}
 				}
 			}
 			break;
+		}
+		case EAST:
+		{
+			BlockPos lowerLeftFront = pos.south();
+			Block[][][] pattern = structurePattern.GetPattern();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (!Block.isEqualTo(pattern[x][y][z],
+								world.getBlockState(
+										lowerLeftFront.add(-x, y, -z))
+										.getBlock()))
+						{
+							isValid = false;
+						}
+						Log.LogInfo("block in world", world.getBlockState(
+								lowerLeftFront.add(-x, y, -z)).getBlock()
+								.getLocalizedName());
+						Log.LogInfo("block in pattern",
+								pattern[x][y][z].getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		case NORTH:
+		{
+			BlockPos lowerLeftFront = pos.east();
+			Block[][][] pattern = structurePattern.GetPattern();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (!Block.isEqualTo(pattern[x][y][z],
+								world.getBlockState(lowerLeftFront.add(-z, y, x))
+										.getBlock()))
+						{
+							isValid = false;
+						}
+						Log.LogInfo("block in world",
+								world.getBlockState(lowerLeftFront.add(-z, y, x))
+										.getBlock().getLocalizedName());
+						Log.LogInfo("block in pattern",
+								pattern[x][y][z].getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		case SOUTH:
+		{
+			BlockPos lowerLeftFront = pos.west();
+			Block[][][] pattern = structurePattern.GetPattern();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (!Block.isEqualTo(pattern[x][y][z],
+								world.getBlockState(lowerLeftFront.add(z, y, -x))
+										.getBlock()))
+						{
+							isValid = false;
+						}
+						Log.LogInfo("block in world",
+								world.getBlockState(lowerLeftFront.add(z, y, -x))
+										.getBlock().getLocalizedName());
+						Log.LogInfo("block in pattern",
+								pattern[x][y][z].getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		default:
+			Log.LogWarning(
+					"BlastFurnaceController facing not NORTH, SOUTH, EAST, or WEST!");
 		}
 		return isValid;
 	}
