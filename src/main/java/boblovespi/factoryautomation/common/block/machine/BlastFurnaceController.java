@@ -58,9 +58,9 @@ public class BlastFurnaceController extends Block
 				.add(new ItemBlock(this).setRegistryName(getRegistryName()));
 
 		structurePattern = new MultiblockStructurePattern(new Block[][][] {
-				new Block[][] { new Block[] { Blocks.NETHER_BRICK,
-						FABlocks.blastFurnaceController.ToBlock(),
-						Blocks.NETHER_BRICK },
+				new Block[][] {
+						new Block[] { Blocks.NETHER_BRICK, this.ToBlock(),
+								Blocks.NETHER_BRICK },
 						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
 								Blocks.AIR },
 						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
@@ -198,11 +198,15 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[y].length; z++)
 					{
-						if (!Block.isEqualTo(pattern[x][y][z],world.getBlockState(lowerLeftFront.add(x, y, z)).getBlock()))
+						if (!Block.isEqualTo(pattern[x][y][z],
+								world.getBlockState(lowerLeftFront.add(x, y, z))
+										.getBlock()))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world", world.getBlockState(lowerLeftFront.add(x, y, z)).getBlock().getLocalizedName());
+						Log.LogInfo("block in world",
+								world.getBlockState(lowerLeftFront.add(x, y, z))
+										.getBlock().getLocalizedName());
 						Log.LogInfo("block in pattern");
 					}
 				}

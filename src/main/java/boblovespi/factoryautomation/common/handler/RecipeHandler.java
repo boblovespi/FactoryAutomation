@@ -4,7 +4,6 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.item.Ingot;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -92,7 +91,8 @@ public class RecipeHandler
 							materialName + "_pickaxe"),
 					new ItemStack(pickaxe.ToItem()), "iii", " s ", " s ", 'i',
 					ingot, 's', stick);
-			recipes.add(r);
+			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID,
+					materialName + "_pickaxe")));
 		}
 		if (axe != null)
 		{
@@ -101,7 +101,8 @@ public class RecipeHandler
 							materialName + "_axe"),
 					new ItemStack(axe.ToItem()), "ii", "is", " s", 'i', ingot,
 					's', stick);
-			recipes.add(r);
+			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID,
+					materialName + "_axe")));
 		}
 		if (hoe != null)
 		{
@@ -109,7 +110,8 @@ public class RecipeHandler
 					new ResourceLocation(FactoryAutomation.MODID,
 							materialName + "_sword"), new ItemStack(hoe.ToItem()),
 					"ii", " s", " s", 'i', ingot, 's', stick);
-			recipes.add(r);
+			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID,
+					materialName + "_hoe")));
 		}
 		if (sword != null)
 		{
@@ -118,7 +120,8 @@ public class RecipeHandler
 							materialName + "_hoe"),
 					new ItemStack(sword.ToItem()), "i", "i", "s", 'i', ingot,
 					's', stick);
-			recipes.add(r);
+			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID,
+					materialName + "_sword")));
 		}
 		if (spade != null)
 		{
@@ -127,7 +130,8 @@ public class RecipeHandler
 							materialName + "_spade"),
 					new ItemStack(spade.ToItem()), "i", "s", "s", 'i', ingot,
 					's', stick);
-			recipes.add(r);
+			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID,
+					materialName + "_spade")));
 		}
 
 	}
