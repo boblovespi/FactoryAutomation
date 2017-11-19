@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.Ingot;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -68,6 +69,10 @@ public class RecipeHandler
 
 			recipes.add(ingotToNugget);
 			recipes.add(nuggetToIngot);
+//TODO aaaAAAA
+			AddToolRecipes("bronze", "ingotBronze","stickWood", FAItems.bronzePickaxe,
+					FAItems.bronzeAxe, FAItems.bronzeSword, FAItems.bronzeHoe,
+					FAItems.bronzeShovel);
 
 		}
 
@@ -93,7 +98,7 @@ public class RecipeHandler
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID,
-							materialName + "_pickaxe"),
+							materialName + "_axe"),
 					new ItemStack(axe.ToItem()), "ii", "is", " s", 'i', ingot,
 					's', stick);
 			recipes.add(r);
@@ -102,7 +107,7 @@ public class RecipeHandler
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID,
-							materialName + "_axe"), new ItemStack(hoe.ToItem()),
+							materialName + "_sword"), new ItemStack(hoe.ToItem()),
 					"ii", " s", " s", 'i', ingot, 's', stick);
 			recipes.add(r);
 		}
@@ -110,7 +115,7 @@ public class RecipeHandler
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID,
-							materialName + "_sword"),
+							materialName + "_hoe"),
 					new ItemStack(sword.ToItem()), "i", "i", "s", 'i', ingot,
 					's', stick);
 			recipes.add(r);
