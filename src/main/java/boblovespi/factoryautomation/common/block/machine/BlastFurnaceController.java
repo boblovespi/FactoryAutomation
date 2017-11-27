@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -40,6 +41,9 @@ public class BlastFurnaceController extends Block
 	// TODO: implement tile entity stuff
 
 	public static PropertyDirection FACING = BlockHorizontal.FACING;
+	public static PropertyBool MULTIBLOCK_COMPLETE = PropertyBool
+			.create("multiblock_complete");
+
 	private MultiblockStructurePattern structurePattern;
 
 	public BlastFurnaceController()
@@ -50,8 +54,10 @@ public class BlastFurnaceController extends Block
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		setHardness(10);
 		setResistance(10000);
-		setDefaultState(blockState.getBaseState()
-				.withProperty(FACING, EnumFacing.NORTH));
+		setDefaultState(
+				blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+						.withProperty(MULTIBLOCK_COMPLETE,
+								true)); // TODO: change to false!!!
 		FABlocks.blocks.add(this);
 		//		new FAItemBlock(this);
 		FAItems.items
@@ -120,20 +126,22 @@ public class BlastFurnaceController extends Block
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		EnumFacing enumfacing = EnumFacing.getFront(meta);
+		EnumFacing enumfacing = EnumFacing.getHorizontal(meta & 3);
 
 		if (enumfacing.getAxis() == EnumFacing.Axis.Y)
 		{
 			enumfacing = EnumFacing.NORTH;
 		}
 
-		return this.getDefaultState().withProperty(FACING, enumfacing);
+		return this.getDefaultState().withProperty(FACING, enumfacing)
+				.withProperty(MULTIBLOCK_COMPLETE, (meta & 4) == 4);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return state.getValue(FACING).getIndex();
+		return state.getValue(FACING).getHorizontalIndex() | (state
+				.getValue(MULTIBLOCK_COMPLETE) ? 4 : 0);
 	}
 
 	@Override
@@ -151,7 +159,7 @@ public class BlastFurnaceController extends Block
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, FACING);
+		return new BlockStateContainer(this, FACING, MULTIBLOCK_COMPLETE);
 	}
 
 	@Nullable
@@ -255,14 +263,15 @@ public class BlastFurnaceController extends Block
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
 						if (!Block.isEqualTo(pattern[x][y][z],
-								world.getBlockState(lowerLeftFront.add(-z, y, x))
+								world.getBlockState(
+										lowerLeftFront.add(-z, y, x))
 										.getBlock()))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world",
-								world.getBlockState(lowerLeftFront.add(-z, y, x))
-										.getBlock().getLocalizedName());
+						Log.LogInfo("block in world", world.getBlockState(
+								lowerLeftFront.add(-z, y, x)).getBlock()
+								.getLocalizedName());
 						Log.LogInfo("block in pattern",
 								pattern[x][y][z].getLocalizedName());
 					}
@@ -282,14 +291,15 @@ public class BlastFurnaceController extends Block
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
 						if (!Block.isEqualTo(pattern[x][y][z],
-								world.getBlockState(lowerLeftFront.add(z, y, -x))
+								world.getBlockState(
+										lowerLeftFront.add(z, y, -x))
 										.getBlock()))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world",
-								world.getBlockState(lowerLeftFront.add(z, y, -x))
-										.getBlock().getLocalizedName());
+						Log.LogInfo("block in world", world.getBlockState(
+								lowerLeftFront.add(z, y, -x)).getBlock()
+								.getLocalizedName());
 						Log.LogInfo("block in pattern",
 								pattern[x][y][z].getLocalizedName());
 					}

@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -36,6 +37,8 @@ public class ClientProxy extends CommonProxy
 	public void PreInit()
 	{
 		super.PreInit();
+		// ModelLoaderRegistry.registerLoader(new ObjModelLoader());
+		OBJLoader.INSTANCE.addDomain("factoryautomation");
 		Config.ClientPreInit();
 	}
 

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
+import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTileEntity;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +24,8 @@ import javax.annotation.Nullable;
  * shamelessly copied over from my old mod
  */
 public class TileEntityBlastFurnaceController extends TileEntity
-		implements ITickable, ICapabilityProvider
+		implements ITickable, ICapabilityProvider,
+		IMultiblockStructureControllerTileEntity
 {
 	public static final int[] COKE_SLOTS = { 3, 4 };
 	public static final int IRON_SLOT = 1;
@@ -43,6 +45,7 @@ public class TileEntityBlastFurnaceController extends TileEntity
 
 	private float burnScalar = 2; // the speed at which the coal coke burns
 	private float smeltScalar = 1; // the speed at which the pig iron smelts
+	private boolean isStructureValid = false;
 
 	public TileEntityBlastFurnaceController()
 	{
@@ -138,9 +141,9 @@ public class TileEntityBlastFurnaceController extends TileEntity
 			}
 		} else if (isBurningFuel)
 		{
-			if (!itemHandler.getStackInSlot(IRON_SLOT).isEmpty()
-					&& !itemHandler.getStackInSlot(FLUX_SLOT).isEmpty()
-					&& !itemHandler.getStackInSlot(TUYERE_SLOT).isEmpty())
+			if (!itemHandler.getStackInSlot(IRON_SLOT).isEmpty() && !itemHandler
+					.getStackInSlot(FLUX_SLOT).isEmpty() && !itemHandler
+					.getStackInSlot(TUYERE_SLOT).isEmpty())
 			{
 				smeltTime = steelSmeltTime;
 				isSmeltingItem = true;
@@ -252,5 +255,17 @@ public class TileEntityBlastFurnaceController extends TileEntity
 	public boolean isSmeltingItem()
 	{
 		return isSmeltingItem;
+	}
+
+	@Override
+	public void SetStructureValid(boolean isValid)
+	{
+		isStructureValid = isValid;
+	}
+
+	@Override
+	public boolean IsStructureValid()
+	{
+		return isStructureValid;
 	}
 }
