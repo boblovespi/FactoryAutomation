@@ -9,14 +9,22 @@ import net.minecraft.block.Block;
 public class MultiblockStructurePattern
 {
 	private Block[][][] pattern;
+	private int[] controllerOffset;
 
-	public MultiblockStructurePattern(Block[][][] structurePattern)
+	public MultiblockStructurePattern(Block[][][] structurePattern,
+			int[] structureControllerOffset)
 	{
 		pattern = structurePattern;
+		controllerOffset = structureControllerOffset;
 	}
 
 	public Block[][][] GetPattern()
 	{
 		return pattern;
+	}
+
+	public int[] getControllerOffset()
+	{
+		return controllerOffset;
 	}
 }

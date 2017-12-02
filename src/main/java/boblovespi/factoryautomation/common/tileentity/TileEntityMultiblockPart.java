@@ -16,14 +16,14 @@ public class TileEntityMultiblockPart extends TileEntity
 	{
 		super.readFromNBT(compound);
 		structureControllerOffset = compound.getIntArray("offset");
-		blockStateIdToDrop = compound.getInteger("block");
+		blockStateIdToDrop = compound.getInteger("strucutre");
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound)
 	{
 		compound.setIntArray("offset", structureControllerOffset);
-		compound.setInteger("block", blockStateIdToDrop);
+		compound.setInteger("structure", blockStateIdToDrop);
 		return super.writeToNBT(compound);
 	}
 

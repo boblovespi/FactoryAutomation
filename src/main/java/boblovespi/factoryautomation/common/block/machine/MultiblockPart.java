@@ -51,12 +51,11 @@ public class MultiblockPart extends Block
 			BlockPos pos, IBlockState state, int fortune)
 	{
 		assert world.getTileEntity(pos) != null;
-		assert world.getTileEntity(pos) != null;
-		assert world.getTileEntity(pos) != null;
 		Block.getBlockById(((TileEntityMultiblockPart) world.getTileEntity(pos))
 				.getBlockStateIdToDrop()).getDrops(drops, world, pos,
 				Block.getStateById(
 						((TileEntityMultiblockPart) world.getTileEntity(pos))
 								.getBlockStateIdToDrop()), fortune);
+
 	}
 }

@@ -90,7 +90,8 @@ public class BlastFurnaceController extends Block
 				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
-				new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } } });
+				new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } } },
+				new int[] { 0, 0, 1 });
 	}
 
 	@Override
