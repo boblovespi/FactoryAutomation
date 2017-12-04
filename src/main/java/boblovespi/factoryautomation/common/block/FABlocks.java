@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
+import boblovespi.factoryautomation.common.block.machine.MultiblockPart;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
@@ -31,6 +32,7 @@ public class FABlocks
 	public static ConcreteSlab concreteSlab;
 	public static ConcreteSlab concreteDoubleSlab;
 	public static FABlock blastFurnaceController;
+	public static FABlock multiblockPart;
 
 	public static void Init()
 	{
@@ -50,6 +52,7 @@ public class FABlocks
 				.setRegistryName(concreteSlab.RegistryName()));
 
 		blastFurnaceController = new BlastFurnaceController();
+		multiblockPart = new MultiblockPart();
 
 	}
 

@@ -6,8 +6,9 @@ import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureController;
-import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
+import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceController;
+import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
@@ -20,7 +21,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -31,6 +31,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 /**
  * Created by Willi on 11/11/2017.
@@ -44,7 +45,8 @@ public class BlastFurnaceController extends Block
 	public static PropertyBool MULTIBLOCK_COMPLETE = PropertyBool
 			.create("multiblock_complete");
 
-	private MultiblockStructurePattern structurePattern;
+	private final String structurePattern = "blast_furnace";
+	private boolean structureIsCreated;
 
 	public BlastFurnaceController()
 	{
@@ -56,42 +58,13 @@ public class BlastFurnaceController extends Block
 		setResistance(10000);
 		setDefaultState(
 				blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
-						.withProperty(MULTIBLOCK_COMPLETE,
-								true)); // TODO: change to false!!!
+						  .withProperty(MULTIBLOCK_COMPLETE,
+										false)); // TODO: change to false!!! done!
 		FABlocks.blocks.add(this);
 		//		new FAItemBlock(this);
 		FAItems.items
 				.add(new ItemBlock(this).setRegistryName(getRegistryName()));
 
-		structurePattern = new MultiblockStructurePattern(new Block[][][] {
-				new Block[][] {
-						new Block[] { Blocks.NETHER_BRICK, this.ToBlock(),
-								Blocks.NETHER_BRICK },
-						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
-								Blocks.AIR },
-						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
-								Blocks.AIR },
-						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
-								Blocks.AIR },
-						new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } },
-				new Block[][] {
-						new Block[] { Blocks.NETHER_BRICK, Blocks.CAULDRON,
-								Blocks.HOPPER },
-						new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK,
-								Blocks.IRON_BLOCK },
-						new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK,
-								Blocks.IRON_BLOCK },
-						new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK,
-								Blocks.IRON_BLOCK },
-						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
-								Blocks.HOPPER } }, new Block[][] {
-				new Block[] { Blocks.NETHER_BRICK, Blocks.NETHER_BRICK,
-						Blocks.NETHER_BRICK },
-				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
-				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
-				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
-				new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } } },
-				new int[] { 0, 0, 1 });
 	}
 
 	@Override
@@ -112,7 +85,8 @@ public class BlastFurnaceController extends Block
 			EntityLivingBase placer)
 	{
 		return this.getDefaultState().withProperty(FACING,
-				placer.getHorizontalFacing().getOpposite());
+												   placer.getHorizontalFacing()
+														 .getOpposite());
 	}
 
 	@Override
@@ -121,7 +95,8 @@ public class BlastFurnaceController extends Block
 			EntityLivingBase placer, EnumHand hand)
 	{
 		return this.getDefaultState().withProperty(FACING,
-				placer.getHorizontalFacing().getOpposite());
+												   placer.getHorizontalFacing()
+														 .getOpposite());
 	}
 
 	@Override
@@ -135,7 +110,7 @@ public class BlastFurnaceController extends Block
 		}
 
 		return this.getDefaultState().withProperty(FACING, enumfacing)
-				.withProperty(MULTIBLOCK_COMPLETE, (meta & 4) == 4);
+				   .withProperty(MULTIBLOCK_COMPLETE, (meta & 4) == 4);
 	}
 
 	@Override
@@ -175,17 +150,39 @@ public class BlastFurnaceController extends Block
 			IBlockState state, EntityPlayer playerIn, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		if (!worldIn.isRemote && IsValidStructure(worldIn, pos, state))
+		if (!worldIn.isRemote)
 		{
-			playerIn.openGui(FactoryAutomation.instance,
-					GuiHandler.GuiID.BLAST_FURNACE.id, worldIn, pos.getX(),
-					pos.getY(), pos.getZ());
+			if (IsValidStructure(worldIn, pos, state))
+			{
+				if (!worldIn.getBlockState(pos).getValue(MULTIBLOCK_COMPLETE))
+				{
+					CreateStructure(worldIn, pos);
+					worldIn.setBlockState(
+							pos, worldIn.getBlockState(pos)
+										.withProperty(MULTIBLOCK_COMPLETE,
+													  true));
+				}
+
+				playerIn.openGui(FactoryAutomation.instance,
+								 GuiHandler.GuiID.BLAST_FURNACE.id, worldIn,
+								 pos.getX(), pos.getY(), pos.getZ());
+			} else
+			{
+				if (worldIn.getBlockState(pos).getValue(MULTIBLOCK_COMPLETE))
+				{
+					BreakStructure(worldIn, pos);
+					worldIn.setBlockState(
+							pos, worldIn.getBlockState(pos)
+										.withProperty(MULTIBLOCK_COMPLETE,
+													  false));
+				}
+			}
 		}
 		return true;
 	}
 
 	@Override
-	public MultiblockStructurePattern GetPattern()
+	public String GetPatternId()
 	{
 		return structurePattern;
 	}
@@ -195,12 +192,13 @@ public class BlastFurnaceController extends Block
 			IBlockState state)
 	{
 		boolean isValid = true;
+		Block[][][] pattern = MultiblockHandler.Get(structurePattern)
+											   .GetPattern();
 		switch (state.getValue(FACING))
 		{
 		case WEST:
 		{
 			BlockPos lowerLeftFront = pos.north();
-			Block[][][] pattern = structurePattern.GetPattern();
 
 			for (int x = 0; x < pattern.length; x++)
 			{
@@ -208,17 +206,38 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
+						TileEntityMultiblockPart te = null;
+						if (world.getTileEntity(lowerLeftFront.add(x, y, z))
+								!= null && world.getTileEntity(lowerLeftFront
+																	   .add(x,
+																			y,
+																			z)) instanceof TileEntityMultiblockPart)
+							te = (TileEntityMultiblockPart) world
+									.getTileEntity(lowerLeftFront.add(x, y, z));
+
 						if (!Block.isEqualTo(pattern[x][y][z],
-								world.getBlockState(lowerLeftFront.add(x, y, z))
-										.getBlock()))
+											 world.getBlockState(lowerLeftFront
+																		 .add(x,
+																			  y,
+																			  z))
+												  .getBlock()) && !(te != null
+								&& te.GetStructureId().equals(structurePattern)
+								&& Arrays.equals(te.GetPosition(),
+												 new int[] { x, y, z })))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world",
-								world.getBlockState(lowerLeftFront.add(x, y, z))
-										.getBlock().getLocalizedName());
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(x, y, z)).getBlock()
+													   .getLocalizedName());
 						Log.LogInfo("block in pattern",
-								pattern[x][y][z].getLocalizedName());
+									pattern[x][y][z].getLocalizedName());
+						Log.LogInfo(
+								"te position", te != null ?
+										Arrays.toString(te.GetPosition()) :
+										"no te found");
+						Log.LogInfo("actual position", x + ", " + y + ", " + z);
 					}
 				}
 			}
@@ -227,7 +246,6 @@ public class BlastFurnaceController extends Block
 		case EAST:
 		{
 			BlockPos lowerLeftFront = pos.south();
-			Block[][][] pattern = structurePattern.GetPattern();
 
 			for (int x = 0; x < pattern.length; x++)
 			{
@@ -235,18 +253,39 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
+						TileEntityMultiblockPart te = null;
+						if (world.getTileEntity(lowerLeftFront.add(-x, y, -z))
+								!= null && world.getTileEntity(lowerLeftFront
+																	   .add(-x,
+																			y,
+																			-z)) instanceof TileEntityMultiblockPart)
+							te = (TileEntityMultiblockPart) world.getTileEntity(
+									lowerLeftFront.add(-x, y, -z));
+
 						if (!Block.isEqualTo(pattern[x][y][z],
-								world.getBlockState(
-										lowerLeftFront.add(-x, y, -z))
-										.getBlock()))
+											 world.getBlockState(lowerLeftFront
+																		 .add(-x,
+																			  y,
+																			  -z))
+												  .getBlock()) && !(te != null
+								&& te.GetStructureId().equals(structurePattern)
+								&& Arrays.equals(te.GetPosition(),
+												 new int[] { x, y, z })))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world", world.getBlockState(
-								lowerLeftFront.add(-x, y, -z)).getBlock()
-								.getLocalizedName());
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(-x, y, -z))
+													   .getBlock()
+													   .getLocalizedName());
 						Log.LogInfo("block in pattern",
-								pattern[x][y][z].getLocalizedName());
+									pattern[x][y][z].getLocalizedName());
+						Log.LogInfo(
+								"te position", te != null ?
+										Arrays.toString(te.GetPosition()) :
+										"no te found");
+						Log.LogInfo("actual position", x + ", " + y + ", " + z);
 					}
 				}
 			}
@@ -255,7 +294,6 @@ public class BlastFurnaceController extends Block
 		case NORTH:
 		{
 			BlockPos lowerLeftFront = pos.east();
-			Block[][][] pattern = structurePattern.GetPattern();
 
 			for (int x = 0; x < pattern.length; x++)
 			{
@@ -263,18 +301,38 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
+						TileEntityMultiblockPart te = null;
+						if (world.getTileEntity(lowerLeftFront.add(-z, y, x))
+								!= null && world.getTileEntity(lowerLeftFront
+																	   .add(-z,
+																			y,
+																			x)) instanceof TileEntityMultiblockPart)
+							te = (TileEntityMultiblockPart) world.getTileEntity(
+									lowerLeftFront.add(-z, y, x));
+
 						if (!Block.isEqualTo(pattern[x][y][z],
-								world.getBlockState(
-										lowerLeftFront.add(-z, y, x))
-										.getBlock()))
+											 world.getBlockState(lowerLeftFront
+																		 .add(-z,
+																			  y,
+																			  x))
+												  .getBlock()) && !(te != null
+								&& te.GetStructureId().equals(structurePattern)
+								&& Arrays.equals(te.GetPosition(),
+												 new int[] { x, y, z })))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world", world.getBlockState(
-								lowerLeftFront.add(-z, y, x)).getBlock()
-								.getLocalizedName());
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(-z, y, x)).getBlock()
+													   .getLocalizedName());
 						Log.LogInfo("block in pattern",
-								pattern[x][y][z].getLocalizedName());
+									pattern[x][y][z].getLocalizedName());
+						Log.LogInfo(
+								"te position", te != null ?
+										Arrays.toString(te.GetPosition()) :
+										"no te found");
+						Log.LogInfo("actual position", x + ", " + y + ", " + z);
 					}
 				}
 			}
@@ -283,7 +341,6 @@ public class BlastFurnaceController extends Block
 		case SOUTH:
 		{
 			BlockPos lowerLeftFront = pos.west();
-			Block[][][] pattern = structurePattern.GetPattern();
 
 			for (int x = 0; x < pattern.length; x++)
 			{
@@ -291,18 +348,38 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
+						TileEntityMultiblockPart te = null;
+						if (world.getTileEntity(lowerLeftFront.add(z, y, -x))
+								!= null && world.getTileEntity(lowerLeftFront
+																	   .add(z,
+																			y,
+																			-x)) instanceof TileEntityMultiblockPart)
+							te = (TileEntityMultiblockPart) world.getTileEntity(
+									lowerLeftFront.add(z, y, -x));
+
 						if (!Block.isEqualTo(pattern[x][y][z],
-								world.getBlockState(
-										lowerLeftFront.add(z, y, -x))
-										.getBlock()))
+											 world.getBlockState(lowerLeftFront
+																		 .add(z,
+																			  y,
+																			  -x))
+												  .getBlock()) && !(te != null
+								&& te.GetStructureId().equals(structurePattern)
+								&& Arrays.equals(te.GetPosition(),
+												 new int[] { x, y, z })))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world", world.getBlockState(
-								lowerLeftFront.add(z, y, -x)).getBlock()
-								.getLocalizedName());
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(z, y, -x)).getBlock()
+													   .getLocalizedName());
 						Log.LogInfo("block in pattern",
-								pattern[x][y][z].getLocalizedName());
+									pattern[x][y][z].getLocalizedName());
+						Log.LogInfo(
+								"te position", te != null ?
+										Arrays.toString(te.GetPosition()) :
+										"no te found");
+						Log.LogInfo("actual position", x + ", " + y + ", " + z);
 					}
 				}
 			}
@@ -313,5 +390,333 @@ public class BlastFurnaceController extends Block
 					"BlastFurnaceController facing not NORTH, SOUTH, EAST, or WEST!");
 		}
 		return isValid;
+	}
+
+	@Override
+	public void CreateStructure(World world, BlockPos pos)
+	{
+		Block[][][] pattern = MultiblockHandler.Get(structurePattern)
+											   .GetPattern();
+
+		switch (world.getBlockState(pos).getValue(FACING))
+		{
+		case WEST:
+		{
+			BlockPos lowerLeftFront = pos.north();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (world.isAirBlock(lowerLeftFront.add(x, y, z))
+								|| Block.isEqualTo(
+								world.getBlockState(lowerLeftFront.add(x, y, z))
+									 .getBlock(), this))
+							continue;
+
+						world.setBlockState(lowerLeftFront.add(x, y, z),
+											FABlocks.multiblockPart.ToBlock()
+																   .getDefaultState());
+						TileEntity te = world
+								.getTileEntity(lowerLeftFront.add(x, y, z));
+						assert te instanceof TileEntityMultiblockPart;
+						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						part.SetMultiblockInformation(structurePattern, x, y, z,
+													  x, y, z - 1);
+
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(x, y, z)).getBlock()
+													   .getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		case EAST:
+		{
+			BlockPos lowerLeftFront = pos.south();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (world.isAirBlock(lowerLeftFront.add(x, y, z))
+								|| Block.isEqualTo(
+								world.getBlockState(lowerLeftFront.add(x, y, z))
+									 .getBlock(), this))
+							continue;
+
+						world.setBlockState(lowerLeftFront.add(-x, y, -z),
+											FABlocks.multiblockPart.ToBlock()
+																   .getDefaultState());
+						TileEntity te = world
+								.getTileEntity(lowerLeftFront.add(-x, y, -z));
+						assert te instanceof TileEntityMultiblockPart;
+						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						part.SetMultiblockInformation(structurePattern, x, y, z,
+													  -x, y, -z + 1);
+
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(-x, y, -z))
+													   .getBlock()
+													   .getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		case NORTH:
+		{
+			BlockPos lowerLeftFront = pos.east();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (world.isAirBlock(lowerLeftFront.add(x, y, z))
+								|| Block.isEqualTo(
+								world.getBlockState(lowerLeftFront.add(x, y, z))
+									 .getBlock(), this))
+							continue;
+
+						world.setBlockState(lowerLeftFront.add(-z, y, x),
+											FABlocks.multiblockPart.ToBlock()
+																   .getDefaultState());
+						TileEntity te = world
+								.getTileEntity(lowerLeftFront.add(-z, y, x));
+						assert te instanceof TileEntityMultiblockPart;
+						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						part.SetMultiblockInformation(structurePattern, x, y, z,
+													  -z, y, x - 1);
+
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(-z, y, x)).getBlock()
+													   .getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		case SOUTH:
+		{
+			BlockPos lowerLeftFront = pos.west();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (world.isAirBlock(lowerLeftFront.add(x, y, z))
+								|| Block.isEqualTo(
+								world.getBlockState(lowerLeftFront.add(x, y, z))
+									 .getBlock(), this))
+							continue;
+
+						world.setBlockState(lowerLeftFront.add(z, y, -x),
+											FABlocks.multiblockPart.ToBlock()
+																   .getDefaultState());
+						TileEntity te = world
+								.getTileEntity(lowerLeftFront.add(z, y, -x));
+						assert te instanceof TileEntityMultiblockPart;
+						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						part.SetMultiblockInformation(structurePattern, x, y, z,
+													  z, y, -x + 1);
+
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(z, y, -x)).getBlock()
+													   .getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+
+		}
+	}
+
+	@Override
+	public void BreakStructure(World world, BlockPos pos)
+	{
+		Block[][][] pattern = MultiblockHandler.Get(structurePattern)
+											   .GetPattern();
+
+		switch (world.getBlockState(pos).getValue(FACING))
+		{
+		case WEST:
+		{
+			BlockPos lowerLeftFront = pos.north();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (world.isAirBlock(lowerLeftFront.add(x, y, z)))
+							continue;
+
+						TileEntity te = world
+								.getTileEntity(lowerLeftFront.add(x, y, z));
+
+						if (te == null
+								|| !(te instanceof TileEntityMultiblockPart))
+							continue;
+
+						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						if (!part.GetStructureId().equals(structurePattern))
+							return;
+
+						world.setBlockState(lowerLeftFront.add(x, y, z),
+											MultiblockHandler
+													.Get(structurePattern)
+													.GetPattern()[x][y][z]
+													.getDefaultState());
+
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(x, y, z)).getBlock()
+													   .getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		case EAST:
+		{
+			BlockPos lowerLeftFront = pos.south();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (world.isAirBlock(lowerLeftFront.add(-x, y, -z)))
+							continue;
+
+						TileEntity te = world
+								.getTileEntity(lowerLeftFront.add(-x, y, -z));
+
+						if (te == null
+								|| !(te instanceof TileEntityMultiblockPart))
+							continue;
+
+						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						if (!part.GetStructureId().equals(structurePattern))
+							return;
+
+						world.setBlockState(lowerLeftFront.add(-x, y, -z),
+											MultiblockHandler
+													.Get(structurePattern)
+													.GetPattern()[x][y][z]
+													.getDefaultState());
+
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(-x, y, -z))
+													   .getBlock()
+													   .getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		case NORTH:
+		{
+			BlockPos lowerLeftFront = pos.east();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (world.isAirBlock(lowerLeftFront.add(-z, y, x)))
+							continue;
+
+						TileEntity te = world
+								.getTileEntity(lowerLeftFront.add(-z, y, x));
+
+						if (te == null
+								|| !(te instanceof TileEntityMultiblockPart))
+							continue;
+						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						if (!part.GetStructureId().equals(structurePattern))
+							return;
+
+						world.setBlockState(lowerLeftFront.add(-z, y, x),
+											MultiblockHandler
+													.Get(structurePattern)
+													.GetPattern()[x][y][z]
+													.getDefaultState());
+
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(-z, y, x)).getBlock()
+													   .getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		case SOUTH:
+		{
+			BlockPos lowerLeftFront = pos.west();
+
+			for (int x = 0; x < pattern.length; x++)
+			{
+				for (int y = 0; y < pattern[x].length; y++)
+				{
+					for (int z = 0; z < pattern[x][y].length; z++)
+					{
+						if (world.isAirBlock(lowerLeftFront.add(z, y, -x)))
+							continue;
+
+						TileEntity te = world
+								.getTileEntity(lowerLeftFront.add(z, y, -x));
+
+						if (te == null
+								|| !(te instanceof TileEntityMultiblockPart))
+							continue;
+						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						if (!part.GetStructureId().equals(structurePattern))
+							return;
+
+						world.setBlockState(lowerLeftFront.add(z, y, -x),
+											MultiblockHandler
+													.Get(structurePattern)
+													.GetPattern()[x][y][z]
+													.getDefaultState());
+
+						Log.LogInfo(
+								"block in world", world.getBlockState(
+										lowerLeftFront.add(z, y, -x)).getBlock()
+													   .getLocalizedName());
+					}
+				}
+			}
+			break;
+		}
+		}
+	}
+
+	@Override
+	public void SetStructureCompleted(World world, BlockPos pos,
+			boolean completed)
+	{
+		world.setBlockState(
+				pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE,
+														   completed));
 	}
 }

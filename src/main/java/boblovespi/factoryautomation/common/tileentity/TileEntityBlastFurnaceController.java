@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity;
 
+import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTileEntity;
@@ -90,6 +91,11 @@ public class TileEntityBlastFurnaceController extends TileEntity
 		World worldObj = getWorld();
 		if (worldObj.isRemote)
 			return;
+
+		if (!worldObj.getBlockState(pos)
+				.getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
+			return;
+
 		steelSmeltTime = 2000; // TODO: read from config
 		if (isSmeltingItem)
 		{

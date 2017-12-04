@@ -6,7 +6,11 @@ import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
+import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.util.Log;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -59,6 +63,42 @@ public class FactoryAutomation
 				FAItems.slag.ToItem().getRegistryName());
 		TileEntityHandler.RegisterTileEntities();
 		Log.getLogger().info("Initialization end");
+
+		MultiblockHandler.Register("blast_furnace",
+				new MultiblockStructurePattern(new Block[][][] { new Block[][] {
+						new Block[] { Blocks.NETHER_BRICK,
+								FABlocks.blastFurnaceController.ToBlock(),
+								Blocks.NETHER_BRICK },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } },
+						new Block[][] { new Block[] { Blocks.NETHER_BRICK,
+								Blocks.CAULDRON, Blocks.HOPPER },
+								new Block[] { Blocks.IRON_BLOCK,
+										Blocks.NETHER_BRICK,
+										Blocks.IRON_BLOCK },
+								new Block[] { Blocks.IRON_BLOCK,
+										Blocks.NETHER_BRICK,
+										Blocks.IRON_BLOCK },
+								new Block[] { Blocks.IRON_BLOCK,
+										Blocks.NETHER_BRICK,
+										Blocks.IRON_BLOCK },
+								new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+										Blocks.HOPPER } }, new Block[][] {
+						new Block[] { Blocks.NETHER_BRICK, Blocks.NETHER_BRICK,
+								Blocks.NETHER_BRICK },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.IRON_BLOCK,
+								Blocks.AIR },
+						new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } } },
+						new int[] { 0, 0, 1 }));
 	}
 
 	@SuppressWarnings("unused")

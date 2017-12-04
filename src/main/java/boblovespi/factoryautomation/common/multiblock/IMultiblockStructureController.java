@@ -9,11 +9,16 @@ import net.minecraft.world.World;
  */
 public interface IMultiblockStructureController
 {
-	MultiblockStructurePattern GetPattern();
+	String GetPatternId();
 
 	default boolean IsValidStructure(World world, BlockPos pos,
 			IBlockState state)
 	{
 		return false;
 	}
+
+	void CreateStructure(World world, BlockPos pos);
+	void BreakStructure(World world, BlockPos pos);
+
+	void SetStructureCompleted(World world, BlockPos pos, boolean completed);
 }
