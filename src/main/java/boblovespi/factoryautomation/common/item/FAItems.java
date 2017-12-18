@@ -44,6 +44,7 @@ public class FAItems
 	public static FAItem steelShovel;
 	public static FAItem steelSword;
 	public static FAItem coalCoke;
+	public static FAItem sheet;
 
 	public static void Init()
 	{
@@ -54,6 +55,7 @@ public class FAItems
 
 		slag = new FABaseItem("slag", CreativeTabs.MATERIALS);
 		ingot = new Ingot();
+		sheet = new Sheet();
 		nugget = new Nugget();
 		riceGrain = new RiceGrain();
 		bronzePickaxe = new FAPickaxe(bronzeMaterial, "bronze_pickaxe");

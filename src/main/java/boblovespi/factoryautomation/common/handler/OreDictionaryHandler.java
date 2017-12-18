@@ -25,6 +25,9 @@ public class OreDictionaryHandler
 			OreDictionary.registerOre("nugget" + StringUtils
 							.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.nugget.ToItem(), 1, i));
+			OreDictionary.registerOre("plate" + StringUtils
+							.capitalize(Metals.values()[i].getName()),
+					new ItemStack(FAItems.sheet.ToItem(), 1, i));
 
 		}
 
