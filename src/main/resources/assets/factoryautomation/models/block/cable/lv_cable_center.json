@@ -1,0 +1,86 @@
+{
+  "credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+  "ambientocclusion": false,
+  "textures": {
+    "0": "factoryautomation:blocks/rubber_sheet",
+    "particle": "factoryautomation:blocks/rubber_sheet"
+  },
+  "elements": [
+    {
+      "name": "cube",
+      "from": [5, 0, 5],
+      "to": [11, 4, 11],
+      "faces": {
+        "north": {
+          "uv": [5, 5, 11, 9],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [5, 5, 11, 9],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [5, 5, 11, 9],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [5, 5, 11, 9],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [5, 5, 11, 11],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [5, 5, 11, 11],
+          "texture": "#0"
+        }
+      },
+      "type": "cube"
+    }
+  ],
+  "comment": {
+    "display": {
+      "thirdperson_righthand": {
+        "scale": [0.375, 0.375, 0.375],
+        "rotation": [75, 45, 0],
+        "translation": [0, 2.5, 0]
+      },
+      "gui": {
+        "scale": [0.625, 0.625, 0.625],
+        "rotation": [30, 225, 0],
+        "translation": [0, 0, 0]
+      },
+      "fixed": {
+        "scale": [0.5, 0.5, 0.5],
+        "rotation": [0, 0, 0],
+        "translation": [0, 0, 0]
+      },
+      "ground": {
+        "scale": [0.5, 0.5, 0.5],
+        "rotation": [0, 0, 0],
+        "translation": [0, 2, 0]
+      },
+      "head": {
+        "scale": [1, 1, 1],
+        "rotation": [0, 180, 0],
+        "translation": [0, 13, 7]
+      },
+      "firstperson_lefthand": {
+        "scale": [0.4, 0.4, 0.4],
+        "rotation": [0, 225, 0],
+        "translation": [0, 0, 0]
+      },
+      "thirdperson_lefthand": {
+        "scale": [0.375, 0.375, 0.375],
+        "rotation": [75, 45, 0],
+        "translation": [0, 2.5, 0]
+      },
+      "firstperson_righthand": {
+        "scale": [0.4, 0.4, 0.4],
+        "rotation": [0, -90, 25],
+        "translation": [-2, 4, 0]
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_center"
+      }
+    },
+    {
+      "when": {
+        "north": "side"
+      },
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_side"
+      }
+    },
+    {
+      "when": {
+        "east": "side"
+      },
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_side",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "side"
+      },
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_side",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "side"
+      },
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_side",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "up"
+      },
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_up"
+      }
+    },
+    {
+      "when": {
+        "east": "up"
+      },
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_up",
+        "y": 90,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "up"
+      },
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_up",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "up"
+      },
+      "apply": {
+        "model": "factoryautomation:cable/lv_cable_up",
+        "y": 270,
+        "uvlock": true
+      }
+    }
+  ]
+}

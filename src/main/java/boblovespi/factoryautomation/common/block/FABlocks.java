@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.block;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.block.machine.MultiblockPart;
+import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
@@ -33,6 +34,7 @@ public class FABlocks
 	public static ConcreteSlab concreteDoubleSlab;
 	public static FABlock blastFurnaceController;
 	public static FABlock multiblockPart;
+	public static FABlock cable;
 
 	public static void Init()
 	{
@@ -47,12 +49,17 @@ public class FABlocks
 		concreteSlab = new ConcreteSlab.Half();
 		concreteDoubleSlab = new ConcreteSlab.Double();
 		FAItems.items.add(new ItemSlab(concreteSlab.ToBlock(),
-				concreteSlab.ToBlockSlab(), concreteDoubleSlab.ToBlockSlab())
-				.setUnlocalizedName(concreteSlab.UnlocalizedName())
-				.setRegistryName(concreteSlab.RegistryName()));
+									   concreteSlab.ToBlockSlab(),
+									   concreteDoubleSlab.ToBlockSlab())
+								  .setUnlocalizedName(
+										  concreteSlab.UnlocalizedName())
+								  .setRegistryName(
+										  concreteSlab.RegistryName()));
 
 		blastFurnaceController = new BlastFurnaceController();
 		multiblockPart = new MultiblockPart();
+
+		cable = new Cable();
 
 	}
 
@@ -63,12 +70,12 @@ public class FABlocks
 
 	private static void RegisterRender(FABlock block, int meta)
 	{
-		Log.LogInfo("The other file path",
-				FactoryAutomation.MODID + ":" + block.GetMetaFilePath(meta));
+		Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + block
+				.GetMetaFilePath(meta));
 
 		ModelResourceLocation loc = new ModelResourceLocation(
 				new ResourceLocation(FactoryAutomation.MODID,
-						block.GetMetaFilePath(meta)), "inventory");
+									 block.GetMetaFilePath(meta)), "inventory");
 
 		Log.LogInfo("The other model resource location", loc.toString());
 		//
