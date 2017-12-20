@@ -19,16 +19,22 @@ public class OreDictionaryHandler
 
 		for (int i = 2; i < Metals.values().length; i++)
 		{
-			OreDictionary.registerOre("ingot" + StringUtils
+			OreDictionary.registerOre(
+					"ingot" + StringUtils
 							.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.ingot.ToItem(), 1, i));
-			OreDictionary.registerOre("nugget" + StringUtils
+			OreDictionary.registerOre(
+					"nugget" + StringUtils
 							.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.nugget.ToItem(), 1, i));
-			OreDictionary.registerOre("plate" + StringUtils
+		}
+		for (int i = 0; i < Metals.values().length; i++)
+		{
+
+			OreDictionary.registerOre(
+					"plate" + StringUtils
 							.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.sheet.ToItem(), 1, i));
-
 		}
 
 	}
