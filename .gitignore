@@ -21,3 +21,4 @@ build
 eclipse
 run
 /classes/
+/src/main/java/boblovespi/factoryautomation/api/energy/EnergyNetwork.java

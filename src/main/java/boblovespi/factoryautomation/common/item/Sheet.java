@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.item;
 
-public class Sheet extends Ingot
+public class Sheet extends MetalItem
 {
 	public Sheet()
 	{
