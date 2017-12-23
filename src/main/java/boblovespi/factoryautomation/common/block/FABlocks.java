@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.block;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.block.machine.MultiblockPart;
+import boblovespi.factoryautomation.common.block.machine.SolarPanel;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
@@ -35,6 +36,7 @@ public class FABlocks
 	public static FABlock blastFurnaceController;
 	public static FABlock multiblockPart;
 	public static FABlock cable;
+	public static FABlock solarPanel;
 
 	public static void Init()
 	{
@@ -60,6 +62,7 @@ public class FABlocks
 		multiblockPart = new MultiblockPart();
 
 		cable = new Cable();
+		solarPanel = new SolarPanel();
 
 	}
 

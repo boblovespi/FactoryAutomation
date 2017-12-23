@@ -1,0 +1,122 @@
+package boblovespi.factoryautomation.common.block.machine;
+
+import boblovespi.factoryautomation.api.energy.IEnergyBlock;
+import boblovespi.factoryautomation.common.block.FABaseBlock;
+import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
+import boblovespi.factoryautomation.common.util.Log;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+
+/**
+ * Created by Willi on 12/21/2017.
+ */
+public class SolarPanel extends FABaseBlock
+		implements IEnergyBlock, ITileEntityProvider
+{
+	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0,
+																		1,
+																		0.21875,
+																		1);
+
+	public SolarPanel()
+	{
+		super(Material.DRAGON_EGG, "solar_panel");
+	}
+
+	/**
+	 * Checks whether or not a cable can connect to the given side and state
+	 *
+	 * @param state The state of the machine
+	 * @param side  The side power is being connected to
+	 * @param world The world access
+	 * @param pos   The position of the block
+	 * @return Whether or not a cable can attach to the given side and state
+	 */
+	@Override
+	public boolean CanConnectCable(IBlockState state, EnumFacing side,
+			IBlockAccess world, BlockPos pos)
+	{
+		return side != null && side.getHorizontalIndex() >= 0;
+	}
+
+	/**
+	 * Returns a new instance of a block's tile entity class. Called on placing the block.
+	 *
+	 * @param worldIn
+	 * @param meta
+	 */
+	@Nullable
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta)
+	{
+		return new TileEntitySolarPanel();
+	}
+
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos,
+			IBlockState state, EntityPlayer playerIn, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		TileEntity entity;
+		if ((entity = worldIn
+				.getTileEntity(pos)) instanceof TileEntitySolarPanel)
+		{
+			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
+			entity1.ForceUpdate();
+			if (!worldIn.isRemote && Minecraft.getMinecraft().player != null)
+				Minecraft.getMinecraft().ingameGUI
+						.addChatMessage(ChatType.GAME_INFO,
+										new TextComponentString(
+												"Power: " + entity1
+														.AmountProduced()
+														+ " | Power generated - used: "
+														+ entity1
+														.ActualAmountProduced()));
+			Log.LogInfo("Can see sky", worldIn.canBlockSeeSky(pos));
+			Log.LogInfo("Sunlight factor", worldIn.getSunBrightnessFactor(0));
+			Log.LogInfo("Can block above see sky",
+						worldIn.canBlockSeeSky(pos.up()));
+			Log.LogInfo("Power generated", entity1.AmountProduced());
+			Log.LogInfo(
+					"Actual power generated", entity1.ActualAmountProduced());
+		}
+		return true;
+	}
+
+	/**
+	 * @param state Unused
+	 * @return true if the state occupies all of its 1x1x1 cube
+	 */
+	@Override
+	public boolean isFullBlock(IBlockState state)
+	{
+		return false;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source,
+			BlockPos pos)
+	{
+		return BOUNDING_BOX;
+	}
+
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+}

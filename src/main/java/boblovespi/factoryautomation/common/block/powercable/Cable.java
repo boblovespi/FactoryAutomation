@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.block.powercable;
 
-import boblovespi.factoryautomation.api.energy.IUsesEnergy;
+import boblovespi.factoryautomation.api.energy.IEnergyBlock;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
@@ -72,8 +72,8 @@ public class Cable extends Block implements FABlock
 		Block block = state.getBlock();
 		if (Block.isEqualTo(FABlocks.cable.ToBlock(), block))
 			return true;
-		if (block instanceof IUsesEnergy)
-			return ((IUsesEnergy) block)
+		if (block instanceof IEnergyBlock)
+			return ((IEnergyBlock) block)
 					.CanConnectCable(state, side, world, pos);
 		return false;
 
