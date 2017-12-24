@@ -12,6 +12,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,9 @@ import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.steel
 @Mod.EventBusSubscriber
 public class FAItems
 {
+	@GameRegistry.ObjectHolder("factoryautomation:ore_metal")
+	public static final Item metalOre = null;
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
-
 	public static List<Item> items;
 	public static FAItem slag;
 	public static FAItem ingot;
@@ -80,7 +82,7 @@ public class FAItems
 			Log.LogInfo("new item!");
 			Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
 			Log.LogInfo("item resource path",
-					item.getRegistryName().getResourcePath());
+						item.getRegistryName().getResourcePath());
 			if (item instanceof FAItem)
 			{
 				if (item instanceof MultiTypeItem)
@@ -102,11 +104,11 @@ public class FAItems
 	private static void RegisterRender(FAItem item, int meta)
 	{
 		Log.LogInfo("The other file path",
-				FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
+					FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
 
 		final ModelResourceLocation loc = new ModelResourceLocation(
 				new ResourceLocation(FactoryAutomation.MODID,
-						item.GetMetaFilePath(meta)), "inventory");
+									 item.GetMetaFilePath(meta)), "inventory");
 
 		Log.LogInfo("The other model resource location", loc);
 

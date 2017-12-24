@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -35,6 +36,13 @@ public class OreDictionaryHandler
 					"plate" + StringUtils
 							.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.sheet.ToItem(), 1, i));
+		}
+		for (int i = 0; i < MetalOres.values().length; i++)
+		{
+			OreDictionary.registerOre(
+					"ore" + StringUtils
+							.capitalize(MetalOres.values()[i].getName()),
+					new ItemStack(FAItems.metalOre, 1, i));
 		}
 
 	}
