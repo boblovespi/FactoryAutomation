@@ -57,8 +57,7 @@ public class BlastFurnaceController extends Block
 		setResistance(10000);
 		setDefaultState(
 				blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
-						  .withProperty(MULTIBLOCK_COMPLETE,
-										false)); // TODO: change to false!!! done!
+						  .withProperty(MULTIBLOCK_COMPLETE, false));
 		FABlocks.blocks.add(this);
 		//		new FAItemBlock(this);
 		FAItems.items

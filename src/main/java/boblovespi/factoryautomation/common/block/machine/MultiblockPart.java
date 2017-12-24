@@ -149,4 +149,13 @@ public class MultiblockPart extends Block
 			}
 		}
 	}
+
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	 */
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 }
