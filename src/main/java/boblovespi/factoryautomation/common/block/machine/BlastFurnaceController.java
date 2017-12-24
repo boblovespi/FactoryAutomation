@@ -46,7 +46,6 @@ public class BlastFurnaceController extends Block
 			.create("multiblock_complete");
 
 	private final String structurePattern = "blast_furnace";
-	private boolean structureIsCreated;
 
 	public BlastFurnaceController()
 	{
