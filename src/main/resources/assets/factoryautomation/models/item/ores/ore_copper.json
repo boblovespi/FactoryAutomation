@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "factoryautomation:blocks/ore_metal_tin"
+    "all": "factoryautomation:blocks/ore/ore_copper"
   }
 }

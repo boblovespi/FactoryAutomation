@@ -1,7 +1,10 @@
 {
   "variants": {
-    "age=7": {
-      "model": "factoryautomation:rice/rice_stage8"
+    "type=copper": {
+      "model": "factoryautomation:ore/ore_copper"
+    },
+    "type=tin": {
+      "model": "factoryautomation:ore/ore_tin"
     }
   }
 }
