@@ -7,6 +7,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -34,7 +35,7 @@ public class TESteelmakingFurnace extends TileEntity
 	public TESteelmakingFurnace()
 	{
 		itemHandler = new ItemStackHandler(11);
-		fluidHandler = new MultiFluidTank(2);
+		fluidHandler = new MultiFluidTank(2, Fluid.BUCKET_VOLUME * 10);
 	}
 
 	@Override
