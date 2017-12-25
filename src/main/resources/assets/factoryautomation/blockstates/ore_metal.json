@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "age=7": {
+      "model": "factoryautomation:rice/rice_stage8"
+    }
+  }
+}

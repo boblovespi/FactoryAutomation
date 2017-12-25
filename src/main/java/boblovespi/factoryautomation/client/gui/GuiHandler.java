@@ -79,7 +79,8 @@ public class GuiHandler implements IGuiHandler
 	public enum GuiID
 	{
 		BLAST_FURNACE(0, ContainerBlastFurnace.class, GuiBlastFurnace.class),
-		STEELMAKING_FURNACE(1, ContainerSteelmakingFurnace.class, GuiSteelmakingFurnace.class);
+		STEELMAKING_FURNACE(1, ContainerSteelmakingFurnace.class,
+							GuiSteelmakingFurnace.class);
 
 		public final int id;
 		private final Class<? extends Gui> gui;

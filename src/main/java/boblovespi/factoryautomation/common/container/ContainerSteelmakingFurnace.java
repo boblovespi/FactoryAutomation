@@ -78,7 +78,7 @@ public class ContainerSteelmakingFurnace extends Container
 		}
 		for (int i = 0; i < 9; i++)
 		{
-			addSlotToContainer(new Slot(playerInv, i, x + i * 18, 142));
+			addSlotToContainer(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
 	}
 

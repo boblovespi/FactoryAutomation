@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.block.machine.MultiblockComponent;
 import boblovespi.factoryautomation.common.block.machine.SolarPanel;
+import boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceController;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
@@ -66,6 +67,8 @@ public class FABlocks
 		cable = new Cable();
 		solarPanel = new SolarPanel();
 		metalOres = new MetalOre();
+
+		steelmakingFurnaceController = new SteelmakingFurnaceController();
 	}
 
 	public static void RegisterRenders()

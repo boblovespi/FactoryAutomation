@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
+import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -25,12 +25,23 @@ public class GuiSteelmakingFurnace extends GuiContainer
 
 	public GuiSteelmakingFurnace(IInventory playerInv, TileEntity te)
 	{
-		super(new ContainerBlastFurnace(playerInv, te));
+		super(new ContainerSteelmakingFurnace(playerInv, te));
 		this.te = (TESteelmakingFurnace) te;
 		this.playerInv = playerInv;
 
 		this.xSize = 176;
 		this.ySize = 180;
+
+		flameBar = new GuiBar(
+				59, 57, 176, 0, 14, 14, GuiBar.ProgressDirection.UP);
+		airTankBar = new GuiBar(
+				8, 8, 182, 32, 16, 59, GuiBar.ProgressDirection.UP);
+		fuelTankBar = new GuiBar(
+				28, 8, 182, 32, 16, 59, GuiBar.ProgressDirection.UP);
+		tempBar = new GuiBar(
+				48, 7, 176, 31, 6, 61, GuiBar.ProgressDirection.UP);
+		progressBar = new GuiBar(
+				97, 29, 176, 14, 24, 17, GuiBar.ProgressDirection.RIGHT);
 	}
 
 	/**
@@ -44,16 +55,22 @@ public class GuiSteelmakingFurnace extends GuiContainer
 		mc.getTextureManager().bindTexture(new ResourceLocation(
 				FactoryAutomation.MODID,
 				"textures/gui/container/steelmaking_furnace.png"));
+		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
+		flameBar.Draw(this, 0.5f);
+		airTankBar.Draw(this, 1);
+		fuelTankBar.Draw(this, 1);
+		tempBar.Draw(this, 0.8f);
+		progressBar.Draw(this, 0.5f);
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		drawCenteredString(mc.fontRenderer, "Steelmaking Furnace", 84, 6,
+		drawCenteredString(mc.fontRenderer, "Steelmaking Furnace", 112, 6,
 						   180 + 100 * 256 + 100 * 256 * 256);
 		fontRenderer
-				.drawString(playerInv.getDisplayName().getUnformattedText(), 8,
+				.drawString(playerInv.getDisplayName().getUnformattedText(), 100,
 							this.ySize - 96 + 2, 4210752);
 
 	}
