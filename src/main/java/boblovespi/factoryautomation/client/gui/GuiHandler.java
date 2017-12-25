@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
+import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,9 +30,13 @@ public class GuiHandler implements IGuiHandler
 			try
 			{
 				return GuiID.values()[ID].GetContainerClass()
-						.getDeclaredConstructor(IInventory.class,
-								TileEntity.class).newInstance(player.inventory,
-								world.getTileEntity(new BlockPos(x, y, z)));
+										 .getDeclaredConstructor(
+												 IInventory.class,
+												 TileEntity.class)
+										 .newInstance(player.inventory,
+													  world.getTileEntity(
+															  new BlockPos(x, y,
+																		   z)));
 			} catch (Exception e)
 			{
 				Log.LogWarning("there was an exception!");
@@ -53,10 +58,12 @@ public class GuiHandler implements IGuiHandler
 		{
 			try
 			{
-				return GuiID.values()[ID].GetGuiClass()
-						.getDeclaredConstructor(IInventory.class,
-								TileEntity.class).newInstance(player.inventory,
-								world.getTileEntity(new BlockPos(x, y, z)));
+				return GuiID.values()[ID].GetGuiClass().getDeclaredConstructor(
+						IInventory.class, TileEntity.class)
+										 .newInstance(player.inventory,
+													  world.getTileEntity(
+															  new BlockPos(x, y,
+																		   z)));
 			} catch (Exception e)
 			{
 				Log.LogWarning("there was an exception!");
@@ -71,7 +78,9 @@ public class GuiHandler implements IGuiHandler
 
 	public enum GuiID
 	{
-		BLAST_FURNACE(0, ContainerBlastFurnace.class, GuiBlastFurnace.class);
+		BLAST_FURNACE(0, ContainerBlastFurnace.class, GuiBlastFurnace.class),
+		STEELMAKING_FURNACE(1, ContainerSteelmakingFurnace.class, GuiSteelmakingFurnace.class);
+
 		public final int id;
 		private final Class<? extends Gui> gui;
 		private final Class<? extends Container> container;

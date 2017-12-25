@@ -29,10 +29,10 @@ import java.util.Random;
 /**
  * Created by Willi on 11/26/2017.
  */
-public class MultiblockPart extends Block
+public class MultiblockComponent extends Block
 		implements ITileEntityProvider, FABlock
 {
-	public MultiblockPart()
+	public MultiblockComponent()
 	{
 		super(Material.IRON, MapColor.IRON);
 		setUnlocalizedName(UnlocalizedName());
@@ -73,7 +73,7 @@ public class MultiblockPart extends Block
 		MultiblockStructurePattern structure = MultiblockHandler
 				.Get(part.GetStructureId());
 		int[] loc = part.GetPosition();
-		Block block = structure.GetPattern()[loc[0]][loc[1]][loc[2]];
+		Block block = structure.GetPattern()[loc[0]][loc[1]][loc[2]].GetBlock();
 		Item item = block
 				.getItemDropped(block.getDefaultState(), rand, fortune);
 		if (item != Items.AIR)

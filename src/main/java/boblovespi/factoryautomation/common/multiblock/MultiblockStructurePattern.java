@@ -1,6 +1,8 @@
 package boblovespi.factoryautomation.common.multiblock;
 
+import boblovespi.factoryautomation.common.util.NotYetImplemented;
 import net.minecraft.block.Block;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * Created by Willi on 11/17/2017.
@@ -8,17 +10,24 @@ import net.minecraft.block.Block;
  */
 public class MultiblockStructurePattern
 {
-	private Block[][][] pattern;
+	private MultiblockPart[][][] pattern;
 	private int[] controllerOffset;
 
-	public MultiblockStructurePattern(Block[][][] structurePattern,
+	public MultiblockStructurePattern(MultiblockPart[][][] structurePattern,
 			int[] structureControllerOffset)
 	{
 		pattern = structurePattern;
 		controllerOffset = structureControllerOffset;
 	}
 
-	public Block[][][] GetPattern()
+	public MultiblockStructurePattern(Block[][][] structurePattern,
+			int[] structureControllerOffset)
+	{
+		pattern = MultiblockPart.FromBlocks(structurePattern);
+		controllerOffset = structureControllerOffset;
+	}
+
+	public MultiblockPart[][][] GetPattern()
 	{
 		return pattern;
 	}
@@ -26,5 +35,11 @@ public class MultiblockStructurePattern
 	public int[] getControllerOffset()
 	{
 		return controllerOffset;
+	}
+
+	@NotYetImplemented
+	public static MultiblockStructurePattern FromNBT(NBTTagCompound compound)
+	{
+		return null;
 	}
 }

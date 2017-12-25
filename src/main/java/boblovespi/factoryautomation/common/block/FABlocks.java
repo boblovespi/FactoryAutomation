@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
-import boblovespi.factoryautomation.common.block.machine.MultiblockPart;
+import boblovespi.factoryautomation.common.block.machine.MultiblockComponent;
 import boblovespi.factoryautomation.common.block.machine.SolarPanel;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.item.FAItems;
@@ -38,6 +38,7 @@ public class FABlocks
 	public static FABlock cable;
 	public static FABlock solarPanel;
 	public static FABlock metalOres;
+	public static FABlock steelmakingFurnaceController;
 
 	public static void Init()
 	{
@@ -60,7 +61,7 @@ public class FABlocks
 										  concreteSlab.RegistryName()));
 
 		blastFurnaceController = new BlastFurnaceController();
-		multiblockPart = new MultiblockPart();
+		multiblockPart = new MultiblockComponent();
 
 		cable = new Cable();
 		solarPanel = new SolarPanel();

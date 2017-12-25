@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureController;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
+import boblovespi.factoryautomation.common.multiblock.MultiblockPart;
 import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceController;
 import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
@@ -190,8 +191,8 @@ public class BlastFurnaceController extends Block
 			IBlockState state)
 	{
 		boolean isValid = true;
-		Block[][][] pattern = MultiblockHandler.Get(structurePattern)
-											   .GetPattern();
+		MultiblockPart[][][] pattern = MultiblockHandler.Get(structurePattern)
+														.GetPattern();
 		switch (state.getValue(FACING))
 		{
 		case WEST:
@@ -213,7 +214,7 @@ public class BlastFurnaceController extends Block
 							te = (TileEntityMultiblockPart) world
 									.getTileEntity(lowerLeftFront.add(x, y, z));
 
-						if (!Block.isEqualTo(pattern[x][y][z],
+						if (!Block.isEqualTo(pattern[x][y][z].GetBlock(),
 											 world.getBlockState(lowerLeftFront
 																		 .add(x,
 																			  y,
@@ -230,7 +231,8 @@ public class BlastFurnaceController extends Block
 										lowerLeftFront.add(x, y, z)).getBlock()
 													   .getLocalizedName());
 						Log.LogInfo("block in pattern",
-									pattern[x][y][z].getLocalizedName());
+									pattern[x][y][z].GetBlock()
+													.getLocalizedName());
 						Log.LogInfo(
 								"te position", te != null ?
 										Arrays.toString(te.GetPosition()) :
@@ -260,7 +262,7 @@ public class BlastFurnaceController extends Block
 							te = (TileEntityMultiblockPart) world.getTileEntity(
 									lowerLeftFront.add(-x, y, -z));
 
-						if (!Block.isEqualTo(pattern[x][y][z],
+						if (!Block.isEqualTo(pattern[x][y][z].GetBlock(),
 											 world.getBlockState(lowerLeftFront
 																		 .add(-x,
 																			  y,
@@ -278,7 +280,8 @@ public class BlastFurnaceController extends Block
 													   .getBlock()
 													   .getLocalizedName());
 						Log.LogInfo("block in pattern",
-									pattern[x][y][z].getLocalizedName());
+									pattern[x][y][z].GetBlock()
+													.getLocalizedName());
 						Log.LogInfo(
 								"te position", te != null ?
 										Arrays.toString(te.GetPosition()) :
@@ -308,7 +311,7 @@ public class BlastFurnaceController extends Block
 							te = (TileEntityMultiblockPart) world.getTileEntity(
 									lowerLeftFront.add(-z, y, x));
 
-						if (!Block.isEqualTo(pattern[x][y][z],
+						if (!Block.isEqualTo(pattern[x][y][z].GetBlock(),
 											 world.getBlockState(lowerLeftFront
 																		 .add(-z,
 																			  y,
@@ -325,7 +328,8 @@ public class BlastFurnaceController extends Block
 										lowerLeftFront.add(-z, y, x)).getBlock()
 													   .getLocalizedName());
 						Log.LogInfo("block in pattern",
-									pattern[x][y][z].getLocalizedName());
+									pattern[x][y][z].GetBlock()
+													.getLocalizedName());
 						Log.LogInfo(
 								"te position", te != null ?
 										Arrays.toString(te.GetPosition()) :
@@ -355,7 +359,7 @@ public class BlastFurnaceController extends Block
 							te = (TileEntityMultiblockPart) world.getTileEntity(
 									lowerLeftFront.add(z, y, -x));
 
-						if (!Block.isEqualTo(pattern[x][y][z],
+						if (!Block.isEqualTo(pattern[x][y][z].GetBlock(),
 											 world.getBlockState(lowerLeftFront
 																		 .add(z,
 																			  y,
@@ -372,7 +376,8 @@ public class BlastFurnaceController extends Block
 										lowerLeftFront.add(z, y, -x)).getBlock()
 													   .getLocalizedName());
 						Log.LogInfo("block in pattern",
-									pattern[x][y][z].getLocalizedName());
+									pattern[x][y][z].GetBlock()
+													.getLocalizedName());
 						Log.LogInfo(
 								"te position", te != null ?
 										Arrays.toString(te.GetPosition()) :
@@ -393,8 +398,8 @@ public class BlastFurnaceController extends Block
 	@Override
 	public void CreateStructure(World world, BlockPos pos)
 	{
-		Block[][][] pattern = MultiblockHandler.Get(structurePattern)
-											   .GetPattern();
+		MultiblockPart[][][] pattern = MultiblockHandler.Get(structurePattern)
+														.GetPattern();
 
 		switch (world.getBlockState(pos).getValue(FACING))
 		{
@@ -546,8 +551,8 @@ public class BlastFurnaceController extends Block
 	@Override
 	public void BreakStructure(World world, BlockPos pos)
 	{
-		Block[][][] pattern = MultiblockHandler.Get(structurePattern)
-											   .GetPattern();
+		MultiblockPart[][][] pattern = MultiblockHandler.Get(structurePattern)
+														.GetPattern();
 
 		switch (world.getBlockState(pos).getValue(FACING))
 		{
@@ -579,6 +584,7 @@ public class BlastFurnaceController extends Block
 											MultiblockHandler
 													.Get(structurePattern)
 													.GetPattern()[x][y][z]
+													.GetBlock()
 													.getDefaultState());
 
 						Log.LogInfo(
@@ -618,6 +624,7 @@ public class BlastFurnaceController extends Block
 											MultiblockHandler
 													.Get(structurePattern)
 													.GetPattern()[x][y][z]
+													.GetBlock()
 													.getDefaultState());
 
 						Log.LogInfo(
@@ -657,6 +664,7 @@ public class BlastFurnaceController extends Block
 											MultiblockHandler
 													.Get(structurePattern)
 													.GetPattern()[x][y][z]
+													.GetBlock()
 													.getDefaultState());
 
 						Log.LogInfo(
@@ -695,6 +703,7 @@ public class BlastFurnaceController extends Block
 											MultiblockHandler
 													.Get(structurePattern)
 													.GetPattern()[x][y][z]
+													.GetBlock()
 													.getDefaultState());
 
 						Log.LogInfo(
