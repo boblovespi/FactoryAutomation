@@ -1,10 +1,10 @@
 {
   "variants": {
     "type=copper": {
-      "model": "factoryautomation:ore/ore_copper"
+      "model": "factoryautomation:ores/ore_copper"
     },
     "type=tin": {
-      "model": "factoryautomation:ore/ore_tin"
+      "model": "factoryautomation:ores/ore_tin"
     }
   }
 }

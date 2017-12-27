@@ -127,7 +127,8 @@ public class TESteelmakingFurnace extends TileEntity
 				Log.LogInfo("Time required", r.timeRequired);
 				Log.LogInfo("Temp required", r.tempRequired);
 
-				if (currentTemp >= r.tempRequired) // we can begin smelting the recipe r
+				if (currentTemp
+						>= r.tempRequired) // we can begin smelting the recipe r
 				{
 					isSmeltingItem = true;
 					currentMaxSmeltTime = r.timeRequired;
@@ -155,10 +156,24 @@ public class TESteelmakingFurnace extends TileEntity
 			{
 				if (CanInsertOutputs(currentRecipe))
 				{
-					for (int i = 0; i < OUTPUT_SLOTS.length; i++)
+					for (int i = 0;
+						 i < currentRecipe.GetItemInputs().size(); i++)
 					{
-						itemHandler.insertItem(OUTPUT_SLOTS[i], currentRecipe.GetPrimaryItemOutputs().get(i), false);
+						itemHandler.extractItem(INPUT_SLOTS[i], 1, false);
 					}
+
+					for (int i = 0;
+						 i < currentRecipe.GetPrimaryItemOutputs().size(); i++)
+					{
+						Log.LogInfo("i", i);
+						Log.LogInfo("Outputting!", itemHandler
+								.insertItem(OUTPUT_SLOTS[i], currentRecipe
+													.GetPrimaryItemOutputs().get(i).copy(),
+											false));
+					}
+
+					isSmeltingItem = false;
+					currentSmeltTime = currentMaxSmeltTime;
 				}
 			}
 		}
@@ -179,8 +194,8 @@ public class TESteelmakingFurnace extends TileEntity
 		for (int i = 0; i < num; i++)
 		{
 			if (!itemHandler.insertItem(OUTPUT_SLOTS[i],
-										r.GetPrimaryItemOutputs().get(i), true)
-							.isEmpty())
+										r.GetPrimaryItemOutputs().get(i).copy(),
+										true).isEmpty())
 				return false;
 		}
 
@@ -289,8 +304,6 @@ public class TESteelmakingFurnace extends TileEntity
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
-
-
 
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
 	}
