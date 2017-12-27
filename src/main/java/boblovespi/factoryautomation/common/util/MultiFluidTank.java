@@ -106,4 +106,13 @@ public class MultiFluidTank implements IFluidHandler
 	{
 		return null;
 	}
+
+	/**
+	 * @return A list of all the fluids in the tank.  If tanks are empty, they are not added
+	 */
+	public List<FluidStack> GetFluids()
+	{
+		return tanks.stream().filter(t -> t.getFluidAmount() != 0)
+					.map(FluidTank::getFluid).collect(Collectors.toList());
+	}
 }

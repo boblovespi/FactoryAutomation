@@ -3,11 +3,16 @@ package boblovespi.factoryautomation.client.gui;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
+import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Willi on 12/24/2017.
@@ -57,11 +62,13 @@ public class GuiSteelmakingFurnace extends GuiContainer
 				"textures/gui/container/steelmaking_furnace.png"));
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		flameBar.Draw(this, 0.5f);
+		flameBar.Draw(this, te.GetBurnPercent());
 		airTankBar.Draw(this, 1);
 		fuelTankBar.Draw(this, 1);
-		tempBar.Draw(this, 0.8f);
-		progressBar.Draw(this, 0.5f);
+		tempBar.Draw(this, te.GetTempPercent());
+		progressBar.Draw(this, te.GetSmeltPercent());
+
+		Log.LogInfo("tileentity nbt data", te.getTileData().toString());
 	}
 
 	@Override
@@ -69,9 +76,8 @@ public class GuiSteelmakingFurnace extends GuiContainer
 	{
 		drawCenteredString(mc.fontRenderer, "Steelmaking Furnace", 112, 6,
 						   180 + 100 * 256 + 100 * 256 * 256);
-		fontRenderer
-				.drawString(playerInv.getDisplayName().getUnformattedText(), 100,
-							this.ySize - 96 + 2, 4210752);
+		fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(),
+								100, this.ySize - 96 + 2, 4210752);
 
 	}
 
@@ -81,5 +87,18 @@ public class GuiSteelmakingFurnace extends GuiContainer
 		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		renderHoveredToolTip(mouseX, mouseY);
+	}
+
+	@Override
+	protected void renderHoveredToolTip(int mouseX, int mouseY)
+	{
+		super.renderHoveredToolTip(mouseX, mouseY);
+		if (isPointInRegion(48, 7, 6, 61, mouseX, mouseY))
+		{
+			List<String> text = new ArrayList<>(1);
+			text.add(I18n.format("gui.misc.temperature") + ": " + String
+					.format("%1$.1f", te.GetTemp()));
+			drawHoveringText(text, mouseX, mouseY);
+		}
 	}
 }

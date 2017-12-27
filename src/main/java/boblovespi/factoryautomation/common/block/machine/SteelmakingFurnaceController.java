@@ -71,10 +71,13 @@ public class SteelmakingFurnaceController extends FABaseBlock
 			IBlockState state, EntityPlayer playerIn, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		playerIn.openGui(
-				FactoryAutomation.instance,
-				GuiHandler.GuiID.STEELMAKING_FURNACE.id, worldIn, pos.getX(),
-				pos.getY(), pos.getZ());
+		if (!worldIn.isRemote)
+		{
+			playerIn.openGui(
+					FactoryAutomation.instance,
+					GuiHandler.GuiID.STEELMAKING_FURNACE.id, worldIn,
+					pos.getX(), pos.getY(), pos.getZ());
+		}
 		return true;
 	}
 }

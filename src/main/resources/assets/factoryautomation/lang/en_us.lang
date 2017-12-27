@@ -32,3 +32,6 @@ gui.config.category.test=Test
 gui.config.category.test.tooltip=A category for testing - not actually used
 gui.config.test.test_scalar.name=Test Scalar
 gui.config.test.test_scalar.comment=A scalar for testing config with
+
+# gui
+gui.misc.temperature=Temp
