@@ -15,7 +15,7 @@ public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSeri
 {
 
 	private MultiTypeBlock baseBlock;
-	private Class<T> blockTypes;
+	public Class<T> blockTypes;
 
 	public MultiTypeItemBlock(MultiTypeBlock block, Class blockTypes)
 	{

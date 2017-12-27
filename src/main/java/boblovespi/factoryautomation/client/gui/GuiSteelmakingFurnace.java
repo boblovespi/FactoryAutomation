@@ -3,7 +3,6 @@ package boblovespi.factoryautomation.client.gui;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
-import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -68,7 +67,7 @@ public class GuiSteelmakingFurnace extends GuiContainer
 		tempBar.Draw(this, te.GetTempPercent());
 		progressBar.Draw(this, te.GetSmeltPercent());
 
-		Log.LogInfo("tileentity nbt data", te.getTileData().toString());
+		// Log.LogInfo("tileentity nbt data", te.getTileData().toString());
 	}
 
 	@Override

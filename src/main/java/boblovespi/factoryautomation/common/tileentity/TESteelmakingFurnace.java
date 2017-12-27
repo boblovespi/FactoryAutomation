@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTileEntity;
-import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -10,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
@@ -80,7 +80,7 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public void update()
 	{
-		Log.LogInfo("heat", currentTemp);
+		// Log.LogInfo("heat", currentTemp);
 		if (world.isRemote)
 			return;
 		if (!isSmeltingItem)
@@ -97,7 +97,8 @@ public class TESteelmakingFurnace extends TileEntity
 
 					itemHandler.extractItem(FUEL_SLOT, 1, false);
 					isBurningFuel = true;
-					currentMaxBurnTime = fuel.getItem().getItemBurnTime(fuel);
+					currentMaxBurnTime = TileEntityFurnace
+							.getItemBurnTime(fuel);
 					currentBurnTime = currentMaxBurnTime;
 				}
 
@@ -123,9 +124,9 @@ public class TESteelmakingFurnace extends TileEntity
 
 			if (r != null && CanInsertOutputs(r))
 			{
-				Log.LogInfo("Recipe found!");
-				Log.LogInfo("Time required", r.timeRequired);
-				Log.LogInfo("Temp required", r.tempRequired);
+				//				Log.LogInfo("Recipe found!");
+				//				Log.LogInfo("Time required", r.timeRequired);
+				//				Log.LogInfo("Temp required", r.tempRequired);
 
 				if (currentTemp
 						>= r.tempRequired) // we can begin smelting the recipe r
@@ -137,9 +138,9 @@ public class TESteelmakingFurnace extends TileEntity
 					currentRecipe = r;
 
 				}
-
-			} else
-				Log.LogInfo("No recipe found");
+			}
+			//			} else
+			//				Log.LogInfo("No recipe found");
 		}
 		if (isSmeltingItem)
 		{
@@ -165,11 +166,10 @@ public class TESteelmakingFurnace extends TileEntity
 					for (int i = 0;
 						 i < currentRecipe.GetPrimaryItemOutputs().size(); i++)
 					{
-						Log.LogInfo("i", i);
-						Log.LogInfo("Outputting!", itemHandler
-								.insertItem(OUTPUT_SLOTS[i], currentRecipe
-													.GetPrimaryItemOutputs().get(i).copy(),
-											false));
+						// Log.LogInfo("i", i);
+						// Log.LogInfo("Outputting!",
+						itemHandler.insertItem(OUTPUT_SLOTS[i], currentRecipe
+								.GetPrimaryItemOutputs().get(i).copy(), false);
 					}
 
 					isSmeltingItem = false;

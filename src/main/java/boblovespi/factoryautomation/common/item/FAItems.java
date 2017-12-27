@@ -89,6 +89,10 @@ public class FAItems
 				{
 					MultiTypeItem variantItem = (MultiTypeItem) item;
 					RegisterRenders(variantItem);
+				} else if (item instanceof MultiTypeItemBlock)
+				{
+					MultiTypeItemBlock variantItem = (MultiTypeItemBlock) item;
+					RegisterRenders(variantItem);
 				} else
 				{
 					RegisterRender((FAItem) item, 0);
@@ -121,6 +125,16 @@ public class FAItems
 	{
 		for (int meta = 0;
 			 meta < item.itemTypes.getEnumConstants().length; meta++)
+		{
+
+			RegisterRender(item, meta);
+		}
+	}
+
+	private static void RegisterRenders(MultiTypeItemBlock item)
+	{
+		for (int meta = 0;
+			 meta < item.blockTypes.getEnumConstants().length; meta++)
 		{
 
 			RegisterRender(item, meta);

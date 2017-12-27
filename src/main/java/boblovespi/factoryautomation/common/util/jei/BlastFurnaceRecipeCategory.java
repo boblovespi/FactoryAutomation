@@ -22,7 +22,7 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory
 	{
 		background = helper.createDrawable(new ResourceLocation(
 												   "factoryautomation:textures/gui/container/blast_furnace.png"),
-										   0, 0, 176, 166);
+										   4, 4, 176, 166);
 	}
 
 	@Override
