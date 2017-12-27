@@ -49,7 +49,7 @@ public class TESteelmakingFurnace extends TileEntity
 
 	private float smeltScalar = 1;
 	private float burnScalar = 1;
-	private float tempSpeedScalar = 10;
+	private float tempSpeedScalar = 1;
 
 	private boolean isBurningFuel = false;
 	private boolean isSmeltingItem = false;

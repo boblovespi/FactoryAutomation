@@ -114,8 +114,8 @@ public class RecipeHandler
 													Metals.STEEL.GetId()),
 											new ItemStack(
 													FAItems.ingot.ToItem(), 1,
-													Metals.STEEL.GetId())), 20,
-														  200));
+													Metals.STEEL.GetId())), 1000,
+														  1300));
 
 	}
 

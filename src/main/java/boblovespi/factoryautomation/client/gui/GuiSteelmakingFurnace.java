@@ -97,7 +97,7 @@ public class GuiSteelmakingFurnace extends GuiContainer
 		{
 			List<String> text = new ArrayList<>(1);
 			text.add(I18n.format("gui.misc.temperature") + ": " + String
-					.format("%1$.1f", te.GetTemp()));
+					.format("%1$.1f\u00b0C", te.GetTemp()));
 			drawHoveringText(text, mouseX, mouseY);
 		}
 	}
