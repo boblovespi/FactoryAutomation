@@ -22,7 +22,7 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory
 	{
 		background = helper.createDrawable(new ResourceLocation(
 												   "factoryautomation:textures/gui/container/blast_furnace.png"),
-										   4, 4, 176, 166);
+										   4, 4, 168, 78);
 	}
 
 	@Override
@@ -54,10 +54,10 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory
 			IIngredients ingredients)
 	{
 		IGuiItemStackGroup group = layout.getItemStacks();
-		group.init(0, true, 47, 17);
-		group.init(1, true, 65, 17);
-		group.init(2, false, 116, 35);
-		group.init(3, false, 142, 35);
+		group.init(0, true, 42, 12);
+		group.init(1, true, 62, 12);
+		group.init(2, false, 111, 30);
+		group.init(3, false, 137, 30);
 
 		group.set(0, ingredients.getInputs(ItemStack.class).get(0));
 		group.set(1, ingredients.getInputs(ItemStack.class).get(1));
