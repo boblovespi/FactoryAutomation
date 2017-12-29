@@ -22,6 +22,7 @@ public class MetalOre extends MultiTypeBlock<MetalOres>
 			setHarvestLevel(
 					"pickaxe", state.getValue(TYPE).harvestLevel, state);
 		}
+		TYPE = PropertyEnum.create("type", MetalOres.class);
 	}
 
 	@Override
