@@ -1,9 +1,10 @@
 package boblovespi.factoryautomation.common.block.powercable;
 
-import boblovespi.factoryautomation.api.energy.IEnergyBlock;
+import boblovespi.factoryautomation.api.energy.*;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
+import javafx.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -17,6 +18,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Willi on 12/20/2017.
@@ -239,6 +243,201 @@ public class Cable extends Block implements FABlock
 	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
+	}
+
+	/**
+	 * Called after the block is set in the Chunk data, but before the Tile Entity is set
+	 *
+	 * @param worldIn
+	 * @param pos
+	 * @param state
+	 */
+	@Override
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
+	{
+		// NotifyNeighborCableOfStateChange(worldIn, pos);
+
+		int stop = 20;
+
+		List<Pair<IUsesEnergy, Integer>> machines = GetEnergyMachines(
+				worldIn, pos, state, stop, new ArrayList<>(100));
+
+		if (machines.size() <= 1)
+			return;
+
+		for (Pair<IUsesEnergy, Integer> machine : machines)
+		{
+			if (machine.getKey() instanceof IProducesEnergy)
+			{
+				for (Pair<IUsesEnergy, Integer> consumer : machines)
+				{
+					if (consumer.getKey() instanceof IRequiresEnergy)
+					{
+						EnergyNetwork.GetFromWorld(worldIn).AddConnection(
+								new EnergyConnection(
+										(IProducesEnergy) machine.getKey(),
+										(IRequiresEnergy) consumer.getKey(),
+										(stop - machine.getValue()) + stop
+												- consumer.getValue(), 0.99f,
+										100));
+					}
+				}
+			}
+		}
+
+	}
+
+	private List<Pair<IUsesEnergy, Integer>> GetEnergyMachines(World world,
+			BlockPos pos, IBlockState state, int stop,
+			List<BlockPos> prevCableLocs)
+	{
+		if (stop <= 0)
+			return new ArrayList<>(0);
+		--stop;
+
+		List<Pair<IUsesEnergy, Integer>> users = new ArrayList<>(10);
+
+		prevCableLocs.add(pos);
+
+		AttachPos north = state.getValue(NORTH);
+		AttachPos south = state.getValue(SOUTH);
+		AttachPos east = state.getValue(EAST);
+		AttachPos west = state.getValue(WEST);
+
+		if (north == AttachPos.UP)
+		{
+			BlockPos bp = pos.north().up();
+			if (!prevCableLocs.contains(bp))
+			{
+
+				users.addAll(
+						GetEnergyMachines(world, bp, world.getBlockState(bp),
+										  stop, prevCableLocs));
+			}
+
+			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			{
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
+									 stop));
+			}
+
+		} else if (north == AttachPos.SIDE)
+		{
+			BlockPos bp = pos.north();
+			if (!prevCableLocs.contains(bp))
+			{
+
+				users.addAll(
+						GetEnergyMachines(world, bp, world.getBlockState(bp),
+										  stop, prevCableLocs));
+			}
+			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			{
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
+									 stop));
+			}
+		}
+
+		if (west == AttachPos.UP)
+		{
+			BlockPos bp = pos.west().up();
+			if (!prevCableLocs.contains(bp))
+			{
+
+				users.addAll(
+						GetEnergyMachines(world, bp, world.getBlockState(bp),
+										  stop, prevCableLocs));
+			}
+			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			{
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
+									 stop));
+			}
+
+		} else if (west == AttachPos.SIDE)
+		{
+			BlockPos bp = pos.west();
+			if (!prevCableLocs.contains(bp))
+			{
+
+				users.addAll(
+						GetEnergyMachines(world, bp, world.getBlockState(bp),
+										  stop, prevCableLocs));
+			}
+			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			{
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
+									 stop));
+			}
+		}
+
+		if (south == AttachPos.UP)
+		{
+			BlockPos bp = pos.south().up();
+			if (!prevCableLocs.contains(bp))
+			{
+
+				users.addAll(
+						GetEnergyMachines(world, bp, world.getBlockState(bp),
+										  stop, prevCableLocs));
+			}
+			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			{
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
+									 stop));
+			}
+
+		} else if (south == AttachPos.SIDE)
+		{
+			BlockPos bp = pos.south();
+			if (!prevCableLocs.contains(bp))
+			{
+
+				users.addAll(
+						GetEnergyMachines(world, bp, world.getBlockState(bp),
+										  stop, prevCableLocs));
+			}
+			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			{
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
+									 stop));
+			}
+		}
+
+		if (east == AttachPos.UP)
+		{
+			BlockPos bp = pos.east().up();
+			if (!prevCableLocs.contains(bp))
+			{
+
+				users.addAll(
+						GetEnergyMachines(world, bp, world.getBlockState(bp),
+										  stop, prevCableLocs));
+			}
+			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			{
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
+									 stop));
+			}
+
+		} else if (east == AttachPos.SIDE)
+		{
+			BlockPos bp = pos.east();
+			if (!prevCableLocs.contains(bp))
+			{
+
+				users.addAll(
+						GetEnergyMachines(world, bp, world.getBlockState(bp),
+										  stop, prevCableLocs));
+			}
+			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			{
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
+									 stop));
+			}
+		}
+
+		return users;
 	}
 
 	public enum AttachPos implements IStringSerializable

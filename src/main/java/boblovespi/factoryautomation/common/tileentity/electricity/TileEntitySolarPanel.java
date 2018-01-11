@@ -4,11 +4,14 @@ import boblovespi.factoryautomation.api.energy.EnergyConnection;
 import boblovespi.factoryautomation.api.energy.EnergyNetwork;
 import boblovespi.factoryautomation.api.energy.IProducesEnergy;
 import boblovespi.factoryautomation.common.util.NBTHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ import java.util.List;
  * Created by Willi on 12/21/2017.
  */
 public class TileEntitySolarPanel extends TileEntity
-		implements IProducesEnergy, ITickable
+		implements IProducesEnergy, ITickable, ICapabilityProvider
 {
 	private static final float productionScalar = 20f;
 
@@ -58,6 +61,7 @@ public class TileEntitySolarPanel extends TileEntity
 	public void AddConnection(EnergyConnection connection)
 	{
 		energyConnections.add(connection);
+		// EnergyNetwork.GetFromWorld(world).AddConnection(connection);
 	}
 
 	/**
@@ -90,18 +94,19 @@ public class TileEntitySolarPanel extends TileEntity
 	/**
 	 * @param amount   The amount of energy to extract
 	 * @param simulate Whether or not to simulate the extraction; ie. if <code>simulate == true</code>, then no energy will actually be extracted
-	 * @return Whether that much energy can be extracted or not, if true and <code>simulate == false</code>, then energy was extracted
+	 * @return The amount of energy extracted (or simulated extracted)
 	 */
 	@Override
-	public boolean ExtractEnergy(float amount, boolean simulate)
+	public float ExtractEnergy(float amount, boolean simulate)
 	{
 		ForceUpdate();
-		boolean canExtract = amount + energyUsed <= energyProduction;
-		if (canExtract && !simulate)
+		float amountExtracted = MathHelper
+				.clamp(amount, 0, energyProduction - energyUsed);
+		if (!simulate)
 		{
-			energyUsed += amount;
+			energyUsed += amountExtracted;
 		}
-		return canExtract;
+		return amountExtracted;
 	}
 
 	/**
@@ -128,8 +133,10 @@ public class TileEntitySolarPanel extends TileEntity
 		{
 			energyProduction = 0;
 		}
-		energyConnections.forEach(EnergyConnection::Update);
+		// energyConnections.forEach(EnergyConnection::Update);
 		markDirty();
+		IBlockState state = world.getBlockState(pos);
+		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public interface IProducesEnergy extends IUsesEnergy
 	/**
 	 * @param amount   The amount of energy to extract
 	 * @param simulate Whether or not to simulate the extraction; ie. if <code>simulate == true</code>, then no energy will actually be extracted
-	 * @return Whether that much energy can be extracted or not, if true and <code>simulate == false</code>, then energy was extracted
+	 * @return The amount of energy extracted (or simulated extracted)
 	 */
-	boolean ExtractEnergy(float amount, boolean simulate);
+	float ExtractEnergy(float amount, boolean simulate);
 }

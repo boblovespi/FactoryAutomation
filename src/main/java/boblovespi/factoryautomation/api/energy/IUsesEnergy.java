@@ -7,12 +7,16 @@ import net.minecraft.tileentity.TileEntity;
  */
 public interface IUsesEnergy
 {
-	EnergyNetwork GetNetwork();
+	@Deprecated
+	default EnergyNetwork GetNetwork()
+	{
+		return null;
+	}
 
 	@Deprecated
 	default IUsesEnergy SetNetwork(EnergyNetwork network)
 	{
-		return this;
+		return null;
 	}
 
 	boolean IsActive();

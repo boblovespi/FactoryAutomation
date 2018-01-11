@@ -1,10 +1,12 @@
 package boblovespi.factoryautomation.api.energy;
 
-/// *
-/// * Created by Willi on 4/12/2017.
-/// * <p>
-/// * a class to store the energy network
+/*
+ * Created by Willi on 4/12/2017.
+ * a class to store the energy network
+*/
 
+import boblovespi.factoryautomation.api.IUpdatable;
+import boblovespi.factoryautomation.common.handler.ServerTickHandler;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -16,16 +18,18 @@ import java.util.List;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
-public class EnergyNetwork extends WorldSavedData
+public class EnergyNetwork extends WorldSavedData implements IUpdatable
 {
 	private static final int maxGridSize = 256;
 	private static final String DATA_NAME = MODID + "_EnergyNetwork";
+	private static boolean isLoaded = false;
 	private List<EnergyConnection> connections;
 
 	public EnergyNetwork()
 	{
 		super(DATA_NAME);
 		connections = new ArrayList<>(maxGridSize);
+
 	}
 
 	public static EnergyNetwork GetFromWorld(World world)
@@ -39,6 +43,11 @@ public class EnergyNetwork extends WorldSavedData
 		{
 			instance = new EnergyNetwork();
 			storage.setData(DATA_NAME, instance);
+		}
+		if (!isLoaded)
+		{
+			ServerTickHandler.GetInstance().AddHandler(instance);
+			isLoaded = true;
 		}
 		return instance;
 	}
@@ -61,6 +70,21 @@ public class EnergyNetwork extends WorldSavedData
 			nbt.setTag(String.valueOf(i), connections.get(i).ToNBT());
 		}
 		return nbt;
+	}
+
+	public void Update()
+	{
+		connections.forEach(EnergyConnection::Update);
+	}
+
+	public void AddConnection(EnergyConnection connection)
+	{
+		if (connections.contains(connection))
+		{
+			connections.add(connection);
+			connection.consumer.AddConnection(connection);
+			connection.source.AddConnection(connection);
+		}
 	}
 }
 
