@@ -5,10 +5,12 @@ import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
@@ -87,6 +89,23 @@ public class RecipeHandler
 
 		//
 		//
+		// ========= FURNACE RECIPES =========
+		//
+		//
+
+		FurnaceRecipes.instance().addSmeltingRecipe(
+				new ItemStack(FABlocks.metalOres.ToBlock(), 1,
+							  MetalOres.COPPER.GetId()),
+				new ItemStack(FAItems.ingot.ToItem(), 1, Metals.COPPER.GetId()),
+				0.7f);
+		FurnaceRecipes.instance().addSmeltingRecipe(
+				new ItemStack(FABlocks.metalOres.ToBlock(), 1,
+							  MetalOres.TIN.GetId()),
+				new ItemStack(FAItems.ingot.ToItem(), 1, Metals.TIN.GetId()),
+				0.7f);
+
+		//
+		//
 		// ================ BEGIN CUSTOM RECIPE REGISTERING ================
 		//
 		//
@@ -114,8 +133,8 @@ public class RecipeHandler
 													Metals.STEEL.GetId()),
 											new ItemStack(
 													FAItems.ingot.ToItem(), 1,
-													Metals.STEEL.GetId())), 1000,
-														  1300));
+													Metals.STEEL.GetId())),
+														  1000, 1300));
 
 	}
 
