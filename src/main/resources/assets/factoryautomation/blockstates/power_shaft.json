@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=y": {
+      "model": "factoryautomation:mechanical/power_shaft_iron",
+      "uvlock": true
+    },
+    "facing=x": {
+      "model": "factoryautomation:mechanical/power_shaft_iron",
+      "x": 90,
+      "y": 90,
+      "z": 90,
+      "uvlock": true
+    },
+    "facing=z": {
+      "model": "factoryautomation:mechanical/power_shaft_iron",
+      "x": 90,
+      "uvlock": true
+    }
+  }
+}

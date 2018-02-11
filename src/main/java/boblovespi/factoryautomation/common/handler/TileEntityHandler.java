@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceController;
 import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
+import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -26,5 +27,7 @@ public class TileEntityHandler
 										MODID + ":tile_entity_solar_panel");
 		GameRegistry.registerTileEntity(TESteelmakingFurnace.class, MODID
 				+ ":tile_entity_steelmaking_furnace");
+		GameRegistry.registerTileEntity(TEPowerShaft.class,
+										MODID + ":tile_entity_power_shaft");
 	}
 }

@@ -1,0 +1,48 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"elements": [
+		{
+			"name": "cube",
+			"from": [6.5, 0, 6.5],
+			"to": [9.5, 16, 9.5],
+			"faces": {
+				"north": {
+					"uv": [0, 0, 16, 3],
+					"rotation": 90,
+					"texture": "#side"
+				},
+				"east": {
+					"uv": [0, 0, 16, 3],
+					"rotation": 270,
+					"texture": "#side"
+				},
+				"south": {
+					"uv": [0, 0, 16, 3],
+					"rotation": 270,
+					"texture": "#side"
+				},
+				"west": {
+					"uv": [0, 0, 16, 3],
+					"rotation": 270,
+					"texture": "#side"
+				},
+				"up": {
+					"uv": [0, 0, 3, 3],
+					"rotation": 270,
+					"texture": "#front"
+				},
+				"down": {
+					"uv": [0, 0, 3, 3],
+					"rotation": 270,
+					"texture": "#front"
+				}
+			},
+			"rotation": {
+				"origin": [8, 8, 8],
+				"axis": "z",
+				"angle": 0
+			},
+			"type": "cube"
+		}
+	]
+}
