@@ -1,10 +1,8 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
-import boblovespi.factoryautomation.common.block.machine.MultiblockComponent;
-import boblovespi.factoryautomation.common.block.machine.SolarPanel;
-import boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceController;
+import boblovespi.factoryautomation.common.block.machine.*;
+import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.item.FAItems;
@@ -42,6 +40,8 @@ public class FABlocks
 	public static FABlock metalOres;
 	public static FABlock steelmakingFurnaceController;
 	public static FABlock powerShaft;
+	public static FABlock jawCrusher;
+	public static FABlock creativeMechanicalSource;
 
 	public static void Init()
 	{
@@ -73,6 +73,10 @@ public class FABlocks
 		steelmakingFurnaceController = new SteelmakingFurnaceController();
 
 		powerShaft = new PowerShaft();
+
+		jawCrusher = new JawCrusher();
+
+		creativeMechanicalSource = new CreativeMechanicalSource();
 	}
 
 	public static void RegisterRenders()

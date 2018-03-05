@@ -4,12 +4,14 @@ import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
+import boblovespi.factoryautomation.common.handler.ServerTickHandler;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.util.Log;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -69,6 +71,9 @@ public class FactoryAutomation
 										   new int[] { 0, 0, 1 }));
 
 		//MultiblockHandler.Register("steelmaking_furnace", );
+
+		MinecraftForge.EVENT_BUS.register(ServerTickHandler.GetInstance());
+
 	}
 
 	@SuppressWarnings("unused")

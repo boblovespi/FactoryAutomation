@@ -12,6 +12,7 @@ import net.minecraft.util.ITickable;
 
 import javax.annotation.Nullable;
 
+import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace;
 import static net.minecraft.util.EnumFacing.*;
 
 /**
@@ -137,48 +138,26 @@ public class TEPowerShaft extends TileEntity
 			TileEntity back = world.getTileEntity(pos.offset(
 					getFacingFromAxis(AxisDirection.NEGATIVE, axis)));
 
-			if (front != null && front instanceof IMechanicalUser
-					&& ((IMechanicalUser) front).HasConnectionOnSide(
-					getFacingFromAxis(AxisDirection.NEGATIVE, axis)))
-			{
-				if (back != null && back instanceof IMechanicalUser
-						&& ((IMechanicalUser) back).HasConnectionOnSide(
-						getFacingFromAxis(AxisDirection.POSITIVE, axis)))
-				{
-					speed = (((IMechanicalUser) front).GetSpeedOnFace(
-							getFacingFromAxis(AxisDirection.NEGATIVE, axis))
-							+ ((IMechanicalUser) back).GetSpeedOnFace(
-							getFacingFromAxis(AxisDirection.POSITIVE, axis)))
-							/ 2f;
+			speed = ((IsMechanicalFace(front,
+									   getFacingFromAxis(AxisDirection.NEGATIVE,
+														 axis)) ?
+					((IMechanicalUser) front).GetSpeedOnFace(
+							getFacingFromAxis(AxisDirection.NEGATIVE, axis)) :
+					0) + (IsMechanicalFace(
+					back, getFacingFromAxis(AxisDirection.POSITIVE, axis)) ?
+					((IMechanicalUser) back).GetSpeedOnFace(
+							getFacingFromAxis(AxisDirection.POSITIVE, axis)) :
+					0)) / 2f;
 
-					torque = (((IMechanicalUser) front).GetTorqueOnFace(
-							getFacingFromAxis(AxisDirection.NEGATIVE, axis))
-							+ ((IMechanicalUser) back).GetTorqueOnFace(
-							getFacingFromAxis(AxisDirection.POSITIVE, axis)))
-							/ 2f;
-				} else
-				{
-					speed = ((IMechanicalUser) front).GetSpeedOnFace(
-							getFacingFromAxis(AxisDirection.NEGATIVE, axis));
-					torque = ((IMechanicalUser) front).GetTorqueOnFace(
-							getFacingFromAxis(AxisDirection.NEGATIVE, axis));
-				}
-			} else
-			{
-				if (back != null && back instanceof IMechanicalUser
-						&& ((IMechanicalUser) back).HasConnectionOnSide(
-						getFacingFromAxis(AxisDirection.POSITIVE, axis)))
-				{
-					speed = ((IMechanicalUser) back).GetSpeedOnFace(
-							getFacingFromAxis(AxisDirection.NEGATIVE, axis));
-					torque = ((IMechanicalUser) back).GetTorqueOnFace(
-							getFacingFromAxis(AxisDirection.NEGATIVE, axis));
-				} else
-				{
-					speed = 0;
-					torque = 0;
-				}
-			}
+			torque = ((IsMechanicalFace(front, getFacingFromAxis(
+					AxisDirection.NEGATIVE, axis)) ?
+					((IMechanicalUser) front).GetTorqueOnFace(
+							getFacingFromAxis(AxisDirection.NEGATIVE, axis)) :
+					0) + (IsMechanicalFace(
+					back, getFacingFromAxis(AxisDirection.POSITIVE, axis)) ?
+					((IMechanicalUser) back).GetTorqueOnFace(
+							getFacingFromAxis(AxisDirection.POSITIVE, axis)) :
+					0)) / 2f;
 
 			markDirty();
 
@@ -188,4 +167,5 @@ public class TEPowerShaft extends TileEntity
 
 		}
 	}
+
 }

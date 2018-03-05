@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.tileentity;
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
-import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTileEntity;
+import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTE;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +12,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -26,7 +27,7 @@ import javax.annotation.Nullable;
  */
 public class TileEntityBlastFurnaceController extends TileEntity
 		implements ITickable, ICapabilityProvider,
-		IMultiblockStructureControllerTileEntity
+		IMultiblockStructureControllerTE
 {
 	public static final int[] COKE_SLOTS = { 3, 4 };
 	public static final int IRON_SLOT = 1;
@@ -93,7 +94,7 @@ public class TileEntityBlastFurnaceController extends TileEntity
 			return;
 
 		if (!worldObj.getBlockState(pos)
-				.getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
+					 .getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
 			return;
 
 		steelSmeltTime = 2000; // TODO: read from config
@@ -113,17 +114,20 @@ public class TileEntityBlastFurnaceController extends TileEntity
 					itemHandler.extractItem(IRON_SLOT, 1, false);
 					itemHandler.extractItem(FLUX_SLOT, 1, false);
 					itemHandler.insertItem(OUTPUT_SLOT,
-							new ItemStack(FAItems.ingot.ToItem(), 1,
-									Metals.PIG_IRON.GetId()), false);
+										   new ItemStack(FAItems.ingot.ToItem(),
+														 1, Metals.PIG_IRON
+																 .GetId()),
+										   false);
 					itemHandler.insertItem(SLAG_SLOT,
-							new ItemStack(FAItems.slag.ToItem(), 1, 0), false);
+										   new ItemStack(FAItems.slag.ToItem(),
+														 1, 0), false);
 				}
 			} else
 			{
 				if (!itemHandler.getStackInSlot(COKE_SLOTS[0]).isEmpty())
 				{
 					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0])
-							.getItem().getItemBurnTime(
+											  .getItem().getItemBurnTime(
 									itemHandler.getStackInSlot(COKE_SLOTS[0]));
 
 					itemHandler.extractItem(COKE_SLOTS[0], 1, false);
@@ -132,7 +136,7 @@ public class TileEntityBlastFurnaceController extends TileEntity
 				} else if (!itemHandler.getStackInSlot(COKE_SLOTS[1]).isEmpty())
 				{
 					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0])
-							.getItem().getItemBurnTime(
+											  .getItem().getItemBurnTime(
 									itemHandler.getStackInSlot(COKE_SLOTS[0]));
 
 					itemHandler.extractItem(COKE_SLOTS[1], 1, false);
@@ -273,5 +277,17 @@ public class TileEntityBlastFurnaceController extends TileEntity
 	public boolean IsStructureValid()
 	{
 		return isStructureValid;
+	}
+
+	@Override
+	public void CreateStructure(World world, BlockPos pos)
+	{
+
+	}
+
+	@Override
+	public void BreakStructure(World world, BlockPos pos)
+	{
+
 	}
 }

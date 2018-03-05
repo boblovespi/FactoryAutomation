@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
-import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTileEntity;
+import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTE;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -12,6 +12,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
@@ -28,7 +30,7 @@ import java.util.List;
  */
 public class TESteelmakingFurnace extends TileEntity
 		implements ITickable, ICapabilityProvider,
-		IMultiblockStructureControllerTileEntity
+		IMultiblockStructureControllerTE
 {
 	public static final int[] INPUT_SLOTS = { 0, 1, 2, 3 };
 	public static final int[] OUTPUT_SLOTS = { 4, 5, 6, 7 };
@@ -72,6 +74,18 @@ public class TESteelmakingFurnace extends TileEntity
 	public boolean IsStructureValid()
 	{
 		return isValid;
+	}
+
+	@Override
+	public void CreateStructure(World world, BlockPos pos)
+	{
+
+	}
+
+	@Override
+	public void BreakStructure(World world, BlockPos pos)
+	{
+
 	}
 
 	/**

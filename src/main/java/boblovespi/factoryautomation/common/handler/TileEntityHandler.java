@@ -5,8 +5,12 @@ import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceCont
 import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -16,6 +20,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 @Mod.EventBusSubscriber
 public class TileEntityHandler
 {
+	public static List<Class<? extends TileEntity>> tiles = new ArrayList<>(10);
 
 	public static void RegisterTileEntities()
 	{
@@ -29,5 +34,9 @@ public class TileEntityHandler
 				+ ":tile_entity_steelmaking_furnace");
 		GameRegistry.registerTileEntity(TEPowerShaft.class,
 										MODID + ":tile_entity_power_shaft");
+
+		tiles.forEach(n -> GameRegistry.registerTileEntity(n, MODID
+				+ ":tile_entity_" + n.getName().substring(
+				n.getName().lastIndexOf(".") + 1)));
 	}
 }

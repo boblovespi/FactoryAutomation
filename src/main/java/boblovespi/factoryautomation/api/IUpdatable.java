@@ -5,5 +5,5 @@ package boblovespi.factoryautomation.api;
  */
 public interface IUpdatable
 {
-	public void Update();
+	void Update();
 }

@@ -47,6 +47,7 @@ public class FAItems
 	public static FAItem steelSword;
 	public static FAItem coalCoke;
 	public static FAItem sheet;
+	public static FAItem wearPlate;
 
 	public static void Init()
 	{
@@ -71,7 +72,8 @@ public class FAItems
 		steelSword = new FASword(steelMaterial, "steel_sword");
 		steelPickaxe = new FAPickaxe(steelMaterial, "steel_pickaxe");
 		coalCoke = new FAFuel("coal_coke", CreativeTabs.MATERIALS, 2000);
-
+		wearPlate = new MultiTypeItem<>(
+				"wear_plate", CreativeTabs.MISC, MachineTiers.class, "");
 	}
 
 	public static void RegisterItemRenders()

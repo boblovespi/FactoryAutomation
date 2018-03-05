@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
@@ -9,6 +10,7 @@ import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
@@ -135,6 +137,15 @@ public class RecipeHandler
 													FAItems.ingot.ToItem(), 1,
 													Metals.STEEL.GetId())),
 														  1000, 1300));
+
+		//
+
+		//
+
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(
+				Ingredient.fromItem(Item.getItemFromBlock(Blocks.STONE)),
+				n -> new ItemStack(Blocks.COBBLESTONE), 0,
+				"stone-to-cobblestone", 20, 10, 10));
 
 	}
 
