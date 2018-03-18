@@ -210,5 +210,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 							   pos.getZ() + 0.5, inventory
 									   .extractItem(WEAR_PLATE_SLOT, 1,
 													false)));
+
+		
 	}
 }

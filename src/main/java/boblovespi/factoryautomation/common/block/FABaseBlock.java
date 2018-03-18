@@ -23,7 +23,7 @@ public class FABaseBlock extends Block implements FABlock
 		setResistance(10000);
 		FABlocks.blocks.add(this);
 		FAItems.items.add(new ItemBlock(this)
-								  .setRegistryName(this.getRegistryName()));
+								  .setRegistryName(getRegistryName()));
 	}
 
 	public FABaseBlock(Material materialIn, String unlocalizedName)

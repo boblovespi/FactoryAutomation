@@ -30,7 +30,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void RegisterRenders()
 	{
-
+		// ClientRegistry.bindTileEntitySpecialRenderer();
 	}
 
 	@Override

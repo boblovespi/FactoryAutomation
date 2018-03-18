@@ -1,0 +1,5 @@
+newmtl jaw_crusher
+map_Kd factoryautomation:blocks/materials/jaw_crusher
+
+# newmtl obj model name
+# map_Kd factoryautomation:blocks/materials/model texture

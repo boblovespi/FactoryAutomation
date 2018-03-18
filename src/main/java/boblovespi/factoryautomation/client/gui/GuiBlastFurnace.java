@@ -70,6 +70,8 @@ public class GuiBlastFurnace extends GuiContainer
 		//		Debug.DebugLog()
 		//				.debug("remaining burn time: " + (te.getRemainingBurnTime()));
 
+
+
 	}
 
 	@Override
