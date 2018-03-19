@@ -28,7 +28,7 @@ public class TileEntitySolarPanel extends TileEntity
 		implements IProducesEnergy, ITickable, ICapabilityProvider
 {
 	private static final float productionScalar = 20f;
-
+	private boolean hasTicked = false;
 	private float energyProduction = 0;
 	private float energyUsed = 0;
 	private List<EnergyConnection> energyConnections;
@@ -122,6 +122,7 @@ public class TileEntitySolarPanel extends TileEntity
 	@Override
 	public void update()
 	{
+		hasTicked = false;
 		if ((cooldown = ++cooldown % 20) == 0)
 		{
 			ForceUpdate();
@@ -132,6 +133,9 @@ public class TileEntitySolarPanel extends TileEntity
 	{
 		if (world.isRemote)
 			return;
+		if (hasTicked)
+			return;
+		hasTicked = true;
 		if (world.canBlockSeeSky(pos.up()))
 		{
 			energyProduction =
@@ -141,7 +145,9 @@ public class TileEntitySolarPanel extends TileEntity
 			energyProduction = 0;
 		}
 
-		energyStorage.SetEnergy((int) (energyProduction - energyUsed));
+		energyUsed = 0;
+
+		energyStorage.SetEnergy((int) energyProduction);
 
 		// energyConnections.forEach(EnergyConnection::Update);
 		markDirty();

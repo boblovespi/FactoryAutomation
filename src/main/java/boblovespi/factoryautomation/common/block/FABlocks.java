@@ -42,6 +42,7 @@ public class FABlocks
 	public static FABlock powerShaft;
 	public static FABlock jawCrusher;
 	public static FABlock creativeMechanicalSource;
+	public static FABlock motor;
 
 	public static void Init()
 	{
@@ -77,6 +78,8 @@ public class FABlocks
 		jawCrusher = new JawCrusher();
 
 		creativeMechanicalSource = new CreativeMechanicalSource();
+
+		motor = new Motor();
 	}
 
 	public static void RegisterRenders()
