@@ -142,7 +142,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	public boolean HasConnectionOnSide(EnumFacing side)
 	{
 		return side == world.getBlockState(pos).getValue(JawCrusher.FACING)
-							.rotateY();
+							.rotateYCCW();
 	}
 
 	@Override
