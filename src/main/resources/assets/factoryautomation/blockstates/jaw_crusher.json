@@ -1,7 +1,19 @@
 {
   "variants": {
-    "normal": {
+    "facing=north": {
       "model": "factoryautomation:obj/jaw_crusher.obj"
+    },
+    "facing=south": {
+      "model": "factoryautomation:obj/jaw_crusher.obj",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "factoryautomation:obj/jaw_crusher.obj",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "factoryautomation:obj/jaw_crusher.obj",
+      "y": 90
     }
   }
 }

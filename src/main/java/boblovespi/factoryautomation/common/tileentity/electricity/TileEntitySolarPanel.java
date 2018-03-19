@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
+import boblovespi.factoryautomation.api.InternalEnergyStorage;
 import boblovespi.factoryautomation.api.energy.EnergyConnection;
 import boblovespi.factoryautomation.api.energy.EnergyNetwork;
 import boblovespi.factoryautomation.api.energy.IProducesEnergy;
@@ -9,10 +10,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.energy.CapabilityEnergy;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +33,12 @@ public class TileEntitySolarPanel extends TileEntity
 	private float energyUsed = 0;
 	private List<EnergyConnection> energyConnections;
 	private int cooldown = -1;
+	private InternalEnergyStorage energyStorage;
 
 	public TileEntitySolarPanel()
 	{
 		energyConnections = new ArrayList<>(256);
+		energyStorage = new InternalEnergyStorage(20);
 	}
 
 	@Override
@@ -133,6 +140,9 @@ public class TileEntitySolarPanel extends TileEntity
 		{
 			energyProduction = 0;
 		}
+
+		energyStorage.SetEnergy((int) (energyProduction - energyUsed));
+
 		// energyConnections.forEach(EnergyConnection::Update);
 		markDirty();
 		IBlockState state = world.getBlockState(pos);
@@ -195,5 +205,24 @@ public class TileEntitySolarPanel extends TileEntity
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
 		return nbt;
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability,
+			@Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityEnergy.ENERGY)
+			return true;
+		return false;
+	}
+
+	@Nullable
+	@Override
+	public <T> T getCapability(Capability<T> capability,
+			@Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityEnergy.ENERGY)
+			return (T) energyStorage;
+		return null;
 	}
 }

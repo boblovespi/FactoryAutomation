@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
 import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
+import boblovespi.factoryautomation.common.block.machine.JawCrusher;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import boblovespi.factoryautomation.common.util.capability.IMechanicalUser;
@@ -88,11 +89,16 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 				} else
 				{ // the recipe doesn't exist, so put the item in the output slot if we can
 
-					inventory.extractItem(INPUT_SLOT, inventory
-							.insertItem(OUTPUT_SLOT,
-										inventory.getStackInSlot(INPUT_SLOT)
-												 .copy().splitStack(1), false)
-							.getCount(), false);
+					inventory.extractItem(
+							INPUT_SLOT, inventory.insertItem(OUTPUT_SLOT,
+															 inventory
+																	 .getStackInSlot(
+																			 INPUT_SLOT)
+																	 .copy()
+																	 .splitStack(
+																			 1),
+															 false).getCount(),
+							false);
 				}
 			}
 		} else
@@ -111,10 +117,13 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 
 			if (currentProcessingTime < 0)
 			{
-				inventory.extractItem(INPUT_SLOT, inventory
-						.insertItem(OUTPUT_SLOT,
-									recipe.GetOutput(world.rand.nextFloat()),
-									false).getCount(), false);
+				inventory.extractItem(
+						INPUT_SLOT, inventory.insertItem(OUTPUT_SLOT,
+														 recipe.GetOutput(
+																 world.rand
+																		 .nextFloat()),
+														 false).getCount(),
+						false);
 				recipe = null;
 				currentRecipe = "none";
 			}
@@ -132,7 +141,8 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	@Override
 	public boolean HasConnectionOnSide(EnumFacing side)
 	{
-		return side == EnumFacing.WEST; // TODO: make rotatable base block
+		return side == world.getBlockState(pos).getValue(JawCrusher.FACING)
+							.rotateY();
 	}
 
 	@Override
@@ -211,6 +221,5 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 									   .extractItem(WEAR_PLATE_SLOT, 1,
 													false)));
 
-		
 	}
 }
