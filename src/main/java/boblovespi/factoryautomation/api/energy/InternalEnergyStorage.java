@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.api;
+package boblovespi.factoryautomation.api.energy;
 
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.energy.EnergyStorage;

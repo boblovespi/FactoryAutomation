@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
-import boblovespi.factoryautomation.api.InternalEnergyStorage;
+import boblovespi.factoryautomation.api.energy.InternalEnergyStorage;
 import boblovespi.factoryautomation.api.energy.EnergyConnection;
 import boblovespi.factoryautomation.api.energy.EnergyNetwork;
 import boblovespi.factoryautomation.api.energy.IProducesEnergy;

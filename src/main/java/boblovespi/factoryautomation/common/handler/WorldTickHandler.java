@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.api.IUpdatable;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
@@ -10,18 +10,18 @@ import java.util.List;
 /**
  * Created by Willi on 1/10/2018.
  */
-public class ServerTickHandler
+public class WorldTickHandler
 {
-	private static ServerTickHandler instance;
+	private static WorldTickHandler instance;
 	private List<IUpdatable> handlers = new ArrayList<>(1);
 
-	private ServerTickHandler()
+	private WorldTickHandler()
 	{
 	}
 
-	public static ServerTickHandler GetInstance()
+	public static WorldTickHandler GetInstance()
 	{
-		return instance == null ? instance = new ServerTickHandler() : instance;
+		return instance == null ? instance = new WorldTickHandler() : instance;
 	}
 
 	public void AddHandler(IUpdatable handler)
@@ -30,9 +30,12 @@ public class ServerTickHandler
 			handlers.add(handler);
 	}
 
-	@Mod.EventHandler
-	public void onServerTick(TickEvent.ServerTickEvent tickEvent)
+	@SubscribeEvent
+	public void OnWorldTick(TickEvent.WorldTickEvent tickEvent)
 	{
+		if (tickEvent.phase == TickEvent.Phase.START
+				|| tickEvent.world.isRemote)
+			return;
 		handlers.forEach(IUpdatable::Update);
 	}
 }

@@ -257,10 +257,17 @@ public class Cable extends Block implements FABlock
 	{
 		// NotifyNeighborCableOfStateChange(worldIn, pos);
 
+		IBlockState actualState = getActualState(state, worldIn, pos);
+
+		System.out.println("cable placed, checking the power connections!");
+
 		int stop = 20;
 
 		List<Pair<IUsesEnergy, Integer>> machines = GetEnergyMachines(
-				worldIn, pos, state, stop, new ArrayList<>(100));
+				worldIn, pos, actualState, stop, new ArrayList<>(100));
+
+		machines.forEach(n -> System.out
+				.println(n.getKey().GetTe().getTileData().toString()));
 
 		if (machines.size() <= 1)
 			return;
@@ -273,6 +280,14 @@ public class Cable extends Block implements FABlock
 				{
 					if (consumer.getKey() instanceof IRequiresEnergy)
 					{
+						System.out.println(
+								"consumer = " + consumer.getKey().GetTe()
+														.getTileData()
+														.toString());
+						System.out.println(
+								"producer = " + machine.getKey().GetTe()
+													   .getTileData()
+													   .toString());
 						EnergyNetwork.GetFromWorld(worldIn).AddConnection(
 								new EnergyConnection(
 										(IProducesEnergy) machine.getKey(),
@@ -291,6 +306,11 @@ public class Cable extends Block implements FABlock
 			BlockPos pos, IBlockState state, int stop,
 			List<BlockPos> prevCableLocs)
 	{
+		System.out.println(
+				"world = [" + world + "], pos = [" + pos + "], state = ["
+						+ state + "], stop = [" + stop + "], prevCableLocs = ["
+						+ prevCableLocs + "]");
+
 		if (stop <= 0)
 			return new ArrayList<>(0);
 		--stop;
@@ -307,7 +327,8 @@ public class Cable extends Block implements FABlock
 		if (north == AttachPos.UP)
 		{
 			BlockPos bp = pos.north().up();
-			if (!prevCableLocs.contains(bp))
+			if (!prevCableLocs.contains(bp)
+					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
 				users.addAll(
@@ -324,7 +345,8 @@ public class Cable extends Block implements FABlock
 		} else if (north == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.north();
-			if (!prevCableLocs.contains(bp))
+			if (!prevCableLocs.contains(bp)
+					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
 				users.addAll(
@@ -341,7 +363,8 @@ public class Cable extends Block implements FABlock
 		if (west == AttachPos.UP)
 		{
 			BlockPos bp = pos.west().up();
-			if (!prevCableLocs.contains(bp))
+			if (!prevCableLocs.contains(bp)
+					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
 				users.addAll(
@@ -357,7 +380,8 @@ public class Cable extends Block implements FABlock
 		} else if (west == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.west();
-			if (!prevCableLocs.contains(bp))
+			if (!prevCableLocs.contains(bp)
+					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
 				users.addAll(
@@ -374,7 +398,8 @@ public class Cable extends Block implements FABlock
 		if (south == AttachPos.UP)
 		{
 			BlockPos bp = pos.south().up();
-			if (!prevCableLocs.contains(bp))
+			if (!prevCableLocs.contains(bp)
+					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
 				users.addAll(
@@ -390,7 +415,8 @@ public class Cable extends Block implements FABlock
 		} else if (south == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.south();
-			if (!prevCableLocs.contains(bp))
+			if (!prevCableLocs.contains(bp)
+					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
 				users.addAll(
@@ -407,7 +433,8 @@ public class Cable extends Block implements FABlock
 		if (east == AttachPos.UP)
 		{
 			BlockPos bp = pos.east().up();
-			if (!prevCableLocs.contains(bp))
+			if (!prevCableLocs.contains(bp)
+					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
 				users.addAll(
@@ -423,7 +450,8 @@ public class Cable extends Block implements FABlock
 		} else if (east == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.east();
-			if (!prevCableLocs.contains(bp))
+			if (!prevCableLocs.contains(bp)
+					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
 				users.addAll(

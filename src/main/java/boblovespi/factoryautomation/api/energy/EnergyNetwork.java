@@ -6,7 +6,7 @@ package boblovespi.factoryautomation.api.energy;
 */
 
 import boblovespi.factoryautomation.api.IUpdatable;
-import boblovespi.factoryautomation.common.handler.ServerTickHandler;
+import boblovespi.factoryautomation.common.handler.WorldTickHandler;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -34,6 +34,8 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 
 	public static EnergyNetwork GetFromWorld(World world)
 	{
+		System.out.println("Loading energy network!");
+
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		MapStorage storage = world.getPerWorldStorage();
 		EnergyNetwork instance = (EnergyNetwork) storage
@@ -46,7 +48,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		}
 		if (!isLoaded)
 		{
-			ServerTickHandler.GetInstance().AddHandler(instance);
+			WorldTickHandler.GetInstance().AddHandler(instance);
 			isLoaded = true;
 		}
 		return instance;
@@ -80,7 +82,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 
 	public void AddConnection(EnergyConnection connection)
 	{
-		if (connections.contains(connection))
+		if (!connections.contains(connection))
 		{
 			connections.add(connection);
 			connection.consumer.AddConnection(connection);

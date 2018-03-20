@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 public class Motor extends FABaseBlock implements ITileEntityProvider,
 		IEnergyBlock
 {
-	private static final PropertyDirection FACING = BlockHorizontal.FACING;
+	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
 	public Motor()
 	{
