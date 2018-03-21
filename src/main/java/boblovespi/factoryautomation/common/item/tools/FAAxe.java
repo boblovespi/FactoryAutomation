@@ -5,17 +5,14 @@ import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Set;
 
-public class FAAxe extends ItemTool implements FAItem
+public class FAAxe extends ItemAxe implements FAItem
 {
 	private final String unlocalizedName;
 	private static final Set<Block> EFFECTIVE_ON = Sets
@@ -31,7 +28,7 @@ public class FAAxe extends ItemTool implements FAItem
 	public FAAxe(ToolMaterial material, String unlocalizedName)
 	{
 
-		super(material, EFFECTIVE_ON);
+		super(material);
 		this.unlocalizedName = unlocalizedName;
 		this.setUnlocalizedName(unlocalizedName);
 		this.setRegistryName(
@@ -39,14 +36,14 @@ public class FAAxe extends ItemTool implements FAItem
 		FAItems.items.add(this);
 	}
 
-	public float getStrVsBlock(ItemStack stack, IBlockState state)
-	{
-		Material material = state.getMaterial();
-		return material != Material.WOOD && material != Material.PLANTS
-				&& material != Material.VINE ?
-				super.getStrVsBlock(stack, state) :
-				this.efficiencyOnProperMaterial;
-	}
+//	public float getStrVsBlock(ItemStack stack, IBlockState state)
+//	{
+//		Material material = state.getMaterial();
+//		return material != Material.WOOD && material != Material.PLANTS
+//				&& material != Material.VINE ?
+//				super.getStrVsBlock(stack, state) :
+//				this.efficiencyOnProperMaterial;
+//	}
 
 
 	@Override

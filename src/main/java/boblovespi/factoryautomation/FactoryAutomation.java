@@ -26,7 +26,7 @@ public class FactoryAutomation
 {
 
 	public static final String MODID = "factoryautomation";
-	public static final String VERSION = "alpha 1.0.0";
+	public static final String VERSION = "alpha 1.0.2";
 	public static final String NAME = "Factory Automation";
 	public static final String COMMON_PROXY_CLASS = "boblovespi.factoryautomation.common.CommonProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
