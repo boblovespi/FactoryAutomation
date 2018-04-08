@@ -12,6 +12,7 @@ public class FluidBase extends Fluid
 			ResourceLocation flowing)
 	{
 		super(fluidName, still, flowing);
+		setGaseous(false);
 	}
 
 

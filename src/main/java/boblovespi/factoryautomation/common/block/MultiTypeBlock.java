@@ -11,6 +11,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -18,12 +19,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
  * Created by Willi on 12/23/2017.
  */
-public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable>
+public abstract class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable>
 		extends Block implements FABlock
 {
 	protected final Class<T> blockTypes;
@@ -140,5 +142,33 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 			EntityLivingBase placer, EnumHand hand)
 	{
 		return getStateFromMeta(meta);
+	}
+
+	/**
+	 * Called when a user uses the creative pick block button on this block
+	 *
+	 * @param state
+	 * @param target The full target the player is looking at
+	 * @param world
+	 * @param pos
+	 * @param player @return A ItemStack to add to the player's inventory, empty itemstack if nothing should be added.
+	 */
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target,
+			World world, BlockPos pos, EntityPlayer player)
+	{
+		return new ItemStack(this, 1, this.getMetaFromState(state));
+	}
+
+	/**
+	 * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+	 * returns the metadata of the dropped item based on the old metadata of the block.
+	 *
+	 * @param state
+	 */
+	@Override
+	public int damageDropped(IBlockState state)
+	{
+		return getMetaFromState(state);
 	}
 }

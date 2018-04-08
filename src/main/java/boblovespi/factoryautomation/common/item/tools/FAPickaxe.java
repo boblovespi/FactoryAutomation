@@ -5,10 +5,12 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 
-public class FAPickaxe extends ItemPickaxe implements FAItem{
+public class FAPickaxe extends ItemPickaxe implements FAItem
+{
 	private final String unlocalizedName;
 
-	public FAPickaxe(ToolMaterial material, String unlocalizedName) {
+	public FAPickaxe(ToolMaterial material, String unlocalizedName)
+	{
 		super(material);
 		this.unlocalizedName = unlocalizedName;
 		this.setUnlocalizedName(unlocalizedName);

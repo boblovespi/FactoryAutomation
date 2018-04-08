@@ -413,6 +413,9 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
+						IBlockState st = world
+								.getBlockState(lowerLeftFront.add(x, y, z));
+
 						if (world.isAirBlock(lowerLeftFront.add(x, y, z))
 								|| Block.isEqualTo(
 								world.getBlockState(lowerLeftFront.add(x, y, z))
@@ -427,7 +430,7 @@ public class BlastFurnaceController extends Block
 						assert te instanceof TileEntityMultiblockPart;
 						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
 						part.SetMultiblockInformation(structurePattern, x, y, z,
-													  x, y, z - 1);
+													  x, y, z - 1, st);
 
 						Log.LogInfo(
 								"block in world", world.getBlockState(
@@ -448,6 +451,9 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
+						IBlockState st = world
+								.getBlockState(lowerLeftFront.add(x, y, z));
+
 						if (world.isAirBlock(lowerLeftFront.add(x, y, z))
 								|| Block.isEqualTo(
 								world.getBlockState(lowerLeftFront.add(x, y, z))
@@ -462,7 +468,7 @@ public class BlastFurnaceController extends Block
 						assert te instanceof TileEntityMultiblockPart;
 						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
 						part.SetMultiblockInformation(structurePattern, x, y, z,
-													  -x, y, -z + 1);
+													  -x, y, -z + 1, st);
 
 						Log.LogInfo(
 								"block in world", world.getBlockState(
@@ -484,6 +490,9 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
+						IBlockState st = world
+								.getBlockState(lowerLeftFront.add(x, y, z));
+
 						if (world.isAirBlock(lowerLeftFront.add(x, y, z))
 								|| Block.isEqualTo(
 								world.getBlockState(lowerLeftFront.add(x, y, z))
@@ -498,7 +507,7 @@ public class BlastFurnaceController extends Block
 						assert te instanceof TileEntityMultiblockPart;
 						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
 						part.SetMultiblockInformation(structurePattern, x, y, z,
-													  -z, y, x - 1);
+													  -z, y, x - 1, st);
 
 						Log.LogInfo(
 								"block in world", world.getBlockState(
@@ -519,6 +528,9 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
+						IBlockState st = world
+								.getBlockState(lowerLeftFront.add(x, y, z));
+
 						if (world.isAirBlock(lowerLeftFront.add(x, y, z))
 								|| Block.isEqualTo(
 								world.getBlockState(lowerLeftFront.add(x, y, z))
@@ -533,7 +545,7 @@ public class BlastFurnaceController extends Block
 						assert te instanceof TileEntityMultiblockPart;
 						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
 						part.SetMultiblockInformation(structurePattern, x, y, z,
-													  z, y, -x + 1);
+													  z, y, -x + 1, st);
 
 						Log.LogInfo(
 								"block in world", world.getBlockState(

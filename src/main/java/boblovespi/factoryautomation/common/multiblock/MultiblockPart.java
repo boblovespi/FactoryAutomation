@@ -72,7 +72,7 @@ public class MultiblockPart
 
 	public boolean MatchesBlockstate(IBlockState state)
 	{
-		return statePredicate.test(state);
+		return MatchesBlock(state.getBlock()) && statePredicate.test(state);
 	}
 
 	public boolean MatchesBlock(Block block)

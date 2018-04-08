@@ -32,7 +32,7 @@ public class MultiblockStructurePattern
 		return pattern;
 	}
 
-	public int[] getControllerOffset()
+	public int[] GetControllerOffset()
 	{
 		return controllerOffset;
 	}

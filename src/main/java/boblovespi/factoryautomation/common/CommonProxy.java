@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common;
 
-import boblovespi.factoryautomation.common.handler.WorldGenHandler;
+import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**

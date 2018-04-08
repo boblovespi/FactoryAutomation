@@ -1,7 +1,9 @@
-package boblovespi.factoryautomation.common.handler;
+package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -19,6 +21,7 @@ public class WorldGenHandler implements IWorldGenerator
 {
 	private WorldGenerator copperGen;
 	private WorldGenerator tinGen;
+	private WorldGenerator limoniteGen;
 
 	public WorldGenHandler()
 	{
@@ -26,10 +29,13 @@ public class WorldGenHandler implements IWorldGenerator
 				FABlocks.metalOres.ToBlock()
 								  .getStateFromMeta(MetalOres.COPPER.GetId()),
 				10);
-		tinGen = new WorldGenMinable(
-				FABlocks.metalOres.ToBlock()
-								  .getStateFromMeta(MetalOres.TIN.GetId()),
-				4);
+		tinGen = new WorldGenMinable(FABlocks.metalOres.ToBlock()
+													   .getStateFromMeta(
+															   MetalOres.TIN
+																	   .GetId()),
+									 4);
+		limoniteGen = new SwampFloorOreGenerator(
+				(Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f);
 	}
 
 	/**
@@ -51,6 +57,9 @@ public class WorldGenHandler implements IWorldGenerator
 		case OVERWORLD:
 			RunGenerator(copperGen, world, random, chunkX, chunkZ, 9, 0, 64);
 			RunGenerator(tinGen, world, random, chunkX, chunkZ, 15, 0, 64);
+			if (random.nextFloat() < 0.2)
+				WaterFeatureGenerator(
+						limoniteGen, world, random, chunkX, chunkZ, 1);
 			break;
 		default:
 			break;
@@ -72,6 +81,28 @@ public class WorldGenHandler implements IWorldGenerator
 			int y = minHeight + rand.nextInt(heightDiff);
 			int z = chunk_Z * 16 + rand.nextInt(16);
 			generator.generate(world, rand, new BlockPos(x, y, z));
+		}
+	}
+
+	public void WaterFeatureGenerator(WorldGenerator generator, World world,
+			Random rand, int chunkX, int chunkZ, int chancesToSpawn)
+	{
+		for (int i = 0; i < chancesToSpawn; i++)
+		{
+			int x = chunkX * 16 + rand.nextInt(16);
+			int y = 255;
+			int z = chunkZ * 16 + rand.nextInt(16);
+			BlockPos column = new BlockPos(x, y, z);
+
+			while (column.getY() > 0
+					&& world.getBlockState(column.up()).getBlock()
+					!= Blocks.WATER)
+			{
+				column = column.down();
+			}
+
+			if (column.getY() <= 255)
+				generator.generate(world, rand, column);
 		}
 	}
 }

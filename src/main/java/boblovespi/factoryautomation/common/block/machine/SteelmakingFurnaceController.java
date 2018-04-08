@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureController;
+import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -73,10 +74,16 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	{
 		if (!worldIn.isRemote)
 		{
-			playerIn.openGui(
-					FactoryAutomation.instance,
-					GuiHandler.GuiID.STEELMAKING_FURNACE.id, worldIn,
-					pos.getX(), pos.getY(), pos.getZ());
+			if (MultiblockHelper
+					.IsStructureComplete(worldIn, pos, GetPatternId(),
+										 EnumFacing.WEST) /*|| MultiblockHelper
+					.IsStructureComplete(worldIn, pos, GetPatternId(),
+										 EnumFacing.NORTH)*/)
+			{
+				playerIn.openGui(FactoryAutomation.instance,
+								 GuiHandler.GuiID.STEELMAKING_FURNACE.id,
+								 worldIn, pos.getX(), pos.getY(), pos.getZ());
+			}
 		}
 		return true;
 	}

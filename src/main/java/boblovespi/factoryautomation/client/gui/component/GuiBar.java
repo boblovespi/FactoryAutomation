@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.client.gui;
+package boblovespi.factoryautomation.client.gui.component;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 

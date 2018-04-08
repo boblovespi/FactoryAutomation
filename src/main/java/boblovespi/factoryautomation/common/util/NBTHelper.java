@@ -3,8 +3,12 @@ package boblovespi.factoryautomation.common.util;
 import boblovespi.factoryautomation.api.energy.EnergyConnection;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -13,7 +17,8 @@ import javax.annotation.Nullable;
  */
 public class NBTHelper
 {
-	public static MultiblockStructurePattern GetStructurePattern(NBTTagCompound compound, String key)
+	public static MultiblockStructurePattern GetStructurePattern(
+			NBTTagCompound compound, String key)
 	{
 		return MultiblockHandler.Get(compound.getString(key));
 	}
@@ -44,8 +49,7 @@ public class NBTHelper
 	}
 
 	@Nullable
-	public static DimLocation GetLocationTag(ItemStack stack,
-			String key)
+	public static DimLocation GetLocationTag(ItemStack stack, String key)
 	{
 		int[] locs = GetTag(stack).getIntArray(key);
 		if (locs[0] != DimLocation.CLASS_KEY && locs.length != 5)
@@ -76,8 +80,7 @@ public class NBTHelper
 	}
 
 	@Nullable
-	public static DimLocation GetLocationTag(NBTTagCompound stack,
-			String key)
+	public static DimLocation GetLocationTag(NBTTagCompound stack, String key)
 	{
 		int[] locs = stack.getIntArray(key);
 		if (locs[0] != DimLocation.CLASS_KEY && locs.length != 5)
@@ -90,5 +93,28 @@ public class NBTHelper
 	{
 		EnergyConnection connection = new EnergyConnection();
 		return null;
+	}
+
+	public static IBlockState GetBlockState(NBTTagCompound tag, String key)
+	{
+		NBTTagCompound base = tag.getCompoundTag(key);
+		Block b = ForgeRegistries.BLOCKS.getValue(
+				new ResourceLocation(base.getString("domain"),
+									 base.getString("path")));
+
+		return b.getStateFromMeta(base.getInteger("meta"));
+	}
+
+	public static void SetBlockState(NBTTagCompound tag, IBlockState state, String key)
+	{
+		NBTTagCompound base = new NBTTagCompound();
+
+		ResourceLocation block = state.getBlock().getRegistryName();
+
+		base.setString("domain", block.getResourceDomain());
+		base.setString("path", block.getResourcePath());
+		base.setInteger("meta", state.getBlock().getMetaFromState(state));
+
+		tag.setTag(key, base);
 	}
 }

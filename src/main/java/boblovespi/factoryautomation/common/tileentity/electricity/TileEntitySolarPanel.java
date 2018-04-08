@@ -1,10 +1,9 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
-import boblovespi.factoryautomation.api.energy.InternalEnergyStorage;
 import boblovespi.factoryautomation.api.energy.EnergyConnection;
 import boblovespi.factoryautomation.api.energy.EnergyNetwork;
 import boblovespi.factoryautomation.api.energy.IProducesEnergy;
-import boblovespi.factoryautomation.common.util.NBTHelper;
+import boblovespi.factoryautomation.api.energy.InternalEnergyStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -161,12 +160,12 @@ public class TileEntitySolarPanel extends TileEntity
 		super.readFromNBT(compound);
 		energyProduction = compound.getFloat("energyProduction");
 		energyUsed = compound.getFloat("energyUsed");
-		NBTTagCompound nbt = compound.getCompoundTag("connections");
-		for (int i = 0; i < nbt.getSize(); i++)
-		{
-			energyConnections.add(NBTHelper.GetEnergyConnection(
-					nbt.getCompoundTag(String.valueOf(i))));
-		}
+		//		NBTTagCompound nbt = compound.getCompoundTag("connections");
+		//		for (int i = 0; i < nbt.getSize(); i++)
+		//		{
+		//			energyConnections.add(NBTHelper.GetEnergyConnection(
+		//					nbt.getCompoundTag(String.valueOf(i))));
+		//		}
 	}
 
 	@Override
@@ -175,12 +174,12 @@ public class TileEntitySolarPanel extends TileEntity
 		super.writeToNBT(compound);
 		compound.setFloat("energyProduction", energyProduction);
 		compound.setFloat("energyUsed", energyUsed);
-		NBTTagCompound nbt = new NBTTagCompound();
-		for (int i = 0; i < energyConnections.size(); i++)
-		{
-			nbt.setTag(String.valueOf(i), energyConnections.get(i).ToNBT());
-		}
-		compound.setTag("connections", nbt);
+		//		NBTTagCompound nbt = new NBTTagCompound();
+		//		for (int i = 0; i < energyConnections.size(); i++)
+		//		{
+		//			nbt.setTag(String.valueOf(i), energyConnections.get(i).ToNBT());
+		//		}
+		//		compound.setTag("connections", nbt);
 		return compound;
 	}
 

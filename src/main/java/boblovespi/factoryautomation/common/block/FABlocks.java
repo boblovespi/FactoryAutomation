@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
+import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
@@ -44,6 +45,10 @@ public class FABlocks
 	public static FABlock creativeMechanicalSource;
 	public static FABlock motor;
 
+	// ores
+
+	public static FABlock limoniteOre;
+
 	public static void Init()
 	{
 		if (!isInit.compareAndSet(false, true))
@@ -80,6 +85,10 @@ public class FABlocks
 		creativeMechanicalSource = new CreativeMechanicalSource();
 
 		motor = new Motor();
+
+		// ores
+
+		limoniteOre = new Ore("limonite_ore", 1);
 	}
 
 	public static void RegisterRenders()

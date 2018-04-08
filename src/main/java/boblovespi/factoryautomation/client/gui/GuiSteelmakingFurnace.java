@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.client.gui.component.GuiBar;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import net.minecraft.client.gui.inventory.GuiContainer;

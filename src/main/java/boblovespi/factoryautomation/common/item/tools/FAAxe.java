@@ -36,6 +36,8 @@ public class FAAxe extends ItemAxe implements FAItem
 		FAItems.items.add(this);
 	}
 
+
+
 	//	public float getStrVsBlock(ItemStack stack, IBlockState state)
 	//	{
 	//		Material material = state.getMaterial();
