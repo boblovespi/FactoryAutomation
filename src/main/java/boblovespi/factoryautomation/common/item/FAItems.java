@@ -1,7 +1,12 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.common.item.crucible.ClayCrucible;
+import boblovespi.factoryautomation.common.item.metals.Ingot;
+import boblovespi.factoryautomation.common.item.metals.Nugget;
+import boblovespi.factoryautomation.common.item.metals.Sheet;
 import boblovespi.factoryautomation.common.item.tools.*;
+import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -48,6 +53,7 @@ public class FAItems
 	public static FAItem coalCoke;
 	public static FAItem sheet;
 	public static FAItem wearPlate;
+	public static FAItem clayCrucible;
 
 	public static void Init()
 	{
@@ -74,6 +80,8 @@ public class FAItems
 		coalCoke = new FAFuel("coal_coke", CreativeTabs.MATERIALS, 2000);
 		wearPlate = new MultiTypeItem<>(
 				"wear_plate", CreativeTabs.MISC, MachineTiers.class, "");
+
+		clayCrucible = new ClayCrucible();
 	}
 
 	public static void RegisterItemRenders()

@@ -23,8 +23,10 @@ public abstract class FAMachine extends TileEntity
 		implements ITickable, ISidedInventory
 {
 	protected ItemStackHandler inventory;
-	protected Map<EnumFacing, int[]> inputs = new HashMap<>(6);;
-	protected Map<EnumFacing, int[]> outputs = new HashMap<>(6);;
+	protected Map<EnumFacing, int[]> inputs = new HashMap<>(6);
+	;
+	protected Map<EnumFacing, int[]> outputs = new HashMap<>(6);
+	;
 	private String name;
 
 	public FAMachine(String name, ItemStackHandler inventory)
@@ -250,4 +252,12 @@ public abstract class FAMachine extends TileEntity
 	}
 
 	protected abstract void WriteCustomNBT(NBTTagCompound tag);
+
+	//	@Override
+	//	public boolean hasCapability(Capability<?> capability,
+	//			@Nullable EnumFacing facing)
+	//	{
+	//		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+	//		return super.hasCapability(capability, facing);
+	//	}
 }

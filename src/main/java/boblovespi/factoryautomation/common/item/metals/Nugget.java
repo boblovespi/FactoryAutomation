@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.item;
+package boblovespi.factoryautomation.common.item.metals;
 
 /**
  * Created by Willi on 11/10/2017.

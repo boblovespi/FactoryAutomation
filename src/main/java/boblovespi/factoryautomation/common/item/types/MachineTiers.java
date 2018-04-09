@@ -1,6 +1,5 @@
-package boblovespi.factoryautomation.common.item;
+package boblovespi.factoryautomation.common.item.types;
 
-import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import net.minecraft.util.IStringSerializable;
 
 /**

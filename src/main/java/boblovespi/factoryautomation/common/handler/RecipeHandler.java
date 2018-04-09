@@ -15,10 +15,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +38,15 @@ public class RecipeHandler
 {
 	public static List<IRecipe> recipes;
 	private static IRecipe concrete;
+
+	private static NonNullList<ItemStack> bronzeCrucibleItems = NonNullList
+			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.ToItem(), 7,
+												 Metals.COPPER.GetId()),
+				  new ItemStack(FAItems.nugget.ToItem(), 1,
+								Metals.TIN.GetId()));
+	private static NonNullList<ItemStack> bronze = NonNullList
+			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.ToItem(), 8,
+												 Metals.BRONZE.GetId()));
 
 	@SuppressWarnings("unused")
 	@SubscribeEvent
@@ -87,6 +99,31 @@ public class RecipeHandler
 
 		}
 
+		ItemStack filledCrucibleStack = new ItemStack(
+				FAItems.clayCrucible.ToItem(), 1, 0);
+		NBTTagCompound filledTag = new NBTTagCompound();
+		filledTag.setTag("items", new ItemStackHandler(bronzeCrucibleItems)
+				.serializeNBT());
+		filledCrucibleStack.setTagCompound(filledTag);
+
+		ItemStack bronzeCrucibleStack = new ItemStack(
+				FAItems.clayCrucible.ToItem(), 1, 0);
+		NBTTagCompound filledTag2 = new NBTTagCompound();
+		filledTag2.setTag("items", new ItemStackHandler(bronze).serializeNBT());
+		bronzeCrucibleStack.setTagCompound(filledTag2);
+
+		IRecipe filledCrucible = new ShapelessOreRecipe(
+				new ResourceLocation(FactoryAutomation.MODID,
+									 "filled_bronze_crucible"),
+				filledCrucibleStack,
+				new ItemStack(FAItems.clayCrucible.ToItem(), 1, 0),
+				"nuggetCopper", "nuggetCopper", "nuggetCopper", "nuggetCopper",
+				"nuggetCopper", "nuggetCopper", "nuggetCopper", "nuggetTin");
+		filledCrucible.setRegistryName(
+				new ResourceLocation(FactoryAutomation.MODID,
+									 "filled_bronze_crucible"));
+		recipes.add(filledCrucible);
+
 		event.getRegistry().registerAll(recipes.toArray(new IRecipe[] {}));
 
 		//
@@ -105,6 +142,9 @@ public class RecipeHandler
 							  MetalOres.TIN.GetId()),
 				new ItemStack(FAItems.ingot.ToItem(), 1, Metals.TIN.GetId()),
 				0.7f);
+
+		FurnaceRecipes.instance().addSmeltingRecipe(filledCrucibleStack,
+													bronzeCrucibleStack, 10f);
 
 		//
 		//

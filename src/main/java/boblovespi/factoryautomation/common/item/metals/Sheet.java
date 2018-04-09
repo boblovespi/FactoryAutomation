@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.item;
+package boblovespi.factoryautomation.common.item.metals;
 
 public class Sheet extends MetalItem
 {

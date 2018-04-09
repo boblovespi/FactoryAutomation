@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=poor": {
+      "model": "factoryautomation:ores/limonite_poor"
+    },
+    "type=normal": {
+      "model": "factoryautomation:ores/limonite_normal"
+    },
+    "type=rich": {
+      "model": "factoryautomation:ores/limonite_rich"
+    }
+  }
+}

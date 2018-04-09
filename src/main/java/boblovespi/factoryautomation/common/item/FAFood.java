@@ -110,13 +110,13 @@ public class FAFood extends Item implements FAItem
 		if (entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
-			entityplayer.getFoodStats()
-					.addStats(amountOfFood, saturationAmount / amountOfFood);
+			entityplayer.getFoodStats().addStats(amountOfFood, saturationAmount
+					/ amountOfFood);
 
 			worldIn.playSound(null, entityplayer.posX, entityplayer.posY,
-					entityplayer.posZ, SoundEvents.ENTITY_PLAYER_BURP,
-					SoundCategory.PLAYERS, 0.5F,
-					worldIn.rand.nextFloat() * 0.1F + 0.9F);
+							  entityplayer.posZ, SoundEvents.ENTITY_PLAYER_BURP,
+							  SoundCategory.PLAYERS, 0.5F,
+							  worldIn.rand.nextFloat() * 0.1F + 0.9F);
 
 			onFoodEaten(stack, worldIn, entityplayer);
 			// entityplayer.addStat(StatList.getObjectUseStats(this));
@@ -145,12 +145,10 @@ public class FAFood extends Item implements FAItem
 		if (playerIn.canEat(alwaysEdible))
 		{
 			playerIn.setActiveHand(hand);
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS,
-					itemStackIn);
+			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
 		} else
 		{
-			return new ActionResult<ItemStack>(EnumActionResult.FAIL,
-					itemStackIn);
+			return new ActionResult<>(EnumActionResult.FAIL, itemStackIn);
 		}
 	}
 

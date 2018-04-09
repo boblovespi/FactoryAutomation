@@ -1,5 +1,7 @@
-package boblovespi.factoryautomation.common.item;
+package boblovespi.factoryautomation.common.item.metals;
 
+import boblovespi.factoryautomation.common.item.FAItem;
+import boblovespi.factoryautomation.common.item.MultiTypeItem;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.creativetab.CreativeTabs;
 

@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.item;
+package boblovespi.factoryautomation.common.item.metals;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
