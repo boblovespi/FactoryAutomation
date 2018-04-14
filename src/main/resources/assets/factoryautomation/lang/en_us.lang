@@ -39,6 +39,10 @@ item.steel_sword.name=Steel Sword
 item.wear_plate.iron.name=Iron Jaw Plate
 item.wear_plate.obsidian.name=Obsidian Jaw Plate
 
+item.clay_crucible.name=Clay Crucible
+
+item.diamond_gravel.name=Diamond Gravel
+
 
 # tiles
 
@@ -50,6 +54,9 @@ tile.steelmaking_furnace_controller.name=Steelmaking Furnace Controller
 
 tile.ore_metal.copper.name=Malachite Ore
 tile.ore_metal.tin.name=Cassiterite Ore
+tile.limonite_ore.poor.name=Limonite Ore
+tile.limonite_ore.normal.name=Limonite Ore
+tile.limonite_ore.rich.name=Limonite Ore
 
 tile.lv_cable.name=LV Cable
 tile.power_shaft.name=Power Shaft
@@ -59,6 +66,8 @@ tile.creative_mechanical_source.name=Radial Tachyon Accelerator
 tile.motor.name=Motor
 
 tile.jaw_crusher.name=Jaw Crusher
+
+tile.stone_workbench.name=Stone Workbench
 
 # config
 

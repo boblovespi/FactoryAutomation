@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
-import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceController;
+import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.IInventory;
@@ -14,13 +14,13 @@ import net.minecraft.util.ResourceLocation;
  */
 public class GuiBlastFurnace extends GuiContainer
 {
-	private TileEntityBlastFurnaceController te;
+	private TEBlastFurnaceController te;
 	private IInventory playerInv;
 
 	public GuiBlastFurnace(IInventory playerInv, TileEntity te)
 	{
 		super(new ContainerBlastFurnace(playerInv, te));
-		this.te = (TileEntityBlastFurnaceController) te;
+		this.te = (TEBlastFurnaceController) te;
 		this.playerInv = playerInv;
 
 		this.xSize = 176;

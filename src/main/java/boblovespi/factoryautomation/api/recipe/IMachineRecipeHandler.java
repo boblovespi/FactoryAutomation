@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Willi on 12/24/2017.
  */
-public abstract class MachineRecipeHandler
+public interface IMachineRecipeHandler
 {
-	public abstract boolean IsInputValid(ItemStack stack);
+	boolean IsInputValid(ItemStack stack);
 }

@@ -8,7 +8,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureController;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockPart;
-import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceController;
+import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
@@ -141,7 +141,7 @@ public class BlastFurnaceController extends Block
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileEntityBlastFurnaceController();
+		return new TEBlastFurnaceController();
 	}
 
 	@Override

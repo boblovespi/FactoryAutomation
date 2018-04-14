@@ -19,4 +19,13 @@ public class FACreativeTabs
 		}
 
 	};
+	public static CreativeTabs resources = new CreativeTabs(
+			"tabs.resources.name")
+	{
+		@Override
+		public ItemStack getTabIconItem()
+		{
+			return new ItemStack(FAItems.diamondGravel.ToItem());
+		}
+	};
 }

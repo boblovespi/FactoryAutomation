@@ -7,6 +7,6 @@ public class TEStoneWorkbench extends TEWorkbench
 {
 	public TEStoneWorkbench()
 	{
-		super(3);
+		super(3, 1);
 	}
 }

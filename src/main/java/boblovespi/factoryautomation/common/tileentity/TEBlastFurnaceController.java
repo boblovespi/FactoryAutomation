@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
  * Created by Willi on 11/12/2017.
  * shamelessly copied over from my old mod
  */
-public class TileEntityBlastFurnaceController extends TileEntity
+public class TEBlastFurnaceController extends TileEntity
 		implements ITickable, ICapabilityProvider,
 		IMultiblockStructureControllerTE
 {
@@ -49,7 +49,7 @@ public class TileEntityBlastFurnaceController extends TileEntity
 	private float smeltScalar = 1; // the speed at which the pig iron smelts
 	private boolean isStructureValid = false;
 
-	public TileEntityBlastFurnaceController()
+	public TEBlastFurnaceController()
 	{
 		itemHandler = new ItemStackHandler(7);
 	}

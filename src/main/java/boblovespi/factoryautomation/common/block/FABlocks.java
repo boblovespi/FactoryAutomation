@@ -66,13 +66,10 @@ public class FABlocks
 
 		concreteSlab = new ConcreteSlab.Half();
 		concreteDoubleSlab = new ConcreteSlab.Double();
-		FAItems.items.add(new ItemSlab(concreteSlab.ToBlock(),
-									   concreteSlab.ToBlockSlab(),
-									   concreteDoubleSlab.ToBlockSlab())
-								  .setUnlocalizedName(
-										  concreteSlab.UnlocalizedName())
-								  .setRegistryName(
-										  concreteSlab.RegistryName()));
+		FAItems.items
+				.add(new ItemSlab(concreteSlab.ToBlock(), concreteSlab.ToBlockSlab(), concreteDoubleSlab.ToBlockSlab())
+						.setUnlocalizedName(concreteSlab.UnlocalizedName())
+						.setRegistryName(concreteSlab.RegistryName()));
 
 		blastFurnaceController = new BlastFurnaceController();
 		multiblockPart = new MultiblockComponent();
@@ -107,13 +104,10 @@ public class FABlocks
 
 	private static void RegisterRender(FABlock block, int meta)
 	{
-		Log.LogInfo(
-				"The other file path", FactoryAutomation.MODID + ":" + block
-						.GetMetaFilePath(meta));
+		Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + block.GetMetaFilePath(meta));
 
 		ModelResourceLocation loc = new ModelResourceLocation(
-				new ResourceLocation(FactoryAutomation.MODID,
-									 block.GetMetaFilePath(meta)), "inventory");
+				new ResourceLocation(FactoryAutomation.MODID, block.GetMetaFilePath(meta)), "inventory");
 
 		Log.LogInfo("The other model resource location", loc.toString());
 		//

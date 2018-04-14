@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.container;
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
 import boblovespi.factoryautomation.common.container.slot.SlotRestrictedItem;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceController;
+import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
@@ -26,7 +26,7 @@ import java.util.Collections;
  */
 public class ContainerBlastFurnace extends Container
 {
-	private TileEntityBlastFurnaceController te;
+	private TEBlastFurnaceController te;
 	private IItemHandler handler;
 
 	public ContainerBlastFurnace(IInventory playerInv, TileEntity te)
@@ -35,26 +35,26 @@ public class ContainerBlastFurnace extends Container
 				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
 						null);
 
-		this.te = (TileEntityBlastFurnaceController) te;
+		this.te = (TEBlastFurnaceController) te;
 
 		addSlotToContainer(new SlotItemHandler(handler,
-				TileEntityBlastFurnaceController.TUYERE_SLOT, 8, 8));
+											   TEBlastFurnaceController.TUYERE_SLOT, 8, 8));
 		addSlotToContainer(new SlotRestrictedItem(handler,
-				TileEntityBlastFurnaceController.IRON_SLOT, 47, 17,
-				Collections.singletonList(Items.IRON_INGOT)));
+												  TEBlastFurnaceController.IRON_SLOT, 47, 17,
+												  Collections.singletonList(Items.IRON_INGOT)));
 		addSlotToContainer(new SlotRestrictedItem(handler,
-				TileEntityBlastFurnaceController.FLUX_SLOT, 65, 17,
-				Collections.singletonList(Items.REDSTONE)));
+												  TEBlastFurnaceController.FLUX_SLOT, 65, 17,
+												  Collections.singletonList(Items.REDSTONE)));
 		addSlotToContainer(new SlotRestrictedItem(handler,
-				TileEntityBlastFurnaceController.COKE_SLOTS[0], 47, 53,
-				Collections.singletonList(FAItems.coalCoke.ToItem())));
+												  TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
+												  Collections.singletonList(FAItems.coalCoke.ToItem())));
 		addSlotToContainer(new SlotRestrictedItem(handler,
-				TileEntityBlastFurnaceController.COKE_SLOTS[1], 65, 53,
-				Collections.singletonList(FAItems.coalCoke.ToItem())));
+												  TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
+												  Collections.singletonList(FAItems.coalCoke.ToItem())));
 		addSlotToContainer(new SlotOutputItem(handler,
-				TileEntityBlastFurnaceController.OUTPUT_SLOT, 116, 35));
+											  TEBlastFurnaceController.OUTPUT_SLOT, 116, 35));
 		addSlotToContainer(new SlotOutputItem(handler,
-				TileEntityBlastFurnaceController.SLAG_SLOT, 142, 35));
+											  TEBlastFurnaceController.SLAG_SLOT, 142, 35));
 
 		int x = 8;
 		int y = 84;

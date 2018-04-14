@@ -53,12 +53,11 @@ public class RiceGrain extends FABaseItem implements IPlantable
 				&& world.isAirBlock(pos.up(2)))
 		{
 			world.setBlockState(pos.up(2),
-					FABlocks.riceCrop.ToBlock().getDefaultState());
+								FABlocks.riceCrop.ToBlock().getDefaultState());
 			items.shrink(1);
 
 			return EnumActionResult.SUCCESS;
 		} else
 			return EnumActionResult.FAIL;
 	}
-
 }

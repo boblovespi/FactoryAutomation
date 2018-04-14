@@ -7,11 +7,14 @@ import boblovespi.factoryautomation.common.item.metals.Nugget;
 import boblovespi.factoryautomation.common.item.metals.Sheet;
 import boblovespi.factoryautomation.common.item.tools.*;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
+import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -54,6 +57,7 @@ public class FAItems
 	public static FAItem sheet;
 	public static FAItem wearPlate;
 	public static FAItem clayCrucible;
+	public static FAItem diamondGravel;
 
 	public static void Init()
 	{
@@ -78,10 +82,11 @@ public class FAItems
 		steelSword = new FASword(steelMaterial, "steel_sword");
 		steelPickaxe = new FAPickaxe(steelMaterial, "steel_pickaxe");
 		coalCoke = new FAFuel("coal_coke", CreativeTabs.MATERIALS, 2000);
-		wearPlate = new MultiTypeItem<>(
-				"wear_plate", CreativeTabs.MISC, MachineTiers.class, "");
+		wearPlate = new MultiTypeItem<>("wear_plate", CreativeTabs.MISC, MachineTiers.class, "");
 
 		clayCrucible = new ClayCrucible();
+
+		diamondGravel = new CauldronCleanable("diamond_gravel", FACreativeTabs.resources, new ItemStack(Items.DIAMOND));
 	}
 
 	public static void RegisterItemRenders()
@@ -91,8 +96,7 @@ public class FAItems
 		{
 			Log.LogInfo("new item!");
 			Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
-			Log.LogInfo("item resource path",
-						item.getRegistryName().getResourcePath());
+			Log.LogInfo("item resource path", item.getRegistryName().getResourcePath());
 			if (item instanceof FAItem)
 			{
 				if (item instanceof MultiTypeItem)
@@ -117,12 +121,10 @@ public class FAItems
 
 	private static void RegisterRender(FAItem item, int meta)
 	{
-		Log.LogInfo("The other file path",
-					FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
+		Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
 
 		final ModelResourceLocation loc = new ModelResourceLocation(
-				new ResourceLocation(FactoryAutomation.MODID,
-									 item.GetMetaFilePath(meta)), "inventory");
+				new ResourceLocation(FactoryAutomation.MODID, item.GetMetaFilePath(meta)), "inventory");
 
 		Log.LogInfo("The other model resource location", loc);
 
@@ -133,8 +135,7 @@ public class FAItems
 
 	private static void RegisterRenders(MultiTypeItem item)
 	{
-		for (int meta = 0;
-			 meta < item.itemTypes.getEnumConstants().length; meta++)
+		for (int meta = 0; meta < item.itemTypes.getEnumConstants().length; meta++)
 		{
 
 			RegisterRender(item, meta);
@@ -143,10 +144,8 @@ public class FAItems
 
 	private static void RegisterRenders(MultiTypeItemBlock item)
 	{
-		for (int meta = 0;
-			 meta < item.blockTypes.getEnumConstants().length; meta++)
+		for (int meta = 0; meta < item.blockTypes.getEnumConstants().length; meta++)
 		{
-
 			RegisterRender(item, meta);
 		}
 	}
@@ -154,8 +153,7 @@ public class FAItems
 	private static void RegisterVanillaRender(Item item)
 	{
 		Log.LogInfo("Registering a vanilla Item class");
-		final ModelResourceLocation loc = new ModelResourceLocation(
-				item.getRegistryName(), "inventory");
+		final ModelResourceLocation loc = new ModelResourceLocation(item.getRegistryName(), "inventory");
 		ModelBakery.registerItemVariants(item, loc);
 		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
 		ModelLoader.setCustomMeshDefinition(item, stack -> loc);

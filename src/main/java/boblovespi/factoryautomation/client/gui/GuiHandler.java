@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
+import boblovespi.factoryautomation.common.container.workbench.ContainerWorkbench;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,7 +81,8 @@ public class GuiHandler implements IGuiHandler
 	{
 		BLAST_FURNACE(0, ContainerBlastFurnace.class, GuiBlastFurnace.class),
 		STEELMAKING_FURNACE(1, ContainerSteelmakingFurnace.class,
-							GuiSteelmakingFurnace.class);
+							GuiSteelmakingFurnace.class),
+		STONE_WORKBENCH(2, ContainerWorkbench.class, GuiWorkbench.class);
 
 		public final int id;
 		private final Class<? extends Gui> gui;

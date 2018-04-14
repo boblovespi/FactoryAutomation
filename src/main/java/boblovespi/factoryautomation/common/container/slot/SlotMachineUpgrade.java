@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class SlotMachineUpgrade extends SlotRestrictedItem
 {
-	public static final List<Item> UPGRADES = new ArrayList<Item>();
+	public static final List<Item> UPGRADES = new ArrayList<>();
 
 
 	public SlotMachineUpgrade(IItemHandler handler, int slotIndex,

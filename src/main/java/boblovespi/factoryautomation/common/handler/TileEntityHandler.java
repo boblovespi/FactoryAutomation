@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
-import boblovespi.factoryautomation.common.tileentity.TileEntityBlastFurnaceController;
+import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
@@ -24,7 +24,7 @@ public class TileEntityHandler
 
 	public static void RegisterTileEntities()
 	{
-		GameRegistry.registerTileEntity(TileEntityBlastFurnaceController.class,
+		GameRegistry.registerTileEntity(TEBlastFurnaceController.class,
 										MODID + ":tile_entity_blast_furnace");
 		GameRegistry.registerTileEntity(TileEntityMultiblockPart.class,
 										MODID + ":tile_entity_multiblock_part");

@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.container.slot;
 
-import boblovespi.factoryautomation.api.recipe.MachineRecipeHandler;
+import boblovespi.factoryautomation.api.recipe.IMachineRecipeHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -12,10 +12,10 @@ import javax.annotation.Nonnull;
  */
 public class SlotRecipeInput extends SlotItemHandler
 {
-	private final MachineRecipeHandler recipeHandler;
+	private final IMachineRecipeHandler recipeHandler;
 
 	public SlotRecipeInput(IItemHandler itemHandler, int index, int xPosition,
-			int yPosition, MachineRecipeHandler recipeHandler)
+			int yPosition, IMachineRecipeHandler recipeHandler)
 	{
 		super(itemHandler, index, xPosition, yPosition);
 		this.recipeHandler = recipeHandler;
