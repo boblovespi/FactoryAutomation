@@ -32,4 +32,9 @@ public class Log
 	{
 		logger.warn(s);
 	}
+
+	public static void LogError(String s)
+	{
+		logger.error(s);
+	}
 }
