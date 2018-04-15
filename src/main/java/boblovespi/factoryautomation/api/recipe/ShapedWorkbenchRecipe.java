@@ -16,12 +16,12 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 	private final int sizeX;
 	private final int sizeY;
 	private final Ingredient[][] recipe;
-	private final HashMap<WorkbenchTool, Integer> tools;
-	private final HashMap<WorkbenchPart, Integer> parts;
+	private final HashMap<WorkbenchTool.Instance, Integer> tools;
+	private final HashMap<WorkbenchPart.Instance, Integer> parts;
 	private final ItemStack result;
 
-	public ShapedWorkbenchRecipe(int tier, Ingredient[][] recipe, HashMap<WorkbenchTool, Integer> tools,
-			HashMap<WorkbenchPart, Integer> parts, ItemStack result)
+	public ShapedWorkbenchRecipe(int tier, Ingredient[][] recipe, HashMap<WorkbenchTool.Instance, Integer> tools,
+			HashMap<WorkbenchPart.Instance, Integer> parts, ItemStack result)
 	{
 		this.tier = tier;
 		this.sizeX = recipe[0].length;
@@ -39,13 +39,13 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 	}
 
 	@Override
-	public HashMap<WorkbenchTool, Integer> GetToolDurabilityUsage()
+	public HashMap<WorkbenchTool.Instance, Integer> GetToolDurabilityUsage()
 	{
 		return tools;
 	}
 
 	@Override
-	public HashMap<WorkbenchPart, Integer> GetPartUsage()
+	public HashMap<WorkbenchPart.Instance, Integer> GetPartUsage()
 	{
 		return parts;
 	}

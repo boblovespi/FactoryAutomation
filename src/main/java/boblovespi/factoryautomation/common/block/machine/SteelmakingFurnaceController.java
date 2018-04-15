@@ -48,8 +48,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	}
 
 	@Override
-	public void SetStructureCompleted(World world, BlockPos pos,
-			boolean completed)
+	public void SetStructureCompleted(World world, BlockPos pos, boolean completed)
 	{
 
 	}
@@ -68,21 +67,17 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos,
-			IBlockState state, EntityPlayer playerIn, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		if (!worldIn.isRemote)
 		{
-			if (MultiblockHelper
-					.IsStructureComplete(worldIn, pos, GetPatternId(),
-										 EnumFacing.WEST) /*|| MultiblockHelper
+			if (MultiblockHelper.IsStructureComplete(worldIn, pos, GetPatternId(), EnumFacing.WEST) /*|| MultiblockHelper
 					.IsStructureComplete(worldIn, pos, GetPatternId(),
 										 EnumFacing.NORTH)*/)
 			{
-				playerIn.openGui(FactoryAutomation.instance,
-								 GuiHandler.GuiID.STEELMAKING_FURNACE.id,
-								 worldIn, pos.getX(), pos.getY(), pos.getZ());
+				playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STEELMAKING_FURNACE.id, worldIn,
+						pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		return true;

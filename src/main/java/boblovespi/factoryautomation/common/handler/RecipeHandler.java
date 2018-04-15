@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.handler;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
+import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
@@ -19,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.items.ItemStackHandler;
@@ -147,6 +149,9 @@ public class RecipeHandler
 		//
 
 		//
+
+		WorkbenchRecipeHandler.LoadFromJson(Loader.instance().activeModContainer(),
+				new ResourceLocation(FactoryAutomation.MODID, "recipes/workbench"));
 
 	}
 

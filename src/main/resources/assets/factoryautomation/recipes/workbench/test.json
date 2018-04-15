@@ -1,0 +1,20 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["iii", "isi", " s "],
+  "key": {
+    "i": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  },
+  "tools": {},
+  "parts": {},
+  "result": {
+    "item": "minecraft:stone_hoe"
+  }
+}

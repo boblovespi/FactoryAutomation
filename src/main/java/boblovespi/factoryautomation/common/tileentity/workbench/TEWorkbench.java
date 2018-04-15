@@ -30,6 +30,7 @@ public abstract class TEWorkbench extends TileEntity
 	protected ItemStackHandler inventory;
 	protected ItemStack output = ItemStack.EMPTY;
 	protected IWorkbenchRecipe recipe = null;
+	private boolean isUpdatingChanges = false;
 
 	public TEWorkbench(int size, int tier)
 	{
@@ -44,22 +45,25 @@ public abstract class TEWorkbench extends TileEntity
 			{
 				markDirty();
 
-				if (slot == 0 && recipe != null)
+				if (!isUpdatingChanges && slot == 0 && recipe != null && getStackInSlot(0).isEmpty() && !output
+						.isEmpty())
 				{
+					isUpdatingChanges = true;
 					for (int i = 0; i < size * size; i++)
 					{
 						extractItem(i + firstCraftingIndex, 1, false);
 					}
 
-					HashMap<WorkbenchTool, Integer> tools = recipe.GetToolDurabilityUsage();
+					HashMap<WorkbenchTool.Instance, Integer> tools = recipe.GetToolDurabilityUsage();
 
 					for (int i = 0; i < size; i++)
 					{
 						ItemStack tool = getStackInSlot(i + firstToolIndex);
+						WorkbenchTool.Instance toolInstance = WorkbenchTool.Instance.FromToolStack(tool);
 
-						Optional<WorkbenchTool> first = tools.keySet().stream()
-															 .filter(n -> n.GetItems().containsKey(tool.copy()))
-															 .findFirst();
+						Optional<WorkbenchTool.Instance> first = tools.keySet().stream().filter(recipeTool -> recipeTool
+								.IsSameTool(toolInstance)).filter(recipeTool -> recipeTool.tier <= toolInstance.tier)
+																	  .findFirst();
 						if (first.isPresent())
 						{
 							Integer durability = tools.getOrDefault(first.get(), null);
@@ -68,27 +72,29 @@ public abstract class TEWorkbench extends TileEntity
 						}
 					}
 
-					HashMap<WorkbenchPart, Integer> parts = recipe.GetPartUsage();
+					HashMap<WorkbenchPart.Instance, Integer> parts = recipe.GetPartUsage();
 
 					for (int i = 0; i < size; i++)
 					{
 						ItemStack part = getStackInSlot(i + firstPartIndex);
+						WorkbenchPart.Instance partInstance = WorkbenchPart.Instance.FromPartStack(part);
 
-						Optional<WorkbenchPart> first = parts.keySet().stream()
-															 .filter(n -> n.GetItems().containsKey(part.copy()))
-															 .findFirst();
-
+						Optional<WorkbenchPart.Instance> first = parts.keySet().stream().filter(recipePart -> recipePart
+								.IsSamePart(partInstance)).filter(recipePart -> recipePart.tier <= partInstance.tier)
+																	  .findFirst();
 						if (first.isPresent())
 						{
-							Integer usage = parts.getOrDefault(first.get(), null);
-							if (usage != null)
-								part.shrink(usage);
+							Integer durability = parts.getOrDefault(first.get(), null);
+							if (durability != null)
+								part.damageItem(durability, null);
 						}
 					}
+					isUpdatingChanges = false;
 				}
 
 				System.out.println("contents changed in slot " + slot);
-				CheckForRecipe();
+				if (!isUpdatingChanges)
+					CheckForRecipe();
 			}
 		};
 
@@ -131,8 +137,16 @@ public abstract class TEWorkbench extends TileEntity
 				.CanFitTier(size, size, tier)).filter(n -> n
 				.Matches(inventory, size <= 3, firstToolIndex, firstPartIndex, firstCraftingIndex)).findFirst();
 		recipe = recipeOptional.orElse(null);
-		output = recipe.GetResult(inventory);
-		inventory.setStackInSlot(0, output.copy());
+		if (recipe != null)
+			output = recipe.GetResult(inventory);
+		else
+			output = null;
+		isUpdatingChanges = true;
+		if (output != null)
+			inventory.setStackInSlot(0, output.copy());
+		else
+			inventory.setStackInSlot(0, ItemStack.EMPTY);
+		isUpdatingChanges = false;
 	}
 
 	/**

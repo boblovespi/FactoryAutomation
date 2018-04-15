@@ -24,13 +24,9 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 12/21/2017.
  */
-public class SolarPanel extends FABaseBlock
-		implements IEnergyBlock, ITileEntityProvider
+public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntityProvider
 {
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0,
-																		1,
-																		0.21875,
-																		1);
+	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 0.21875, 1);
 
 	public SolarPanel()
 	{
@@ -47,8 +43,7 @@ public class SolarPanel extends FABaseBlock
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	@Override
-	public boolean CanConnectCable(IBlockState state, EnumFacing side,
-			IBlockAccess world, BlockPos pos)
+	public boolean CanConnectCable(IBlockState state, EnumFacing side, IBlockAccess world, BlockPos pos)
 	{
 		return side != null && side.getHorizontalIndex() >= 0;
 	}
@@ -67,32 +62,23 @@ public class SolarPanel extends FABaseBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos,
-			IBlockState state, EntityPlayer playerIn, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		TileEntity entity;
-		if ((entity = worldIn
-				.getTileEntity(pos)) instanceof TileEntitySolarPanel)
+		if ((entity = worldIn.getTileEntity(pos)) instanceof TileEntitySolarPanel)
 		{
 			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
 			entity1.ForceUpdate();
 			if (!worldIn.isRemote && Minecraft.getMinecraft().player != null)
-				Minecraft.getMinecraft().ingameGUI
-						.addChatMessage(ChatType.GAME_INFO,
-										new TextComponentString(
-												"Power: " + entity1
-														.AmountProduced()
-														+ " | Power generated - used: "
-														+ entity1
-														.ActualAmountProduced()));
+				Minecraft.getMinecraft().ingameGUI.addChatMessage(ChatType.GAME_INFO, new TextComponentString(
+						"Power: " + entity1.AmountProduced() + " | Power generated - used: " + entity1
+								.ActualAmountProduced()));
 			Log.LogInfo("Can see sky", worldIn.canBlockSeeSky(pos));
 			Log.LogInfo("Sunlight factor", worldIn.getSunBrightnessFactor(0));
-			Log.LogInfo("Can block above see sky",
-						worldIn.canBlockSeeSky(pos.up()));
+			Log.LogInfo("Can block above see sky", worldIn.canBlockSeeSky(pos.up()));
 			Log.LogInfo("Power generated", entity1.AmountProduced());
-			Log.LogInfo(
-					"Actual power generated", entity1.ActualAmountProduced());
+			Log.LogInfo("Actual power generated", entity1.ActualAmountProduced());
 		}
 		return true;
 	}
@@ -108,8 +94,7 @@ public class SolarPanel extends FABaseBlock
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source,
-			BlockPos pos)
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return BOUNDING_BOX;
 	}

@@ -13,9 +13,9 @@ public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>
 {
 	boolean CanFitTier(int x, int y, int tier);
 
-	HashMap<WorkbenchTool, Integer> GetToolDurabilityUsage();
+	HashMap<WorkbenchTool.Instance, Integer> GetToolDurabilityUsage();
 
-	HashMap<WorkbenchPart, Integer> GetPartUsage();
+	HashMap<WorkbenchPart.Instance, Integer> GetPartUsage();
 
 	boolean Matches(IItemHandler workbenchInv, boolean is3x3, int toolIndex, int partIndex, int gridIndex);
 
