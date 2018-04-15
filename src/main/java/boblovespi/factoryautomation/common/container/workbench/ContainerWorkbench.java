@@ -78,7 +78,7 @@ public class ContainerWorkbench extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot)
 	{
-		ItemStack previous = null;
+		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(fromSlot);
 
 		if (slot != null && slot.getHasStack())
@@ -90,25 +90,27 @@ public class ContainerWorkbench extends Container
 			{
 				// From the block breaker inventory to player's inventory
 				if (!this.mergeItemStack(current, inv.getSlots(), inv.getSlots() + 36, true))
-					return null;
+					return ItemStack.EMPTY;
 			} else
 			{
 				// From the player's inventory to block breaker's inventory
-				if (!this.mergeItemStack(current, 0, inv.getSlots(), false))
-					return null;
+				if (!this.mergeItemStack(current, 1, inv.getSlots(), false))
+					return ItemStack.EMPTY;
 			}
 
-			if (current.getCount() == 0) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
+			if (current.isEmpty()) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
 				slot.putStack(
 						ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
 			else
 				slot.onSlotChanged();
 
 			if (current.getCount() == previous.getCount())
-				return null;
+				return ItemStack.EMPTY;
 			slot.onTake(playerIn, current);
 
 		}
 		return previous;
 	}
+
+
 }

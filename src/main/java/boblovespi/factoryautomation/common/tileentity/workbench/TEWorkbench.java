@@ -4,17 +4,25 @@ import boblovespi.factoryautomation.api.recipe.IWorkbenchRecipe;
 import boblovespi.factoryautomation.api.recipe.WorkbenchPart;
 import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
 import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
+import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -45,6 +53,9 @@ public abstract class TEWorkbench extends TileEntity
 			{
 				markDirty();
 
+				if (world.isRemote)
+					return;
+
 				if (!isUpdatingChanges && slot == 0 && recipe != null && getStackInSlot(0).isEmpty() && !output
 						.isEmpty())
 				{
@@ -55,8 +66,24 @@ public abstract class TEWorkbench extends TileEntity
 					}
 
 					HashMap<WorkbenchTool.Instance, Integer> tools = recipe.GetToolDurabilityUsage();
+					for (Map.Entry<WorkbenchTool.Instance, Integer> toolInfo : tools.entrySet())
+					{
+						for (int i = 0; i < (size); i++)
+						{
+							WorkbenchTool.Instance tool = WorkbenchTool.Instance
+									.FromToolStack(getStackInSlot(i + firstToolIndex));
 
-					for (int i = 0; i < size; i++)
+							if (toolInfo.getKey().IsSameTool(tool) && toolInfo.getKey().tier <= tool.tier)
+							{
+								getStackInSlot(i + firstToolIndex).damageItem(
+										toolInfo.getValue(), FakePlayerFactory
+												.get((WorldServer) world, new GameProfile(null, "fakePlayer")));
+								break;
+							}
+						}
+					}
+
+					/*for (int i = 0; i < size; i++)
 					{
 						ItemStack tool = getStackInSlot(i + firstToolIndex);
 						WorkbenchTool.Instance toolInstance = WorkbenchTool.Instance.FromToolStack(tool);
@@ -70,11 +97,24 @@ public abstract class TEWorkbench extends TileEntity
 							if (durability != null)
 								tool.damageItem(durability, null);
 						}
-					}
+					}*/
 
 					HashMap<WorkbenchPart.Instance, Integer> parts = recipe.GetPartUsage();
+					for (Map.Entry<WorkbenchPart.Instance, Integer> partInfo : parts.entrySet())
+					{
+						for (int i = 0; i < (size); i++)
+						{
+							WorkbenchPart.Instance part = WorkbenchPart.Instance
+									.FromPartStack(getStackInSlot(i + firstPartIndex));
 
-					for (int i = 0; i < size; i++)
+							if (partInfo.getKey().IsSamePart(part) && partInfo.getKey().tier <= part.tier)
+							{
+								getStackInSlot(i + firstPartIndex).shrink(partInfo.getValue());
+								break;
+							}
+						}
+					}
+					/*for (int i = 0; i < size; i++)
 					{
 						ItemStack part = getStackInSlot(i + firstPartIndex);
 						WorkbenchPart.Instance partInstance = WorkbenchPart.Instance.FromPartStack(part);
@@ -88,13 +128,18 @@ public abstract class TEWorkbench extends TileEntity
 							if (durability != null)
 								part.damageItem(durability, null);
 						}
-					}
+					}*/
 					isUpdatingChanges = false;
 				}
 
 				System.out.println("contents changed in slot " + slot);
 				if (!isUpdatingChanges)
 					CheckForRecipe();
+
+				IBlockState state = world.getBlockState(pos);
+				world.notifyBlockUpdate(pos, state, state,
+						SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
+								| SetBlockStateFlags.PREVENT_RERENDER);
 			}
 		};
 
@@ -157,5 +202,38 @@ public abstract class TEWorkbench extends TileEntity
 	public void onLoad()
 	{
 		CheckForRecipe();
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	{
+		this.readFromNBT(pkt.getNbtCompound());
+	}
+
+	@Override
+	public NBTTagCompound getTileData()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return nbt;
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return nbt;
+	}
+
+	@Nullable
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		int meta = getBlockMetadata();
+
+		return new SPacketUpdateTileEntity(pos, meta, nbt);
 	}
 }

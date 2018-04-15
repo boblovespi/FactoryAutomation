@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.api.recipe;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -12,25 +13,25 @@ public class WorkbenchPart
 {
 	public static final HashMap<ResourceLocation, WorkbenchPart> parts = new HashMap<>(5);
 	public static final WorkbenchPart SCREW = new WorkbenchPart(
-			new ResourceLocation("factoryautomation", "screw"), new HashMap<ItemStack, Integer>()
+			new ResourceLocation("factoryautomation", "screw"), new HashMap<Item, Integer>()
 	{{
 		// put(new ItemStack(Items.STONE_HOE), 1);
 	}});
 
-	private HashMap<ItemStack, Integer> items;
+	private HashMap<Item, Integer> items;
 
-	public WorkbenchPart(ResourceLocation id, HashMap<ItemStack, Integer> items)
+	public WorkbenchPart(ResourceLocation id, HashMap<Item, Integer> items)
 	{
 		this.items = items;
 		parts.putIfAbsent(id, this);
 	}
 
-	public HashMap<ItemStack, Integer> GetItems()
+	public HashMap<Item, Integer> GetItems()
 	{
 		return items;
 	}
 
-	public void AddItem(ItemStack item, int tier)
+	public void AddItem(Item item, int tier)
 	{
 		items.put(item, tier);
 	}
@@ -60,9 +61,9 @@ public class WorkbenchPart
 				return null;
 			for (WorkbenchPart part : parts.values())
 			{
-				if (part.GetItems().containsKey(stack))
+				if (part.GetItems().containsKey(stack.getItem()))
 				{
-					return FromPart(part, part.GetItems().get(stack));
+					return FromPart(part, part.GetItems().get(stack.getItem()));
 				}
 			}
 

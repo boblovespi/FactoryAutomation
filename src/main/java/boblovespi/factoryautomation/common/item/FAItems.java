@@ -58,6 +58,8 @@ public class FAItems
 	public static FAItem wearPlate;
 	public static FAItem clayCrucible;
 	public static FAItem diamondGravel;
+	public static FAItem ironHammer;
+	public static FAItem steelHammer;
 
 	public static void Init()
 	{
@@ -87,6 +89,9 @@ public class FAItems
 		clayCrucible = new ClayCrucible();
 
 		diamondGravel = new CauldronCleanable("diamond_gravel", FACreativeTabs.resources, new ItemStack(Items.DIAMOND));
+
+		ironHammer = new WorkbenchToolItem("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
+		steelHammer = new WorkbenchToolItem("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
 	}
 
 	public static void RegisterItemRenders()
@@ -119,6 +124,8 @@ public class FAItems
 		}
 	}
 
+	/*@SideOnly(Side.CLIENT)*/
+	@SuppressWarnings("MethodCallSideOnly")
 	private static void RegisterRender(FAItem item, int meta)
 	{
 		Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
@@ -150,6 +157,7 @@ public class FAItems
 		}
 	}
 
+	@SuppressWarnings("MethodCallSideOnly")
 	private static void RegisterVanillaRender(Item item)
 	{
 		Log.LogInfo("Registering a vanilla Item class");

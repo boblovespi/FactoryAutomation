@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.block.machine;
 
+import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.energy.IEnergyBlock;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
@@ -7,7 +8,6 @@ import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -70,8 +70,8 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntity
 		{
 			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
 			entity1.ForceUpdate();
-			if (!worldIn.isRemote && Minecraft.getMinecraft().player != null)
-				Minecraft.getMinecraft().ingameGUI.addChatMessage(ChatType.GAME_INFO, new TextComponentString(
+			if (!worldIn.isRemote)
+				FactoryAutomation.proxy.AddChatMessage(ChatType.GAME_INFO, new TextComponentString(
 						"Power: " + entity1.AmountProduced() + " | Power generated - used: " + entity1
 								.ActualAmountProduced()));
 			Log.LogInfo("Can see sky", worldIn.canBlockSeeSky(pos));

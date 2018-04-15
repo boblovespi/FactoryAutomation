@@ -28,13 +28,13 @@ public class FactoryAutomation
 	public static final String MODID = "factoryautomation";
 	public static final String VERSION = "alpha 1.0.2";
 	public static final String NAME = "Factory Automation";
-	public static final String COMMON_PROXY_CLASS = "boblovespi.factoryautomation.common.CommonProxy";
+	public static final String SERVER_PROXY_CLASS = "boblovespi.factoryautomation.common.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
 	public static final String GUI_FACTORY = "boblovespi.factoryautomation.common.config.ConfigGuiFactory";
 	@Mod.Instance(MODID)
 	public static FactoryAutomation instance = new FactoryAutomation();
-	@SidedProxy(serverSide = COMMON_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
-	private static CommonProxy proxy;
+	@SidedProxy(serverSide = SERVER_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
+	public static CommonProxy proxy;
 
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
@@ -60,20 +60,15 @@ public class FactoryAutomation
 		Log.getLogger().info("Initialization");
 		proxy.Init();
 		OreDictionaryHandler.registerOreDictionary();
-		Log.LogInfo("Slag resource path",
-					FAItems.slag.ToItem().getRegistryName());
+		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
 		TileEntityHandler.RegisterTileEntities();
 		Log.getLogger().info("Initialization end");
 
 		MultiblockHandler.Register("blast_furnace",
-								   new MultiblockStructurePattern(
-										   MultiblockStructures.blastFurnace,
-										   new int[] { 0, 0, 1 }));
+				new MultiblockStructurePattern(MultiblockStructures.blastFurnace, new int[] { 0, 0, 1 }));
 
 		MultiblockHandler.Register("steelmaking_furnace",
-								   new MultiblockStructurePattern(
-										   MultiblockStructures.steelmakingFurnace,
-										   new int[] { 1, 1, 2 }));
+				new MultiblockStructurePattern(MultiblockStructures.steelmakingFurnace, new int[] { 1, 1, 2 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
 

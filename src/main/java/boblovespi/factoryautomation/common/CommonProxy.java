@@ -1,24 +1,18 @@
 package boblovespi.factoryautomation.common;
 
-import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.TextComponentString;
 
 /**
  * Created by Willi on 11/8/2017.
  */
-public class CommonProxy
+public interface CommonProxy
 {
-	public void RegisterRenders()
-	{
-	}
+	void RegisterRenders();
 
-	public void PreInit()
-	{
+	void PreInit();
 
-	}
+	void Init();
 
-	public void Init()
-	{
-		GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
-	}
+	void AddChatMessage(ChatType type, TextComponentString string);
 }

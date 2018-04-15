@@ -6,6 +6,9 @@ import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.item.FAItems;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.common.Mod;
@@ -17,7 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
  * Created by Willi on 11/8/2017.
  */
 @Mod.EventBusSubscriber(Side.CLIENT)
-public class ClientProxy extends CommonProxy
+public class ClientProxy implements CommonProxy
 {
 	@SuppressWarnings("unused")
 	@SubscribeEvent
@@ -36,7 +39,6 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void PreInit()
 	{
-		super.PreInit();
 		// ModelLoaderRegistry.registerLoader(new ObjModelLoader());
 		OBJLoader.INSTANCE.addDomain("factoryautomation");
 		Config.ClientPreInit();
@@ -45,8 +47,13 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void Init()
 	{
-		super.Init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(FactoryAutomation.instance,
 				new GuiHandler());
+	}
+
+	@Override
+	public void AddChatMessage(ChatType type, TextComponentString string)
+	{
+		Minecraft.getMinecraft().ingameGUI.addChatMessage(type, string);
 	}
 }

@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.api.recipe;
 
-import net.minecraft.init.Items;
+import boblovespi.factoryautomation.common.item.FAItems;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -13,25 +14,26 @@ public class WorkbenchTool
 {
 	public static final HashMap<ResourceLocation, WorkbenchTool> tools = new HashMap<>(5);
 	public static final WorkbenchTool HAMMER = new WorkbenchTool(new ResourceLocation("factoryautomation", "hammer"),
-			new HashMap<ItemStack, Integer>()
+			new HashMap<Item, Integer>()
 			{{
-				put(new ItemStack(Items.STONE_HOE), 1);
+				put(FAItems.ironHammer.ToItem(), 1);
+				put(FAItems.steelHammer.ToItem(), 2);
 			}});
 
-	private HashMap<ItemStack, Integer> items;
+	private HashMap<Item, Integer> items;
 
-	public WorkbenchTool(ResourceLocation id, HashMap<ItemStack, Integer> items)
+	public WorkbenchTool(ResourceLocation id, HashMap<Item, Integer> items)
 	{
 		this.items = items;
 		tools.put(id, this);
 	}
 
-	public HashMap<ItemStack, Integer> GetItems()
+	public HashMap<Item, Integer> GetItems()
 	{
 		return items;
 	}
 
-	public void AddItem(ItemStack item, int tier)
+	public void AddItem(Item item, int tier)
 	{
 		items.put(item, tier);
 	}
@@ -61,9 +63,9 @@ public class WorkbenchTool
 				return null;
 			for (WorkbenchTool tool : tools.values())
 			{
-				if (tool.GetItems().containsKey(stack))
+				if (tool.GetItems().containsKey(stack.getItem()))
 				{
-					return FromTool(tool, tool.GetItems().get(stack));
+					return FromTool(tool, tool.GetItems().get(stack.getItem()));
 				}
 			}
 

@@ -6,6 +6,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Willi on 4/11/2018.
@@ -57,21 +58,53 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 		{
 			if (sizeX > 3 || sizeY > 3)
 				return false;
+		}
 
-			for (int x = 0; x < sizeX; x++)
+		for (int x = 0; x < sizeX; x++)
+		{
+			for (int y = 0; y < sizeY; y++)
 			{
-				for (int y = 0; y < sizeY; y++)
+				if (!recipe[y][x].apply(workbenchInv.getStackInSlot(gridIndex + x * (is3x3 ? 3 : 5) + y)))
+					return false;
+			}
+		}
+
+		for (Map.Entry<WorkbenchTool.Instance, Integer> toolInfo : tools.entrySet())
+		{
+			boolean isPresent = false;
+			for (int i = 0; i < (is3x3 ? 3 : 5); i++)
+			{
+				WorkbenchTool.Instance tool = WorkbenchTool.Instance
+						.FromToolStack(workbenchInv.getStackInSlot(i + toolIndex));
+
+				if (toolInfo.getKey().IsSameTool(tool) && toolInfo.getKey().tier <= tool.tier)
 				{
-					if (!recipe[y][x].apply(workbenchInv.getStackInSlot(gridIndex + x * 3 + y)))
-						return false;
+					isPresent = true;
+					break;
 				}
 			}
-
-			// TODO: finish
-		} else
-		{
-
+			if (!isPresent)
+				return false;
 		}
+
+		for (Map.Entry<WorkbenchPart.Instance, Integer> partInfo : parts.entrySet())
+		{
+			boolean isPresent = false;
+			for (int i = 0; i < (is3x3 ? 3 : 5); i++)
+			{
+				WorkbenchPart.Instance part = WorkbenchPart.Instance
+						.FromPartStack(workbenchInv.getStackInSlot(i + partIndex));
+
+				if (partInfo.getKey().IsSamePart(part) && partInfo.getKey().tier <= part.tier)
+				{
+					isPresent = true;
+					break;
+				}
+			}
+			if (!isPresent)
+				return false;
+		}
+
 		return true;
 	}
 

@@ -9,8 +9,7 @@ import net.minecraft.item.ItemStack;
  */
 public class FACreativeTabs
 {
-	public static CreativeTabs metallurgy = new CreativeTabs(
-			"tabs.metallurgy.name")
+	public static CreativeTabs metallurgy = new CreativeTabs("tabs.metallurgy.name")
 	{
 		@Override
 		public ItemStack getTabIconItem()
@@ -19,13 +18,20 @@ public class FACreativeTabs
 		}
 
 	};
-	public static CreativeTabs resources = new CreativeTabs(
-			"tabs.resources.name")
+	public static CreativeTabs resources = new CreativeTabs("tabs.resources.name")
 	{
 		@Override
 		public ItemStack getTabIconItem()
 		{
 			return new ItemStack(FAItems.diamondGravel.ToItem());
+		}
+	};
+	public static CreativeTabs tools = new CreativeTabs("tabs.tools.name")
+	{
+		@Override
+		public ItemStack getTabIconItem()
+		{
+			return new ItemStack(FAItems.ironHammer.ToItem());
 		}
 	};
 }
