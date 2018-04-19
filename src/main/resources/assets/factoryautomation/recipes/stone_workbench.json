@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["sss", "iwi", "i i"],
+  "key": {
+    "i": {
+      "item": "#ingotMetalT1"
+    },
+    "s": {
+      "item": "#slabStone"
+    },
+    "w": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:stone_workbench"
+  }
+}

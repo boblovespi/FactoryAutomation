@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"parent": "block/block",
 	"textures": {
-		"0": "blocks/metals/tin_block",
-		"1": "blocks/machines/solarpanel_top"
+		"0": "factoryautomation:blocks/metals/tin_block",
+		"1": "factoryautomation:blocks/machines/solarpanel_top"
 	},
 	"elements": [
 		{

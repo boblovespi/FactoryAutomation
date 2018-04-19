@@ -1,0 +1,33 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["ppp", "iai", "bcb"],
+  "key": {
+    "i": {
+      "item": "#ingotMetalT1"
+    },
+    "p": {
+      "item": "#plateMetalT1"
+    },
+    "b": {
+      "item": "#blockMetalT1"
+    },
+    "a": {
+      "item": "minecraft:anvil",
+      "data": 0
+    },
+    "c": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 20
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:iron_workbench"
+  }
+}

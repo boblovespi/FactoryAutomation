@@ -2,8 +2,9 @@ package boblovespi.factoryautomation.common.block.workbench;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
+import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
-import boblovespi.factoryautomation.common.tileentity.workbench.TEStoneWorkbench;
+import boblovespi.factoryautomation.common.tileentity.workbench.TEIronWorkbench;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,14 +18,14 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 /**
- * Created by Willi on 4/8/2018.
+ * Created by Willi on 4/15/2018.
  */
-public class StoneWorkbench extends Workbench implements ITileEntityProvider
+public class IronWorkbench extends FABaseBlock implements ITileEntityProvider
 {
-	public StoneWorkbench()
+	public IronWorkbench()
 	{
-		super(Material.ROCK, "stone_workbench");
-		TileEntityHandler.tiles.add(TEStoneWorkbench.class);
+		super(Material.ROCK, "iron_workbench");
+		TileEntityHandler.tiles.add(TEIronWorkbench.class);
 	}
 
 	/**
@@ -37,7 +38,7 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TEStoneWorkbench();
+		return new TEIronWorkbench();
 	}
 
 	/**
@@ -48,8 +49,8 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		if (!worldIn.isRemote)
-			playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_WORKBENCH.id, worldIn, pos.getX(),
-					pos.getY(), pos.getZ());
+			playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.WORKBENCH.id, worldIn, pos.getX(), pos.getY(),
+					pos.getZ());
 		return true;
 	}
 }

@@ -21,28 +21,27 @@ public class OreDictionaryHandler
 		for (int i = 2; i < Metals.values().length; i++)
 		{
 			OreDictionary.registerOre(
-					"ingot" + StringUtils
-							.capitalize(Metals.values()[i].getName()),
+					"ingot" + StringUtils.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.ingot.ToItem(), 1, i));
 			OreDictionary.registerOre(
-					"nugget" + StringUtils
-							.capitalize(Metals.values()[i].getName()),
+					"nugget" + StringUtils.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.nugget.ToItem(), 1, i));
+			OreDictionary.registerOre(
+					"block" + StringUtils.capitalize(Metals.values()[i].getName()),
+					new ItemStack(FABlocks.metalBlock.GetBlock(Metals.values()[i]).ToBlock(), 1));
 		}
 		for (int i = 0; i < Metals.values().length; i++)
 		{
 
 			OreDictionary.registerOre(
-					"plate" + StringUtils
-							.capitalize(Metals.values()[i].getName()),
+					"plate" + StringUtils.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FAItems.sheet.ToItem(), 1, i));
 		}
 		for (int i = 0; i < MetalOres.values().length; i++)
 		{
 			OreDictionary.registerOre(
-					"ore" + StringUtils
-							.capitalize(MetalOres.values()[i].getName()),
-					new ItemStack(FAItems.metalOre, 1, i));
+					"ore" + StringUtils.capitalize(MetalOres.values()[i].getName()),
+					new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.values()[i]).ToBlock(), 1));
 		}
 
 	}

@@ -15,7 +15,11 @@ public class Ore extends MultiTypeBlock<Ore.Grade>
 	public Ore(String name, int harvestLevel)
 	{
 		super(Material.ROCK, name, Grade.class, "ores");
-		setHarvestLevel("pickaxe", harvestLevel);
+		for (int i = 0; i < Grade.values().length; i++)
+		{
+			GetBlock(Grade.values()[i]).ToBlock().setHarvestLevel("pickaxe", harvestLevel);
+		}
+
 	}
 
 	@Override

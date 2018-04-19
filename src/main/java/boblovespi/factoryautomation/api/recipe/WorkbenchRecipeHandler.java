@@ -112,7 +112,7 @@ public class WorkbenchRecipeHandler
 						{
 							reader = Files.newBufferedReader(fPath);
 							JsonObject[] json = JsonUtils.fromJson(gson, reader, JsonObject[].class);
-							Method loadContext = ctx.getClass().getDeclaredMethod("loadContext", JsonObject[].class);
+							Method loadContext = ctx.getClass().getDeclaredMethod("loadConstants", JsonObject[].class);
 							loadContext.setAccessible(true);
 							loadContext.invoke(ctx, (Object) json);
 						} catch (IOException e)

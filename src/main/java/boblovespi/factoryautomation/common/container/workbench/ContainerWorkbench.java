@@ -45,8 +45,8 @@ public class ContainerWorkbench extends Container
 			{
 				for (int j = 0; j < 5; j++)
 				{
-					addSlotToContainer(new SlotItemHandler(inv, j + i * 3 + 2,
-							15 + (i < 1 ? 0 : 26 + (i < 2 ? 0 : 44 + (i - 2) * 18)), 16 + 18 * j));
+					addSlotToContainer(new SlotItemHandler(inv, j + i * 5 + 2,
+							16 + (i < 1 ? 0 : 26 + (i < 2 ? 0 : 44 + (i - 2) * 18)), 17 + 18 * j));
 				}
 			}
 		}
@@ -111,6 +111,5 @@ public class ContainerWorkbench extends Container
 		}
 		return previous;
 	}
-
 
 }

@@ -1,6 +1,6 @@
 {
   "type": "factoryautomation:workbench_shaped",
-  "tier": 1,
+  "tier": 2,
   "pattern": ["iii", "isi", " s "],
   "key": {
     "i": {

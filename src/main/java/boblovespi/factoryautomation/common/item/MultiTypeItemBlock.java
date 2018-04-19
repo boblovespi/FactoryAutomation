@@ -10,12 +10,12 @@ import net.minecraft.util.IStringSerializable;
 /**
  * Created by Willi on 12/23/2017.
  */
-public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable>
-		extends ItemBlock implements FAItem
+public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends ItemBlock
+		implements FAItem
 {
 
-	private MultiTypeBlock baseBlock;
 	public Class<T> blockTypes;
+	private MultiTypeBlock baseBlock;
 
 	public MultiTypeItemBlock(MultiTypeBlock block, Class blockTypes)
 	{
@@ -23,9 +23,13 @@ public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSeri
 		baseBlock = block;
 		this.blockTypes = blockTypes;
 		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(
-				RegistryName() == null ? UnlocalizedName() : RegistryName());
+		setRegistryName(RegistryName() == null ? UnlocalizedName() : RegistryName());
 		setHasSubtypes(true);
+	}
+
+	public void SetBaseBlock(MultiTypeBlock baseBlock)
+	{
+		this.baseBlock = baseBlock;
 	}
 
 	@Override

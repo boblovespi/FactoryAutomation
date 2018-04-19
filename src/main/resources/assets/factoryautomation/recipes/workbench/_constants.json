@@ -1,0 +1,108 @@
+[
+  {
+  "ingredient": {
+    "type": "forge:ore_dict",
+    "ore": "ingotIron"
+  },
+  "name": "ingotIron"
+},
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBronze"
+    },
+    "name": "ingotBronze"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotSteel"
+    },
+    "name": "ingotSteel"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#ingotIron"
+      }, {
+        "item": "#ingotBronze"
+      }, {
+        "item": "#ingotSteel"
+      }
+    ],
+    "name": "ingotMetalT1"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateIron"
+    },
+    "name": "plateIron"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateBronze"
+    },
+    "name": "plateBronze"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "name": "plateSteel"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#plateIron"
+      }, {
+        "item": "#plateBronze"
+      }, {
+        "item": "#plateSteel"
+      }
+    ],
+    "name": "plateMetalT1"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockIron"
+    },
+    "name": "blockIron"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockBronze"
+    },
+    "name": "blockBronze"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockSteel"
+    },
+    "name": "blockSteel"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#blockIron"
+      }, {
+        "item": "#blockBronze"
+      }, {
+        "item": "#blockSteel"
+      }
+    ],
+    "name": "blockMetalT1"
+  },
+  {
+    "ingredient": {
+      "item": "minecraft:stone_slab",
+      "data": 0
+    },
+    "name": "slabStone"
+  }
+]

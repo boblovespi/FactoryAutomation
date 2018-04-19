@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "type=copper": {
+      "model": "factoryautomation:metals/block_copper"
+    },
+    "type=tin": {
+      "model": "factoryautomation:metals/block_tin"
+    },
+    "type=bronze": {
+      "model": "factoryautomation:metals/block_bronze"
+    },
+    "type=steel": {
+      "model": "factoryautomation:metals/block_steel"
+    },
+    "type=pig_iron": {
+      "model": "factoryautomation:metals/block_pig_iron"
+    }
+  }
+}

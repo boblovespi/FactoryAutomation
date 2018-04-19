@@ -1,7 +1,5 @@
 package boblovespi.factoryautomation.common.block;
 
-import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.item.MultiTypeItemBlock;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -25,36 +23,54 @@ import net.minecraft.world.World;
 /**
  * Created by Willi on 12/23/2017.
  */
-public abstract class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable>
-		extends Block implements FABlock
+public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends Block implements FABlock
 {
 	protected final Class<T> blockTypes;
-	private final String unlocalizedName;
+	private final String registeryName;
+
 	public /*final*/ PropertyEnum<T> TYPE;
 	private String resourceFolder;
+	private FABaseBlock[] blocks;
 
-	public MultiTypeBlock(Material blockMaterialIn, MapColor blockMapColorIn,
-			String unlocalizedName, Class<T> types, String resourceFolder)
+	public MultiTypeBlock(Material blockMaterialIn, MapColor blockMapColorIn, String registeryName, Class<T> types,
+			String resourceFolder, CreativeTabs ct)
 	{
 		super(blockMaterialIn, blockMapColorIn);
-		this.unlocalizedName = unlocalizedName;
+		this.registeryName = registeryName;
 		blockTypes = types;
 
 		this.resourceFolder = resourceFolder;
 		TYPE = PropertyEnum.create("type", types);
-		setDefaultState(blockState.getBaseState().withProperty(TYPE, blockTypes
-				.getEnumConstants()[0]));
-		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
-		FABlocks.blocks.add(this);
-		FAItems.items.add(new MultiTypeItemBlock<T>(this, types));
+
+		blocks = new FABaseBlock[blockTypes.getEnumConstants().length];
+
+		setCreativeTab(ct);
+
+		for (int i = 0; i < blocks.length; i++)
+		{
+			blocks[i] = new FABaseBlock(
+					blockMaterialIn, blockMapColorIn, registeryName + "_" + blockTypes.getEnumConstants()[i].getName())
+			{
+				@Override
+				public String GetMetaFilePath(int meta)
+				{
+					String folder = (resourceFolder == null || resourceFolder.isEmpty()) ? "" : resourceFolder + "/";
+					return folder + RegistryName();
+				}
+			};
+			blocks[i].ToBlock().setCreativeTab(MultiTypeBlock.this.getCreativeTabToDisplayOn());
+		}
+
+		//		setDefaultState(blockState.getBaseState().withProperty(TYPE, blockTypes.getEnumConstants()[0]));
+		//		setUnlocalizedName(UnlocalizedName());
+		//		setRegistryName(RegistryName());
+		//		FABlocks.blocks.add(this);
 	}
 
-	public MultiTypeBlock(Material materialIn, String unlocalizedName,
-			Class<T> types, String resourceFolder)
+	public MultiTypeBlock(Material materialIn, String registeryName, Class<T> types, String resourceFolder)
 	{
-		this(materialIn, materialIn.getMaterialMapColor(), unlocalizedName,
-			 types, resourceFolder);
+		this(materialIn, materialIn.getMaterialMapColor(), registeryName, types, resourceFolder,
+				CreativeTabs.BUILDING_BLOCKS);
 	}
 
 	/**
@@ -75,8 +91,7 @@ public abstract class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStrin
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState()
-				.withProperty(TYPE, blockTypes.getEnumConstants()[meta]);
+		return getDefaultState().withProperty(TYPE, blockTypes.getEnumConstants()[meta]);
 	}
 
 	/**
@@ -91,15 +106,13 @@ public abstract class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStrin
 	@Override
 	public String UnlocalizedName()
 	{
-		return unlocalizedName;
+		return registeryName;
 	}
 
 	@Override
 	public String GetMetaFilePath(int meta)
 	{
-		String folder = (resourceFolder == null || resourceFolder.isEmpty()) ?
-				"" :
-				resourceFolder + "/";
+		String folder = (resourceFolder == null || resourceFolder.isEmpty()) ? "" : resourceFolder + "/";
 
 		T[] types = blockTypes.getEnumConstants();
 
@@ -137,9 +150,8 @@ public abstract class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStrin
 	 * @return The state to be placed in the world
 	 */
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos,
-			EnumFacing facing, float hitX, float hitY, float hitZ, int meta,
-			EntityLivingBase placer, EnumHand hand)
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getStateFromMeta(meta);
 	}
@@ -154,8 +166,8 @@ public abstract class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStrin
 	 * @param player @return A ItemStack to add to the player's inventory, empty itemstack if nothing should be added.
 	 */
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target,
-			World world, BlockPos pos, EntityPlayer player)
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+			EntityPlayer player)
 	{
 		return new ItemStack(this, 1, this.getMetaFromState(state));
 	}
@@ -170,5 +182,10 @@ public abstract class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStrin
 	public int damageDropped(IBlockState state)
 	{
 		return getMetaFromState(state);
+	}
+
+	public FABaseBlock GetBlock(T type)
+	{
+		return blocks[type.GetId()];
 	}
 }

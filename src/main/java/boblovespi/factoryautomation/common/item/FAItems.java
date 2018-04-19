@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.item.crucible.ClayCrucible;
 import boblovespi.factoryautomation.common.item.metals.Ingot;
 import boblovespi.factoryautomation.common.item.metals.Nugget;
@@ -14,6 +15,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
@@ -60,6 +62,7 @@ public class FAItems
 	public static FAItem diamondGravel;
 	public static FAItem ironHammer;
 	public static FAItem steelHammer;
+	public static FAItem steelWrench;
 
 	public static void Init()
 	{
@@ -92,6 +95,7 @@ public class FAItems
 
 		ironHammer = new WorkbenchToolItem("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
 		steelHammer = new WorkbenchToolItem("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
+		steelWrench = new WorkbenchToolItem("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
 	}
 
 	public static void RegisterItemRenders()
@@ -116,6 +120,9 @@ public class FAItems
 				{
 					RegisterRender((FAItem) item, 0);
 				}
+			} else if (item instanceof ItemBlock)
+			{
+				RegisterItemBlock((ItemBlock) item);
 			} else
 			{
 				// is a vanilla item, so we need to use a vanilla item method
@@ -144,7 +151,6 @@ public class FAItems
 	{
 		for (int meta = 0; meta < item.itemTypes.getEnumConstants().length; meta++)
 		{
-
 			RegisterRender(item, meta);
 		}
 	}
@@ -166,6 +172,28 @@ public class FAItems
 		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
 		ModelLoader.setCustomMeshDefinition(item, stack -> loc);
 		Log.LogInfo("Model resource location: ", loc);
+	}
+
+	@SuppressWarnings("MethodCallSideOnly")
+	private static void RegisterItemBlock(ItemBlock item)
+	{
+		if (item.getBlock() instanceof FABlock)
+		{
+			FABlock block = (FABlock) item.getBlock();
+			Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + block.GetMetaFilePath(0));
+
+			final ModelResourceLocation loc = new ModelResourceLocation(
+					new ResourceLocation(FactoryAutomation.MODID, block.GetMetaFilePath(0)), "inventory");
+
+			Log.LogInfo("The other model resource location", loc);
+
+			ModelBakery.registerItemVariants(item, loc);
+			ModelLoader.setCustomModelResourceLocation(item, 0, loc);
+			ModelLoader.setCustomMeshDefinition(item, stack -> loc);
+		} else
+		{
+			RegisterVanillaRender(item);
+		}
 	}
 
 	@SubscribeEvent

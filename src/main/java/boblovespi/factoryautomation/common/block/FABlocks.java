@@ -6,8 +6,11 @@ import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSo
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.resource.Ore;
+import boblovespi.factoryautomation.common.block.workbench.IronWorkbench;
 import boblovespi.factoryautomation.common.block.workbench.StoneWorkbench;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.types.MetalOres;
+import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -39,12 +42,15 @@ public class FABlocks
 	public static FABlock multiblockPart;
 	public static FABlock cable;
 	public static FABlock solarPanel;
-	public static FABlock metalOres;
+
+	// will be removed soon
+	public static MultiTypeBlock<MetalOres> metalOres;
 	public static FABlock steelmakingFurnaceController;
 	public static FABlock powerShaft;
 	public static FABlock jawCrusher;
 	public static FABlock creativeMechanicalSource;
 	public static FABlock motor;
+	public static MultiTypeBlock<Metals> metalBlock;
 
 	// ores
 
@@ -53,6 +59,7 @@ public class FABlocks
 	// workbenches
 
 	public static FABlock stoneWorkbench;
+	public static FABlock ironWorkbench;
 
 	public static void Init()
 	{
@@ -88,6 +95,13 @@ public class FABlocks
 
 		motor = new Motor();
 
+		metalBlock = new MetalBlock();
+		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
+		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
+
+		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).GetItem().ToItem());
+		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
+
 		// ores
 
 		limoniteOre = new Ore("limonite_ore", 1);
@@ -95,6 +109,7 @@ public class FABlocks
 		// workbenches
 
 		stoneWorkbench = new StoneWorkbench();
+		ironWorkbench = new IronWorkbench();
 	}
 
 	public static void RegisterRenders()

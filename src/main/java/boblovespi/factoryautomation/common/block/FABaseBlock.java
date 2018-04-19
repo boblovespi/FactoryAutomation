@@ -1,10 +1,11 @@
 package boblovespi.factoryautomation.common.block;
 
+import boblovespi.factoryautomation.common.item.FAItem;
+import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemBlock;
 
 /**
  * Created by Willi on 12/21/2017.
@@ -12,9 +13,9 @@ import net.minecraft.item.ItemBlock;
 public class FABaseBlock extends Block implements FABlock
 {
 	private String unlocalizedName;
+	private FAItemBlock item;
 
-	public FABaseBlock(Material blockMaterialIn, MapColor blockMapColorIn,
-			String unlocalizedName)
+	public FABaseBlock(Material blockMaterialIn, MapColor blockMapColorIn, String unlocalizedName)
 	{
 		super(blockMaterialIn, blockMapColorIn);
 		this.unlocalizedName = unlocalizedName;
@@ -22,8 +23,8 @@ public class FABaseBlock extends Block implements FABlock
 		setRegistryName(RegistryName());
 		setResistance(10000);
 		FABlocks.blocks.add(this);
-		FAItems.items.add(new ItemBlock(this)
-								  .setRegistryName(getRegistryName()));
+		item = new FAItemBlock(this);
+		FAItems.items.add(item);
 	}
 
 	public FABaseBlock(Material materialIn, String unlocalizedName)
@@ -41,5 +42,10 @@ public class FABaseBlock extends Block implements FABlock
 	public Block ToBlock()
 	{
 		return this;
+	}
+
+	public FAItem GetItem()
+	{
+		return item;
 	}
 }

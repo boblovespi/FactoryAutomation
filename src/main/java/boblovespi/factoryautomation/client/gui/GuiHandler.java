@@ -23,28 +23,20 @@ public class GuiHandler implements IGuiHandler
 {
 	@Nullable
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z)
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (ID < GuiID.values().length && ID >= 0)
 		{
 			try
 			{
-				return GuiID.values()[ID].GetContainerClass()
-										 .getDeclaredConstructor(
-												 IInventory.class,
-												 TileEntity.class)
-										 .newInstance(player.inventory,
-													  world.getTileEntity(
-															  new BlockPos(x, y,
-																		   z)));
+				return GuiID.values()[ID].GetContainerClass().getDeclaredConstructor(IInventory.class, TileEntity.class)
+										 .newInstance(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
 			} catch (Exception e)
 			{
 				Log.LogWarning("there was an exception!");
 				Log.LogWarning(e.getMessage());
 				Log.LogWarning(e.getLocalizedMessage());
-				System.out.println("e.getStackTrace() = " + Arrays
-						.toString(e.getStackTrace()));
+				System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
 			}
 		}
 		return null;
@@ -52,26 +44,20 @@ public class GuiHandler implements IGuiHandler
 
 	@Nullable
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z)
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (ID < GuiID.values().length && ID >= 0)
 		{
 			try
 			{
-				return GuiID.values()[ID].GetGuiClass().getDeclaredConstructor(
-						IInventory.class, TileEntity.class)
-										 .newInstance(player.inventory,
-													  world.getTileEntity(
-															  new BlockPos(x, y,
-																		   z)));
+				return GuiID.values()[ID].GetGuiClass().getDeclaredConstructor(IInventory.class, TileEntity.class)
+										 .newInstance(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
 			} catch (Exception e)
 			{
 				Log.LogWarning("there was an exception!");
 				Log.LogWarning(e.getMessage());
 				Log.LogWarning(e.getLocalizedMessage());
-				System.out.println("e.getStackTrace() = " + Arrays
-						.toString(e.getStackTrace()));
+				System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
 			}
 		}
 		return null;
@@ -80,16 +66,15 @@ public class GuiHandler implements IGuiHandler
 	public enum GuiID
 	{
 		BLAST_FURNACE(0, ContainerBlastFurnace.class, GuiBlastFurnace.class),
-		STEELMAKING_FURNACE(1, ContainerSteelmakingFurnace.class,
-							GuiSteelmakingFurnace.class),
-		STONE_WORKBENCH(2, ContainerWorkbench.class, GuiWorkbench.class);
+		STEELMAKING_FURNACE(1, ContainerSteelmakingFurnace.class, GuiSteelmakingFurnace.class),
+		STONE_WORKBENCH(2, ContainerWorkbench.class, GuiWorkbench.class),
+		WORKBENCH(3, ContainerWorkbench.class, GuiWorkbench.class);
 
 		public final int id;
 		private final Class<? extends Gui> gui;
 		private final Class<? extends Container> container;
 
-		GuiID(int id, Class<? extends Container> container,
-				Class<? extends Gui> gui)
+		GuiID(int id, Class<? extends Container> container, Class<? extends Gui> gui)
 		{
 			this.id = id;
 			this.container = container;
