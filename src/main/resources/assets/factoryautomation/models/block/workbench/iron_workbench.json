@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"0": "factoryautomation:blocks/work_table",
-		"particle": "factoryautomation:blocks/work_table"
+		"0": "factoryautomation:blocks/workbench/work_table",
+		"particle": "factoryautomation:blocks/workbench/work_table"
 	},
 	"elements": [
 		{
