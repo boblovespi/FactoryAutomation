@@ -54,9 +54,9 @@ tile.steelmaking_furnace_controller.name=Steelmaking Furnace Controller
 
 tile.ore_metal_copper.name=Malachite Ore
 tile.ore_metal_tin.name=Cassiterite Ore
-tile.limonite_ore_poor.name=Limonite Ore
-tile.limonite_ore_normal.name=Limonite Ore
-tile.limonite_ore_rich.name=Limonite Ore
+tile.limonite_ore.poor.name=Limonite Ore
+tile.limonite_ore.normal.name=Limonite Ore
+tile.limonite_ore.rich.name=Limonite Ore
 
 tile.lv_cable.name=LV Cable
 tile.power_shaft.name=Power Shaft

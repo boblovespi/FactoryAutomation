@@ -26,12 +26,8 @@ public class ContainerSteelmakingFurnace extends Container
 
 	public ContainerSteelmakingFurnace(IInventory playerInv, TileEntity te)
 	{
-		itemHandler = te
-				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
-							   null);
-		fluidHandler = te
-				.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
-							   null);
+		itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		fluidHandler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
 
 		this.te = (TESteelmakingFurnace) te;
 
@@ -39,32 +35,20 @@ public class ContainerSteelmakingFurnace extends Container
 		{
 			for (int j = 0; j < 2; j++)
 			{
-				addSlotToContainer(new SlotItemHandler(itemHandler,
-													   TESteelmakingFurnace.INPUT_SLOTS[
-															   i * 2 + j],
-													   58 + j * 18,
-													   20 + i * 18));
+				addSlotToContainer(
+						new SlotItemHandler(itemHandler, TESteelmakingFurnace.INPUT_SLOTS[i * 2 + j], 58 + j * 18,
+								20 + i * 18));
 
-				addSlotToContainer(new SlotOutputItem(itemHandler,
-													  TESteelmakingFurnace.OUTPUT_SLOTS[
-															  i * 2 + j],
-													  124 + j * 18,
-													  20 + i * 18));
+				addSlotToContainer(
+						new SlotOutputItem(itemHandler, TESteelmakingFurnace.OUTPUT_SLOTS[i * 2 + j], 124 + j * 18,
+								20 + i * 18));
 			}
 		}
 
-		addSlotToContainer(
-				new SlotFuel(itemHandler, TESteelmakingFurnace.FUEL_SLOT, 58,
-							 74));
+		addSlotToContainer(new SlotFuel(itemHandler, TESteelmakingFurnace.FUEL_SLOT, 58, 74));
 
-		addSlotToContainer(new SlotItemHandler(itemHandler,
-											   TESteelmakingFurnace.AIR_INPUT_SLOT,
-											   8, 74));
-		addSlotToContainer(new SlotItemHandler(itemHandler,
-											   TESteelmakingFurnace.FUEL_INPUT_SLOT,
-											   28, 74));
-
-
+		addSlotToContainer(new SlotItemHandler(itemHandler, TESteelmakingFurnace.AIR_INPUT_SLOT, 8, 74));
+		addSlotToContainer(new SlotItemHandler(itemHandler, TESteelmakingFurnace.FUEL_INPUT_SLOT, 28, 74));
 
 		int x = 8;
 		int y = 98;
@@ -72,9 +56,7 @@ public class ContainerSteelmakingFurnace extends Container
 		for (int j = 0; j < 3; ++j)
 		{
 			for (int i = 0; i < 9; ++i)
-				addSlotToContainer(
-						new Slot(playerInv, i + j * 9 + 9, x + i * 18,
-								 y + j * 18));
+				addSlotToContainer(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
 		}
 		for (int i = 0; i < 9; i++)
 		{
@@ -94,7 +76,7 @@ public class ContainerSteelmakingFurnace extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot)
 	{
-		ItemStack previous = null;
+		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(fromSlot);
 
 		if (slot != null && slot.getHasStack())
@@ -105,26 +87,23 @@ public class ContainerSteelmakingFurnace extends Container
 			if (fromSlot < this.itemHandler.getSlots())
 			{
 				// From the block breaker inventory to player's inventory
-				if (!this.mergeItemStack(current, itemHandler.getSlots(),
-										 itemHandler.getSlots() + 36, true))
-					return null;
+				if (!this.mergeItemStack(current, itemHandler.getSlots(), itemHandler.getSlots() + 36, true))
+					return ItemStack.EMPTY;
 			} else
 			{
 				// From the player's inventory to block breaker's inventory
-				if (!this.mergeItemStack(current, 0, itemHandler.getSlots(),
-										 false))
-					return null;
+				if (!this.mergeItemStack(current, 0, itemHandler.getSlots(), false))
+					return ItemStack.EMPTY;
 			}
 
-			if (current
-					.isEmpty()) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
+			if (current.isEmpty()) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
 				slot.putStack(
 						ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
 			else
 				slot.onSlotChanged();
 
 			if (current.getCount() == previous.getCount())
-				return null;
+				return ItemStack.EMPTY;
 			slot.onTake(playerIn, current);
 
 		}

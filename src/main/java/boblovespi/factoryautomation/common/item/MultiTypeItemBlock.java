@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.item;
 
-import boblovespi.factoryautomation.common.block.MultiTypeBlock;
+import boblovespi.factoryautomation.common.block.MultiStateBlock;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -15,9 +15,9 @@ public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSeri
 {
 
 	public Class<T> blockTypes;
-	private MultiTypeBlock baseBlock;
+	private MultiStateBlock baseBlock;
 
-	public MultiTypeItemBlock(MultiTypeBlock block, Class blockTypes)
+	public MultiTypeItemBlock(MultiStateBlock block, Class<T> blockTypes)
 	{
 		super(block);
 		baseBlock = block;
@@ -27,7 +27,7 @@ public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSeri
 		setHasSubtypes(true);
 	}
 
-	public void SetBaseBlock(MultiTypeBlock baseBlock)
+	public void SetBaseBlock(MultiStateBlock baseBlock)
 	{
 		this.baseBlock = baseBlock;
 	}
@@ -65,6 +65,7 @@ public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSeri
 
 		return getUnlocalizedName() + "." + types[0].getName();
 	}
+
 
 	/**
 	 * Converts the given ItemStack damage value into a metadata value to be placed in the world when this Item is

@@ -31,30 +31,21 @@ public class ContainerBlastFurnace extends Container
 
 	public ContainerBlastFurnace(IInventory playerInv, TileEntity te)
 	{
-		handler = te
-				.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
-						null);
+		handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
 		this.te = (TEBlastFurnaceController) te;
 
-		addSlotToContainer(new SlotItemHandler(handler,
-											   TEBlastFurnaceController.TUYERE_SLOT, 8, 8));
-		addSlotToContainer(new SlotRestrictedItem(handler,
-												  TEBlastFurnaceController.IRON_SLOT, 47, 17,
-												  Collections.singletonList(Items.IRON_INGOT)));
-		addSlotToContainer(new SlotRestrictedItem(handler,
-												  TEBlastFurnaceController.FLUX_SLOT, 65, 17,
-												  Collections.singletonList(Items.REDSTONE)));
-		addSlotToContainer(new SlotRestrictedItem(handler,
-												  TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
-												  Collections.singletonList(FAItems.coalCoke.ToItem())));
-		addSlotToContainer(new SlotRestrictedItem(handler,
-												  TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
-												  Collections.singletonList(FAItems.coalCoke.ToItem())));
-		addSlotToContainer(new SlotOutputItem(handler,
-											  TEBlastFurnaceController.OUTPUT_SLOT, 116, 35));
-		addSlotToContainer(new SlotOutputItem(handler,
-											  TEBlastFurnaceController.SLAG_SLOT, 142, 35));
+		addSlotToContainer(new SlotItemHandler(handler, TEBlastFurnaceController.TUYERE_SLOT, 8, 8));
+		addSlotToContainer(new SlotRestrictedItem(handler, TEBlastFurnaceController.IRON_SLOT, 47, 17,
+				Collections.singletonList(Items.IRON_INGOT)));
+		addSlotToContainer(new SlotRestrictedItem(handler, TEBlastFurnaceController.FLUX_SLOT, 65, 17,
+				Collections.singletonList(Items.REDSTONE)));
+		addSlotToContainer(new SlotRestrictedItem(handler, TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
+				Collections.singletonList(FAItems.coalCoke.ToItem())));
+		addSlotToContainer(new SlotRestrictedItem(handler, TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
+				Collections.singletonList(FAItems.coalCoke.ToItem())));
+		addSlotToContainer(new SlotOutputItem(handler, TEBlastFurnaceController.OUTPUT_SLOT, 116, 35));
+		addSlotToContainer(new SlotOutputItem(handler, TEBlastFurnaceController.SLAG_SLOT, 142, 35));
 
 		int x = 8;
 		int y = 84;
@@ -62,9 +53,7 @@ public class ContainerBlastFurnace extends Container
 		for (int j = 0; j < 3; ++j)
 		{
 			for (int i = 0; i < 9; ++i)
-				addSlotToContainer(
-						new Slot(playerInv, i + j * 9 + 9, x + i * 18,
-								y + j * 18));
+				addSlotToContainer(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
 		}
 		for (int i = 0; i < 9; i++)
 		{
@@ -81,7 +70,7 @@ public class ContainerBlastFurnace extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot)
 	{
-		ItemStack previous = null;
+		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(fromSlot);
 
 		if (slot != null && slot.getHasStack())
@@ -92,25 +81,23 @@ public class ContainerBlastFurnace extends Container
 			if (fromSlot < this.handler.getSlots())
 			{
 				// From the block breaker inventory to player's inventory
-				if (!this.mergeItemStack(current, handler.getSlots(),
-						handler.getSlots() + 36, true))
-					return null;
+				if (!this.mergeItemStack(current, handler.getSlots(), handler.getSlots() + 36, true))
+					return ItemStack.EMPTY;
 			} else
 			{
 				// From the player's inventory to block breaker's inventory
 				if (!this.mergeItemStack(current, 0, handler.getSlots(), false))
-					return null;
+					return ItemStack.EMPTY;
 			}
 
-			if (current.getCount()
-					== 0) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
+			if (current.isEmpty()) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
 				slot.putStack(
 						ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
 			else
 				slot.onSlotChanged();
 
 			if (current.getCount() == previous.getCount())
-				return null;
+				return ItemStack.EMPTY;
 			slot.onTake(playerIn, current);
 
 		}

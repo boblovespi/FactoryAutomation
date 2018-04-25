@@ -141,4 +141,10 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 	{
 		return false;
 	}
+
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
 }

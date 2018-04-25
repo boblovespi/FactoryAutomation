@@ -64,10 +64,12 @@ public class FactoryAutomation
 		TileEntityHandler.RegisterTileEntities();
 		Log.getLogger().info("Initialization end");
 
-		MultiblockHandler.Register("blast_furnace",
+		MultiblockHandler.Register(
+				"blast_furnace",
 				new MultiblockStructurePattern(MultiblockStructures.blastFurnace, new int[] { 0, 0, 1 }));
 
-		MultiblockHandler.Register("steelmaking_furnace",
+		MultiblockHandler.Register(
+				"steelmaking_furnace",
 				new MultiblockStructurePattern(MultiblockStructures.steelmakingFurnace, new int[] { 1, 1, 2 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());

@@ -117,4 +117,11 @@ public class NBTHelper
 
 		tag.setTag(key, base);
 	}
+
+	public static ItemStack SetTag(ItemStack stack, String key,NBTTagCompound tag)
+	{
+		stack.getOrCreateSubCompound(key);
+		stack.getTagCompound().setTag(key, tag);
+		return stack;
+	}
 }
