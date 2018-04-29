@@ -9,12 +9,14 @@ item.ingot.tin.name=Ón rúd
 item.ingot.bronze.name=Bronz rúd
 item.ingot.steel.name=Acél rúd
 item.ingot.pig_iron.name=Nyersvas rúd
+item.ingot.magmatic_brass.name=Magmatic Brass rúd
 
 item.nugget.copper.name=Réz rög
 item.nugget.tin.name=Ón rög
 item.nugget.bronze.name=Bronz rög
 item.nugget.steel.name=Acél rög
 item.nugget.pig_iron.name=Nyersvas rög
+item.nugget.magmatic_brass.name=Magmatic Brass rög
 
 item.sheet.iron.name=Vas lap
 item.sheet.gold.name=Arany lap
@@ -23,6 +25,16 @@ item.sheet.tin.name=Ón lap
 item.sheet.bronze.name=Bronz lap
 item.sheet.steel.name=Acél lap
 item.sheet.pig_iron.name=Nyersvas lap
+item.sheet.magmatic_brass.name=Magmatic Brass lap
+
+tile.block.iron.name=Vas Block
+tile.block.gold.name=Arany Block
+tile.block.copper.name=Réz Block
+tile.block.tin.name=Ón Block
+tile.block.bronze.name=Bronz Block
+tile.block.steel.name=Acél Block
+tile.block.pig_iron.name=Nyersvas Block
+tile.block.magmatic_brass.name=Magmatic Brass Block
 
 item.bronze_pickaxe.name=Bronz csákány
 item.bronze_axe.name=Bronz balta
@@ -52,8 +64,8 @@ tile.concrete_slab.name=Beton lap
 tile.blast_furnace_controller.name=Olvasztókohó vezérlő
 tile.steelmaking_furnace_controller.name=Acélgyártó kemence vezérlő
 
-tile.ore_metal.copper.name=Malahit érc
-tile.ore_metal.tin.name=Kassziszterit érc
+tile.ore_metal_copper.name=Malahit érc
+tile.ore_metal_tin.name=Kassziszterit érc
 tile.limonite_ore.poor.name=Limonit érc
 tile.limonite_ore.normal.name=Limonit érc
 tile.limonite_ore.rich.name=Limonit érc

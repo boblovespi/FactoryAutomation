@@ -55,4 +55,10 @@ public class MultiblockStructures
 					new MultiblockPart[] { EMPTY, EMPTY, NETHER_BRICK, EMPTY, EMPTY }
 			},
 	};
+
+	public static final MultiblockPart[][][] copperBoiler = new MultiblockPart[][][]{
+			new MultiblockPart[][]{
+					new MultiblockPart[] {}
+			}
+	};
 }

@@ -9,12 +9,14 @@ item.ingot.tin.name=Tin Ingot
 item.ingot.bronze.name=Bronze Ingot
 item.ingot.steel.name=Steel Ingot
 item.ingot.pig_iron.name=Pig Iron Ingot
+item.ingot.magmatic_brass.name=Magmatic Brass Ingot
 
 item.nugget.copper.name=Copper Nugget
 item.nugget.tin.name=Tin Nugget
 item.nugget.bronze.name=Bronze Nugget
 item.nugget.steel.name=Steel Nugget
 item.nugget.pig_iron.name=Pig Iron Nugget
+item.nugget.magmatic_brass.name=Magmatic Brass Nugget
 
 item.sheet.iron.name=Iron Sheet
 item.sheet.gold.name=Gold Sheet
@@ -23,6 +25,16 @@ item.sheet.tin.name=Tin Sheet
 item.sheet.bronze.name=Bronze Sheet
 item.sheet.steel.name=Steel Sheet
 item.sheet.pig_iron.name=Pig Iron Sheet
+item.sheet.magmatic_brass.name=Magmatic Brass Sheet
+
+tile.block.iron.name=Iron Block
+tile.block.gold.name=Gold Block
+tile.block.copper.name=Copper Block
+tile.block.tin.name=Tin Block
+tile.block.bronze.name=Bronze Block
+tile.block.steel.name=Steel Block
+tile.block.pig_iron.name=Pig Iron Block
+tile.block.magmatic_brass.name=Magmatic Brass Block
 
 item.bronze_pickaxe.name=Bronze Pickaxe
 item.bronze_axe.name=Bronze Axe

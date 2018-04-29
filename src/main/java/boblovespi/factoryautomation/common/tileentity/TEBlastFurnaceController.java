@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTE;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -280,14 +281,22 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public void CreateStructure(World world, BlockPos pos)
+	public void CreateStructure()
 	{
-
+		Block block = world.getBlockState(pos).getBlock();
+		if (block instanceof BlastFurnaceController)
+		{
+			((BlastFurnaceController) block).CreateStructure(world, pos);
+		}
 	}
 
 	@Override
-	public void BreakStructure(World world, BlockPos pos)
+	public void BreakStructure()
 	{
-
+		Block block = world.getBlockState(pos).getBlock();
+		if (block instanceof BlastFurnaceController)
+		{
+			((BlastFurnaceController) block).BreakStructure(world, pos);
+		}
 	}
 }

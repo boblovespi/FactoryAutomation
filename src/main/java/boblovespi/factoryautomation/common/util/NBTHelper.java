@@ -91,6 +91,7 @@ public class NBTHelper
 
 	public static EnergyConnection GetEnergyConnection(NBTTagCompound tag)
 	{
+		// TODO: do!
 		EnergyConnection connection = new EnergyConnection();
 		return null;
 	}

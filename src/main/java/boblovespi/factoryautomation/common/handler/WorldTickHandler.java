@@ -36,6 +36,6 @@ public class WorldTickHandler
 		if (tickEvent.phase == TickEvent.Phase.START
 				|| tickEvent.world.isRemote)
 			return;
-		handlers.forEach(IUpdatable::Update);
+		handlers.forEach(n -> n.Update(tickEvent.world));
 	}
 }

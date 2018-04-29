@@ -20,9 +20,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 12/21/2017.
+ * solar panels!
  */
 public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntityProvider
 {
@@ -50,12 +52,10 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntity
 
 	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 *
-	 * @param worldIn
-	 * @param meta
 	 */
 	@Nullable
 	@Override
+	@ParametersAreNonnullByDefault
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
 		return new TileEntitySolarPanel();
@@ -71,9 +71,10 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntity
 			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
 			entity1.ForceUpdate();
 			if (!worldIn.isRemote)
-				FactoryAutomation.proxy.AddChatMessage(ChatType.GAME_INFO, new TextComponentString(
-						"Power: " + entity1.AmountProduced() + " | Power generated - used: " + entity1
-								.ActualAmountProduced()));
+				FactoryAutomation.proxy.AddChatMessage(
+						ChatType.GAME_INFO, new TextComponentString(
+								"Power: " + entity1.AmountProduced() + " | Power generated - used: " + entity1
+										.ActualAmountProduced()));
 			Log.LogInfo("Can see sky", worldIn.canBlockSeeSky(pos));
 			Log.LogInfo("Sunlight factor", worldIn.getSunBrightnessFactor(0));
 			Log.LogInfo("Can block above see sky", worldIn.canBlockSeeSky(pos.up()));

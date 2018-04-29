@@ -2,11 +2,9 @@ package boblovespi.factoryautomation.common.block.machine;
 
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureController;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
-import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
@@ -23,7 +21,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -79,26 +76,6 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state)
 	{
-		Log.LogInfo("something broke!");
-		Log.LogInfo("blockPos", pos);
-
-		TileEntityMultiblockPart part = (TileEntityMultiblockPart) world.getTileEntity(pos);
-
-		Log.LogInfo("part is null", part == null);
-
-		if (part != null)
-		{
-			MultiblockStructurePattern structure = MultiblockHandler.Get(part.GetStructureId());
-			int[] offset = part.GetOffset();
-
-			BlockPos controllerLoc = pos.add(-offset[0], -offset[1], -offset[2]);
-			Block controller = world.getBlockState(controllerLoc).getBlock();
-			if (controller instanceof IMultiblockStructureController)
-			{
-				((IMultiblockStructureController) controller).BreakStructure(world, controllerLoc);
-				((IMultiblockStructureController) controller).SetStructureCompleted(world, controllerLoc, false);
-			}
-		}
 
 		super.breakBlock(world, pos, state);
 	}
@@ -106,31 +83,31 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 	@Override
 	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
 	{
-		Log.LogInfo("something broke!");
-		Log.LogInfo("blockPos", pos);
-
-		TileEntityMultiblockPart part = (TileEntityMultiblockPart) world.getTileEntity(pos);
-
-		Log.LogInfo("part is null", part == null);
-
-		if (part != null)
-		{
-			MultiblockStructurePattern structure = MultiblockHandler.Get(part.GetStructureId());
-			int[] offset = part.GetOffset();
-
-			BlockPos controllerLoc = pos.add(-offset[0], -offset[1], -offset[2]);
-
-			Log.LogInfo("offset", Arrays.toString(offset));
-
-			Block controller = world.getBlockState(controllerLoc).getBlock();
-			Log.LogInfo("is controller", controller instanceof IMultiblockStructureController);
-
-			if (controller instanceof IMultiblockStructureController)
-			{
-				((IMultiblockStructureController) controller).BreakStructure(world, controllerLoc);
-				((IMultiblockStructureController) controller).SetStructureCompleted(world, controllerLoc, false);
-			}
-		}
+		//		Log.LogInfo("something broke!");
+		//		Log.LogInfo("blockPos", pos);
+		//
+		//		TileEntityMultiblockPart part = (TileEntityMultiblockPart) world.getTileEntity(pos);
+		//
+		//		Log.LogInfo("part is null", part == null);
+		//
+		//		if (part != null)
+		//		{
+		//			MultiblockStructurePattern structure = MultiblockHandler.Get(part.GetStructureId());
+		//			int[] offset = part.GetOffset();
+		//
+		//			BlockPos controllerLoc = pos.add(-offset[0], -offset[1], -offset[2]);
+		//
+		//			Log.LogInfo("offset", Arrays.toString(offset));
+		//
+		//			Block controller = world.getBlockState(controllerLoc).getBlock();
+		//			Log.LogInfo("is controller", controller instanceof IMultiblockStructureController);
+		//
+		//			if (controller instanceof IMultiblockStructureController)
+		//			{
+		//				((IMultiblockStructureController) controller).BreakStructure(world, controllerLoc);
+		//				((IMultiblockStructureController) controller).SetStructureCompleted(world, controllerLoc, false);
+		//			}
+		//		}
 	}
 
 	/**

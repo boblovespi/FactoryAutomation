@@ -7,7 +7,6 @@ package boblovespi.factoryautomation.api.energy;
 
 import boblovespi.factoryautomation.api.IUpdatable;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
-import boblovespi.factoryautomation.common.util.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
@@ -24,12 +23,13 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	private static final String DATA_NAME = MODID + "_EnergyNetwork";
 	private static boolean isLoaded = false;
 	private List<EnergyConnection> connections;
+	private NBTTagCompound uninitData;
+	private boolean isInit = false;
 
 	public EnergyNetwork()
 	{
 		super(DATA_NAME);
 		connections = new ArrayList<>(maxGridSize);
-
 	}
 
 	public static EnergyNetwork GetFromWorld(World world)
@@ -38,8 +38,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		MapStorage storage = world.getPerWorldStorage();
-		EnergyNetwork instance = (EnergyNetwork) storage
-				.getOrLoadData(EnergyNetwork.class, DATA_NAME);
+		EnergyNetwork instance = (EnergyNetwork) storage.getOrLoadData(EnergyNetwork.class, DATA_NAME);
 
 		if (instance == null)
 		{
@@ -51,17 +50,21 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 			WorldTickHandler.GetInstance().AddHandler(instance);
 			isLoaded = true;
 		}
+		if (!instance.isInit)
+			instance.Init(world);
 		return instance;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		for (int i = 0; i < nbt.getSize(); i++)
-		{
-			connections.add(NBTHelper.GetEnergyConnection(
-					nbt.getCompoundTag(String.valueOf(i))));
-		}
+		//		for (int i = 0; i < nbt.getSize(); i++)
+		//		{
+		//			connections.add(EnergyConnection.FromNBT(
+		//					nbt.getCompoundTag(String.valueOf(i)), ));
+		//		}
+		uninitData = nbt;
+		isInit = false;
 	}
 
 	@Override
@@ -74,10 +77,22 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		return nbt;
 	}
 
-	public void Update()
+	public void Update(World world)
 	{
+		if (!isInit)
+			Init(world);
+
 		connections.forEach(EnergyConnection::Update);
 		System.out.println("updating!");
+	}
+
+	private void Init(World world)
+	{
+		for (int i = 0; i < uninitData.getSize(); i++)
+		{
+			connections.add(EnergyConnection.FromNBT(uninitData.getCompoundTag(String.valueOf(i)), world));
+		}
+		isInit = true;
 	}
 
 	public void AddConnection(EnergyConnection connection)
