@@ -3,6 +3,7 @@ package boblovespi.factoryautomation;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.Config;
+import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
@@ -12,6 +13,7 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -36,6 +38,11 @@ public class FactoryAutomation
 	@SidedProxy(serverSide = SERVER_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
 	public static CommonProxy proxy;
 
+	static
+	{
+		FluidRegistry.enableUniversalBucket();
+	}
+
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
 	public void PreInit(FMLPreInitializationEvent Event)
@@ -44,6 +51,8 @@ public class FactoryAutomation
 
 		Config.PreInit();
 		proxy.PreInit();
+
+		Fluids.RegisterFluids();
 
 		FAItems.Init();
 		FABlocks.Init();
@@ -62,6 +71,7 @@ public class FactoryAutomation
 		OreDictionaryHandler.registerOreDictionary();
 		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
 		TileEntityHandler.RegisterTileEntities();
+
 		Log.getLogger().info("Initialization end");
 
 		MultiblockHandler.Register(

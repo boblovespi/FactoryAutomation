@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
@@ -8,11 +9,13 @@ import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.block.workbench.IronWorkbench;
 import boblovespi.factoryautomation.common.block.workbench.StoneWorkbench;
+import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.util.ResourceLocation;
@@ -60,6 +63,9 @@ public class FABlocks
 
 	public static FABlock stoneWorkbench;
 	public static FABlock ironWorkbench;
+	public static FABlock steam;
+
+	// fluids
 
 	public static void Init()
 	{
@@ -110,6 +116,10 @@ public class FABlocks
 
 		stoneWorkbench = new StoneWorkbench();
 		ironWorkbench = new IronWorkbench();
+
+		// fluids
+
+		steam = new FluidFinite(Fluids.steam, Material.WATER, "steam");
 	}
 
 	public static void RegisterRenders()

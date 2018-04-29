@@ -22,7 +22,7 @@ public class FAItemBlock extends ItemBlock implements FAItem
 		this.faBlock = base;
 		setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
-		FAItems.items.add(this);
+		// FAItems.items.add(this);
 	}
 
 	@Override

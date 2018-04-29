@@ -10,8 +10,10 @@ import boblovespi.factoryautomation.common.item.tools.*;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import boblovespi.factoryautomation.common.util.Log;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -20,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -63,6 +66,7 @@ public class FAItems
 	public static FAItem ironHammer;
 	public static FAItem steelHammer;
 	public static FAItem steelWrench;
+	public static FAItem fluidCanister;
 
 	public static void Init()
 	{
@@ -96,11 +100,12 @@ public class FAItems
 		ironHammer = new WorkbenchToolItem("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
 		steelHammer = new WorkbenchToolItem("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
 		steelWrench = new WorkbenchToolItem("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
+
+		// fluidCanister = new FluidCanister("fluid_canister", 3000);
 	}
 
 	public static void RegisterItemRenders()
 	{
-
 		for (Item item : items)
 		{
 			Log.LogInfo("new item!");
@@ -108,7 +113,14 @@ public class FAItems
 			Log.LogInfo("item resource path", item.getRegistryName().getResourcePath());
 			if (item instanceof FAItem)
 			{
-				if (item instanceof MultiTypeItem)
+				if (item instanceof FAItemBlock)
+				{
+					if (((FAItemBlock) item).faBlock instanceof IFluidBlock)
+						RegisterFluidBlock((FAItemBlock) item);
+					else
+						RegisterItemBlock((ItemBlock) item);
+
+				} else if (item instanceof MultiTypeItem)
 				{
 					MultiTypeItem variantItem = (MultiTypeItem) item;
 					RegisterRenders(variantItem);
@@ -129,6 +141,26 @@ public class FAItems
 				RegisterVanillaRender(item);
 			}
 		}
+	}
+
+	@SuppressWarnings("MethodCallSideOnly")
+	private static void RegisterFluidBlock(FAItemBlock item)
+	{
+		final ModelResourceLocation loc = new ModelResourceLocation(
+				new ResourceLocation(FactoryAutomation.MODID, item.GetMetaFilePath(0)), "inventory");
+		ModelBakery.registerItemVariants(item.ToItem(), loc);
+		ModelLoader.setCustomModelResourceLocation(item.ToItem(), 0, loc);
+		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
+		ModelLoader.setCustomStateMapper(item.getBlock(), new StateMapperBase()
+		{
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState state)
+			{
+				return new ModelResourceLocation(
+						new ResourceLocation(FactoryAutomation.MODID, "fluids"),
+						((IFluidBlock) item.getBlock()).getFluid().getName());
+			}
+		});
 	}
 
 	/*@SideOnly(Side.CLIENT)*/
