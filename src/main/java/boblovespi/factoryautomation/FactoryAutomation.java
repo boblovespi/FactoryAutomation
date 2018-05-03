@@ -2,7 +2,6 @@ package boblovespi.factoryautomation;
 
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
@@ -14,6 +13,8 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -23,17 +24,17 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Created by Willi on 11/8/2017.
+ * main mod class
  */
-@Mod(modid = FactoryAutomation.MODID, name = FactoryAutomation.NAME, version = FactoryAutomation.VERSION, guiFactory = FactoryAutomation.GUI_FACTORY)
+@Mod(modid = FactoryAutomation.MODID, name = FactoryAutomation.NAME, version = FactoryAutomation.VERSION/*, guiFactory = FactoryAutomation.GUI_FACTORY*/)
 public class FactoryAutomation
 {
-
 	public static final String MODID = "factoryautomation";
 	public static final String VERSION = "alpha 1.0.2";
 	public static final String NAME = "Factory Automation";
 	public static final String SERVER_PROXY_CLASS = "boblovespi.factoryautomation.common.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
-	public static final String GUI_FACTORY = "boblovespi.factoryautomation.common.config.ConfigGuiFactory";
+	public static final String GUI_FACTORY = "net.minecraftforge.fml.client.DefaultGuiFactory";
 	@Mod.Instance(MODID)
 	public static FactoryAutomation instance = new FactoryAutomation();
 	@SidedProxy(serverSide = SERVER_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
@@ -50,7 +51,9 @@ public class FactoryAutomation
 	{
 		Log.getLogger().info("Preinitialization");
 
-		Config.PreInit();
+		ConfigManager.sync(MODID, Config.Type.INSTANCE);
+
+		// FAConfig.PreInit();
 		proxy.PreInit();
 
 		Fluids.RegisterFluids();

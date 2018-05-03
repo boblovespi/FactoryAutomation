@@ -4,7 +4,6 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.config.Config;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ChatType;
@@ -43,7 +42,7 @@ public class ClientProxy implements CommonProxy
 	{
 		// ModelLoaderRegistry.registerLoader(new ObjModelLoader());
 		OBJLoader.INSTANCE.addDomain("factoryautomation");
-		Config.ClientPreInit();
+		// FAConfig.ClientPreInit();
 	}
 
 	@Override

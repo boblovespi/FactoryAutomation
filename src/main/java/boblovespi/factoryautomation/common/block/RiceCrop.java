@@ -27,15 +27,12 @@ import java.util.Random;
  */
 public class RiceCrop extends BlockBush implements IGrowable, FABlock
 {
-	private static final PropertyInteger Age = PropertyInteger
-			.create("age", 0, 7);
-	private static final AxisAlignedBB BoundingBox = new AxisAlignedBB(0, 0, 0,
-			1, 1 / 16, 1);
+	private static final PropertyInteger Age = PropertyInteger.create("age", 0, 7);
+	private static final AxisAlignedBB BoundingBox = new AxisAlignedBB(0, 0, 0, 1, 1 / 16, 1);
 
 	public RiceCrop()
 	{
-		setDefaultState(
-				blockState.getBaseState().withProperty(AgeProperty(), 0));
+		setDefaultState(blockState.getBaseState().withProperty(AgeProperty(), 0));
 		setTickRandomly(true);
 
 		setHardness(0);
@@ -68,8 +65,8 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 		return Age;
 	}
 
-	@Override public boolean canGrow(World world, BlockPos blockPos,
-			IBlockState iBlockState, boolean b)
+	@Override
+	public boolean canGrow(World world, BlockPos blockPos, IBlockState iBlockState, boolean b)
 	{
 		return !isMaxAge(iBlockState);
 	}
@@ -79,70 +76,70 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 		return state.getValue(Age) == MaxAge();
 	}
 
-	@Override public boolean canUseBonemeal(World world, Random random,
-			BlockPos blockPos, IBlockState iBlockState)
+	@Override
+	public boolean canUseBonemeal(World world, Random random, BlockPos blockPos, IBlockState iBlockState)
 	{
 		return true;
 	}
 
-	@Override public void grow(World world, Random random, BlockPos blockPos,
-			IBlockState iBlockState)
+	@Override
+	public void grow(World world, Random random, BlockPos blockPos, IBlockState iBlockState)
 	{
-		world.setBlockState(blockPos,
-				WithAge(getAge(iBlockState) + 1 > MaxAge() ?
-						MaxAge() :
-						getAge(iBlockState) + 1), 2);
+		world.setBlockState(blockPos, WithAge(getAge(iBlockState) + 1 > MaxAge() ? MaxAge() : getAge(iBlockState) + 1),
+				2);
 	}
 
-	@Override protected boolean canSustainBush(IBlockState state)
+	@Override
+	protected boolean canSustainBush(IBlockState state)
 	{
-		return state.getBlock() == Blocks.WATER
-				|| state.getBlock() == Blocks.FLOWING_WATER;
+		return state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.FLOWING_WATER;
 	}
 
-	@Override protected BlockStateContainer createBlockState()
+	@Override
+	protected BlockStateContainer createBlockState()
 	{
 		return new BlockStateContainer(this, Age);
 	}
 
-	@Override public List<ItemStack> getDrops(IBlockAccess blockAccess,
-			BlockPos pos, IBlockState state, int i)
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess blockAccess, BlockPos pos, IBlockState state, int i)
 	{
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 
 		if (isMaxAge(state))
 		{
-			drops.add(new ItemStack(FAItems.riceGrain.ToItem(),
-					(int) (Math.random() * 4)));
+			drops.add(new ItemStack(FAItems.riceGrain.ToItem(), (int) (Math.random() * 4)));
 		}
 		drops.add(new ItemStack(FAItems.riceGrain.ToItem()));
 
 		return drops;
 	}
 
-	@Override public int getMetaFromState(IBlockState state)
+	@Override
+	public int getMetaFromState(IBlockState state)
 	{
 		return state.getValue(AgeProperty());
 	}
 
-	@Override public IBlockState getStateFromMeta(int meta)
+	@Override
+	public IBlockState getStateFromMeta(int meta)
 	{
 		return WithAge(meta);
 	}
 
-	@Override public String UnlocalizedName()
+	@Override
+	public String UnlocalizedName()
 	{
 		return "rice_crop";
 	}
 
-	@Override public void updateTick(World worldIn, BlockPos pos,
-			IBlockState state, Random rand)
+	@Override
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
 	{
 		super.updateTick(worldIn, pos, state, rand);
 
 		if (worldIn.getBlockState(pos.down()).getBlock() != Blocks.WATER
-				&& worldIn.getBlockState(pos.down()).getBlock()
-				!= Blocks.FLOWING_WATER)
+				&& worldIn.getBlockState(pos.down()).getBlock() != Blocks.FLOWING_WATER)
 		{
 			worldIn.setBlockToAir(pos);
 			dropBlockAsItem(worldIn, pos, state, 0);
@@ -157,12 +154,10 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 			{
 				float f = GrowthChance(this, worldIn, pos);
 
-				if (ForgeHooks.onCropsGrowPre(worldIn, pos, state,
-						rand.nextInt((int) (25.0F / f) + 1) == 0))
+				if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0))
 				{
 					worldIn.setBlockState(pos, WithAge(i + 1), 2);
-					ForgeHooks.onCropsGrowPost(worldIn, pos, state,
-							worldIn.getBlockState(pos));
+					ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos));
 				}
 			}
 		}
@@ -173,8 +168,7 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 		float chance = 0;
 
 		BlockPos d = pos.down();
-		if (w.getBlockState(d).getBlock() == Blocks.WATER
-				|| w.getBlockState(d).getBlock() == Blocks.FLOWING_WATER)
+		if (w.getBlockState(d).getBlock() == Blocks.WATER || w.getBlockState(d).getBlock() == Blocks.FLOWING_WATER)
 			chance += 1;
 		else
 			return 0;
@@ -186,11 +180,9 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 				if (w.getBlockState(d.add(x, 0, y)) == Blocks.WATER)
 					chance += 0.5;
 				if (w.getBlockState(d.add(x, 0, y)) == Blocks.FLOWING_WATER)
-
 					chance += 0.3;
 
-				if (w.getBlockState(d.add(x, -1, y)) == Blocks.DIRT
-						|| w.getBlockState(d.add(x, -1, y)) == Blocks.SAND
+				if (w.getBlockState(d.add(x, -1, y)) == Blocks.DIRT || w.getBlockState(d.add(x, -1, y)) == Blocks.SAND
 						|| w.getBlockState(d.add(x, -1, y)) == Blocks.GRAVEL)
 					chance += 0.2;
 			}
@@ -199,8 +191,8 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 		return chance;
 	}
 
-	@Override public ItemStack getPickBlock(IBlockState state,
-			RayTraceResult target, World world, BlockPos pos,
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player)
 	{
 		return new ItemStack(FAItems.riceGrain.ToItem());
