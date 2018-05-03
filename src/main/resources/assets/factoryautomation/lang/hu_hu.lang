@@ -27,14 +27,14 @@ item.sheet.steel.name=Acél lap
 item.sheet.pig_iron.name=Nyersvas lap
 item.sheet.magmatic_brass.name=Magmatic Brass lap
 
-tile.block.iron.name=Vas Block
-tile.block.gold.name=Arany Block
-tile.block.copper.name=Réz Block
-tile.block.tin.name=Ón Block
-tile.block.bronze.name=Bronz Block
-tile.block.steel.name=Acél Block
-tile.block.pig_iron.name=Nyersvas Block
-tile.block.magmatic_brass.name=Magmatic Brass Block
+tile.metal_block_iron.name=Vas Block
+tile.metal_block_gold.name=Arany Block
+tile.metal_block_copper.name=Réz Block
+tile.metal_block_tin.name=Ón Block
+tile.metal_block_bronze.name=Bronz Block
+tile.metal_block_steel.name=Acél Block
+tile.metal_block_pig_iron.name=Nyersvas Block
+tile.metal_block_magmatic_brass.name=Magmatic Brass Block
 
 item.bronze_pickaxe.name=Bronz csákány
 item.bronze_axe.name=Bronz balta

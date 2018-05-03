@@ -159,8 +159,9 @@ public abstract class MultiStateBlock<T extends Enum<T> & IMultiTypeEnum & IStri
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player)
 	{
-		return NBTHelper.SetTag(new ItemStack(Item.getItemFromBlock(this), 1, 0, GetTagFromState(state)), "blockdata",
-				GetTagFromState(state));
+		ItemStack stack = new ItemStack(Item.getItemFromBlock(this));
+		NBTHelper.GetTag(stack).setTag("blockdata", GetTagFromState(state));
+		return stack;
 	}
 
 	public abstract NBTTagCompound GetTagFromState(IBlockState state);
@@ -179,7 +180,8 @@ public abstract class MultiStateBlock<T extends Enum<T> & IMultiTypeEnum & IStri
 	@Override
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
 	{
-		drops.add(NBTHelper.SetTag(new ItemStack(Item.getItemFromBlock(this), 1, 0, GetTagFromState(state)), "blockdata",
-				GetTagFromState(state)));
+		ItemStack stack = new ItemStack(Item.getItemFromBlock(this));
+		NBTHelper.GetTag(stack).setTag("blockdata", GetTagFromState(state));
+		drops.add(stack);
 	}
 }

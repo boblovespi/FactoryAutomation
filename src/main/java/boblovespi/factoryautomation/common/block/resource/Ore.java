@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.MultiStateBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.item.MultiTypeItemBlock;
+import boblovespi.factoryautomation.common.item.MultiStateItemBlock;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import com.google.common.base.Optional;
@@ -32,7 +32,7 @@ public class Ore extends MultiStateBlock<Ore.Grade>
 	{
 		super(Material.ROCK, name, Grade.class, "ores");
 		setHarvestLevel("pickaxe", harvestLevel);
-		FAItems.items.add(new MultiTypeItemBlock<Grade>(this, Grade.class));
+		FAItems.items.add(new MultiStateItemBlock<>(this, Grade.class));
 	}
 
 	@Override

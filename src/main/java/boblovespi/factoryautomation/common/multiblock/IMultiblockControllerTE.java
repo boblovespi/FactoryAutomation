@@ -2,8 +2,9 @@ package boblovespi.factoryautomation.common.multiblock;
 
 /**
  * Created by Willi on 11/19/2017.
+ * interface for multiblock controller tile entities
  */
-public interface IMultiblockStructureControllerTE
+public interface IMultiblockControllerTE
 {
 	default void SetStructureValid()
 	{

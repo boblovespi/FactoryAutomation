@@ -67,6 +67,7 @@ public class FAItems
 	public static FAItem steelHammer;
 	public static FAItem steelWrench;
 	public static FAItem fluidCanister;
+	public static FAItem steelPinchers;
 
 	public static void Init()
 	{
@@ -100,6 +101,7 @@ public class FAItems
 		ironHammer = new WorkbenchToolItem("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
 		steelHammer = new WorkbenchToolItem("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
 		steelWrench = new WorkbenchToolItem("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
+		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterials.steelMaterial);
 
 		// fluidCanister = new FluidCanister("fluid_canister", 3000);
 	}
@@ -124,9 +126,9 @@ public class FAItems
 				{
 					MultiTypeItem variantItem = (MultiTypeItem) item;
 					RegisterRenders(variantItem);
-				} else if (item instanceof MultiTypeItemBlock)
+				} else if (item instanceof MultiStateItemBlock)
 				{
-					MultiTypeItemBlock variantItem = (MultiTypeItemBlock) item;
+					MultiStateItemBlock variantItem = (MultiStateItemBlock) item;
 					RegisterRenders(variantItem);
 				} else
 				{
@@ -187,7 +189,7 @@ public class FAItems
 		}
 	}
 
-	private static void RegisterRenders(MultiTypeItemBlock item)
+	private static void RegisterRenders(MultiStateItemBlock item)
 	{
 		for (int meta = 0; meta < item.blockTypes.getEnumConstants().length; meta++)
 		{

@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.COPPER;
+
 /**
  * Created by Willi on 11/9/2017.
  */
@@ -102,6 +104,8 @@ public class FABlocks
 		motor = new Motor();
 
 		metalBlock = new MetalBlock();
+		metalBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
+
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
 		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
 
@@ -110,7 +114,7 @@ public class FABlocks
 
 		// ores
 
-		limoniteOre = new Ore("limonite_ore", 1);
+		limoniteOre = new Ore("limonite_ore", COPPER).Init(n -> n.setHardness(2.5f).setResistance(14));
 
 		// workbenches
 

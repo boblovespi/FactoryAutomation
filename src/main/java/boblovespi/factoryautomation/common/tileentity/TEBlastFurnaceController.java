@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.tileentity;
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
-import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTE;
+import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -13,7 +13,6 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -27,8 +26,7 @@ import javax.annotation.Nullable;
  * shamelessly copied over from my old mod
  */
 public class TEBlastFurnaceController extends TileEntity
-		implements ITickable, ICapabilityProvider,
-		IMultiblockStructureControllerTE
+		implements ITickable, ICapabilityProvider, IMultiblockControllerTE
 {
 	public static final int[] COKE_SLOTS = { 3, 4 };
 	public static final int IRON_SLOT = 1;
@@ -94,8 +92,7 @@ public class TEBlastFurnaceController extends TileEntity
 		if (worldObj.isRemote)
 			return;
 
-		if (!worldObj.getBlockState(pos)
-					 .getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
+		if (!worldObj.getBlockState(pos).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
 			return;
 
 		steelSmeltTime = 2000; // TODO: read from config
@@ -114,53 +111,44 @@ public class TEBlastFurnaceController extends TileEntity
 					isSmeltingItem = false;
 					itemHandler.extractItem(IRON_SLOT, 1, false);
 					itemHandler.extractItem(FLUX_SLOT, 1, false);
-					itemHandler.insertItem(OUTPUT_SLOT,
-										   new ItemStack(FAItems.ingot.ToItem(),
-														 1, Metals.PIG_IRON
-																 .GetId()),
-										   false);
-					itemHandler.insertItem(SLAG_SLOT,
-										   new ItemStack(FAItems.slag.ToItem(),
-														 1, 0), false);
+					itemHandler
+							.insertItem(OUTPUT_SLOT, new ItemStack(FAItems.ingot.ToItem(), 1, Metals.PIG_IRON.GetId()),
+									false);
+					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag.ToItem(), 1, 0), false);
 				}
 			} else
 			{
 				if (!itemHandler.getStackInSlot(COKE_SLOTS[0]).isEmpty())
 				{
-					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0])
-											  .getItem().getItemBurnTime(
-									itemHandler.getStackInSlot(COKE_SLOTS[0]));
+					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0]).getItem()
+											  .getItemBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]));
 
 					itemHandler.extractItem(COKE_SLOTS[0], 1, false);
 					burnTime = fuelBurnTime;
 					isBurningFuel = true;
 				} else if (!itemHandler.getStackInSlot(COKE_SLOTS[1]).isEmpty())
 				{
-					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0])
-											  .getItem().getItemBurnTime(
-									itemHandler.getStackInSlot(COKE_SLOTS[0]));
+					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0]).getItem()
+											  .getItemBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]));
 
 					itemHandler.extractItem(COKE_SLOTS[1], 1, false);
 					burnTime = fuelBurnTime;
 					isBurningFuel = true;
 				} else
 				{
-					smeltTime = smeltTime + 10 * smeltScalar > steelSmeltTime ?
-							steelSmeltTime :
+					smeltTime = smeltTime + 10 * smeltScalar > steelSmeltTime ? steelSmeltTime :
 							smeltTime + 10 * smeltScalar;
 				}
 			}
 		} else if (isBurningFuel)
 		{
-			if (!itemHandler.getStackInSlot(IRON_SLOT).isEmpty() && !itemHandler
-					.getStackInSlot(FLUX_SLOT).isEmpty() && !itemHandler
-					.getStackInSlot(TUYERE_SLOT).isEmpty())
+			if (!itemHandler.getStackInSlot(IRON_SLOT).isEmpty() && !itemHandler.getStackInSlot(FLUX_SLOT).isEmpty()
+					&& !itemHandler.getStackInSlot(TUYERE_SLOT).isEmpty())
 			{
 				smeltTime = steelSmeltTime;
 				isSmeltingItem = true;
 			}
-		} else if (!itemHandler.getStackInSlot(IRON_SLOT).isEmpty()
-				&& !itemHandler.getStackInSlot(FLUX_SLOT).isEmpty()
+		} else if (!itemHandler.getStackInSlot(IRON_SLOT).isEmpty() && !itemHandler.getStackInSlot(FLUX_SLOT).isEmpty()
 				&& !itemHandler.getStackInSlot(TUYERE_SLOT).isEmpty())
 		{
 			if (!itemHandler.getStackInSlot(COKE_SLOTS[0]).isEmpty())
@@ -272,6 +260,11 @@ public class TEBlastFurnaceController extends TileEntity
 	public void SetStructureValid(boolean isValid)
 	{
 		isStructureValid = isValid;
+		Block block = world.getBlockState(pos).getBlock();
+		if (block instanceof BlastFurnaceController)
+		{
+			((BlastFurnaceController) block).SetStructureCompleted(world, pos, isValid);
+		}
 	}
 
 	@Override

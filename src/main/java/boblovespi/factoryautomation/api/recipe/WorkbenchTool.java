@@ -19,6 +19,16 @@ public class WorkbenchTool
 				put(FAItems.ironHammer.ToItem(), 1);
 				put(FAItems.steelHammer.ToItem(), 2);
 			}});
+	public static final WorkbenchTool WRENCH = new WorkbenchTool(new ResourceLocation("factoryautomation", "wrench"),
+			new HashMap<Item, Integer>()
+			{{
+				put(FAItems.steelWrench.ToItem(), 2);
+			}});
+	public static final WorkbenchTool PINCHERS = new WorkbenchTool(
+			new ResourceLocation("factoryautomation", "pinchers"), new HashMap<Item, Integer>()
+	{{
+		put(FAItems.steelPinchers.ToItem(), 2);
+	}});
 
 	private HashMap<Item, Integer> items;
 

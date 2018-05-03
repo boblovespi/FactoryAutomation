@@ -2,22 +2,26 @@ package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.common.block.MultiStateBlock;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
+import boblovespi.factoryautomation.common.util.NBTHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IStringSerializable;
 
 /**
  * Created by Willi on 12/23/2017.
  */
-public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends ItemBlock
+public class MultiStateItemBlock
+		<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends ItemBlock
 		implements FAItem
 {
 
 	public Class<T> blockTypes;
-	private MultiStateBlock baseBlock;
+	private MultiStateBlock<T> baseBlock;
 
-	public MultiTypeItemBlock(MultiStateBlock block, Class<T> blockTypes)
+	public MultiStateItemBlock(MultiStateBlock<T> block, Class<T> blockTypes)
 	{
 		super(block);
 		baseBlock = block;
@@ -27,7 +31,7 @@ public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSeri
 		setHasSubtypes(true);
 	}
 
-	public void SetBaseBlock(MultiStateBlock baseBlock)
+	public void SetBaseBlock(MultiStateBlock<T> baseBlock)
 	{
 		this.baseBlock = baseBlock;
 	}
@@ -59,13 +63,19 @@ public class MultiTypeItemBlock<T extends Enum<T> & IMultiTypeEnum & IStringSeri
 	{
 		T[] types = blockTypes.getEnumConstants();
 
-		for (int i = 0; i < types.length; i++)
-			if (stack.getItemDamage() == i)
-				return getUnlocalizedName() + "." + types[i].getName();
+		for (IBlockState state : baseBlock.getBlockState().getValidStates())
+			if (NBTHelper.HasKey(stack, "blockdata"))
+			{
+				NBTTagCompound blockdata = NBTHelper.GetTag(stack).getCompoundTag("blockdata");
+				IBlockState stateFromTag = baseBlock.GetStateFromTag(blockdata);
+
+				if (stateFromTag.equals(state))
+
+				return getUnlocalizedName() + "." + state.getValue(baseBlock.TYPE).toString();
+			}
 
 		return getUnlocalizedName() + "." + types[0].getName();
 	}
-
 
 	/**
 	 * Converts the given ItemStack damage value into a metadata value to be placed in the world when this Item is

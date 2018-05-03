@@ -36,7 +36,7 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 	@Override
 	public boolean CanFitTier(int x, int y, int tier)
 	{
-		return tier >= this.tier && x <= sizeX && y <= sizeY;
+		return tier >= this.tier && x >= sizeX && y >= sizeY;
 	}
 
 	@Override

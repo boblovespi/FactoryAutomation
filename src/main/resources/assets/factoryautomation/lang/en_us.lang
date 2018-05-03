@@ -27,14 +27,14 @@ item.sheet.steel.name=Steel Sheet
 item.sheet.pig_iron.name=Pig Iron Sheet
 item.sheet.magmatic_brass.name=Magmatic Brass Sheet
 
-tile.block.iron.name=Iron Block
-tile.block.gold.name=Gold Block
-tile.block.copper.name=Copper Block
-tile.block.tin.name=Tin Block
-tile.block.bronze.name=Bronze Block
-tile.block.steel.name=Steel Block
-tile.block.pig_iron.name=Pig Iron Block
-tile.block.magmatic_brass.name=Magmatic Brass Block
+tile.metal_block_iron.name=Iron Block
+tile.metal_block_gold.name=Gold Block
+tile.metal_block_copper.name=Copper Block
+tile.metal_block_tin.name=Tin Block
+tile.metal_block_bronze.name=Bronze Block
+tile.metal_block_steel.name=Steel Block
+tile.metal_block_pig_iron.name=Pig Iron Block
+tile.metal_block_magmatic_brass.name=Magmatic Brass Block
 
 item.bronze_pickaxe.name=Bronze Pickaxe
 item.bronze_axe.name=Bronze Axe
@@ -55,6 +55,11 @@ item.clay_crucible.name=Clay Crucible
 
 item.diamond_gravel.name=Diamond Gravel
 
+
+item.iron_hammer.name=Iron Hammer
+item.steel_hammer.name=Steel Hammer
+item.steel_wrench.name=Steel Wrench
+item.steel_pinchers.name=Steel Pinchers
 
 # tiles
 
@@ -91,3 +96,6 @@ gui.config.test.test_scalar.comment=A scalar for testing config with
 
 # gui
 gui.misc.temperature=Temp
+
+# tooltip
+tooltip.grade=Grade

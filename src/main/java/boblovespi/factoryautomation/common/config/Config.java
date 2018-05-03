@@ -24,6 +24,10 @@ public class Config
 	public static Configuration config;
 	public static double testScalar;
 
+	// TODO: figure out
+	@net.minecraftforge.common.config.Config.RangeInt(min = 0, max = 10)
+	public static int woodHarvestLevel;
+
 	public static void PreInit()
 	{
 		File configFile = new File(Loader.instance().getConfigDir(),

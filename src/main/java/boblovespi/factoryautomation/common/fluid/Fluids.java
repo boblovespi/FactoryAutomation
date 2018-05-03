@@ -1,9 +1,10 @@
 package boblovespi.factoryautomation.common.fluid;
 
-import boblovespi.factoryautomation.FactoryAutomation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 /**
  * Created by Willi on 12/29/2017.
@@ -11,10 +12,12 @@ import net.minecraftforge.fluids.FluidRegistry;
 public class Fluids
 {
 	public static Fluid sodiumChloride = new FluidBase("sodium_chloride", null, null);
-	public static Fluid steam = new FluidBase("fa_steam",
-			new ResourceLocation(FactoryAutomation.MODID, "fluids/steam_still"),
-			new ResourceLocation(FactoryAutomation.MODID, "fluids/steam_flow"))
-			.Setup(n -> n.setDensity(0).setTemperature(373).setGaseous(true).setViscosity(3000));
+	public static Fluid steam = new FluidBase("fa_steam", new ResourceLocation(MODID, "fluids/steam_still"),
+			new ResourceLocation(MODID, "fluids/steam_flow"))
+			.Setup(n -> n.setDensity(0).setTemperature(373).setGaseous(true).setViscosity(8000));
+	public static Fluid air = new FluidBase(
+			"fa_air", new ResourceLocation(MODID, "fluids/air_still"), new ResourceLocation(MODID, "fluids/air_still"))
+			.Setup(n -> n.setDensity(0).setGaseous(true).setTemperature(300).setViscosity(15000));
 
 	//	static
 	//	{
@@ -24,6 +27,7 @@ public class Fluids
 	public static void RegisterFluids()
 	{
 		RegisterFluid(steam);
+		RegisterFluid(air);
 		// TEMP
 		FluidRegistry.addBucketForFluid(steam);
 	}

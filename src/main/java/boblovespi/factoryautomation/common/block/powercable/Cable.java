@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.block.powercable;
 import boblovespi.factoryautomation.api.energy.*;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import javafx.util.Pair;
 import net.minecraft.block.Block;
@@ -11,7 +12,6 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -61,8 +61,7 @@ public class Cable extends Block implements FABlock
 		setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
 		FABlocks.blocks.add(this);
-		FAItems.items.add(new ItemBlock(this)
-								  .setRegistryName(this.getRegistryName()));
+		FAItems.items.add(new FAItemBlock(this));
 		setDefaultState(
 				blockState.getBaseState().withProperty(WEST, AttachPos.NONE)
 						  .withProperty(EAST, AttachPos.NONE)

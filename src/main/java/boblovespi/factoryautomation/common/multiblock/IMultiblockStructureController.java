@@ -6,19 +6,29 @@ import net.minecraft.world.World;
 
 /**
  * Created by Willi on 11/17/2017.
+ *
+ * @deprecated Use IMultiblockControllerTE
  */
+
+@Deprecated
 public interface IMultiblockStructureController
 {
 	String GetPatternId();
 
-	default boolean IsValidStructure(World world, BlockPos pos,
-			IBlockState state)
+	default boolean IsValidStructure(World world, BlockPos pos, IBlockState state)
 	{
 		return false;
 	}
 
-	void CreateStructure(World world, BlockPos pos);
-	void BreakStructure(World world, BlockPos pos);
+	default void CreateStructure(World world, BlockPos pos)
+	{
+	}
 
-	void SetStructureCompleted(World world, BlockPos pos, boolean completed);
+	default void BreakStructure(World world, BlockPos pos)
+	{
+	}
+
+	default void SetStructureCompleted(World world, BlockPos pos, boolean completed)
+	{
+	}
 }

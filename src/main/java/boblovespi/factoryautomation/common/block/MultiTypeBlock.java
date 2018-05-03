@@ -20,6 +20,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import java.util.function.Consumer;
+
 /**
  * Created by Willi on 12/23/2017.
  */
@@ -187,5 +189,15 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 	public FABaseBlock GetBlock(T type)
 	{
 		return blocks[type.GetId()];
+	}
+
+	@Override
+	public FABlock Init(Consumer<Block> apply)
+	{
+		for (Block block : blocks)
+		{
+			apply.accept(block);
+		}
+		return this;
 	}
 }

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureControllerTE;
+import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
@@ -64,9 +64,9 @@ public class BlockEventHandler
 
 				BlockPos controllerLoc = pos.add(-offset[0], -offset[1], -offset[2]);
 				TileEntity te = world.getTileEntity(controllerLoc);
-				if (te instanceof IMultiblockStructureControllerTE)
+				if (te instanceof IMultiblockControllerTE)
 				{
-					IMultiblockStructureControllerTE controllerTe = (IMultiblockStructureControllerTE) te;
+					IMultiblockControllerTE controllerTe = (IMultiblockControllerTE) te;
 					controllerTe.BreakStructure();
 					controllerTe.SetStructureInvalid();
 				}
