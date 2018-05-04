@@ -2,12 +2,14 @@ package boblovespi.factoryautomation;
 
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.config.ConfigFields;
 import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.handler.VanillaTweakHandler;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.tools.ToolMaterials;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
@@ -50,6 +52,9 @@ public class FactoryAutomation
 	public void PreInit(FMLPreInitializationEvent Event)
 	{
 		Log.getLogger().info("Preinitialization");
+
+		ConfigFields.AddClass(VanillaTweakHandler.class);
+		ConfigFields.AddClass(ToolMaterials.class);
 
 		ConfigManager.sync(MODID, Config.Type.INSTANCE);
 

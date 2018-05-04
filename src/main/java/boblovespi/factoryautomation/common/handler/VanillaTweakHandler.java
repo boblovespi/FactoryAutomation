@@ -1,5 +1,7 @@
 package boblovespi.factoryautomation.common.handler;
 
+import boblovespi.factoryautomation.common.config.SyncOnConfigChange;
+import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
@@ -12,10 +14,7 @@ public class VanillaTweakHandler
 {
 	private static final String pick = "pickaxe";
 
-	public static void TweakMiningLevels()
-	{
-
-		/*
+	/*
 		Harvest levels:
 		0: wood
 		1: stone
@@ -26,6 +25,9 @@ public class VanillaTweakHandler
 
 		 */
 
+	@SyncOnConfigChange(priority = Priority.FIRST)
+	public static void TweakMiningLevels()
+	{
 		// temp
 		Blocks.IRON_ORE.setHarvestLevel(pick, IRON);
 		// temp
@@ -38,6 +40,7 @@ public class VanillaTweakHandler
 		Blocks.OBSIDIAN.setHarvestLevel(pick, DIAMOND);
 	}
 
+	@SyncOnConfigChange(priority = Priority.FIRST)
 	public static void TweakToolLevels()
 	{
 		Items.IRON_PICKAXE.setHarvestLevel(pick, IRON);
