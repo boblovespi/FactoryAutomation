@@ -24,18 +24,13 @@ import javax.annotation.Nullable;
  */
 public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 {
-	public static PropertyEnum<Axis> AXIS = PropertyEnum
-			.create("facing", Axis.class);
+	public static PropertyEnum<Axis> AXIS = PropertyEnum.create("facing", Axis.class);
 
 	public static AxisAlignedBB[] AABB = new AxisAlignedBB[] {
-			new AxisAlignedBB(6.5 / 16d, 0 / 16d, 6.5 / 16d,
-							  6.5 / 16d + 3 / 16d, 16 / 16d,
-							  6.5 / 16d + 3 / 16d),
-			new AxisAlignedBB(0 / 16d, 6.5 / 16d, 6.5 / 16d, 16 / 16d,
-							  6.5 / 16d + 3 / 16d, 6.5 / 16d + 3 / 16d),
-			new AxisAlignedBB(6.5 / 16d, 6.5 / 16d, 0 / 16d,
-							  6.5 / 16d + 3 / 16d, 6.5 / 16d + 3 / 16d,
-							  16 / 16d) }; // 0: up; 1: n-s; 2: e-w
+			new AxisAlignedBB(6.5 / 16d, 0 / 16d, 6.5 / 16d, 6.5 / 16d + 3 / 16d, 16 / 16d, 6.5 / 16d + 3 / 16d),
+			new AxisAlignedBB(0 / 16d, 6.5 / 16d, 6.5 / 16d, 16 / 16d, 6.5 / 16d + 3 / 16d, 6.5 / 16d + 3 / 16d),
+			new AxisAlignedBB(6.5 / 16d, 6.5 / 16d, 0 / 16d, 6.5 / 16d + 3 / 16d, 6.5 / 16d + 3 / 16d,
+					16 / 16d) }; // 0: up; 1: n-s; 2: e-w
 
 	public PowerShaft()
 	{
@@ -44,8 +39,7 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source,
-			BlockPos pos)
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return AABB[GetAxisId(state.getValue(AXIS))];
 	}
@@ -117,17 +111,15 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos,
-			EnumFacing facing, float hitX, float hitY, float hitZ, int meta,
-			EntityLivingBase placer)
+	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer)
 	{
 		return this.getDefaultState().withProperty(AXIS, facing.getAxis());
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos,
-			EnumFacing facing, float hitX, float hitY, float hitZ, int meta,
-			EntityLivingBase placer, EnumHand hand)
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return this.getDefaultState().withProperty(AXIS, facing.getAxis());
 	}

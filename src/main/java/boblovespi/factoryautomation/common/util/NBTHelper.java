@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.util;
 
+import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import net.minecraft.block.Block;
@@ -112,5 +113,21 @@ public class NBTHelper
 		stack.getOrCreateSubCompound(key);
 		stack.getTagCompound().setTag(key, tag);
 		return stack;
+	}
+
+	public static Gearbox.GearType GetGear(NBTTagCompound compound, String key)
+	{
+		int integer = compound.getInteger(key);
+		if (integer == -1)
+			return null;
+		return Gearbox.GearType.values()[integer];
+	}
+
+	public static void SetGear(NBTTagCompound compound, String key, Gearbox.GearType gear)
+	{
+		if (gear == null)
+			compound.setInteger(key, -1);
+		else
+			compound.setInteger(key, gear.GetId());
 	}
 }

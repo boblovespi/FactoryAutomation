@@ -22,10 +22,10 @@ public class OreDictionaryHandler
 		{
 			OreDictionary.registerOre(
 					"ingot" + StringUtils.capitalize(Metals.values()[i].getName()),
-					new ItemStack(FAItems.ingot.ToItem(), 1, i));
+					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i]), 1, i));
 			OreDictionary.registerOre(
 					"nugget" + StringUtils.capitalize(Metals.values()[i].getName()),
-					new ItemStack(FAItems.nugget.ToItem(), 1, i));
+					new ItemStack(FAItems.nugget.GetItem(Metals.values()[i]), 1, i));
 			OreDictionary.registerOre(
 					"block" + StringUtils.capitalize(Metals.values()[i].getName()),
 					new ItemStack(FABlocks.metalBlock.GetBlock(Metals.values()[i]).ToBlock(), 1));
@@ -35,7 +35,7 @@ public class OreDictionaryHandler
 
 			OreDictionary.registerOre(
 					"plate" + StringUtils.capitalize(Metals.values()[i].getName()),
-					new ItemStack(FAItems.sheet.ToItem(), 1, i));
+					new ItemStack(FAItems.sheet.GetItem(Metals.values()[i]), 1, i));
 		}
 		for (int i = 0; i < MetalOres.values().length; i++)
 		{

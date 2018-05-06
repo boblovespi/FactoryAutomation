@@ -42,10 +42,10 @@ public class RecipeHandler
 	private static IRecipe concrete;
 
 	private static NonNullList<ItemStack> bronzeCrucibleItems = NonNullList
-			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.ToItem(), 7, Metals.COPPER.GetId()),
-					new ItemStack(FAItems.nugget.ToItem(), 1, Metals.TIN.GetId()));
+			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.COPPER), 7),
+					new ItemStack(FAItems.nugget.GetItem(Metals.TIN), 1));
 	private static NonNullList<ItemStack> bronze = NonNullList
-			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.ToItem(), 8, Metals.BRONZE.GetId()));
+			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.BRONZE), 8));
 
 	@SuppressWarnings("unused")
 	@SubscribeEvent
@@ -62,7 +62,7 @@ public class RecipeHandler
 		{
 			IRecipe ingotToNugget = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID, "ingot_to_nugget_" + Metals.values()[i].getName()),
-					new ItemStack(FAItems.nugget.ToItem(), 9, i), "I", 'I',
+					new ItemStack(FAItems.nugget.GetItem(Metals.values()[i]), 9), "I", 'I',
 					"ingot" + StringUtils.capitalize(Metals.values()[i].getName()));
 
 			ingotToNugget.setRegistryName(
@@ -70,7 +70,7 @@ public class RecipeHandler
 
 			IRecipe nuggetToIngot = new ShapedOreRecipe(
 					new ResourceLocation(FactoryAutomation.MODID, "nugget_to_ingot_" + Metals.values()[i].getName()),
-					new ItemStack(FAItems.ingot.ToItem(), 1, i), "NNN", "NNN", "NNN", 'N',
+					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i]), 1), "NNN", "NNN", "NNN", 'N',
 					"nugget" + StringUtils.capitalize(Metals.values()[i].getName()));
 
 			nuggetToIngot.setRegistryName(
@@ -112,12 +112,10 @@ public class RecipeHandler
 		//
 		//
 
-		FurnaceRecipes.instance()
-					  .addSmeltingRecipe(new ItemStack(FABlocks.metalOres.ToBlock(), 1, MetalOres.COPPER.GetId()),
-							  new ItemStack(FAItems.ingot.ToItem(), 1, Metals.COPPER.GetId()), 0.7f);
-		FurnaceRecipes.instance()
-					  .addSmeltingRecipe(new ItemStack(FABlocks.metalOres.ToBlock(), 1, MetalOres.TIN.GetId()),
-							  new ItemStack(FAItems.ingot.ToItem(), 1, Metals.TIN.GetId()), 0.7f);
+		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.COPPER), 1),
+				new ItemStack(FAItems.ingot.GetItem(Metals.COPPER), 1), 0.7f);
+		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.TIN), 1),
+				new ItemStack(FAItems.ingot.GetItem(Metals.TIN), 1), 0.7f);
 
 		FurnaceRecipes.instance().addSmeltingRecipe(filledCrucibleStack, bronzeCrucibleStack, 10f);
 
@@ -127,14 +125,15 @@ public class RecipeHandler
 		//
 		//
 
-		SteelmakingRecipe.AddRecipe("pigiron-steel-nogases-noflux", new SteelmakingRecipe(Arrays.asList(
-				Ingredient.fromStacks(new ItemStack(FAItems.ingot.ToItem(), 1, Metals.PIG_IRON.GetId())),
-				Ingredient.fromStacks(new ItemStack(FAItems.ingot.ToItem(), 1, Metals.PIG_IRON.GetId())),
-				Ingredient.fromStacks(new ItemStack(FAItems.ingot.ToItem(), 1, Metals.PIG_IRON.GetId())),
-				Ingredient.fromStacks(new ItemStack(FAItems.ingot.ToItem(), 1, Metals.PIG_IRON.GetId()))), null,
-				Arrays.asList(new ItemStack(FAItems.ingot.ToItem(), 1, Metals.STEEL.GetId()),
-						new ItemStack(FAItems.ingot.ToItem(), 1, Metals.STEEL.GetId()),
-						new ItemStack(FAItems.ingot.ToItem(), 1, Metals.STEEL.GetId())), 1000, 1300));
+		SteelmakingRecipe.AddRecipe(
+				"pigiron-steel-nogases-noflux", new SteelmakingRecipe(
+						Arrays.asList(Ingredient.fromStacks(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
+								Ingredient.fromStacks(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
+								Ingredient.fromStacks(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
+								Ingredient.fromStacks(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)))), null,
+						Arrays.asList(new ItemStack(FAItems.ingot.GetItem(Metals.STEEL)),
+								new ItemStack(FAItems.ingot.GetItem(Metals.STEEL)),
+								new ItemStack(FAItems.ingot.GetItem(Metals.STEEL))), 1000, 1300));
 
 		//
 

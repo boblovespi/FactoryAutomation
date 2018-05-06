@@ -21,8 +21,7 @@ public class CauldronCleanable extends FABaseItem
 {
 	private final ItemStack cleanedInto;
 
-	public CauldronCleanable(String unlocalizedName, CreativeTabs ct,
-			ItemStack cleanedInto)
+	public CauldronCleanable(String unlocalizedName, CreativeTabs ct, ItemStack cleanedInto)
 	{
 		super(unlocalizedName, ct);
 		this.cleanedInto = cleanedInto;
@@ -32,9 +31,8 @@ public class CauldronCleanable extends FABaseItem
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn,
-			BlockPos pos, EnumHand hand, EnumFacing facing, float hitX,
-			float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		IBlockState state = worldIn.getBlockState(pos);
 		ItemStack item = player.getHeldItem(hand);
@@ -52,8 +50,7 @@ public class CauldronCleanable extends FABaseItem
 
 				if (!player.addItemStackToInventory(cleanedInto.copy()))
 					worldIn.spawnEntity(
-							new EntityItem(worldIn, player.posX, player.posY,
-										   player.posZ, cleanedInto.copy()));
+							new EntityItem(worldIn, player.posX, player.posY, player.posZ, cleanedInto.copy()));
 
 				Blocks.CAULDRON.setWaterLevel(worldIn, pos, state, i - 1);
 				player.addStat(StatList.ARMOR_CLEANED);

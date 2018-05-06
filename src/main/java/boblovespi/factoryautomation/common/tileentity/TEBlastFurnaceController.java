@@ -112,7 +112,7 @@ public class TEBlastFurnaceController extends TileEntity
 					itemHandler.extractItem(IRON_SLOT, 1, false);
 					itemHandler.extractItem(FLUX_SLOT, 1, false);
 					itemHandler
-							.insertItem(OUTPUT_SLOT, new ItemStack(FAItems.ingot.ToItem(), 1, Metals.PIG_IRON.GetId()),
+							.insertItem(OUTPUT_SLOT, new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)),
 									false);
 					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag.ToItem(), 1, 0), false);
 				}

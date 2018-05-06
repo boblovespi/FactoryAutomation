@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
+import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.resource.Ore;
@@ -53,6 +54,7 @@ public class FABlocks
 	public static MultiTypeBlock<MetalOres> metalOres;
 	public static FABlock steelmakingFurnaceController;
 	public static FABlock powerShaft;
+	public static FABlock gearbox;
 	public static FABlock jawCrusher;
 	public static FABlock creativeMechanicalSource;
 	public static FABlock motor;
@@ -97,6 +99,7 @@ public class FABlocks
 		steelmakingFurnaceController = new SteelmakingFurnaceController();
 
 		powerShaft = new PowerShaft();
+		gearbox = new Gearbox();
 
 		jawCrusher = new JawCrusher();
 

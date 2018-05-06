@@ -2,12 +2,14 @@ package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlock;
+import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.crucible.ClayCrucible;
 import boblovespi.factoryautomation.common.item.metals.Ingot;
 import boblovespi.factoryautomation.common.item.metals.Nugget;
 import boblovespi.factoryautomation.common.item.metals.Sheet;
 import boblovespi.factoryautomation.common.item.tools.*;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
+import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.state.IBlockState;
@@ -45,9 +47,13 @@ public class FAItems
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
 	public static List<Item> items;
 	public static FAItem slag;
-	public static FAItem ingot;
-	public static FAItem nugget;
+	public static MultiTypeItem<Metals> ingot;
+	public static MultiTypeItem<Metals> nugget;
+	public static MultiTypeItem<Metals> sheet;
 	public static FAItem riceGrain;
+
+	// regular tools
+
 	public static FAItem bronzePickaxe;
 	public static FAItem bronzeAxe;
 	public static FAItem bronzeHoe;
@@ -58,16 +64,25 @@ public class FAItems
 	public static FAItem steelHoe;
 	public static FAItem steelShovel;
 	public static FAItem steelSword;
+
+	// more misc
+
 	public static FAItem coalCoke;
-	public static FAItem sheet;
 	public static FAItem wearPlate;
 	public static FAItem clayCrucible;
 	public static FAItem diamondGravel;
+
+	// workbench tools
+
 	public static FAItem ironHammer;
 	public static FAItem steelHammer;
 	public static FAItem steelWrench;
-	public static FAItem fluidCanister;
 	public static FAItem steelPinchers;
+
+	// fluid canister
+
+	public static FAItem fluidCanister;
+	public static MultiTypeItem<Gearbox.GearType> gear;
 
 	public static void Init()
 	{
@@ -78,8 +93,16 @@ public class FAItems
 
 		slag = new FABaseItem("slag", CreativeTabs.MATERIALS);
 		ingot = new Ingot();
+
+		items.remove(ingot.GetItem(Metals.IRON));
+		items.remove(ingot.GetItem(Metals.GOLD));
+
 		sheet = new Sheet();
 		nugget = new Nugget();
+
+		items.remove(nugget.GetItem(Metals.IRON));
+		items.remove(nugget.GetItem(Metals.GOLD));
+
 		riceGrain = new RiceGrain();
 		bronzePickaxe = new FAPickaxe(bronzeMaterial, "bronze_pickaxe");
 		bronzeAxe = new FAAxe(bronzeMaterial, "bronze_axe");
@@ -104,6 +127,8 @@ public class FAItems
 		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterials.steelMaterial);
 
 		// fluidCanister = new FluidCanister("fluid_canister", 3000);
+
+		gear = new Gear();
 	}
 
 	public static void RegisterItemRenders()

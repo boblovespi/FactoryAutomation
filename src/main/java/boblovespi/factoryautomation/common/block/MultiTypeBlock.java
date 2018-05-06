@@ -126,7 +126,7 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 	}
 
 	@Override
-	public Block ToBlock()
+	public Block ToBlock() throws UnsupportedOperationException
 	{
 		return this;
 	}

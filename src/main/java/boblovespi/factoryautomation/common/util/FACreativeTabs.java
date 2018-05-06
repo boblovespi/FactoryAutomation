@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.util;
 
+import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,14 @@ public class FACreativeTabs
 		public ItemStack getTabIconItem()
 		{
 			return new ItemStack(FAItems.ironHammer.ToItem());
+		}
+	};
+	public static CreativeTabs mechanical = new CreativeTabs("tabs.mechanical.name")
+	{
+		@Override
+		public ItemStack getTabIconItem()
+		{
+			return new ItemStack(FAItems.gear.GetItem(Gearbox.GearType.STEEL));
 		}
 	};
 }
