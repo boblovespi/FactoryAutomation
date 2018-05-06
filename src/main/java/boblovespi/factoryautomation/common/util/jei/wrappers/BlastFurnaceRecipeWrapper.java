@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.util.jei;
+package boblovespi.factoryautomation.common.util.jei.wrappers;
 
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
@@ -18,12 +18,10 @@ public class BlastFurnaceRecipeWrapper implements IRecipeWrapper
 	@Override
 	public void getIngredients(IIngredients ingredients)
 	{
-		ingredients.setInputs(
-				ItemStack.class, Arrays.asList(new ItemStack(Items.IRON_INGOT),
-											   new ItemStack(Items.REDSTONE)));
-		ingredients.setOutputs(ItemStack.class, Arrays.asList(
-				new ItemStack(FAItems.ingot.ToItem(), 1,
-							  Metals.PIG_IRON.GetId()), new ItemStack(
-						FAItems.slag.ToItem())));
+		ingredients.setInputs(ItemStack.class,
+				Arrays.asList(new ItemStack(Items.IRON_INGOT), new ItemStack(Items.REDSTONE)));
+		ingredients.setOutputs(ItemStack.class,
+				Arrays.asList(new ItemStack(FAItems.ingot.ToItem(), 1, Metals.PIG_IRON.GetId()),
+						new ItemStack(FAItems.slag.ToItem())));
 	}
 }

@@ -55,7 +55,7 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory
 	{
 		IGuiItemStackGroup group = layout.getItemStacks();
 		group.init(0, true, 42, 12);
-		group.init(1, true, 62, 12);
+		group.init(1, true, 60, 12);
 		group.init(2, false, 111, 30);
 		group.init(3, false, 137, 30);
 

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.COPPER;
 
 /**
@@ -114,7 +115,7 @@ public class FABlocks
 
 		// ores
 
-		limoniteOre = new Ore("limonite_ore", COPPER).Init(n -> n.setHardness(2.5f).setResistance(14));
+		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre).Init(n -> n.setHardness(2.5f).setResistance(14));
 
 		// workbenches
 

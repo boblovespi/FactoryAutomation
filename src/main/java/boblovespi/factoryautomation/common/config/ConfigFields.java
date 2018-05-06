@@ -24,10 +24,14 @@ import static net.minecraftforge.common.config.Config.*;
 @Config(modid = MODID)
 public class ConfigFields
 {
-	@Name("mining levels")
-	@Comment("Category containing all configurations for mining level tweaks")
-	@LangKey("config.mining_level")
-	public static MiningLevelCat miningLevelCat = new MiningLevelCat();
+	@Name("tool mining levels")
+	@Comment("Category containing all configurations for tool mining level tweaks")
+	@LangKey("config.tool_mining_level")
+	public static ToolMiningLevel toolMiningLevelCat = new ToolMiningLevel();
+	@Name("block mining levels")
+	@Comment("Category containing all configurations for block mining level tweaks")
+	@LangKey("config.block_mining_level")
+	public static BlockMiningLevel blockMiningLevelCat = new BlockMiningLevel();
 	@Ignore
 	private static List<Pair<Method, SyncOnConfigChange.Priority>> methods = new ArrayList<>(10);
 
@@ -64,31 +68,56 @@ public class ConfigFields
 		}
 	}
 
-	public static class MiningLevelCat
+	public static class ToolMiningLevel
 	{
-		@LangKey("config.mining_level.diamond")
+		@LangKey("config.tool_mining_level.diamond")
 		@RangeInt(min = 0, max = 20)
 		public int diamond = 5;
-		@LangKey("config.mining_level.iron")
+		@LangKey("config.tool_mining_level.iron")
 		@RangeInt(min = 0, max = 20)
 		public int iron = 3;
-		@LangKey("config.mining_level.steel")
+		@LangKey("config.tool_mining_level.steel")
 		@RangeInt(min = 0, max = 20)
 		public int steel = 5;
-		@LangKey("config.mining_level.gold")
+		@LangKey("config.tool_mining_level.gold")
 		@RangeInt(min = 0, max = 20)
 		public int gold = 2;
-		@LangKey("config.mining_level.copper")
+		@LangKey("config.tool_mining_level.copper")
 		@RangeInt(min = 0, max = 20)
 		public int copper = 2;
-		@LangKey("config.mining_level.bronze")
+		@LangKey("config.tool_mining_level.bronze")
 		@RangeInt(min = 0, max = 20)
-		public int bronze = 5;
-		@LangKey("config.mining_level.stone")
+		public int bronze = 4;
+		@LangKey("config.tool_mining_level.stone")
 		@RangeInt(min = 0, max = 20)
 		public int stone = 1;
-		@LangKey("config.mining_level.wood")
+		@LangKey("config.tool_mining_level.wood")
 		@RangeInt(min = 0, max = 20)
 		public int wood = 0;
+	}
+
+	public static class BlockMiningLevel
+	{
+		@LangKey("config.block_mining_level.diamond_ore")
+		@RangeInt(min = 0, max = 20)
+		public int diamondOre = 4;
+		@LangKey("config.block_mining_level.iron_ore")
+		@RangeInt(min = 0, max = 20)
+		public int ironOre = 3;
+		@LangKey("config.block_mining_level.redstone_ore")
+		@RangeInt(min = 0, max = 20)
+		public int redstoneOre = 3;
+		@LangKey("config.block_mining_level.limonite_ore")
+		@RangeInt(min = 0, max = 20)
+		public int limoniteOre = 2;
+		@LangKey("config.block_mining_level.gold_ore")
+		@RangeInt(min = 0, max = 20)
+		public int goldOre = 3;
+		@LangKey("config.block_mining_level.lapis_ore")
+		@RangeInt(min = 0, max = 20)
+		public int lapisOre = 3;
+		@LangKey("config.block_mining_level.obsidian")
+		@RangeInt(min = 0, max = 20)
+		public int obsidian = 5;
 	}
 }

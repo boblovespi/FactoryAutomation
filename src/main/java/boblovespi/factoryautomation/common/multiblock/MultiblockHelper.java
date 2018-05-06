@@ -68,6 +68,9 @@ public class MultiblockHelper
 
 						} else if (action == IterateAction.CREATE)
 						{
+							if (te instanceof IMultiblockControllerTE)
+								continue;
+
 							IBlockState state = world.getBlockState(loc);
 
 							world.setBlockState(loc, FABlocks.multiblockPart.ToBlock().getDefaultState());
@@ -88,6 +91,16 @@ public class MultiblockHelper
 	public static boolean IsStructureComplete(World world, BlockPos pos, String id, EnumFacing facing)
 	{
 		return IterateOverMultiblock(world, pos, id, facing, IterateAction.CHECK_VALID);
+	}
+
+	public static void CreateStructure(World world, BlockPos pos, String id, EnumFacing facing)
+	{
+		IterateOverMultiblock(world, pos, id, facing, IterateAction.CREATE);
+	}
+
+	public static void BreakStructure(World world, BlockPos pos, String id, EnumFacing facing)
+	{
+		IterateOverMultiblock(world, pos, id, facing, IterateAction.BREAK);
 	}
 
 	private static BlockPos AddWithRotation(BlockPos pos, int x, int y, int z, EnumFacing dir)

@@ -94,6 +94,10 @@ gui.config.category.test.tooltip=A category for testing - not actually used
 gui.config.test.test_scalar.name=Test Scalar
 gui.config.test.test_scalar.comment=A scalar for testing config with
 
+config.main=Factory Automation Configuration
+config.tool_mining_level=Tool Mining Levels
+config.block_mining_level=Block Mining Levels
+
 # gui
 gui.misc.temperature=Temp
 

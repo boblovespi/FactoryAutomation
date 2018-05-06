@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
+import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.*;
 
 /**
@@ -29,15 +30,15 @@ public class VanillaTweakHandler
 	public static void TweakMiningLevels()
 	{
 		// temp
-		Blocks.IRON_ORE.setHarvestLevel(pick, IRON);
+		Blocks.IRON_ORE.setHarvestLevel(pick, blockMiningLevelCat.ironOre);
 		// temp
 
-		Blocks.DIAMOND_ORE.setHarvestLevel(pick, BRONZE);
-		Blocks.REDSTONE_ORE.setHarvestLevel(pick, IRON);
-		Blocks.LAPIS_ORE.setHarvestLevel(pick, COPPER);
-		Blocks.GOLD_ORE.setHarvestLevel(pick, BRONZE);
-		Blocks.LIT_REDSTONE_ORE.setHarvestLevel(pick, IRON);
-		Blocks.OBSIDIAN.setHarvestLevel(pick, DIAMOND);
+		Blocks.DIAMOND_ORE.setHarvestLevel(pick, blockMiningLevelCat.diamondOre);
+		Blocks.REDSTONE_ORE.setHarvestLevel(pick, blockMiningLevelCat.redstoneOre);
+		Blocks.LAPIS_ORE.setHarvestLevel(pick, blockMiningLevelCat.lapisOre);
+		Blocks.GOLD_ORE.setHarvestLevel(pick, blockMiningLevelCat.goldOre);
+		Blocks.LIT_REDSTONE_ORE.setHarvestLevel(pick, blockMiningLevelCat.redstoneOre);
+		Blocks.OBSIDIAN.setHarvestLevel(pick, blockMiningLevelCat.obsidian);
 	}
 
 	@SyncOnConfigChange(priority = Priority.FIRST)

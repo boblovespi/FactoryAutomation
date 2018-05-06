@@ -5,7 +5,9 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -110,6 +112,28 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 
 	@Override
 	public ItemStack GetResult(IItemHandler workbenchInv)
+	{
+		return result.copy();
+	}
+
+	@Override
+	public List<Ingredient> GetItems()
+	{
+		List<Ingredient> list = new ArrayList<>(25);
+
+		for (Ingredient[] a : recipe)
+		{
+			for (Ingredient ingredient : a)
+			{
+				list.add(ingredient);
+			}
+		}
+
+		return list;
+	}
+
+	@Override
+	public ItemStack GetResultItem()
 	{
 		return result.copy();
 	}
