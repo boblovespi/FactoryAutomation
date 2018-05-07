@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["s", "b", "p"],
+  "key": {
+    "s": {
+      "item": "minecraft:sand",
+      "data": 0
+    },
+    "b": {
+      "item": "minecraft:slime_ball"
+    },
+    "p": {
+      "item": "minecraft:paper"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:sandpaper"
+  }
+}

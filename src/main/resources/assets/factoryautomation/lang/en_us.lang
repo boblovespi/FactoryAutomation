@@ -70,6 +70,9 @@ item.iron_hammer.name=Iron Hammer
 item.steel_hammer.name=Steel Hammer
 item.steel_wrench.name=Steel Wrench
 item.steel_pinchers.name=Steel Pinchers
+item.sandpaper.name=Sandpaper
+
+item.glass_lens.name=Glass Lens
 
 # tiles
 

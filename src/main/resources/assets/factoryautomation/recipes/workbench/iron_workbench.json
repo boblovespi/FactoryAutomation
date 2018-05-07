@@ -4,13 +4,13 @@
   "pattern": ["ppp", "iai", "bcb"],
   "key": {
     "i": {
-      "item": "#ingotMetalT1"
+      "item": "#ingotMetalT2"
     },
     "p": {
-      "item": "#plateMetalT1"
+      "item": "#plateMetalT2"
     },
     "b": {
-      "item": "#blockMetalT1"
+      "item": "#blockMetalT2"
     },
     "a": {
       "item": "minecraft:anvil",

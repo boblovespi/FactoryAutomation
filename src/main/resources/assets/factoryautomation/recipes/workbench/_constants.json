@@ -1,17 +1,31 @@
 [
   {
-  "ingredient": {
-    "type": "forge:ore_dict",
-    "ore": "ingotIron"
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    },
+    "name": "ingotCopper"
   },
-  "name": "ingotIron"
-},
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotIron"
+    },
+    "name": "ingotIron"
+  },
   {
     "ingredient": {
       "type": "forge:ore_dict",
       "ore": "ingotBronze"
     },
     "name": "ingotBronze"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotMagmaticBrass"
+    },
+    "name": "ingotMagmaticBrass"
   },
   {
     "ingredient": {
@@ -23,14 +37,61 @@
   {
     "ingredient": [
       {
-        "item": "#ingotIron"
-      }, {
-        "item": "#ingotBronze"
-      }, {
         "item": "#ingotSteel"
       }
     ],
+    "name": "ingotMetalT5"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#ingotMagmaticBrass"
+      },
+      {
+        "item": "#ingotMetalT5"
+      }
+    ],
+    "name": "ingotMetalT4"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#ingotBronze"
+      },
+      {
+        "item": "#ingotMetalT4"
+      }
+    ],
+    "name": "ingotMetalT3"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#ingotIron"
+      },
+      {
+        "item": "#ingotMetalT3"
+      }
+    ],
+    "name": "ingotMetalT2"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#ingotCopper"
+      },
+      {
+        "item": "#ingotMetalT2"
+      }
+    ],
     "name": "ingotMetalT1"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateCopper"
+    },
+    "name": "plateCopper"
   },
   {
     "ingredient": {
@@ -49,6 +110,13 @@
   {
     "ingredient": {
       "type": "forge:ore_dict",
+      "ore": "plateMagmaticBrass"
+    },
+    "name": "plateMagmaticBrass"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
       "ore": "plateSteel"
     },
     "name": "plateSteel"
@@ -56,14 +124,61 @@
   {
     "ingredient": [
       {
-        "item": "#plateIron"
-      }, {
-        "item": "#plateBronze"
-      }, {
         "item": "#plateSteel"
       }
     ],
+    "name": "plateMetalT5"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#plateMagmaticBrass"
+      },
+      {
+        "item": "#plateMetalT5"
+      }
+    ],
+    "name": "plateMetalT4"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#plateBronze"
+      },
+      {
+        "item": "#plateMetalT4"
+      }
+    ],
+    "name": "plateMetalT3"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#plateIron"
+      },
+      {
+        "item": "#plateMetalT3"
+      }
+    ],
+    "name": "plateMetalT2"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#plateCopper"
+      },
+      {
+        "item": "#plateMetalT2"
+      }
+    ],
     "name": "plateMetalT1"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockCopper"
+    },
+    "name": "blockCopper"
   },
   {
     "ingredient": {
@@ -82,6 +197,13 @@
   {
     "ingredient": {
       "type": "forge:ore_dict",
+      "ore": "blockMagmaticBrass"
+    },
+    "name": "blockMagmaticBrass"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
       "ore": "blockSteel"
     },
     "name": "blockSteel"
@@ -89,11 +211,51 @@
   {
     "ingredient": [
       {
-        "item": "#blockIron"
-      }, {
-        "item": "#blockBronze"
-      }, {
         "item": "#blockSteel"
+      }
+    ],
+    "name": "blockMetalT5"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#blockMagmaticBrass"
+      },
+      {
+        "item": "#blockMetalT5"
+      }
+    ],
+    "name": "blockMetalT4"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#blockBronze"
+      },
+      {
+        "item": "#blockMetalT4"
+      }
+    ],
+    "name": "blockMetalT3"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#blockIron"
+      },
+      {
+        "item": "#blockMetalT3"
+      }
+    ],
+    "name": "blockMetalT2"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#blockCopper"
+      },
+      {
+        "item": "#blockMetalT2"
       }
     ],
     "name": "blockMetalT1"

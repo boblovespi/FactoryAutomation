@@ -43,4 +43,12 @@ public class FACreativeTabs
 			return new ItemStack(FAItems.gear.GetItem(Gearbox.GearType.STEEL));
 		}
 	};
+	public static CreativeTabs crafting = new CreativeTabs("tabs.crafting.name")
+	{
+		@Override
+		public ItemStack getTabIconItem()
+		{
+			return new ItemStack(FAItems.glassLens.ToItem());
+		}
+	};
 }

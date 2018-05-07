@@ -20,8 +20,7 @@ public class BlastFurnaceRecipeWrapper implements IRecipeWrapper
 	{
 		ingredients.setInputs(ItemStack.class,
 				Arrays.asList(new ItemStack(Items.IRON_INGOT), new ItemStack(Items.REDSTONE)));
-		ingredients.setOutputs(ItemStack.class,
-				Arrays.asList(new ItemStack(FAItems.ingot.ToItem(), 1, Metals.PIG_IRON.GetId()),
-						new ItemStack(FAItems.slag.ToItem())));
+		ingredients.setOutputs(ItemStack.class, Arrays.asList(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)),
+				new ItemStack(FAItems.slag.ToItem())));
 	}
 }

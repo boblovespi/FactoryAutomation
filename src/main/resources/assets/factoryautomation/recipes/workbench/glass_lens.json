@@ -1,0 +1,25 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": [" p ", "pgp", " p "],
+  "key": {
+    "p": {
+      "type": "forge:ore_dict",
+      "ore": "paneGlassColorless"
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlassColorless"
+    }
+  },
+  "tools": {
+    "factoryautomation:sandpaper": {
+      "tier": 1,
+      "durabilityUse": 3
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:glass_lens"
+  }
+}

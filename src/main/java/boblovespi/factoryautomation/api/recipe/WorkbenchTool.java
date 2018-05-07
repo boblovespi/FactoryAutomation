@@ -29,6 +29,11 @@ public class WorkbenchTool
 	{{
 		put(FAItems.steelPinchers.ToItem(), 2);
 	}});
+	public static final WorkbenchTool SANDPAPER = new WorkbenchTool(
+			new ResourceLocation("factoryautomation", "sandpaper"), new HashMap<Item, Integer>()
+	{{
+		put(FAItems.sandpaper.ToItem(), 1);
+	}});
 
 	private HashMap<Item, Integer> items;
 

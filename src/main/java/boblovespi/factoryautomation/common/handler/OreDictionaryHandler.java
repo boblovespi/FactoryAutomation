@@ -6,7 +6,7 @@ import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 public class OreDictionaryHandler
 {
@@ -21,28 +21,33 @@ public class OreDictionaryHandler
 		for (int i = 2; i < Metals.values().length; i++)
 		{
 			OreDictionary.registerOre(
-					"ingot" + StringUtils.capitalize(Metals.values()[i].getName()),
-					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i]), 1, i));
+					"ingot" + Cleanup(Metals.values()[i].getName()),
+					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i])));
 			OreDictionary.registerOre(
-					"nugget" + StringUtils.capitalize(Metals.values()[i].getName()),
-					new ItemStack(FAItems.nugget.GetItem(Metals.values()[i]), 1, i));
+					"nugget" + Cleanup(Metals.values()[i].getName()),
+					new ItemStack(FAItems.nugget.GetItem(Metals.values()[i])));
 			OreDictionary.registerOre(
-					"block" + StringUtils.capitalize(Metals.values()[i].getName()),
-					new ItemStack(FABlocks.metalBlock.GetBlock(Metals.values()[i]).ToBlock(), 1));
+					"block" + Cleanup(Metals.values()[i].getName()),
+					new ItemStack(FABlocks.metalBlock.GetBlock(Metals.values()[i])));
 		}
 		for (int i = 0; i < Metals.values().length; i++)
 		{
 
 			OreDictionary.registerOre(
-					"plate" + StringUtils.capitalize(Metals.values()[i].getName()),
-					new ItemStack(FAItems.sheet.GetItem(Metals.values()[i]), 1, i));
+					"plate" + Cleanup(Metals.values()[i].getName()),
+					new ItemStack(FAItems.sheet.GetItem(Metals.values()[i])));
 		}
 		for (int i = 0; i < MetalOres.values().length; i++)
 		{
 			OreDictionary.registerOre(
-					"ore" + StringUtils.capitalize(MetalOres.values()[i].getName()),
-					new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.values()[i]).ToBlock(), 1));
+					"ore" + Cleanup(MetalOres.values()[i].getName()),
+					new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.values()[i]).ToBlock()));
 		}
 
+	}
+
+	private static String Cleanup(String name)
+	{
+		return WordUtils.capitalize(name, '_').replace("_", "");
 	}
 }

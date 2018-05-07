@@ -78,11 +78,17 @@ public class FAItems
 	public static FAItem steelHammer;
 	public static FAItem steelWrench;
 	public static FAItem steelPinchers;
+	public static FAItem sandpaper;
 
 	// fluid canister
 
 	public static FAItem fluidCanister;
+
+	// crafting components
+
 	public static MultiTypeItem<Gearbox.GearType> gear;
+	public static FAItem glassLens;
+
 
 	public static void Init()
 	{
@@ -125,10 +131,12 @@ public class FAItems
 		steelHammer = new WorkbenchToolItem("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
 		steelWrench = new WorkbenchToolItem("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
 		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterials.steelMaterial);
+		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Item.ToolMaterial.WOOD);
 
 		// fluidCanister = new FluidCanister("fluid_canister", 3000);
 
 		gear = new Gear();
+		glassLens = new FABaseItem("glass_lens", FACreativeTabs.crafting);
 	}
 
 	public static void RegisterItemRenders()
