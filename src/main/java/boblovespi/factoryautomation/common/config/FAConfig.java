@@ -30,7 +30,6 @@ public class FAConfig
 	@Config.Ignore
 	public static double testScalar;
 
-	// TODO: figure out
 	@Config.RangeInt(min = 0, max = 10)
 	public static int woodHarvestLevel;
 

@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "factoryautomation:items/tools/advanced_flint_and_steel"
+  }
+}

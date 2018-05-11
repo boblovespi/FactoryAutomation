@@ -88,11 +88,10 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public void update()
 	{
-		World worldObj = getWorld();
-		if (worldObj.isRemote)
+		if (world.isRemote)
 			return;
 
-		if (!worldObj.getBlockState(pos).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
+		if (!world.getBlockState(pos).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
 			return;
 
 		steelSmeltTime = 2000; // TODO: read from config
@@ -168,8 +167,8 @@ public class TEBlastFurnaceController extends TileEntity
 			}
 		}
 		markDirty();
-		IBlockState state = worldObj.getBlockState(pos);
-		worldObj.notifyBlockUpdate(pos, state, state, 3);
+		IBlockState state = world.getBlockState(pos);
+		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
 	@Nullable

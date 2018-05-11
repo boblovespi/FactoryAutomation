@@ -20,8 +20,6 @@ public class ToolMaterials
 
 		 */
 
-	// TODO: populate from config
-
 	public static int WOOD = toolMiningLevelCat.wood;
 	public static int STONE = toolMiningLevelCat.stone;
 	public static int COPPER = toolMiningLevelCat.copper;

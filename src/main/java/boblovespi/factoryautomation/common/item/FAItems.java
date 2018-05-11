@@ -79,6 +79,7 @@ public class FAItems
 	public static FAItem steelWrench;
 	public static FAItem steelPinchers;
 	public static FAItem sandpaper;
+	public static FAItem advancedFlintAndSteel;
 
 	// fluid canister
 
@@ -132,6 +133,7 @@ public class FAItems
 		steelWrench = new WorkbenchToolItem("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
 		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterials.steelMaterial);
 		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Item.ToolMaterial.WOOD);
+		advancedFlintAndSteel = new AdvancedFlintAndSteel();
 
 		// fluidCanister = new FluidCanister("fluid_canister", 3000);
 

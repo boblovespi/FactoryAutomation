@@ -1,0 +1,44 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 2,
+  "pattern": [" n   ", "ngn  ", " nf  ", "   ds", "   rr"],
+  "key": {
+    "n": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetGold"
+    },
+    "g": {
+      "type": "forge:ore_dict",
+      "ore": "ingotGold"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel",
+      "data": 0
+    },
+    "d": {
+      "type": "forge:ore_dict",
+      "ore": "gemDiamond"
+    },
+    "s": {
+      "item":"#ingotSteel"
+    },
+    "r": {
+      "type": "forge:ore_dict",
+      "ore": "dustRedstone"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 25
+    },
+    "factoryautomation:wrench": {
+      "tier": 1,
+      "durabilityUse": 10
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:advanced_flint_and_steel"
+  }
+}

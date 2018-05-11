@@ -78,7 +78,7 @@ public class RecipeHandler
 
 			recipes.add(ingotToNugget);
 			recipes.add(nuggetToIngot);
-			//TODO aaaAAAA
+
 			AddToolRecipes("bronze", "ingotBronze", "stickWood", FAItems.bronzePickaxe, FAItems.bronzeAxe,
 					FAItems.bronzeSword, FAItems.bronzeHoe, FAItems.bronzeShovel);
 
