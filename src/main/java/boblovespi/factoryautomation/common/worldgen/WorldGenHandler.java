@@ -25,17 +25,9 @@ public class WorldGenHandler implements IWorldGenerator
 
 	public WorldGenHandler()
 	{
-		copperGen = new WorldGenMinable(
-				FABlocks.metalOres.ToBlock()
-								  .getStateFromMeta(MetalOres.COPPER.GetId()),
-				10);
-		tinGen = new WorldGenMinable(FABlocks.metalOres.ToBlock()
-													   .getStateFromMeta(
-															   MetalOres.TIN
-																	   .GetId()),
-									 4);
-		limoniteGen = new SwampFloorOreGenerator(
-				(Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f);
+		copperGen = new WorldGenMinable(FABlocks.metalOres.GetBlock(MetalOres.COPPER).getDefaultState(), 10);
+		tinGen = new WorldGenMinable(FABlocks.metalOres.GetBlock(MetalOres.TIN).getDefaultState(), 4);
+		limoniteGen = new SwampFloorOreGenerator((Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f);
 	}
 
 	/**
@@ -49,8 +41,8 @@ public class WorldGenHandler implements IWorldGenerator
 	 * @param chunkProvider  : additionalData[2] {@link IChunkProvider} that is requesting the world generation.
 	 */
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world,
-			IChunkGenerator chunkGenerator, IChunkProvider chunkProvider)
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
+			IChunkProvider chunkProvider)
 	{
 		switch (world.provider.getDimensionType())
 		{
@@ -58,21 +50,18 @@ public class WorldGenHandler implements IWorldGenerator
 			RunGenerator(copperGen, world, random, chunkX, chunkZ, 9, 0, 64);
 			RunGenerator(tinGen, world, random, chunkX, chunkZ, 15, 0, 64);
 			if (random.nextFloat() < 0.2)
-				WaterFeatureGenerator(
-						limoniteGen, world, random, chunkX, chunkZ, 1);
+				WaterFeatureGenerator(limoniteGen, world, random, chunkX, chunkZ, 1);
 			break;
 		default:
 			break;
 		}
 	}
 
-	public void RunGenerator(WorldGenerator generator, World world, Random rand,
-			int chunk_X, int chunk_Z, int chancesToSpawn, int minHeight,
-			int maxHeight)
+	public void RunGenerator(WorldGenerator generator, World world, Random rand, int chunk_X, int chunk_Z,
+			int chancesToSpawn, int minHeight, int maxHeight)
 	{
 		if (minHeight < 0 || maxHeight > 256 || minHeight > maxHeight)
-			throw new IllegalArgumentException(
-					"Illegal Height Arguments for WorldGenerator");
+			throw new IllegalArgumentException("Illegal Height Arguments for WorldGenerator");
 
 		int heightDiff = maxHeight - minHeight + 1;
 		for (int i = 0; i < chancesToSpawn; i++)
@@ -84,8 +73,8 @@ public class WorldGenHandler implements IWorldGenerator
 		}
 	}
 
-	public void WaterFeatureGenerator(WorldGenerator generator, World world,
-			Random rand, int chunkX, int chunkZ, int chancesToSpawn)
+	public void WaterFeatureGenerator(WorldGenerator generator, World world, Random rand, int chunkX, int chunkZ,
+			int chancesToSpawn)
 	{
 		for (int i = 0; i < chancesToSpawn; i++)
 		{
@@ -94,9 +83,7 @@ public class WorldGenHandler implements IWorldGenerator
 			int z = chunkZ * 16 + rand.nextInt(16);
 			BlockPos column = new BlockPos(x, y, z);
 
-			while (column.getY() > 0
-					&& world.getBlockState(column.up()).getBlock()
-					!= Blocks.WATER)
+			while (column.getY() > 0 && world.getBlockState(column.up()).getBlock() != Blocks.WATER)
 			{
 				column = column.down();
 			}

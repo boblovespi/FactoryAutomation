@@ -14,6 +14,7 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.util.Log;
+import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -77,6 +79,7 @@ public class FactoryAutomation
 	{
 		Log.getLogger().info("Initialization");
 		proxy.Init();
+		GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
 		OreDictionaryHandler.registerOreDictionary();
 		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
 		TileEntityHandler.RegisterTileEntities();

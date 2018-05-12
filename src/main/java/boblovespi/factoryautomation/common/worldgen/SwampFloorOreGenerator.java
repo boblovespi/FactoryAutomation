@@ -21,8 +21,7 @@ public class SwampFloorOreGenerator extends WorldGenerator
 	private Ore ore;
 	private int radius;
 
-	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff,
-			float midCutoff, float spawnChance)
+	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance)
 	{
 		super(false);
 		this.ore = ore;
@@ -65,14 +64,10 @@ public class SwampFloorOreGenerator extends WorldGenerator
 					//					System.out.println("pos = " + pos);
 
 					if (pos.distanceSq(basePos) <= radius * radius
-							&& worldIn.getBlockState(pos.up()).getBlock()
-							== Blocks.WATER
-							&& worldIn.getBlockState(pos).getBlock()
-							!= Blocks.WATER)
+							&& worldIn.getBlockState(pos.up()).getBlock() == Blocks.WATER
+							&& worldIn.getBlockState(pos).getBlock() != Blocks.WATER)
 					{
-						if (rand.nextFloat() < spawnChance * (1
-								- pos.down(y).distanceSq(basePos) / (radius
-								* radius)))
+						if (rand.nextFloat() < spawnChance * (1 - pos.down(y).distanceSq(basePos) / (radius * radius)))
 							setBlockAndNotifyAdequately(worldIn, pos, toGen);
 					}
 				}
