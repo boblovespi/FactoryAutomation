@@ -52,4 +52,13 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 					pos.getY(), pos.getZ());
 		return true;
 	}
+
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	 */
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 }
