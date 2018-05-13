@@ -16,7 +16,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -44,13 +43,35 @@ public class FAItems
 {
 	@GameRegistry.ObjectHolder("factoryautomation:ore_metal")
 	public static final Item metalOre = null;
+
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
 	public static List<Item> items;
-	public static FAItem slag;
+
+	// metal resources
+
 	public static MultiTypeItem<Metals> ingot;
 	public static MultiTypeItem<Metals> nugget;
 	public static MultiTypeItem<Metals> sheet;
+
+	// metallurgy misc
+
+	public static FAItem slag;
+	public static FAItem coalCoke;
+
+	// food
+
 	public static FAItem riceGrain;
+
+	// resources
+
+	public static FAItem diamondGravel;
+	public static FAItem stoneDust;
+	public static FAItem porcelainClay;
+
+	// crafting components
+
+	public static MultiTypeItem<Gearbox.GearType> gear;
+	public static FAItem glassLens;
 
 	// regular tools
 
@@ -65,13 +86,6 @@ public class FAItems
 	public static FAItem steelShovel;
 	public static FAItem steelSword;
 
-	// more misc
-
-	public static FAItem coalCoke;
-	public static FAItem wearPlate;
-	public static FAItem clayCrucible;
-	public static FAItem diamondGravel;
-
 	// workbench tools
 
 	public static FAItem ironHammer;
@@ -81,15 +95,14 @@ public class FAItems
 	public static FAItem sandpaper;
 	public static FAItem advancedFlintAndSteel;
 
+	// misc tools
+
+	public static FAItem clayCrucible;
+	public static FAItem wearPlate;
+
 	// fluid canister
 
 	public static FAItem fluidCanister;
-
-	// crafting components
-
-	public static MultiTypeItem<Gearbox.GearType> gear;
-	public static FAItem glassLens;
-
 
 	public static void Init()
 	{
@@ -98,19 +111,38 @@ public class FAItems
 
 		items = new ArrayList<>(100);
 
-		slag = new FABaseItem("slag", CreativeTabs.MATERIALS);
-		ingot = new Ingot();
+		// metal resources
 
+		ingot = new Ingot();
 		items.remove(ingot.GetItem(Metals.IRON));
 		items.remove(ingot.GetItem(Metals.GOLD));
-
-		sheet = new Sheet();
 		nugget = new Nugget();
-
 		items.remove(nugget.GetItem(Metals.IRON));
 		items.remove(nugget.GetItem(Metals.GOLD));
+		sheet = new Sheet();
+
+		// metallurgy misc
+
+		slag = new FABaseItem("slag", FACreativeTabs.metallurgy);
+		coalCoke = new FAFuel("coal_coke", FACreativeTabs.metallurgy, 2000);
+
+		// food
 
 		riceGrain = new RiceGrain();
+
+		// resources
+
+		diamondGravel = new CauldronCleanable("diamond_gravel", FACreativeTabs.resources, new ItemStack(Items.DIAMOND));
+		stoneDust = new FABaseItem("stone_dust", FACreativeTabs.resources);
+		porcelainClay = new FABaseItem("porcelain_clay", FACreativeTabs.resources);
+
+		// crafting components
+
+		gear = new Gear();
+		glassLens = new FABaseItem("glass_lens", FACreativeTabs.crafting);
+
+		// regular tools
+
 		bronzePickaxe = new FAPickaxe(bronzeMaterial, "bronze_pickaxe");
 		bronzeAxe = new FAAxe(bronzeMaterial, "bronze_axe");
 		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe");
@@ -121,24 +153,22 @@ public class FAItems
 		steelShovel = new FAShovel(steelMaterial, "steel_shovel");
 		steelSword = new FASword(steelMaterial, "steel_sword");
 		steelPickaxe = new FAPickaxe(steelMaterial, "steel_pickaxe");
-		coalCoke = new FAFuel("coal_coke", CreativeTabs.MATERIALS, 2000);
-		wearPlate = new MultiTypeItem<>("wear_plate", CreativeTabs.MISC, MachineTiers.class, "");
 
-		clayCrucible = new ClayCrucible();
+		// workbench tools
 
-		diamondGravel = new CauldronCleanable("diamond_gravel", FACreativeTabs.resources, new ItemStack(Items.DIAMOND));
-
-		ironHammer = new WorkbenchToolItem("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
-		steelHammer = new WorkbenchToolItem("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
+		ironHammer = new Hammer("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
+		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
 		steelWrench = new WorkbenchToolItem("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
 		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterials.steelMaterial);
 		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Item.ToolMaterial.WOOD);
 		advancedFlintAndSteel = new AdvancedFlintAndSteel();
 
-		// fluidCanister = new FluidCanister("fluid_canister", 3000);
+		// misc tools
 
-		gear = new Gear();
-		glassLens = new FABaseItem("glass_lens", FACreativeTabs.crafting);
+		wearPlate = new MultiTypeItem<>("wear_plate", FACreativeTabs.mechanical, MachineTiers.class, "");
+		clayCrucible = new ClayCrucible();
+
+		// fluidCanister = new FluidCanister("fluid_canister", 3000);
 	}
 
 	public static void RegisterItemRenders()

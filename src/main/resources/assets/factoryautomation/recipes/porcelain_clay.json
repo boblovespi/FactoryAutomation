@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["cbc", "sws", "bcb"],
+  "key": {
+    "c": {
+      "item": "minecraft:clay"
+    },
+    "b": {
+      "item": "#bonemeal"
+    },
+    "s": {
+      "item": "factoryautomation:stone_dust"
+    },
+    "w": {
+      "item": "#water"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:porcelain_clay",
+    "count": 3
+  }
+}

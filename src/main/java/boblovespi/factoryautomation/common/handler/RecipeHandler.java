@@ -150,7 +150,7 @@ public class RecipeHandler
 		//
 
 		WorkbenchRecipeHandler.LoadFromJson(Loader.instance().activeModContainer(),
-				new ResourceLocation(FactoryAutomation.MODID, "recipes/workbench"));
+				new ResourceLocation(FactoryAutomation.MODID, "workbenchrecipies"));
 
 	}
 

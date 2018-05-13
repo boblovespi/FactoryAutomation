@@ -74,6 +74,9 @@ item.sandpaper.name=Sandpaper
 
 item.glass_lens.name=Glass Lens
 
+item.porcelain_clay.name=Porcelain Clay
+item.stone_dust.name=Stone Dust
+
 # tiles
 
 tile.concrete.name=Concrete

@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 /**
  * Created by Willi on 4/12/2017.
+ * the default interface for all factory automation blocks.  every block MUST implement this
  */
 public interface FABlock
 {

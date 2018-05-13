@@ -266,5 +266,18 @@
       "data": 0
     },
     "name": "slabStone"
+  },
+  {
+    "ingredient": {
+      "item": "minecraft:dye",
+      "data": 15
+    },
+    "name": "bonemeal"
+  },
+  {
+    "ingredient": {
+      "item": "minecraft:water_bucket"
+    },
+    "name": "water"
   }
 ]

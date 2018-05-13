@@ -5,16 +5,18 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 
+import java.util.function.Consumer;
+
 /**
  * Created by Willi on 11/9/2017.
  */
 public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends Item implements FAItem
 {
 	protected final Class<T> itemTypes;
+	protected final FABaseItem[] items;
 	private final String name;
 	private final CreativeTabs creativeTab;
 	private final String resourceFolder;
-	protected final FABaseItem[] items;
 
 	public MultiTypeItem(String unlocalizedName, CreativeTabs creativeTab, Class<T> types, String resourceFolder)
 	{
@@ -68,5 +70,15 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 	public FABaseItem GetItem(T type)
 	{
 		return items[type.GetId()];
+	}
+
+	@Override
+	public FAItem Init(Consumer<Item> apply)
+	{
+		for (FABaseItem item : items)
+		{
+			item.Init(apply);
+		}
+		return this;
 	}
 }

@@ -8,7 +8,6 @@ import boblovespi.factoryautomation.common.util.NBTHelper;
 import com.google.common.base.Optional;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -19,9 +18,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Willi on 4/1/2018.
@@ -33,14 +34,6 @@ public class Ore extends MultiStateBlock<Ore.Grade>
 		super(Material.ROCK, name, Grade.class, "ores");
 		setHarvestLevel("pickaxe", harvestLevel);
 		FAItems.items.add(new MultiStateItemBlock<>(this, Grade.class));
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		if (TYPE == null)
-			TYPE = PropertyEnum.create("type", Grade.class);
-		return super.createBlockState();
 	}
 
 	@Override
@@ -61,7 +54,7 @@ public class Ore extends MultiStateBlock<Ore.Grade>
 	public IBlockState GetStateFromTag(NBTTagCompound tag)
 	{
 		String type = tag.getString("grade");
-		Optional<Grade> gradeOptional = TYPE.parseValue(type);
+		Optional<Grade> gradeOptional = TYPE.parseValue(type.toUpperCase(Locale.ROOT));
 		return blockState.getBaseState().withProperty(TYPE, gradeOptional.or(Grade.POOR));
 	}
 
@@ -70,7 +63,7 @@ public class Ore extends MultiStateBlock<Ore.Grade>
 	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
 	{
 		String grade = NBTHelper.GetTag(stack).getCompoundTag("blockdata").getString("grade");
-		tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.grade") + ": " + grade);
+		tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.grade") + ": " + StringUtils.capitalize(grade));
 	}
 
 	public enum Grade implements IStringSerializable, IMultiTypeEnum

@@ -43,10 +43,11 @@ public abstract class MultiStateBlock<T extends Enum<T> & IMultiTypeEnum & IStri
 		blockTypes = types;
 
 		this.resourceFolder = resourceFolder;
-		TYPE = PropertyEnum.create("type", types);
 
 		setCreativeTab(ct);
 
+
+		SetType();
 		setDefaultState(blockState.getBaseState().withProperty(TYPE, blockTypes.getEnumConstants()[0]));
 		setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
