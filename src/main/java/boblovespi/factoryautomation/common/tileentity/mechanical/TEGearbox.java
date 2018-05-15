@@ -25,6 +25,10 @@ import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace
  */
 public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 {
+	public float rotationIn = 0;
+	public float rotationOut = 0;
+	public float rotationTop = 0;
+	public float speedTop = 0;
 	private float speedIn;
 	private float torqueIn;
 	private float speedOut;
@@ -33,7 +37,6 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 	private Gearbox.GearType outputGear = null;
 	private int inputDurability = -1;
 	private int outputDurability = -1;
-
 	private int counter = -1;
 
 	public boolean SideIsInput(EnumFacing side)
@@ -161,7 +164,10 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 	public void update()
 	{
 		if (world.isRemote)
+		{
+			ProcessVisualChanges();
 			return;
+		}
 
 		++counter;
 		counter %= 100;
@@ -175,7 +181,10 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 	public void ForceUpdate(boolean damageGears)
 	{
 		if (world.isRemote)
+		{
+			ProcessVisualChanges();
 			return;
+		}
 
 		IBlockState state = world.getBlockState(pos);
 		EnumFacing facing = state.getValue(Gearbox.FACING);
@@ -229,11 +238,20 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 		{
 			inputGear = gear;
 			inputDurability = durability;
+
+			markDirty();
+			IBlockState state2 = world.getBlockState(pos);
+			world.notifyBlockUpdate(pos, state2, state2, 3);
 			return true;
+
 		} else if (outputGear == null)
 		{
 			outputGear = gear;
 			outputDurability = durability;
+
+			markDirty();
+			IBlockState state2 = world.getBlockState(pos);
+			world.notifyBlockUpdate(pos, state2, state2, 3);
 			return true;
 		}
 		return false;
@@ -249,6 +267,10 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 
 			outputGear = null;
 			outputDurability = -1;
+
+			markDirty();
+			IBlockState state2 = world.getBlockState(pos);
+			world.notifyBlockUpdate(pos, state2, state2, 3);
 		} else if (inputGear != null)
 		{
 			if (!world.isRemote)
@@ -257,6 +279,44 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 
 			inputGear = null;
 			inputDurability = -1;
+
+			markDirty();
+			IBlockState state2 = world.getBlockState(pos);
+			world.notifyBlockUpdate(pos, state2, state2, 3);
 		}
+	}
+
+	public float GetSpeedIn()
+	{
+		return speedIn;
+	}
+
+	public float GetSpeedOut()
+	{
+		return speedOut;
+	}
+
+	public Gearbox.GearType GetGearIn()
+	{
+		return inputGear;
+	}
+
+	public Gearbox.GearType GetGearOut()
+	{
+		return outputGear;
+	}
+
+	public void ProcessVisualChanges()
+	{
+		rotationIn = (rotationIn + speedIn) % 360;
+		rotationOut = (rotationOut + speedOut) % 360;
+
+		if (inputGear != null)
+		{
+			int gInTop = 20 - inputGear.scaleFactor;
+			speedTop = (speedIn * inputGear.scaleFactor) / gInTop;
+			rotationTop = (rotationTop + speedTop) % 360;
+		}
+
 	}
 }

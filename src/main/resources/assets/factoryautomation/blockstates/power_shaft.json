@@ -1,20 +1,29 @@
 {
   "variants": {
-    "facing=y": {
+    "facing=y,is_tesr=true": {
       "model": "factoryautomation:mechanical/power_shaft_iron",
       "uvlock": true
     },
-    "facing=x": {
+    "facing=x,is_tesr=true": {
       "model": "factoryautomation:mechanical/power_shaft_iron",
       "x": 90,
       "y": 90,
       "z": 90,
       "uvlock": true
     },
-    "facing=z": {
+    "facing=z,is_tesr=true": {
       "model": "factoryautomation:mechanical/power_shaft_iron",
       "x": 90,
       "uvlock": true
+    },
+    "facing=y,is_tesr=false": {
+      "model": "factoryautomation:empty"
+    },
+    "facing=x,is_tesr=false": {
+      "model": "factoryautomation:empty"
+    },
+    "facing=z,is_tesr=false": {
+      "model": "factoryautomation:empty"
     }
   }
 }

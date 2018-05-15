@@ -5,6 +5,7 @@ import net.minecraft.util.text.TextComponentString;
 
 /**
  * Created by Willi on 11/8/2017.
+ * common proxy interface
  */
 public interface CommonProxy
 {

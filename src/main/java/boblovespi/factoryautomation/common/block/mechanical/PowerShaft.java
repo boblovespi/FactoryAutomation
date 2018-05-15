@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -25,6 +26,7 @@ import javax.annotation.Nullable;
 public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 {
 	public static PropertyEnum<Axis> AXIS = PropertyEnum.create("facing", Axis.class);
+	public static PropertyBool IS_TESR = PropertyBool.create("is_tesr");
 
 	public static AxisAlignedBB[] AABB = new AxisAlignedBB[] {
 			new AxisAlignedBB(6.5 / 16d, 0 / 16d, 6.5 / 16d, 6.5 / 16d + 3 / 16d, 16 / 16d, 6.5 / 16d + 3 / 16d),
@@ -35,7 +37,7 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 	public PowerShaft()
 	{
 		super(Material.IRON, "power_shaft");
-		setDefaultState(blockState.getBaseState().withProperty(AXIS, Axis.X));
+		setDefaultState(blockState.getBaseState().withProperty(AXIS, Axis.X).withProperty(IS_TESR, false));
 	}
 
 	@Override
@@ -83,13 +85,13 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 		switch (meta)
 		{
 		case 0:
-			return blockState.getBaseState().withProperty(AXIS, Axis.Y);
+			return getDefaultState().withProperty(AXIS, Axis.Y);
 		case 1:
-			return blockState.getBaseState().withProperty(AXIS, Axis.X);
+			return getDefaultState().withProperty(AXIS, Axis.X);
 		case 2:
-			return blockState.getBaseState().withProperty(AXIS, Axis.Z);
+			return getDefaultState().withProperty(AXIS, Axis.Z);
 		default:
-			return blockState.getBaseState();
+			return getDefaultState();
 		}
 	}
 
@@ -107,7 +109,7 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, AXIS);
+		return new BlockStateContainer(this, AXIS, IS_TESR);
 	}
 
 	@Override
