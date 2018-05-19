@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.bronzeMaterial;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.copperMaterial;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.steelMaterial;
 
 /**
@@ -80,11 +81,18 @@ public class FAItems
 	public static FAItem bronzeHoe;
 	public static FAItem bronzeShovel;
 	public static FAItem bronzeSword;
+	
 	public static FAItem steelPickaxe;
 	public static FAItem steelAxe;
 	public static FAItem steelHoe;
 	public static FAItem steelShovel;
 	public static FAItem steelSword;
+
+	public static FAItem copperPickaxe;
+	public static FAItem copperAxe;
+	public static FAItem copperHoe;
+	public static FAItem copperShovel;
+	public static FAItem copperSword;
 
 	// workbench tools
 
@@ -148,11 +156,18 @@ public class FAItems
 		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe");
 		bronzeShovel = new FAShovel(bronzeMaterial, "bronze_shovel");
 		bronzeSword = new FASword(bronzeMaterial, "bronze_sword");
+		
 		steelAxe = new FAAxe(steelMaterial, "steel_axe");
 		steelHoe = new FAHoe(steelMaterial, "steel_hoe");
 		steelShovel = new FAShovel(steelMaterial, "steel_shovel");
 		steelSword = new FASword(steelMaterial, "steel_sword");
 		steelPickaxe = new FAPickaxe(steelMaterial, "steel_pickaxe");
+
+		copperAxe = new FAAxe(copperMaterial, "copper_axe");
+		copperHoe = new FAHoe(copperMaterial, "copper_hoe");
+		copperShovel = new FAShovel(copperMaterial, "copper_shovel");
+		copperSword = new FASword(copperMaterial, "copper_sword");
+		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
 
 		// workbench tools
 

@@ -50,7 +50,7 @@ public class FAAxe extends ItemAxe implements FAItem
 	@Override
 	public String GetMetaFilePath(int meta)
 	{
-		return UnlocalizedName();
+		return "tools/" + UnlocalizedName();
 	}
 
 	@Override

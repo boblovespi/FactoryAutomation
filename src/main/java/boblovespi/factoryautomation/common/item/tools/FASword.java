@@ -25,7 +25,7 @@ public class FASword extends ItemSword implements FAItem{
 	@Override
 	public String GetMetaFilePath(int meta)
 	{
-		return UnlocalizedName();
+		return "tools/" + UnlocalizedName();
 	}
 
 	@Override

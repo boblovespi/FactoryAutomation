@@ -28,7 +28,7 @@ public class FAHoe extends ItemHoe implements FAItem
 	@Override
 	public String GetMetaFilePath(int meta)
 	{
-		return UnlocalizedName();
+		return "tools/" + UnlocalizedName();
 	}
 
 	@Override

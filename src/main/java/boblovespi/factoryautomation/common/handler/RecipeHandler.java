@@ -85,6 +85,9 @@ public class RecipeHandler
 			AddToolRecipes("steel", "ingotSteel", "stickWood", FAItems.steelPickaxe, FAItems.steelAxe,
 					FAItems.steelSword, FAItems.steelHoe, FAItems.steelShovel);
 
+			AddToolRecipes("copper", "ingotCopper", "stickWood", FAItems.copperPickaxe, FAItems.copperAxe,
+					FAItems.copperSword, FAItems.copperHoe, FAItems.copperShovel);
+
 		}
 
 		ItemStack filledCrucibleStack = new ItemStack(FAItems.clayCrucible.ToItem(), 1, 0);

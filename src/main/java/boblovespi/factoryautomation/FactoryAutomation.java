@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation;
 
+import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.ConfigFields;
@@ -59,6 +60,8 @@ public class FactoryAutomation
 		ConfigFields.AddClass(ToolMaterials.class);
 
 		ConfigManager.sync(MODID, Config.Type.INSTANCE);
+
+		CapabilityPollutedChunk.Register();
 
 		// FAConfig.PreInit();
 		proxy.PreInit();
