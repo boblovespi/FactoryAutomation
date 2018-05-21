@@ -35,6 +35,8 @@ public class TESRGearbox extends TileEntitySpecialRenderer<TEGearbox>
 		EnumFacing facing = state.getValue(Gearbox.FACING);
 		EnumFacing.Axis axis = facing.getAxis();
 		float xD = 0, yD = 0, zD = 1;
+		float m = -1;
+		float n = 1;
 
 		GlStateManager.pushMatrix();
 		{
@@ -49,12 +51,16 @@ public class TESRGearbox extends TileEntitySpecialRenderer<TEGearbox>
 			case UP:
 				GlStateManager.rotate(90, 1, 0, 0);
 				GlStateManager.translate(0, 0, -1);
+				m = 1;
+				n = -1;
 				break;
 			case NORTH:
 				break;
 			case SOUTH:
 				GlStateManager.rotate(180, 0, 1, 0);
 				GlStateManager.translate(-1, 0, -1);
+				m = 1;
+				n = -1;
 				break;
 			case WEST:
 				GlStateManager.rotate(90, 0, 1, 0);
@@ -63,30 +69,34 @@ public class TESRGearbox extends TileEntitySpecialRenderer<TEGearbox>
 			case EAST:
 				GlStateManager.rotate(270, 0, 1, 0);
 				GlStateManager.translate(0, 0, -1);
+				m = 1;
+				n = -1;
 				break;
 			}
 
 			GearType gearIn = te.GetGearIn();
 			GearType gearOut = te.GetGearOut();
 
-			float v = 0.05f;
+			float sum = (gearIn == null ? 1 : gearIn.scaleFactor) + (gearOut == null ? 1 : gearOut.scaleFactor);
+
+			float v = 0.1f;
 
 			if (gearIn != null)
 			{
-				RenderGear(te, 0.5f, 0.5f, 0.9f, v * gearIn.scaleFactor, gearIn, inToRotate, xD, yD, zD);
-				RenderGear(te, 0.5f, 1f, 0.9f, 1f - v * gearIn.scaleFactor, gearIn, -topToRotate, xD, yD, zD);
+				RenderGear(te, 0.5f, 0.5f, 0.9f, gearIn.scaleFactor / sum, gearIn, n * inToRotate, xD, yD, zD);
+				RenderGear(te, 0.5f, 0.5f, 0.1f, 0.5f, gearIn, n * outToRotate + 22.5f, xD, yD, zD);
 			}
 
 			if (gearOut != null)
 			{
-				RenderGear(te, 0.5f, 0.5f, 0.1f, v * gearOut.scaleFactor, gearOut, outToRotate, xD, yD, zD);
-				RenderGear(te, 0.5f, 1f, 0.1f, 1f - v * gearOut.scaleFactor, gearOut, -topToRotate, xD, yD, zD);
+				RenderGear(te, 0.5f, 1f, 0.9f, gearOut.scaleFactor / sum, gearOut, m * outToRotate, xD, yD, zD);
+				RenderGear(te, 0.5f, 1f, 0.1f, 0.5f, gearOut, m * outToRotate, xD, yD, zD);
 			}
 
-			RenderAxle(te, new Vec3d(0.5, 1, 0.05f), new Vec3d(xD, yD, zD), 0.9f, -topToRotate, facing);
+			RenderAxle(te, new Vec3d(0.5, 1, 0.05f), new Vec3d(xD, yD, zD), 0.9f, m * outToRotate, facing);
 
-			RenderAxle(te, new Vec3d(0.5, 0.5, -0.14), new Vec3d(xD, yD, zD), 0.28f, outToRotate, facing);
-			RenderAxle(te, new Vec3d(0.5, 0.5, 0.86), new Vec3d(xD, yD, zD), 0.28f, inToRotate, facing);
+			RenderAxle(te, new Vec3d(0.5, 0.5, -0.14), new Vec3d(xD, yD, zD), 0.28f, n * outToRotate, facing);
+			RenderAxle(te, new Vec3d(0.5, 0.5, 0.86), new Vec3d(xD, yD, zD), 0.28f, n * inToRotate, facing);
 
 		}
 		GlStateManager.popMatrix();

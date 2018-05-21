@@ -91,87 +91,87 @@
       "type": "forge:ore_dict",
       "ore": "plateCopper"
     },
-    "name": "plateCopper"
+    "name": "sheetCopper"
   },
   {
     "ingredient": {
       "type": "forge:ore_dict",
       "ore": "plateIron"
     },
-    "name": "plateIron"
+    "name": "sheetIron"
   },
   {
     "ingredient": {
       "type": "forge:ore_dict",
       "ore": "plateBronze"
     },
-    "name": "plateBronze"
+    "name": "sheetBronze"
   },
   {
     "ingredient": {
       "type": "forge:ore_dict",
       "ore": "plateMagmaticBrass"
     },
-    "name": "plateMagmaticBrass"
+    "name": "sheetMagmaticBrass"
   },
   {
     "ingredient": {
       "type": "forge:ore_dict",
       "ore": "plateSteel"
     },
-    "name": "plateSteel"
+    "name": "sheetSteel"
   },
   {
     "ingredient": [
       {
-        "item": "#plateSteel"
+        "item": "#sheetSteel"
       }
     ],
-    "name": "plateMetalT5"
+    "name": "sheetMetalT5"
   },
   {
     "ingredient": [
       {
-        "item": "#plateMagmaticBrass"
+        "item": "#sheetMagmaticBrass"
       },
       {
-        "item": "#plateMetalT5"
+        "item": "#sheetMetalT5"
       }
     ],
-    "name": "plateMetalT4"
+    "name": "sheetMetalT4"
   },
   {
     "ingredient": [
       {
-        "item": "#plateBronze"
+        "item": "#sheetBronze"
       },
       {
-        "item": "#plateMetalT4"
+        "item": "#sheetMetalT4"
       }
     ],
-    "name": "plateMetalT3"
+    "name": "sheetMetalT3"
   },
   {
     "ingredient": [
       {
-        "item": "#plateIron"
+        "item": "#sheetIron"
       },
       {
-        "item": "#plateMetalT3"
+        "item": "#sheetMetalT3"
       }
     ],
-    "name": "plateMetalT2"
+    "name": "sheetMetalT2"
   },
   {
     "ingredient": [
       {
-        "item": "#plateCopper"
+        "item": "#sheetCopper"
       },
       {
-        "item": "#plateMetalT2"
+        "item": "#sheetMetalT2"
       }
     ],
-    "name": "plateMetalT1"
+    "name": "sheetMetalT1"
   },
   {
     "ingredient": {

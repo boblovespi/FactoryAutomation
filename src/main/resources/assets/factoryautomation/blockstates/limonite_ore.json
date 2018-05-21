@@ -1,12 +1,12 @@
 {
   "variants": {
-    "type=poor": {
+    "grade=poor": {
       "model": "factoryautomation:ores/limonite_poor"
     },
-    "type=normal": {
+    "grade=normal": {
       "model": "factoryautomation:ores/limonite_normal"
     },
-    "type=rich": {
+    "grade=rich": {
       "model": "factoryautomation:ores/limonite_rich"
     }
   }
