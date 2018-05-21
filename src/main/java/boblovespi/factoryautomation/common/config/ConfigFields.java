@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.config;
 
-import javafx.util.Pair;
+import boblovespi.factoryautomation.common.util.Pair;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -32,6 +32,7 @@ public class ConfigFields
 	@Comment("Category containing all configurations for block mining level tweaks")
 	@LangKey("config.block_mining_level")
 	public static BlockMiningLevel blockMiningLevelCat = new BlockMiningLevel();
+	public static PollutionCat pollutionCat = new PollutionCat();
 	@Ignore
 	private static List<Pair<Method, SyncOnConfigChange.Priority>> methods = new ArrayList<>(10);
 
@@ -119,5 +120,11 @@ public class ConfigFields
 		@LangKey("config.block_mining_level.obsidian")
 		@RangeInt(min = 0, max = 20)
 		public int obsidian = 5;
+	}
+
+	public static class PollutionCat
+	{
+		@RangeDouble(min = 0.1)
+		public double spillover = 20;
 	}
 }

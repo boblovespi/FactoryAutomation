@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
-import javafx.util.Pair;
+import boblovespi.factoryautomation.common.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -46,14 +46,10 @@ public class Cable extends Block implements FABlock
 			new AxisAlignedBB(0.1875D, 0.0D, 0.0D, 1.0D, 4 * u, 1.0D),
 			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4 * u, 0.8125D),
 			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4 * u, 1.0D) };
-	private static final PropertyEnum<AttachPos> WEST = PropertyEnum
-			.create("west", AttachPos.class);
-	private static final PropertyEnum<AttachPos> EAST = PropertyEnum
-			.create("east", AttachPos.class);
-	private static final PropertyEnum<AttachPos> NORTH = PropertyEnum
-			.create("north", AttachPos.class);
-	private static final PropertyEnum<AttachPos> SOUTH = PropertyEnum
-			.create("south", AttachPos.class);
+	private static final PropertyEnum<AttachPos> WEST = PropertyEnum.create("west", AttachPos.class);
+	private static final PropertyEnum<AttachPos> EAST = PropertyEnum.create("east", AttachPos.class);
+	private static final PropertyEnum<AttachPos> NORTH = PropertyEnum.create("north", AttachPos.class);
+	private static final PropertyEnum<AttachPos> SOUTH = PropertyEnum.create("south", AttachPos.class);
 
 	public Cable()
 	{
@@ -62,22 +58,17 @@ public class Cable extends Block implements FABlock
 		setRegistryName(RegistryName());
 		FABlocks.blocks.add(this);
 		FAItems.items.add(new FAItemBlock(this));
-		setDefaultState(
-				blockState.getBaseState().withProperty(WEST, AttachPos.NONE)
-						  .withProperty(EAST, AttachPos.NONE)
-						  .withProperty(NORTH, AttachPos.NONE)
-						  .withProperty(SOUTH, AttachPos.NONE));
+		setDefaultState(blockState.getBaseState().withProperty(WEST, AttachPos.NONE).withProperty(EAST, AttachPos.NONE)
+								  .withProperty(NORTH, AttachPos.NONE).withProperty(SOUTH, AttachPos.NONE));
 	}
 
-	public static boolean CanConnectTo(IBlockState state, EnumFacing side,
-			IBlockAccess world, BlockPos pos)
+	public static boolean CanConnectTo(IBlockState state, EnumFacing side, IBlockAccess world, BlockPos pos)
 	{
 		Block block = state.getBlock();
 		if (Block.isEqualTo(FABlocks.cable.ToBlock(), block))
 			return true;
 		if (block instanceof IEnergyBlock)
-			return ((IEnergyBlock) block)
-					.CanConnectCable(state, side, world, pos);
+			return ((IEnergyBlock) block).CanConnectCable(state, side, world, pos);
 		return false;
 
 	}
@@ -126,40 +117,29 @@ public class Cable extends Block implements FABlock
 	}
 
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn,
-			BlockPos pos)
+	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		state = state.withProperty(WEST, this.GetAttachPosition(worldIn, pos,
-																EnumFacing.WEST));
-		state = state.withProperty(EAST, this.GetAttachPosition(worldIn, pos,
-																EnumFacing.EAST));
-		state = state.withProperty(NORTH, this.GetAttachPosition(worldIn, pos,
-																 EnumFacing.NORTH));
-		state = state.withProperty(SOUTH, this.GetAttachPosition(worldIn, pos,
-																 EnumFacing.SOUTH));
+		state = state.withProperty(WEST, this.GetAttachPosition(worldIn, pos, EnumFacing.WEST));
+		state = state.withProperty(EAST, this.GetAttachPosition(worldIn, pos, EnumFacing.EAST));
+		state = state.withProperty(NORTH, this.GetAttachPosition(worldIn, pos, EnumFacing.NORTH));
+		state = state.withProperty(SOUTH, this.GetAttachPosition(worldIn, pos, EnumFacing.SOUTH));
 		return state;
 	}
 
-	private AttachPos GetAttachPosition(IBlockAccess worldIn, BlockPos pos1,
-			EnumFacing facing)
+	private AttachPos GetAttachPosition(IBlockAccess worldIn, BlockPos pos1, EnumFacing facing)
 	{
 		BlockPos blockpos = pos1.offset(facing);
 		IBlockState iblockstate = worldIn.getBlockState(pos1.offset(facing));
 
-		if (!CanConnectTo(
-				worldIn.getBlockState(blockpos), facing, worldIn, blockpos) && (
-				iblockstate.isNormalCube() || !CanConnectUpwardsTo(
-						worldIn, blockpos.down())))
+		if (!CanConnectTo(worldIn.getBlockState(blockpos), facing, worldIn, blockpos) && (iblockstate.isNormalCube()
+				|| !CanConnectUpwardsTo(worldIn, blockpos.down())))
 		{
 			IBlockState iblockstate1 = worldIn.getBlockState(pos1.up());
 
 			if (!iblockstate1.isNormalCube())
 			{
-				boolean flag = worldIn.getBlockState(blockpos)
-									  .isSideSolid(worldIn, blockpos,
-												   EnumFacing.UP)
-						|| worldIn.getBlockState(blockpos).getBlock()
-						== Blocks.GLOWSTONE;
+				boolean flag = worldIn.getBlockState(blockpos).isSideSolid(worldIn, blockpos, EnumFacing.UP)
+						|| worldIn.getBlockState(blockpos).getBlock() == Blocks.GLOWSTONE;
 
 				if (flag && CanConnectUpwardsTo(worldIn, blockpos.up()))
 				{
@@ -192,8 +172,7 @@ public class Cable extends Block implements FABlock
 
 			for (EnumFacing enumfacing : EnumFacing.values())
 			{
-				world.notifyNeighborsOfStateChange(
-						pos.offset(enumfacing), this, false);
+				world.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
 			}
 		}
 	}
@@ -201,10 +180,8 @@ public class Cable extends Block implements FABlock
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
 	{
-		return worldIn.getBlockState(pos.down())
-					  .isSideSolid(worldIn, pos, EnumFacing.UP)
-				|| worldIn.getBlockState(pos.down()).getBlock()
-				== Blocks.GLOWSTONE;
+		return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP)
+				|| worldIn.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
 	}
 
 	@Override
@@ -226,8 +203,7 @@ public class Cable extends Block implements FABlock
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source,
-			BlockPos pos)
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return CABLE_AABB[getAABBIndex(state.getActualState(source, pos))];
 	}
@@ -265,8 +241,7 @@ public class Cable extends Block implements FABlock
 		List<Pair<IUsesEnergy, Integer>> machines = GetEnergyMachines(
 				worldIn, pos, actualState, stop, new ArrayList<>(100));
 
-		machines.forEach(n -> System.out
-				.println(n.getKey().GetTe().getTileData().toString()));
+		machines.forEach(n -> System.out.println(n.getKey().GetTe().getTileData().toString()));
 
 		if (machines.size() <= 1)
 			return;
@@ -279,21 +254,12 @@ public class Cable extends Block implements FABlock
 				{
 					if (consumer.getKey() instanceof IRequiresEnergy)
 					{
-						System.out.println(
-								"consumer = " + consumer.getKey().GetTe()
-														.getTileData()
-														.toString());
-						System.out.println(
-								"producer = " + machine.getKey().GetTe()
-													   .getTileData()
-													   .toString());
+						System.out.println("consumer = " + consumer.getKey().GetTe().getTileData().toString());
+						System.out.println("producer = " + machine.getKey().GetTe().getTileData().toString());
 						EnergyNetwork.GetFromWorld(worldIn).AddConnection(
-								new EnergyConnection(
-										(IProducesEnergy) machine.getKey(),
+								new EnergyConnection((IProducesEnergy) machine.getKey(),
 										(IRequiresEnergy) consumer.getKey(),
-										(stop - machine.getValue()) + stop
-												- consumer.getValue(), 0.99f,
-										100));
+										(stop - machine.getValue()) + stop - consumer.getValue(), 0.99f, 100));
 					}
 				}
 			}
@@ -301,14 +267,11 @@ public class Cable extends Block implements FABlock
 
 	}
 
-	private List<Pair<IUsesEnergy, Integer>> GetEnergyMachines(World world,
-			BlockPos pos, IBlockState state, int stop,
+	private List<Pair<IUsesEnergy, Integer>> GetEnergyMachines(World world, BlockPos pos, IBlockState state, int stop,
 			List<BlockPos> prevCableLocs)
 	{
-		System.out.println(
-				"world = [" + world + "], pos = [" + pos + "], state = ["
-						+ state + "], stop = [" + stop + "], prevCableLocs = ["
-						+ prevCableLocs + "]");
+		System.out.println("world = [" + world + "], pos = [" + pos + "], state = [" + state + "], stop = [" + stop
+				+ "], prevCableLocs = [" + prevCableLocs + "]");
 
 		if (stop <= 0)
 			return new ArrayList<>(0);
@@ -326,141 +289,109 @@ public class Cable extends Block implements FABlock
 		if (north == AttachPos.UP)
 		{
 			BlockPos bp = pos.north().up();
-			if (!prevCableLocs.contains(bp)
-					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(
-						GetEnergyMachines(world, bp, world.getBlockState(bp),
-										  stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 
 			if (world.getTileEntity(bp) instanceof IUsesEnergy)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
-									 stop));
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
 			}
 
 		} else if (north == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.north();
-			if (!prevCableLocs.contains(bp)
-					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(
-						GetEnergyMachines(world, bp, world.getBlockState(bp),
-										  stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getTileEntity(bp) instanceof IUsesEnergy)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
-									 stop));
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
 			}
 		}
 
 		if (west == AttachPos.UP)
 		{
 			BlockPos bp = pos.west().up();
-			if (!prevCableLocs.contains(bp)
-					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(
-						GetEnergyMachines(world, bp, world.getBlockState(bp),
-										  stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getTileEntity(bp) instanceof IUsesEnergy)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
-									 stop));
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
 			}
 
 		} else if (west == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.west();
-			if (!prevCableLocs.contains(bp)
-					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(
-						GetEnergyMachines(world, bp, world.getBlockState(bp),
-										  stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getTileEntity(bp) instanceof IUsesEnergy)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
-									 stop));
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
 			}
 		}
 
 		if (south == AttachPos.UP)
 		{
 			BlockPos bp = pos.south().up();
-			if (!prevCableLocs.contains(bp)
-					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(
-						GetEnergyMachines(world, bp, world.getBlockState(bp),
-										  stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getTileEntity(bp) instanceof IUsesEnergy)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
-									 stop));
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
 			}
 
 		} else if (south == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.south();
-			if (!prevCableLocs.contains(bp)
-					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(
-						GetEnergyMachines(world, bp, world.getBlockState(bp),
-										  stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getTileEntity(bp) instanceof IUsesEnergy)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
-									 stop));
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
 			}
 		}
 
 		if (east == AttachPos.UP)
 		{
 			BlockPos bp = pos.east().up();
-			if (!prevCableLocs.contains(bp)
-					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(
-						GetEnergyMachines(world, bp, world.getBlockState(bp),
-										  stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getTileEntity(bp) instanceof IUsesEnergy)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
-									 stop));
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
 			}
 
 		} else if (east == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.east();
-			if (!prevCableLocs.contains(bp)
-					&& world.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(
-						GetEnergyMachines(world, bp, world.getBlockState(bp),
-										  stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getTileEntity(bp) instanceof IUsesEnergy)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp),
-									 stop));
+				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
 			}
 		}
 
