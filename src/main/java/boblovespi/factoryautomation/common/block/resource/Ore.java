@@ -26,6 +26,7 @@ import java.util.Locale;
 
 /**
  * Created by Willi on 4/1/2018.
+ * base ore class
  */
 public class Ore extends MultiStateBlock<Ore.Grade>
 {

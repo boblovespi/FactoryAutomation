@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by Willi on 5/20/2018.
  * <p>
  * a pair class since javafx hates me
+ * </p>
  */
 public class Pair<K, V> implements Serializable
 {
@@ -18,6 +19,7 @@ public class Pair<K, V> implements Serializable
 		this.key = key;
 		this.value = value;
 	}
+
 	public Pair()
 	{
 	}
@@ -46,5 +48,17 @@ public class Pair<K, V> implements Serializable
 	public boolean equals(Object obj)
 	{
 		return obj instanceof Pair && key.equals(((Pair) obj).getKey()) && value.equals(((Pair) obj).getValue());
+	}
+
+	@Override
+	public String toString()
+	{
+		return "( " + key.toString() + " , " + value.toString() + " )";
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return super.hashCode();
 	}
 }

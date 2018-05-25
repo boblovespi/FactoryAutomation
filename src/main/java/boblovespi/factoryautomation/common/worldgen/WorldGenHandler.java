@@ -16,18 +16,23 @@ import java.util.Random;
 
 /**
  * Created by Willi on 12/28/2017.
+ * world generator class
  */
 public class WorldGenHandler implements IWorldGenerator
 {
 	private WorldGenerator copperGen;
 	private WorldGenerator tinGen;
 	private WorldGenerator limoniteGen;
+	private WorldGenerator siliconQuartzGen;
 
 	public WorldGenHandler()
 	{
 		copperGen = new WorldGenMinable(FABlocks.metalOres.GetBlock(MetalOres.COPPER).getDefaultState(), 10);
 		tinGen = new WorldGenMinable(FABlocks.metalOres.GetBlock(MetalOres.TIN).getDefaultState(), 4);
 		limoniteGen = new SwampFloorOreGenerator((Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f);
+		siliconQuartzGen = new WorldGenMinable(
+				FABlocks.siliconQuartzOre.ToBlock().getDefaultState(), 9,
+				n -> n != null && n.getBlock() == Blocks.END_STONE);
 	}
 
 	/**
@@ -52,6 +57,8 @@ public class WorldGenHandler implements IWorldGenerator
 			if (random.nextFloat() < 0.2)
 				WaterFeatureGenerator(limoniteGen, world, random, chunkX, chunkZ, 1);
 			break;
+		case THE_END:
+			RunGenerator(siliconQuartzGen, world, random, chunkX, chunkZ, 2, 0, 255);
 		default:
 			break;
 		}

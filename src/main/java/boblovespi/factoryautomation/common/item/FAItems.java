@@ -68,6 +68,7 @@ public class FAItems
 	public static FAItem diamondGravel;
 	public static FAItem stoneDust;
 	public static FAItem porcelainClay;
+	public static FAItem siliconQuartz;
 
 	// crafting components
 
@@ -81,7 +82,7 @@ public class FAItems
 	public static FAItem bronzeHoe;
 	public static FAItem bronzeShovel;
 	public static FAItem bronzeSword;
-	
+
 	public static FAItem steelPickaxe;
 	public static FAItem steelAxe;
 	public static FAItem steelHoe;
@@ -143,6 +144,7 @@ public class FAItems
 		diamondGravel = new CauldronCleanable("diamond_gravel", FACreativeTabs.resources, new ItemStack(Items.DIAMOND));
 		stoneDust = new FABaseItem("stone_dust", FACreativeTabs.resources);
 		porcelainClay = new FABaseItem("porcelain_clay", FACreativeTabs.resources);
+		siliconQuartz = new FABaseItem("silicon_quartz_crystal", FACreativeTabs.resources);
 
 		// crafting components
 
@@ -156,7 +158,7 @@ public class FAItems
 		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe");
 		bronzeShovel = new FAShovel(bronzeMaterial, "bronze_shovel");
 		bronzeSword = new FASword(bronzeMaterial, "bronze_sword");
-		
+
 		steelAxe = new FAAxe(steelMaterial, "steel_axe");
 		steelHoe = new FAHoe(steelMaterial, "steel_hoe");
 		steelShovel = new FAShovel(steelMaterial, "steel_shovel");

@@ -7,7 +7,9 @@ import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSo
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
+import boblovespi.factoryautomation.common.block.resource.GemOre;
 import boblovespi.factoryautomation.common.block.resource.Ore;
+import boblovespi.factoryautomation.common.block.resource.OreData;
 import boblovespi.factoryautomation.common.block.workbench.IronWorkbench;
 import boblovespi.factoryautomation.common.block.workbench.StoneWorkbench;
 import boblovespi.factoryautomation.common.fluid.Fluids;
@@ -63,6 +65,7 @@ public class FABlocks
 	// ores
 
 	public static FABlock limoniteOre;
+	public static FABlock siliconQuartzOre;
 
 	// workbenches
 
@@ -118,7 +121,11 @@ public class FABlocks
 
 		// ores
 
-		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre).Init(n -> n.setHardness(2.5f).setResistance(14));
+		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre)
+				.Init(n -> n.setHardness(2.5f).setResistance(14));
+		siliconQuartzOre = new GemOre(
+				"ore_silicon_quartz",
+				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12));
 
 		// workbenches
 

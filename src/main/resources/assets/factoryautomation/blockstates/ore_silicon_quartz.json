@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "factoryautomation:ores/ore_silicon_quartz"
+    }
+  }
+}
