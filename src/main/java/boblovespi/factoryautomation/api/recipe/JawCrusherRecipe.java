@@ -6,10 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -27,9 +24,8 @@ public class JawCrusherRecipe implements IMachineRecipe
 	private final int plateTier;
 	private Ingredient input;
 
-	public JawCrusherRecipe(Ingredient input, Map<Float, ItemStack> output,
-			int plateTier, String name, float speedReq, float torqueReq,
-			float time)
+	public JawCrusherRecipe(Ingredient input, Map<Float, ItemStack> output, int plateTier, String name, float speedReq,
+			float torqueReq, float time)
 	{
 		final float[] tweight = { 0 };
 		output.keySet().forEach(n -> tweight[0] += n);
@@ -43,9 +39,7 @@ public class JawCrusherRecipe implements IMachineRecipe
 				if (w <= 0)
 					return output.get(w);
 			}
-			return output.isEmpty() ?
-					ItemStack.EMPTY :
-					(ItemStack) output.values().toArray()[0];
+			return output.isEmpty() ? ItemStack.EMPTY : (ItemStack) output.values().toArray()[0];
 		};
 
 		this.plateTier = plateTier;
@@ -56,9 +50,8 @@ public class JawCrusherRecipe implements IMachineRecipe
 
 	}
 
-	public JawCrusherRecipe(Ingredient input, Function<Float, ItemStack> output,
-			int plateTier, String name, float speedReq, float torqueReq,
-			float time)
+	public JawCrusherRecipe(Ingredient input, Function<Float, ItemStack> output, int plateTier, String name,
+			float speedReq, float torqueReq, float time)
 	{
 		this.input = input;
 		this.output = output;
@@ -90,6 +83,13 @@ public class JawCrusherRecipe implements IMachineRecipe
 	public static JawCrusherRecipe GetRecipe(String key)
 	{
 		return recipeMap.get(key);
+	}
+
+	public static Collection<JawCrusherRecipe> GetRecipes()
+	{
+
+		return recipeMap.values();
+
 	}
 
 	/**
@@ -157,5 +157,4 @@ public class JawCrusherRecipe implements IMachineRecipe
 	{
 		return output.apply(n);
 	}
-
 }

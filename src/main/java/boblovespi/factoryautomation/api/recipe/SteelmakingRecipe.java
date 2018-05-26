@@ -19,8 +19,7 @@ public class SteelmakingRecipe extends ChancelessMachineRecipe
 	public final float timeRequired;
 	public final float tempRequired;
 
-	public SteelmakingRecipe(List<Ingredient> itemInputs,
-			List<FluidStack> fluidInputs, List<ItemStack> itemOutputs,
+	public SteelmakingRecipe(List<Ingredient> itemInputs, List<FluidStack> fluidInputs, List<ItemStack> itemOutputs,
 			float timeRequired, float tempRequired)
 	{
 		super(itemInputs, fluidInputs, itemOutputs, null);
@@ -34,8 +33,7 @@ public class SteelmakingRecipe extends ChancelessMachineRecipe
 		recipeMap.put(key, recipe);
 	}
 
-	public static SteelmakingRecipe FindRecipe(List<ItemStack> inputs,
-			List<FluidStack> fluids)
+	public static SteelmakingRecipe FindRecipe(List<ItemStack> inputs, List<FluidStack> fluids)
 	{
 		Collection<SteelmakingRecipe> recipes = recipeMap.values();
 
@@ -46,8 +44,7 @@ public class SteelmakingRecipe extends ChancelessMachineRecipe
 			{
 				for (int i = 0; i < inputs.size(); i++)
 				{
-					isCorrectRecipe = recipe.itemInputs.get(i)
-													   .apply(inputs.get(i));
+					isCorrectRecipe = recipe.itemInputs.get(i).apply(inputs.get(i));
 					if (!isCorrectRecipe)
 						break;
 				}
@@ -55,15 +52,13 @@ public class SteelmakingRecipe extends ChancelessMachineRecipe
 				continue;
 			if (!isCorrectRecipe)
 				continue;
-			if ((fluids != null ? fluids.size() : 0) == (
-					recipe.fluidInputs != null ? recipe.fluidInputs.size() : 0))
+			if ((fluids != null ? fluids.size() : 0) == (recipe.fluidInputs != null ? recipe.fluidInputs.size() : 0))
 			{
 				if (fluids != null && recipe.fluidInputs != null)
 				{
 					for (int i = 0; i < fluids.size(); i++)
 					{
-						isCorrectRecipe = fluids.get(i).containsFluid(
-								recipe.fluidInputs.get(i));
+						isCorrectRecipe = fluids.get(i).containsFluid(recipe.fluidInputs.get(i));
 						if (!isCorrectRecipe)
 							break;
 					}
@@ -78,5 +73,10 @@ public class SteelmakingRecipe extends ChancelessMachineRecipe
 		}
 
 		return null;
+	}
+
+	public static Collection<SteelmakingRecipe> GetRecipes()
+	{
+		return recipeMap.values();
 	}
 }
