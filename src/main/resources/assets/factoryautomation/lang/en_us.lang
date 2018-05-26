@@ -136,9 +136,11 @@ config.block_mining_level=Block Mining Levels
 
 # gui
 gui.misc.temperature=Temp
+gui.blast_furnace.name=Blast Furnace
+gui.workbench.name=Stone workbench
 
 # tooltip
-tooltip.grade=Grade
+tooltip.grade=Grade:
 
 # creative_tab
 itemGroup.tabs.metallurgy.name=Metallurgy

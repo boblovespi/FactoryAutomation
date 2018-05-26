@@ -1,59 +1,97 @@
 # items
 
+# items-misc
 item.rice.name=Rízs
 item.slag.name=Salak
 item.coal_coke.name=Koksz
 
-item.ingot_copper.name=Réz rúd
-item.ingot_tin.name=Ón rúd
-item.ingot_bronze.name=Bronz rúd
-item.ingot_steel.name=Acél rúd
-item.ingot_pig_iron.name=Nyersvas rúd
-item.ingot_magmatic_brass.name=Magmatic Brass rúd
+# items-ingots
+item.ingot_copper.name=Rész Rúd
+item.ingot_tin.name=Ón Rúd
+item.ingot_bronze.name=Bronz Rúd
+item.ingot_steel.name=Acél Rúd
+item.ingot_pig_iron.name=Nyersvas Rúd
+item.ingot_magmatic_brass.name=Magmatikus Ötvözet Rúd
 
-item.nugget_copper.name=Réz rög
-item.nugget_tin.name=Ón rög
-item.nugget_bronze.name=Bronz rög
-item.nugget_steel.name=Acél rög
-item.nugget_pig_iron.name=Nyersvas rög
-item.nugget_magmatic_brass.name=Magmatic Brass rög
+# items-nuggets
+item.nugget_copper.name=Rész Rög
+item.nugget_tin.name=Ón Rög
+item.nugget_bronze.name=Bronz Rög
+item.nugget_steel.name=Acél Rög
+item.nugget_pig_iron.name=Nyersvas Rög
+item.nugget_magmatic_brass.name=Magmatikus Ötvözet Rög
 
-item.sheet_iron.name=Vas lap
-item.sheet_gold.name=Arany lap
-item.sheet_copper.name=Réz lap
-item.sheet_tin.name=Ón lap
-item.sheet_bronze.name=Bronz lap
-item.sheet_steel.name=Acél lap
-item.sheet_pig_iron.name=Nyersvas lap
-item.sheet_magmatic_brass.name=Magmatic Brass lap
+# items-sheets
+item.sheet_iron.name=Vas Lap
+item.sheet_gold.name=Arany Lap
+item.sheet_copper.name=Rész Lap
+item.sheet_tin.name=Ón Lap
+item.sheet_bronze.name=Bronz Lap
+item.sheet_steel.name=Acél Lap
+item.sheet_pig_iron.name=Nyersvas Lap
+item.sheet_magmatic_brass.name=Magmatikus Ötvözet Lap
+
+# blocks
 
 tile.metal_block_iron.name=Vas Block
 tile.metal_block_gold.name=Arany Block
-tile.metal_block_copper.name=Réz Block
+tile.metal_block_copper.name=Rész Block
 tile.metal_block_tin.name=Ón Block
 tile.metal_block_bronze.name=Bronz Block
 tile.metal_block_steel.name=Acél Block
 tile.metal_block_pig_iron.name=Nyersvas Block
-tile.metal_block_magmatic_brass.name=Magmatic Brass Block
+tile.metal_block_magmatic_brass.name=Magmatikus Ötvözet Block
 
-item.bronze_pickaxe.name=Bronz csákány
-item.bronze_axe.name=Bronz balta
-item.bronze_hoe.name=Bronze kapa
-item.bronze_shovel.name=Bronze ásó
-item.bronze_sword.name=Bronze kard
+# items-gears
+item.gear_wood.name=Fa Fogaskerék
+item.gear_stone.name=Kő Fogaskerék
+item.gear_copper.name=Rész Fogaskerék
+item.gear_iron.name=Vas Fogaskerék
+item.gear_gold.name=Arany Fogaskerék
+item.gear_bronze.name=Bronz Fogaskerék
+item.gear_diamond.name=Gyémánt Fogaskerék
+item.gear_magmatic_brass.name=Magmatikus Ötvözet Fogaskerék
+item.gear_steel.name=Acél Fogaskerék
 
-item.steel_pickaxe.name=Acél csákány
-item.steel_axe.name=Acél balta
-item.steel_hoe.name=Acél kapa
-item.steel_shovel.name=Acél ásó
-item.steel_sword.name=Acél kard
+# items-tools
+item.bronze_pickaxe.name=Bronz Csákány
+item.bronze_axe.name=Bronz Balta
+item.bronze_hoe.name=Bronz Kapa
+item.bronze_shovel.name=Bronz Ásó
+item.bronze_sword.name=Bronz Kard
 
-item.wear_plate.iron.name=Vas zúzólap
+item.steel_pickaxe.name=Acél Csákány
+item.steel_axe.name=Acél Balta
+item.steel_hoe.name=Acél Kapa
+item.steel_shovel.name=Acél Ásó
+item.steel_sword.name=Acél Kard
+
+item.copper_pickaxe.name=Rész Csákány
+item.copper_axe.name=Rész Balta
+item.copper_hoe.name=Rész Kapa
+item.copper_shovel.name=Rész Ásó
+item.copper_sword.name=Rész Kard
+
+item.iron_hammer.name=Vas Kalapács
+item.steel_hammer.name=Acél Kalapács
+item.steel_wrench.name=Acél Csavarkulcs
+item.steel_pinchers.name=Acél Csípőfogó
+item.advanced_flint_and_steel.name=Továbbfejlesztett kovakő és acél
+
+# items-jaw_plates
+item.wear_plate_iron.name=Vas zúzólap
 item.wear_plate.obsidian.name=Obszidián zúzólap
 
-item.clay_crucible.name=Agyag olvasztóedény
+# items-misc
+item.clay_crucible.name=Agyag Olvasztóüst
+item.diamond_gravel.name=Gyémánt Sóder
+item.glass_lens.name=Üveg Lencse
+item.porcelain_clay.name=Porcelán
+item.stone_dust.name=Kő Por
+item.sandpaper.name=Csiszolópapír
 
-item.diamond_gravel.name=Gyémántsóder
+#items-materials
+items.silicon_quartz_crystal.name=§lSzilícium-Kvarc kristály
 
 
 # tiles
@@ -69,25 +107,49 @@ tile.ore_metal_tin.name=Kassziszterit érc
 tile.limonite_ore.poor.name=Limonit érc
 tile.limonite_ore.normal.name=Limonit érc
 tile.limonite_ore.rich.name=Limonit érc
+tile.ore_silicon_quartz.name=Szilícium-Kvarc Érc
 
-tile.lv_cable.name=LV Kábel
-tile.power_shaft.name=Energia rúd
+tile.lv_cable.name=Alacsony feszültségű Kábel
+tile.power_shaft.name=Mechanikus-energia továbbító rúd
 
 tile.solar_panel.name=Napelem panel
-tile.creative_mechanical_source.name=Radial Tachyon Accelerator
+tile.creative_mechanical_source.name=Mechanikus energia-generátor
 tile.motor.name=Motor
+tile.gearbox.name=Fogaskerékdoboz
 
-tile.jaw_crusher.name=Zúzólapos törögép
+tile.jaw_crusher.name=Álkapcsos Zúzó
 
-tile.stone_workbench.name=Kő csavarkulcs
+tile.stone_workbench.name=Kő Munkaasztal
+tile.iron_workbench.name=Vas Munkaasztal
 
 # config
 
-gui.config.main_title=FactoryAutomation Konfiguráció
+gui.config.main_title=Factory Automation Konfiguráció
 gui.config.category.test=Teszt
 gui.config.category.test.tooltip=Egy kategória tesztelésre - Valójában nem használt
 gui.config.test.test_scalar.name=Teszt Skála
 gui.config.test.test_scalar.comment=Egy Skála a konfiguráció tesztelésére, amivel
 
+config.main=Factory Automation Konfiguráció
+config.tool_mining_level=Eszköz bányászási szintek
+config.block_mining_level=Block bányászási szintek
+
 # gui
-gui.misc.temperature=Hőfok
+gui.misc.temperature=Hőmérséklet
+gui.blast_furnace.name=Olvasztókohó
+gui.workbench.name=Munkaasztal
+
+# tooltip
+tooltip.grade=Minőség:
+
+# creative_tab
+itemGroup.tabs.metallurgy.name=Kohászat
+itemGroup.tabs.resources.name=Nyersanyagok
+itemGroup.tabs.tools.name=F.A. Eszközök
+itemGroup.tabs.mechanical.name=Mechanikai alkatrészek
+itemGroup.tabs.crafting.name=Barkács trágyak
+
+# misc
+fluid.fa_air=FA LEVEGŐ
+fluid.fa_air.name=FA LEVEGŐ
+tile.steam.name=Gőz
