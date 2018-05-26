@@ -3,6 +3,8 @@ package boblovespi.factoryautomation.common.util.jei;
 import boblovespi.factoryautomation.api.recipe.IWorkbenchRecipe;
 import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.util.jei.categories.BlastFurnaceRecipeCategory;
+import boblovespi.factoryautomation.common.util.jei.categories.WorkbenchRecipeCategory;
 import boblovespi.factoryautomation.common.util.jei.wrappers.BlastFurnaceRecipeWrapper;
 import boblovespi.factoryautomation.common.util.jei.wrappers.WorkbenchRecipeWrapper;
 import mezz.jei.api.IJeiRuntime;
@@ -48,6 +50,8 @@ public class JEIPlugin implements IModPlugin
 	{
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.stoneWorkbench.ToBlock()), WORKBENCH);
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.ironWorkbench.ToBlock()), WORKBENCH);
+		registry.addRecipeCatalyst(
+				new ItemStack(FABlocks.blastFurnaceController.ToBlock()), "factoryautomation.blast_furnace");
 		registry.addRecipes(Collections.singletonList(new BlastFurnaceRecipeWrapper()),
 				"factoryautomation.blast_furnace");
 

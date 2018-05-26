@@ -30,23 +30,23 @@ public class ContainerWorkbench extends Container
 		if (te instanceof TEStoneWorkbench)
 		{
 			is3x3 = true;
-			for (int i = 0; i < 5; i++)
+			for (int x1 = 0; x1 < 5; x1++)
 			{
-				for (int j = 0; j < 3; j++)
+				for (int y1 = 0; y1 < 3; y1++)
 				{
-					addSlotToContainer(new SlotItemHandler(inv, j + i * 3 + 2,
-							16 + (i < 1 ? 0 : 26 + (i < 2 ? 0 : 44 + (i - 2) * 18)), 35 + 18 * j));
+					addSlotToContainer(new SlotItemHandler(inv, y1 + x1 * 3 + 2,
+							16 + (x1 < 1 ? 0 : 26 + (x1 < 2 ? 0 : 44 + (x1 - 2) * 18)), 35 + 18 * y1));
 				}
 			}
 		} else
 		{
 			is3x3 = false;
-			for (int i = 0; i < 7; i++)
+			for (int x1 = 0; x1 < 7; x1++)
 			{
-				for (int j = 0; j < 5; j++)
+				for (int y1 = 0; y1 < 5; y1++)
 				{
-					addSlotToContainer(new SlotItemHandler(inv, j + i * 5 + 2,
-							16 + (i < 1 ? 0 : 26 + (i < 2 ? 0 : 26 + (i - 2) * 18)), 17 + 18 * j));
+					addSlotToContainer(new SlotItemHandler(inv, y1 + x1 * 5 + 2,
+							16 + (x1 < 1 ? 0 : 26 + (x1 < 2 ? 0 : 26 + (x1 - 2) * 18)), 17 + 18 * y1));
 				}
 			}
 		}

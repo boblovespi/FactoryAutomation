@@ -23,7 +23,7 @@ public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>
 
 	ItemStack GetResult(IItemHandler workbenchInv);
 
-	List<Ingredient> GetItems();
+	List<Ingredient> GetJeiRecipe();
 
 	ItemStack GetResultItem();
 }

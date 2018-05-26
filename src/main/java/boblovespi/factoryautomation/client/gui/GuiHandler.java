@@ -18,7 +18,9 @@ import java.util.Arrays;
 
 /**
  * Created by Willi on 11/12/2017.
+ * gui handler
  */
+// TODO: move to proper location
 public class GuiHandler implements IGuiHandler
 {
 	@Nullable

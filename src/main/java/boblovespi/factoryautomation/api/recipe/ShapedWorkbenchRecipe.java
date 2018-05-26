@@ -62,11 +62,11 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 				return false;
 		}
 
-		for (int x = 0; x < sizeX; x++)
+		for (int y = 0; y < sizeY; y++)
 		{
-			for (int y = 0; y < sizeY; y++)
+			for (int x = 0; x < sizeX; x++)
 			{
-				if (!recipe[y][x].apply(workbenchInv.getStackInSlot(gridIndex + x * (is3x3 ? 3 : 5) + y)))
+				if (!recipe[y][x].apply(workbenchInv.getStackInSlot(gridIndex + x * (is3x3 ? 3 : 5) + y))) // correct
 					return false;
 			}
 		}
@@ -117,14 +117,18 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 	}
 
 	@Override
-	public List<Ingredient> GetItems()
+	public List<Ingredient> GetJeiRecipe()
 	{
 		List<Ingredient> list = new ArrayList<>(25);
 
-		for (Ingredient[] a : recipe)
+		for (int y = 0; y < 5; y++)
 		{
-			for (Ingredient ingredient : a)
+			Ingredient[] a;
+			a = (y < recipe.length ? recipe[y] : new Ingredient[0]);
+			for (int x = 0; x < 5; x++)
 			{
+				Ingredient ingredient;
+				ingredient = (x < a.length ? a[x] : Ingredient.EMPTY);
 				list.add(ingredient);
 			}
 		}

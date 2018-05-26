@@ -35,29 +35,23 @@ public class GuiWorkbench extends GuiContainer
 	 * Draws the background layer of this container (behind the items).
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		GlStateManager.color(1, 1, 1);
 		if (container.is3x3)
-			mc.getTextureManager().bindTexture(new ResourceLocation(
-					FactoryAutomation.MODID,
-					"textures/gui/container/stone_workbench.png"));
+			mc.getTextureManager()
+			  .bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/stone_workbench.png"));
 		else
-			mc.getTextureManager().bindTexture(new ResourceLocation(
-					FactoryAutomation.MODID,
-					"textures/gui/container/workbench.png"));
+			mc.getTextureManager()
+			  .bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/workbench.png"));
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		drawCenteredString(mc.fontRenderer, "Workbench", 84, 6,
-						   180 + 100 * 256 + 100 * 256 * 256);
-		fontRenderer
-				.drawString(playerInv.getDisplayName().getUnformattedText(), 8,
-							this.ySize - 96 + 2, 4210752);
+		drawCenteredString(mc.fontRenderer, "Workbench", 84, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
 
 	}
 

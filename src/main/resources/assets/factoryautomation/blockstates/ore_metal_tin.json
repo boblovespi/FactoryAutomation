@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "factoryautomation:ore/ore_tin"
+      "model": "factoryautomation:ores/ore_tin"
     }
   }
 }

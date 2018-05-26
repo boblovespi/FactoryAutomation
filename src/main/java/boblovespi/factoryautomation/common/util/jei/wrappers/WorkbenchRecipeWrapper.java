@@ -28,7 +28,7 @@ public class WorkbenchRecipeWrapper implements IRecipeWrapper
 	{
 		ingredients.setInputs(
 				ItemStack.class,
-				recipe.GetItems().stream().map(n -> Arrays.asList(n.getMatchingStacks())).collect(Collectors.toList()));
+				recipe.GetJeiRecipe().stream().map(n -> Arrays.asList(n.getMatchingStacks())).collect(Collectors.toList()));
 		ingredients.setOutput(ItemStack.class, recipe.GetResultItem());
 	}
 }

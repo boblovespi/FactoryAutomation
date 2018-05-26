@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.util.jei;
+package boblovespi.factoryautomation.common.util.jei.categories;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import mezz.jei.api.IGuiHelper;

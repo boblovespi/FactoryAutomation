@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.util.jei;
+package boblovespi.factoryautomation.common.util.jei.categories;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import mezz.jei.api.IGuiHelper;
@@ -48,6 +48,7 @@ public class WorkbenchRecipeCategory implements IRecipeCategory
 	@Override
 	public String getTitle()
 	{
+		//noinspection MethodCallSideOnly
 		return I18n.format("gui.workbench.name");
 	}
 
@@ -93,17 +94,17 @@ public class WorkbenchRecipeCategory implements IRecipeCategory
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				gui.init(j + i * 5 + 2, true, 16 + (i < 1 ? 0 : 26 + (i < 2 ? 0 : 26 + (i - 2) * 18)) - u,
-						17 + 18 * j - v);
+				gui.init(j + i * 5 + 2, true, 15 + (i < 1 ? 0 : 26 + (i < 2 ? 0 : 26 + (i - 2) * 18)) - u,
+						16 + 18 * j - v);
 			}
 		}
 
-		for (int i = 0; i < 5; i++)
+		for (int x = 0; x < 5; x++)
 		{
-			for (int j = 0; j < 5; j++)
+			for (int y = 0; y < 5; y++)
 			{
-				if (ingredients.getInputs(ItemStack.class).size() > j + i * 5)
-					gui.set(j + i * 5 + 2 + 10, ingredients.getInputs(ItemStack.class).get(j + i * 5));
+				if (ingredients.getInputs(ItemStack.class).size() > y + x * 5)
+					gui.set(y + x * 5 + 2 + 10, ingredients.getInputs(ItemStack.class).get(x + y * 5));
 			}
 		}
 
