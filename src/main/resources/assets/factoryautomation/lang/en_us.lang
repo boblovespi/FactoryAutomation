@@ -1,9 +1,11 @@
 # items
 
+# items-misc
 item.rice.name=Rice
 item.slag.name=Slag
 item.coal_coke.name=Coal Coke
 
+# items-ingots
 item.ingot_copper.name=Copper Ingot
 item.ingot_tin.name=Tin Ingot
 item.ingot_bronze.name=Bronze Ingot
@@ -11,6 +13,7 @@ item.ingot_steel.name=Steel Ingot
 item.ingot_pig_iron.name=Pig Iron Ingot
 item.ingot_magmatic_brass.name=Magmatic Brass Ingot
 
+# items-nuggets
 item.nugget_copper.name=Copper Nugget
 item.nugget_tin.name=Tin Nugget
 item.nugget_bronze.name=Bronze Nugget
@@ -18,6 +21,7 @@ item.nugget_steel.name=Steel Nugget
 item.nugget_pig_iron.name=Pig Iron Nugget
 item.nugget_magmatic_brass.name=Magmatic Brass Nugget
 
+# items-sheets
 item.sheet_iron.name=Iron Sheet
 item.sheet_gold.name=Gold Sheet
 item.sheet_copper.name=Copper Sheet
@@ -26,6 +30,8 @@ item.sheet_bronze.name=Bronze Sheet
 item.sheet_steel.name=Steel Sheet
 item.sheet_pig_iron.name=Pig Iron Sheet
 item.sheet_magmatic_brass.name=Magmatic Brass Sheet
+
+# blocks
 
 tile.metal_block_iron.name=Iron Block
 tile.metal_block_gold.name=Gold Block
@@ -36,6 +42,7 @@ tile.metal_block_steel.name=Steel Block
 tile.metal_block_pig_iron.name=Pig Iron Block
 tile.metal_block_magmatic_brass.name=Magmatic Brass Block
 
+# items-gears
 item.gear_wood.name=Wood Gear
 item.gear_stone.name=Stone Gear
 item.gear_copper.name=Copper Gear
@@ -46,6 +53,7 @@ item.gear_diamond.name=Diamond Gear
 item.gear_magmatic_brass.name=Magmatic Brass Gear
 item.gear_steel.name=Steel Gear
 
+# items-tools
 item.bronze_pickaxe.name=Bronze Pickaxe
 item.bronze_axe.name=Bronze Axe
 item.bronze_hoe.name=Bronze Hoe
@@ -58,24 +66,33 @@ item.steel_hoe.name=Steel Hoe
 item.steel_shovel.name=Steel Shovel
 item.steel_sword.name=Steel Sword
 
-item.wear_plate.iron.name=Iron Jaw Plate
-item.wear_plate.obsidian.name=Obsidian Jaw Plate
-
-item.clay_crucible.name=Clay Crucible
-
-item.diamond_gravel.name=Diamond Gravel
-
+item.copper_pickaxe.name=Copper Pickaxe
+item.copper_axe.name=Copper Axe
+item.copper_hoe.name=Copper Hoe
+item.copper_shovel.name=Copper Shovel
+item.copper_sword.name=Copper Sword
 
 item.iron_hammer.name=Iron Hammer
 item.steel_hammer.name=Steel Hammer
 item.steel_wrench.name=Steel Wrench
 item.steel_pinchers.name=Steel Pinchers
-item.sandpaper.name=Sandpaper
+item.advanced_flint_and_steel.name=Advanced flint and steel
 
+# items-jaw_plates
+item.wear_plate_iron.name=Iron Jaw Plate
+item.wear_plate_obsidian.name=Obsidian Jaw Plate
+
+# items-misc
+item.clay_crucible.name=Clay Crucible
+item.diamond_gravel.name=Diamond Gravel
 item.glass_lens.name=Glass Lens
-
 item.porcelain_clay.name=Porcelain Clay
 item.stone_dust.name=Stone Dust
+item.sandpaper.name=Sandpaper
+
+#items-materials
+items.silicon_quartz_crystal.name=§lSilicon Quartz Crystal
+
 
 # tiles
 
@@ -87,6 +104,7 @@ tile.steelmaking_furnace_controller.name=Steelmaking Furnace Controller
 
 tile.ore_metal_copper.name=Malachite Ore
 tile.ore_metal_tin.name=Cassiterite Ore
+tile.ore_silicon_quartz.name=Silicon Quartz Ore
 tile.limonite_ore.poor.name=Limonite Ore
 tile.limonite_ore.normal.name=Limonite Ore
 tile.limonite_ore.rich.name=Limonite Ore
@@ -97,10 +115,12 @@ tile.power_shaft.name=Power Shaft
 tile.solar_panel.name=Solar Panel
 tile.creative_mechanical_source.name=Radial Tachyon Accelerator
 tile.motor.name=Motor
+tile.gearbox.name=Gearbox
 
 tile.jaw_crusher.name=Jaw Crusher
 
 tile.stone_workbench.name=Stone Workbench
+tile.iron_workbench.name=Iron Workbench
 
 # config
 
@@ -119,3 +139,15 @@ gui.misc.temperature=Temp
 
 # tooltip
 tooltip.grade=Grade
+
+# creative_tab
+itemGroup.tabs.metallurgy.name=Metallurgy
+itemGroup.tabs.resources.name=Resources
+itemGroup.tabs.tools.name=F.A. Tools
+itemGroup.tabs.mechanical.name=Mechanical Stuff
+itemGroup.tabs.crafting.name=Crafting Items
+
+# misc
+fluid.fa_air=FA AIR
+fluid.fa_air.name=FA AIR
+tile.steam.name=Steam
