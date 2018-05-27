@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "factoryautomation:empty"
+    },
+    "facing=south": {
+      "model": "factoryautomation:empty"
+    },
+    "facing=east": {
+      "model": "factoryautomation:empty"
+    },
+    "facing=west": {
+      "model": "factoryautomation:empty"
+    },
+    "facing=up": {
+      "model": "factoryautomation:empty"
+    },
+    "facing=down": {
+      "model": "factoryautomation:empty"
+    }
+  }
+}

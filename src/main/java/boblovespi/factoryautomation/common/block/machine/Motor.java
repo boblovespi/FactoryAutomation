@@ -98,4 +98,36 @@ public class Motor extends FABaseBlock implements ITileEntityProvider,
 	{
 		return new BlockStateContainer(this, FACING);
 	}
+	@Override
+	public boolean isFullBlock(IBlockState state)
+	{
+		return false;
+	}
+
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	 *
+	 * @param state
+	 */
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
+
+	/**
+	 * Return true if the block is a normal, solid cube.  This
+	 * determines indirect power state, entity ejection from blocks, and a few
+	 * others.
+	 *
+	 * @param state The current state
+	 * @param world The current world
+	 * @param pos   Block position in world
+	 * @return True if the block is a full cube
+	 */
+	@Override
+	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	{
+		return false;
+	}
 }

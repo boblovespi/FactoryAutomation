@@ -88,9 +88,12 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 
 	private void Init(World world)
 	{
-		for (int i = 0; i < uninitData.getSize(); i++)
+		if (uninitData != null)
 		{
-			connections.add(EnergyConnection.FromNBT(uninitData.getCompoundTag(String.valueOf(i)), world));
+			for (int i = 0; i < uninitData.getSize(); i++)
+			{
+				connections.add(EnergyConnection.FromNBT(uninitData.getCompoundTag(String.valueOf(i)), world));
+			}
 		}
 		isInit = true;
 	}

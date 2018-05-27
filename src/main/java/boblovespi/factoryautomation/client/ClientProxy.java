@@ -3,11 +3,13 @@ package boblovespi.factoryautomation.client;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.client.tesr.TESRGearbox;
+import boblovespi.factoryautomation.client.tesr.TESRMotor;
 import boblovespi.factoryautomation.client.tesr.TESRPowerShaft;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
+import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ChatType;
@@ -42,6 +44,7 @@ public class ClientProxy implements CommonProxy
 	{
 		ClientRegistry.bindTileEntitySpecialRenderer(TEPowerShaft.class, new TESRPowerShaft());
 		ClientRegistry.bindTileEntitySpecialRenderer(TEGearbox.class, new TESRGearbox());
+		ClientRegistry.bindTileEntitySpecialRenderer(TEMotor.class, new TESRMotor());
 	}
 
 	@Override

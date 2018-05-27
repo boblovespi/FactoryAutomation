@@ -179,6 +179,12 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 		return false;
 	}
 
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		return "mechanical/" + RegistryName();
+	}
+
 	public enum GearType implements IStringSerializable, IMultiTypeEnum
 	{
 		WOOD(1, 40, "wood"),

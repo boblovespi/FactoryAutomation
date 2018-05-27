@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.common.block.workbench;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
-import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEIronWorkbench;
 import net.minecraft.block.ITileEntityProvider;
@@ -23,7 +22,7 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 4/15/2018.
  */
-public class IronWorkbench extends FABaseBlock implements ITileEntityProvider
+public class IronWorkbench extends Workbench implements ITileEntityProvider
 {
 	public IronWorkbench()
 	{

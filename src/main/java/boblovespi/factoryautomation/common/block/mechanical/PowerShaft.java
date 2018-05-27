@@ -138,4 +138,9 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 		return false;
 	}
 
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		return "mechanical/" + RegistryName();
+	}
 }

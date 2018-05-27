@@ -13,12 +13,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by Willi on 3/19/2018.
  */
-public class TEMotor extends TileEntity
-		implements IMechanicalUser, IRequiresEnergy, ITickable
+public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEnergy, ITickable
 {
+	public float rotation = 0;
 	private float speed;
 	private float torque;
 	private boolean hasTicked = false;
@@ -110,8 +112,7 @@ public class TEMotor extends TileEntity
 	@Override
 	public float ActualAmountNeeded()
 	{
-		return MathHelper
-				.clamp(AmountNeeded() - energyProvided, 0, AmountNeeded());
+		return MathHelper.clamp(AmountNeeded() - energyProvided, 0, AmountNeeded());
 	}
 
 	/**
@@ -138,6 +139,12 @@ public class TEMotor extends TileEntity
 	@Override
 	public void update()
 	{
+		if (world.isRemote)
+		{
+			rotation = (rotation + speed) % 360;
+			return;
+		}
+
 		hasTicked = false;
 		if ((cooldown = ++cooldown % 20) == 0)
 			ForceUpdate(true);
@@ -157,14 +164,14 @@ public class TEMotor extends TileEntity
 		UpdateMotor();
 
 		markDirty();
-		IBlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		IBlockState state2 = world.getBlockState(pos);
+		world.notifyBlockUpdate(pos, state2, state2, 3);
 	}
 
 	private void UpdateMotor()
 	{
-		speed = energyProvided * 2;
-		torque = energyProvided * 2;
+		speed = energyProvided * 0.2f;
+		torque = energyProvided * 0.2f;
 	}
 
 	@Override
@@ -199,5 +206,23 @@ public class TEMotor extends TileEntity
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
 		readFromNBT(pkt.getNbtCompound());
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return nbt;
+	}
+
+	@Nullable
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		int meta = getBlockMetadata();
+		return new SPacketUpdateTileEntity(pos, meta, nbt);
 	}
 }
