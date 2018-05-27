@@ -10,7 +10,6 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -51,12 +50,12 @@ public class RecipeHandler
 	@SubscribeEvent
 	public static void registerIRecipes(RegistryEvent.Register<IRecipe> event)
 	{
-		concrete = new ShapelessOreRecipe(new ResourceLocation(FactoryAutomation.MODID, "concrete"),
-				FABlocks.concrete.ToBlock(), FAItems.slag.ToItem(), Items.WATER_BUCKET, Blocks.SAND)
-				.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "concrete"));
+		//		concrete = new ShapelessOreRecipe(new ResourceLocation(FactoryAutomation.MODID, "concrete"),
+		//				FABlocks.concrete.ToBlock(), FAItems.slag.ToItem(), Items.WATER_BUCKET, Blocks.SAND)
+		//				.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "concrete"));
 
 		recipes = new ArrayList<>();
-		recipes.add(concrete);
+		// recipes.add(concrete);
 
 		for (int i = 2; i < Metals.values().length; i++)
 		{
