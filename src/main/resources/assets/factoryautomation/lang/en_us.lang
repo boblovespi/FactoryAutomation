@@ -91,7 +91,7 @@ item.stone_dust.name=Stone Dust
 item.sandpaper.name=Sandpaper
 
 #items-materials
-items.silicon_quartz_crystal.name=§lSilicon Quartz Crystal
+item.silicon_quartz_crystal.name=§lSilicon Quartz Crystal
 
 
 # tiles
