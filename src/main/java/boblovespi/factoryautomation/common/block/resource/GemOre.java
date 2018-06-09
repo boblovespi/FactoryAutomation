@@ -22,6 +22,9 @@ public class GemOre extends FABaseBlock
 	{
 		super(Material.ROCK, unlocalizedName);
 		this.data = data;
+		setHarvestLevel("pickaxe", data.miningLevel);
+		setHardness(data.hardness);
+		setResistance(data.resistance);
 	}
 
 	/**

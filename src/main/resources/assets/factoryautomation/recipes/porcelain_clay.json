@@ -3,7 +3,7 @@
   "pattern": ["cbc", "sws", "bcb"],
   "key": {
     "c": {
-      "item": "minecraft:clay"
+      "item": "minecraft:clay_ball"
     },
     "b": {
       "item": "#bonemeal"

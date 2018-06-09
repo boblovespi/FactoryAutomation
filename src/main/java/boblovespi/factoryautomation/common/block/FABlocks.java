@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.common.block.crafter.ChipCreator;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
@@ -10,8 +11,8 @@ import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.resource.GemOre;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.block.resource.OreData;
-import boblovespi.factoryautomation.common.block.workbench.IronWorkbench;
-import boblovespi.factoryautomation.common.block.workbench.StoneWorkbench;
+import boblovespi.factoryautomation.common.block.crafter.workbench.IronWorkbench;
+import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbench;
 import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
@@ -32,6 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.COPPER;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.STEEL;
 
 /**
  * Created by Willi on 11/9/2017.
@@ -71,9 +73,11 @@ public class FABlocks
 
 	public static FABlock stoneWorkbench;
 	public static FABlock ironWorkbench;
-	public static FABlock steam;
+	public static FABlock chipCreator;
 
 	// fluids
+
+	public static FABlock steam;
 
 	public static void Init()
 	{
@@ -125,12 +129,14 @@ public class FABlocks
 				.Init(n -> n.setHardness(2.5f).setResistance(14));
 		siliconQuartzOre = new GemOre(
 				"ore_silicon_quartz",
-				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12));
+				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
+														   .SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
 
 		// workbenches
 
 		stoneWorkbench = new StoneWorkbench();
 		ironWorkbench = new IronWorkbench();
+		chipCreator = new ChipCreator();
 
 		// fluids
 

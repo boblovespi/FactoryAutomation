@@ -13,6 +13,9 @@ import java.util.function.Function;
 public class OreData
 {
 	final Item ore;
+	public int miningLevel = 0;
+	public float hardness = 0;
+	public float resistance = 0;
 	Function<Random, Integer> dropChance;
 	BiFunction<Random, Integer, Integer> xpChance;
 
@@ -30,6 +33,24 @@ public class OreData
 	public OreData SetXpChance(BiFunction<Random, Integer, Integer> func)
 	{
 		xpChance = func;
+		return this;
+	}
+
+	public OreData SetMiningLevel(int miningLevel)
+	{
+		this.miningLevel = miningLevel;
+		return this;
+	}
+
+	public OreData SetHardness(float hardness)
+	{
+		this.hardness = hardness;
+		return this;
+	}
+
+	public OreData SetResistance(float resistance)
+	{
+		this.resistance = resistance;
 		return this;
 	}
 }
