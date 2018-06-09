@@ -91,7 +91,7 @@ item.stone_dust.name=Kő Por
 item.sandpaper.name=Csiszolópapír
 
 #items-materials
-items.silicon_quartz_crystal.name=§lSzilícium-Kvarc kristály
+item.silicon_quartz_crystal.name=§lSzilícium-Kvarc kristály
 
 
 # tiles
