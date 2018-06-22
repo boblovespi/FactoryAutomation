@@ -17,6 +17,7 @@ public class OreDictionaryHandler
 		OreDictionary.registerOre("slag", FAItems.slag.ToItem());
 		OreDictionary.registerOre("concrete", FABlocks.concrete.ToBlock());
 		OreDictionary.registerOre("rice", FAItems.riceGrain.ToItem());
+		OreDictionary.registerOre("wireCopper", FAItems.copperWire.ToItem());
 
 		for (int i = 2; i < Metals.values().length; i++)
 		{

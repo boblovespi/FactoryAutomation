@@ -31,7 +31,7 @@ item.sheet_steel.name=Steel Sheet
 item.sheet_pig_iron.name=Pig Iron Sheet
 item.sheet_magmatic_brass.name=Magmatic Brass Sheet
 
-# blocks
+# blocks - metals
 
 tile.metal_block_iron.name=Iron Block
 tile.metal_block_gold.name=Gold Block
@@ -89,6 +89,9 @@ item.glass_lens.name=Glass Lens
 item.porcelain_clay.name=Porcelain Clay
 item.stone_dust.name=Stone Dust
 item.sandpaper.name=Sandpaper
+
+item.copper_wire.name=Copper Wire
+item.circuit_frame.name=Circuit Frame
 
 #items-materials
 item.silicon_quartz_crystal.name=§lSilicon Quartz Crystal

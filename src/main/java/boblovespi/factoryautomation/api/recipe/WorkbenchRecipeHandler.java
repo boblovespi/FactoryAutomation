@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class WorkbenchRecipeHandler
 {
-	public static final HashMap<ResourceLocation, IWorkbenchRecipe> recipes = new HashMap<>(2);
+	public static final HashMap<ResourceLocation, IWorkbenchRecipe> recipes = new HashMap<>(50);
 
 	public static void AddRecipe(ResourceLocation id, IWorkbenchRecipe recipe)
 	{

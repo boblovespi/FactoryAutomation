@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
+import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreator;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.container.workbench.ContainerWorkbench;
 import boblovespi.factoryautomation.common.util.Log;
@@ -35,7 +36,7 @@ public class GuiHandler implements IGuiHandler
 										 .newInstance(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
 			} catch (Exception e)
 			{
-				Log.LogWarning("there was an exception!");
+				Log.LogWarning("there was an exception! (server)");
 				Log.LogWarning(e.getMessage());
 				Log.LogWarning(e.getLocalizedMessage());
 				System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
@@ -56,7 +57,7 @@ public class GuiHandler implements IGuiHandler
 										 .newInstance(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
 			} catch (Exception e)
 			{
-				Log.LogWarning("there was an exception!");
+				Log.LogWarning("there was an exception! (client)");
 				Log.LogWarning(e.getMessage());
 				Log.LogWarning(e.getLocalizedMessage());
 				System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
@@ -70,7 +71,8 @@ public class GuiHandler implements IGuiHandler
 		BLAST_FURNACE(0, ContainerBlastFurnace.class, GuiBlastFurnace.class),
 		STEELMAKING_FURNACE(1, ContainerSteelmakingFurnace.class, GuiSteelmakingFurnace.class),
 		STONE_WORKBENCH(2, ContainerWorkbench.class, GuiWorkbench.class),
-		WORKBENCH(3, ContainerWorkbench.class, GuiWorkbench.class);
+		WORKBENCH(3, ContainerWorkbench.class, GuiWorkbench.class),
+		CHIP_CREATOR(4, ContainerBasicCircuitCreator.class, GuiBasicCircuitCreator.class);
 
 		public final int id;
 		private final Class<? extends Gui> gui;

@@ -1,0 +1,14 @@
+{
+  "type": "factoryautomation:basic_circuit",
+  "pattern": ["61000166",
+              "61616166",
+              "61611166",
+              "61261166",
+              "61661666",
+              "66666666",
+              "66666666",
+              "66666666"],
+  "result": {
+    "item": "factoryautomation:dataprint_circuit"
+  }
+}

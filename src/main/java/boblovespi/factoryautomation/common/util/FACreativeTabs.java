@@ -51,4 +51,12 @@ public class FACreativeTabs
 			return new ItemStack(FAItems.glassLens.ToItem());
 		}
 	};
+	public static CreativeTabs electrical = new CreativeTabs("tabs.electrical.name")
+	{
+		@Override
+		public ItemStack getTabIconItem()
+		{
+			return new ItemStack(FAItems.copperWire.ToItem());
+		}
+	};
 }
