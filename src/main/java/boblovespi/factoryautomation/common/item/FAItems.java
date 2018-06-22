@@ -75,6 +75,13 @@ public class FAItems
 	public static MultiTypeItem<Gearbox.GearType> gear;
 	public static FAItem glassLens;
 
+	// electrical parts
+
+	public static FAItem copperWire;
+	public static FAItem basicChip;
+	public static FAItem circuitFrame;
+	public static FAItem dataprintCircuit;
+
 	// regular tools
 
 	public static FAItem bronzePickaxe;
@@ -150,6 +157,13 @@ public class FAItems
 
 		gear = new Gear();
 		glassLens = new FABaseItem("glass_lens", FACreativeTabs.crafting);
+
+		// electrical parts
+
+		copperWire = new FABaseItem("copper_wire", FACreativeTabs.electrical);
+		basicChip = new FABaseItem("basic_chip", FACreativeTabs.electrical);
+		circuitFrame = new FABaseItem("circuit_frame", FACreativeTabs.electrical);
+		dataprintCircuit = new FABaseItem("dataprint_circuit", FACreativeTabs.electrical);
 
 		// regular tools
 

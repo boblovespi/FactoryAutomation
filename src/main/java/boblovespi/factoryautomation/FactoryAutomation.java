@@ -14,6 +14,7 @@ import boblovespi.factoryautomation.common.item.tools.ToolMaterials;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
+import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -64,6 +65,7 @@ public class FactoryAutomation
 		CapabilityPollutedChunk.Register();
 
 		// FAConfig.PreInit();
+		PacketHandler.CreateChannel(MODID);
 		proxy.PreInit();
 
 		Fluids.RegisterFluids();

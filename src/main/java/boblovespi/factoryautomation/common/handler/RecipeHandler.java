@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.handler;
 
-import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.api.recipe.BasicCircuitRecipe;
 import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 @Mod.EventBusSubscriber
 
 public class RecipeHandler
@@ -60,20 +62,20 @@ public class RecipeHandler
 		for (int i = 2; i < Metals.values().length; i++)
 		{
 			IRecipe ingotToNugget = new ShapedOreRecipe(
-					new ResourceLocation(FactoryAutomation.MODID, "ingot_to_nugget_" + Metals.values()[i].getName()),
+					new ResourceLocation(MODID, "ingot_to_nugget_" + Metals.values()[i].getName()),
 					new ItemStack(FAItems.nugget.GetItem(Metals.values()[i]), 9), "I", 'I',
 					"ingot" + StringUtils.capitalize(Metals.values()[i].getName()));
 
 			ingotToNugget.setRegistryName(
-					new ResourceLocation(FactoryAutomation.MODID, "ingot_to_nugget_" + Metals.values()[i].getName()));
+					new ResourceLocation(MODID, "ingot_to_nugget_" + Metals.values()[i].getName()));
 
 			IRecipe nuggetToIngot = new ShapedOreRecipe(
-					new ResourceLocation(FactoryAutomation.MODID, "nugget_to_ingot_" + Metals.values()[i].getName()),
+					new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].getName()),
 					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i]), 1), "NNN", "NNN", "NNN", 'N',
 					"nugget" + StringUtils.capitalize(Metals.values()[i].getName()));
 
 			nuggetToIngot.setRegistryName(
-					new ResourceLocation(FactoryAutomation.MODID, "nugget_to_ingot_" + Metals.values()[i].getName()));
+					new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].getName()));
 
 			recipes.add(ingotToNugget);
 			recipes.add(nuggetToIngot);
@@ -100,10 +102,10 @@ public class RecipeHandler
 		bronzeCrucibleStack.setTagCompound(filledTag2);
 
 		IRecipe filledCrucible = new ShapelessOreRecipe(
-				new ResourceLocation(FactoryAutomation.MODID, "filled_bronze_crucible"), filledCrucibleStack,
+				new ResourceLocation(MODID, "filled_bronze_crucible"), filledCrucibleStack,
 				new ItemStack(FAItems.clayCrucible.ToItem(), 1, 0), "nuggetCopper", "nuggetCopper", "nuggetCopper",
 				"nuggetCopper", "nuggetCopper", "nuggetCopper", "nuggetCopper", "nuggetTin");
-		filledCrucible.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "filled_bronze_crucible"));
+		filledCrucible.setRegistryName(new ResourceLocation(MODID, "filled_bronze_crucible"));
 		recipes.add(filledCrucible);
 
 		event.getRegistry().registerAll(recipes.toArray(new IRecipe[] {}));
@@ -152,7 +154,9 @@ public class RecipeHandler
 		//
 
 		WorkbenchRecipeHandler.LoadFromJson(Loader.instance().activeModContainer(),
-				new ResourceLocation(FactoryAutomation.MODID, "workbenchrecipies"));
+				new ResourceLocation(MODID, "workbench_recipes"));
+
+		BasicCircuitRecipe.LoadFromJson(Loader.instance().activeModContainer(), new ResourceLocation(MODID, "basic_circuit_recipes"));
 
 	}
 
@@ -163,37 +167,37 @@ public class RecipeHandler
 		if (pickaxe != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
-					new ResourceLocation(FactoryAutomation.MODID, materialName + "_pickaxe"),
+					new ResourceLocation(MODID, materialName + "_pickaxe"),
 					new ItemStack(pickaxe.ToItem()), "iii", " s ", " s ", 'i', ingot, 's', stick);
-			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, materialName + "_pickaxe")));
+			recipes.add(r.setRegistryName(new ResourceLocation(MODID, materialName + "_pickaxe")));
 		}
 		if (axe != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
-					new ResourceLocation(FactoryAutomation.MODID, materialName + "_axe"), new ItemStack(axe.ToItem()),
+					new ResourceLocation(MODID, materialName + "_axe"), new ItemStack(axe.ToItem()),
 					"ii", "is", " s", 'i', ingot, 's', stick);
-			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, materialName + "_axe")));
+			recipes.add(r.setRegistryName(new ResourceLocation(MODID, materialName + "_axe")));
 		}
 		if (hoe != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
-					new ResourceLocation(FactoryAutomation.MODID, materialName + "_sword"), new ItemStack(hoe.ToItem()),
+					new ResourceLocation(MODID, materialName + "_sword"), new ItemStack(hoe.ToItem()),
 					"ii", " s", " s", 'i', ingot, 's', stick);
-			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, materialName + "_hoe")));
+			recipes.add(r.setRegistryName(new ResourceLocation(MODID, materialName + "_hoe")));
 		}
 		if (sword != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
-					new ResourceLocation(FactoryAutomation.MODID, materialName + "_hoe"), new ItemStack(sword.ToItem()),
+					new ResourceLocation(MODID, materialName + "_hoe"), new ItemStack(sword.ToItem()),
 					"i", "i", "s", 'i', ingot, 's', stick);
-			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, materialName + "_sword")));
+			recipes.add(r.setRegistryName(new ResourceLocation(MODID, materialName + "_sword")));
 		}
 		if (spade != null)
 		{
 			ShapedOreRecipe r = new ShapedOreRecipe(
-					new ResourceLocation(FactoryAutomation.MODID, materialName + "_spade"),
+					new ResourceLocation(MODID, materialName + "_spade"),
 					new ItemStack(spade.ToItem()), "i", "s", "s", 'i', ingot, 's', stick);
-			recipes.add(r.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, materialName + "_spade")));
+			recipes.add(r.setRegistryName(new ResourceLocation(MODID, materialName + "_spade")));
 		}
 
 	}
