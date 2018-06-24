@@ -69,6 +69,7 @@ public class FAItems
 	public static FAItem stoneDust;
 	public static FAItem porcelainClay;
 	public static FAItem siliconQuartz;
+	public static FAItem ash;
 
 	// crafting components
 
@@ -152,6 +153,7 @@ public class FAItems
 		stoneDust = new FABaseItem("stone_dust", FACreativeTabs.resources);
 		porcelainClay = new FABaseItem("porcelain_clay", FACreativeTabs.resources);
 		siliconQuartz = new FABaseItem("silicon_quartz_crystal", FACreativeTabs.resources);
+		ash = new FABaseItem("ash", FACreativeTabs.resources);
 
 		// crafting components
 

@@ -8,19 +8,23 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Willi on 4/10/2018.
@@ -29,6 +33,15 @@ import java.util.Random;
 @Mod.EventBusSubscriber
 public class BlockEventHandler
 {
+	private static final Map<BlockPos, Set<EnumFacing>> ashFires = new HashMap<>();
+	private static final Set<Block> flamableBlocks = new HashSet<Block>()
+	{{
+		add(Blocks.PLANKS);
+		add(Blocks.LOG);
+		add(Blocks.LOG2);
+		// TODO: add the rest of the blocks
+	}};
+
 	@SubscribeEvent
 	public static void OnBlockHarvestedEvent(BlockEvent.HarvestDropsEvent event)
 	{
@@ -112,6 +125,50 @@ public class BlockEventHandler
 		} else if (false)
 		{
 
+		}
+	}
+
+	@SubscribeEvent
+	public static void OnNeighborNotifyEvent(BlockEvent.NeighborNotifyEvent event)
+	{
+		IBlockState state = event.getState();
+		BlockPos pos = event.getPos().toImmutable();
+		World world = event.getWorld();
+		if (state.getBlock() == Blocks.FIRE)
+		{
+			if (!ashFires.containsKey(pos))
+			{
+				ashFires.put(pos, new HashSet<>(6));
+				for (EnumFacing offset : EnumFacing.values())
+				{
+					if (flamableBlocks.contains(world.getBlockState(pos.offset(offset)).getBlock()))
+						ashFires.get(pos).add(offset);
+					else
+						ashFires.get(pos).remove(offset);
+				}
+			}
+		} else if (state.getBlock() == Blocks.AIR)
+		{
+			if (ashFires.containsKey(pos))
+			{
+				for (EnumFacing facing : ashFires.get(pos))
+				{
+					BlockPos oldWoodPos = pos.offset(facing);
+					CheckAndSpawnAsh(world, world.getBlockState(oldWoodPos), oldWoodPos);
+				}
+				ashFires.remove(pos);
+			}
+		}
+	}
+
+	private static void CheckAndSpawnAsh(World world, IBlockState state, BlockPos pos)
+	{
+		if (state.getBlock() == Blocks.FIRE || state.getBlock() == Blocks.AIR)
+		{
+			EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
+					new ItemStack(FAItems.ash.ToItem(), world.rand.nextInt(2) + 1));
+			item.setEntityInvulnerable(true);
+			world.spawnEntity(item);
 		}
 	}
 
