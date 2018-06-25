@@ -89,9 +89,14 @@ item.glass_lens.name=Glass Lens
 item.porcelain_clay.name=Porcelain Clay
 item.stone_dust.name=Stone Dust
 item.sandpaper.name=Sandpaper
+item.ash.name=Ash
 
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame
+
+# items - circuits
+item.basic_chip.name=Basic Chip
+item.dataprint_circuit.name=Dataprint Circuit
 
 #items-materials
 item.silicon_quartz_crystal.name=§lSilicon Quartz Crystal
