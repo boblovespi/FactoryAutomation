@@ -1,12 +1,14 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
 import boblovespi.factoryautomation.common.block.machine.JawCrusher;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import boblovespi.factoryautomation.common.util.capability.IMechanicalUser;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -57,11 +59,14 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	{
 		if (world.isRemote)
 			return;
-		TileEntity te = world.getTileEntity(pos.offset(EnumFacing.WEST));
-		if (TEHelper.IsMechanicalFace(te, EnumFacing.EAST))
+		TileEntity te = world
+				.getTileEntity(pos.offset(world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW()));
+		if (TEHelper.IsMechanicalFace(te, world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW()))
 		{
-			speed = ((IMechanicalUser) te).GetSpeedOnFace(EnumFacing.EAST);
-			torque = ((IMechanicalUser) te).GetTorqueOnFace(EnumFacing.EAST);
+			speed = ((IMechanicalUser) te)
+					.GetSpeedOnFace(world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW());
+			torque = ((IMechanicalUser) te)
+					.GetTorqueOnFace(world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW());
 		} else
 		{
 			speed = 0;
@@ -72,13 +77,10 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 
 		if (currentRecipe.equals("none"))
 		{ // no current recipe, find one
-			if (!inventory.getStackInSlot(WEAR_PLATE_SLOT).isEmpty()
-					&& !inventory.getStackInSlot(INPUT_SLOT).isEmpty())
+			if (!inventory.getStackInSlot(WEAR_PLATE_SLOT).isEmpty() && !inventory.getStackInSlot(INPUT_SLOT).isEmpty())
 			{
 				JawCrusherRecipe tRecipe = JawCrusherRecipe
-						.FindRecipe(inventory.getStackInSlot(INPUT_SLOT),
-									inventory.getStackInSlot(WEAR_PLATE_SLOT)
-											 .getItemDamage());
+						.FindRecipe(inventory.getStackInSlot(INPUT_SLOT), GetMachineTier());
 
 				if (tRecipe != null)
 				{
@@ -89,16 +91,9 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 				} else
 				{ // the recipe doesn't exist, so put the item in the output slot if we can
 
-					inventory.extractItem(
-							INPUT_SLOT, inventory.insertItem(OUTPUT_SLOT,
-															 inventory
-																	 .getStackInSlot(
-																			 INPUT_SLOT)
-																	 .copy()
-																	 .splitStack(
-																			 1),
-															 false).getCount(),
-							false);
+					inventory.extractItem(INPUT_SLOT, inventory
+							.insertItem(OUTPUT_SLOT, inventory.getStackInSlot(INPUT_SLOT).copy().splitStack(1), false)
+							.getCount(), false);
 				}
 			}
 		} else
@@ -110,20 +105,13 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 
 			if (speed > recipe.speedReq / 2 && torque > recipe.torqueReq)
 			{
-				currentProcessingTime -=
-						MathHelper.clamp(speed / recipe.speedReq, 0.5f, 2)
-								* processingScalar;
+				currentProcessingTime -= MathHelper.clamp(speed / recipe.speedReq, 0.5f, 2) * processingScalar;
 			}
 
 			if (currentProcessingTime < 0)
 			{
-				inventory.extractItem(
-						INPUT_SLOT, inventory.insertItem(OUTPUT_SLOT,
-														 recipe.GetOutput(
-																 world.rand
-																		 .nextFloat()),
-														 false).getCount(),
-						false);
+				inventory.extractItem(INPUT_SLOT, 1, false);
+				inventory.insertItem(OUTPUT_SLOT, recipe.GetOutput((float) Math.random()), false);
 				recipe = null;
 				currentRecipe = "none";
 			}
@@ -138,11 +126,21 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 		world.notifyBlockUpdate(pos, state2, state2, 3);
 	}
 
+	private int GetMachineTier()
+	{
+		Item item = inventory.getStackInSlot(WEAR_PLATE_SLOT).getItem();
+		if (item == FAItems.wearPlate.GetItem(MachineTiers.IRON))
+			return 0;
+		else if (item == FAItems.wearPlate.GetItem(MachineTiers.OBSIDIAN))
+			return 1;
+		else
+			return -1;
+	}
+
 	@Override
 	public boolean HasConnectionOnSide(EnumFacing side)
 	{
-		return side == world.getBlockState(pos).getValue(JawCrusher.FACING)
-							.rotateYCCW();
+		return side == world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW();
 	}
 
 	@Override
@@ -178,8 +176,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	@Override
 	public boolean isItemValidForSlot(int index, ItemStack stack)
 	{
-		return index == INPUT_SLOT && inventory
-				.insertItem(index, stack.copy().splitStack(1), true).isEmpty();
+		return index == INPUT_SLOT && inventory.insertItem(index, stack.copy().splitStack(1), true).isEmpty();
 	}
 
 	@Override
@@ -202,12 +199,11 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 
 	public void PlaceWearPlate(ItemStack wearPlate)
 	{
-		if (wearPlate.getItem().equals(FAItems.wearPlate.ToItem()))
+		if (FAItems.wearPlate.Contains(wearPlate.getItem()))
 		{
 			if (inventory.getStackInSlot(WEAR_PLATE_SLOT).isEmpty())
 			{
-				inventory.insertItem(WEAR_PLATE_SLOT,
-									 wearPlate.copy().splitStack(1), false);
+				inventory.insertItem(WEAR_PLATE_SLOT, wearPlate.copy().splitStack(1), false);
 				wearPlate.shrink(1);
 			}
 		}
@@ -215,11 +211,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 
 	public void RemovePlate()
 	{
-		world.spawnEntity(
-				new EntityItem(world, pos.getX() + 0.5, pos.getY() + 1.1,
-							   pos.getZ() + 0.5, inventory
-									   .extractItem(WEAR_PLATE_SLOT, 1,
-													false)));
-
+		world.spawnEntity(new EntityItem(world, pos.getX() + 0.5, pos.getY() + 1.1, pos.getZ() + 0.5,
+				inventory.extractItem(WEAR_PLATE_SLOT, 1, false)));
 	}
 }

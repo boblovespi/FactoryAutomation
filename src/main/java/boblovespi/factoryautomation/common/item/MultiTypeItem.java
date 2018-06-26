@@ -72,6 +72,16 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 		return items[type.GetId()];
 	}
 
+	public boolean Contains(Item item)
+	{
+		for (FABaseItem item1 : items)
+		{
+			if (item1 == item)
+				return true;
+		}
+		return false;
+	}
+
 	@Override
 	public FAItem Init(Consumer<Item> apply)
 	{

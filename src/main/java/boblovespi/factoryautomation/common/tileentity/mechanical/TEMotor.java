@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.EnergyConnection;
 import boblovespi.factoryautomation.api.energy.IRequiresEnergy;
 import boblovespi.factoryautomation.common.block.machine.Motor;
-import boblovespi.factoryautomation.common.util.capability.IMechanicalUser;
+import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

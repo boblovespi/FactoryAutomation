@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import boblovespi.factoryautomation.common.util.capability.IMechanicalUser;
+import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -13,7 +13,6 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.world.gen.feature.WorldGenerator;
 
 import javax.annotation.Nullable;
 

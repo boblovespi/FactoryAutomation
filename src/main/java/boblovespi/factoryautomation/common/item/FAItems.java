@@ -115,7 +115,7 @@ public class FAItems
 	// misc tools
 
 	public static FAItem clayCrucible;
-	public static FAItem wearPlate;
+	public static MultiTypeItem<MachineTiers> wearPlate;
 
 	// fluid canister
 

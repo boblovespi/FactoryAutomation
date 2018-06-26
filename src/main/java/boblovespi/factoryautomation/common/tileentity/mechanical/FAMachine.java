@@ -9,7 +9,10 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
@@ -19,8 +22,7 @@ import java.util.Map;
 /**
  * Created by Willi on 2/18/2018.
  */
-public abstract class FAMachine extends TileEntity
-		implements ITickable, ISidedInventory
+public abstract class FAMachine extends TileEntity implements ITickable, ISidedInventory
 {
 	protected ItemStackHandler inventory;
 	protected Map<EnumFacing, int[]> inputs = new HashMap<>(6);
@@ -54,8 +56,7 @@ public abstract class FAMachine extends TileEntity
 	 * Returns true if automation can insert the given item in the given slot from the given side.
 	 */
 	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn,
-			EnumFacing side)
+	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing side)
 	{
 		return ArrayUtils.contains(inputs.get(side), index);
 	}
@@ -144,11 +145,9 @@ public abstract class FAMachine extends TileEntity
 
 	public boolean isUsableByPlayer(EntityPlayer player)
 	{
-		return this.world.getTileEntity(this.pos) == this
-				&& player.getDistanceSq(
-				(double) this.pos.getX() + 0.5D,
-				(double) this.pos.getY() + 0.5D,
-				(double) this.pos.getZ() + 0.5D) <= 64.0D;
+		return this.world.getTileEntity(this.pos) == this &&
+				player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
+						(double) this.pos.getZ() + 0.5D) <= 64.0D;
 
 	}
 
@@ -196,6 +195,7 @@ public abstract class FAMachine extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
+		//noinspection MethodCallSideOnly
 		this.readFromNBT(pkt.getNbtCompound());
 	}
 
@@ -253,11 +253,35 @@ public abstract class FAMachine extends TileEntity
 
 	protected abstract void WriteCustomNBT(NBTTagCompound tag);
 
-	//	@Override
-	//	public boolean hasCapability(Capability<?> capability,
-	//			@Nullable EnumFacing facing)
-	//	{
-	//		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-	//		return super.hasCapability(capability, facing);
-	//	}
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		{
+			if (facing == null)
+				return false;
+			if (inputs.get(facing).length == 0)
+				return false;
+			else
+				return true;
+		}
+		return super.hasCapability(capability, facing);
+	}
+
+	@Nullable
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		{
+			if (facing == null)
+				return null;
+			if (inputs.get(facing).length == 0)
+				return null;
+			else
+				//noinspection unchecked
+				return (T) new SidedInvWrapper(this, facing);
+		}
+		return super.getCapability(capability, facing);
+	}
 }

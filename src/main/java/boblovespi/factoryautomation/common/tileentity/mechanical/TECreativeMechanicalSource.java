@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
-import boblovespi.factoryautomation.common.util.capability.IMechanicalUser;
+import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
