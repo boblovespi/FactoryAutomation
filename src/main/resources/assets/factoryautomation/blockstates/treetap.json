@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "factoryautomation:processing/treetap",
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "factoryautomation:processing/treetap",
+      "uvlock": true,
+      "y":180
+    },
+    "facing=east": {
+      "model": "factoryautomation:processing/treetap",
+      "uvlock": true,
+      "y":90
+    },
+    "facing=west": {
+      "model": "factoryautomation:processing/treetap",
+      "uvlock": true,
+      "y":270
+    }
+  }
+}

@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.block;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.crafter.ChipCreator;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
+import boblovespi.factoryautomation.common.block.processing.Treetap;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
@@ -53,6 +54,7 @@ public class FABlocks
 	public static FABlock multiblockPart;
 	public static FABlock cable;
 	public static FABlock solarPanel;
+	public static FABlock treetap;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -113,6 +115,8 @@ public class FABlocks
 		creativeMechanicalSource = new CreativeMechanicalSource();
 
 		motor = new Motor();
+
+		treetap = new Treetap();
 
 		metalBlock = new MetalBlock();
 		metalBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));

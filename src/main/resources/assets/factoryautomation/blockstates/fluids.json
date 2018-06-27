@@ -11,6 +11,13 @@
           "fluid": "fa_steam"
         }
       }
+    ],
+    "rubber_sap": [
+      {
+        "custom": {
+          "fluid": "rubber_sap"
+        }
+      }
     ]
   }
 }

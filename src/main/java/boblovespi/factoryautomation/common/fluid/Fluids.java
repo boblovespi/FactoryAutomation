@@ -18,6 +18,9 @@ public class Fluids
 	public static Fluid air = new FluidBase(
 			"fa_air", new ResourceLocation(MODID, "fluids/air_still"), new ResourceLocation(MODID, "fluids/air_still"))
 			.Setup(n -> n.setDensity(0).setGaseous(true).setTemperature(300).setViscosity(15000));
+	public static Fluid rubberSap = new FluidBase("rubber_sap", new ResourceLocation(MODID, "fluids/rubber_sap"),
+			new ResourceLocation(MODID, "fluids/rubber_sap"))
+			.Setup(n -> n.setDensity(1200).setGaseous(false).setTemperature(300).setViscosity(40000));
 
 	//	static
 	//	{
@@ -28,7 +31,9 @@ public class Fluids
 	{
 		RegisterFluid(steam);
 		RegisterFluid(air);
+		RegisterFluid(rubberSap);
 		// TEMP
+		FluidRegistry.addBucketForFluid(rubberSap);
 		FluidRegistry.addBucketForFluid(steam);
 	}
 

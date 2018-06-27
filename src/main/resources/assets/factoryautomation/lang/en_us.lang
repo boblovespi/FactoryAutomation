@@ -130,6 +130,8 @@ tile.jaw_crusher.name=Jaw Crusher
 tile.stone_workbench.name=Stone Workbench
 tile.iron_workbench.name=Iron Workbench
 
+tile.treetap.name=Treetap
+
 # config
 
 gui.config.main_title=Factory Automation Configuration
@@ -157,7 +159,8 @@ itemGroup.tabs.tools.name=F.A. Tools
 itemGroup.tabs.mechanical.name=Mechanical Stuff
 itemGroup.tabs.crafting.name=Crafting Items
 
-# misc
+# fluids
 fluid.fa_air=FA AIR
 fluid.fa_air.name=FA AIR
 tile.steam.name=Steam
+tile.rubber_sap.name=Steam
