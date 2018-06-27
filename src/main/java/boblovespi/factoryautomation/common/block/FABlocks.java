@@ -55,6 +55,7 @@ public class FABlocks
 	public static FABlock cable;
 	public static FABlock solarPanel;
 	public static FABlock treetap;
+	public static FABlock placedBucket;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -117,6 +118,7 @@ public class FABlocks
 		motor = new Motor();
 
 		treetap = new Treetap();
+		placedBucket = new PlacedBucket();
 
 		metalBlock = new MetalBlock();
 		metalBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));

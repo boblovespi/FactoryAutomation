@@ -26,8 +26,7 @@ import java.util.List;
 /**
  * Created by Willi on 12/24/2017.
  */
-public class TESteelmakingFurnace extends TileEntity
-		implements ITickable, ICapabilityProvider, IMultiblockControllerTE
+public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapabilityProvider, IMultiblockControllerTE
 {
 	public static final int[] INPUT_SLOTS = { 0, 1, 2, 3 };
 	public static final int[] OUTPUT_SLOTS = { 4, 5, 6, 7 };
@@ -108,8 +107,7 @@ public class TESteelmakingFurnace extends TileEntity
 
 					itemHandler.extractItem(FUEL_SLOT, 1, false);
 					isBurningFuel = true;
-					currentMaxBurnTime = TileEntityFurnace
-							.getItemBurnTime(fuel);
+					currentMaxBurnTime = TileEntityFurnace.getItemBurnTime(fuel);
 					currentBurnTime = currentMaxBurnTime;
 				}
 
@@ -139,8 +137,7 @@ public class TESteelmakingFurnace extends TileEntity
 				//				Log.LogInfo("Time required", r.timeRequired);
 				//				Log.LogInfo("Temp required", r.tempRequired);
 
-				if (currentTemp
-						>= r.tempRequired) // we can begin smelting the recipe r
+				if (currentTemp >= r.tempRequired) // we can begin smelting the recipe r
 				{
 					isSmeltingItem = true;
 					currentMaxSmeltTime = r.timeRequired;
@@ -168,19 +165,17 @@ public class TESteelmakingFurnace extends TileEntity
 			{
 				if (CanInsertOutputs(currentRecipe))
 				{
-					for (int i = 0;
-						 i < currentRecipe.GetItemInputs().size(); i++)
+					for (int i = 0; i < currentRecipe.GetItemInputs().size(); i++)
 					{
 						itemHandler.extractItem(INPUT_SLOTS[i], 1, false);
 					}
 
-					for (int i = 0;
-						 i < currentRecipe.GetPrimaryItemOutputs().size(); i++)
+					for (int i = 0; i < currentRecipe.GetPrimaryItemOutputs().size(); i++)
 					{
 						// Log.LogInfo("i", i);
 						// Log.LogInfo("Outputting!",
-						itemHandler.insertItem(OUTPUT_SLOTS[i], currentRecipe
-								.GetPrimaryItemOutputs().get(i).copy(), false);
+						itemHandler.insertItem(OUTPUT_SLOTS[i], currentRecipe.GetPrimaryItemOutputs().get(i).copy(),
+								false);
 					}
 
 					isSmeltingItem = false;
@@ -204,9 +199,7 @@ public class TESteelmakingFurnace extends TileEntity
 			return false;
 		for (int i = 0; i < num; i++)
 		{
-			if (!itemHandler.insertItem(OUTPUT_SLOTS[i],
-										r.GetPrimaryItemOutputs().get(i).copy(),
-										true).isEmpty())
+			if (!itemHandler.insertItem(OUTPUT_SLOTS[i], r.GetPrimaryItemOutputs().get(i).copy(), true).isEmpty())
 				return false;
 		}
 
@@ -214,8 +207,7 @@ public class TESteelmakingFurnace extends TileEntity
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability,
-			@Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return true;
@@ -226,8 +218,7 @@ public class TESteelmakingFurnace extends TileEntity
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability,
-			@Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return (T) itemHandler;

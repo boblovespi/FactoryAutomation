@@ -37,9 +37,6 @@ public class Treetap extends FABaseBlock implements ITileEntityProvider
 
 	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 *
-	 * @param worldIn
-	 * @param meta
 	 */
 	@Nullable
 	@Override
@@ -81,8 +78,6 @@ public class Treetap extends FABaseBlock implements ITileEntityProvider
 
 	/**
 	 * Convert the given metadata into a BlockState for this Block
-	 *
-	 * @param meta
 	 */
 	@Override
 	public IBlockState getStateFromMeta(int meta)
@@ -92,8 +87,6 @@ public class Treetap extends FABaseBlock implements ITileEntityProvider
 
 	/**
 	 * Convert the BlockState into the correct metadata value
-	 *
-	 * @param state
 	 */
 	@Override
 	public int getMetaFromState(IBlockState state)
