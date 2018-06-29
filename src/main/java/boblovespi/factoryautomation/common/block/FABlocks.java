@@ -81,6 +81,7 @@ public class FABlocks
 	// fluids
 
 	public static FABlock steam;
+	public static FABlock rubberSap;
 
 	public static void Init()
 	{
@@ -147,6 +148,7 @@ public class FABlocks
 		// fluids
 
 		steam = new FluidFinite(Fluids.steam, Material.WATER, "steam");
+		rubberSap = new FluidFinite(Fluids.rubberSap, Materials.SAP, "rubber_sap");
 	}
 
 	public static void RegisterRenders()

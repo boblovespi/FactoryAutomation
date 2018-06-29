@@ -10,6 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -24,6 +25,9 @@ import javax.annotation.Nullable;
  */
 public class PlacedBucket extends Block implements ITileEntityProvider, FABlock
 {
+	public static final AxisAlignedBB AXIS_ALIGNED_BB = new AxisAlignedBB(
+			4 / 16d, 0, 4 / 16d, 10 / 16d, 8 / 16d, 10 / 16d);
+
 	public PlacedBucket()
 	{
 		super(Material.IRON);
@@ -76,5 +80,17 @@ public class PlacedBucket extends Block implements ITileEntityProvider, FABlock
 	public Block ToBlock()
 	{
 		return this;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	{
+		return AXIS_ALIGNED_BB;
+	}
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
 	}
 }

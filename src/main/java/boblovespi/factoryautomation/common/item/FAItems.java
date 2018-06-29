@@ -70,6 +70,11 @@ public class FAItems
 	public static FAItem porcelainClay;
 	public static FAItem siliconQuartz;
 	public static FAItem ash;
+	public static FAItem liquidGlycerin;
+	public static FAItem dryGlycerin;
+	public static FAItem acidPowder;
+	public static FAItem rawRubber;
+	public static FAItem rubber;
 
 	// crafting components
 
@@ -154,6 +159,11 @@ public class FAItems
 		porcelainClay = new FABaseItem("porcelain_clay", FACreativeTabs.resources);
 		siliconQuartz = new FABaseItem("silicon_quartz_crystal", FACreativeTabs.resources);
 		ash = new FABaseItem("ash", FACreativeTabs.resources);
+		liquidGlycerin = new FABaseItem("liquid_glycerin", FACreativeTabs.resources);
+		dryGlycerin = new FABaseItem("dry_glycerin", FACreativeTabs.resources);
+		acidPowder = new FABaseItem("acid_powder", FACreativeTabs.resources);
+		rawRubber = new FABaseItem("raw_rubber", FACreativeTabs.resources);
+		rubber = new FABaseItem("rubber", FACreativeTabs.resources);
 
 		// crafting components
 
