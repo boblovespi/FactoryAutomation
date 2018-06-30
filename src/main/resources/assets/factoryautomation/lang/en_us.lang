@@ -90,6 +90,11 @@ item.porcelain_clay.name=Porcelain Clay
 item.stone_dust.name=Stone Dust
 item.sandpaper.name=Sandpaper
 item.ash.name=Ash
+item.liquid_glycerin.name=Liquid Glycerin
+item.dry_glycerin.name=Dry Glycerin
+item.acid_powder.name=Acid Powder
+item.raw_rubber.name=Raw Rubber
+item.rubber.name=Rubber
 
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame
