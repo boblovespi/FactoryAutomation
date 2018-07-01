@@ -18,6 +18,13 @@ public class OreDictionaryHandler
 		OreDictionary.registerOre("concrete", FABlocks.concrete.ToBlock());
 		OreDictionary.registerOre("rice", FAItems.riceGrain.ToItem());
 		OreDictionary.registerOre("wireCopper", FAItems.copperWire.ToItem());
+		OreDictionary.registerOre("dustStone", FAItems.stoneDust.ToItem());
+		OreDictionary.registerOre("dustAsh", FAItems.ash.ToItem());
+		OreDictionary.registerOre("dustAcid", FAItems.acidPowder.ToItem());
+		OreDictionary.registerOre("bowlGlycerin", FAItems.liquidGlycerin.ToItem());
+		OreDictionary.registerOre("glycerin", FAItems.dryGlycerin.ToItem());
+		OreDictionary.registerOre("ingotRubber", FAItems.rubber.ToItem());
+		OreDictionary.registerOre("gemGraphite", FAItems.graphite.ToItem());
 
 		for (int i = 2; i < Metals.values().length; i++)
 		{

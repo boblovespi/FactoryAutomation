@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["aaa", " b "],
+  "key": {
+    "a": {
+      "type": "forge:ore_dict",
+      "ore": "dustAcid"
+    },
+    "b": {
+      "type": "factoryautomation:fluid",
+      "fluid": "rubber_sap",
+      "amount": 1000
+    }
+  },
+  "result": {
+    "item": "factoryautomation:raw_rubber",
+    "count": 1
+  }
+}

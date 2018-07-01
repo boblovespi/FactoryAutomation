@@ -75,6 +75,7 @@ public class FAItems
 	public static FAItem acidPowder;
 	public static FAItem rawRubber;
 	public static FAItem rubber;
+	public static FAItem graphite;
 
 	// crafting components
 
@@ -164,6 +165,7 @@ public class FAItems
 		acidPowder = new FABaseItem("acid_powder", FACreativeTabs.resources);
 		rawRubber = new FABaseItem("raw_rubber", FACreativeTabs.resources);
 		rubber = new FABaseItem("rubber", FACreativeTabs.resources);
+		graphite = new FABaseItem("graphite", FACreativeTabs.resources);
 
 		// crafting components
 

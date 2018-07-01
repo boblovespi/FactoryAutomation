@@ -1,0 +1,23 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["aaa", "mwm", " b "],
+  "key": {
+    "a": {
+      "type": "forge:ore_dict",
+      "ore": "dustAsh"
+    },
+    "b": {
+      "item": "minecraft:bowl"
+    },
+    "m": {
+      "item": "#bonemeal"
+    },
+    "w": {
+      "item": "#water"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:liquid_glycerin",
+    "count": 1
+  }
+}

@@ -95,6 +95,7 @@ item.dry_glycerin.name=Dry Glycerin
 item.acid_powder.name=Acid Powder
 item.raw_rubber.name=Raw Rubber
 item.rubber.name=Rubber
+item.graphite.name=Graphite
 
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame
