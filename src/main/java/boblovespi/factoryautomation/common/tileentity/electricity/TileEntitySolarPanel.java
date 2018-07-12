@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
-import boblovespi.factoryautomation.api.energy.EnergyConnection;
-import boblovespi.factoryautomation.api.energy.EnergyNetwork;
-import boblovespi.factoryautomation.api.energy.IProducesEnergy;
+import boblovespi.factoryautomation.api.energy.EnergyConnection_;
+import boblovespi.factoryautomation.api.energy.EnergyNetwork_;
+import boblovespi.factoryautomation.api.energy.IProducesEnergy_;
 import boblovespi.factoryautomation.api.energy.InternalEnergyStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,13 +24,13 @@ import java.util.List;
  * Created by Willi on 12/21/2017.
  */
 public class TileEntitySolarPanel extends TileEntity
-		implements IProducesEnergy, ITickable, ICapabilityProvider
+		implements IProducesEnergy_, ITickable, ICapabilityProvider
 {
 	private static final float productionScalar = 20f;
 	private boolean hasTicked = false;
 	private float energyProduction = 0;
 	private float energyUsed = 0;
-	private List<EnergyConnection> energyConnections;
+	private List<EnergyConnection_> energyConnections;
 	private int cooldown = -1;
 	private InternalEnergyStorage energyStorage;
 
@@ -41,7 +41,7 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	@Override
-	public EnergyNetwork GetNetwork()
+	public EnergyNetwork_ GetNetwork()
 	{
 		return null;
 	}
@@ -61,13 +61,13 @@ public class TileEntitySolarPanel extends TileEntity
 	/**
 	 * Add a connection to the machine
 	 *
-	 * @param connection The {@link EnergyConnection} to add to the machine
+	 * @param connection The {@link EnergyConnection_} to add to the machine
 	 */
 	@Override
-	public void AddConnection(EnergyConnection connection)
+	public void AddConnection(EnergyConnection_ connection)
 	{
 		energyConnections.add(connection);
-		// EnergyNetwork.GetFromWorld(world).AddConnection(connection);
+		// EnergyNetwork_.GetFromWorld(world).AddConnection(connection);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class TileEntitySolarPanel extends TileEntity
 
 		energyStorage.SetEnergy((int) energyProduction);
 
-		// energyConnections.forEach(EnergyConnection::Update);
+		// energyConnections.forEach(EnergyConnection_::Update);
 		markDirty();
 		IBlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);

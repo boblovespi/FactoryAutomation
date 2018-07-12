@@ -1,24 +1,32 @@
 package boblovespi.factoryautomation.api.energy;
 
 /**
- * Created by Willi on 4/12/2017.
+ * Created by Willi on 7/9/2018.
  */
 public interface IProducesEnergy extends IUsesEnergy
 {
 	/**
-	 * @return The amount of energy that the machine produces, including any extracted energy
+	 * @return The maximum amount of voltage that the machine produces (in volts)
 	 */
-	float AmountProduced();
+	double MaxVoltageProduced();
 
 	/**
-	 * @return The amount of energy produced minus the amount extracted
+	 * @return The actual amount of voltage that the machine is producing (in volts)
 	 */
-	float ActualAmountProduced();
+	double ActualVoltageProduced();
 
 	/**
-	 * @param amount   The amount of energy to extract
-	 * @param simulate Whether or not to simulate the extraction; ie. if <code>simulate == true</code>, then no energy will actually be extracted
-	 * @return The amount of energy extracted (or simulated extracted)
+	 * @return The amperage that the machine is producing, including any already used (in amps)
 	 */
-	float ExtractEnergy(float amount, boolean simulate);
+	double TotalAmperageProduced();
+
+	/**
+	 * @return The wattage that the machine produces, including any already used (in watts)
+	 */
+	double TotalWattageProduced();
+
+	/**
+	 * @return The wattage that the machine produces, excluding any already used (in watts)
+	 */
+	double ActualWattageProduced();
 }

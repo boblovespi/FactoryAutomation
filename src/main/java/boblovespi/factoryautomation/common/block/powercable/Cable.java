@@ -238,7 +238,7 @@ public class Cable extends Block implements FABlock
 
 		int stop = 20;
 
-		List<Pair<IUsesEnergy, Integer>> machines = GetEnergyMachines(
+		List<Pair<IUsesEnergy_, Integer>> machines = GetEnergyMachines(
 				worldIn, pos, actualState, stop, new ArrayList<>(100));
 
 		machines.forEach(n -> System.out.println(n.getKey().GetTe().getTileData().toString()));
@@ -246,19 +246,19 @@ public class Cable extends Block implements FABlock
 		if (machines.size() <= 1)
 			return;
 
-		for (Pair<IUsesEnergy, Integer> machine : machines)
+		for (Pair<IUsesEnergy_, Integer> machine : machines)
 		{
-			if (machine.getKey() instanceof IProducesEnergy)
+			if (machine.getKey() instanceof IProducesEnergy_)
 			{
-				for (Pair<IUsesEnergy, Integer> consumer : machines)
+				for (Pair<IUsesEnergy_, Integer> consumer : machines)
 				{
-					if (consumer.getKey() instanceof IRequiresEnergy)
+					if (consumer.getKey() instanceof IRequiresEnergy_)
 					{
 						System.out.println("consumer = " + consumer.getKey().GetTe().getTileData().toString());
 						System.out.println("producer = " + machine.getKey().GetTe().getTileData().toString());
-						EnergyNetwork.GetFromWorld(worldIn).AddConnection(
-								new EnergyConnection((IProducesEnergy) machine.getKey(),
-										(IRequiresEnergy) consumer.getKey(),
+						EnergyNetwork_.GetFromWorld(worldIn).AddConnection(
+								new EnergyConnection_((IProducesEnergy_) machine.getKey(),
+										(IRequiresEnergy_) consumer.getKey(),
 										(stop - machine.getValue()) + stop - consumer.getValue(), 0.99f, 100));
 					}
 				}
@@ -267,7 +267,7 @@ public class Cable extends Block implements FABlock
 
 	}
 
-	private List<Pair<IUsesEnergy, Integer>> GetEnergyMachines(World world, BlockPos pos, IBlockState state, int stop,
+	private List<Pair<IUsesEnergy_, Integer>> GetEnergyMachines(World world, BlockPos pos, IBlockState state, int stop,
 			List<BlockPos> prevCableLocs)
 	{
 		System.out.println("world = [" + world + "], pos = [" + pos + "], state = [" + state + "], stop = [" + stop
@@ -277,7 +277,7 @@ public class Cable extends Block implements FABlock
 			return new ArrayList<>(0);
 		--stop;
 
-		List<Pair<IUsesEnergy, Integer>> users = new ArrayList<>(10);
+		List<Pair<IUsesEnergy_, Integer>> users = new ArrayList<>(10);
 
 		prevCableLocs.add(pos);
 
@@ -295,9 +295,9 @@ public class Cable extends Block implements FABlock
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 
-			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
 			}
 
 		} else if (north == AttachPos.SIDE)
@@ -308,9 +308,9 @@ public class Cable extends Block implements FABlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
 			}
 		}
 
@@ -322,9 +322,9 @@ public class Cable extends Block implements FABlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
 			}
 
 		} else if (west == AttachPos.SIDE)
@@ -335,9 +335,9 @@ public class Cable extends Block implements FABlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
 			}
 		}
 
@@ -349,9 +349,9 @@ public class Cable extends Block implements FABlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
 			}
 
 		} else if (south == AttachPos.SIDE)
@@ -362,9 +362,9 @@ public class Cable extends Block implements FABlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
 			}
 		}
 
@@ -376,9 +376,9 @@ public class Cable extends Block implements FABlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
 			}
 
 		} else if (east == AttachPos.SIDE)
@@ -389,9 +389,9 @@ public class Cable extends Block implements FABlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy)
+			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
 			}
 		}
 

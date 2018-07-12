@@ -1,12 +1,20 @@
 package boblovespi.factoryautomation.api.energy;
 
 /**
- * Created by Willi on 4/12/2017.
+ * Created by Willi on 7/9/2018.
  */
-public interface IStoresEnergy extends IRequiresEnergy, IProducesEnergy
+public interface IStoresEnergy extends IConsumesEnergy, IProducesEnergy
 {
 	/**
-	 * @return The amount of energy currently stored in the machine
+	 * Returns whether the battery is charging
 	 */
-	float GetStoredEnergy();
+	boolean IsCharging();
+
+	/**
+	 * Returns whether the battery is discharging
+	 */
+	default boolean IsDischarging()
+	{
+		return !IsCharging();
+	}
 }

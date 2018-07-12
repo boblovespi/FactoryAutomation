@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
-import boblovespi.factoryautomation.api.energy.EnergyConnection;
-import boblovespi.factoryautomation.api.energy.IRequiresEnergy;
+import boblovespi.factoryautomation.api.energy.EnergyConnection_;
+import boblovespi.factoryautomation.api.energy.IRequiresEnergy_;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import net.minecraft.block.state.IBlockState;
@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 3/19/2018.
  */
-public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEnergy, ITickable
+public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEnergy_, ITickable
 {
 	public float rotation = 0;
 	private float speed;
@@ -74,10 +74,10 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	/**
 	 * Add a connection to the machine
 	 *
-	 * @param connection The {@link EnergyConnection} to add to the machine
+	 * @param connection The {@link EnergyConnection_} to add to the machine
 	 */
 	@Override
-	public void AddConnection(EnergyConnection connection)
+	public void AddConnection(EnergyConnection_ connection)
 	{
 
 	}

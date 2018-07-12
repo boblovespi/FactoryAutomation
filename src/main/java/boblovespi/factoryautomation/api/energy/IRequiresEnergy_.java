@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.api.energy;
 /**
  * Created by Willi on 4/12/2017.
  */
-public interface IRequiresEnergy extends IUsesEnergy
+public interface IRequiresEnergy_ extends IUsesEnergy_
 {
 	boolean NeedsEnergy();
 
