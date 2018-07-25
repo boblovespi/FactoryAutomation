@@ -37,8 +37,15 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 		System.out.println("Loading energy network!");
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
+		EnergyNetwork_ instance;
 		MapStorage storage = world.getPerWorldStorage();
-		EnergyNetwork_ instance = (EnergyNetwork_) storage.getOrLoadData(EnergyNetwork_.class, DATA_NAME);
+		try
+		{
+			instance = (EnergyNetwork_) storage.getOrLoadData(EnergyNetwork_.class, DATA_NAME);
+		} catch (Exception e)
+		{
+			instance = null;
+		}
 
 		if (instance == null)
 		{
@@ -84,6 +91,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 
 		connections.forEach(EnergyConnection_::Update);
 		System.out.println("updating!");
+		markDirty();
 	}
 
 	private void Init(World world)
@@ -105,6 +113,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 			connections.add(connection);
 			connection.consumer.AddConnection(connection);
 			connection.source.AddConnection(connection);
+			markDirty();
 		}
 	}
 }
