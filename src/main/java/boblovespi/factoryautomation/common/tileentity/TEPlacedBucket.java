@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
@@ -101,5 +102,21 @@ public class TEPlacedBucket extends TileEntity
 		if (handler.getFluidAmount() == handler.getCapacity() && handler.getFluid() != null)
 			return handler.getFluid().getFluid();
 		return null;
+	}
+
+	@Nullable
+	public FluidStack GetFluidStack()
+	{
+		return handler.getFluid();
+	}
+
+	/**
+	 * If the TileEntitySpecialRenderer associated with this TileEntity can be batched in with another renderers, and won't access the GL state.
+	 * If TileEntity returns true, then TESR should have the same functionality as (and probably extend) the FastTESR class.
+	 */
+	@Override
+	public boolean hasFastRenderer()
+	{
+		return false;
 	}
 }
