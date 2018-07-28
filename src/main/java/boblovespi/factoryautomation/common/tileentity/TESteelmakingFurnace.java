@@ -1,7 +1,9 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
+import boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceController;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
+import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -28,6 +30,8 @@ import java.util.List;
  */
 public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapabilityProvider, IMultiblockControllerTE
 {
+	public static final String MULTIBLOCK_ID = "steelmaking_furnace";
+
 	public static final int[] INPUT_SLOTS = { 0, 1, 2, 3 };
 	public static final int[] OUTPUT_SLOTS = { 4, 5, 6, 7 };
 	public static final int FUEL_SLOT = 8;
@@ -75,13 +79,17 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	@Override
 	public void CreateStructure()
 	{
-
+		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID,
+				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == EnumFacing.Axis.X ?
+						EnumFacing.WEST : EnumFacing.NORTH);
 	}
 
 	@Override
 	public void BreakStructure()
 	{
-
+		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID,
+				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == EnumFacing.Axis.X ?
+						EnumFacing.WEST : EnumFacing.NORTH);
 	}
 
 	/**

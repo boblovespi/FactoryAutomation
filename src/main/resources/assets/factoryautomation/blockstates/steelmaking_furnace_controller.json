@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "axis=z,multiblock_complete=false": {
+      "model": "factoryautomation:steelmaking_furnace_controller"
+    },
+    "axis=x,multiblock_complete=false": {
+      "model": "factoryautomation:steelmaking_furnace_controller",
+      "y": 270
+    },
+    "axis=z,multiblock_complete=true": {
+      "model": "factoryautomation:obj/steelmaking_furnace.obj"
+    },
+    "axis=x,multiblock_complete=true": {
+      "model": "factoryautomation:obj/steelmaking_furnace.obj",
+      "y": 270
+    }
+  }
+}

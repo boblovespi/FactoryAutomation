@@ -13,16 +13,14 @@ import java.util.function.Predicate;
  */
 public class MultiblockPart
 {
-	public static final MultiblockPart EMPTY = new MultiblockPart(
-			Blocks.AIR, false);
+	public static final MultiblockPart EMPTY = new MultiblockPart(Blocks.AIR, false);
 
 	private Block baseBlock;
 	private Predicate<NBTTagCompound> blockTagPredicate;
 	private Predicate<IBlockState> statePredicate;
 	private boolean mustBeAirBlock;
 
-	public MultiblockPart(Block baseBlock,
-			Predicate<NBTTagCompound> blockTagPredicate,
+	public MultiblockPart(Block baseBlock, Predicate<NBTTagCompound> blockTagPredicate,
 			Predicate<IBlockState> statePredicate, boolean mustBeAirBlock)
 	{
 		this.baseBlock = baseBlock;
@@ -33,8 +31,7 @@ public class MultiblockPart
 
 	public MultiblockPart(Block baseBlock, boolean mustBeAirBlock)
 	{
-		this(baseBlock, Predicates.alwaysTrue(), Predicates.alwaysTrue(),
-			 mustBeAirBlock);
+		this(baseBlock, Predicates.alwaysTrue(), Predicates.alwaysTrue(), mustBeAirBlock);
 	}
 
 	public MultiblockPart(Block baseBlock)
@@ -77,7 +74,11 @@ public class MultiblockPart
 
 	public boolean MatchesBlock(Block block)
 	{
-		return Block.isEqualTo(baseBlock, Blocks.AIR) && !mustBeAirBlock
-				|| Block.isEqualTo(baseBlock, block);
+		return Block.isEqualTo(baseBlock, Blocks.AIR) && !mustBeAirBlock || Block.isEqualTo(baseBlock, block);
+	}
+
+	public boolean AllowsAnyBlock()
+	{
+		return !mustBeAirBlock;
 	}
 }

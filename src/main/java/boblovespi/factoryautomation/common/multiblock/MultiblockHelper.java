@@ -70,6 +70,8 @@ public class MultiblockHelper
 						{
 							if (te instanceof IMultiblockControllerTE)
 								continue;
+							if (part.AllowsAnyBlock())
+								continue;
 
 							IBlockState state = world.getBlockState(loc);
 
@@ -77,8 +79,8 @@ public class MultiblockHelper
 							TileEntityMultiblockPart newPart = (TileEntityMultiblockPart) world.getTileEntity(loc);
 
 							newPart.SetMultiblockInformation(structureId, new BlockPos(x, y, z),
-									AddWithRotation(AddWithRotation(BlockPos.ORIGIN, -x, -y, -z, facing), offset[0],
-											offset[1], offset[2], facing), state);
+									AddWithRotation(AddWithRotation(BlockPos.ORIGIN, x, y, z, facing), -offset[0],
+											-offset[1], -offset[2], facing), state);
 						}
 					}
 				}

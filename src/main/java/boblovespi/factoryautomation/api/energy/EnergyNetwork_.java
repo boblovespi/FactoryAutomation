@@ -90,7 +90,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 			Init(world);
 
 		connections.forEach(EnergyConnection_::Update);
-		System.out.println("updating!");
+		// System.out.println("updating!");
 		markDirty();
 	}
 

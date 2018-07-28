@@ -42,8 +42,8 @@ public class BlastFurnaceController extends Block
 {
 	// TODO: implement tile entity stuff
 
-	public static PropertyDirection FACING = BlockHorizontal.FACING;
-	public static PropertyBool MULTIBLOCK_COMPLETE = PropertyBool.create("multiblock_complete");
+	public static final PropertyDirection FACING = BlockHorizontal.FACING;
+	public static final PropertyBool MULTIBLOCK_COMPLETE = PropertyBool.create("multiblock_complete");
 
 	private final String structurePattern = "blast_furnace";
 
