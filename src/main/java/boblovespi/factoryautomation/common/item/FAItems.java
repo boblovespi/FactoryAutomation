@@ -220,9 +220,9 @@ public class FAItems
 	{
 		for (Item item : items)
 		{
-			Log.LogInfo("new item!");
-			Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
-			Log.LogInfo("item resource path", item.getRegistryName().getResourcePath());
+			Log.LogInfo("new item!", item.getRegistryName().getResourcePath());
+			// Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
+			// Log.LogInfo("item resource path", item.getRegistryName().getResourcePath());
 			if (item instanceof FAItem)
 			{
 				if (item instanceof FAItemBlock)
@@ -279,12 +279,12 @@ public class FAItems
 	@SuppressWarnings("MethodCallSideOnly")
 	private static void RegisterRender(FAItem item, int meta)
 	{
-		Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
+		// Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
 
 		final ModelResourceLocation loc = new ModelResourceLocation(
 				new ResourceLocation(FactoryAutomation.MODID, item.GetMetaFilePath(meta)), "inventory");
 
-		Log.LogInfo("The other model resource location", loc);
+		// Log.LogInfo("The other model resource location", loc);
 
 		ModelBakery.registerItemVariants(item.ToItem(), loc);
 		ModelLoader.setCustomModelResourceLocation(item.ToItem(), meta, loc);
@@ -310,12 +310,12 @@ public class FAItems
 	@SuppressWarnings("MethodCallSideOnly")
 	private static void RegisterVanillaRender(Item item)
 	{
-		Log.LogInfo("Registering a vanilla Item class");
+		// Log.LogInfo("Registering a vanilla Item class");
 		final ModelResourceLocation loc = new ModelResourceLocation(item.getRegistryName(), "inventory");
 		ModelBakery.registerItemVariants(item, loc);
 		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
 		ModelLoader.setCustomMeshDefinition(item, stack -> loc);
-		Log.LogInfo("Model resource location: ", loc);
+		// Log.LogInfo("Model resource location: ", loc);
 	}
 
 	@SuppressWarnings("MethodCallSideOnly")
@@ -324,12 +324,12 @@ public class FAItems
 		if (item.getBlock() instanceof FABlock)
 		{
 			FABlock block = (FABlock) item.getBlock();
-			Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + block.GetMetaFilePath(0));
+			// Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + block.GetMetaFilePath(0));
 
 			final ModelResourceLocation loc = new ModelResourceLocation(
 					new ResourceLocation(FactoryAutomation.MODID, block.GetMetaFilePath(0)), "inventory");
 
-			Log.LogInfo("The other model resource location", loc);
+			// Log.LogInfo("The other model resource location", loc);
 
 			ModelBakery.registerItemVariants(item, loc);
 			ModelLoader.setCustomModelResourceLocation(item, 0, loc);

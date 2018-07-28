@@ -11,9 +11,9 @@ import net.minecraft.creativetab.CreativeTabs;
  */
 public class MetalBlock extends MultiTypeBlock<Metals>
 {
-	public MetalBlock()
+	public MetalBlock(String registeryName)
 	{
-		super(Material.IRON, Material.IRON.getMaterialMapColor(), "metal_block", Metals.class, "metals",
+		super(Material.IRON, Material.IRON.getMaterialMapColor(), registeryName, Metals.class, "metals",
 				CreativeTabs.BUILDING_BLOCKS);
 	}
 

@@ -2,18 +2,18 @@ package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.crafter.ChipCreator;
+import boblovespi.factoryautomation.common.block.crafter.workbench.IronWorkbench;
+import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbench;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
-import boblovespi.factoryautomation.common.block.processing.Treetap;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
+import boblovespi.factoryautomation.common.block.processing.Treetap;
 import boblovespi.factoryautomation.common.block.resource.GemOre;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.block.resource.OreData;
-import boblovespi.factoryautomation.common.block.crafter.workbench.IronWorkbench;
-import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbench;
 import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
@@ -66,6 +66,7 @@ public class FABlocks
 	public static FABlock creativeMechanicalSource;
 	public static FABlock motor;
 	public static MultiTypeBlock<Metals> metalBlock;
+	public static MultiTypeBlock<Metals> metalPlateBlock;
 
 	// ores
 
@@ -121,8 +122,10 @@ public class FABlocks
 		treetap = new Treetap();
 		placedBucket = new PlacedBucket();
 
-		metalBlock = new MetalBlock();
+		metalBlock = new MetalBlock("metal_block");
 		metalBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
+		metalPlateBlock = new MetalBlock("metal_plate_block");
+		metalPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
 
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
 		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
@@ -134,8 +137,7 @@ public class FABlocks
 
 		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre)
 				.Init(n -> n.setHardness(2.5f).setResistance(14));
-		siliconQuartzOre = new GemOre(
-				"ore_silicon_quartz",
+		siliconQuartzOre = new GemOre("ore_silicon_quartz",
 				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
 														   .SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
 
