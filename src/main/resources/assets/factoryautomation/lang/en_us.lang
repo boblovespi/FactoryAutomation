@@ -42,6 +42,15 @@ tile.metal_block_steel.name=Steel Block
 tile.metal_block_pig_iron.name=Pig Iron Block
 tile.metal_block_magmatic_brass.name=Magmatic Brass Block
 
+tile.metal_plate_block_iron.name=Iron Plate Block
+tile.metal_plate_block_gold.name=Gold Plate Block
+tile.metal_plate_block_copper.name=Copper Plate Block
+tile.metal_plate_block_tin.name=Tin Plate Block
+tile.metal_plate_block_bronze.name=Bronze Plate Block
+tile.metal_plate_block_steel.name=Steel Plate Block
+tile.metal_plate_block_pig_iron.name=Pig Iron Plate Block
+tile.metal_plate_block_magmatic_brass.name=Magmatic Brass Plate Block
+
 # items-gears
 item.gear_wood.name=Wood Gear
 item.gear_stone.name=Stone Gear
@@ -96,6 +105,7 @@ item.acid_powder.name=Acid Powder
 item.raw_rubber.name=Raw Rubber
 item.rubber.name=Rubber
 item.graphite.name=Graphite
+item.screw.name=Screw
 
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame
@@ -136,6 +146,8 @@ tile.jaw_crusher.name=Jaw Crusher
 tile.stone_workbench.name=Stone Workbench
 tile.iron_workbench.name=Iron Workbench
 
+tile.chip_creator.name=Basic Chip Creator
+
 tile.treetap.name=Treetap
 
 # config
@@ -168,5 +180,7 @@ itemGroup.tabs.crafting.name=Crafting Items
 # fluids
 fluid.fa_air=FA AIR
 fluid.fa_air.name=FA AIR
+fluid.fa_steam=Steam
+fluid.rubber_sap=Rubber Sap
 tile.steam.name=Steam
 tile.rubber_sap.name=Steam
