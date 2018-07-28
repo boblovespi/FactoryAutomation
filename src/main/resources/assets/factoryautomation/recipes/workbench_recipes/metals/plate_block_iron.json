@@ -1,0 +1,31 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["isi", "sbs", "isi"],
+  "key": {
+    "i": {
+      "item": "#ingotIron"
+    },
+    "s": {
+      "item": "#plateIron"
+    },
+    "b": {
+      "item": "#blockIron"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 1
+    }
+  },
+  "parts": {
+    "factoryautomation:screw": {
+      "tier": 1,
+      "itemUse": 6
+    }
+  },
+  "result": {
+    "item": "factoryautomation:metal_plate_block_iron"
+  }
+}

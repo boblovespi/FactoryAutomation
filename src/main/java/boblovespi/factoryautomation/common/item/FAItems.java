@@ -82,6 +82,10 @@ public class FAItems
 	public static MultiTypeItem<Gearbox.GearType> gear;
 	public static FAItem glassLens;
 
+	// crafting parts
+
+	public static FAItem screw;
+
 	// electrical parts
 
 	public static FAItem copperWire;
@@ -171,6 +175,10 @@ public class FAItems
 
 		gear = new Gear();
 		glassLens = new FABaseItem("glass_lens", FACreativeTabs.crafting);
+
+		// crafting parts
+
+		screw = new WorkbenchPartItem("screw", FACreativeTabs.crafting);
 
 		// electrical parts
 

@@ -35,6 +35,27 @@
     "name": "ingotSteel"
   },
   {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotGold"
+    },
+    "name": "ingotGold"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    },
+    "name": "ingotCopper"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotTin"
+    },
+    "name": "ingotTin"
+  },
+  {
     "ingredient": [
       {
         "item": "#ingotSteel"
@@ -122,6 +143,27 @@
     "name": "plateSteel"
   },
   {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateGold"
+    },
+    "name": "plateGold"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateCopper"
+    },
+    "name": "plateCopper"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateTin"
+    },
+    "name": "plateTin"
+  },
+  {
     "ingredient": [
       {
         "item": "#plateSteel"
@@ -207,6 +249,27 @@
       "ore": "blockSteel"
     },
     "name": "blockSteel"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockGold"
+    },
+    "name": "blockGold"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockCopper"
+    },
+    "name": "blockCopper"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockTin"
+    },
+    "name": "blockTin"
   },
   {
     "ingredient": [

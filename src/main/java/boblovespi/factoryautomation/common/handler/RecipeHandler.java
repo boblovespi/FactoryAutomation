@@ -169,10 +169,9 @@ public class RecipeHandler
 		//
 
 		WorkbenchRecipeHandler
-				.LoadFromJson(Loader.instance().activeModContainer(), new ResourceLocation(MODID, "workbench_recipes"));
+				.LoadFromJson(Loader.instance().activeModContainer(), new ResourceLocation(MODID, "recipes"));
 
-		BasicCircuitRecipe.LoadFromJson(Loader.instance().activeModContainer(),
-				new ResourceLocation(MODID, "basic_circuit_recipes"));
+		BasicCircuitRecipe.LoadFromJson(Loader.instance().activeModContainer(), new ResourceLocation(MODID, "recipes"));
 
 	}
 

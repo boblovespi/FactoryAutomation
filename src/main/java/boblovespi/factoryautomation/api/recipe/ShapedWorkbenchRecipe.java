@@ -97,7 +97,8 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 				WorkbenchPart.Instance part = WorkbenchPart.Instance
 						.FromPartStack(workbenchInv.getStackInSlot(i + partIndex));
 
-				if (partInfo.getKey().IsSamePart(part) && partInfo.getKey().tier <= part.tier)
+				if (partInfo.getKey().IsSamePart(part) && partInfo.getKey().tier <= part.tier
+						&& workbenchInv.getStackInSlot(i + partIndex).getCount() >= partInfo.getValue())
 				{
 					isPresent = true;
 					break;
