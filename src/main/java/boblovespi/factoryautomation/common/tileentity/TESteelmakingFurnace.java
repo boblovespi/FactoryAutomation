@@ -25,6 +25,8 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceController.MULTIBLOCK_COMPLETE;
+
 /**
  * Created by Willi on 12/24/2017.
  */
@@ -82,6 +84,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID,
 				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == EnumFacing.Axis.X ?
 						EnumFacing.WEST : EnumFacing.NORTH);
+		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, true));
 	}
 
 	@Override
@@ -90,6 +93,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID,
 				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == EnumFacing.Axis.X ?
 						EnumFacing.WEST : EnumFacing.NORTH);
+		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, false));
 	}
 
 	/**
@@ -285,6 +289,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 		return SteelmakingRecipe.FindRecipe(items, fluidHandler.GetFluids());
 	}
 
+	@SuppressWarnings("MethodCallSideOnly")
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{

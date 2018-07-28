@@ -105,7 +105,8 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
-		return this.getDefaultState().withProperty(AXIS, placer.getHorizontalFacing().getAxis());
+		return this.getDefaultState().withProperty(AXIS, placer.getHorizontalFacing().getAxis())
+				   .withProperty(MULTIBLOCK_COMPLETE, false);
 	}
 
 	@Override
