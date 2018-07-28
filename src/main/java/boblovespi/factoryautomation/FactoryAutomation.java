@@ -36,7 +36,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class FactoryAutomation
 {
 	public static final String MODID = "factoryautomation";
-	public static final String VERSION = "alpha 0.0.6";
+	public static final String VERSION = "alpha 0.0.7";
 	public static final String NAME = "Factory Automation";
 	public static final String SERVER_PROXY_CLASS = "boblovespi.factoryautomation.common.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
