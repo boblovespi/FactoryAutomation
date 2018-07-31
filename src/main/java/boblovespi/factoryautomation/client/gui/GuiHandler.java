@@ -30,19 +30,24 @@ public class GuiHandler implements IGuiHandler
 	{
 		if (ID < GuiID.values().length && ID >= 0)
 		{
-			try
+			if (GuiID.values()[ID].type == GuiType.TILE_ENTITY)
+				try
+				{
+					return GuiID.values()[ID].GetContainerClass()
+											 .getDeclaredConstructor(IInventory.class, TileEntity.class)
+											 .newInstance(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
+				} catch (Exception e)
+				{
+					Log.LogWarning("there was an exception! (server)");
+					Log.LogWarning(e.getMessage());
+					Log.LogWarning(e.getLocalizedMessage());
+					System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+				}
+			else if (GuiID.values()[ID].type == GuiType.ITEM)
 			{
-				return GuiID.values()[ID].GetContainerClass().getDeclaredConstructor(IInventory.class, TileEntity.class)
-										 .newInstance(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
-			} catch (Exception e)
-			{
-				Log.LogWarning("there was an exception! (server)");
-				Log.LogWarning(e.getMessage());
-				Log.LogWarning(e.getLocalizedMessage());
-				System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+
 			}
-		}
-		return null;
+		} return null;
 	}
 
 	@Nullable
@@ -51,36 +56,44 @@ public class GuiHandler implements IGuiHandler
 	{
 		if (ID < GuiID.values().length && ID >= 0)
 		{
-			try
+			if (GuiID.values()[ID].type == GuiType.TILE_ENTITY)
+				try
+				{
+					return GuiID.values()[ID].GetGuiClass().getDeclaredConstructor(IInventory.class, TileEntity.class)
+											 .newInstance(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
+				} catch (Exception e)
+				{
+					Log.LogWarning("there was an exception! (client)");
+					Log.LogWarning(e.getMessage());
+					Log.LogWarning(e.getLocalizedMessage());
+					System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+				}
+			else if (GuiID.values()[ID].type == GuiType.ITEM)
 			{
-				return GuiID.values()[ID].GetGuiClass().getDeclaredConstructor(IInventory.class, TileEntity.class)
-										 .newInstance(player.inventory, world.getTileEntity(new BlockPos(x, y, z)));
-			} catch (Exception e)
-			{
-				Log.LogWarning("there was an exception! (client)");
-				Log.LogWarning(e.getMessage());
-				Log.LogWarning(e.getLocalizedMessage());
-				System.out.println("e.getStackTrace() = " + Arrays.toString(e.getStackTrace()));
+				if (GuiID.values()[ID] == GuiID.GUIDEBOOK)
+					return GuiGuidebook.instance;
 			}
-		}
-		return null;
+		} return null;
 	}
 
 	public enum GuiID
 	{
-		BLAST_FURNACE(0, ContainerBlastFurnace.class, GuiBlastFurnace.class),
-		STEELMAKING_FURNACE(1, ContainerSteelmakingFurnace.class, GuiSteelmakingFurnace.class),
-		STONE_WORKBENCH(2, ContainerWorkbench.class, GuiWorkbench.class),
-		WORKBENCH(3, ContainerWorkbench.class, GuiWorkbench.class),
-		CHIP_CREATOR(4, ContainerBasicCircuitCreator.class, GuiBasicCircuitCreator.class);
+		BLAST_FURNACE(0, GuiType.TILE_ENTITY, ContainerBlastFurnace.class, GuiBlastFurnace.class),
+		STEELMAKING_FURNACE(1, GuiType.TILE_ENTITY, ContainerSteelmakingFurnace.class, GuiSteelmakingFurnace.class),
+		STONE_WORKBENCH(2, GuiType.TILE_ENTITY, ContainerWorkbench.class, GuiWorkbench.class),
+		WORKBENCH(3, GuiType.TILE_ENTITY, ContainerWorkbench.class, GuiWorkbench.class),
+		CHIP_CREATOR(4, GuiType.TILE_ENTITY, ContainerBasicCircuitCreator.class, GuiBasicCircuitCreator.class),
+		GUIDEBOOK(5, GuiType.ITEM, null, GuiGuidebook.class);
 
 		public final int id;
+		public final GuiType type;
 		private final Class<? extends Gui> gui;
 		private final Class<? extends Container> container;
 
-		GuiID(int id, Class<? extends Container> container, Class<? extends Gui> gui)
+		GuiID(int id, GuiType type, Class<? extends Container> container, Class<? extends Gui> gui)
 		{
 			this.id = id;
+			this.type = type;
 			this.container = container;
 			this.gui = gui;
 		}
@@ -94,5 +107,10 @@ public class GuiHandler implements IGuiHandler
 		{
 			return gui;
 		}
+	}
+
+	public enum GuiType
+	{
+		TILE_ENTITY, ENTITY, ITEM
 	}
 }

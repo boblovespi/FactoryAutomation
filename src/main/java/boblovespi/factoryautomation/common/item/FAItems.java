@@ -131,6 +131,10 @@ public class FAItems
 
 	public static FAItem fluidCanister;
 
+	// guidebook
+
+	public static FAItem guidebook;
+
 	public static void Init()
 	{
 		if (!isInit.compareAndSet(false, true))
@@ -222,6 +226,10 @@ public class FAItems
 		clayCrucible = new ClayCrucible();
 
 		// fluidCanister = new FluidCanister("fluid_canister", 3000);
+
+		// guidebook
+
+		guidebook = new Guidebook();
 	}
 
 	public static void RegisterItemRenders()

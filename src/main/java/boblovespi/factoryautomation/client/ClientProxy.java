@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.client.gui.GuiGuidebook;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.client.tesr.TESRGearbox;
 import boblovespi.factoryautomation.client.tesr.TESRMotor;
@@ -8,14 +9,18 @@ import boblovespi.factoryautomation.client.tesr.TESRPlacedBucket;
 import boblovespi.factoryautomation.client.tesr.TESRPowerShaft;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.guidebook.entry.GuidebookEntry;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.Guidebook;
 import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -68,5 +73,12 @@ public class ClientProxy implements CommonProxy
 	public void AddChatMessage(ChatType type, TextComponentString string)
 	{
 		Minecraft.getMinecraft().ingameGUI.addChatMessage(type, string);
+	}
+
+	@Override
+	public void OpenGuidebook(World world, EntityPlayer player, GuidebookEntry entry, Guidebook.ExtraInfo extraInfo)
+	{
+		GuiGuidebook.SetPage(entry, extraInfo.pageNum);
+		player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.GUIDEBOOK.id, world, 0, 0, 0);
 	}
 }
