@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -317,5 +317,20 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 			rotationTop = (rotationTop + speedTop) % 360;
 		}
 
+	}
+
+	public void SwitchGears()
+	{
+		int tempDur = inputDurability;
+		Gearbox.GearType tempGear = inputGear;
+
+		inputDurability = outputDurability;
+		inputGear = outputGear;
+		outputGear = tempGear;
+		outputDurability = tempDur;
+
+		markDirty();
+		IBlockState state2 = world.getBlockState(pos);
+		world.notifyBlockUpdate(pos, state2, state2, 3);
 	}
 }

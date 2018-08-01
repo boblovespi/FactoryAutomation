@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.block.mechanical;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.tools.Wrench;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import net.minecraft.block.ITileEntityProvider;
@@ -107,10 +108,14 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
+		ItemStack stack = playerIn.getHeldItem(hand);
+
+		if (stack.getItem() instanceof Wrench)
+			return false;
+
 		if (worldIn.isRemote)
 			return true;
 
-		ItemStack stack = playerIn.getHeldItem(hand);
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		Item item = stack.getItem();
 		GearType gear = GetGear(item);

@@ -215,7 +215,7 @@ public class FAItems
 
 		ironHammer = new Hammer("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
 		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
-		steelWrench = new WorkbenchToolItem("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
+		steelWrench = new Wrench("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
 		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterials.steelMaterial);
 		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Item.ToolMaterial.WOOD);
 		advancedFlintAndSteel = new AdvancedFlintAndSteel();
