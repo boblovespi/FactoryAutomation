@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "factoryautomation:metals/plate_block_steel"
+    }
+  }
+}

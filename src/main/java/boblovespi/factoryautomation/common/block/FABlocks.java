@@ -69,6 +69,7 @@ public class FABlocks
 	public static FABlock motor;
 	public static MultiTypeBlock<Metals> metalBlock;
 	public static MultiTypeBlock<Metals> metalPlateBlock;
+	public static MultiTypeBlock<Metals> metalPatternedPlateBlock;
 
 	// ores
 
@@ -128,6 +129,8 @@ public class FABlocks
 		metalBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
 		metalPlateBlock = new MetalBlock("metal_plate_block");
 		metalPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
+		metalPatternedPlateBlock = new MetalBlock("metal_patterned_plate_block");
+		metalPatternedPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
 
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
 		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
