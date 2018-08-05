@@ -56,6 +56,8 @@ public class FABlocks
 	public static FABlock solarPanel;
 	public static FABlock treetap;
 	public static FABlock placedBucket;
+	public static FABlock factorySign;
+	public static FABlock steelPillar;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -133,11 +135,16 @@ public class FABlocks
 		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).GetItem().ToItem());
 		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
 
+		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block")
+				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
+		steelPillar = new Pillar("steel_pillar", Metals.STEEL);
+
 		// ores
 
 		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre)
 				.Init(n -> n.setHardness(2.5f).setResistance(14));
-		siliconQuartzOre = new GemOre("ore_silicon_quartz",
+		siliconQuartzOre = new GemOre(
+				"ore_silicon_quartz",
 				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
 														   .SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
 
