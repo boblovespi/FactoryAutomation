@@ -78,7 +78,8 @@ public class ClientProxy implements CommonProxy
 	@Override
 	public void OpenGuidebook(World world, EntityPlayer player, GuidebookEntry entry, Guidebook.ExtraInfo extraInfo)
 	{
-		GuiGuidebook.SetPage(entry, extraInfo.pageNum);
+		if (entry != null)
+			GuiGuidebook.SetPage(entry, extraInfo.pageNum);
 		player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.GUIDEBOOK.id, world, 0, 0, 0);
 	}
 }
