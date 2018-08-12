@@ -39,7 +39,7 @@ public class GuiButtonBack extends GuiButtonSound
 
 			par1Minecraft.renderEngine.bindTexture(GuiGuidebook.texture);
 			GlStateManager.color(1F, 1F, 1F, 1F);
-			drawTexturedModalRect(x, y, 36, k == 2 ? 180 : 189, 18, 9);
+			drawModalRectWithCustomSizedTexture(x, y, 36, k == 2 ? 180 : 189, 18, 9, 285, 256);
 
 			List<String> tooltip = getTooltip();
 			int tooltipY = (tooltip.size() - 1) * 10;

@@ -47,7 +47,7 @@ public class SwampFloorOreGenerator extends WorldGenerator
 		else
 			type = Ore.Grade.RICH;
 
-		IBlockState toGen = ore.getDefaultState().withProperty(ore.TYPE, type);
+		IBlockState toGen = ore.GetBlock(type).getDefaultState();
 
 		for (int y = -10; y < 10; y++)
 		{

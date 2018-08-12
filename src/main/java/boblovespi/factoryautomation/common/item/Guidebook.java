@@ -1,7 +1,6 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.guidebook.GuidebookEntries;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -29,7 +28,7 @@ public class Guidebook extends FABaseItem
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
-		FactoryAutomation.proxy.OpenGuidebook(world, player, GuidebookEntries.testEntry, ExtraInfo.NONE);
+		FactoryAutomation.proxy.OpenGuidebook(world, player, null, ExtraInfo.NONE);
 		return ActionResult.newResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}
 

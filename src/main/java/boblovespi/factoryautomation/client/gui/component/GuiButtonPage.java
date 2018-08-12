@@ -40,7 +40,7 @@ public class GuiButtonPage extends GuiButtonSound
 
 			par1Minecraft.renderEngine.bindTexture(GuiGuidebook.texture);
 			GlStateManager.color(1F, 1F, 1F, 1F);
-			drawTexturedModalRect(x, y, k == 2 ? 18 : 0, right ? 180 : 190, 18, 10);
+			drawModalRectWithCustomSizedTexture(x, y, k == 2 ? 18 : 0, right ? 180 : 190, 18, 10, 285, 256);
 
 			if (k == 2)
 				RenderHelper.renderTooltip(par2, par3, Collections

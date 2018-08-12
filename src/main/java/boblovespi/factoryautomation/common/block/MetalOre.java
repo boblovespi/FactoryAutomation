@@ -4,7 +4,6 @@ import boblovespi.factoryautomation.common.item.types.MetalOres;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 
 /**
@@ -17,11 +16,11 @@ public class MetalOre extends MultiTypeBlock<MetalOres>
 		super(Material.ROCK, "ore_metal", MetalOres.class, "ores");
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		setHardness(3);
-		for (IBlockState state : blockState.getValidStates())
-		{
-			setHarvestLevel(
-					"pickaxe", state.getValue(TYPE).harvestLevel, state);
-		}
+		//		for (IBlockState state : blockState.getValidStates())
+		//		{
+		//			setHarvestLevel(
+		//					"pickaxe", state.getValue(TYPE).harvestLevel, state);
+		//		}
 		TYPE = PropertyEnum.create("type", MetalOres.class);
 	}
 

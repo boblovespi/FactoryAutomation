@@ -73,7 +73,7 @@ public class FABlocks
 
 	// ores
 
-	public static FABlock limoniteOre;
+	public static MultiTypeBlock<Ore.Grade> limoniteOre;
 	public static FABlock siliconQuartzOre;
 
 	// workbenches

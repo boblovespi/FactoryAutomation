@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.client.gui;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiButtonBackWithShift;
 import boblovespi.factoryautomation.client.gui.component.GuiButtonPage;
+import boblovespi.factoryautomation.common.guidebook.GuidebookEntries;
 import boblovespi.factoryautomation.common.guidebook.GuidebookPage;
 import boblovespi.factoryautomation.common.guidebook.entry.GuidebookEntry;
 import net.minecraft.client.Minecraft;
@@ -14,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
+import java.util.Stack;
 
 /**
  * Created by Willi on 7/30/2018.
@@ -27,9 +29,12 @@ public class GuiGuidebook extends GuiScreen
 			FactoryAutomation.MODID, "textures/gui/guidebook.png");
 	public static GuiGuidebook instance = new GuiGuidebook();
 
-	public static GuidebookEntry currentEntry;
-	public static GuidebookPage currentPage;
-	public static int currentPageNum = 0;
+	private static GuidebookEntry currentEntry = GuidebookEntries.mainEntry;
+	private static GuidebookPage currentPage = currentEntry.pages.get(0);
+	private static int currentPageNum = 0;
+	private static Stack<GuidebookEntry> lastEntries = new Stack<>();
+	private static Stack<GuidebookPage> lastPages = new Stack<>();
+	private static Stack<Integer> lastPageNums = new Stack<>();
 
 	final int guiWidth = 146;
 	final int guiHeight = 180;
@@ -53,9 +58,17 @@ public class GuiGuidebook extends GuiScreen
 
 	public static void SetPage(GuidebookEntry entry, int pageNum)
 	{
+		if (currentEntry != entry)
+		{
+			lastEntries.push(currentEntry);
+			lastPages.push(currentPage);
+			lastPageNums.push(currentPageNum);
+		}
+
 		currentEntry = entry;
 		currentPageNum = pageNum;
 		currentPage = entry.pages.get(pageNum);
+		instance.InitNewPage();
 	}
 
 	/**
@@ -79,23 +92,10 @@ public class GuiGuidebook extends GuiScreen
 			mc.gameSettings.guiScale = guiScale;
 		}
 
-		System.out.println("guiWidth = " + guiWidth);
-		System.out.println("guiHeight = " + guiHeight);
-		System.out.println("width = " + width);
-		System.out.println("height = " + height);
-		System.out.println("texture = " + texture);
-
 		left = width / 2 - guiWidth / 2;
 		top = height / 2 - guiHeight / 2;
 
-		buttonList.add(backButton = new GuiButtonBackWithShift(0, left + guiWidth / 2 - 8, top + guiHeight + 2));
-		buttonList.add(leftButton = new GuiButtonPage(1, left, top + guiHeight - 10, false));
-		buttonList.add(rightButton = new GuiButtonPage(2, left + guiWidth - 18, top + guiHeight - 10, true));
-		// buttonList.add(new GuiButtonShare(3, left + guiWidth - 6, top - 2));
-		// if(entry.getWebLink() != null)
-		// 	buttonList.add(new GuiButtonViewOnline(4, left - 8, top + 12));
-
-		currentPage.OnOpened(this);
+		InitNewPage();
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class GuiGuidebook extends GuiScreen
 
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		mc.renderEngine.bindTexture(texture);
-		drawTexturedModalRect(left, top, 0, 0, guiWidth, guiHeight);
+		drawModalRectWithCustomSizedTexture(left, top, 0, 0, guiWidth, guiHeight, 285, 256);
 
 		// String subtitle = getSubtitle();
 
@@ -196,16 +196,26 @@ public class GuiGuidebook extends GuiScreen
 		{
 			if (currentPageNum < pageSizes - 1)
 			{
+				currentPage.OnClosed(this);
 				currentPageNum++;
 				currentPage = currentEntry.pages.get(currentPageNum);
+				InitNewPage();
 			}
 		} else if (button.id == leftButton.id)
 		{
 			if (currentPageNum > 0)
 			{
+				currentPage.OnClosed(this);
 				currentPageNum--;
 				currentPage = currentEntry.pages.get(currentPageNum);
+				InitNewPage();
 			}
+		} else if (button.id == backButton.id)
+		{
+			currentEntry = lastEntries.pop();
+			currentPageNum = lastPageNums.pop();
+			currentPage = lastPages.pop();
+			instance.InitNewPage();
 		}
 	}
 
@@ -237,5 +247,30 @@ public class GuiGuidebook extends GuiScreen
 	public int getHeight()
 	{
 		return guiHeight;
+	}
+
+	public void AddButton(GuiButton button) throws RuntimeException
+	{
+		if (button.id == rightButton.id || button.id == leftButton.id || button.id == backButton.id)
+			throw new RuntimeException("Tried to register a button with a reserved id! button id: " + button.id);
+		addButton(button);
+	}
+
+	private void InitNewPage()
+	{
+		buttonList.clear();
+
+		buttonList.add(backButton = new GuiButtonBackWithShift(0, left + guiWidth / 2 - 8, top + guiHeight + 2));
+
+		if (lastEntries.empty())
+			backButton.enabled = false;
+
+		buttonList.add(leftButton = new GuiButtonPage(1, left, top + guiHeight - 10, false));
+		buttonList.add(rightButton = new GuiButtonPage(2, left + guiWidth - 18, top + guiHeight - 10, true));
+		// buttonList.add(new GuiButtonShare(3, left + guiWidth - 6, top - 2));
+		// if(entry.getWebLink() != null)
+		// 	buttonList.add(new GuiButtonViewOnline(4, left - 8, top + 12));
+
+		currentPage.OnOpened(this);
 	}
 }

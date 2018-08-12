@@ -30,8 +30,7 @@ public class WorldGenHandler implements IWorldGenerator
 		copperGen = new WorldGenMinable(FABlocks.metalOres.GetBlock(MetalOres.COPPER).getDefaultState(), 10);
 		tinGen = new WorldGenMinable(FABlocks.metalOres.GetBlock(MetalOres.TIN).getDefaultState(), 4);
 		limoniteGen = new SwampFloorOreGenerator((Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f);
-		siliconQuartzGen = new WorldGenMinable(
-				FABlocks.siliconQuartzOre.ToBlock().getDefaultState(), 9,
+		siliconQuartzGen = new WorldGenMinable(FABlocks.siliconQuartzOre.ToBlock().getDefaultState(), 9,
 				n -> n != null && n.getBlock() == Blocks.END_STONE);
 	}
 

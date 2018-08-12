@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -131,11 +130,11 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 		return this;
 	}
 
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, TYPE);
-	}
+	//	@Override
+	//	protected BlockStateContainer createBlockState()
+	//	{
+	//		return new BlockStateContainer(this, TYPE);
+	//	}
 
 	/**
 	 * Gets the {@link IBlockState} to place
@@ -191,8 +190,7 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 		return blocks[type.GetId()];
 	}
 
-	@Override
-	public FABlock Init(Consumer<Block> apply)
+	public MultiTypeBlock<T> Init(Consumer<Block> apply)
 	{
 		for (Block block : blocks)
 		{
