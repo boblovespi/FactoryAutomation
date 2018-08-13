@@ -36,8 +36,8 @@ public class JawCrusherRecipe implements IMachineRecipe
 			for (float w : output.keySet())
 			{
 				weight -= w;
-				if (w <= 0)
-					return output.get(w);
+				if (weight <= 0)
+					return output.get(w).copy();
 			}
 			return output.isEmpty() ? ItemStack.EMPTY : (ItemStack) output.values().toArray()[0];
 		};

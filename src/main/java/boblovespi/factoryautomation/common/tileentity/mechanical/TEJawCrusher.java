@@ -91,9 +91,9 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 				} else
 				{ // the recipe doesn't exist, so put the item in the output slot if we can
 
-					inventory.extractItem(INPUT_SLOT, inventory
-							.insertItem(OUTPUT_SLOT, inventory.getStackInSlot(INPUT_SLOT).copy().splitStack(1), false)
-							.getCount(), false);
+					ItemStack itemStack = inventory
+							.insertItem(OUTPUT_SLOT, inventory.getStackInSlot(INPUT_SLOT).copy().splitStack(1), false);
+					inventory.extractItem(INPUT_SLOT, 1 - itemStack.getCount(), false);
 				}
 			}
 		} else
@@ -105,7 +105,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 
 			if (speed > recipe.speedReq / 2 && torque > recipe.torqueReq)
 			{
-				currentProcessingTime -= MathHelper.clamp(speed / recipe.speedReq, 0.5f, 2) * processingScalar;
+				currentProcessingTime -= MathHelper.clamp(speed / recipe.speedReq, 0.5f, 20) * processingScalar;
 			}
 
 			if (currentProcessingTime < 0)

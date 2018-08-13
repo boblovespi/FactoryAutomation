@@ -74,6 +74,7 @@ public class FABlocks
 	// ores
 
 	public static MultiTypeBlock<Ore.Grade> limoniteOre;
+	public static MultiTypeBlock<Ore.Grade> magnetiteOre;
 	public static FABlock siliconQuartzOre;
 
 	// workbenches
@@ -86,6 +87,7 @@ public class FABlocks
 
 	public static FABlock steam;
 	public static FABlock rubberSap;
+
 
 	public static void Init()
 	{
@@ -146,6 +148,8 @@ public class FABlocks
 
 		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre)
 				.Init(n -> n.setHardness(2.5f).setResistance(14));
+		magnetiteOre = new Ore("magnetite_ore", blockMiningLevelCat.ironOre)
+				.Init(n -> n.setHardness(3f).setResistance(16));
 		siliconQuartzOre = new GemOre(
 				"ore_silicon_quartz",
 				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)

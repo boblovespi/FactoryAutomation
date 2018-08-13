@@ -7,6 +7,8 @@ import boblovespi.factoryautomation.common.item.crucible.ClayCrucible;
 import boblovespi.factoryautomation.common.item.metals.Ingot;
 import boblovespi.factoryautomation.common.item.metals.Nugget;
 import boblovespi.factoryautomation.common.item.metals.Sheet;
+import boblovespi.factoryautomation.common.item.ores.OreForms;
+import boblovespi.factoryautomation.common.item.ores.ProcessedOre;
 import boblovespi.factoryautomation.common.item.tools.*;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.item.types.Metals;
@@ -58,6 +60,10 @@ public class FAItems
 
 	public static FAItem slag;
 	public static FAItem coalCoke;
+
+	// ore processing forms
+
+	public static MultiTypeItem<OreForms> processedMagnetite;
 
 	// food
 
@@ -156,6 +162,10 @@ public class FAItems
 
 		slag = new FABaseItem("slag", FACreativeTabs.metallurgy);
 		coalCoke = new FAFuel("coal_coke", FACreativeTabs.metallurgy, 2000);
+
+		// ore processing forms
+
+		processedMagnetite = new ProcessedOre("magnetite");
 
 		// food
 
