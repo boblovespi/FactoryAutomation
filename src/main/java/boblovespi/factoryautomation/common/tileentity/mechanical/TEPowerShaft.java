@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import net.minecraft.block.state.IBlockState;
@@ -9,9 +10,11 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
 
+import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace;
 import static net.minecraft.util.EnumFacing.*;
 
@@ -134,20 +137,21 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 			IBlockState state = world.getBlockState(pos);
 			Axis axis = state.getValue(PowerShaft.AXIS);
 
-			TileEntity front = world.getTileEntity(pos.offset(getFacingFromAxis(AxisDirection.POSITIVE, axis)));
-			TileEntity back = world.getTileEntity(pos.offset(getFacingFromAxis(AxisDirection.NEGATIVE, axis)));
+			EnumFacing negativeFacing = getFacingFromAxis(AxisDirection.NEGATIVE, axis);
+			EnumFacing positiveFacing = getFacingFromAxis(AxisDirection.POSITIVE, axis);
 
-			speed = ((IsMechanicalFace(front, getFacingFromAxis(AxisDirection.NEGATIVE, axis)) ?
-					((IMechanicalUser) front).GetSpeedOnFace(getFacingFromAxis(AxisDirection.NEGATIVE, axis)) : 0) + (
-					IsMechanicalFace(back, getFacingFromAxis(AxisDirection.POSITIVE, axis)) ?
-							((IMechanicalUser) back).GetSpeedOnFace(getFacingFromAxis(AxisDirection.POSITIVE, axis)) :
-							0)) / 2f;
+			TileEntity front = world.getTileEntity(pos.offset(positiveFacing));
+			TileEntity back = world.getTileEntity(pos.offset(negativeFacing));
 
-			torque = ((IsMechanicalFace(front, getFacingFromAxis(AxisDirection.NEGATIVE, axis)) ?
-					((IMechanicalUser) front).GetTorqueOnFace(getFacingFromAxis(AxisDirection.NEGATIVE, axis)) : 0) + (
-					IsMechanicalFace(back, getFacingFromAxis(AxisDirection.POSITIVE, axis)) ?
-							((IMechanicalUser) back).GetTorqueOnFace(getFacingFromAxis(AxisDirection.POSITIVE, axis)) :
-							0)) / 2f;
+			speed = ((IsMechanicalFace(front, negativeFacing) ?
+					GetUser(front, negativeFacing).GetSpeedOnFace(negativeFacing) : 0) + (
+					IsMechanicalFace(back, positiveFacing) ?
+							GetUser(back, positiveFacing).GetSpeedOnFace(positiveFacing) : 0)) / 2f;
+
+			torque = ((IsMechanicalFace(front, negativeFacing) ?
+					GetUser(front, negativeFacing).GetTorqueOnFace(negativeFacing) : 0) + (
+					IsMechanicalFace(back, positiveFacing) ?
+							GetUser(back, positiveFacing).GetTorqueOnFace(positiveFacing) : 0)) / 2f;
 
 			markDirty();
 
@@ -161,5 +165,20 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	public float GetSpeed()
 	{
 		return speed;
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	{
+		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
+	}
+
+	@Nullable
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
+			return (T) this;
+		return null;
 	}
 }

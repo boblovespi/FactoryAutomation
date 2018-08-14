@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
 import boblovespi.factoryautomation.common.block.machine.JawCrusher;
@@ -14,7 +15,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.ItemStackHandler;
+
+import javax.annotation.Nullable;
+
+import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 
 /**
  * Created by Willi on 2/17/2018.
@@ -59,14 +65,12 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	{
 		if (world.isRemote)
 			return;
-		TileEntity te = world
-				.getTileEntity(pos.offset(world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW()));
-		if (TEHelper.IsMechanicalFace(te, world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW()))
+		EnumFacing facing = world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW();
+		TileEntity te = world.getTileEntity(pos.offset(facing));
+		if (TEHelper.IsMechanicalFace(te, facing))
 		{
-			speed = ((IMechanicalUser) te)
-					.GetSpeedOnFace(world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW());
-			torque = ((IMechanicalUser) te)
-					.GetTorqueOnFace(world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW());
+			speed = GetUser(te, facing).GetSpeedOnFace(facing);
+			torque = GetUser(te, facing).GetTorqueOnFace(facing);
 		} else
 		{
 			speed = 0;
@@ -213,5 +217,22 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	{
 		world.spawnEntity(new EntityItem(world, pos.getX() + 0.5, pos.getY() + 1.1, pos.getZ() + 0.5,
 				inventory.extractItem(WEAR_PLATE_SLOT, 1, false)));
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
+			return true;
+		return super.hasCapability(capability, facing);
+	}
+
+	@Nullable
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
+			return (T) this;
+		return super.getCapability(capability, facing);
 	}
 }

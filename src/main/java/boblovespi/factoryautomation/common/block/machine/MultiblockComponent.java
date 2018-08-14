@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
-import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
+import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
@@ -43,7 +43,7 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileEntityMultiblockPart();
+		return new TEMultiblockPart();
 	}
 
 	@Override
@@ -64,9 +64,9 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 		Random rand = world instanceof World ? ((World) world).rand : RANDOM;
 		TileEntity te = world.getTileEntity(pos);
 
-		assert te != null && te instanceof TileEntityMultiblockPart;
+		assert te != null && te instanceof TEMultiblockPart;
 
-		TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+		TEMultiblockPart part = (TEMultiblockPart) te;
 		MultiblockStructurePattern structure = MultiblockHandler.Get(part.GetStructureId());
 		int[] loc = part.GetPosition();
 		Block block = structure.GetPattern()[loc[0]][loc[1]][loc[2]].GetBlock();
@@ -88,7 +88,7 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 		//		Log.LogInfo("something broke!");
 		//		Log.LogInfo("blockPos", pos);
 		//
-		//		TileEntityMultiblockPart part = (TileEntityMultiblockPart) world.getTileEntity(pos);
+		//		TEMultiblockPart part = (TEMultiblockPart) world.getTileEntity(pos);
 		//
 		//		Log.LogInfo("part is null", part == null);
 		//

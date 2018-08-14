@@ -46,11 +46,19 @@ public class FABlocks
 
 	public static List<Block> blocks;
 
+	// multiblock controllers
+
+	public static FABlock steelmakingFurnaceController;
+	public static FABlock blastFurnaceController;
+	public static FABlock tripHammerController;
+
+	// misc - need to organize
+
 	public static FABlock concrete;
 	public static FABlock riceCrop;
 	public static ConcreteSlab concreteSlab;
 	public static ConcreteSlab concreteDoubleSlab;
-	public static FABlock blastFurnaceController;
+
 	public static FABlock multiblockPart;
 	public static FABlock cable;
 	public static FABlock solarPanel;
@@ -61,7 +69,7 @@ public class FABlocks
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
-	public static FABlock steelmakingFurnaceController;
+
 	public static FABlock powerShaft;
 	public static FABlock gearbox;
 	public static FABlock jawCrusher;
@@ -88,13 +96,20 @@ public class FABlocks
 	public static FABlock steam;
 	public static FABlock rubberSap;
 
-
 	public static void Init()
 	{
 		if (!isInit.compareAndSet(false, true))
 			return;
 
 		blocks = new ArrayList<>(100);
+
+		// multiblock controllers
+
+		blastFurnaceController = new BlastFurnaceController();
+		steelmakingFurnaceController = new SteelmakingFurnaceController();
+		tripHammerController = new TripHammerController();
+
+		// misc - need to organize
 
 		concrete = new Concrete();
 		riceCrop = new RiceCrop();
@@ -105,15 +120,11 @@ public class FABlocks
 				.add(new ItemSlab(concreteSlab.ToBlock(), concreteSlab.ToBlockSlab(), concreteDoubleSlab.ToBlockSlab())
 						.setUnlocalizedName(concreteSlab.UnlocalizedName())
 						.setRegistryName(concreteSlab.RegistryName()));
-
-		blastFurnaceController = new BlastFurnaceController();
 		multiblockPart = new MultiblockComponent();
 
 		cable = new Cable();
 		solarPanel = new SolarPanel();
 		metalOres = new MetalOre();
-
-		steelmakingFurnaceController = new SteelmakingFurnaceController();
 
 		powerShaft = new PowerShaft();
 		gearbox = new Gearbox();

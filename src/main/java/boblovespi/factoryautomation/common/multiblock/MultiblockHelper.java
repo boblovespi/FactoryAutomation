@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.multiblock;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
+import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -34,7 +34,7 @@ public class MultiblockHelper
 				{
 					BlockPos loc = AddWithRotation(lowerLeftFront, x, y, z, facing);
 					TileEntity te = world.getTileEntity(loc);
-					TileEntityMultiblockPart tePart;
+					TEMultiblockPart tePart;
 					MultiblockPart part = structure.GetPattern()[x][y][z];
 
 					System.out.println("loc = " + loc);
@@ -42,9 +42,9 @@ public class MultiblockHelper
 					System.out.println("part = " + part.GetBlock().getLocalizedName());
 					System.out.println("block in world = " + world.getBlockState(loc).getBlock().getLocalizedName());
 
-					if (te != null && te instanceof TileEntityMultiblockPart)
+					if (te != null && te instanceof TEMultiblockPart)
 					{
-						tePart = (TileEntityMultiblockPart) te;
+						tePart = (TEMultiblockPart) te;
 
 						if (action == IterateAction.CHECK_VALID)
 						{
@@ -76,7 +76,7 @@ public class MultiblockHelper
 							IBlockState state = world.getBlockState(loc);
 
 							world.setBlockState(loc, FABlocks.multiblockPart.ToBlock().getDefaultState());
-							TileEntityMultiblockPart newPart = (TileEntityMultiblockPart) world.getTileEntity(loc);
+							TEMultiblockPart newPart = (TEMultiblockPart) world.getTileEntity(loc);
 
 							newPart.SetMultiblockInformation(structureId, new BlockPos(x, y, z),
 									AddWithRotation(AddWithRotation(BlockPos.ORIGIN, x, y, z, facing), -offset[0],

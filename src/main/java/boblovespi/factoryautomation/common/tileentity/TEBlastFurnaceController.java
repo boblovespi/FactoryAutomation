@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
+import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -13,13 +14,15 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Created by Willi on 11/12/2017.
@@ -47,10 +50,17 @@ public class TEBlastFurnaceController extends TileEntity
 	private float burnScalar = 2; // the speed at which the coal coke burns
 	private float smeltScalar = 1; // the speed at which the pig iron smelts
 	private boolean isStructureValid = false;
+	private IItemHandler inputHopperWrapper;
 
 	public TEBlastFurnaceController()
 	{
 		itemHandler = new ItemStackHandler(7);
+		inputHopperWrapper = new RestrictedSlotItemHandler(new HashSet<Integer>()
+		{{
+			add(0);
+			add(5);
+			add(6);
+		}}, itemHandler);
 	}
 
 	@Override
@@ -67,6 +77,13 @@ public class TEBlastFurnaceController extends TileEntity
 		itemHandler.deserializeNBT(compound.getCompoundTag("itemHandler"));
 
 		super.readFromNBT(compound);
+
+		//		inputHopperWrapper = new RestrictedSlotItemHandler(new HashSet<Integer>()
+		//		{{
+		//			add(0);
+		//			add(5);
+		//			add(6);
+		//		}}, itemHandler);
 	}
 
 	@Override
@@ -110,9 +127,7 @@ public class TEBlastFurnaceController extends TileEntity
 					isSmeltingItem = false;
 					itemHandler.extractItem(IRON_SLOT, 1, false);
 					itemHandler.extractItem(FLUX_SLOT, 1, false);
-					itemHandler
-							.insertItem(OUTPUT_SLOT, new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)),
-									false);
+					itemHandler.insertItem(OUTPUT_SLOT, new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)), false);
 					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag.ToItem(), 1, 0), false);
 				}
 			} else
@@ -290,5 +305,21 @@ public class TEBlastFurnaceController extends TileEntity
 		{
 			((BlastFurnaceController) block).BreakStructure(world, pos);
 		}
+	}
+
+	/**
+	 * Gets the capability, or null, of the block at offset for the given side
+	 *
+	 * @param capability the type of capability to get
+	 * @param offset     the offset of the multiblock part
+	 * @param side       the side which is accessed
+	 * @return the capability implementation which to use
+	 */
+	@Override
+	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
+	{
+		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == EnumFacing.UP)
+			return (T) inputHopperWrapper;
+		return null;
 	}
 }

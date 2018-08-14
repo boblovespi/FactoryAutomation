@@ -1,5 +1,8 @@
 package boblovespi.factoryautomation.common.multiblock;
 
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+
 /**
  * Created by Willi on 11/19/2017.
  * interface for multiblock controller tile entities
@@ -23,4 +26,13 @@ public interface IMultiblockControllerTE
 	void CreateStructure();
 
 	void BreakStructure();
+
+	/**
+	 * Gets the capability, or null, of the block at offset for the given side
+	 * @param capability the type of capability to get
+	 * @param offset the offset of the multiblock part
+	 * @param side the side which is accessed
+	 * @return the capability implementation which to use
+	 */
+	<T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side);
 }

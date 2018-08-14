@@ -9,7 +9,7 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureContro
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockPart;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
-import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
+import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
@@ -185,10 +185,10 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
-						TileEntityMultiblockPart te = null;
+						TEMultiblockPart te = null;
 						if (world.getTileEntity(lowerLeftFront.add(x, y, z)) != null && world
-								.getTileEntity(lowerLeftFront.add(x, y, z)) instanceof TileEntityMultiblockPart)
-							te = (TileEntityMultiblockPart) world.getTileEntity(lowerLeftFront.add(x, y, z));
+								.getTileEntity(lowerLeftFront.add(x, y, z)) instanceof TEMultiblockPart)
+							te = (TEMultiblockPart) world.getTileEntity(lowerLeftFront.add(x, y, z));
 
 						if (!Block.isEqualTo(pattern[x][y][z].GetBlock(),
 								world.getBlockState(lowerLeftFront.add(x, y, z)).getBlock()) && !(te != null && te
@@ -217,10 +217,10 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
-						TileEntityMultiblockPart te = null;
+						TEMultiblockPart te = null;
 						if (world.getTileEntity(lowerLeftFront.add(-x, y, -z)) != null && world
-								.getTileEntity(lowerLeftFront.add(-x, y, -z)) instanceof TileEntityMultiblockPart)
-							te = (TileEntityMultiblockPart) world.getTileEntity(lowerLeftFront.add(-x, y, -z));
+								.getTileEntity(lowerLeftFront.add(-x, y, -z)) instanceof TEMultiblockPart)
+							te = (TEMultiblockPart) world.getTileEntity(lowerLeftFront.add(-x, y, -z));
 
 						if (!Block.isEqualTo(pattern[x][y][z].GetBlock(),
 								world.getBlockState(lowerLeftFront.add(-x, y, -z)).getBlock()) && !(te != null && te
@@ -249,10 +249,10 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
-						TileEntityMultiblockPart te = null;
+						TEMultiblockPart te = null;
 						if (world.getTileEntity(lowerLeftFront.add(-z, y, x)) != null && world
-								.getTileEntity(lowerLeftFront.add(-z, y, x)) instanceof TileEntityMultiblockPart)
-							te = (TileEntityMultiblockPart) world.getTileEntity(lowerLeftFront.add(-z, y, x));
+								.getTileEntity(lowerLeftFront.add(-z, y, x)) instanceof TEMultiblockPart)
+							te = (TEMultiblockPart) world.getTileEntity(lowerLeftFront.add(-z, y, x));
 
 						if (!Block.isEqualTo(pattern[x][y][z].GetBlock(),
 								world.getBlockState(lowerLeftFront.add(-z, y, x)).getBlock()) && !(te != null && te
@@ -281,10 +281,10 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
-						TileEntityMultiblockPart te = null;
+						TEMultiblockPart te = null;
 						if (world.getTileEntity(lowerLeftFront.add(z, y, -x)) != null && world
-								.getTileEntity(lowerLeftFront.add(z, y, -x)) instanceof TileEntityMultiblockPart)
-							te = (TileEntityMultiblockPart) world.getTileEntity(lowerLeftFront.add(z, y, -x));
+								.getTileEntity(lowerLeftFront.add(z, y, -x)) instanceof TEMultiblockPart)
+							te = (TEMultiblockPart) world.getTileEntity(lowerLeftFront.add(z, y, -x));
 
 						if (!Block.isEqualTo(pattern[x][y][z].GetBlock(),
 								world.getBlockState(lowerLeftFront.add(z, y, -x)).getBlock()) && !(te != null && te
@@ -335,8 +335,8 @@ public class BlastFurnaceController extends Block
 						world.setBlockState(lowerLeftFront.add(x, y, z),
 								FABlocks.multiblockPart.ToBlock().getDefaultState());
 						TileEntity te = world.getTileEntity(lowerLeftFront.add(x, y, z));
-						assert te instanceof TileEntityMultiblockPart;
-						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						assert te instanceof TEMultiblockPart;
+						TEMultiblockPart part = (TEMultiblockPart) te;
 						part.SetMultiblockInformation(structurePattern, x, y, z, x, y, z - 1, st);
 
 						Log.LogInfo("block in world",
@@ -365,8 +365,8 @@ public class BlastFurnaceController extends Block
 						world.setBlockState(lowerLeftFront.add(-x, y, -z),
 								FABlocks.multiblockPart.ToBlock().getDefaultState());
 						TileEntity te = world.getTileEntity(lowerLeftFront.add(-x, y, -z));
-						assert te instanceof TileEntityMultiblockPart;
-						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						assert te instanceof TEMultiblockPart;
+						TEMultiblockPart part = (TEMultiblockPart) te;
 						part.SetMultiblockInformation(structurePattern, x, y, z, -x, y, -z + 1, st);
 
 						Log.LogInfo("block in world",
@@ -395,8 +395,8 @@ public class BlastFurnaceController extends Block
 						world.setBlockState(lowerLeftFront.add(-z, y, x),
 								FABlocks.multiblockPart.ToBlock().getDefaultState());
 						TileEntity te = world.getTileEntity(lowerLeftFront.add(-z, y, x));
-						assert te instanceof TileEntityMultiblockPart;
-						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						assert te instanceof TEMultiblockPart;
+						TEMultiblockPart part = (TEMultiblockPart) te;
 						part.SetMultiblockInformation(structurePattern, x, y, z, 1 - z, y, x, st);
 
 						Log.LogInfo("block in world",
@@ -425,8 +425,8 @@ public class BlastFurnaceController extends Block
 						world.setBlockState(lowerLeftFront.add(z, y, -x),
 								FABlocks.multiblockPart.ToBlock().getDefaultState());
 						TileEntity te = world.getTileEntity(lowerLeftFront.add(z, y, -x));
-						assert te instanceof TileEntityMultiblockPart;
-						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						assert te instanceof TEMultiblockPart;
+						TEMultiblockPart part = (TEMultiblockPart) te;
 						part.SetMultiblockInformation(structurePattern, x, y, z, z - 1, y, -x, st);
 
 						Log.LogInfo("block in world",
@@ -462,10 +462,10 @@ public class BlastFurnaceController extends Block
 
 						TileEntity te = world.getTileEntity(lowerLeftFront.add(x, y, z));
 
-						if (te == null || !(te instanceof TileEntityMultiblockPart))
+						if (te == null || !(te instanceof TEMultiblockPart))
 							continue;
 
-						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						TEMultiblockPart part = (TEMultiblockPart) te;
 						if (!part.GetStructureId().equals(structurePattern))
 							return;
 
@@ -495,10 +495,10 @@ public class BlastFurnaceController extends Block
 
 						TileEntity te = world.getTileEntity(lowerLeftFront.add(-x, y, -z));
 
-						if (te == null || !(te instanceof TileEntityMultiblockPart))
+						if (te == null || !(te instanceof TEMultiblockPart))
 							continue;
 
-						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						TEMultiblockPart part = (TEMultiblockPart) te;
 						if (!part.GetStructureId().equals(structurePattern))
 							return;
 
@@ -528,9 +528,9 @@ public class BlastFurnaceController extends Block
 
 						TileEntity te = world.getTileEntity(lowerLeftFront.add(-z, y, x));
 
-						if (te == null || !(te instanceof TileEntityMultiblockPart))
+						if (te == null || !(te instanceof TEMultiblockPart))
 							continue;
-						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						TEMultiblockPart part = (TEMultiblockPart) te;
 						if (!part.GetStructureId().equals(structurePattern))
 							return;
 
@@ -560,9 +560,9 @@ public class BlastFurnaceController extends Block
 
 						TileEntity te = world.getTileEntity(lowerLeftFront.add(z, y, -x));
 
-						if (te == null || !(te instanceof TileEntityMultiblockPart))
+						if (te == null || !(te instanceof TEMultiblockPart))
 							continue;
-						TileEntityMultiblockPart part = (TileEntityMultiblockPart) te;
+						TEMultiblockPart part = (TEMultiblockPart) te;
 						if (!part.GetStructureId().equals(structurePattern))
 							return;
 

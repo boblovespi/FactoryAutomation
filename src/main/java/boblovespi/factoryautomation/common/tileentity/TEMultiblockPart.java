@@ -1,23 +1,42 @@
 package boblovespi.factoryautomation.common.tileentity;
 
+import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 11/26/2017.
  */
-public class TileEntityMultiblockPart extends TileEntity
+public class TEMultiblockPart extends TileEntity
 {
 	private int[] structurePosition = new int[3]; // the position of the block in the structure measured by {+x, +y, +z}
 	private String structureId; // the id of the multiblock structure
 	private int[] structureOffset = new int[3]; // the offset from the controller, in world coordinates
 	private IBlockState state;
+	private IMultiblockControllerTE controller;
 
-	public void SetMultiblockInformation(String structure, int posX, int posY,
-			int posZ, int offX, int offY, int offZ, IBlockState blockState)
+	/**
+	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
+	 * Override instead of adding {@code if (firstTick)} stuff in update.
+	 */
+	@Override
+	public void onLoad()
+	{
+		if (!world.isRemote)
+			controller = (IMultiblockControllerTE) world
+					.getTileEntity(pos.add(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
+	}
+
+	public void SetMultiblockInformation(String structure, int posX, int posY, int posZ, int offX, int offY, int offZ,
+			IBlockState blockState)
 	{
 		structureId = structure;
 		structurePosition[0] = posX;
@@ -27,14 +46,13 @@ public class TileEntityMultiblockPart extends TileEntity
 		structureOffset[1] = offY;
 		structureOffset[2] = offZ;
 		state = blockState;
+		controller = (IMultiblockControllerTE) world.getTileEntity(pos.add(-offX, -offY, -offZ));
 	}
 
-	public void SetMultiblockInformation(String strucuture, BlockPos pos,
-			BlockPos offset, IBlockState blockState)
+	public void SetMultiblockInformation(String strucuture, BlockPos pos, BlockPos offset, IBlockState blockState)
 	{
-		SetMultiblockInformation(
-				strucuture, pos.getX(), pos.getY(), pos.getZ(), offset.getX(),
-				offset.getY(), offset.getZ(), blockState);
+		SetMultiblockInformation(strucuture, pos.getX(), pos.getY(), pos.getZ(), offset.getX(), offset.getY(),
+				offset.getZ(), blockState);
 	}
 
 	@Override
@@ -75,5 +93,18 @@ public class TileEntityMultiblockPart extends TileEntity
 	public IBlockState GetBlockState()
 	{
 		return state;
+	}
+
+	@Nullable
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	{
+		return controller.GetCapability(capability, structurePosition, facing);
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	{
+		return controller.GetCapability(capability, structurePosition, facing) != null;
 	}
 }

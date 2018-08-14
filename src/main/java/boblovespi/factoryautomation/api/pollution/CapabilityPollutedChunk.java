@@ -28,7 +28,7 @@ public class CapabilityPollutedChunk
 			{
 				NBTTagCompound nbtBase = new NBTTagCompound();
 				nbtBase.setFloat("pollution", instance.GetPollution());
-				return null;
+				return nbtBase;
 			}
 
 			@Override

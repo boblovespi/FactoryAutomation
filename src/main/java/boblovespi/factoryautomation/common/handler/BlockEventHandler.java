@@ -6,7 +6,7 @@ import boblovespi.factoryautomation.common.item.tools.Hammer;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
-import boblovespi.factoryautomation.common.tileentity.TileEntityMultiblockPart;
+import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStone;
@@ -97,7 +97,7 @@ public class BlockEventHandler
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
 
-			TileEntityMultiblockPart part = (TileEntityMultiblockPart) world.getTileEntity(pos);
+			TEMultiblockPart part = (TEMultiblockPart) world.getTileEntity(pos);
 
 			Log.LogInfo("part is null", part == null);
 

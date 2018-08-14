@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation;
 
+import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
@@ -63,6 +64,7 @@ public class FactoryAutomation
 		ConfigManager.sync(MODID, Config.Type.INSTANCE);
 
 		CapabilityPollutedChunk.Register();
+		CapabilityMechanicalUser.Register();
 
 		// FAConfig.PreInit();
 		PacketHandler.CreateChannel(MODID);

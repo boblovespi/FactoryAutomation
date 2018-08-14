@@ -96,6 +96,12 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, false));
 	}
 
+	@Override
+	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
+	{
+		return null;
+	}
+
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */

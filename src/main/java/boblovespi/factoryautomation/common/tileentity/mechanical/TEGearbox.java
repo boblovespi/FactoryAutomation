@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
@@ -13,9 +14,11 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
 
+import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace;
 
 /**
@@ -192,7 +195,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 
 		if (IsMechanicalFace(te, facing))
 		{
-			IMechanicalUser input = (IMechanicalUser) te;
+			IMechanicalUser input = GetUser(te, facing);
 			torqueIn = input.GetTorqueOnFace(facing);
 			speedIn = input.GetSpeedOnFace(facing);
 
@@ -332,5 +335,20 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 		markDirty();
 		IBlockState state2 = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state2, state2, 3);
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	{
+		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
+	}
+
+	@Nullable
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
+			return (T) this;
+		return null;
 	}
 }

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 
 import boblovespi.factoryautomation.api.energy.EnergyConnection_;
 import boblovespi.factoryautomation.api.energy.IRequiresEnergy_;
+import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
 import net.minecraft.block.state.IBlockState;
@@ -12,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
 
@@ -224,5 +226,20 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	{
+		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
+	}
+
+	@Nullable
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	{
+		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
+			return (T) this;
+		return null;
 	}
 }
