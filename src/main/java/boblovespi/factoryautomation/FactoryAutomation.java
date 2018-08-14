@@ -16,6 +16,7 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.network.PacketHandler;
+import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerController;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -100,6 +101,10 @@ public class FactoryAutomation
 		MultiblockHandler.Register(
 				"steelmaking_furnace",
 				new MultiblockStructurePattern(MultiblockStructures.steelmakingFurnace, new int[] { 1, 1, 2 }));
+
+		MultiblockHandler.Register(
+				TETripHammerController.MULTIBLOCK_ID,
+				new MultiblockStructurePattern(MultiblockStructures.tripHammer, new int[] { 0, 0, 0 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
 	}

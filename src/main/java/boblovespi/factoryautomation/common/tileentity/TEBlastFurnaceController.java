@@ -318,7 +318,8 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
 	{
-		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == EnumFacing.UP)
+		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == EnumFacing.UP
+				&& capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return (T) inputHopperWrapper;
 		return null;
 	}

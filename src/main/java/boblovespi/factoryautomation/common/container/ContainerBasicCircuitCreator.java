@@ -17,7 +17,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.oredict.OreIngredient;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by Willi on 5/28/2018.
@@ -34,10 +34,10 @@ public class ContainerBasicCircuitCreator extends Container
 
 		addSlotToContainer(new SlotOutputItem(inv, 0, 5, 102));
 		addSlotToContainer(new SlotRestrictedPredicate(inv, 1, 8, 9, new OreIngredient("nuggetTin")));
-		addSlotToContainer(new SlotRestrictedPredicate(inv, 2, 8, 27,
-				new OreIngredient("wireCopper")));
+		addSlotToContainer(new SlotRestrictedPredicate(inv, 2, 8, 27, new OreIngredient("wireCopper")));
 		addSlotToContainer(new SlotItemHandler(inv, 3, 8, 45));
-		addSlotToContainer(new SlotRestrictedItem(inv, 4, 8, 63, Arrays.asList(FAItems.circuitFrame.ToItem())));
+		addSlotToContainer(
+				new SlotRestrictedItem(inv, 4, 8, 63, Collections.singletonList(FAItems.circuitFrame.ToItem())));
 		int x = 24;
 		int y = 84;
 

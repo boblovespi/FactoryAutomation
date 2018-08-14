@@ -60,13 +60,13 @@ public class MultiblockStructures
 			},
 	};
 
-	public static final MultiblockPart[][][] copperBoiler = new MultiblockPart[][][]{
+	public static final MultiblockPart[][][] copperBoiler = new MultiblockPart[][][] {
 			new MultiblockPart[][]{
 					new MultiblockPart[] {}
 			}
 	};
 
-	public static final MultiblockPart[][][] tripHammer = new MultiblockPart[][][]{
+	public static final MultiblockPart[][][] tripHammer = new MultiblockPart[][][] {
 			new MultiblockPart[][]{
 					new MultiblockPart[] { new MultiblockPart(FABlocks.tripHammerController.ToBlock()) },
 					new MultiblockPart[] { IRON_BLOCK }

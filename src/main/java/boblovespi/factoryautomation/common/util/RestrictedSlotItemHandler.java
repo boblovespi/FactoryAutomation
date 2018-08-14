@@ -23,9 +23,7 @@ public class RestrictedSlotItemHandler extends ItemStackHandler
 
 	private boolean IsInternalSlotValid(int slot)
 	{
-		if (restrictedSlots.contains(slot))
-			return false;
-		return true;
+		return !restrictedSlots.contains(slot);
 	}
 
 	@Override

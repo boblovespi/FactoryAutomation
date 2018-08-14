@@ -1,39 +1,43 @@
 package boblovespi.factoryautomation.api.mechanical;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+
+import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * Created by Willi on 8/13/2018.
  */
 public class MechanicalUser implements IMechanicalUser
 {
-	private EnumFacing side;
+	private Set<EnumFacing> sides;
 	private float speed;
 	private float torque;
 
-	public MechanicalUser(EnumFacing side)
+	public MechanicalUser(EnumSet<EnumFacing> sides)
 	{
-		this.side = side;
+		this.sides = sides;
 		speed = 0;
 		torque = 0;
 	}
 
 	MechanicalUser()
 	{
-		this.side = EnumFacing.NORTH;
+		this.sides = EnumSet.noneOf(EnumFacing.class);
 		speed = 0;
 		torque = 0;
 	}
 
-	public EnumFacing GetSide()
+	public Set<EnumFacing> GetSides()
 	{
-		return side;
+		return sides;
 	}
 
 	@Override
 	public boolean HasConnectionOnSide(EnumFacing side)
 	{
-		return GetSide() == side;
+		return GetSides().contains(side);
 	}
 
 	@Override
@@ -64,5 +68,24 @@ public class MechanicalUser implements IMechanicalUser
 	{
 		if (HasConnectionOnSide(side))
 			this.torque = torque;
+	}
+
+	public float GetTorque()
+	{
+		return torque;
+	}
+
+	public NBTTagCompound WriteToNBT()
+	{
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setFloat("speed", speed);
+		nbt.setFloat("torque", torque);
+		return nbt;
+	}
+
+	public void ReadFromNBT(NBTTagCompound tag)
+	{
+		this.speed = tag.getFloat("speed");
+		this.torque = tag.getFloat("torque");
 	}
 }

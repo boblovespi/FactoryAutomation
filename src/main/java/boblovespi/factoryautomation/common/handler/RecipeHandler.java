@@ -1,10 +1,7 @@
 package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.api.recipe.BasicCircuitRecipe;
-import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
-import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
-import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
+import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
@@ -26,6 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.StringUtils;
@@ -210,6 +208,12 @@ public class RecipeHandler
 							put(0.12f, new ItemStack(FAItems.processedMagnetite.GetItem(RICH_FINE_GRAVEL)));
 							put(0.08f, new ItemStack(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)));
 						}}, 0, "magnetite-rich-coarse-to-gravel", 20, 10, 100));
+
+		// trip hammer recipes
+
+		new TripHammerRecipe(
+				"iron-block-to-sheets", new OreIngredient("blockIron"),
+				new ItemStack(FAItems.sheet.GetItem(Metals.IRON), 6), 100, 10);
 
 		//
 
