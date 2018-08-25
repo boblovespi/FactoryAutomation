@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 public class TEMultiblockPart extends TileEntity
 {
 	private int[] structurePosition = new int[3]; // the position of the block in the structure measured by {+x, +y, +z}
-	private String structureId; // the id of the multiblock structure
+	private String structureId = null; // the id of the multiblock structure
 	private int[] structureOffset = new int[3]; // the offset from the controller, in world coordinates
 	private IBlockState state;
 	private IMultiblockControllerTE controller;
@@ -30,7 +30,7 @@ public class TEMultiblockPart extends TileEntity
 	@Override
 	public void onLoad()
 	{
-		if (!world.isRemote)
+		if (!world.isRemote && structureId != null)
 			controller = (IMultiblockControllerTE) world
 					.getTileEntity(pos.add(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
 	}
