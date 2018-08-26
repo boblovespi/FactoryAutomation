@@ -1,0 +1,21 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "blocks/metals/bronze_plate_block"
+	},
+	"elements": [
+		{
+			"name": "Center post",
+			"from": [6, 0, 6],
+			"to": [10, 16, 10],
+			"faces": {
+				"north": {"uv": [6, 0, 10, 16], "texture": "#particle"},
+				"east": {"uv": [6, 0, 10, 16], "texture": "#particle"},
+				"south": {"uv": [6, 0, 10, 16], "texture": "#particle"},
+				"west": {"uv": [6, 0, 10, 16], "texture": "#particle"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#particle", "cullface": "up"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#particle", "cullface": "up"}
+			}
+		}
+	]
+}
