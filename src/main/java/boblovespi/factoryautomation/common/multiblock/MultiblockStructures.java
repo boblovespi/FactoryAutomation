@@ -15,6 +15,7 @@ public class MultiblockStructures
 	public static final MultiblockPart IRON_BLOCK = new MultiblockPart(Blocks.IRON_BLOCK);
 	public static final MultiblockPart AIR = new MultiblockPart(Blocks.AIR, true);
 	public static final MultiblockPart COBBLESTONE_WALL = new MultiblockPart(Blocks.COBBLESTONE_WALL);
+	public static final MultiblockPart OAK_FENCE = new MultiblockPart(Blocks.OAK_FENCE);
 	public static final MultiblockPart OAK_LOG_UP = new MultiblockPart(Blocks.LOG, n -> true,
 			n -> n.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y
 					&& n.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.OAK, false);
@@ -73,11 +74,11 @@ public class MultiblockStructures
 			},
 			new MultiblockPart[][]{
 					new MultiblockPart[] { AIR },
-					new MultiblockPart[] { COBBLESTONE_WALL }
+					new MultiblockPart[] { OAK_FENCE }
 			},
 			new MultiblockPart[][]{
 					new MultiblockPart[] { AIR },
-					new MultiblockPart[] { COBBLESTONE_WALL }
+					new MultiblockPart[] { OAK_FENCE }
 			},
 			new MultiblockPart[][]{
 					new MultiblockPart[] { OAK_LOG_UP },
@@ -85,7 +86,7 @@ public class MultiblockStructures
 			},
 			new MultiblockPart[][]{
 					new MultiblockPart[] { AIR },
-					new MultiblockPart[] { COBBLESTONE_WALL }
+					new MultiblockPart[] { OAK_FENCE }
 			},
 			new MultiblockPart[][]{
 					new MultiblockPart[] { AIR },

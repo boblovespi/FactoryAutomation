@@ -22,7 +22,7 @@ public class MechanicalUser implements IMechanicalUser
 		torque = 0;
 	}
 
-	MechanicalUser()
+	public MechanicalUser()
 	{
 		this.sides = EnumSet.noneOf(EnumFacing.class);
 		speed = 0;
@@ -87,5 +87,10 @@ public class MechanicalUser implements IMechanicalUser
 	{
 		this.speed = tag.getFloat("speed");
 		this.torque = tag.getFloat("torque");
+	}
+
+	public void SetSides(EnumSet<EnumFacing> sides)
+	{
+		this.sides = sides;
 	}
 }

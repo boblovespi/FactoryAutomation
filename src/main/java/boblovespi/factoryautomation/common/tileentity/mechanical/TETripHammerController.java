@@ -4,6 +4,9 @@ import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.TripHammerRecipe;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
+import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -11,13 +14,15 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
+
 import java.util.EnumSet;
 
-import static boblovespi.factoryautomation.common.block.machine.TripHammerController.FACING;
+import static boblovespi.factoryautomation.common.block.machine.TripHammerController.*;
 
 /**
  * Created by Willi on 8/13/2018.
@@ -32,7 +37,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	private String currentRecipeString = "none";
 	private float timeLeftInRecipe = -1;
 
-	public TETripHammerController(EnumFacing dir)
+	public TETripHammerController()
 	{
 		itemHandler = new ItemStackHandler(2)
 		{
@@ -42,7 +47,14 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 				markDirty();
 			}
 		};
-		mechanicalUser = new MechanicalUser(EnumSet.of(dir.rotateY(), dir.rotateY().getOpposite()));
+		mechanicalUser = new MechanicalUser();
+	}
+
+	@Override
+	public void onLoad()
+	{
+		EnumFacing dir = world.getBlockState(pos).getValue(FACING);
+		mechanicalUser.SetSides(EnumSet.of(dir.rotateY(), dir.rotateYCCW()));
 	}
 
 	@Override
@@ -60,13 +72,17 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	@Override
 	public void CreateStructure()
 	{
-
+		SetStructureValid();
+		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID, world.getBlockState(pos).getValue(FACING));
+		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
 	}
 
 	@Override
 	public void BreakStructure()
 	{
-
+		SetStructureInvalid();
+		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID, world.getBlockState(pos).getValue(FACING));
+		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
 	}
 
 	public boolean PutItem(ItemStack item)
@@ -99,7 +115,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	@Override
 	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
 	{
-		if (offset[0] == 0 && offset[1] == 5 && offset[2] == 1 && side.getAxis() == world.getBlockState(pos)
+		if (offset[0] == 5 && offset[1] == 1 && offset[2] == 0 && side.getAxis() == world.getBlockState(pos)
 																						 .getValue(FACING).rotateY()
 																						 .getAxis()
 				&& capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
@@ -152,6 +168,24 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 
 				}
 				markDirty();
+			}
+			IBlockState state = world.getBlockState(pos);
+			EnumFacing facing = state.getValue(FACING);
+
+			BlockPos pos2 = MultiblockHelper.AddWithRotation(pos, 5, 1, 0, facing);
+			EnumFacing rotateY = facing.rotateY();
+			EnumFacing rotateYCCW = facing.rotateYCCW();
+			TileEntity teCW = world.getTileEntity(pos2.offset(rotateY, 1));
+			TileEntity teCCW = world.getTileEntity(pos2.offset(rotateYCCW, 1));
+
+			if (TEHelper.IsMechanicalFace(teCW, rotateYCCW))
+			{
+				mechanicalUser.SetSpeedOnFace(rotateY, TEHelper.GetUser(teCW, rotateYCCW).GetSpeedOnFace(rotateYCCW));
+				mechanicalUser.SetTorqueOnFace(rotateY, TEHelper.GetUser(teCW, rotateYCCW).GetTorqueOnFace(rotateYCCW));
+			} else if (TEHelper.IsMechanicalFace(teCCW, rotateY))
+			{
+				mechanicalUser.SetSpeedOnFace(rotateYCCW, TEHelper.GetUser(teCCW, rotateY).GetSpeedOnFace(rotateY));
+				mechanicalUser.SetTorqueOnFace(rotateYCCW, TEHelper.GetUser(teCCW, rotateY).GetTorqueOnFace(rotateY));
 			}
 		}
 	}

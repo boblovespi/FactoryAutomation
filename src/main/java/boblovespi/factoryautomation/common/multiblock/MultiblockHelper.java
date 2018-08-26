@@ -105,7 +105,7 @@ public class MultiblockHelper
 		IterateOverMultiblock(world, pos, id, facing, IterateAction.BREAK);
 	}
 
-	private static BlockPos AddWithRotation(BlockPos pos, int x, int y, int z, EnumFacing dir)
+	public static BlockPos AddWithRotation(BlockPos pos, int x, int y, int z, EnumFacing dir)
 	{
 		switch (dir)
 		{

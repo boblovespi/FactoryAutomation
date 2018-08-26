@@ -12,5 +12,8 @@ d 1.000000
 illum 2
 map_Kd factoryautomation:blocks/materials/steelmaking_furnace
 
+newmtl trip_hammer
+map_Kd factoryautomation:blocks/materials/trip_hammer
+
 # newmtl obj model name
 # map_Kd factoryautomation:blocks/materials/model texture
