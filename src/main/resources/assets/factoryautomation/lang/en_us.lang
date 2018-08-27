@@ -86,6 +86,7 @@ item.steel_hammer.name=Steel Hammer
 item.steel_wrench.name=Steel Wrench
 item.steel_pinchers.name=Steel Pinchers
 item.advanced_flint_and_steel.name=Advanced flint and steel
+item.guidebook.name=F.A. Guidebook
 
 # items-jaw_plates
 item.wear_plate_iron.name=Iron Jaw Plate
@@ -183,4 +184,10 @@ fluid.fa_air.name=FA AIR
 fluid.fa_steam=Steam
 fluid.rubber_sap=Rubber Sap
 tile.steam.name=Steam
-tile.rubber_sap.name=Steam
+tile.rubber_sap.name=Rubber Sap
+
+# Guidebook
+botaniamisc.prevPage=Previous page
+botaniamisc.nextPage=Next page
+botaniamisc.back=Go back
+botaniamisc.clickToIndex=Back to the main page

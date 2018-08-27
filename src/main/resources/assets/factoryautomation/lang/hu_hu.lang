@@ -6,7 +6,7 @@ item.slag.name=Salak
 item.coal_coke.name=Koksz
 
 # items-ingots
-item.ingot_copper.name=Rész Rúd
+item.ingot_copper.name=Réz Rúd
 item.ingot_tin.name=Ón Rúd
 item.ingot_bronze.name=Bronz Rúd
 item.ingot_steel.name=Acél Rúd
@@ -14,7 +14,7 @@ item.ingot_pig_iron.name=Nyersvas Rúd
 item.ingot_magmatic_brass.name=Magmatikus Ötvözet Rúd
 
 # items-nuggets
-item.nugget_copper.name=Rész Rög
+item.nugget_copper.name=Réz Rög
 item.nugget_tin.name=Ón Rög
 item.nugget_bronze.name=Bronz Rög
 item.nugget_steel.name=Acél Rög
@@ -77,6 +77,7 @@ item.steel_hammer.name=Acél Kalapács
 item.steel_wrench.name=Acél Csavarkulcs
 item.steel_pinchers.name=Acél Csípőfogó
 item.advanced_flint_and_steel.name=Továbbfejlesztett kovakő és acél
+item.guidebook.name=F.A. Útmutató könyv
 
 # items-jaw_plates
 item.wear_plate_iron.name=Vas zúzólap
@@ -153,3 +154,9 @@ itemGroup.tabs.crafting.name=Barkács trágyak
 fluid.fa_air=FA LEVEGŐ
 fluid.fa_air.name=FA LEVEGŐ
 tile.steam.name=Gőz
+
+# Guidebook
+botaniamisc.prevPage=Előző oldal
+botaniamisc.nextPage=Következő oldal
+botaniamisc.back=Vissza
+botaniamisc.clickToIndex=Vissza a főoldalra
