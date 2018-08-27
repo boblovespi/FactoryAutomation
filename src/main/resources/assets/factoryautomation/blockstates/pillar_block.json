@@ -1,11 +1,10 @@
 {
 	"forge_marker": 1,
 	"variants": {
-		"type": {
-			"top=false,bottom=false": { "model": "factoryautomation:pillar_topbottom" },
-			"top=false,bottom=true":  { "model": "factoryautomation:pillar_top" },
-			"top=true,bottom=false":  { "model": "factoryautomation:pillar_bottom" },
-			"top=true,bottom=true":   { "model": "factoryautomation:pillar_middle" }
-		}
+		"inventory":              { "model": "factoryautomation:pillar_topbottom" },
+		"top=false,bottom=false": { "model": "factoryautomation:pillar_topbottom" },
+		"top=false,bottom=true":  { "model": "factoryautomation:pillar_top" },
+		"top=true,bottom=false":  { "model": "factoryautomation:pillar_bottom" },
+		"top=true,bottom=true":   { "model": "factoryautomation:pillar_middle" }
 	}
 }

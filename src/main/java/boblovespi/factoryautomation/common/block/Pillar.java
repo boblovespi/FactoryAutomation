@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -27,6 +28,7 @@ public class Pillar extends FABaseBlock
 		setResistance(10f);
 		setHarvestLevel("pickaxe", 1);
 		setDefaultState(getStateFromMeta(1));
+		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
 	@Override

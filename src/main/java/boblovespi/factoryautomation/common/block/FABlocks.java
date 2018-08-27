@@ -66,6 +66,7 @@ public class FABlocks
 	public static FABlock placedBucket;
 	public static FABlock factorySign;
 	public static FABlock steelPillar;
+	public static FABlock steelPillarAlt;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -154,6 +155,7 @@ public class FABlocks
 		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block")
 				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
 		steelPillar = new Pillar("steel_pillar", Metals.STEEL);
+		steelPillarAlt = new PillarAlt("pillar_block", Metals.STEEL);
 
 		// ores
 
