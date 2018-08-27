@@ -16,7 +16,7 @@ public class MetalBlock extends MultiTypeBlock<Metals>
 	{
 		super(Material.IRON, Material.IRON.getMaterialMapColor(), registeryName, Metals.class, "metals",
 				CreativeTabs.BUILDING_BLOCKS);
-		this.setSoundType(SoundType.METAL);
+		setSoundType(SoundType.METAL);
 	}
 
 	@Override

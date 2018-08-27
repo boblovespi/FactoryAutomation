@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -44,7 +45,6 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 		TYPE = PropertyEnum.create("type", types);
 
 		blocks = new FABaseBlock[blockTypes.getEnumConstants().length];
-
 		setCreativeTab(ct);
 
 		for (int i = 0; i < blocks.length; i++)
