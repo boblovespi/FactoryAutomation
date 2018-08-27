@@ -1,0 +1,55 @@
+{
+	"credit": "Made by Gabor at GPSoft.",
+	"textures": {
+		"0": "blocks/steel_plate_block",
+		"particle": "blocks/steel_plate_block"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 4],
+			"to": [12, 14, 12],
+			"faces": {
+				"north": {"uv": [4, 2, 12, 16], "texture": "#0"},
+				"east": {"uv": [12, 16, 4, 2], "texture": "#0"},
+				"south": {"uv": [4, 2, 12, 16], "texture": "#0"},
+				"west": {"uv": [4, 2, 12, 16], "texture": "#0"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#0", "cullface": "down"}
+			}
+		},
+		{
+			"from": [3, 14, 3],
+			"to": [13, 15, 13],
+			"faces": {
+				"north": {"uv": [3, 1, 13, 2], "texture": "#0"},
+				"east": {"uv": [13, 2, 3, 1], "texture": "#0"},
+				"south": {"uv": [3, 1, 13, 2], "texture": "#0"},
+				"west": {"uv": [3, 1, 13, 2], "texture": "#0"},
+				"down": {"uv": [3, 3, 13, 13], "texture": "#0"}
+			}
+		},
+		{
+			"from": [2, 15, 2],
+			"to": [14, 16, 14],
+			"faces": {
+				"north": {"uv": [2, 0, 14, 1], "texture": "#0"},
+				"east": {"uv": [14, 1, 2, 0], "texture": "#0"},
+				"south": {"uv": [2, 0, 14, 1], "texture": "#0"},
+				"west": {"uv": [2, 0, 14, 1], "texture": "#0"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "group",
+			"isOpen": true,
+			"shade": true,
+			"display": {
+				"visibility": true,
+				"autouv": true
+			},
+			"children": [0, 1, 2]
+		}
+	]
+}
