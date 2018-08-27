@@ -1,1 +1,0 @@
-if you add something to the mod, please delet the added thing from the todo folder
