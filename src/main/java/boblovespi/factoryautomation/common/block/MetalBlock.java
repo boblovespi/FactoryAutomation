@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.Metals;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -15,6 +16,7 @@ public class MetalBlock extends MultiTypeBlock<Metals>
 	{
 		super(Material.IRON, Material.IRON.getMaterialMapColor(), registeryName, Metals.class, "metals",
 				CreativeTabs.BUILDING_BLOCKS);
+		this.setSoundType(SoundType.METAL);
 	}
 
 	@Override
