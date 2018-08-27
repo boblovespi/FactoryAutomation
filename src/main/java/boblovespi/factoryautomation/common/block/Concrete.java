@@ -49,7 +49,7 @@ public class Concrete extends Block implements FABlock
 		if (entity instanceof EntityPlayer)
 		{
 			((EntityPlayer) entity)
-					.addPotionEffect(new PotionEffect(MobEffects.SPEED, 0, 1));
+					.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 1));
 		}
 	}
 }
