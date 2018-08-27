@@ -96,6 +96,10 @@ public class FABlocks
 	public static FABlock steam;
 	public static FABlock rubberSap;
 
+	// decoration blocks
+
+	public static FABlock bronzeCauldron;
+
 	public static void Init()
 	{
 		if (!isInit.compareAndSet(false, true))
@@ -176,6 +180,10 @@ public class FABlocks
 
 		steam = new FluidFinite(Fluids.steam, Material.WATER, "steam");
 		rubberSap = new FluidFinite(Fluids.rubberSap, Materials.SAP, "rubber_sap");
+
+		// decoration blocks
+
+		bronzeCauldron = new BronzeCauldron();
 	}
 
 	public static void RegisterRenders()
