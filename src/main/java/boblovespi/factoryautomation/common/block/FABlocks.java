@@ -4,6 +4,8 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.crafter.ChipCreator;
 import boblovespi.factoryautomation.common.block.crafter.workbench.IronWorkbench;
 import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbench;
+import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
+import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
@@ -99,6 +101,7 @@ public class FABlocks
 	// decoration blocks
 
 	public static FABlock bronzeCauldron;
+	public static FABlock bronzeFence;
 
 	public static void Init()
 	{
@@ -184,6 +187,7 @@ public class FABlocks
 		// decoration blocks
 
 		bronzeCauldron = new BronzeCauldron();
+		bronzeFence = new BronzeFence();
 	}
 
 	public static void RegisterRenders()

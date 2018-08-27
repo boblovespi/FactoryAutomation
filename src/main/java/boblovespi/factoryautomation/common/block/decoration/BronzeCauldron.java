@@ -1,5 +1,7 @@
-package boblovespi.factoryautomation.common.block;
+package boblovespi.factoryautomation.common.block.decoration;
 
+import boblovespi.factoryautomation.common.block.FABlock;
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.Block;
@@ -31,5 +33,11 @@ public class BronzeCauldron extends BlockCauldron implements FABlock
 	public Block ToBlock()
 	{
 		return this;
+	}
+
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		return "decoration/" + RegistryName();
 	}
 }
