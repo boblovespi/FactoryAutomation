@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "/iron_fluid_pipe",
+		"particle": "/iron_fluid_pipe"
+	},
+	"elements": [
+		{
+			"from": [4, 4, 4],
+			"to": [12, 12, 12],
+			"faces": {
+				"north": {"uv": [2, 2, 6, 6], "texture": "#0"},
+				"east": {"uv": [2, 2, 6, 6], "texture": "#0"},
+				"south": {"uv": [2, 2, 6, 6], "texture": "#0"},
+				"west": {"uv": [2, 2, 6, 6], "texture": "#0"},
+				"up": {"uv": [2, 2, 6, 6], "texture": "#0"},
+				"down": {"uv": [2, 2, 6, 6], "texture": "#0"}
+			}
+		}
+	]
+}
