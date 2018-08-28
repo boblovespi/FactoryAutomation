@@ -1,0 +1,35 @@
+{
+  "variants": {
+    "height=0": {
+      "model": "factoryautomation:empty"
+    },
+    "height=1": {
+      "model": "factoryautomation:metals/pillars/pillar_1_high",
+      "textures": {
+        "0": "factoryautomation:blocks/metals/bronze_plate_block",
+        "particle": "#0"
+      }
+    },
+    "height=2": {
+      "model": "factoryautomation:metals/pillars/pillar_2_high",
+      "textures": {
+        "0": "factoryautomation:blocks/metals/bronze_plate_block",
+        "particle": "#0"
+      }
+    },
+    "height=3": {
+      "model": "factoryautomation:metals/pillars/pillar_3_high",
+      "textures": {
+        "0": "factoryautomation:blocks/metals/bronze_plate_block",
+        "particle": "#0"
+      }
+    },
+    "inventory": {
+      "model": "factoryautomation:pillar_topbottom",
+      "textures": {
+        "0": "factoryautomation:blocks/metals/bronze_plate_block",
+        "particle": "#0"
+      }
+    }
+  }
+}
