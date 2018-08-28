@@ -51,6 +51,8 @@ tile.metal_plate_block_steel.name=Steel Plate Block
 tile.metal_plate_block_pig_iron.name=Pig Iron Plate Block
 tile.metal_plate_block_magmatic_brass.name=Magmatic Brass Plate Block
 
+item.patterned_plate_block_iron=Iron patterned plate block
+
 # items-gears
 item.gear_wood.name=Wood Gear
 item.gear_stone.name=Stone Gear
@@ -150,6 +152,8 @@ tile.iron_workbench.name=Iron Workbench
 tile.chip_creator.name=Basic Chip Creator
 
 tile.treetap.name=Treetap
+tile.steel_pillar.name=Steel pillar
+tile.pillar_block.name=Steel pillar for decoration
 
 # config
 
@@ -177,6 +181,7 @@ itemGroup.tabs.resources.name=Resources
 itemGroup.tabs.tools.name=F.A. Tools
 itemGroup.tabs.mechanical.name=Mechanical Stuff
 itemGroup.tabs.crafting.name=Crafting Items
+itemGroup.tabs.electrical.name=Electrical stuff
 
 # fluids
 fluid.fa_air=FA AIR

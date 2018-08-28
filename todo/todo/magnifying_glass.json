@@ -1,8 +1,8 @@
 {
-	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"credit": "Made by Gabor at GPSoft.",
 	"textures": {
-		"0": "items/magnifying_glass",
-		"particle": "items/magnifying_glass"
+		"0": "real todo/magnifying_glass",
+		"particle": "real todo/magnifying_glass"
 	},
 	"elements": [
 		{
@@ -13,8 +13,7 @@
 				"east": {"uv": [2.5, 8.5, 3.5, 15.5], "texture": "#0"},
 				"south": {"uv": [2.5, 8.5, 3.5, 15.5], "texture": "#0"},
 				"west": {"uv": [2.5, 8.5, 3.5, 15.5], "texture": "#0"},
-				"up": {"uv": [0, 15, 1, 16], "texture": "#0"},
-				"down": {"uv": [0, 15, 1, 16], "texture": "#0"}
+				"down": {"uv": [0, 15, 1, 16], "texture": "#0", "cullface": "down"}
 			}
 		},
 		{
@@ -70,11 +69,7 @@
 			"to": [10, 13, 7.5],
 			"faces": {
 				"north": {"uv": [2, 2.5, 7, 7.5], "texture": "#0"},
-				"east": {"uv": [0, 0, 0, 5], "texture": "#missing"},
-				"south": {"uv": [2, 2.5, 7, 7.5], "texture": "#0"},
-				"west": {"uv": [0, 0, 0, 5], "texture": "#missing"},
-				"up": {"uv": [0, 0, 5, 0], "texture": "#missing"},
-				"down": {"uv": [0, 0, 5, 0], "texture": "#missing"}
+				"south": {"uv": [2, 2.5, 7, 7.5], "texture": "#0"}
 			}
 		},
 		{

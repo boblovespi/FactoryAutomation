@@ -34,7 +34,7 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 
 	public Gearbox()
 	{
-		super(Material.IRON, "gearbox");
+		super(Material.IRON, "gearbox", null);
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.WEST));
 		TileEntityHandler.tiles.add(TEGearbox.class);
 	}
