@@ -37,7 +37,7 @@ public class CauldronCleanable extends FABaseItem
 		IBlockState state = worldIn.getBlockState(pos);
 		ItemStack item = player.getHeldItem(hand);
 
-		if (state.getBlock() != Blocks.CAULDRON)
+		if (!(state.getBlock() instanceof BlockCauldron))
 			return EnumActionResult.PASS;
 
 		int i = state.getValue(BlockCauldron.LEVEL);

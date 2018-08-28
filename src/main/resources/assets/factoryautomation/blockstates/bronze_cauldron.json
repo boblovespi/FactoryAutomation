@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "factoryautomation:decoration/bronze_cauldron_empty"
+    },
+    "level=1": {
+      "model": "factoryautomation:decoration/bronze_cauldron_level_1"
+    },
+    "level=2": {
+      "model": "factoryautomation:decoration/bronze_cauldron_level_2"
+    },
+    "level=3": {
+      "model": "factoryautomation:decoration/bronze_cauldron_level_3"
+    }
+  }
+}
