@@ -1,6 +1,6 @@
 # Factory Automation
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+[![FactoryAutomation](logo.png)]
 
 A project originally developped by boblovespi , merged with a MultiTeam project, and contiuned with King of Creepers, Blobbb and Gaborboy95.
 
