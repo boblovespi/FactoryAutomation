@@ -66,8 +66,6 @@ public class FABlocks
 	public static FABlock treetap;
 	public static FABlock placedBucket;
 	public static FABlock factorySign;
-	public static FABlock steelPillar;
-	public static FABlock steelPillarAlt;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -81,6 +79,10 @@ public class FABlocks
 	public static MultiTypeBlock<Metals> metalPlateBlock;
 	//public static MultiTypeBlock<Metals> metalPatternedPlateBlock;
 	public static FABlock ironPatternedPlateBlock;
+
+	//The soo many pillars update
+	public static FABlock pillar_bronze, pillar_copper, pillar_iron, pillar_magmatic_brass, pillar_pig_iron, pillar_steel, pillar_tin;
+	public static FABlock altpillar_bronze, altpillar_copper, altpillar_iron, altpillar_magmatic_brass, altpillar_pig_iron, altpillar_steel, altpillar_tin;
 
 	// ores
 
@@ -162,8 +164,24 @@ public class FABlocks
 
 		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
-		steelPillar = new Pillar("steel_pillar", Metals.STEEL);
-		steelPillarAlt = new PillarAlt("pillar_block", Metals.STEEL);
+
+		//The soo many pillars update
+
+		pillar_bronze = 		new Pillar("pillar_bronze", Metals.BRONZE);
+		pillar_copper = 		new Pillar("pillar_copper", Metals.COPPER);
+		pillar_iron = 			new Pillar("pillar_iron", Metals.IRON);
+		pillar_magmatic_brass = new Pillar("pillar_magmatic_brass", Metals.MAGMATIC_BRASS);
+		pillar_pig_iron = 		new Pillar("pillar_pig_iron", Metals.PIG_IRON);
+		pillar_steel = 			new Pillar("pillar_steel", Metals.STEEL);
+		pillar_tin = 			new Pillar("pillar_tin", Metals.TIN);
+
+		altpillar_bronze = 			new PillarAlt("pillar_block_bronze", Metals.BRONZE);
+		altpillar_copper = 			new PillarAlt("pillar_block_copper", Metals.COPPER);
+		altpillar_iron = 			new PillarAlt("pillar_block_iron", Metals.IRON);
+		altpillar_magmatic_brass = 	new PillarAlt("pillar_block_magmatic_brass", Metals.MAGMATIC_BRASS);
+		altpillar_pig_iron = 		new PillarAlt("pillar_block_pig_iron", Metals.PIG_IRON);
+		altpillar_steel = 			new PillarAlt("pillar_block_steel", Metals.STEEL);
+		altpillar_tin = 			new PillarAlt("pillar_block_tin", Metals.TIN);
 
 		// ores
 

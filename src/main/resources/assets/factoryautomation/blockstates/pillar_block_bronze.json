@@ -1,0 +1,10 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"inventory":              { "model": "factoryautomation:pillar_topbottom", "textures": { "0": "factoryautomation:blocks/metals/bronze_plate_block", "particle": "#0" } },
+		"bottom=false,top=false": { "model": "factoryautomation:pillar_topbottom", "textures": { "0": "factoryautomation:blocks/metals/bronze_plate_block", "particle": "#0" } },
+		"bottom=true,top=false":  { "model": "factoryautomation:pillar_top", "textures": { "0": "factoryautomation:blocks/metals/bronze_plate_block", "particle": "#0" } },
+		"bottom=false,top=true":  { "model": "factoryautomation:pillar_bottom", "textures": { "0": "factoryautomation:blocks/metals/bronze_plate_block", "particle": "#0" } },
+		"bottom=true,top=true":   { "model": "factoryautomation:pillar_middle", "textures": { "0": "factoryautomation:blocks/metals/bronze_plate_block", "particle": "#0" } }
+	}
+}

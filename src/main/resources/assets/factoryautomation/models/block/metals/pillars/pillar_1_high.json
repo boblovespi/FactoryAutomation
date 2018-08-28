@@ -1,9 +1,5 @@
 {
 	"credit": "Made by Gabor at GPSoft.",
-	"textures": {
-		"0": "factoryautomation:blocks/metals/steel_plate_block",
-		"particle": "factoryautomation:blocks/metals/steel_plate_block"
-	},
 	"elements": [
 		{
 			"from": [4, 2, 4],
@@ -13,8 +9,8 @@
 				"east": {"uv": [2.99934, 0, 12.99682, 15.99888], "texture": "#0"},
 				"south": {"uv": [2.99934, 0, 12.99682, 15.99888], "texture": "#0"},
 				"west": {"uv": [2.99934, 0, 12.99682, 15.99888], "texture": "#0"},
-				"up": {"uv": [0, 0, 8, 8], "texture": "#missing"},
-				"down": {"uv": [0, 0, 8, 8], "texture": "#missing"}
+				"up": {"uv": [0, 0, 8, 8], "texture": "#0"},
+				"down": {"uv": [0, 0, 8, 8], "texture": "#0"}
 			}
 		},
 		{
@@ -26,7 +22,7 @@
 				"south": {"uv": [0, 0, 15.99888, 0.99857], "texture": "#0"},
 				"west": {"uv": [0, 0, 15.99888, 0.99857], "texture": "#0"},
 				"up": {"uv": [0.99948, 0.99948, 14.99759, 14.99759], "texture": "#0"},
-				"down": {"uv": [0, 0, 10, 10], "texture": "#missing"}
+				"down": {"uv": [0, 0, 10, 10], "texture": "#0"}
 			}
 		},
 		{
@@ -61,7 +57,7 @@
 				"east": {"uv": [0, 0, 15.99888, 0.99857], "texture": "#0"},
 				"south": {"uv": [0, 0, 15.99888, 0.99857], "texture": "#0"},
 				"west": {"uv": [0, 0, 15.99888, 0.99857], "texture": "#0"},
-				"up": {"uv": [0, 0, 10, 10], "texture": "#missing"},
+				"up": {"uv": [0, 0, 10, 10], "texture": "#0"},
 				"down": {"uv": [0.99948, 0.99948, 14.99759, 14.99759], "texture": "#0"}
 			}
 		}

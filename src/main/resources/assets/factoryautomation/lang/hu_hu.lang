@@ -153,8 +153,6 @@ tile.iron_workbench.name=Vas Munkaasztal
 tile.chip_creator.name=Alap chip készítő
 
 tile.treetap.name=Facsapoló
-tile.steel_pillar.name=Acél oszlop
-tile.pillar_block.name=Acél oszlop dekorációhoz
 
 # config
 
@@ -197,3 +195,20 @@ botaniamisc.prevPage=Előző oldal
 botaniamisc.nextPage=Következő oldal
 botaniamisc.back=Vissza
 botaniamisc.clickToIndex=Vissza a főoldalra
+
+# The soo many pillars update
+tile.pillár_bronze.name=Bronz pillár
+tile.pillár_copper.name=Réz pillár
+tile.pillár_iron.name=Vas pillár
+tile.pillár_magmatic_brass.name=Magmatikus ötvözet pillár
+tile.pillár_pig_iron.name=Nyersvas pillár
+tile.pillár_steel.name=Acél pillár
+tile.pillár_tin.name=Ón pillár
+
+tile.pillár_block_bronze.name=Bronz dekoratív pillár
+tile.pillár_block_copper.name=Réz dekoratív pillár
+tile.pillár_block_iron.name=Vas dekoratív pillár
+tile.pillár_block_magmatic_brass.name=Magmatikus ötvözet dekoratív pillár
+tile.pillár_block_pig_iron.name=Nyersvas dekoratív pillár
+tile.pillár_block_steel.name=Acél dekoratív pillár
+tile.pillár_block_tin.name=Ón dekoratív pillár

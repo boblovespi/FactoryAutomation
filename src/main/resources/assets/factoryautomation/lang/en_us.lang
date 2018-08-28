@@ -196,3 +196,20 @@ botaniamisc.prevPage=Previous page
 botaniamisc.nextPage=Next page
 botaniamisc.back=Go back
 botaniamisc.clickToIndex=Back to the main page
+
+# The soo many pillars update
+tile.pillar_bronze.name=Bronze pillar
+tile.pillar_copper.name=Copper pillar
+tile.pillar_iron.name=Iron pillar
+tile.pillar_magmatic_brass.name=Magamatic brass pillar
+tile.pillar_pig_iron.name=Pig iron pillar
+tile.pillar_steel.name=Steel pillar
+tile.pillar_tin.name=Tin pillar
+
+tile.pillar_block_bronze.name=Bronze decorative pillar
+tile.pillar_block_copper.name=Copper decorative pillar
+tile.pillar_block_iron.name=Iron decorative pillar
+tile.pillar_block_magmatic_brass.name=Magamatic brass decorative pillar
+tile.pillar_block_pig_iron.name=Pig iron decorative pillar
+tile.pillar_block_steel.name=Steel decorative pillar
+tile.pillar_block_tin.name=Tin decorative pillar
