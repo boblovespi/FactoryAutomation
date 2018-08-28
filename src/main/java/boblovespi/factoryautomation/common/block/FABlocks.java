@@ -22,6 +22,7 @@ import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -78,7 +79,8 @@ public class FABlocks
 	public static FABlock motor;
 	public static MultiTypeBlock<Metals> metalBlock;
 	public static MultiTypeBlock<Metals> metalPlateBlock;
-	public static MultiTypeBlock<Metals> metalPatternedPlateBlock;
+	//public static MultiTypeBlock<Metals> metalPatternedPlateBlock;
+	public static FABlock ironPatternedPlateBlock;
 
 	// ores
 
@@ -147,8 +149,10 @@ public class FABlocks
 		metalBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
 		metalPlateBlock = new MetalBlock("metal_plate_block");
 		metalPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
-		metalPatternedPlateBlock = new MetalBlock("metal_patterned_plate_block");
-		metalPatternedPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
+		//metalPatternedPlateBlock = new MetalBlock("metal_patterned_plate_block");
+		//metalPatternedPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
+		ironPatternedPlateBlock = new FABaseBlock(Material.IRON, "patterned_plate_block_iron", CreativeTabs.BUILDING_BLOCKS)
+				.Init(n -> n.setHardness(1f).setResistance(40).setHarvestLevel("pickaxe", 3));
 
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
 		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
@@ -156,7 +160,7 @@ public class FABlocks
 		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).GetItem().ToItem());
 		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
 
-		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block")
+		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
 		steelPillar = new Pillar("steel_pillar", Metals.STEEL);
 		steelPillarAlt = new PillarAlt("pillar_block", Metals.STEEL);

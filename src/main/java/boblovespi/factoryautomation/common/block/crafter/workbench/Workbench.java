@@ -10,7 +10,7 @@ public abstract class Workbench extends FABaseBlock
 {
 	public Workbench(Material blockMaterialIn, String unlocalizedName)
 	{
-		super(blockMaterialIn, unlocalizedName);
+		super(blockMaterialIn, unlocalizedName, null);
 	}
 
 	@Override

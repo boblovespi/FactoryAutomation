@@ -1,8 +1,8 @@
 {
 	"credit": "Made by Gabor at GPSoft.",
 	"textures": {
-		"0": "blocks/metals/steel_plate_block",
-		"particle": "#0"
+		"0": "factoryautomation:blocks/metals/steel_plate_block",
+		"particle": "factoryautomation:blocks/metals/steel_plate_block"
 	},
 	"elements": [
 		{

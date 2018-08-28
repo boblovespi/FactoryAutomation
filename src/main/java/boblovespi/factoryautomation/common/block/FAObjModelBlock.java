@@ -16,7 +16,7 @@ public class FAObjModelBlock extends FABaseBlock
 
 	public FAObjModelBlock(Material materialIn, String unlocalizedName)
 	{
-		super(materialIn, unlocalizedName);
+		super(materialIn, unlocalizedName, null);
 
 	}
 

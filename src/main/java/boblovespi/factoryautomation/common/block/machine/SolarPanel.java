@@ -32,7 +32,7 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntity
 
 	public SolarPanel()
 	{
-		super(Material.DRAGON_EGG, "solar_panel");
+		super(Material.DRAGON_EGG, "solar_panel", null);
 	}
 
 	/**

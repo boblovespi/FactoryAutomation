@@ -23,12 +23,11 @@ public class Pillar extends FABaseBlock
 
 	public Pillar(String name, Metals metal)
 	{
-		super(Material.IRON, name);
+		super(Material.IRON, name, CreativeTabs.DECORATIONS);
 		setHardness(1f);
 		setResistance(10f);
 		setHarvestLevel("pickaxe", 1);
 		setDefaultState(getStateFromMeta(1));
-		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 {
 	"credit": "Made by Gabor at GPSoft.",
 	"textures": {
-		"0": "blocks/metals/steel_plate_block",
-		"particle": "#0"
+		"0": "factoryautomation:blocks/metals/steel_plate_block",
+		"particle": "factoryautomation:blocks/metals/steel_plate_block"
 	},
 	"elements": [
 		{
@@ -61,5 +61,43 @@
 				"down": {"uv": [0.99948, 0.99948, 14.99759, 14.99759], "texture": "#0"}
 			}
 		}
-	]
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0.375, 0.375, 0.375],
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0.375, 0.375, 0.375],
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0]
+		},
+		"firstperson_righthand": {
+			"scale": [0.4, 0.4, 0.4],
+			"rotation": [0, 45, 0],
+			"translation": [0, 0, 0]
+		},
+		"firstperson_lefthand": {
+			"scale": [0.4, 0.4, 0.4],
+			"rotation": [0, 45, 0]
+		},
+		"head": {
+			"translation": [0, 14.5, 0]
+		},
+		"ground": {
+			"scale": [0.7, 0.7, 0.7],
+			"translation": [0, 1.5, 0]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5],
+			"rotation": [0, 0, 0],
+			"translation": [0, 0, 0]
+		},
+		"gui": {
+			"scale": [0.625, 0.625, 0.625],
+			"rotation": [30, 225, 0],
+			"translation": [0, 0, 0]
+		}
+	}
 }

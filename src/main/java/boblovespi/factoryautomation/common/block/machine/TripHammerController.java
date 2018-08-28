@@ -36,7 +36,7 @@ public class TripHammerController extends FABaseBlock implements ITileEntityProv
 
 	public TripHammerController()
 	{
-		super(Material.IRON, "trip_hammer");
+		super(Material.IRON, "trip_hammer", null);
 		setHardness(3f);
 		setResistance(20);
 		setHarvestLevel("pickaxe", 0);

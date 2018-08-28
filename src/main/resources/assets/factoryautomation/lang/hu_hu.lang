@@ -24,23 +24,35 @@ item.nugget_magmatic_brass.name=Magmatikus Ötvözet Rög
 # items-sheets
 item.sheet_iron.name=Vas Lap
 item.sheet_gold.name=Arany Lap
-item.sheet_copper.name=Rész Lap
+item.sheet_copper.name=Réz Lap
+item.sheet_copper.name=Réz Lap
 item.sheet_tin.name=Ón Lap
 item.sheet_bronze.name=Bronz Lap
 item.sheet_steel.name=Acél Lap
 item.sheet_pig_iron.name=Nyersvas Lap
 item.sheet_magmatic_brass.name=Magmatikus Ötvözet Lap
 
-# blocks
+# blocks-metals
 
 tile.metal_block_iron.name=Vas Block
 tile.metal_block_gold.name=Arany Block
-tile.metal_block_copper.name=Rész Block
+tile.metal_block_copper.name=Réz Block
 tile.metal_block_tin.name=Ón Block
 tile.metal_block_bronze.name=Bronz Block
 tile.metal_block_steel.name=Acél Block
 tile.metal_block_pig_iron.name=Nyersvas Block
 tile.metal_block_magmatic_brass.name=Magmatikus Ötvözet Block
+
+tile.metal_plate_block_iron.name=Vaslap block
+tile.metal_plate_block_gold.name=Aranylap block
+tile.metal_plate_block_copper.name=Rézlap lock
+tile.metal_plate_block_tin.name=Ónlap block
+tile.metal_plate_block_bronze.name=Bronz block
+tile.metal_plate_block_steel.name=Acéllap block
+tile.metal_plate_block_pig_iron.name=Nyersvaslap block
+tile.metal_plate_block_magmatic_brass.name=Magmatikus ötvözet lap block
+
+tile.patterned_plate_block_iron.name=Mintázott vas lap block
 
 # items-gears
 item.gear_wood.name=Fa Fogaskerék
@@ -67,10 +79,10 @@ item.steel_shovel.name=Acél Ásó
 item.steel_sword.name=Acél Kard
 
 item.copper_pickaxe.name=Rész Csákány
-item.copper_axe.name=Rész Balta
-item.copper_hoe.name=Rész Kapa
-item.copper_shovel.name=Rész Ásó
-item.copper_sword.name=Rész Kard
+item.copper_axe.name=Réz Balta
+item.copper_hoe.name=Réz Kapa
+item.copper_shovel.name=Réz Ásó
+item.copper_sword.name=Réz Kard
 
 item.iron_hammer.name=Vas Kalapács
 item.steel_hammer.name=Acél Kalapács
@@ -81,7 +93,7 @@ item.guidebook.name=F.A. Útmutató könyv
 
 # items-jaw_plates
 item.wear_plate_iron.name=Vas zúzólap
-item.wear_plate.obsidian.name=Obszidián zúzólap
+item.wear_plate_obsidian.name=Obszidián zúzólap
 
 # items-misc
 item.clay_crucible.name=Agyag Olvasztóüst
@@ -90,6 +102,21 @@ item.glass_lens.name=Üveg Lencse
 item.porcelain_clay.name=Porcelán
 item.stone_dust.name=Kő Por
 item.sandpaper.name=Csiszolópapír
+item.ash.name=Hamu
+item.liquid_glycerin.name=Folyékony glicerin
+item.dry_glycerin.name=Száraz glicerin
+item.acid_powder.name=Savas por
+item.raw_rubber.name=Nyers gumi
+item.rubber.name=Gumi
+item.graphite.name=Grafit
+item.screw.name=Csavar
+
+item.copper_wire.name=Réz vezeték
+item.circuit_frame.name=Áramkör keret
+
+# items - circuits
+item.basic_chip.name=Alap chip
+item.dataprint_circuit.name=Adatnyomtató áramkőr
 
 #items-materials
 item.silicon_quartz_crystal.name=§lSzilícium-Kvarc kristály
@@ -105,9 +132,9 @@ tile.steelmaking_furnace_controller.name=Acélgyártó kemence vezérlő
 
 tile.ore_metal_copper.name=Malahit érc
 tile.ore_metal_tin.name=Kassziszterit érc
-tile.limonite_ore.poor.name=Limonit érc
+tile.limonite_ore.poor.name=Limonitban szegény érc
 tile.limonite_ore.normal.name=Limonit érc
-tile.limonite_ore.rich.name=Limonit érc
+tile.limonite_ore.rich.name=Limonitban gazdag érc
 tile.ore_silicon_quartz.name=Szilícium-Kvarc Érc
 
 tile.lv_cable.name=Alacsony feszültségű Kábel
@@ -122,6 +149,12 @@ tile.jaw_crusher.name=Álkapcsos Zúzó
 
 tile.stone_workbench.name=Kő Munkaasztal
 tile.iron_workbench.name=Vas Munkaasztal
+
+tile.chip_creator.name=Alap chip készítő
+
+tile.treetap.name=Facsapoló
+tile.steel_pillar.name=Acél oszlop
+tile.pillar_block.name=Acél oszlop dekorációhoz
 
 # config
 
@@ -149,11 +182,15 @@ itemGroup.tabs.resources.name=Nyersanyagok
 itemGroup.tabs.tools.name=F.A. Eszközök
 itemGroup.tabs.mechanical.name=Mechanikai alkatrészek
 itemGroup.tabs.crafting.name=Barkács trágyak
+itemGroup.tabs.electrical.name=Elektromos dolgok
 
-# misc
+# fluids
 fluid.fa_air=FA LEVEGŐ
 fluid.fa_air.name=FA LEVEGŐ
+fluid.fa_steam=Gőzös
+fluid.rubber_sap=Gumi nedves
 tile.steam.name=Gőz
+tile.rubber_sap.name=Gumi nedv
 
 # Guidebook
 botaniamisc.prevPage=Előző oldal

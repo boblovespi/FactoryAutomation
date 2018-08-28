@@ -36,7 +36,7 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 
 	public PowerShaft()
 	{
-		super(Material.IRON, "power_shaft");
+		super(Material.IRON, "power_shaft", null);
 		setDefaultState(blockState.getBaseState().withProperty(AXIS, Axis.X).withProperty(IS_TESR, false));
 	}
 

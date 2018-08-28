@@ -30,7 +30,7 @@ public class Treetap extends FABaseBlock implements ITileEntityProvider
 
 	public Treetap()
 	{
-		super(Material.IRON, "treetap");
+		super(Material.IRON, "treetap", null);
 		TileEntityHandler.tiles.add(TETreetap.class);
 		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
 	}

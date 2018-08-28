@@ -20,11 +20,10 @@ public class PillarAlt extends FABaseBlock
 
     public PillarAlt(String name, Metals metal)
     {
-        super(Material.IRON, name);
+        super(Material.IRON, name, CreativeTabs.DECORATIONS);
         setHardness(1f);
         setResistance(10f);
         setHarvestLevel("pickaxe", 1);
-        setCreativeTab(CreativeTabs.DECORATIONS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(TOP, false).withProperty(BOTTOM, false));
     }
 
