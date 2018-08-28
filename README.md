@@ -1,6 +1,6 @@
 # Factory Automation
 
-[![FactoryAutomation](logo.png)]
+[![FactoryAutomation](logo_transparent.png)]
 
 A project originally developped by boblovespi , merged with a MultiTeam project, and contiuned with King of Creepers, Blobbb and Gaborboy95.
 
