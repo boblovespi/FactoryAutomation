@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -22,7 +23,7 @@ public class Pillar extends FABaseBlock
 
 	public Pillar(String name, Metals metal)
 	{
-		super(Material.IRON, name);
+		super(Material.IRON, name, CreativeTabs.DECORATIONS);
 		setHardness(1f);
 		setResistance(10f);
 		setHarvestLevel("pickaxe", 1);

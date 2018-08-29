@@ -20,7 +20,7 @@ public class GemOre extends FABaseBlock
 
 	public GemOre(String unlocalizedName, OreData data)
 	{
-		super(Material.ROCK, unlocalizedName);
+		super(Material.ROCK, unlocalizedName, null);
 		this.data = data;
 		setHarvestLevel("pickaxe", data.miningLevel);
 		setHardness(data.hardness);

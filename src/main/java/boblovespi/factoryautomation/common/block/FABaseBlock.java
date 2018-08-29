@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 
 /**
  * Created by Willi on 12/21/2017.
@@ -27,9 +28,10 @@ public class FABaseBlock extends Block implements FABlock
 		FAItems.items.add(item);
 	}
 
-	public FABaseBlock(Material materialIn, String unlocalizedName)
+	public FABaseBlock(Material materialIn, String unlocalizedName, CreativeTabs tab)
 	{
 		this(materialIn, materialIn.getMaterialMapColor(), unlocalizedName);
+		this.setCreativeTab(tab);
 	}
 
 	@Override

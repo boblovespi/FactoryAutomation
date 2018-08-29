@@ -30,7 +30,7 @@ public class Motor extends FABaseBlock implements ITileEntityProvider,
 
 	public Motor()
 	{
-		super(Material.DRAGON_EGG, "motor");
+		super(Material.DRAGON_EGG, "motor", null);
 		setDefaultState(blockState.getBaseState()
 								  .withProperty(FACING, EnumFacing.NORTH));
 		TileEntityHandler.tiles.add(TEMotor.class);

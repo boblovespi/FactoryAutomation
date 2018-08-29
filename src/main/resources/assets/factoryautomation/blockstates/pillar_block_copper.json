@@ -1,0 +1,30 @@
+{
+	"forge_marker": 1,
+	"variants": {
+		"inventory":              { "model": "factoryautomation:pillar_topbottom",
+			"textures": {
+				"0": "factoryautomation:blocks/metals/copper_plate_block",
+				"particle": "factoryautomation:blocks/metals/copper_plate_block"
+			} },
+		"bottom=false,top=false": { "model": "factoryautomation:pillar_topbottom",
+			"textures": {
+				"0": "factoryautomation:blocks/metals/copper_plate_block",
+				"particle": "factoryautomation:blocks/metals/copper_plate_block"
+			} },
+		"bottom=true,top=false":  { "model": "factoryautomation:pillar_top",
+			"textures": {
+				"0": "factoryautomation:blocks/metals/copper_plate_block",
+				"particle": "factoryautomation:blocks/metals/copper_plate_block"
+			} },
+		"bottom=false,top=true":  { "model": "factoryautomation:pillar_bottom",
+			"textures": {
+				"0": "factoryautomation:blocks/metals/copper_plate_block",
+				"particle": "factoryautomation:blocks/metals/copper_plate_block"
+			} },
+		"bottom=true,top=true":   { "model": "factoryautomation:pillar_middle",
+			"textures": {
+				"0": "factoryautomation:blocks/metals/copper_plate_block",
+				"particle": "factoryautomation:blocks/metals/copper_plate_block"
+			} }
+	}
+}

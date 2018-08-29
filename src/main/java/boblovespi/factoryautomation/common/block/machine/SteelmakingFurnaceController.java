@@ -35,7 +35,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 
 	public SteelmakingFurnaceController()
 	{
-		super(Material.DRAGON_EGG, "steelmaking_furnace_controller");
+		super(Material.DRAGON_EGG, "steelmaking_furnace_controller", null);
 	}
 
 	@Override

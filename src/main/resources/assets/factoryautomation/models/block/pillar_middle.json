@@ -1,0 +1,29 @@
+{
+	"credit": "Made by Gabor at GPSoft.",
+	"elements": [
+		{
+			"from": [4, 0, 4],
+			"to": [12, 16, 12],
+			"faces": {
+				"north": {"uv": [4, 0, 12, 16], "texture": "#0"},
+				"east": {"uv": [12, 16, 4, 0], "texture": "#0"},
+				"south": {"uv": [4, 0, 12, 16], "texture": "#0"},
+				"west": {"uv": [4, 0, 12, 16], "texture": "#0"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#0", "cullface": "down"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "group",
+			"isOpen": true,
+			"shade": true,
+			"display": {
+				"visibility": true,
+				"autouv": true
+			},
+			"children": [0]
+		}
+	]
+}
