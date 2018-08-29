@@ -6,22 +6,27 @@ A project originally developped by boblovespi , merged with a MultiTeam project,
 
 ### Installation
 
-  Forge installation for modders:
-  - Run : gradlew setupDecompWorkspace on windows(./gradlew setupDecompWorkpspace for Mac&Linux)
-  - Wait for it to finish, then if you are using eclipse run this : gradlew eclipse(./gradlew eclipse for Mac&Linux) <- wait for this to finish aaand you are done!
-  - IF You are using intellij IDEA, its a bit harder. First start IntelliJ IDEA, and import the build.gradle file.
-  - Then if its done, close IDEA and run : gradlew genIntellijRuns(./gradlew genIntellijRuns for Mac&Linux)
+  Workspace setup for modders:
+  - Run gradlew setupDecompWorkspace on Windows (./gradlew setupDecompWorkpspace for Mac & Linux)
+  - Wait for it to finish, then if you are using eclipse run this: gradlew eclipse (./gradlew eclipse for Mac & Linux) <- wait for this to finish aaand you are done!
+  - IF You are using intellij IDEA, it is a bit harder. First start IntelliJ IDEA, and import the build.gradle file.
+  - Then once it is done, close IDEA and run gradlew genIntellijRuns (./gradlew genIntellijRuns for Mac & Linux)
   - Wait for this to finish, then you should be fully set up! Enjoy coding!
+  
+  Building the mod:
+  - Run gradlew setupDecompWorkspace on Windows (./gradlew setupDecompWorkpspace for Mac & Linux)
+  - Run gradlew build on Windows (./gradlew build for Mac & Linux)
+  - You will find the build in the build/libs folder
 
 ### Other informations
 FactoryAutomation is coded by 2 developers, and two designers.
 
 |Name|Role|
 |---------|-----|
-|Boblovespi|Leader coder|
-|King of creepers|Modeler|
-|Gaborboy95|Coder and modeler|
-|Blobbb|Texturer|
+|Boblovespi|Lead Developer|
+|King of creepers|Modeler, Artist, and Designer|
+|Gaborboy95|Developer and Modeler|
+|Blobbb|Does stuff|
 
 
 ### Development
