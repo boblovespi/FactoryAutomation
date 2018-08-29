@@ -54,7 +54,7 @@ public class OreDictionaryHandler
 
 	}
 
-	private static String Cleanup(String name)
+	public static String Cleanup(String name)
 	{
 		return WordUtils.capitalize(name, '_').replace("_", "");
 	}

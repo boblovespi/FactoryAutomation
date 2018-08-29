@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.item;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
+import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
 import boblovespi.factoryautomation.common.item.crucible.ClayCrucible;
 import boblovespi.factoryautomation.common.item.metals.Ingot;
 import boblovespi.factoryautomation.common.item.metals.MetalItem;
@@ -19,6 +20,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -35,9 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.bronzeMaterial;
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.copperMaterial;
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.steelMaterial;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.*;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -57,6 +57,7 @@ public class FAItems
 	public static MultiTypeItem<Metals> nugget;
 	public static MultiTypeItem<Metals> sheet;
 	public static MultiTypeItem<Metals> coin;
+	public static FAItem diamondCoin;
 
 	// metallurgy misc
 
@@ -160,6 +161,7 @@ public class FAItems
 		items.remove(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
+		diamondCoin = new FABaseItem("coin_diamond", CreativeTabs.MATERIALS);
 
 		// metallurgy misc
 
@@ -375,5 +377,7 @@ public class FAItems
 		Init();
 
 		items.forEach(event.getRegistry()::register);
+
+		OreDictionaryHandler.registerOreDictionary();
 	}
 }

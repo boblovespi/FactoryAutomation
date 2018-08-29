@@ -9,6 +9,7 @@ import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -26,7 +27,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,9 +36,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-import static boblovespi.factoryautomation.common.block.resource.Ore.Grade.NORMAL;
-import static boblovespi.factoryautomation.common.block.resource.Ore.Grade.POOR;
-import static boblovespi.factoryautomation.common.block.resource.Ore.Grade.RICH;
+import static boblovespi.factoryautomation.common.block.resource.Ore.Grade.*;
+import static boblovespi.factoryautomation.common.handler.OreDictionaryHandler.Cleanup;
 import static boblovespi.factoryautomation.common.item.ores.OreForms.*;
 
 @Mod.EventBusSubscriber
@@ -70,7 +69,7 @@ public class RecipeHandler
 			IRecipe ingotToNugget = new ShapedOreRecipe(
 					new ResourceLocation(MODID, "ingot_to_nugget_" + Metals.values()[i].getName()),
 					new ItemStack(FAItems.nugget.GetItem(Metals.values()[i]), 9), "I", 'I',
-					"ingot" + StringUtils.capitalize(Metals.values()[i].getName()));
+					"ingot" + Cleanup(Metals.values()[i].getName()));
 
 			ingotToNugget
 					.setRegistryName(new ResourceLocation(MODID, "ingot_to_nugget_" + Metals.values()[i].getName()));
@@ -78,7 +77,7 @@ public class RecipeHandler
 			IRecipe nuggetToIngot = new ShapedOreRecipe(
 					new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].getName()),
 					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i]), 1), "NNN", "NNN", "NNN", 'N',
-					"nugget" + StringUtils.capitalize(Metals.values()[i].getName()));
+					"nugget" + Cleanup(Metals.values()[i].getName()));
 
 			nuggetToIngot
 					.setRegistryName(new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].getName()));
@@ -120,6 +119,43 @@ public class RecipeHandler
 						new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
 		rec.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "acid_powder"));
 		recipes.add(rec);
+
+		for (Metals metal : Metals.values())
+		{
+			HammerRecipe rec1 = new HammerRecipe(
+					new ResourceLocation(FactoryAutomation.MODID, "nugget_to_coin_" + metal.getName()),
+					new ItemStack(FAItems.coin.GetItem(metal), 1), "nh", 'n', "nugget" + Cleanup(metal.getName()), 'h',
+					Ingredient.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+							new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
+			rec1.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "nugget_to_coin_" + metal.getName()));
+			recipes.add(rec1);
+			HammerRecipe rec2 = new HammerRecipe(
+					new ResourceLocation(FactoryAutomation.MODID, "coin_to_nugget_" + metal.getName()),
+					OreDictionary.getOres("nugget" + Cleanup(metal.getName())).stream().filter(
+							n ->
+							n.getItem() instanceof FAItem
+									|| n.getItem().getRegistryName().getResourceDomain().contains("minecraft")
+									|| n.getItem().getRegistryName().getResourceDomain().equals("factoryautomation"))
+								 .findFirst().orElse(ItemStack.EMPTY)
+
+					, "nh", 'n', FAItems.coin.GetItem(metal), 'h', Ingredient
+					.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+							new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
+			rec2.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "coin_to_nugget_" + metal.getName()));
+			recipes.add(rec2);
+		}
+		HammerRecipe rec1 = new HammerRecipe(new ResourceLocation(FactoryAutomation.MODID, "nugget_to_coin_diamond"),
+				new ItemStack(FAItems.diamondCoin.ToItem(), 1), "nh", 'n', "gemDiamond", 'h', Ingredient
+				.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+						new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
+		rec1.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "nugget_to_coin_diamond"));
+		recipes.add(rec1);
+		HammerRecipe rec2 = new HammerRecipe(new ResourceLocation(FactoryAutomation.MODID, "coin_to_nugget_diamond"),
+				new ItemStack(Items.DIAMOND), "nh", 'n', FAItems.diamondCoin.ToItem(), 'h', Ingredient
+				.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+						new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
+		rec2.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "coin_to_nugget_diamond"));
+		recipes.add(rec2);
 
 		event.getRegistry().registerAll(recipes.toArray(new IRecipe[] {}));
 
@@ -211,8 +247,7 @@ public class RecipeHandler
 
 		// trip hammer recipes
 
-		new TripHammerRecipe(
-				"iron-block-to-sheets", new OreIngredient("blockIron"),
+		new TripHammerRecipe("iron-block-to-sheets", new OreIngredient("blockIron"),
 				new ItemStack(FAItems.sheet.GetItem(Metals.IRON), 6), 100, 10);
 
 		//

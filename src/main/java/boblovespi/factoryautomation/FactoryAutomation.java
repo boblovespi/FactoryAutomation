@@ -6,7 +6,6 @@ import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.ConfigFields;
 import boblovespi.factoryautomation.common.fluid.Fluids;
-import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.handler.VanillaTweakHandler;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
@@ -88,7 +87,7 @@ public class FactoryAutomation
 		Log.getLogger().info("Initialization");
 		proxy.Init();
 		GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
-		OreDictionaryHandler.registerOreDictionary();
+		// OreDictionaryHandler.registerOreDictionary();
 		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
 		TileEntityHandler.RegisterTileEntities();
 
