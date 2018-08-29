@@ -64,6 +64,18 @@ item.gear_diamond.name=Diamond Gear
 item.gear_magmatic_brass.name=Magmatic Brass Gear
 item.gear_steel.name=Steel Gear
 
+# items-coins
+
+item.coin_iron.name=Iron Coin
+item.coin_gold.name=Gold Coin
+item.coin_copper.name=Copper Coin
+item.coin_tin.name=Tin Coin
+item.coin_bronze.name=Bronze Coin
+item.coin_steel.name=Steel Coin
+item.coin_pig_iron.name=Pig Iron Coin
+item.coin_magmatic_brass.name=Magmatic Brass Coin
+item.coin_diamond.name=Diamond Coin
+
 # items-tools
 item.bronze_pickaxe.name=Bronze Pickaxe
 item.bronze_axe.name=Bronze Axe

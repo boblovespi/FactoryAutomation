@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.crucible.ClayCrucible;
 import boblovespi.factoryautomation.common.item.metals.Ingot;
+import boblovespi.factoryautomation.common.item.metals.MetalItem;
 import boblovespi.factoryautomation.common.item.metals.Nugget;
 import boblovespi.factoryautomation.common.item.metals.Sheet;
 import boblovespi.factoryautomation.common.item.ores.OreForms;
@@ -55,6 +56,7 @@ public class FAItems
 	public static MultiTypeItem<Metals> ingot;
 	public static MultiTypeItem<Metals> nugget;
 	public static MultiTypeItem<Metals> sheet;
+	public static MultiTypeItem<Metals> coin;
 
 	// metallurgy misc
 
@@ -157,6 +159,7 @@ public class FAItems
 		items.remove(nugget.GetItem(Metals.IRON));
 		items.remove(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
+		coin = new MetalItem("coin");
 
 		// metallurgy misc
 
