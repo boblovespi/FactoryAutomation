@@ -161,7 +161,7 @@ public class FAItems
 		items.remove(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
-		diamondCoin = new FABaseItem("coin_diamond", CreativeTabs.MATERIALS);
+		diamondCoin = new FABaseItem("coin_diamond", CreativeTabs.MISC);
 
 		// metallurgy misc
 
