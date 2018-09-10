@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -50,7 +49,8 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 		for (int i = 0; i < blocks.length; i++)
 		{
 			blocks[i] = new FABaseBlock(
-					blockMaterialIn, blockMapColorIn, registeryName + "_" + blockTypes.getEnumConstants()[i].getName())
+					blockMaterialIn, blockMapColorIn, registeryName + "_" + blockTypes.getEnumConstants()[i].getName(),
+					null)
 			{
 				@Override
 				public String GetMetaFilePath(int meta)

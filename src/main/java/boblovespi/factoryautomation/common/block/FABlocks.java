@@ -10,6 +10,7 @@ import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
+import boblovespi.factoryautomation.common.block.mechanical.HandCrank;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.processing.Treetap;
@@ -108,6 +109,10 @@ public class FABlocks
 	public static FABlock bronzeCauldron;
 	public static FABlock bronzeFence;
 
+	// mechanical
+
+	public static FABlock handCrank;
+
 	public static void Init()
 	{
 		if (!isInit.compareAndSet(false, true))
@@ -156,7 +161,8 @@ public class FABlocks
 		metalPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
 		//metalPatternedPlateBlock = new MetalBlock("metal_patterned_plate_block");
 		//metalPatternedPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
-		ironPatternedPlateBlock = new FABaseBlock(Material.IRON, "patterned_plate_block_iron", CreativeTabs.BUILDING_BLOCKS)
+		ironPatternedPlateBlock = new FABaseBlock(
+				Material.IRON, "patterned_plate_block_iron", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(1f).setResistance(40).setHarvestLevel("pickaxe", 3));
 
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
@@ -170,21 +176,21 @@ public class FABlocks
 
 		//The soo many pillars update
 
-		pillarBronze = 		new Pillar("pillar_bronze", Metals.BRONZE);
-		pillarCopper = 		new Pillar("pillar_copper", Metals.COPPER);
-		pillarIron = 			new Pillar("pillar_iron", Metals.IRON);
+		pillarBronze = new Pillar("pillar_bronze", Metals.BRONZE);
+		pillarCopper = new Pillar("pillar_copper", Metals.COPPER);
+		pillarIron = new Pillar("pillar_iron", Metals.IRON);
 		pillarMagmaticBrass = new Pillar("pillar_magmatic_brass", Metals.MAGMATIC_BRASS);
-		pillarPigIron = 		new Pillar("pillar_pig_iron", Metals.PIG_IRON);
-		pillarSteel = 			new Pillar("pillar_steel", Metals.STEEL);
-		pillarTin = 			new Pillar("pillar_tin", Metals.TIN);
+		pillarPigIron = new Pillar("pillar_pig_iron", Metals.PIG_IRON);
+		pillarSteel = new Pillar("pillar_steel", Metals.STEEL);
+		pillarTin = new Pillar("pillar_tin", Metals.TIN);
 
-		altpillarBronze = 			new PillarAlt("pillar_block_bronze", Metals.BRONZE);
-		altpillarCopper = 			new PillarAlt("pillar_block_copper", Metals.COPPER);
-		altpillarIron = 			new PillarAlt("pillar_block_iron", Metals.IRON);
-		altpillarMagmaticBrass = 	new PillarAlt("pillar_block_magmatic_brass", Metals.MAGMATIC_BRASS);
-		altpillarPigIron = 		new PillarAlt("pillar_block_pig_iron", Metals.PIG_IRON);
-		altpillarSteel = 			new PillarAlt("pillar_block_steel", Metals.STEEL);
-		altpillarTin = 			new PillarAlt("pillar_block_tin", Metals.TIN);
+		altpillarBronze = new PillarAlt("pillar_block_bronze", Metals.BRONZE);
+		altpillarCopper = new PillarAlt("pillar_block_copper", Metals.COPPER);
+		altpillarIron = new PillarAlt("pillar_block_iron", Metals.IRON);
+		altpillarMagmaticBrass = new PillarAlt("pillar_block_magmatic_brass", Metals.MAGMATIC_BRASS);
+		altpillarPigIron = new PillarAlt("pillar_block_pig_iron", Metals.PIG_IRON);
+		altpillarSteel = new PillarAlt("pillar_block_steel", Metals.STEEL);
+		altpillarTin = new PillarAlt("pillar_block_tin", Metals.TIN);
 
 		// ores
 
@@ -192,8 +198,7 @@ public class FABlocks
 				.Init(n -> n.setHardness(2.5f).setResistance(14));
 		magnetiteOre = new Ore("magnetite_ore", blockMiningLevelCat.ironOre)
 				.Init(n -> n.setHardness(3f).setResistance(16));
-		siliconQuartzOre = new GemOre(
-				"ore_silicon_quartz",
+		siliconQuartzOre = new GemOre("ore_silicon_quartz",
 				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
 														   .SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
 
@@ -212,6 +217,10 @@ public class FABlocks
 
 		bronzeCauldron = new BronzeCauldron();
 		bronzeFence = new BronzeFence();
+
+		// mechanical
+
+		handCrank = new HandCrank();
 	}
 
 	public static void RegisterRenders()

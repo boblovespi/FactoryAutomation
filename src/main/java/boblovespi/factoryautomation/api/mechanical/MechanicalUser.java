@@ -70,6 +70,11 @@ public class MechanicalUser implements IMechanicalUser
 			this.torque = torque;
 	}
 
+	public float GetSpeed()
+	{
+		return speed;
+	}
+
 	public float GetTorque()
 	{
 		return torque;

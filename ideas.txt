@@ -1,0 +1,214 @@
+NOTE: these ideas are not final, this is just a backup of the file
+
+ELECTRIC DRILL
+Cost:
+____     |(Ore)Plate  |(Ore)Plate
+Drillhead|Battery case|Motor    ------>         Electric Drill
+____     |(Ore)Plate  |(Ore)Plate                    Holds 5000 KWt
+                                                     Spends approx 10 KW when state = activated
+                                                     V = toggle on/off
+
+
+Battery Case
+Cost:
+Steel Plate|Steel Plate|Steel Plate
+Battery    |Battery    |Battery                      ---->  Battery case
+Steel Plate|Steel Plate|Steel Plate                         Holds 5000 KWt
+
+Battery
+Cost:
+Steel Plate|Steel Plate   |Steel Plate
+Steel Plate|Battery Casing|Steel Plate           ---->  Battery
+Steel Plate|Steel Plate   |Steel Plate                  Holds 1500 KWt
+
+Battery Casing
+Cost:
+Rubber|Rubber|Rubber
+Rubber|______|Rubber    ---->  Battery Casing
+Rubber|Rubber|Rubber
+
+Drillhead
+Cost:
+(Ore)Plate|(Ore)Plate|(Ore)Plate
+(Ore)Plate|(Ore)Ingot|(Ore)Plate             ------>   Drillhead
+(Ore)Plate|(Ore)Plate|(Ore)Plate
+
+Motor
+Cost:
+Electromagnetic coil|Steel Plate|Steel Plate
+Magnet              |Steel Rod  |Steel Plate ------>   Motor
+Electromagnetic coil|Steel Plate|Steel Plate
+
+Electromagnetic coil
+Cost:
+Copper Wire|Copper Wire|Copper Wire
+Copper Wire|Iron ingot |Copper Wire   ------> Electromagnetic coil
+Copper Wire|Copper Wire|Copper Wire
+
+Steel Rod
+Cost:
+____|____       |____
+____|Steel Ingot|____    ------>   Steel rod x2
+____|____       |____
+
+ELECTRIC SAWMILL
+Cost:
+Steel Plate|Steel Plate|Steel Plate
+Conveyor   |Sawblade   |Conveyor
+Steel Plate|Motor      |Steel Plate
+
+
+Conveyor
+Cost:
+____       |____  |____
+rubber     |rubber|rubber            -----> Conveyor x 4
+steel plate|motor |steel plate
+
+
+Sawblade
+Cost:
+
+
+
+
+
+SIFTING CRUSHER
+Cost:
+Steel Plate|Steel Plate|Steel Plate
+Steel Plate|Steel Mesh |Steel Plate   ---->  Sifting Crusher
+Steel Plate|Motor      |Steel Plate               Adv:
+                                                   Whole ores
+Steel Mesh                                        Disadv:
+Cost:                                              No stone
+Steel Ingot|____       |Steel Ingot                Chance of no ores
+____       |Steel Ingot|____          ----> Steel Mesh
+Steel Ingot|____       |Steel Ingot
+
+WIRE CUTTER
+Cost:
+___________|Rubber|Rubber
+Cutter Head|____  |____                 Wire Cutter
+___________|Rubber|Rubber
+
+
+Cutter Head
+Cost:
+____       |Steel Ingot|Steel Ingot
+Steel Ingot|____       |____|                          Cutter head
+____       |Steel Ingot|Steel Ingot
+
+
+GEOTHERMIC GENERATOR
+Cost:
+
+TBD                   ----->  Geothermic Generator
+                              Uses Heat to generate power
+                              Generates TBD KWt
+                              Needs Heat Below it to run
+
+
+THE SUGAR MILL
+MULTI-MULTI-BLOCK STRUCTURE
+
+STEP 1:
+Washing
+
+Requires:
+TBD
+
+Cost:
+TBD
+
+Step 2:
+Cutting
+
+Requires:
+TBD
+
+Cost:
+TBD
+
+Step 3:
+Grinding/Juicing
+
+Requires:
+Grinder
+
+Cost:
+1. Grinder
+TBD
+
+Step 4:
+Rolling
+
+Requires:
+Roller x4
+
+Cost:
+1. Roller (x4)
+
+TBD
+
+Step 5:
+Boiling
+
+Requires:
+Boiler
+
+Cost:
+1. Boiler
+
+TBD
+
+Step 6:
+Evaporation
+
+Requires:
+Evaporators (At least 3, More = Better Sugar)
+
+Cost:
+1. Evaporators (3+)
+
+TBD
+
+Step 7:
+Crystallization
+
+Requires:
+Sugar Cyr
+
+CENTRIFUGE
+Cost:
+Steel Plate|Steel Plate|Steel Plate
+Steel Plate|___________|Steel Plate     -----> Centrifuge
+Steel Plate|Steel Plate|Steel Plate         Processes stuff
+
+recipes:
+fluid canister of ghast tear -> nether water, rose salt, tiny pile of redstone, tiny pile of aetherflux
+
+Blazite: 6x gold ingot 1x titanium ingot 3x blaze dust 1x tiny pile of aetherflux 1x obsidian dust
+
+vanilla ice cream
+
+machine crafting bench:
+5x5 grid
+
+5 slots for tools: hammer, screwdriver, file, soldering iron, wire cutters/hacksaw/plasma cutter, sandpaper, drill
+5 slots for parts: screws, bolts, solder, welding flux, spacers
+
+used to craft machines
+
+special tfc forge like crafting mechanism (maybe)
+
+
+crafting balance:
+
+machines that will be used a lot: cheap(er), making the machine allows for easier making of the machine
+
+higher tiers: gated behind more expensive resource that becomes easy to automate after crafting the machines
+
+specialized: more expensive, more special resources
+
+
+low-tier: mostly iron
+low-tier specialties: diamond, steel

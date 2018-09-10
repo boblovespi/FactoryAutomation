@@ -16,13 +16,16 @@ public class FABaseBlock extends Block implements FABlock
 	private String unlocalizedName;
 	private FAItemBlock item;
 
-	public FABaseBlock(Material blockMaterialIn, MapColor blockMapColorIn, String unlocalizedName)
+	public FABaseBlock(Material blockMaterialIn, MapColor blockMapColorIn, String unlocalizedName,
+			CreativeTabs tab)
 	{
 		super(blockMaterialIn, blockMapColorIn);
 		this.unlocalizedName = unlocalizedName;
 		setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
 		setResistance(10000);
+		setCreativeTab(tab);
+
 		FABlocks.blocks.add(this);
 		item = new FAItemBlock(this);
 		FAItems.items.add(item);
@@ -30,8 +33,7 @@ public class FABaseBlock extends Block implements FABlock
 
 	public FABaseBlock(Material materialIn, String unlocalizedName, CreativeTabs tab)
 	{
-		this(materialIn, materialIn.getMaterialMapColor(), unlocalizedName);
-		this.setCreativeTab(tab);
+		this(materialIn, materialIn.getMaterialMapColor(), unlocalizedName, tab	);
 	}
 
 	@Override
