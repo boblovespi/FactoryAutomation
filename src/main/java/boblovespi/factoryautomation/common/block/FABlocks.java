@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbenc
 import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
 import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
+import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
@@ -112,6 +113,10 @@ public class FABlocks
 	// mechanical
 
 	public static FABlock handCrank;
+
+	// transfer
+
+	public static FABlock pipe;
 
 	public static void Init()
 	{
@@ -221,6 +226,10 @@ public class FABlocks
 		// mechanical
 
 		handCrank = new HandCrank();
+
+		// transfer
+
+		pipe = new Pipe();
 	}
 
 	public static void RegisterRenders()
