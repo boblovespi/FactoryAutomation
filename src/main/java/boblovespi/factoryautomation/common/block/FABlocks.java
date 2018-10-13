@@ -229,7 +229,7 @@ public class FABlocks
 
 		// transfer
 
-		pipe = new Pipe();
+		pipe = new Pipe("iron_pipe");
 	}
 
 	public static void RegisterRenders()
