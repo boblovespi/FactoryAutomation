@@ -150,11 +150,13 @@ tile.limonite_ore.rich.name=Limonite Ore
 
 tile.lv_cable.name=LV Cable
 tile.power_shaft.name=Power Shaft
+tile.iron_pipe.name=Iron Pipe
 
 tile.solar_panel.name=Solar Panel
 tile.creative_mechanical_source.name=Radial Tachyon Accelerator
 tile.motor.name=Motor
 tile.gearbox.name=Gearbox
+tile.hand_crank.name=Hand Crank
 
 tile.jaw_crusher.name=Jaw Crusher
 
@@ -166,6 +168,9 @@ tile.chip_creator.name=Basic Chip Creator
 tile.treetap.name=Treetap
 tile.steel_pillar.name=Steel pillar
 tile.pillar_block.name=Steel pillar for decoration
+
+tile.bronze_cauldron.name=Bronze Cauldron
+tile.bronze_fence.name=Bronze Fence
 
 # config
 
