@@ -76,6 +76,17 @@ item.coin_pig_iron.name=Pig Iron Coin
 item.coin_magmatic_brass.name=Magmatic Brass Coin
 item.coin_diamond.name=Diamond Coin
 
+# items-rods
+
+item.rod_iron.name=Iron Rod
+item.rod_gold.name=Gold Rod
+item.rod_copper.name=Copper Rod
+item.rod_tin.name=Tin Rod
+item.rod_bronze.name=Bronze Rod
+item.rod_steel.name=Steel Rod
+item.rod_pig_iron.name=Pig Iron Rod
+item.rod_magmatic_brass.name=Magmatic Brass Rod
+
 # items-tools
 item.bronze_pickaxe.name=Bronze Pickaxe
 item.bronze_axe.name=Bronze Axe

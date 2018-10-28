@@ -57,6 +57,7 @@ public class FAItems
 	public static MultiTypeItem<Metals> nugget;
 	public static MultiTypeItem<Metals> sheet;
 	public static MultiTypeItem<Metals> coin;
+	public static MultiTypeItem<Metals> rod;
 	public static FAItem diamondCoin;
 
 	// metallurgy misc
@@ -162,6 +163,7 @@ public class FAItems
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
 		diamondCoin = new FABaseItem("coin_diamond", CreativeTabs.MISC);
+		rod = new MetalItem("rod");
 
 		// metallurgy misc
 
