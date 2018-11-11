@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.api.energy;
+package boblovespi.factoryautomation.api.energy.electricity;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;

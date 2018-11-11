@@ -1,6 +1,6 @@
-package boblovespi.factoryautomation.api.energy;
+package boblovespi.factoryautomation.api.energy.electricity;
 
-import boblovespi.factoryautomation.api.energy.enums.VoltageTier;
+import boblovespi.factoryautomation.api.energy.electricity.enums.VoltageTier;
 import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;

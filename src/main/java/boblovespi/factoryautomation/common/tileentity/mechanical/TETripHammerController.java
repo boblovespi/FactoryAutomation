@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
-import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
-import boblovespi.factoryautomation.api.mechanical.MechanicalUser;
+import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
+import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.TripHammerRecipe;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;

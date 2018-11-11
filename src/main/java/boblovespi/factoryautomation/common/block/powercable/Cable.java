@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.block.powercable;
 
-import boblovespi.factoryautomation.api.energy.*;
+import boblovespi.factoryautomation.api.energy.electricity.*;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItemBlock;

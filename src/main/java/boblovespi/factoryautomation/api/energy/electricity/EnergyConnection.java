@@ -1,6 +1,6 @@
-package boblovespi.factoryautomation.api.energy;
+package boblovespi.factoryautomation.api.energy.electricity;
 
-import boblovespi.factoryautomation.api.energy.enums.WireType;
+import boblovespi.factoryautomation.api.energy.electricity.enums.WireType;
 
 /**
  * Created by Willi on 7/11/2018.

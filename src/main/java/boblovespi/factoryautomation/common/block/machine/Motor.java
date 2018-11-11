@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.block.machine;
 
-import boblovespi.factoryautomation.api.energy.IEnergyBlock;
+import boblovespi.factoryautomation.api.energy.electricity.IEnergyBlock;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;

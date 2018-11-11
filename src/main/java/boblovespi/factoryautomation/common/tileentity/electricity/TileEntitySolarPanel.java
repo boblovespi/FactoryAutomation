@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
-import boblovespi.factoryautomation.api.energy.EnergyConnection_;
-import boblovespi.factoryautomation.api.energy.EnergyNetwork_;
-import boblovespi.factoryautomation.api.energy.IProducesEnergy_;
-import boblovespi.factoryautomation.api.energy.InternalEnergyStorage;
+import boblovespi.factoryautomation.api.energy.electricity.EnergyConnection_;
+import boblovespi.factoryautomation.api.energy.electricity.EnergyNetwork_;
+import boblovespi.factoryautomation.api.energy.electricity.IProducesEnergy_;
+import boblovespi.factoryautomation.api.energy.electricity.InternalEnergyStorage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

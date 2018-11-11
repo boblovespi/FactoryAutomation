@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.api.energy;
+package boblovespi.factoryautomation.api.energy.electricity;
 
 /**
  * Created by Willi on 4/12/2017.

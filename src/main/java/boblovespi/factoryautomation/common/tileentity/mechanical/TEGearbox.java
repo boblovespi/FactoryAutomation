@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
-import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
-import boblovespi.factoryautomation.api.mechanical.IMechanicalUser;
+import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
+import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.NBTHelper;

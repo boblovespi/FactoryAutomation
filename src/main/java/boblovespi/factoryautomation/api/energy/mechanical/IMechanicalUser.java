@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.api.mechanical;
+package boblovespi.factoryautomation.api.energy.mechanical;
 
 import net.minecraft.util.EnumFacing;
 

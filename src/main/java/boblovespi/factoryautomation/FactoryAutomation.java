@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation;
 
-import boblovespi.factoryautomation.api.heat.CapabilityHeatUser;
-import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
+import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
+import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
@@ -17,6 +17,7 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerController;
+import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -89,6 +90,7 @@ public class FactoryAutomation
 		Log.getLogger().info("Initialization");
 		proxy.Init();
 		GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
+		FuelHandler.RegisterFuels();
 		// OreDictionaryHandler.registerOreDictionary();
 		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
 		TileEntityHandler.RegisterTileEntities();

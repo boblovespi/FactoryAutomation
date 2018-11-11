@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.api.heat;
+package boblovespi.factoryautomation.api.energy.heat;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
  */
 public class CapabilityHeatUser
 {
+	public static final float AIR_CONDUCTIVITY = 0.02f;
 	@CapabilityInject(IHeatUser.class)
 	public static Capability<IHeatUser> HEAT_USER_CAPABILITY = null;
 

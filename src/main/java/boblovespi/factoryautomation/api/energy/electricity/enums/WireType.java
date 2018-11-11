@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.api.energy.enums;
+package boblovespi.factoryautomation.api.energy.electricity.enums;
 
 /**
  * Created by Willi on 7/11/2018.

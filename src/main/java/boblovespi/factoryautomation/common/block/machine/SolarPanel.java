@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.block.machine;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.api.energy.IEnergyBlock;
+import boblovespi.factoryautomation.api.energy.electricity.IEnergyBlock;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.util.Log;

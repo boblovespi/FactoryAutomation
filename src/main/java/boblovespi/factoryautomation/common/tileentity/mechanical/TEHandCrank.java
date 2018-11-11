@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
-import boblovespi.factoryautomation.api.mechanical.CapabilityMechanicalUser;
-import boblovespi.factoryautomation.api.mechanical.MechanicalUser;
+import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
+import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
 import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreator;
+import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.container.workbench.ContainerWorkbench;
 import boblovespi.factoryautomation.common.util.Log;
@@ -47,7 +48,8 @@ public class GuiHandler implements IGuiHandler
 			{
 
 			}
-		} return null;
+		}
+		return null;
 	}
 
 	@Nullable
@@ -73,7 +75,8 @@ public class GuiHandler implements IGuiHandler
 				if (GuiID.values()[ID] == GuiID.GUIDEBOOK)
 					return GuiGuidebook.instance;
 			}
-		} return null;
+		}
+		return null;
 	}
 
 	public enum GuiID
@@ -83,7 +86,8 @@ public class GuiHandler implements IGuiHandler
 		STONE_WORKBENCH(2, GuiType.TILE_ENTITY, ContainerWorkbench.class, GuiWorkbench.class),
 		WORKBENCH(3, GuiType.TILE_ENTITY, ContainerWorkbench.class, GuiWorkbench.class),
 		CHIP_CREATOR(4, GuiType.TILE_ENTITY, ContainerBasicCircuitCreator.class, GuiBasicCircuitCreator.class),
-		GUIDEBOOK(5, GuiType.ITEM, null, GuiGuidebook.class);
+		GUIDEBOOK(5, GuiType.ITEM, null, GuiGuidebook.class),
+		SOLID_FUELED_FIREBOX(6, GuiType.TILE_ENTITY, ContainerSolidFueledFirebox.class, GuiSolidFueledFirebox.class);
 
 		public final int id;
 		public final GuiType type;

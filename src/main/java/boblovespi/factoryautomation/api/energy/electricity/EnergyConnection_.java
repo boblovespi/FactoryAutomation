@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.api.energy;
+package boblovespi.factoryautomation.api.energy.electricity;
 
 import boblovespi.factoryautomation.common.util.DimLocation;
 import boblovespi.factoryautomation.common.util.NBTHelper;

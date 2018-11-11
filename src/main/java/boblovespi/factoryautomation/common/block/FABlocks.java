@@ -70,6 +70,7 @@ public class FABlocks
 	public static FABlock treetap;
 	public static FABlock placedBucket;
 	public static FABlock factorySign;
+	public static FABlock solidfueledfirebox;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -178,6 +179,7 @@ public class FABlocks
 
 		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
+		solidfueledfirebox = new SolidFueledFirebox();
 
 		//The soo many pillars update
 

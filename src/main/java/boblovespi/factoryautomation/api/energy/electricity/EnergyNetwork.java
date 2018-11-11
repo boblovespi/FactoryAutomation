@@ -1,7 +1,7 @@
-package boblovespi.factoryautomation.api.energy;
+package boblovespi.factoryautomation.api.energy.electricity;
 
 import boblovespi.factoryautomation.api.IUpdatable;
-import boblovespi.factoryautomation.api.energy.enums.WireType;
+import boblovespi.factoryautomation.api.energy.electricity.enums.WireType;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
