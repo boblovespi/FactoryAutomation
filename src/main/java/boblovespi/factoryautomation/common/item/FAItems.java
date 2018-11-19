@@ -91,6 +91,9 @@ public class FAItems
 
 	public static MultiTypeItem<Gearbox.GearType> gear;
 	public static FAItem glassLens;
+	public static FAItem airPiston;
+	public static FAItem bronzeFlywheel;
+	public static FAItem stirlingGeneratorCore;
 
 	// crafting parts
 
@@ -196,6 +199,9 @@ public class FAItems
 
 		gear = new Gear();
 		glassLens = new FABaseItem("glass_lens", FACreativeTabs.crafting);
+		airPiston = new FABaseItem("air_piston",FACreativeTabs.crafting);
+		bronzeFlywheel = new FABaseItem("bronze_flywheel", FACreativeTabs.crafting);
+		stirlingGeneratorCore = new FABaseItem("stirling_generator_core", FACreativeTabs.crafting);
 
 		// crafting parts
 

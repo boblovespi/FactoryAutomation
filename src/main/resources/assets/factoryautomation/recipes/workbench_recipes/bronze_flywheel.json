@@ -1,0 +1,28 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["obo", "b b", "obo"],
+  "key": {
+    "b": {
+      "item": "#ingotBronze"
+    },
+    "o": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetBronze"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 2
+    },
+    "factoryautomation:wrench": {
+      "tier": 1,
+      "durabilityUse": 7
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:bronze_flywheel"
+  }
+}

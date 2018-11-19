@@ -132,6 +132,9 @@ item.raw_rubber.name=Raw Rubber
 item.rubber.name=Rubber
 item.graphite.name=Graphite
 item.screw.name=Screw
+item.air_piston.name=Air Piston
+item.bronze_flywheel.name=Bronze Flywheel
+item.stirling_generator_core.name=Stirling Generator Core
 
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame

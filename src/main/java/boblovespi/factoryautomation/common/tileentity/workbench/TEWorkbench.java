@@ -134,7 +134,7 @@ public abstract class TEWorkbench extends TileEntity
 					isUpdatingChanges = false;
 				}
 
-				System.out.println("contents changed in slot " + slot);
+				// System.out.println("contents changed in slot " + slot);
 				if (!isUpdatingChanges)
 					CheckForRecipe();
 

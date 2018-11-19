@@ -28,7 +28,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 	private ItemStackHandler inventory;
 	private int burnTime = 0;
 	private int maxBurnTime = 1;
-	private FuelRegistry.FuelInfo fuelInfo = null;
+	private FuelRegistry.FuelInfo fuelInfo = FuelRegistry.NULL;
 	private boolean isBurningFuel = false;
 
 	public TESolidFueledFirebox()

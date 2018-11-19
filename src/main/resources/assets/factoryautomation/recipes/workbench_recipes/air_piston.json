@@ -1,0 +1,34 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["rbr", "rir", "bpb"],
+  "key": {
+    "b": {
+      "item": "#ingotBronze"
+    },
+    "r": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetBronze"
+    },
+    "i": {
+      "item":"factoryautomation:rod_iron"
+    },
+    "p": {
+      "item": "minecraft:piston"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 4
+    },
+    "factoryautomation:wrench": {
+      "tier": 1,
+      "durabilityUse": 4
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:air_piston"
+  }
+}
