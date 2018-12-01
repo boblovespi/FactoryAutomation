@@ -11,7 +11,7 @@ item.ingot_tin.name=Tin Ingot
 item.ingot_bronze.name=Bronze Ingot
 item.ingot_steel.name=Steel Ingot
 item.ingot_pig_iron.name=Pig Iron Ingot
-item.ingot_magmatic_brass.name=Magmatic Brass Ingot
+item.ingot_magmatic_brass.name=§6§lMagmatic Brass Clump
 item.ingot_lead.name=Lead Ingot
 item.ingot_silver.name=Silver Ingot
 
@@ -21,7 +21,7 @@ item.nugget_tin.name=Tin Nugget
 item.nugget_bronze.name=Bronze Nugget
 item.nugget_steel.name=Steel Nugget
 item.nugget_pig_iron.name=Pig Iron Nugget
-item.nugget_magmatic_brass.name=Magmatic Brass Nugget
+item.nugget_magmatic_brass.name=§6§lMagmatic Brass Nugget
 item.nugget_lead.name=Lead Nugget
 item.nugget_silver.name=Silver Nugget
 
@@ -33,7 +33,7 @@ item.sheet_tin.name=Tin Sheet
 item.sheet_bronze.name=Bronze Sheet
 item.sheet_steel.name=Steel Sheet
 item.sheet_pig_iron.name=Pig Iron Sheet
-item.sheet_magmatic_brass.name=Magmatic Brass Sheet
+item.sheet_magmatic_brass.name=§6§lMagmatic Brass Sheet
 item.sheet_lead.name=Lead Sheet
 item.sheet_silver.name=Silver Sheet
 
@@ -46,7 +46,7 @@ tile.metal_block_tin.name=Tin Block
 tile.metal_block_bronze.name=Bronze Block
 tile.metal_block_steel.name=Steel Block
 tile.metal_block_pig_iron.name=Pig Iron Block
-tile.metal_block_magmatic_brass.name=Magmatic Brass Block
+tile.metal_block_magmatic_brass.name=§6§lMagmatic Brass Block
 tile.metal_block_lead.name=Lead Block
 tile.metal_block_silver.name=Silver Block
 
@@ -57,7 +57,7 @@ tile.metal_plate_block_tin.name=Tin Plate Block
 tile.metal_plate_block_bronze.name=Bronze Plate Block
 tile.metal_plate_block_steel.name=Steel Plate Block
 tile.metal_plate_block_pig_iron.name=Pig Iron Plate Block
-tile.metal_plate_block_magmatic_brass.name=Magmatic Brass Plate Block
+tile.metal_plate_block_magmatic_brass.name=§6§lMagmatic Brass Plate Block
 tile.metal_plate_block_lead.name=Lead Plate Block
 tile.metal_plate_block_silver.name=Silver Plate Block
 
@@ -71,7 +71,7 @@ item.gear_iron.name=Iron Gear
 item.gear_gold.name=Gold Gear
 item.gear_bronze.name=Bronze Gear
 item.gear_diamond.name=Diamond Gear
-item.gear_magmatic_brass.name=Magmatic Brass Gear
+item.gear_magmatic_brass.name=§6§lMagmatic Brass Gear
 item.gear_steel.name=Steel Gear
 
 # items-coins
@@ -83,7 +83,7 @@ item.coin_tin.name=Tin Coin
 item.coin_bronze.name=Bronze Coin
 item.coin_steel.name=Steel Coin
 item.coin_pig_iron.name=Pig Iron Coin
-item.coin_magmatic_brass.name=Magmatic Brass Coin
+item.coin_magmatic_brass.name=§6§lMagmatic Brass Coin
 item.coin_diamond.name=Diamond Coin
 item.coin_lead.name=Lead Coin
 item.coin_silver.name=Silver Coin
@@ -98,7 +98,7 @@ item.rod_tin.name=Tin Rod
 item.rod_bronze.name=Bronze Rod
 item.rod_steel.name=Steel Rod
 item.rod_pig_iron.name=Pig Iron Rod
-item.rod_magmatic_brass.name=Magmatic Brass Rod
+item.rod_magmatic_brass.name=§6§lMagmatic Brass Rod
 item.rod_lead.name=Lead Rod
 item.rod_silver.name=Silver Rod
 
