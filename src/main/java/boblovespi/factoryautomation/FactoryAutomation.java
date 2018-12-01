@@ -19,6 +19,7 @@ import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerController;
 import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
+import boblovespi.factoryautomation.common.util.TooltipHandler;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
@@ -120,6 +121,8 @@ public class FactoryAutomation
 
 		VanillaTweakHandler.TweakToolLevels();
 		VanillaTweakHandler.TweakMiningLevels();
+
+		TooltipHandler.RegisterTooltips();
 
 		Log.getLogger().info("Postinitialization end");
 	}

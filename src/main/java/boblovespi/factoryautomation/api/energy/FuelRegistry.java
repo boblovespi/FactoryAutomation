@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.api.energy;
 
+import boblovespi.factoryautomation.common.util.ItemInfo;
 import net.minecraft.item.Item;
 
 import java.util.HashMap;
@@ -65,33 +66,5 @@ public class FuelRegistry
 		}
 	}
 
-	private static class ItemInfo
-	{
-		private Item item;
-		private int meta;
 
-		private ItemInfo(Item item, int meta)
-		{
-			this.item = item;
-			this.meta = meta;
-		}
-
-		@Override
-		public boolean equals(Object obj)
-		{
-			if (obj instanceof ItemInfo)
-				if (((ItemInfo) obj).item == item && ((ItemInfo) obj).meta == meta)
-					return true;
-			return false;
-		}
-
-		@Override
-		public int hashCode()
-		{
-			int hash = 1;
-			hash = hash * 17 + item.hashCode();
-			hash = hash * 31 + meta;
-			return hash;
-		}
-	}
 }

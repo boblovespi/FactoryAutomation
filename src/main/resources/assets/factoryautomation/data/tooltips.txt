@@ -1,0 +1,3 @@
+minecraft.iron_ingot;minecraft.iron_block;minecraft.iron_nugget=Fe
+minecraft.gold_ingot;minecraft.gold_block;minecraft.gold_nugget=Au
+factoryautomation.ingot_copper=Cu
