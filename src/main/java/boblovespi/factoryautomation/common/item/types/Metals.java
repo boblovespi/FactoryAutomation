@@ -14,7 +14,9 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 	BRONZE(4, "bronze"),
 	STEEL(5, "steel"),
 	PIG_IRON(6, "pig_iron"),
-	MAGMATIC_BRASS(7, "magmatic_brass");
+	MAGMATIC_BRASS(7, "magmatic_brass"),
+	SILVER(8, "silver"),
+	LEAD(9, "lead");
 	private final int id;
 	private final String name;
 

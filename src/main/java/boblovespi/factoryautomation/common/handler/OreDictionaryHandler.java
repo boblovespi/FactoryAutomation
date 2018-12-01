@@ -46,7 +46,7 @@ public class OreDictionaryHandler
 					new ItemStack(FAItems.sheet.GetItem(Metals.values()[i])));
 			OreDictionary.registerOre(
 					"stick" + Cleanup(Metals.values()[i].getName()),
-					new ItemStack(FAItems.sheet.GetItem(Metals.values()[i])));
+					new ItemStack(FAItems.rod.GetItem(Metals.values()[i])));
 		}
 		for (int i = 0; i < MetalOres.values().length; i++)
 		{

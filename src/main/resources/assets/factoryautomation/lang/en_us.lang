@@ -12,6 +12,8 @@ item.ingot_bronze.name=Bronze Ingot
 item.ingot_steel.name=Steel Ingot
 item.ingot_pig_iron.name=Pig Iron Ingot
 item.ingot_magmatic_brass.name=Magmatic Brass Ingot
+item.ingot_lead.name=Lead Ingot
+item.ingot_silver.name=Silver Ingot
 
 # items-nuggets
 item.nugget_copper.name=Copper Nugget
@@ -20,6 +22,8 @@ item.nugget_bronze.name=Bronze Nugget
 item.nugget_steel.name=Steel Nugget
 item.nugget_pig_iron.name=Pig Iron Nugget
 item.nugget_magmatic_brass.name=Magmatic Brass Nugget
+item.nugget_lead.name=Lead Nugget
+item.nugget_silver.name=Silver Nugget
 
 # items-sheets
 item.sheet_iron.name=Iron Sheet
@@ -30,6 +34,8 @@ item.sheet_bronze.name=Bronze Sheet
 item.sheet_steel.name=Steel Sheet
 item.sheet_pig_iron.name=Pig Iron Sheet
 item.sheet_magmatic_brass.name=Magmatic Brass Sheet
+item.sheet_lead.name=Lead Sheet
+item.sheet_silver.name=Silver Sheet
 
 # blocks - metals
 
@@ -41,6 +47,8 @@ tile.metal_block_bronze.name=Bronze Block
 tile.metal_block_steel.name=Steel Block
 tile.metal_block_pig_iron.name=Pig Iron Block
 tile.metal_block_magmatic_brass.name=Magmatic Brass Block
+tile.metal_block_lead.name=Lead Block
+tile.metal_block_silver.name=Silver Block
 
 tile.metal_plate_block_iron.name=Iron Plate Block
 tile.metal_plate_block_gold.name=Gold Plate Block
@@ -50,6 +58,8 @@ tile.metal_plate_block_bronze.name=Bronze Plate Block
 tile.metal_plate_block_steel.name=Steel Plate Block
 tile.metal_plate_block_pig_iron.name=Pig Iron Plate Block
 tile.metal_plate_block_magmatic_brass.name=Magmatic Brass Plate Block
+tile.metal_plate_block_lead.name=Lead Plate Block
+tile.metal_plate_block_silver.name=Silver Plate Block
 
 item.patterned_plate_block_iron=Iron patterned plate block
 
@@ -75,6 +85,9 @@ item.coin_steel.name=Steel Coin
 item.coin_pig_iron.name=Pig Iron Coin
 item.coin_magmatic_brass.name=Magmatic Brass Coin
 item.coin_diamond.name=Diamond Coin
+item.coin_lead.name=Lead Coin
+item.coin_silver.name=Silver Coin
+
 
 # items-rods
 
@@ -86,6 +99,9 @@ item.rod_bronze.name=Bronze Rod
 item.rod_steel.name=Steel Rod
 item.rod_pig_iron.name=Pig Iron Rod
 item.rod_magmatic_brass.name=Magmatic Brass Rod
+item.rod_lead.name=Lead Rod
+item.rod_silver.name=Silver Rod
+
 
 # items-tools
 item.bronze_pickaxe.name=Bronze Pickaxe
@@ -236,6 +252,9 @@ tile.pillar_magmatic_brass.name=Magamatic brass pillar
 tile.pillar_pig_iron.name=Pig iron pillar
 tile.pillar_steel.name=Steel pillar
 tile.pillar_tin.name=Tin pillar
+tile.pillar_lead.name=Lead pillar
+tile.pillar_silver.name=Silver pillar
+
 
 tile.pillar_block_bronze.name=Bronze decorative pillar
 tile.pillar_block_copper.name=Copper decorative pillar
@@ -244,3 +263,5 @@ tile.pillar_block_magmatic_brass.name=Magamatic brass decorative pillar
 tile.pillar_block_pig_iron.name=Pig iron decorative pillar
 tile.pillar_block_steel.name=Steel decorative pillar
 tile.pillar_block_tin.name=Tin decorative pillar
+tile.pillar_block_lead.name=Lead decorative pillar
+tile.pillar_block_silver.name=Silver decorative pillar
