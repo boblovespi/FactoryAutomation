@@ -66,7 +66,7 @@ public class Pipe extends FABaseBlock implements ITileEntityProvider
 	private Connection GetConnectionFor(IBlockAccess world, BlockPos pos, EnumFacing side)
 	{
 		pos = pos.offset(side);
-		if (world.getBlockState(pos).getBlock() instanceof Pipe)
+		if (world.getBlockState(pos).getBlock() instanceof Pipe || world.getBlockState(pos).getBlock() instanceof Pump)
 			return Connection.JOIN;
 
 		TileEntity te = world.getTileEntity(pos);

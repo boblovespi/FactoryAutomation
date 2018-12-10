@@ -59,11 +59,14 @@ public class TEPipe extends TileEntity implements ITickable
 	{
 		if (world.isRemote)
 			return;
+
+		// only decrease if we have fluids to process
 		if (timer > 0)
 		{
 			timer--;
 			if (timer <= 0)
 			{
+				// we *should* have no more fluids to process after this
 				timer = -1;
 				IBlockState state = FABlocks.pipe.ToBlock().getActualState(world.getBlockState(pos), world, pos);
 				List<IFluidHandler> outputs = new ArrayList<>(6);
@@ -83,8 +86,13 @@ public class TEPipe extends TileEntity implements ITickable
 					}
 				}
 
+				// no outputs
 				if (outputs.size() == 0)
+				{
+					if (tank.getFluidAmount() > 0)
+						timer = transferTime; // we have fluids to transfer still, so keep trying to!
 					return;
+				}
 
 				int transferAmount = tank.getFluidAmount() / outputs.size();
 
@@ -97,6 +105,9 @@ public class TEPipe extends TileEntity implements ITickable
 					fluid.amount -= drained;
 					tank.fillInternal(fluid, true);
 				}
+
+				if (tank.getFluidAmount() > 0)
+					timer = transferAmount; // again, we still have fluids to transfer!
 			}
 		}
 	}

@@ -8,6 +8,7 @@ import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
 import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
+import boblovespi.factoryautomation.common.block.fluid.Pump;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
@@ -118,6 +119,7 @@ public class FABlocks
 	// transfer
 
 	public static FABlock pipe;
+	public static FABlock pump;
 
 	public static void Init()
 	{
@@ -232,6 +234,7 @@ public class FABlocks
 		// transfer
 
 		pipe = new Pipe("iron_pipe");
+		pump = new Pump("iron_pump");
 	}
 
 	public static void RegisterRenders()

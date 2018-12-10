@@ -67,8 +67,9 @@ steel plate|motor |steel plate
 
 Sawblade
 Cost:
-
-
+____|Steel Plate|____
+Steel Plate|Steel Plate|Steel Plate --------------> Sawblade
+Steel Plate|____|Steel Plate
 
 
 
@@ -212,3 +213,12 @@ specialized: more expensive, more special resources
 
 low-tier: mostly iron
 low-tier specialties: diamond, steel
+
+DAM
+5 by 4 to 1000 by 800 middle to late game electricity generator in NATURAL rivers
+
+Cost:
+Concrete|Concrete|Concrete|Concrete|Concrete
+Concrete|(metal) Shaft|(metal) Shaft|(metal) Shaft|Concrete
+Concrete|(metal) Tube|(metal) Tube|(metal) Tube|Concrete
+Concrete|Concrete|Concrete|Concrete|Concrete

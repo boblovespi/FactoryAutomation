@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"1_0": "blocks/pipe/iron_fluid_pipe",
-		"particle": "blocks/pipe/iron_fluid_pipe"
+		"1_0": "factoryautomation:blocks/pipe/iron_fluid_pipe",
+		"particle": "factoryautomation:blocks/pipe/iron_fluid_pipe"
 	},
 	"elements": [
 		{

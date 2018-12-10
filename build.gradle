@@ -59,7 +59,7 @@ dependencies {
     deobfProvided "mezz.jei:jei_1.12.2:4.10.0.198:api"
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_1.12.2:4.10.0.198"
-
+    compile "vazkii.patchouli:Patchouli:1.0-10.45"
 
 }
 repositories {
@@ -67,6 +67,9 @@ repositories {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
         url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        url = "https://maven.blamejared.com"
     }
 }
 
