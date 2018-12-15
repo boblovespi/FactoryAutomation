@@ -215,10 +215,55 @@ low-tier: mostly iron
 low-tier specialties: diamond, steel
 
 DAM
-5 by 4 to 1000 by 800 middle to late game electricity generator in NATURAL rivers
+5 by 4 to 100 by 80 middle to late game electricity generator in NATURAL rivers
 
 Cost:
+(at least)
 Concrete|Concrete|Concrete|Concrete|Concrete
 Concrete|(metal) Shaft|(metal) Shaft|(metal) Shaft|Concrete
 Concrete|(metal) Tube|(metal) Tube|(metal) Tube|Concrete
 Concrete|Concrete|Concrete|Concrete|Concrete
+
+gear grinders
+its a grinder that grinds stuff using rotational energy, and it crushes ores into the dust.
+it costs:
+steel plate|steel shaft|steel plate
+steel plate|gearbox|battery cell -----------------------------------------------> DA GAER GIRNDER!
+steel plate|motor|steel plate
+
+battery cells are stuff that holds ...................
+
+..............More power than before!
+and they cost:
+steel plate|steel plate|steel plate
+battery case|battery core|battery case ------------------> Da placable batterycase that holds 15 kwt!
+steel plate|steel plate|steel plate
+
+and this is the battery core:
+(laser table required)
+materiel: steel
+no no no yes yes
+no no yes yes no
+no yes yes no no -------------> Steel plate (laser)
+yes yes no no no
+yes no  no no no   x4
+
+materiel: magnetic bronze
+yes yes yes yes no
+no  no  no  yes yes
+yes yes yes yes no  -------> Magnetic bronze coil (laser)
+no  no  no  yes yes
+yes yes yes yes no   x4
+
+materiel: fission materiel
+no yes yes yes no
+yes yes no yes yes
+yes no  no no  yes  ------->  fission encasing (laser)
+yes yes no yes yes
+no yes yes yes no  x6
+
+fusion reactor core (mini):
+//Do this later
+
+Battery core:
+Steel plate (laser)|M

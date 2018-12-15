@@ -27,6 +27,9 @@ public class TESRGearbox extends TileEntitySpecialRenderer<TEGearbox>
 	@Override
 	public void render(TEGearbox te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
 	{
+		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.gearbox)
+			return;
+
 		float inToRotate = te.rotationIn + partialTicks * te.GetSpeedIn();
 		float outToRotate = te.rotationOut + partialTicks * te.GetSpeedOut();
 		float topToRotate = te.rotationTop + partialTicks * te.speedTop;

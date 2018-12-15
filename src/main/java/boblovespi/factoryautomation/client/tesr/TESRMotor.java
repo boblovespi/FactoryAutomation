@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.model.ElectricEngine;
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
 import net.minecraft.block.state.IBlockState;
@@ -23,6 +24,9 @@ public class TESRMotor extends TileEntitySpecialRenderer<TEMotor>
 	@Override
 	public void render(TEMotor te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
 	{
+		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.motor)
+			return;
+
 		engineModel.Rotate(0);
 		engineModel = new ElectricEngine();
 		bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine.png"));

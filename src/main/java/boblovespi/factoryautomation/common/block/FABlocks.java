@@ -106,6 +106,7 @@ public class FABlocks
 
 	public static FABlock steam;
 	public static FABlock rubberSap;
+	public static FABlock moltenNetherMetal;
 
 	// decoration blocks
 
@@ -221,6 +222,7 @@ public class FABlocks
 
 		steam = new FluidFinite(Fluids.steam, Material.WATER, "steam");
 		rubberSap = new FluidFinite(Fluids.rubberSap, Materials.SAP, "rubber_sap");
+		moltenNetherMetal = new FluidFinite(Fluids.moltenNetherMetal, Material.LAVA, "molten_nether_metal");
 
 		// decoration blocks
 

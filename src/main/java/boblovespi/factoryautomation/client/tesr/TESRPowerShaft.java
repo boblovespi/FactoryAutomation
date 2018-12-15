@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.client.tesr;
 
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import net.minecraft.block.state.IBlockState;
@@ -21,6 +22,9 @@ public class TESRPowerShaft extends TileEntitySpecialRenderer<TEPowerShaft>
 	@Override
 	public void render(TEPowerShaft te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
 	{
+		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.powerShaft)
+			return;
+
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
 		IBlockState state = te.getWorld().getBlockState(te.getPos()).withProperty(PowerShaft.IS_TESR, true);
 		EnumFacing.Axis axis = state.getValue(PowerShaft.AXIS);

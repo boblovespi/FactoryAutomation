@@ -25,9 +25,6 @@ public class TESRPlacedBucket extends TileEntitySpecialRenderer<TEPlacedBucket>
 			return;
 		// bindTexture();
 		TextureAtlasSprite sprite = TESRUtils.GetFlowingTextureFromFluid(fluidStack);
-		int tx = te.getPos().getX();
-		int ty = te.getPos().getY();
-		int tz = te.getPos().getZ();
 		double amount = fluidStack.amount / 1000d;
 		float minU = sprite.getMinU();
 		float maxU = sprite.getMaxU();

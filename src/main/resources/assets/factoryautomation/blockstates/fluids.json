@@ -18,6 +18,13 @@
           "fluid": "rubber_sap"
         }
       }
+    ],
+    "molten_nether_metal": [
+      {
+        "custom": {
+          "fluid": "molten_nether_metal"
+        }
+      }
     ]
   }
 }
