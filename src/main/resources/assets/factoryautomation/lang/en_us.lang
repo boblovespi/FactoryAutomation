@@ -202,6 +202,10 @@ tile.pillar_block.name=Steel pillar for decoration
 
 tile.bronze_cauldron.name=Bronze Cauldron
 tile.bronze_fence.name=Bronze Fence
+tile.stone_crucible.name=Stone Crucible
+tile.stone_casting_vessel.name=Stone Casting Vessel
+
+tile.green_sand.name=Green Sand
 
 # config
 
@@ -236,8 +240,10 @@ fluid.fa_air=FA AIR
 fluid.fa_air.name=FA AIR
 fluid.fa_steam=Steam
 fluid.rubber_sap=Rubber Sap
+fluid.molten_nether_metal=Molten Nether Metal
 tile.steam.name=Steam
 tile.rubber_sap.name=Rubber Sap
+tile.molten_nether_metal.name=Molten Nether Metal
 
 # Guidebook
 botaniamisc.prevPage=Previous page

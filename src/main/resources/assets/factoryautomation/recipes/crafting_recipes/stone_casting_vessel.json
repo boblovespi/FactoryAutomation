@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["sc", "cs"],
+  "key": {
+    "c": {
+      "item": "#clay"
+    },
+    "s": {
+      "item": "#sand"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:green_sand",
+    "count": 4
+  }
+}

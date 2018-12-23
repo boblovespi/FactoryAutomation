@@ -6,6 +6,8 @@ import boblovespi.factoryautomation.common.block.crafter.workbench.IronWorkbench
 import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbench;
 import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
 import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
+import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
+import boblovespi.factoryautomation.common.block.decoration.StoneCrucible;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import boblovespi.factoryautomation.common.block.fluid.Pump;
@@ -23,6 +25,7 @@ import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
+import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -112,6 +115,8 @@ public class FABlocks
 
 	public static FABlock bronzeCauldron;
 	public static FABlock bronzeFence;
+	public static FABlock stoneCrucible;
+	public static FABlock stoneCastingVessel;
 
 	// mechanical
 
@@ -121,6 +126,10 @@ public class FABlocks
 
 	public static FABlock pipe;
 	public static FABlock pump;
+
+	// resource blocks
+
+	public static FABlock greenSand;
 
 	public static void Init()
 	{
@@ -228,6 +237,8 @@ public class FABlocks
 
 		bronzeCauldron = new BronzeCauldron();
 		bronzeFence = new BronzeFence();
+		stoneCrucible = new StoneCrucible();
+		stoneCastingVessel = new StoneCastingVessel();
 
 		// mechanical
 
@@ -237,6 +248,10 @@ public class FABlocks
 
 		pipe = new Pipe("iron_pipe");
 		pump = new Pump("iron_pump");
+
+		// resource blocks
+
+		greenSand = new FABaseBlock(Material.CLAY, "green_sand", FACreativeTabs.metallurgy);
 	}
 
 	public static void RegisterRenders()

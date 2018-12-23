@@ -342,5 +342,33 @@
       "item": "minecraft:water_bucket"
     },
     "name": "water"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "slabCobblestone"
+    },
+    "name": "slabCobblestone"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "cobblestone"
+    },
+    "name": "cobblestone"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "sand"
+    },
+    "name": "sand"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockClay"
+    },
+    "name": "clay"
   }
 ]

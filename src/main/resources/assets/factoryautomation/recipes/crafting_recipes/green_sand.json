@@ -1,0 +1,15 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["c c", "sss"],
+  "key": {
+    "c": {
+      "item": "#cobblestone"
+    },
+    "s": {
+      "item": "#slabCobblestone"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:stone_casting_vessel"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["c c", "c c", "ccc"],
+  "key": {
+    "c": {
+      "item": "#cobblestone"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:stone_crucible"
+  }
+}
