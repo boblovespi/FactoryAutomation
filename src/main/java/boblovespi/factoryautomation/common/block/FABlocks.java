@@ -21,6 +21,7 @@ import boblovespi.factoryautomation.common.block.processing.Treetap;
 import boblovespi.factoryautomation.common.block.resource.GemOre;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.block.resource.OreData;
+import boblovespi.factoryautomation.common.block.resource.SlagGlass;
 import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
@@ -117,6 +118,7 @@ public class FABlocks
 	public static FABlock bronzeFence;
 	public static FABlock stoneCrucible;
 	public static FABlock stoneCastingVessel;
+	public static FABlock slagGlass;
 
 	// mechanical
 
@@ -239,6 +241,7 @@ public class FABlocks
 		bronzeFence = new BronzeFence();
 		stoneCrucible = new StoneCrucible();
 		stoneCastingVessel = new StoneCastingVessel();
+		slagGlass = new SlagGlass();
 
 		// mechanical
 

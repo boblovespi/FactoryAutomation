@@ -176,6 +176,8 @@ public class RecipeHandler
 				new ItemStack(FAItems.dryGlycerin.ToItem()), 0.4f);
 		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FAItems.rawRubber.ToItem()),
 				new ItemStack(FAItems.rubber.ToItem()), 0.6f);
+		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FAItems.slag.ToItem()),
+				new ItemStack(FABlocks.slagGlass.ToBlock()), 0.6f);
 
 		//
 		//
