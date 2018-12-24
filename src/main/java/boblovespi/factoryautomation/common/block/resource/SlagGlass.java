@@ -31,4 +31,10 @@ public class SlagGlass extends FABaseBlock
 	{
 		return false;
 	}
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 }
