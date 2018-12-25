@@ -1743,8 +1743,8 @@ Build 1.10.2-12.18.2.2116:
 
 Build 1.10.2-12.18.2.2115:
 	bonii-xx:
-		Call Looting Event on player death and loot table drops (#3275)
-		* Call Looting Event on player death and loot table drops
+		Call Looting Event on player death and loot table possibleDrops (#3275)
+		* Call Looting Event on player death and loot table possibleDrops
 		
 		* Simplify patches
 		
@@ -5298,7 +5298,7 @@ Build 1.8-11.14.2.1444:
 		There's still a teeny gap, but it's MUCH less prominent than it was before.
 
 Build 1.8-11.14.2.1443:
-	lumien231: Added LivingExperienceDropsEvent to change the amount of experience an entity drops
+	lumien231: Added LivingExperienceDropsEvent to change the amount of experience an entity possibleDrops
 
 Build 1.8-11.14.2.1442:
 	jcoleman350: Added ItemMap type check to item frames and ItemRenderer, enabling vanilla style rendering for custom maps
@@ -8576,7 +8576,7 @@ Build 1.6.2-9.10.1.850:
 	Christian: MachineMuse, remember, there's TWO model formats supported!
 	Christian: Defer firing CreateDecorator until it's likely mods have had a chance to register their listener. Should close #759
 	Christian:
-		Add a harvestblock event, to allow mods to intercept and change the drops for blocks. Don't abuse this, or we'll have to take safety measures.
+		Add a harvestblock event, to allow mods to intercept and change the possibleDrops for blocks. Don't abuse this, or we'll have to take safety measures.
 		Fires for both silktouch and non-silktouch harvesting, and provides the player. Note, you may need to
 		change your break overrides to pass on the player for best results.
 	Christian: Add in a block reverse lookup for fluids. Closes #749
@@ -10857,7 +10857,7 @@ Build 1.4.6-6.5.0.462:
 	Christian: Drop the item in onBlockHarvested, not breakBlock
 
 Build 1.4.6-6.5.0.461:
-	Christian: Fix up block drops for skulls and cocoa
+	Christian: Fix up block possibleDrops for skulls and cocoa
 
 Build 1.4.6-6.5.0.460:
 	Christian: And fix up the other equals
@@ -11827,7 +11827,7 @@ Build 4.1.1.254:
 	LexManos:
 		New EntityItem related events
 		Fixed player death event in SMP
-		Added Player specific drops event
+		Added Player specific possibleDrops event
 		Added generic EntityJoinWorldEvent
 
 Build 4.1.1.253:

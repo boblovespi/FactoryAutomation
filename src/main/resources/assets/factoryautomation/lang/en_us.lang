@@ -178,6 +178,9 @@ tile.limonite_ore.poor.name=Limonite Ore
 tile.limonite_ore.normal.name=Limonite Ore
 tile.limonite_ore.rich.name=Limonite Ore
 
+tile.cobblestone_rock.name=Cobblestone Rock
+tile.flint_rock.name=Flint Rock
+
 tile.lv_cable.name=LV Cable
 tile.power_shaft.name=Power Shaft
 tile.iron_pipe.name=Iron Pipe

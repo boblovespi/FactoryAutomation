@@ -10,4 +10,5 @@ import net.minecraft.block.material.MaterialLiquid;
 public class Materials
 {
 	public static final Material SAP = new MaterialLiquid(MapColor.SILVER);
+	public static final Material ROCKS = new Material(MapColor.STONE).setReplaceable();
 }
