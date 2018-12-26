@@ -7,10 +7,13 @@ import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
+import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
@@ -27,6 +30,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraftforge.registries.ForgeRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -45,7 +49,6 @@ import static boblovespi.factoryautomation.common.item.ores.OreForms.*;
 public class RecipeHandler
 {
 	public static List<IRecipe> recipes;
-	private static IRecipe concrete;
 
 	private static NonNullList<ItemStack> bronzeCrucibleItems = NonNullList
 			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.COPPER), 7),
@@ -63,6 +66,19 @@ public class RecipeHandler
 
 		recipes = new ArrayList<>();
 		// recipes.add(concrete);
+
+		// recipe removal
+		if (event.getRegistry() instanceof ForgeRegistry)
+		{
+			ForgeRegistry<IRecipe> registry = (ForgeRegistry<IRecipe>) event.getRegistry();
+			registry.remove(new ResourceLocation("minecraft", "oak_planks"));
+			registry.remove(new ResourceLocation("minecraft", "spruce_planks"));
+			registry.remove(new ResourceLocation("minecraft", "acacia_planks"));
+			registry.remove(new ResourceLocation("minecraft", "jungle_planks"));
+			registry.remove(new ResourceLocation("minecraft", "dark_oak_planks"));
+			registry.remove(new ResourceLocation("minecraft", "birch_planks"));
+			registry.remove(new ResourceLocation("minecraft", "stick"));
+		}
 
 		for (int i = 2; i < Metals.values().length; i++)
 		{
@@ -84,17 +100,20 @@ public class RecipeHandler
 
 			recipes.add(ingotToNugget);
 			recipes.add(nuggetToIngot);
-
-			AddToolRecipes("bronze", "ingotBronze", "stickWood", FAItems.bronzePickaxe, FAItems.bronzeAxe,
-					FAItems.bronzeSword, FAItems.bronzeHoe, FAItems.bronzeShovel);
-
-			AddToolRecipes("steel", "ingotSteel", "stickWood", FAItems.steelPickaxe, FAItems.steelAxe,
-					FAItems.steelSword, FAItems.steelHoe, FAItems.steelShovel);
-
-			AddToolRecipes("copper", "ingotCopper", "stickWood", FAItems.copperPickaxe, FAItems.copperAxe,
-					FAItems.copperSword, FAItems.copperHoe, FAItems.copperShovel);
-
 		}
+		AddToolRecipes("bronze", "ingotBronze", "stickWood", FAItems.bronzePickaxe, FAItems.bronzeAxe,
+				FAItems.bronzeSword, FAItems.bronzeHoe, FAItems.bronzeShovel);
+
+		AddToolRecipes("steel", "ingotSteel", "stickWood", FAItems.steelPickaxe, FAItems.steelAxe, FAItems.steelSword,
+				FAItems.steelHoe, FAItems.steelShovel);
+
+		AddToolRecipes("copper", "ingotCopper", "stickWood", FAItems.copperPickaxe, FAItems.copperAxe,
+				FAItems.copperSword, FAItems.copperHoe, FAItems.copperShovel);
+
+		AddPlankAndStickRecipes((ItemAxe) Items.IRON_AXE, "iron_axe");
+		AddPlankAndStickRecipes((ItemAxe) Items.DIAMOND_AXE, "diamond_axe");
+		AddPlankAndStickRecipes((ItemAxe) FAItems.steelAxe, "steel_axe");
+		AddPlankAndStickRecipes((ItemAxe) FAItems.bronzeAxe, "bronze_axe");
 
 		ItemStack filledCrucibleStack = new ItemStack(FAItems.clayCrucible.ToItem(), 1, 0);
 		NBTTagCompound filledTag = new NBTTagCompound();
@@ -131,11 +150,13 @@ public class RecipeHandler
 			recipes.add(rec1);
 			HammerRecipe rec2 = new HammerRecipe(
 					new ResourceLocation(FactoryAutomation.MODID, "coin_to_nugget_" + metal.getName()),
-					OreDictionary.getOres("nugget" + Cleanup(metal.getName())).stream().filter(
-							n ->
-							n.getItem() instanceof FAItem
-									|| n.getItem().getRegistryName().getResourceDomain().contains("minecraft")
-									|| n.getItem().getRegistryName().getResourceDomain().equals("factoryautomation"))
+					OreDictionary.getOres("nugget" + Cleanup(metal.getName())).stream()
+								 .filter(n -> n.getItem() instanceof FAItem || n.getItem().getRegistryName()
+																				.getResourceDomain()
+																				.contains("minecraft") || n.getItem()
+																										   .getRegistryName()
+																										   .getResourceDomain()
+																										   .equals("factoryautomation"))
 								 .findFirst().orElse(ItemStack.EMPTY)
 
 					, "nh", 'n', FAItems.coin.GetItem(metal), 'h', Ingredient
@@ -298,6 +319,30 @@ public class RecipeHandler
 			recipes.add(r.setRegistryName(new ResourceLocation(MODID, materialName + "_spade")));
 		}
 
+	}
+
+	private static void AddPlankAndStickRecipes(ItemAxe axe, String axeName)
+	{
+		for (BlockPlanks.EnumType woodType : BlockPlanks.EnumType.values())
+		{
+			AxeRecipe planks;
+
+			if (woodType.getMetadata() < 4)
+				planks = new AxeRecipe(new ResourceLocation(MODID, woodType.getName() + "_planks_via_" + axeName),
+						new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()), "la", 'l',
+						new ItemStack(Blocks.LOG, 1, woodType.getMetadata()), 'a', axe);
+			else
+				planks = new AxeRecipe(new ResourceLocation(MODID, woodType.getName() + "_planks_via_" + axeName),
+						new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()), "la", 'l',
+						new ItemStack(Blocks.LOG2, 1, woodType.getMetadata()), 'a', axe);
+			planks.setRegistryName(new ResourceLocation(MODID, woodType.getName() + "_planks_via_" + axeName));
+			recipes.add(planks);
+		}
+		AxeRecipe sticks = new AxeRecipe(new ResourceLocation(MODID, "sticks_via_" + axeName),
+				new ItemStack(Items.STICK, 2), "pa", 'p', "plankWood", 'a', axe);
+		sticks.setRegistryName(new ResourceLocation(MODID, "sticks_via_" + axeName));
+
+		recipes.add(sticks);
 	}
 
 }
