@@ -29,7 +29,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemSlab;
 import net.minecraft.item.ItemStack;
@@ -99,7 +98,7 @@ public class FABlocks
 	public static MultiTypeBlock<Ore.Grade> limoniteOre;
 	public static MultiTypeBlock<Ore.Grade> magnetiteOre;
 	public static FABlock siliconQuartzOre;
-	public static FABlock cobbleRock;
+	public static FABlock rock;
 	public static FABlock flintRock;
 
 	// workbenches
@@ -224,8 +223,11 @@ public class FABlocks
 		siliconQuartzOre = new GemOre("ore_silicon_quartz",
 				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
 														   .SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
-		cobbleRock = new Rock("cobblestone_rock", new ItemStack[] { new ItemStack(Blocks.COBBLESTONE) });
-		flintRock = new Rock("flint_rock", new ItemStack[] { new ItemStack(Items.FLINT) });
+
+		rock = new Rock();
+
+		// TODO: replace with obsidian flake rock
+		flintRock = new OreSample("flint_rock", new ItemStack[] { new ItemStack(Items.FLINT) });
 
 		// workbenches
 

@@ -1,0 +1,45 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "factoryautomation:resources/rock"
+  },
+  "variants": {
+    "variants": {
+      "cobblestone": {
+        "textures": {
+          "0": "blocks/cobblestone"
+        }
+      },
+      "stone": {
+        "textures": {
+          "0": "blocks/stone"
+        }
+      },
+      "andesite": {
+        "textures": {
+          "0": "blocks/stone_andesite"
+        }
+      },
+      "diorite": {
+        "textures": {
+          "0": "blocks/stone_diorite"
+        }
+      },
+      "granite": {
+        "textures": {
+          "0": "blocks/stone_granite"
+        }
+      },
+      "sandstone": {
+        "textures": {
+          "0": "blocks/sandstone"
+        }
+      },
+      "mossy_cobblestone": {
+        "textures": {
+          "0": "blocks/cobblestone_mossy"
+        }
+      }
+    }
+  }
+}

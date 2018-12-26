@@ -47,7 +47,7 @@ public class WorldGenHandler implements IWorldGenerator
 		limoniteGen = new SwampFloorOreGenerator((Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f);
 		siliconQuartzGen = new WorldGenMinable(FABlocks.siliconQuartzOre.ToBlock().getDefaultState(), 9,
 				n -> n != null && n.getBlock() == Blocks.END_STONE);
-		rockGenerator = new SurfaceWorldGenerator(FABlocks.cobbleRock.ToBlock().getDefaultState(), 12, surfaceBlocks);
+		rockGenerator = new RockGenerator(12, surfaceBlocks);
 		flintGenerator = new SurfaceWorldGenerator(FABlocks.flintRock.ToBlock().getDefaultState(), 5, surfaceBlocks);
 	}
 

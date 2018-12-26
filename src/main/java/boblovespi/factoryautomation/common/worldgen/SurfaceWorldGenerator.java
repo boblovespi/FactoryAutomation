@@ -14,9 +14,9 @@ import java.util.Set;
  */
 public class SurfaceWorldGenerator extends WorldGenerator
 {
-	private final IBlockState block;
-	private final int tries;
-	private final Set<Block> legalBlocks;
+	protected final IBlockState block;
+	protected final int tries;
+	protected final Set<Block> legalBlocks;
 
 	public SurfaceWorldGenerator(IBlockState block, int tries, Set<Block> legalBlocks)
 	{
