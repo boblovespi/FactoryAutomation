@@ -24,7 +24,6 @@ public class FAAxe extends ItemAxe implements FAItem
 
 	public FAAxe(ToolMaterial material, String unlocalizedName)
 	{
-
 		super(material, material.getAttackDamage(), -3.0F);
 		this.unlocalizedName = unlocalizedName;
 		this.setUnlocalizedName(unlocalizedName);

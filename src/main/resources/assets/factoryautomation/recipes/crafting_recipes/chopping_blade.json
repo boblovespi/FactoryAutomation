@@ -3,7 +3,7 @@
   "pattern": ["rf", "r "],
   "key": {
     "r": {
-      "item": "#clay"
+      "item": "#rock"
     },
     "f": {
       "item": "#flint"

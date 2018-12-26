@@ -126,6 +126,8 @@ public class FAItems
 	public static FAItem copperShovel;
 	public static FAItem copperSword;
 
+	public static FAItem choppingBlade;
+
 	// workbench tools
 
 	public static FAItem ironHammer;
@@ -199,7 +201,7 @@ public class FAItems
 
 		gear = new Gear();
 		glassLens = new FABaseItem("glass_lens", FACreativeTabs.crafting);
-		airPiston = new FABaseItem("air_piston",FACreativeTabs.crafting);
+		airPiston = new FABaseItem("air_piston", FACreativeTabs.crafting);
 		bronzeFlywheel = new FABaseItem("bronze_flywheel", FACreativeTabs.crafting);
 		stirlingGeneratorCore = new FABaseItem("stirling_generator_core", FACreativeTabs.crafting);
 
@@ -233,6 +235,8 @@ public class FAItems
 		copperShovel = new FAShovel(copperMaterial, "copper_shovel");
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
+
+		choppingBlade = new FAAxe(flintMaterial, "chopping_blade");
 
 		// workbench tools
 

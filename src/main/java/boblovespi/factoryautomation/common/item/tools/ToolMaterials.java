@@ -21,12 +21,14 @@ public class ToolMaterials
 		 */
 
 	public static int WOOD = toolMiningLevelCat.wood;
+	public static ToolMaterial flintMaterial = EnumHelper
+			.addToolMaterial(FactoryAutomation.MODID + ":flint", WOOD, 20, 4.5f, 1.5f, 2);
 	public static int STONE = toolMiningLevelCat.stone;
 	public static int COPPER = toolMiningLevelCat.copper;
 	public static int IRON = toolMiningLevelCat.iron;
 	public static int BRONZE = toolMiningLevelCat.bronze;
 	public static ToolMaterial bronzeMaterial = EnumHelper
-			.addToolMaterial(FactoryAutomation.MODID + ":bronze", BRONZE, 251, 5.0F, 2.0F, 12);
+			.addToolMaterial(FactoryAutomation.MODID + ":bronze", BRONZE, 351, 5.0F, 2.0F, 12);
 	public static int DIAMOND = toolMiningLevelCat.diamond;
 	public static int STEEL = toolMiningLevelCat.steel;
 	public static ToolMaterial steelMaterial = EnumHelper
@@ -38,6 +40,7 @@ public class ToolMaterials
 	public static void RefreshMiningLevels()
 	{
 		WOOD = toolMiningLevelCat.wood;
+		flintMaterial = EnumHelper.addToolMaterial(FactoryAutomation.MODID + ":flint", WOOD, 20, 4.5f, 1.5f, 2);
 		STONE = toolMiningLevelCat.stone;
 		COPPER = toolMiningLevelCat.copper;
 		IRON = toolMiningLevelCat.iron;
