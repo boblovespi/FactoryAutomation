@@ -9,19 +9,26 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.*;
@@ -157,6 +164,25 @@ public class BlockEventHandler
 					CheckAndSpawnAsh(world, world.getBlockState(oldWoodPos), oldWoodPos);
 				}
 				ashFires.remove(pos);
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void OnLeftClickBLockEvent(PlayerInteractEvent.LeftClickBlock event)
+	{
+		IBlockState state = event.getWorld().getBlockState(event.getPos());
+		BlockPos pos = event.getPos().toImmutable();
+		World world = event.getWorld();
+		EntityPlayer player = event.getEntityPlayer();
+
+		if (state.getBlock() instanceof BlockLog)
+		{
+			if (!(player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemAxe))
+			{
+				player.attackEntityFrom(DamageSource.GENERIC, 1);
+				event.setUseBlock(Event.Result.DENY);
+				event.setUseItem(Event.Result.DENY);
 			}
 		}
 	}
