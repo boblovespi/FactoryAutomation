@@ -1,16 +1,15 @@
 {
   "type": "forge:ore_shaped",
-  "pattern": ["sc", "cs"],
+  "pattern": ["c c", "sss"],
   "key": {
     "c": {
-      "item": "#clay"
+      "item": "#cobblestone"
     },
     "s": {
-      "item": "#sand"
+      "item": "#slabCobblestone"
     }
   },
   "result": {
-    "item": "factoryautomation:green_sand",
-    "count": 4
+    "item": "factoryautomation:stone_casting_vessel"
   }
 }

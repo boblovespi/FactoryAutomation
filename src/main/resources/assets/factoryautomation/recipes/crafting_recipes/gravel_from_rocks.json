@@ -1,0 +1,13 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["rr", "rr"],
+  "key": {
+    "r": {
+      "item": "#rock"
+    }
+  },
+  "result": {
+    "item": "minecraft:gravel",
+    "count": 1
+  }
+}

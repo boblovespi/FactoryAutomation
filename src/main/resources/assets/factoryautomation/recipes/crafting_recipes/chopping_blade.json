@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["rf", "r "],
+  "key": {
+    "r": {
+      "item": "#clay"
+    },
+    "f": {
+      "item": "#flint"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:chopping_blade",
+    "count": 1
+  }
+}

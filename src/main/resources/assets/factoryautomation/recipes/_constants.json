@@ -370,5 +370,17 @@
       "ore": "blockClay"
     },
     "name": "clay"
+  },
+  {
+    "ingredient": {
+      "item": "factoryautomation:rock"
+    },
+    "name": "rock"
+  },
+  {
+    "ingredient": {
+      "item": "minecraft:flint"
+    },
+    "name": "flint"
   }
 ]

@@ -1,0 +1,13 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["b"],
+  "key": {
+    "b": {
+      "item": "minecraft:brick_block"
+    }
+  },
+  "result": {
+    "item": "minecraft:brick",
+    "count": 4
+  }
+}
