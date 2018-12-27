@@ -13,11 +13,11 @@ import net.minecraft.creativetab.CreativeTabs;
  */
 public class FABaseBlock extends Block implements FABlock
 {
+	protected FAItemBlock item;
 	private String unlocalizedName;
-	private FAItemBlock item;
 
-	public FABaseBlock(Material blockMaterialIn, MapColor blockMapColorIn, String unlocalizedName,
-			CreativeTabs tab)
+	public FABaseBlock(Material blockMaterialIn, MapColor blockMapColorIn, String unlocalizedName, CreativeTabs tab,
+			boolean hasCustomItem)
 	{
 		super(blockMaterialIn, blockMapColorIn);
 		this.unlocalizedName = unlocalizedName;
@@ -27,13 +27,26 @@ public class FABaseBlock extends Block implements FABlock
 		setCreativeTab(tab);
 
 		FABlocks.blocks.add(this);
-		item = new FAItemBlock(this);
-		FAItems.items.add(item);
+		if (!hasCustomItem)
+		{
+			item = new FAItemBlock(this);
+			FAItems.items.add(this.item);
+		}
 	}
 
 	public FABaseBlock(Material materialIn, String unlocalizedName, CreativeTabs tab)
 	{
-		this(materialIn, materialIn.getMaterialMapColor(), unlocalizedName, tab	);
+		this(materialIn, materialIn.getMaterialMapColor(), unlocalizedName, tab);
+	}
+
+	public FABaseBlock(Material materialIn, String unlocalizedName, CreativeTabs tab, boolean hasCustomItem)
+	{
+		this(materialIn, materialIn.getMaterialMapColor(), unlocalizedName, tab, hasCustomItem);
+	}
+
+	public FABaseBlock(Material materialIn, MapColor blockMapColorIn, String unlocalizedName, CreativeTabs tab)
+	{
+		this(materialIn, blockMapColorIn, unlocalizedName, tab, false);
 	}
 
 	@Override

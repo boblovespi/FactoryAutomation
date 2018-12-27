@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
+import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
@@ -34,6 +35,8 @@ public class TileEntityHandler
 		GameRegistry.registerTileEntity(TESteelmakingFurnace.class,
 				new ResourceLocation(MODID, "tile_entity_steelmaking_furnace"));
 		GameRegistry.registerTileEntity(TEPowerShaft.class, new ResourceLocation(MODID, "tile_entity_power_shaft"));
+		GameRegistry
+				.registerTileEntity(TEChoppingBlock.class, new ResourceLocation(MODID, "tile_entity_chopping_block"));
 
 		tiles.forEach(n -> GameRegistry.registerTileEntity(n,
 				new ResourceLocation(MODID, "tile_entity_" + n.getName().substring(n.getName().lastIndexOf(".") + 1))));

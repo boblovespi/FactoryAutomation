@@ -1,15 +1,27 @@
 package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
+import boblovespi.factoryautomation.common.block.FABlock;
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.Materials;
+import boblovespi.factoryautomation.common.item.FAItemBlock;
+import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 /**
  * Created by Willi on 12/26/2018.
@@ -22,8 +34,10 @@ public class Rock extends FABaseBlock
 
 	public Rock()
 	{
-		super(Materials.ROCKS, "rock", FACreativeTabs.resources);
+		super(Materials.ROCKS, "rock", FACreativeTabs.resources, true);
 		setDefaultState(getDefaultState().withProperty(VARIANTS, Variants.COBBLESTONE));
+		item = new RockItem(this);
+		FAItems.items.add(item);
 	}
 
 	@Override
@@ -107,6 +121,31 @@ public class Rock extends FABaseBlock
 		public String toString()
 		{
 			return name;
+		}
+	}
+
+	public static class RockItem extends FAItemBlock
+	{
+		public RockItem(FABlock base)
+		{
+			super(base);
+		}
+
+		@Override
+		public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+				EnumFacing facing, float hitX, float hitY, float hitZ)
+		{
+			if (player.isSneaking() && world.getBlockState(pos).getBlock() instanceof BlockLog)
+			{
+				if (!world.isRemote)
+				{
+					world.destroyBlock(pos, false);
+					world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
+							new ItemStack(FABlocks.woodChoppingBlock.ToBlock(), 2)));
+				}
+				return EnumActionResult.SUCCESS;
+			} else
+				return super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
 		}
 	}
 }

@@ -197,7 +197,7 @@ public class FABlocks
 		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
 		solidfueledfirebox = new SolidFueledFirebox();
-		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10);
+		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10).Init(n -> n.setHardness(3.1f));
 
 		//The soo many pillars update
 

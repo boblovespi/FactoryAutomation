@@ -98,7 +98,8 @@ public class ChoppingBlock extends FABaseBlock
 			if (te instanceof TEChoppingBlock)
 			{
 				ItemStack stack = ((TEChoppingBlock) te).PlaceItem(item.copy().splitStack(1));
-				player.setHeldItem(hand, stack);
+				int itemsTaken = 1 - stack.getCount();
+				item.shrink(itemsTaken);
 			}
 		}
 		return true;

@@ -273,6 +273,19 @@ public class RecipeHandler
 		new TripHammerRecipe("iron-block-to-sheets", new OreIngredient("blockIron"),
 				new ItemStack(FAItems.sheet.GetItem(Metals.IRON), 6), 100, 10);
 
+		// chopping block recipes
+
+		for (BlockPlanks.EnumType woodType : BlockPlanks.EnumType.values())
+		{
+			if (woodType.getMetadata() < 4)
+				ChoppingBlockRecipe.AddRecipe(woodType.getName() + "_log_to_plank", Item.getItemFromBlock(Blocks.LOG),
+						woodType.getMetadata(), new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
+			else
+				ChoppingBlockRecipe.AddRecipe(woodType.getName() + "_log_to_plank", Item.getItemFromBlock(Blocks.LOG2),
+						woodType.getMetadata(), new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
+		}
+		ChoppingBlockRecipe.AddRecipe("plank_to_stick", "plankWood", new ItemStack(Items.STICK, 4, 0));
+
 		//
 
 		//
