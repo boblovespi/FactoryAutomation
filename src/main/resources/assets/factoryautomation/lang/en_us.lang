@@ -202,6 +202,8 @@ tile.iron_workbench.name=Iron Workbench
 tile.chip_creator.name=Basic Chip Creator
 
 tile.treetap.name=Treetap
+tile.wood_chopping_block.name=Wood Chopping Block
+
 tile.steel_pillar.name=Steel pillar
 tile.pillar_block.name=Steel pillar for decoration
 

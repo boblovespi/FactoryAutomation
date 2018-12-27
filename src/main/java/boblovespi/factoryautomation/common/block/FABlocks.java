@@ -17,6 +17,7 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.mechanical.HandCrank;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
+import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
 import boblovespi.factoryautomation.common.block.processing.Treetap;
 import boblovespi.factoryautomation.common.block.resource.*;
 import boblovespi.factoryautomation.common.fluid.Fluids;
@@ -75,6 +76,7 @@ public class FABlocks
 	public static FABlock placedBucket;
 	public static FABlock factorySign;
 	public static FABlock solidfueledfirebox;
+	public static FABlock woodChoppingBlock;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -195,6 +197,7 @@ public class FABlocks
 		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
 		solidfueledfirebox = new SolidFueledFirebox();
+		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10);
 
 		//The soo many pillars update
 
