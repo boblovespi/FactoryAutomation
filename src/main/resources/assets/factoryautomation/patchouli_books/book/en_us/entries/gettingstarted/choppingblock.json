@@ -1,0 +1,17 @@
+{
+    "name": "Making the Chopping Block",
+    "icon": "factoryautomation:wood_chopping_block",
+    "category": "gettingstarted",
+    "pages": [
+        {
+            "type": "text",
+            "text": "You will want to make something to further cut these logs that you have now. Gather at least one log and one rock.",
+        	"title": "Gathering Resources"
+        },
+        {
+        	"type": "image",
+        	"images": [""],
+        	"text": "Now, shift+right click the log with a rock. Voilla! "
+        }
+    ]
+}
