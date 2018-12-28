@@ -125,7 +125,8 @@ public class TEChoppingBlock extends TileEntity
 				craftsDone += count;
 				if (craftsDone > craftsBeforeBreak)
 				{
-					world.destroyBlock(pos, true);
+					DropItems();
+					world.destroyBlock(pos, false);
 				}
 				markDirty();
 
