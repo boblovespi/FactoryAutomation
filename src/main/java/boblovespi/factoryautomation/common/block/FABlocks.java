@@ -17,6 +17,7 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.mechanical.HandCrank;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
+import boblovespi.factoryautomation.common.block.processing.Campfire;
 import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
 import boblovespi.factoryautomation.common.block.processing.Treetap;
 import boblovespi.factoryautomation.common.block.resource.*;
@@ -77,6 +78,7 @@ public class FABlocks
 	public static FABlock factorySign;
 	public static FABlock solidfueledfirebox;
 	public static FABlock woodChoppingBlock;
+	public static FABlock campfire;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -164,7 +166,7 @@ public class FABlocks
 
 		cable = new Cable();
 		solarPanel = new SolarPanel();
-		metalOres = new MetalOre();
+		metalOres = new MetalOre().Init(n -> n.setHardness(2.7f));
 
 		powerShaft = new PowerShaft();
 		gearbox = new Gearbox();
@@ -197,7 +199,8 @@ public class FABlocks
 		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
 		solidfueledfirebox = new SolidFueledFirebox();
-		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10).Init(n -> n.setHardness(3.1f));
+		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10).Init(n -> n.setHardness(4.0f));
+		campfire = new Campfire().Init(n -> n.setHardness(4.0f));
 
 		//The soo many pillars update
 

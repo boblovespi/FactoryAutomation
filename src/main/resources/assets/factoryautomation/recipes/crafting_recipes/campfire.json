@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [" s ", "scs", "sls"],
+  "key": {
+    "c": {
+      "item": "#charcoalCoal"
+    },
+    "s": {
+      "item": "#stick"
+    },
+    "l": {
+      "item": "#log"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:campfire"
+  }
+}

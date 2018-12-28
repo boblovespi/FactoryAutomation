@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.util;
 
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.creativetab.CreativeTabs;
@@ -66,6 +67,14 @@ public class FACreativeTabs
 		public ItemStack getTabIconItem()
 		{
 			return new ItemStack(Blocks.FURNACE);
+		}
+	};
+	public static CreativeTabs primitive = new CreativeTabs("tabs.primitive.name")
+	{
+		@Override
+		public ItemStack getTabIconItem()
+		{
+			return new ItemStack(FABlocks.campfire.ToBlock());
 		}
 	};
 }

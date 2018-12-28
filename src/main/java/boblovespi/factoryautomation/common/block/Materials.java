@@ -11,4 +11,5 @@ public class Materials
 {
 	public static final Material SAP = new MaterialLiquid(MapColor.SILVER);
 	public static final Material ROCKS = new Material(MapColor.STONE).setReplaceable();
+	public static final Material WOOD_MACHINE = new Material(MapColor.WOOD);
 }
