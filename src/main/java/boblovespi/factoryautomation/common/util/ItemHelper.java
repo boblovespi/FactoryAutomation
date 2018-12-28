@@ -15,4 +15,16 @@ public class ItemHelper
 		if (!player.addItemStackToInventory(stack.copy()))
 			world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, stack.copy()));
 	}
+
+	public static void DamageItem(ItemStack stack)
+	{
+		DamageItem(stack, 1);
+	}
+
+	public static void DamageItem(ItemStack stack, int amount)
+	{
+		boolean b = stack.attemptDamageItem(1, Randoms.MAIN.r, null);
+		if (b)
+			stack.shrink(amount);
+	}
 }

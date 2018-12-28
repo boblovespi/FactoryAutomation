@@ -3,9 +3,10 @@ package boblovespi.factoryautomation.common.tileentity.processing;
 import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
 import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.util.Randoms;
+import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
@@ -76,6 +77,20 @@ public class TEChoppingBlock extends TileEntity
 		return stack;
 	}
 
+	public void TakeOrPlace(ItemStack item, EntityPlayer player)
+	{
+		if (!slot.getStackInSlot(0).isEmpty())
+		{
+			ItemStack taken = TakeItem();
+			ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
+		} else
+		{
+			ItemStack stack = PlaceItem(item.copy().splitStack(1));
+			int itemsTaken = 1 - stack.getCount();
+			item.shrink(itemsTaken);
+		}
+	}
+
 	/**
 	 * @return true if the left click to break block needs to be canceled
 	 */
@@ -118,7 +133,7 @@ public class TEChoppingBlock extends TileEntity
 				IBlockState state = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state, state, 3);
 			}
-			tool.attemptDamageItem(slot.getStackInSlot(0).getCount(), Randoms.MAIN.r, null);
+			ItemHelper.DamageItem(tool);
 		}
 
 		return true;

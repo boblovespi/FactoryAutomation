@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
-import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -86,21 +85,25 @@ public class ChoppingBlock extends FABaseBlock
 			return true;
 		ItemStack item = player.getHeldItem(hand);
 		TileEntity te = world.getTileEntity(pos);
-		if (item.isEmpty())
+		//		if (item.isEmpty())
+		//		{
+		//			if (te instanceof TEChoppingBlock)
+		//			{
+		//				ItemStack taken = ((TEChoppingBlock) te).TakeItem();
+		//				ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
+		//			}
+		//		} else
+		//		{
+		//			if (te instanceof TEChoppingBlock)
+		//			{
+		//				ItemStack stack = ((TEChoppingBlock) te).PlaceItem(item.copy().splitStack(1));
+		//				int itemsTaken = 1 - stack.getCount();
+		//				item.shrink(itemsTaken);
+		//			}
+		//		}
+		if (te instanceof TEChoppingBlock)
 		{
-			if (te instanceof TEChoppingBlock)
-			{
-				ItemStack taken = ((TEChoppingBlock) te).TakeItem();
-				ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
-			}
-		} else
-		{
-			if (te instanceof TEChoppingBlock)
-			{
-				ItemStack stack = ((TEChoppingBlock) te).PlaceItem(item.copy().splitStack(1));
-				int itemsTaken = 1 - stack.getCount();
-				item.shrink(itemsTaken);
-			}
+			((TEChoppingBlock) te).TakeOrPlace(item, player);
 		}
 		return true;
 	}
