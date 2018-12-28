@@ -207,4 +207,9 @@ public class TEChoppingBlock extends TileEntity
 		if (!world.isRemote && !slot.getStackInSlot(0).isEmpty())
 			world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
 	}
+
+	public ItemStack GetRenderStack()
+	{
+		return slot.getStackInSlot(0);
+	}
 }
