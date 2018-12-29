@@ -13,43 +13,45 @@ import java.util.HashMap;
 /**
  * Created by Willi on 12/26/2018.
  */
-public class ChoppingBlockRecipe extends ChancelessMachineRecipe
+public class CampfireRecipe extends ChancelessMachineRecipe
 {
-	private static final HashMap<String, ChoppingBlockRecipe> STRING_MAP = new HashMap<>();
-	private static final HashMap<ItemInfo, ChoppingBlockRecipe> ITEM_MAP = new HashMap<>();
-	private static final HashMap<String, ChoppingBlockRecipe> OREDICT_MAP = new HashMap<>();
+	private static final HashMap<String, CampfireRecipe> STRING_MAP = new HashMap<>();
+	private static final HashMap<ItemInfo, CampfireRecipe> ITEM_MAP = new HashMap<>();
+	private static final HashMap<String, CampfireRecipe> OREDICT_MAP = new HashMap<>();
 	private final ItemStack output;
+	private final int time;
 	private final String name;
 	private final Ingredient input;
 
-	private ChoppingBlockRecipe(String name, Ingredient input, ItemStack output)
+	private CampfireRecipe(String name, Ingredient input, ItemStack output, int time)
 	{
 		super(Collections.singletonList(input), null, Collections.singletonList(output), null);
 		this.name = name;
 		this.input = input;
 		this.output = output;
+		this.time = time;
 	}
 
-	public static void AddRecipe(String name, String oreName, ItemStack output)
+	public static void AddRecipe(String name, String oreName, ItemStack output, int time)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
-		ChoppingBlockRecipe recipe = new ChoppingBlockRecipe(name, new OreIngredient(oreName), output);
+		CampfireRecipe recipe = new CampfireRecipe(name, new OreIngredient(oreName), output, time);
 		STRING_MAP.putIfAbsent(name, recipe);
 		OREDICT_MAP.put(oreName, recipe);
 	}
 
-	public static void AddRecipe(String name, Item item, int meta, ItemStack output)
+	public static void AddRecipe(String name, Item item, int meta, ItemStack output, int time)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
-		ChoppingBlockRecipe recipe = new ChoppingBlockRecipe(
-				name, Ingredient.fromStacks(new ItemStack(item, 1, meta)), output);
+		CampfireRecipe recipe = new CampfireRecipe(
+				name, Ingredient.fromStacks(new ItemStack(item, 1, meta)), output, time);
 		STRING_MAP.putIfAbsent(name, recipe);
 		ITEM_MAP.put(new ItemInfo(item, meta), recipe);
 	}
 
-	public static ChoppingBlockRecipe FindRecipe(ItemStack input)
+	public static CampfireRecipe FindRecipe(ItemStack input)
 	{
 		if (input.isEmpty())
 			return null;
@@ -69,7 +71,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		}
 	}
 
-	public static ChoppingBlockRecipe GetRecipe(String name)
+	public static CampfireRecipe GetRecipe(String name)
 	{
 		return STRING_MAP.getOrDefault(name, null);
 	}
@@ -87,5 +89,10 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 	public String GetName()
 	{
 		return name;
+	}
+
+	public int GetTime()
+	{
+		return time;
 	}
 }

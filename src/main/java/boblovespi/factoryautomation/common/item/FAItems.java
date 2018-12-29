@@ -34,6 +34,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -72,6 +73,7 @@ public class FAItems
 	// food
 
 	public static FAItem riceGrain;
+	public static FAItem toastedBread;
 
 	// resources
 
@@ -179,9 +181,11 @@ public class FAItems
 
 		processedMagnetite = new ProcessedOre("magnetite");
 
-		// food
+		// foods
 
 		riceGrain = new RiceGrain();
+		toastedBread = new FAFood(
+				"toasted_bread", 5, 4, 32, false, false, Collections.emptyList(), Collections.emptyList());
 
 		// resources
 
@@ -311,8 +315,7 @@ public class FAItems
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState state)
 			{
-				return new ModelResourceLocation(
-						new ResourceLocation(FactoryAutomation.MODID, "fluids"),
+				return new ModelResourceLocation(new ResourceLocation(FactoryAutomation.MODID, "fluids"),
 						((IFluidBlock) item.getBlock()).getFluid().getName());
 			}
 		});

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
@@ -40,6 +41,7 @@ public class Campfire extends FABaseBlock
 	{
 		super(Materials.WOOD_MACHINE, "campfire", FACreativeTabs.primitive);
 		setDefaultState(getDefaultState().withProperty(LIT, false));
+		TileEntityHandler.tiles.add(TECampfire.class);
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class Campfire extends FABaseBlock
 	@Override
 	public boolean hasTileEntity(IBlockState state)
 	{
-		return false;
+		return true;
 	}
 
 	@Nullable
@@ -130,6 +132,14 @@ public class Campfire extends FABaseBlock
 					|| item == FAItems.advancedFlintAndSteel.ToItem()))
 			{
 				world.setBlockState(pos, state.withProperty(LIT, true));
+				TileEntity te = world.getTileEntity(pos);
+				if (te instanceof TECampfire)
+					((TECampfire) te).SetLit(true);
+			} else
+			{
+				TileEntity te = world.getTileEntity(pos);
+				if (te instanceof TECampfire)
+					((TECampfire) te).TakeOrPlace(stack, player);
 			}
 		}
 		return true;

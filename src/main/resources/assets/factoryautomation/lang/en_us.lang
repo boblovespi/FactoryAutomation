@@ -164,6 +164,8 @@ item.dataprint_circuit.name=Dataprint Circuit
 #items-materials
 item.silicon_quartz_crystal.name=§lSilicon Quartz Crystal
 
+# items - foods
+item.toasted_bread.name=Toasted Bread
 
 # tiles
 

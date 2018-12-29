@@ -286,6 +286,24 @@ public class RecipeHandler
 		}
 		ChoppingBlockRecipe.AddRecipe("plank_to_stick", "plankWood", new ItemStack(Items.STICK, 4, 0));
 
+		// campfire recipes
+		CampfireRecipe.AddRecipe("cooked_pork", Items.PORKCHOP, 0, new ItemStack(Items.COOKED_PORKCHOP), 20 * 60 * 4);
+		CampfireRecipe.AddRecipe("steak", Items.BEEF, 0, new ItemStack(Items.COOKED_BEEF), 20 * 60 * 2);
+		CampfireRecipe.AddRecipe("cooked_rabbit", Items.RABBIT, 0, new ItemStack(Items.COOKED_RABBIT), 20 * 60 * 5);
+		CampfireRecipe.AddRecipe("cooked_chicken", Items.CHICKEN, 0, new ItemStack(Items.COOKED_CHICKEN), 20 * 60 * 5);
+		CampfireRecipe.AddRecipe("mutton", Items.MUTTON, 0, new ItemStack(Items.COOKED_MUTTON), 20 * 60 * 3);
+		CampfireRecipe
+				.AddRecipe("chorus_popcorn", Items.CHORUS_FRUIT, 0, new ItemStack(Items.CHORUS_FRUIT_POPPED), 600);
+		CampfireRecipe.AddRecipe("baked_potato", Items.POTATO, 0, new ItemStack(Items.BAKED_POTATO), 600);
+		CampfireRecipe.AddRecipe("toasted_bread", Items.BREAD, 0, new ItemStack(FAItems.toastedBread.ToItem()), 300);
+		//CampfireRecipe.AddRecipe("flatbread", Items.CHORUS_FRUIT, 0, new ItemStack(Items.CHORUS_FRUIT_POPPED),
+		//		20 * 60 * 3); // TODO: add basic bread
+		// fish
+		for (int i = 0; i < 2; i++)
+		{
+			CampfireRecipe.AddRecipe("fish" + i, Items.FISH, i, new ItemStack(Items.COOKED_FISH, 1, i), 20 * 60 * 3);
+		}
+
 		//
 
 		//

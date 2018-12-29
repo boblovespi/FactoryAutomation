@@ -33,15 +33,13 @@ public class FAFood extends Item implements FAItem
 	private int itemUseTime;
 	private boolean alwaysEdible;
 
-	public FAFood(String unName, int amount, int saturation, int eatTime,
-			boolean WolfFood, boolean canAlwaysEat,
+	public FAFood(String unName, int amount, int saturation, int eatTime, boolean WolfFood, boolean canAlwaysEat,
 			List<PotionEffect> potionEffects, List<Float> potionChances)
 	{
 		super();
 
 		if (potionEffects.size() != potionChances.size())
-			throw new IndexOutOfBoundsException(
-					"the potionEffects and potionEffectChances sizes are not the same");
+			throw new IndexOutOfBoundsException("the potionEffects and potionEffectChances sizes are not the same");
 
 		this.unName = unName;
 		setUnlocalizedName(UnlocalizedName());
@@ -77,7 +75,7 @@ public class FAFood extends Item implements FAItem
 	@Override
 	public String GetMetaFilePath(int meta)
 	{
-		return unName;
+		return "foods/" + unName;
 	}
 
 	@Override
@@ -86,37 +84,32 @@ public class FAFood extends Item implements FAItem
 		return this;
 	}
 
-	protected void onFoodEaten(ItemStack stack, World worldIn,
-			EntityPlayer player)
+	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
 	{
 		if (!worldIn.isRemote)
 		{
 			for (int i = 0; i < potionEffects.size(); ++i)
 			{
 				if (worldIn.rand.nextFloat() <= potionEffectChances.get(i))
-					player.addPotionEffect(
-							new PotionEffect(potionEffects.get(i)));
+					player.addPotionEffect(new PotionEffect(potionEffects.get(i)));
 			}
 		}
 	}
 
 	@Override
 	@Nullable
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn,
-			EntityLivingBase entityLiving)
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
 	{
 		stack.shrink(1);
 
 		if (entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
-			entityplayer.getFoodStats().addStats(amountOfFood, saturationAmount
-					/ amountOfFood);
+			entityplayer.getFoodStats().addStats(amountOfFood, saturationAmount / amountOfFood);
 
-			worldIn.playSound(null, entityplayer.posX, entityplayer.posY,
-							  entityplayer.posZ, SoundEvents.ENTITY_PLAYER_BURP,
-							  SoundCategory.PLAYERS, 0.5F,
-							  worldIn.rand.nextFloat() * 0.1F + 0.9F);
+			worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ,
+					SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
+					worldIn.rand.nextFloat() * 0.1F + 0.9F);
 
 			onFoodEaten(stack, worldIn, entityplayer);
 			// entityplayer.addStat(StatList.getObjectUseStats(this));
@@ -138,8 +131,7 @@ public class FAFood extends Item implements FAItem
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn,
-			EntityPlayer playerIn, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
 		ItemStack itemStackIn = playerIn.getHeldItem(hand);
 		if (playerIn.canEat(alwaysEdible))

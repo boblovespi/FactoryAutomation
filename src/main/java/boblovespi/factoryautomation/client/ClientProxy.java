@@ -14,6 +14,7 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
+import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,6 +55,7 @@ public class ClientProxy implements CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TEPlacedBucket.class, new TESRPlacedBucket());
 		ClientRegistry.bindTileEntitySpecialRenderer(TEHandCrank.class, new TESRHandCrank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TEChoppingBlock.class, new TESRChoppingBlock());
+		ClientRegistry.bindTileEntitySpecialRenderer(TECampfire.class, new TESRCampfire());
 	}
 
 	@Override
