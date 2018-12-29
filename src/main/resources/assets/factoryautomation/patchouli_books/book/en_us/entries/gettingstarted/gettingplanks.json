@@ -1,0 +1,18 @@
+{
+    "name": "Making Planks",
+    "icon": "minecraft:planks",
+    "category": "gettingstarted",
+    "sortnum": 2,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Using your chopping block, you will now want to turn your logs into planks. Place a log on the chopping block.$(br)$(br) Next, use your blade on that log to turn it into planks!",
+        	"title": "Gathering Resources"
+        },
+        {
+        	"type": "image",
+        	"images": [""],
+        	"text": "To make sticks, do the same thing with planks."
+        }
+    ]
+}
