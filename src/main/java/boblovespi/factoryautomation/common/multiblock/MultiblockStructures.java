@@ -93,4 +93,11 @@ public class MultiblockStructures
 					new MultiblockPart[] { IRON_BLOCK }
 			}
 	};
+
+	public static final MultiblockPart[][][] stoneFoundry = new MultiblockPart[][][] {
+			new MultiblockPart[][]{
+					new MultiblockPart[] { new MultiblockPart(Blocks.FURNACE) },
+					new MultiblockPart[] { new MultiblockPart(FABlocks.stoneCrucible.ToBlock()) }
+			}
+	};
 }

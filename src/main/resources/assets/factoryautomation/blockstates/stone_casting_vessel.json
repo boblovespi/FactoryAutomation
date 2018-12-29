@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "factoryautomation:decoration/stone_casting_vessel"
+      "model": "factoryautomation:processing/stone_casting_vessel"
     }
   }
 }

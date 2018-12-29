@@ -26,6 +26,11 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 		this.name = name;
 	}
 
+	public static Metals GetFromName(String name)
+	{
+		return Metals.valueOf(name.toUpperCase());
+	}
+
 	@Override
 	public String getName()
 	{

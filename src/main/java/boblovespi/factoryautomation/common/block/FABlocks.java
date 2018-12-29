@@ -7,7 +7,7 @@ import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbenc
 import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
 import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
-import boblovespi.factoryautomation.common.block.decoration.StoneCrucible;
+import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import boblovespi.factoryautomation.common.block.fluid.Pump;
