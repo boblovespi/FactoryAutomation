@@ -7,23 +7,27 @@ import net.minecraft.util.IStringSerializable;
  */
 public enum Metals implements IStringSerializable, IMultiTypeEnum
 {
-	IRON(0, "iron"),
-	GOLD(1, "gold"),
-	COPPER(2, "copper"),
-	TIN(3, "tin"),
-	BRONZE(4, "bronze"),
-	STEEL(5, "steel"),
-	PIG_IRON(6, "pig_iron"),
-	MAGMATIC_BRASS(7, "magmatic_brass"),
-	SILVER(8, "silver"),
-	LEAD(9, "lead");
+	IRON(0, "iron", 1538, 0xFFEAEEF2),
+	GOLD(1, "gold", 10000, 0xFFFAF437),
+	COPPER(2, "copper", 1084, 0xFFFF973D),
+	TIN(3, "tin", 232, 0xFFF7E8E8),
+	BRONZE(4, "bronze", 10000, 0xFF000000),
+	STEEL(5, "steel", 10000, 0xFF000000),
+	PIG_IRON(6, "pig_iron", 10000, 0xFF000000),
+	MAGMATIC_BRASS(7, "magmatic_brass", 10000, 0xFF000000),
+	SILVER(8, "silver", 10000, 0xFF000000),
+	LEAD(9, "lead", 10000, 0xFF000000);
 	private final int id;
 	private final String name;
+	public final int meltTemp;
+	public final int color;
 
-	Metals(int id, String name)
+	Metals(int id, String name, int meltTemp, int color)
 	{
 		this.id = id;
 		this.name = name;
+		this.meltTemp = meltTemp;
+		this.color = color;
 	}
 
 	public static Metals GetFromName(String name)

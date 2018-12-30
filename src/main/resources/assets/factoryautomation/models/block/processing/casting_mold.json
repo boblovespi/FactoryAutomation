@@ -1,0 +1,21 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "factoryautomation:blocks/resources/green_sand",
+		"particle": "factoryautomation:blocks/resources/green_sand"
+	},
+	"elements": [
+		{
+			"from": [1, 1, 1],
+			"to": [15, 7, 15],
+			"faces": {
+				"north": {"uv": [1, 9, 15, 15], "texture": "#0"},
+				"east": {"uv": [15, 15, 1, 9], "texture": "#0"},
+				"south": {"uv": [1, 9, 15, 15], "texture": "#0"},
+				"west": {"uv": [1, 9, 15, 15], "texture": "#0"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#1"},
+				"down": {"uv": [1, 1, 15, 15], "texture": "#0"}
+			}
+		}
+	]
+}

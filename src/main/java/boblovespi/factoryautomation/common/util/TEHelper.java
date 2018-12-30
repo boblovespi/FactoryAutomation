@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.util;
 
+import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.IHeatUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import net.minecraft.tileentity.TileEntity;
@@ -29,5 +30,13 @@ public class TEHelper
 		float transfer = K_d * gamma * 0.05f;
 		from.TransferEnergy(-transfer);
 		to.TransferEnergy(transfer);
+	}
+
+	public static void DissipateHeat(IHeatUser heatUser)
+	{
+		float K_d = heatUser.GetTemperature() - 20f;
+		float gamma = CapabilityHeatUser.AIR_CONDUCTIVITY;
+		float transfer = K_d * gamma * 0.05f;
+		heatUser.TransferEnergy(-transfer);
 	}
 }

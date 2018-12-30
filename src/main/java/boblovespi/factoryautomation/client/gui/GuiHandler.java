@@ -1,9 +1,6 @@
 package boblovespi.factoryautomation.client.gui;
 
-import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
-import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreator;
-import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
-import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
+import boblovespi.factoryautomation.common.container.*;
 import boblovespi.factoryautomation.common.container.workbench.ContainerWorkbench;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.gui.Gui;
@@ -87,7 +84,8 @@ public class GuiHandler implements IGuiHandler
 		WORKBENCH(3, GuiType.TILE_ENTITY, ContainerWorkbench.class, GuiWorkbench.class),
 		CHIP_CREATOR(4, GuiType.TILE_ENTITY, ContainerBasicCircuitCreator.class, GuiBasicCircuitCreator.class),
 		GUIDEBOOK(5, GuiType.ITEM, null, GuiGuidebook.class),
-		SOLID_FUELED_FIREBOX(6, GuiType.TILE_ENTITY, ContainerSolidFueledFirebox.class, GuiSolidFueledFirebox.class);
+		SOLID_FUELED_FIREBOX(6, GuiType.TILE_ENTITY, ContainerSolidFueledFirebox.class, GuiSolidFueledFirebox.class),
+		STONE_FOUNDRY(7, GuiType.TILE_ENTITY, ContainerStoneFoundry.class, GuiStoneFoundry.class);
 
 		public final int id;
 		public final GuiType type;

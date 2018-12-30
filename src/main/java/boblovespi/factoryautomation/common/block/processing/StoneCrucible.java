@@ -1,7 +1,10 @@
 package boblovespi.factoryautomation.common.block.processing;
 
+import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import net.minecraft.block.BlockHorizontal;
@@ -10,8 +13,10 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -87,5 +92,40 @@ public class StoneCrucible extends FABaseBlock
 	public int getMetaFromState(IBlockState state)
 	{
 		return state.getValue(FACING).getHorizontalIndex() | (state.getValue(MULTIBLOCK_COMPLETE) ? 4 : 0);
+	}
+
+	/**
+	 * Called when the block is right clicked by a player.
+	 */
+	@Override
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if (!worldIn.isRemote)
+		{
+			if (MultiblockHelper
+					.IsStructureComplete(worldIn, pos, TEStoneCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
+			{
+				TileEntity te = worldIn.getTileEntity(pos);
+				if (te instanceof TEStoneCrucible)
+				{
+					TEStoneCrucible foundry = (TEStoneCrucible) te;
+					if (!foundry.IsStructureValid())
+						foundry.CreateStructure();
+
+					if (facing == state.getValue(FACING).rotateYCCW())
+						foundry.PourInto(facing);
+					else
+						playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_FOUNDRY.id, worldIn,
+								pos.getX(), pos.getY(), pos.getZ());
+				}
+			} else
+			{
+				TileEntity te = worldIn.getTileEntity(pos);
+				if (te instanceof TEStoneCrucible)
+					((TEStoneCrucible) te).SetStructureInvalid();
+			}
+		}
+		return true;
 	}
 }

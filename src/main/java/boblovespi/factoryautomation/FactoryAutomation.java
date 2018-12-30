@@ -113,7 +113,7 @@ public class FactoryAutomation
 
 		MultiblockHandler.Register(
 				TEStoneCrucible.MULTIBLOCK_ID,
-				new MultiblockStructurePattern(MultiblockStructures.stoneFoundry, new int[] { 0, 0, 0 }));
+				new MultiblockStructurePattern(MultiblockStructures.stoneFoundry, new int[] { 0, 1, 0 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
 	}

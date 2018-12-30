@@ -33,7 +33,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 
 	public TESolidFueledFirebox()
 	{
-		heatUser = new HeatUser(20, 100, 300);
+		heatUser = new HeatUser(20, 1600, 300);
 		inventory = new ItemStackHandler(1);
 	}
 

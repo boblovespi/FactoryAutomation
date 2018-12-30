@@ -11,8 +11,8 @@ public class FuelHandler
 {
 	public static void RegisterFuels()
 	{
-		FuelRegistry.PutInfo(Items.COAL, 2172, 160, 3000);
-		FuelRegistry.PutInfo(FAItems.coalCoke.ToItem(), 2400, 200, 4000);
-		FuelRegistry.PutInfo(Items.COAL, 1, 2012, 160, 2000);
+		FuelRegistry.PutInfo(Items.COAL, 2172, 1600, 35200000);
+		FuelRegistry.PutInfo(FAItems.coalCoke.ToItem(), 2400, 2000, 5300000);
+		FuelRegistry.PutInfo(Items.COAL, 1, 2012, 1600, 2300000);
 	}
 }
