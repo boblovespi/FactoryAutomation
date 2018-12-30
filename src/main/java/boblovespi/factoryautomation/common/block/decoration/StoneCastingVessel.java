@@ -1,5 +1,7 @@
 package boblovespi.factoryautomation.common.block.decoration;
 
+import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCastingVessel;
@@ -109,7 +111,8 @@ public class StoneCastingVessel extends FABaseBlock
 			//noinspection StatementWithEmptyBody TODO: create gui
 			if (player.getHeldItem(hand).getItem() == Items.STICK)
 			{
-
+				player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_CASTING_VESSEL.id, world, pos.getX(),
+						pos.getY(), pos.getZ());
 			} else
 			{
 				TileEntity te = world.getTileEntity(pos);

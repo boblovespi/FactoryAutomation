@@ -36,6 +36,16 @@ public class TEStoneCastingVessel extends TileEntity
 		slot = new ItemStackHandler(1);
 	}
 
+	/**
+	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
+	 * Override instead of adding {@code if (firstTick)} stuff in update.
+	 */
+	@Override
+	public void onLoad()
+	{
+		form = world.getBlockState(pos).getValue(MOLD).metalForm;
+	}
+
 	public MetalForms GetForm()
 	{
 		return form;
@@ -167,5 +177,10 @@ public class TEStoneCastingVessel extends TileEntity
 	public void handleUpdateTag(NBTTagCompound tag)
 	{
 		readFromNBT(tag);
+	}
+
+	public boolean HasSand()
+	{
+		return hasSand;
 	}
 }

@@ -27,6 +27,9 @@ public class PacketHandler
 	{
 		// Register messages which are sent from the client to the server here:
 		INSTANCE.registerMessage(
-				BasicCircuitCreatorSyncPacket.Handler.class, BasicCircuitCreatorSyncPacket.class, NextId(), Side.SERVER);
+				BasicCircuitCreatorSyncPacket.Handler.class, BasicCircuitCreatorSyncPacket.class, NextId(),
+				Side.SERVER);
+		INSTANCE.registerMessage(
+				StoneCastingVesselMoldPacket.Handler.class, StoneCastingVesselMoldPacket.class, NextId(), Side.SERVER);
 	}
 }

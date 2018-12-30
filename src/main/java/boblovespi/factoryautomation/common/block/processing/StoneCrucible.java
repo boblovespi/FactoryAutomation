@@ -117,7 +117,7 @@ public class StoneCrucible extends FABaseBlock
 						foundry.PourInto(facing);
 					else
 						playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_FOUNDRY.id, worldIn,
-								pos.getX(), pos.getY(), pos.getZ());
+						pos.getX(), pos.getY(), pos.getZ());
 				}
 			} else
 			{

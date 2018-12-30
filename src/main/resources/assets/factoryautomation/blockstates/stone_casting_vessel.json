@@ -3,7 +3,7 @@
   "defaults": {
     "model": "factoryautomation:processing/stone_casting_vessel",
     "textures": {
-      "1": "factoryautomation:resources/green_sand"
+      "1": "factoryautomation:blocks/resources/green_sand"
     }
   },
   "variants": {
