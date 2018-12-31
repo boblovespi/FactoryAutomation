@@ -55,6 +55,11 @@ public class TEStoneCastingVessel extends TileEntity
 	{
 		slot.setStackInSlot(0, stack.copy());
 		this.temp = temp;
+
+		/* IMPORTANT */
+		markDirty();
+		IBlockState state = world.getBlockState(pos);
+		world.notifyBlockUpdate(pos, state, state, 7);
 	}
 
 	public void DropItems()
@@ -87,9 +92,13 @@ public class TEStoneCastingVessel extends TileEntity
 			}
 		} else if (item.getItem() == Item.getItemFromBlock(FABlocks.greenSand.ToBlock()))
 		{
-			int itemsTaken = 1 - item.getCount();
-			item.shrink(itemsTaken);
+			item.shrink(1);
 			SetForm(CastingVesselStates.SAND);
+
+			markDirty();
+			/* IMPORTANT */
+			IBlockState state = world.getBlockState(pos);
+			world.notifyBlockUpdate(pos, state, state, 7);
 		}
 	}
 
@@ -182,5 +191,10 @@ public class TEStoneCastingVessel extends TileEntity
 	public boolean HasSand()
 	{
 		return hasSand;
+	}
+
+	public ItemStack GetRenderStack()
+	{
+		return slot.getStackInSlot(0);
 	}
 }
