@@ -13,6 +13,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -117,7 +118,7 @@ public class StoneCrucible extends FABaseBlock
 						foundry.PourInto(facing);
 					else
 						playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_FOUNDRY.id, worldIn,
-						pos.getX(), pos.getY(), pos.getZ());
+								pos.getX(), pos.getY(), pos.getZ());
 				}
 			} else
 			{
@@ -127,5 +128,15 @@ public class StoneCrucible extends FABaseBlock
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Gets the {@link IBlockState} to place
+	 */
+	@Override
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	{
+		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().rotateYCCW());
 	}
 }

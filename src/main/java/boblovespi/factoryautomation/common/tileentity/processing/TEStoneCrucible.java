@@ -176,7 +176,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			if (metal.equals("none"))
 			{
 				meltTime = 0;
-			} else if (metal.equals(metals.metal))
+			} else if (metal.equals(metals.metal) || metals.metal.equals("none"))
 			{
 				int meltTemp = Metals.GetFromName(metal).meltTemp;
 				if (temp >= meltTemp)
@@ -416,7 +416,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			String drainMetal = metal;
 			if (amount == 0)
 				metal = "none";
-			if (toDrain >= (int) (form.amount * actualWaste))
+			if (toDrain >= (int) (form.amount * actualWaste - 1))
 				switch (form)
 				{
 				case INGOT:

@@ -13,7 +13,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -24,12 +27,13 @@ import static boblovespi.factoryautomation.common.block.decoration.StoneCastingV
 /**
  * Created by Willi on 12/29/2018.
  */
-public class TEStoneCastingVessel extends TileEntity
+public class TEStoneCastingVessel extends TileEntity implements ITickable
 {
 	private boolean hasSand;
 	private MetalForms form;
 	private ItemStackHandler slot;
-	private int temp;
+	private float temp = 20f;
+	private int counter = 0;
 
 	public TEStoneCastingVessel()
 	{
@@ -83,12 +87,20 @@ public class TEStoneCastingVessel extends TileEntity
 	{
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
-			ItemStack taken = TakeItem();
-			ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
-			if (hasSand)
+			if (temp < 40f)
 			{
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.ToBlock()), world);
-				SetForm(CastingVesselStates.EMPTY);
+				ItemStack taken = TakeItem();
+				ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
+				if (hasSand)
+				{
+					ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.ToBlock()), world);
+					SetForm(CastingVesselStates.EMPTY);
+				}
+			} else
+			{
+				player.attackEntityFrom(DamageSource.GENERIC, (temp - 40f) / (temp + 100f) * 20f);
+				player.sendStatusMessage(
+						new TextComponentString("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
 			}
 		} else if (item.getItem() == Item.getItemFromBlock(FABlocks.greenSand.ToBlock()))
 		{
@@ -134,7 +146,7 @@ public class TEStoneCastingVessel extends TileEntity
 		super.readFromNBT(tag);
 		slot.deserializeNBT(tag.getCompoundTag("slot"));
 		hasSand = tag.getBoolean("hasSand");
-		temp = tag.getInteger("temp");
+		temp = tag.getFloat("temp");
 		form = MetalForms.values()[tag.getInteger("form")];
 	}
 
@@ -143,7 +155,7 @@ public class TEStoneCastingVessel extends TileEntity
 	{
 		tag.setTag("slot", slot.serializeNBT());
 		tag.setBoolean("hasSand", hasSand);
-		tag.setInteger("temp", temp);
+		tag.setFloat("temp", temp);
 		tag.setInteger("form", form.ordinal());
 		return super.writeToNBT(tag);
 	}
@@ -196,5 +208,35 @@ public class TEStoneCastingVessel extends TileEntity
 	public ItemStack GetRenderStack()
 	{
 		return slot.getStackInSlot(0);
+	}
+
+	/**
+	 * Like the old updateEntity(), except more generic.
+	 */
+	@Override
+	public void update()
+	{
+		if (world.isRemote)
+			return;
+		if (temp > 20f)
+		{
+			if (world.isRaining())
+				temp *= 0.9938f;
+			else
+				temp *= 0.9972f;
+		}
+		counter--;
+		if (counter < 0)
+		{
+			markDirty();
+			IBlockState state = world.getBlockState(pos);
+			world.notifyBlockUpdate(pos, state, state, 7);
+			counter = 10;
+		}
+	}
+
+	public float GetTemp()
+	{
+		return temp;
 	}
 }
