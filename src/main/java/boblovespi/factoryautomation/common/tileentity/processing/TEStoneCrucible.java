@@ -128,7 +128,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	{
 		if (world.isRemote || !IsStructureValid())
 			return;
-		TEHelper.DissipateHeat(heatUser);
+		TEHelper.DissipateHeat(heatUser, 6);
 		ItemStack burnStack = inventory.getStackInSlot(0);
 		ItemStack meltStack = inventory.getStackInSlot(1);
 		if (isBurningFuel)

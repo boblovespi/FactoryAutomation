@@ -32,11 +32,11 @@ public class TEHelper
 		to.TransferEnergy(transfer);
 	}
 
-	public static void DissipateHeat(IHeatUser heatUser)
+	public static void DissipateHeat(IHeatUser heatUser, int numOfSides)
 	{
 		float K_d = heatUser.GetTemperature() - 20f;
 		float gamma = CapabilityHeatUser.AIR_CONDUCTIVITY;
-		float transfer = K_d * gamma * 0.05f;
+		float transfer = K_d * gamma * 0.05f * numOfSides;
 		heatUser.TransferEnergy(-transfer);
 	}
 }

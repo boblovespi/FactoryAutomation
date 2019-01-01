@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
  */
 public class CapabilityHeatUser
 {
-	public static final float AIR_CONDUCTIVITY = 0.02f;
+	public static final float AIR_CONDUCTIVITY = 0.024f;
 	@CapabilityInject(IHeatUser.class)
 	public static Capability<IHeatUser> HEAT_USER_CAPABILITY = null;
 
