@@ -1,0 +1,35 @@
+{
+  "name": "The Foundry",
+  "icon": "factoryautomation:stone_crucible",
+  "category": "gettingstarted",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "The foundry will help you smelt ore. It is very important early game. It requires a stone crucible, a stone casting vessel, and a furnace. Required: 14 cobblestone, 3 cobblestone slabs, 2 sand, and 2 clay blocks."
+    },
+    {
+      "type": "crafting",
+      "recipe": "factoryautomation:crafting_recipes/stone_crucible",
+      "recipe2": "factoryautomation:crafting_recipes/stone_casting_vessel"
+    },
+    {
+      "type": "crafting",
+      "recipe": "minecraft:furnace",
+      "text": "Make sure to have lots of coal."
+    },
+    {
+      "type": "multiblock",
+      "multiblock_id": "factoryautomation:stone_foundry",
+      "title": "The Foundry"
+    },
+    {
+      "type": "text",
+      "text": "First you put in a fuel source (recommended: coal or charcoal), then you wait until it heats up and put in your ores. You can melt as many as you want at a time, but be careful! It will waste ores if you overflow it."
+    },
+    {
+      "type": "crafting",
+      "recipe": "factoryautomation:crafting_recipes/green_sand"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible
 import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
+import boblovespi.factoryautomation.common.util.patchouli.PatchouliHelper;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
@@ -116,6 +117,8 @@ public class FactoryAutomation
 				new MultiblockStructurePattern(MultiblockStructures.stoneFoundry, new int[] { 0, 1, 0 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
+
+		PatchouliHelper.RegisterMultiblocks();
 	}
 
 	@SuppressWarnings("unused")
