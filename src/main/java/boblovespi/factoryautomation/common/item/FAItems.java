@@ -132,6 +132,7 @@ public class FAItems
 
 	// workbench tools
 
+	public static FAItem copperHammer;
 	public static FAItem ironHammer;
 	public static FAItem steelHammer;
 	public static FAItem steelWrench;
@@ -244,6 +245,7 @@ public class FAItems
 
 		// workbench tools
 
+		copperHammer = new Hammer("copper_hammer", 5, -3.7f, ToolMaterials.copperMaterial);
 		ironHammer = new Hammer("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
 		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
 		steelWrench = new Wrench("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
