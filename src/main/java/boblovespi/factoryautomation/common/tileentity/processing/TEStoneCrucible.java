@@ -27,8 +27,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.oredict.OreIngredient;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static boblovespi.factoryautomation.common.block.processing.StoneCrucible.MULTIBLOCK_COMPLETE;
 
@@ -38,6 +41,21 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 public class TEStoneCrucible extends TileEntity implements IMultiblockControllerTE, ITickable
 {
 	public static final String MULTIBLOCK_ID = "stone_foundry";
+	private static final List<MetalInfo> infos = new ArrayList<MetalInfo>(20)
+	{{
+		add(new MetalInfo(new OreIngredient("oreCopper"), "copper", 18));
+		add(new MetalInfo(new OreIngredient("nuggetCopper"), "copper", 2));
+		add(new MetalInfo(new OreIngredient("ingotCopper"), "copper", 18));
+		add(new MetalInfo(new OreIngredient("stickCopper"), "copper", 9));
+		add(new MetalInfo(new OreIngredient("plateCopper"), "copper", 18));
+		add(new MetalInfo(new OreIngredient("blockCopper"), "copper", 162));
+		add(new MetalInfo(new OreIngredient("oreTin"), "tin", 18));
+		add(new MetalInfo(new OreIngredient("nuggetTin"), "tin", 2));
+		add(new MetalInfo(new OreIngredient("ingotTin"), "tin", 18));
+		add(new MetalInfo(new OreIngredient("stickTin"), "tin", 9));
+		add(new MetalInfo(new OreIngredient("plateTin"), "tin", 18));
+		add(new MetalInfo(new OreIngredient("blockTin"), "tin", 162));
+	}};
 	private MetalHelper metals;
 	private ItemStackHandler inventory;
 	private HeatUser heatUser;
@@ -85,6 +103,13 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			return "copper";
 		if (item == Item.getItemFromBlock(FABlocks.metalOres.GetBlock(MetalOres.TIN)))
 			return "tin";
+
+		// oredict
+		for (MetalInfo info : infos)
+		{
+			if (info.ore.apply(stack))
+				return info.metal;
+		}
 		return "none";
 	}
 
@@ -115,6 +140,13 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		{
 			if (item == Item.getItemFromBlock(FABlocks.metalOres.GetBlock(ore)))
 				return mult * 18;
+		}
+
+		// oredict
+		for (MetalInfo info : infos)
+		{
+			if (info.ore.apply(stack))
+				return info.amount * mult;
 		}
 
 		return 0;
@@ -474,5 +506,19 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			amount = tag.getShort("amount");
 		}
 
+	}
+
+	private static class MetalInfo
+	{
+		public OreIngredient ore;
+		public String metal;
+		public int amount;
+
+		public MetalInfo(OreIngredient ore, String metal, int amount)
+		{
+			this.ore = ore;
+			this.metal = metal;
+			this.amount = amount;
+		}
 	}
 }
