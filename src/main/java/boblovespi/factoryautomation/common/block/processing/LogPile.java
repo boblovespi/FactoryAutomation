@@ -10,6 +10,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -29,6 +30,12 @@ public class LogPile extends FABaseBlock
 		setDefaultState(getDefaultState().withProperty(ACTIVATED, false));
 		setHardness(1.2f);
 		setHarvestLevel("axe", 0);
+	}
+
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		return "processing/" + RegistryName();
 	}
 
 	@Override
@@ -130,5 +137,33 @@ public class LogPile extends FABaseBlock
 	protected BlockStateContainer createBlockState()
 	{
 		return new BlockStateContainer(this, ACTIVATED);
+	}
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+
+	@Override
+	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand)
+	{
+		if (!state.getValue(ACTIVATED))
+			return;
+		double x = pos.getX() + 0.5;
+		double y = pos.getY() + 0.5;
+		double z = pos.getZ() + 0.5;
+		world.spawnParticle(EnumParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
+				rand.nextDouble() / 20d);
+		world.spawnParticle(
+				EnumParticleTypes.SMOKE_NORMAL, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		world.spawnParticle(
+				EnumParticleTypes.SMOKE_NORMAL, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 }

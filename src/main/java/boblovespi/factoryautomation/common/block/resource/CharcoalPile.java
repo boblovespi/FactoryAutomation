@@ -20,6 +20,12 @@ public class CharcoalPile extends FABaseBlock
 		setHardness(1);
 	}
 
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		return "resources/" + RegistryName();
+	}
+
 	/**
 	 * Get the Item that this Block should drop when harvested.
 	 */

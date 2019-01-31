@@ -208,6 +208,9 @@ tile.treetap.name=Treetap
 tile.wood_chopping_block.name=Wood Chopping Block
 tile.campfire.name=Campfire
 
+tile.log_pile.name=Log Pile
+tile.charcoal_pile.name=Charcoal Pile
+
 tile.steel_pillar.name=Steel pillar
 tile.pillar_block.name=Steel pillar for decoration
 
