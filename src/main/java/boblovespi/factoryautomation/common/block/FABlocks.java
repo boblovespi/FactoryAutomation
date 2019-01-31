@@ -7,7 +7,6 @@ import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbenc
 import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
 import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
-import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import boblovespi.factoryautomation.common.block.fluid.Pump;
@@ -17,9 +16,7 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.mechanical.HandCrank;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
-import boblovespi.factoryautomation.common.block.processing.Campfire;
-import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
-import boblovespi.factoryautomation.common.block.processing.Treetap;
+import boblovespi.factoryautomation.common.block.processing.*;
 import boblovespi.factoryautomation.common.block.resource.*;
 import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.item.FAItems;
@@ -137,6 +134,8 @@ public class FABlocks
 	// resource blocks
 
 	public static FABlock greenSand;
+	public static FABlock charcoalPile;
+	public static FABlock logPile;
 
 	public static void Init()
 	{
@@ -267,6 +266,8 @@ public class FABlocks
 		// resource blocks
 
 		greenSand = new FABaseBlock(Material.CLAY, "green_sand", FACreativeTabs.metallurgy);
+		charcoalPile = new CharcoalPile();
+		logPile = new LogPile();
 	}
 
 	public static void RegisterRenders()
