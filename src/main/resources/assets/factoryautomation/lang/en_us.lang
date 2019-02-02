@@ -154,6 +154,8 @@ item.screw.name=Screw
 item.air_piston.name=Air Piston
 item.bronze_flywheel.name=Bronze Flywheel
 item.stirling_generator_core.name=Stirling Generator Core
+item.terraclay.name=Terraclay
+item.terraclay_brick.name=Unfired Terraclay Brick
 
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame
@@ -221,6 +223,9 @@ tile.stone_casting_vessel.name=Stone Casting Vessel
 
 tile.green_sand.name=Green Sand
 tile.slag_glass.name=Slag Glass
+
+tile.terraclay_block.name=Terraclay Block
+tile.terraclay_brick_block.name=Terraclay Brick Block
 
 # config
 

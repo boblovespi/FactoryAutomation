@@ -17,7 +17,8 @@ public class CharcoalPile extends FABaseBlock
 	public CharcoalPile()
 	{
 		super(Material.GROUND, "charcoal_pile", FACreativeTabs.resources);
-		setHardness(1);
+		setHardness(0.5f);
+		setHarvestLevel("shovel", 0);
 	}
 
 	@Override

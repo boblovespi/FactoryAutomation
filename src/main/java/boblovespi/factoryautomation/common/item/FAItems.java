@@ -88,6 +88,8 @@ public class FAItems
 	public static FAItem rawRubber;
 	public static FAItem rubber;
 	public static FAItem graphite;
+	public static FAItem terraclay;
+	public static FAItem terraclayBrick;
 
 	// crafting components
 
@@ -201,6 +203,8 @@ public class FAItems
 		rawRubber = new FABaseItem("raw_rubber", FACreativeTabs.resources);
 		rubber = new FABaseItem("rubber", FACreativeTabs.resources);
 		graphite = new FABaseItem("graphite", FACreativeTabs.resources);
+		terraclay = new FABaseItem("terraclay", FACreativeTabs.resources);
+		terraclayBrick = new FABaseItem("terraclay_brick", FACreativeTabs.resources);
 
 		// crafting components
 
