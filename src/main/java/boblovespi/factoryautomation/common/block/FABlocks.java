@@ -136,6 +136,7 @@ public class FABlocks
 	public static FABlock greenSand;
 	public static FABlock charcoalPile;
 	public static FABlock logPile;
+	public static FABlock terraclayBrickBlock;
 
 	public static void Init()
 	{
@@ -268,6 +269,7 @@ public class FABlocks
 		greenSand = new FABaseBlock(Material.CLAY, "green_sand", FACreativeTabs.metallurgy);
 		charcoalPile = new CharcoalPile();
 		logPile = new LogPile();
+		terraclayBrickBlock = new FABaseBlock(Material.ROCK, "terraclay_brick_block", CreativeTabs.BUILDING_BLOCKS);
 	}
 
 	public static void RegisterRenders()

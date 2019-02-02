@@ -15,7 +15,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  * Created by Willi on 1/27/2019.
@@ -63,6 +65,26 @@ public class LogPile extends FABaseBlock
 		if (activated)
 		{
 			world.setBlockState(pos, FABlocks.charcoalPile.ToBlock().getDefaultState());
+			for (EnumFacing dir : EnumFacing.values())
+			{
+				BlockPos offset = pos.offset(dir);
+				IBlockState state1 = world.getBlockState(offset);
+				if (state1.getBlock() == FABlocks.terraclayBrickBlock)
+				{
+					boolean foundPile = false;
+					for (int i = 4; i >= 0; i--)
+					{
+						BlockPos pos1 = offset.offset(dir, i);
+						IBlockState state2 = world.getBlockState(pos1);
+						if (foundPile)
+						{
+							if (state2.getBlock() == FABlocks.terraclayBrickBlock && isSurrounded(world, pos1, null))
+								world.setBlockState(pos1, Blocks.BRICK_BLOCK.getDefaultState());
+						} else if (state2.getBlock() == this && state2.getValue(ACTIVATED))
+							foundPile = true;
+					}
+				}
+			}
 		}
 	}
 
@@ -165,5 +187,24 @@ public class LogPile extends FABaseBlock
 				EnumParticleTypes.SMOKE_NORMAL, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 		world.spawnParticle(
 				EnumParticleTypes.SMOKE_NORMAL, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+	}
+
+	private boolean isSurrounded(World world, BlockPos pos, @Nullable Predicate<IBlockState> block)
+	{
+		for (EnumFacing dir : EnumFacing.values())
+		{
+			BlockPos offset = pos.offset(dir);
+			IBlockState state = world.getBlockState(offset);
+			if (block == null)
+			{
+				if (!state.isSideSolid(world, offset, dir.getOpposite()) && state.getBlock() != this)
+					return false;
+			} else
+			{
+				if (!block.test(state) && state.getBlock() != this)
+					return false;
+			}
+		}
+		return true;
 	}
 }
