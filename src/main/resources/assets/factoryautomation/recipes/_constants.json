@@ -325,6 +325,222 @@
   },
   {
     "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetCopper"
+    },
+    "name": "nuggetCopper"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetIron"
+    },
+    "name": "nuggetIron"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetBronze"
+    },
+    "name": "nuggetBronze"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetMagmaticBrass"
+    },
+    "name": "nuggetMagmaticBrass"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetSteel"
+    },
+    "name": "nuggetSteel"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetGold"
+    },
+    "name": "nuggetGold"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetCopper"
+    },
+    "name": "nuggetCopper"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetTin"
+    },
+    "name": "nuggetTin"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#nuggetSteel"
+      }
+    ],
+    "name": "nuggetMetalT5"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#nuggetMagmaticBrass"
+      },
+      {
+        "item": "#nuggetMetalT5"
+      }
+    ],
+    "name": "nuggetMetalT4"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#nuggetBronze"
+      },
+      {
+        "item": "#nuggetMetalT4"
+      }
+    ],
+    "name": "nuggetMetalT3"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#nuggetIron"
+      },
+      {
+        "item": "#nuggetMetalT3"
+      }
+    ],
+    "name": "nuggetMetalT2"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#nuggetCopper"
+      },
+      {
+        "item": "#nuggetMetalT2"
+      }
+    ],
+    "name": "nuggetMetalT1"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickCopper"
+    },
+    "name": "stickCopper"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickIron"
+    },
+    "name": "stickIron"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickBronze"
+    },
+    "name": "stickBronze"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickMagmaticBrass"
+    },
+    "name": "stickMagmaticBrass"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickSteel"
+    },
+    "name": "stickSteel"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickGold"
+    },
+    "name": "stickGold"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickCopper"
+    },
+    "name": "stickCopper"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickTin"
+    },
+    "name": "stickTin"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#stickSteel"
+      }
+    ],
+    "name": "stickMetalT5"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#stickMagmaticBrass"
+      },
+      {
+        "item": "#stickMetalT5"
+      }
+    ],
+    "name": "stickMetalT4"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#stickBronze"
+      },
+      {
+        "item": "#stickMetalT4"
+      }
+    ],
+    "name": "stickMetalT3"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#stickIron"
+      },
+      {
+        "item": "#stickMetalT3"
+      }
+    ],
+    "name": "stickMetalT2"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "#stickCopper"
+      },
+      {
+        "item": "#stickMetalT2"
+      }
+    ],
+    "name": "stickMetalT1"
+  },
+  {
+    "ingredient": {
       "item": "minecraft:stone_slab",
       "data": 0
     },

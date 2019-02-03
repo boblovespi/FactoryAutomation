@@ -55,7 +55,7 @@ public class LogPile extends FABaseBlock
 	@Override
 	public int tickRate(World worldIn)
 	{
-		return 3000;
+		return 6000;
 	}
 
 	@Override

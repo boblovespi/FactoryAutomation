@@ -42,7 +42,7 @@ public class BrickMaker extends FABaseBlock
 	@Override
 	public int tickRate(World worldIn)
 	{
-		return 100;
+		return 3000;
 	}
 
 	@Override
