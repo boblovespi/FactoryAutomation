@@ -104,6 +104,10 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		if (item == Item.getItemFromBlock(FABlocks.metalOres.GetBlock(MetalOres.TIN)))
 			return "tin";
 
+		// iron shards
+		if (item == FAItems.ironShard)
+			return "iron";
+
 		// oredict
 		for (MetalInfo info : infos)
 		{
@@ -141,6 +145,10 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			if (item == Item.getItemFromBlock(FABlocks.metalOres.GetBlock(ore)))
 				return mult * 18;
 		}
+
+		// iron shards
+		if (item == FAItems.ironShard)
+			return mult * 2;
 
 		// oredict
 		for (MetalInfo info : infos)

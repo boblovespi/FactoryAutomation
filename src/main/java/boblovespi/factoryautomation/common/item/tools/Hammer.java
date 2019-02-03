@@ -19,11 +19,13 @@ public class Hammer extends WorkbenchToolItem
 			Set<Block> effectiveBlocksIn)
 	{
 		super(name, attackDamageIn, attackSpeedIn, materialIn, effectiveBlocksIn);
+		setHarvestLevel("hammer", materialIn.getHarvestLevel());
 	}
 
 	public Hammer(String name, float attackDamageIn, float attackSpeedIn, ToolMaterial materialIn)
 	{
 		super(name, attackDamageIn, attackSpeedIn, materialIn);
+		setHarvestLevel("hammer", materialIn.getHarvestLevel());
 	}
 
 	@Override
@@ -38,6 +40,8 @@ public class Hammer extends WorkbenchToolItem
 				return toolMaterial.getHarvestLevel();
 			}
 		}
+		if (this.getToolClasses(stack).contains(toolClass))
+			return toolMaterial.getHarvestLevel();
 		return -1;
 	}
 }

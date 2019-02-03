@@ -1,0 +1,19 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["iii", "isi", " s "],
+  "key": {
+    "i": {
+      "item": "#ingotCopper"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  },
+  "tools": {},
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:copper_hammer"
+  }
+}

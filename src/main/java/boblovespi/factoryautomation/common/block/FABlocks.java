@@ -77,6 +77,7 @@ public class FABlocks
 	public static FABlock woodChoppingBlock;
 	public static FABlock campfire;
 	public static FABlock brickMakerFrame;
+	public static FABlock ironCharcoalMix;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -139,6 +140,7 @@ public class FABlocks
 	public static FABlock logPile;
 	public static FABlock terraclayBrickBlock;
 	public static FABlock terraclayBlock;
+	public static FABlock ironBloom;
 
 	public static void Init()
 	{
@@ -204,6 +206,7 @@ public class FABlocks
 		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10).Init(n -> n.setHardness(4.0f));
 		campfire = new Campfire().Init(n -> n.setHardness(4.0f));
 		brickMakerFrame = new BrickMaker();
+		ironCharcoalMix = new IronCharcoalMix();
 
 		//The soo many pillars update
 
@@ -276,6 +279,7 @@ public class FABlocks
 				.Init(n -> n.setHardness(2f).setHarvestLevel("pickaxe", 0));
 		terraclayBlock = new FABaseBlock(Material.CLAY, "terraclay_block", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(0.8f).setHarvestLevel("shovel", 0));
+		ironBloom = new IronBloom();
 	}
 
 	public static void RegisterRenders()

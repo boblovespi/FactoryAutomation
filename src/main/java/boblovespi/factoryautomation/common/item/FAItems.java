@@ -65,6 +65,7 @@ public class FAItems
 
 	public static FAItem slag;
 	public static FAItem coalCoke;
+	public static FAItem ironShard;
 
 	// ore processing forms
 
@@ -179,6 +180,7 @@ public class FAItems
 
 		slag = new FABaseItem("slag", FACreativeTabs.metallurgy);
 		coalCoke = new FAFuel("coal_coke", FACreativeTabs.metallurgy, 2000);
+		ironShard = new FABaseItem("iron_shard", FACreativeTabs.metallurgy);
 
 		// ore processing forms
 

@@ -4,6 +4,7 @@
 item.rice.name=Rice
 item.slag.name=Slag
 item.coal_coke.name=Coal Coke
+item.iron_shard.name=Iron Shard
 
 # items-ingots
 item.ingot_copper.name=Copper Ingot
@@ -226,6 +227,9 @@ tile.slag_glass.name=Slag Glass
 
 tile.terraclay_block.name=Terraclay Block
 tile.terraclay_brick_block.name=Terraclay Brick Block
+
+tile.iron_charcoal_mix.name=Limonite-Charcoal Mix
+tile.iron_bloom.name=Iron Bloom
 
 # config
 

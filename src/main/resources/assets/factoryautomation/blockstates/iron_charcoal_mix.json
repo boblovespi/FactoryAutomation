@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "activated=false": {
+      "model": "factoryautomation:processing/iron_charcoal_mix"
+    },
+    "activated=true": {
+      "model": "factoryautomation:processing/iron_charcoal_mix"
+    }
+  }
+}

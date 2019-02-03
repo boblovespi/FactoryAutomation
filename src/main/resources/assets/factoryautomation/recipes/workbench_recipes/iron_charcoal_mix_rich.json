@@ -1,0 +1,24 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["lcc", "ccc", "ccc"],
+  "key": {
+    "l": {
+      "item": "factoryautomation:limonite_ore_rich"
+    },
+    "c": {
+      "item": "#charcoal"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 20
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:iron_charcoal_mix",
+    "count": 3
+  }
+}

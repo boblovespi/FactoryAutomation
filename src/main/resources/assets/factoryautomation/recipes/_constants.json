@@ -629,5 +629,18 @@
       }
     ],
     "name": "charcoalCoal"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "minecraft:coal",
+        "data": 1
+      },
+      {
+        "type": "forge:ore_dict",
+        "ore": "gemCharcoal"
+      }
+    ],
+    "name": "charcoal"
   }
 ]
