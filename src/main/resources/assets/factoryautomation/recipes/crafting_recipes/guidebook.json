@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["rd"],
+  "key": {
+    "r": {
+      "item": "#rock"
+    },
+    "d": {
+      "type": "forge:ore_dict",
+      "ore": "dirt"
+    }
+  },
+  "result": {
+    "item": "patchouli:guide_book",
+    "nbt": {
+      "patchouli:book": "factoryautomation:book"
+    }
+  }
+}
