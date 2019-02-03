@@ -1,0 +1,13 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["tt", "tt"],
+  "key": {
+    "t": {
+      "item": "factoryautomation:terraclay"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:terraclay_block",
+    "count": 1
+  }
+}

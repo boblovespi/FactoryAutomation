@@ -76,6 +76,7 @@ public class FABlocks
 	public static FABlock solidfueledfirebox;
 	public static FABlock woodChoppingBlock;
 	public static FABlock campfire;
+	public static FABlock brickMakerFrame;
 
 	// will be removed soon
 	public static MultiTypeBlock<MetalOres> metalOres;
@@ -202,6 +203,7 @@ public class FABlocks
 		solidfueledfirebox = new SolidFueledFirebox();
 		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10).Init(n -> n.setHardness(4.0f));
 		campfire = new Campfire().Init(n -> n.setHardness(4.0f));
+		brickMakerFrame = new BrickMaker();
 
 		//The soo many pillars update
 

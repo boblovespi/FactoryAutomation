@@ -1,0 +1,20 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["cd", "sc"],
+  "key": {
+    "s": {
+      "item": "#sand"
+    },
+    "c": {
+      "item": "minecraft:clay_ball"
+    },
+    "d": {
+      "type": "forge:ore_dict",
+      "ore": "dirt"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:terraclay",
+    "count": 2
+  }
+}

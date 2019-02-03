@@ -1,0 +1,16 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["lll", "lll", "lll"],
+  "key": {
+    "l": {
+      "item": "#log"
+    }
+  },
+  "tools": {
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:log_pile"
+  }
+}

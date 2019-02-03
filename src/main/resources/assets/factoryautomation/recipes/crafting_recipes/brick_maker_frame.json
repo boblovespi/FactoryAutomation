@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["s s", "ppp"],
+  "key": {
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "p": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:brick_maker_frame",
+    "count": 1
+  }
+}
