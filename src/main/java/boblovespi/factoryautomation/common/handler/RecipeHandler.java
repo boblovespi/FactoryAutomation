@@ -278,7 +278,7 @@ public class RecipeHandler
 						woodType.getMetadata(), new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
 			else
 				ChoppingBlockRecipe.AddRecipe(woodType.getName() + "_log_to_plank", Item.getItemFromBlock(Blocks.LOG2),
-						woodType.getMetadata(), new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
+						woodType.getMetadata() - 4, new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
 		}
 		ChoppingBlockRecipe.AddRecipe("plank_to_stick", "plankWood", new ItemStack(Items.STICK, 4, 0));
 

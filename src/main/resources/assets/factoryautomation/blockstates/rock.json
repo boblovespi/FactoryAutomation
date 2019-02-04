@@ -32,7 +32,7 @@
       },
       "sandstone": {
         "textures": {
-          "0": "blocks/sandstone"
+          "0": "blocks/sandstone_normal"
         }
       },
       "mossy_cobblestone": {

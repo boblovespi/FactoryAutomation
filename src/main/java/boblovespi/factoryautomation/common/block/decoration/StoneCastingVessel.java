@@ -108,7 +108,6 @@ public class StoneCastingVessel extends FABaseBlock
 	{
 		if (!world.isRemote)
 		{
-			//noinspection StatementWithEmptyBody TODO: create gui
 			if (player.getHeldItem(hand).getItem() == Items.STICK)
 			{
 				player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_CASTING_VESSEL.id, world, pos.getX(),

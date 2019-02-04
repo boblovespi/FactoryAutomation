@@ -102,7 +102,8 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable
 				player.sendStatusMessage(
 						new TextComponentString("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
 			}
-		} else if (item.getItem() == Item.getItemFromBlock(FABlocks.greenSand.ToBlock()))
+		} else if (item.getItem() == Item.getItemFromBlock(FABlocks.greenSand.ToBlock())
+				&& world.getBlockState(pos).getValue(MOLD) == CastingVesselStates.EMPTY)
 		{
 			item.shrink(1);
 			SetForm(CastingVesselStates.SAND);
