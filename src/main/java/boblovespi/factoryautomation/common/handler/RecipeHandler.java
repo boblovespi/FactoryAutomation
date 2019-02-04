@@ -5,7 +5,6 @@ import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
@@ -34,10 +33,7 @@ import net.minecraftforge.registries.ForgeRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 import static boblovespi.factoryautomation.common.block.resource.Ore.Grade.*;
@@ -186,10 +182,10 @@ public class RecipeHandler
 		//
 		//
 
-		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.COPPER), 1),
-				new ItemStack(FAItems.ingot.GetItem(Metals.COPPER), 1), 0.7f);
-		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.TIN), 1),
-				new ItemStack(FAItems.ingot.GetItem(Metals.TIN), 1), 0.7f);
+		//		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.COPPER), 1),
+		//				new ItemStack(FAItems.ingot.GetItem(Metals.COPPER), 1), 0.7f);
+		//		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FABlocks.metalOres.GetBlock(MetalOres.TIN), 1),
+		//				new ItemStack(FAItems.ingot.GetItem(Metals.TIN), 1), 0.7f);
 
 		FurnaceRecipes.instance().addSmeltingRecipe(filledCrucibleStack, bronzeCrucibleStack, 10f);
 
@@ -374,6 +370,39 @@ public class RecipeHandler
 		sticks.setRegistryName(new ResourceLocation(MODID, "sticks_via_" + axeName));
 
 		recipes.add(sticks);
+	}
+
+	public static void RemoveSmeltingRecipes()
+	{
+		// furnace recipe removal
+		List<Ingredient> removeList = new ArrayList<>();
+		removeList.add(new OreIngredient("oreIron"));
+		removeList.add(new OreIngredient("oreGold"));
+		removeList.add(new OreIngredient("oreCopper"));
+		removeList.add(new OreIngredient("oreDiamond"));
+		removeList.add(new OreIngredient("oreTin"));
+		removeList.add(Ingredient.fromItem(Items.CLAY_BALL));
+		removeList.add(Ingredient.fromItem(Item.getItemFromBlock(Blocks.GOLD_ORE)));
+		removeList.add(Ingredient.fromItem(Item.getItemFromBlock(Blocks.IRON_ORE)));
+		removeList.add(Ingredient.fromItem(Item.getItemFromBlock(Blocks.DIAMOND_ORE)));
+		List<ItemStack> toRemoveList = new ArrayList<>();
+
+		for (Map.Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet())
+		{
+			for (Ingredient ingredient : removeList)
+			{
+				if (ingredient.apply(entry.getKey()))
+				{
+					toRemoveList.add(entry.getKey());
+					break;
+				}
+			}
+		}
+
+		for (ItemStack stack : toRemoveList)
+		{
+			FurnaceRecipes.instance().getSmeltingList().remove(stack);
+		}
 	}
 
 }

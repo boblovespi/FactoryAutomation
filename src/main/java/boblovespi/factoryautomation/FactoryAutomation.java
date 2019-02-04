@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.ConfigFields;
 import boblovespi.factoryautomation.common.fluid.Fluids;
+import boblovespi.factoryautomation.common.handler.RecipeHandler;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.handler.VanillaTweakHandler;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
@@ -131,6 +132,8 @@ public class FactoryAutomation
 		VanillaTweakHandler.TweakMiningLevels();
 
 		TooltipHandler.RegisterTooltips();
+
+		RecipeHandler.RemoveSmeltingRecipes();
 
 		Log.getLogger().info("Postinitialization end");
 	}
