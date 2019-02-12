@@ -127,6 +127,7 @@ public class FABlocks
 	// mechanical
 
 	public static FABlock handCrank;
+	public static FABlock millstone;
 
 	// transfer
 
@@ -264,6 +265,7 @@ public class FABlocks
 		// mechanical
 
 		handCrank = new HandCrank();
+		millstone = new Millstone();
 
 		// transfer
 

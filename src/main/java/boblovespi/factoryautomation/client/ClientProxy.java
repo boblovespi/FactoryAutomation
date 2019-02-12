@@ -10,10 +10,7 @@ import boblovespi.factoryautomation.common.guidebook.entry.GuidebookEntry;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.Guidebook;
 import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
-import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
-import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
-import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
+import boblovespi.factoryautomation.common.tileentity.mechanical.*;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
 import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCastingVessel;
@@ -58,6 +55,7 @@ public class ClientProxy implements CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TEChoppingBlock.class, new TESRChoppingBlock());
 		ClientRegistry.bindTileEntitySpecialRenderer(TECampfire.class, new TESRCampfire());
 		ClientRegistry.bindTileEntitySpecialRenderer(TEStoneCastingVessel.class, new TESRStoneCastingVessel());
+		ClientRegistry.bindTileEntitySpecialRenderer(TEMillstone.class, new TESRMillstone());
 	}
 
 	@Override

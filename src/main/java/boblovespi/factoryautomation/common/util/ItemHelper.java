@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.util;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -26,5 +27,15 @@ public class ItemHelper
 		boolean b = stack.attemptDamageItem(1, Randoms.MAIN.r, null);
 		if (b)
 			stack.shrink(amount);
+	}
+
+	public static String GetItemID(Item item, int meta)
+	{
+		return item.getRegistryName().toString() + ":" + meta;
+	}
+
+	public static String GetItemID(ItemStack input)
+	{
+		return GetItemID(input.getItem(), input.getMetadata());
 	}
 }

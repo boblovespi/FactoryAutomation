@@ -2,6 +2,7 @@
 
 # items-misc
 item.rice.name=Rice
+item.wheat_flour.name=Wheat Flour
 item.slag.name=Slag
 item.coal_coke.name=Coal Coke
 item.iron_shard.name=Iron Shard
@@ -201,6 +202,7 @@ tile.gearbox.name=Gearbox
 tile.hand_crank.name=Hand Crank
 
 tile.jaw_crusher.name=Jaw Crusher
+tile.millstone.name=Millstone
 
 tile.stone_workbench.name=Stone Workbench
 tile.iron_workbench.name=Iron Workbench

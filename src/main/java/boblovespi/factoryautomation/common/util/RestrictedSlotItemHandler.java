@@ -5,17 +5,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
+import java.util.BitSet;
 
 /**
  * Created by Willi on 8/13/2018.
  */
 public class RestrictedSlotItemHandler extends ItemStackHandler
 {
-	private HashSet<Integer> restrictedSlots;
+	private BitSet restrictedSlots;
 	private ItemStackHandler wrappingHandler;
 
-	public RestrictedSlotItemHandler(HashSet<Integer> restrictedSlots, ItemStackHandler wrappingHandler)
+	public RestrictedSlotItemHandler(BitSet restrictedSlots, ItemStackHandler wrappingHandler)
 	{
 		this.restrictedSlots = restrictedSlots;
 		this.wrappingHandler = wrappingHandler;
@@ -23,7 +23,7 @@ public class RestrictedSlotItemHandler extends ItemStackHandler
 
 	private boolean IsInternalSlotValid(int slot)
 	{
-		return !restrictedSlots.contains(slot);
+		return !restrictedSlots.get(slot);
 	}
 
 	@Override
@@ -91,5 +91,11 @@ public class RestrictedSlotItemHandler extends ItemStackHandler
 	public void deserializeNBT(NBTTagCompound nbt)
 	{
 		wrappingHandler.deserializeNBT(nbt);
+	}
+
+	@Override
+	public boolean isItemValid(int slot, @Nonnull ItemStack stack)
+	{
+		return IsInternalSlotValid(slot);
 	}
 }

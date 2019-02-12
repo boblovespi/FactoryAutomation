@@ -21,8 +21,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.BitSet;
 
 /**
  * Created by Willi on 11/12/2017.
@@ -55,11 +54,11 @@ public class TEBlastFurnaceController extends TileEntity
 	public TEBlastFurnaceController()
 	{
 		itemHandler = new ItemStackHandler(7);
-		inputHopperWrapper = new RestrictedSlotItemHandler(new HashSet<Integer>()
+		inputHopperWrapper = new RestrictedSlotItemHandler(new BitSet(7)
 		{{
-			add(0);
-			add(5);
-			add(6);
+			set(5);
+			set(6);
+			set(0);
 		}}, itemHandler);
 	}
 

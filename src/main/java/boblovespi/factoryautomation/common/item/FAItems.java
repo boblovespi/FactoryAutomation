@@ -75,6 +75,7 @@ public class FAItems
 
 	public static FAItem riceGrain;
 	public static FAItem toastedBread;
+	public static FAItem wheatFlour;
 
 	// resources
 
@@ -191,6 +192,7 @@ public class FAItems
 		riceGrain = new RiceGrain();
 		toastedBread = new FAFood(
 				"toasted_bread", 5, 4, 32, false, false, Collections.emptyList(), Collections.emptyList());
+		wheatFlour = new FABaseItem("wheat_flour", FACreativeTabs.resources);
 
 		// resources
 

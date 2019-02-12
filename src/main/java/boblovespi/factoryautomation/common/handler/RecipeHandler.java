@@ -300,6 +300,10 @@ public class RecipeHandler
 			CampfireRecipe.AddRecipe("fish" + i, Items.FISH, i, new ItemStack(Items.COOKED_FISH, 1, i), 20 * 60 * 3);
 		}
 
+		// millstone recipes
+		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 0, 50, 5, new ItemStack(FAItems.wheatFlour.ToItem()));
+		MillstoneRecipe.AddRecipe("bone_meal", Items.BONE, 0, 30, 5, new ItemStack(Items.DYE, 4, 15));
+
 		//
 
 		//
