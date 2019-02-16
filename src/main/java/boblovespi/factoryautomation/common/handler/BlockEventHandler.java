@@ -96,11 +96,10 @@ public class BlockEventHandler
 	@SubscribeEvent
 	public static void OnBlockBrokenEvent(BlockEvent.BreakEvent event)
 	{
+		BlockPos pos = event.getPos();
+		World world = event.getWorld();
 		if (FABlocks.multiblockPart == event.getState().getBlock())
 		{
-			BlockPos pos = event.getPos();
-			World world = event.getWorld();
-
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
 
@@ -122,6 +121,16 @@ public class BlockEventHandler
 					controllerTe.SetStructureInvalid();
 				}
 			}
+		} else if (world.getTileEntity(pos) instanceof IMultiblockControllerTE)
+		{
+			Log.LogInfo("something broke!");
+			Log.LogInfo("blockPos", pos);
+
+			IMultiblockControllerTE part = (IMultiblockControllerTE) world.getTileEntity(pos);
+
+			part.BreakStructure();
+			part.SetStructureInvalid();
+
 		} else if (Blocks.DIAMOND_ORE == event.getState().getBlock())
 		{
 			int enchantmentLevel = EnchantmentHelper

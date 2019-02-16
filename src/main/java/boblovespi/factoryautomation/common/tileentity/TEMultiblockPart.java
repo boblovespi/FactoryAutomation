@@ -99,12 +99,16 @@ public class TEMultiblockPart extends TileEntity
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
 	{
+		if (controller == null)
+			return null;
 		return controller.GetCapability(capability, structurePosition, facing);
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
 	{
+		if (controller == null)
+			return false;
 		return controller.GetCapability(capability, structurePosition, facing) != null;
 	}
 }

@@ -133,6 +133,7 @@ public class FAItems
 	public static FAItem copperSword;
 
 	public static FAItem choppingBlade;
+	public static FAItem firebow;
 
 	// workbench tools
 
@@ -250,6 +251,7 @@ public class FAItems
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
 
 		choppingBlade = new FAAxe(flintMaterial, "chopping_blade");
+		firebow = new Firebow();
 
 		// workbench tools
 

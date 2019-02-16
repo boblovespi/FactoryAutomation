@@ -4,9 +4,11 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.MillstoneRecipe;
 import boblovespi.factoryautomation.common.tileentity.TEMachine;
+import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -151,5 +153,22 @@ public class TEMillstone extends TEMachine
 	public float GetSpeed()
 	{
 		return mechanicalUser.GetSpeed();
+	}
+
+	public void TakeOrPlace(ItemStack item, EntityPlayer player)
+	{
+		if (!processingInv.getStackInSlot(0).isEmpty())
+		{
+			ItemStack taken = processingInv.extractItem(0, 64, false);
+			ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
+		} else
+		{
+			ItemStack stack = processingInv.insertItem(0, item.copy(), false);
+			item.setCount(stack.getCount());
+		}
+
+		markDirty();
+		IBlockState state = world.getBlockState(pos);
+		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 }
