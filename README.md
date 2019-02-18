@@ -27,6 +27,7 @@ FactoryAutomation is coded by 2 developers, and two designers.
 |King of creepers|Modeler, Artist, and Designer|
 |Gaborboy95|Developer and Modeler|
 |Blobbb|Does stuff|
+|OroArmor|Sound|
 
 
 ### Development
