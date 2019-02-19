@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -38,6 +39,7 @@ public class Rock extends FABaseBlock
 		setDefaultState(getDefaultState().withProperty(VARIANTS, Variants.COBBLESTONE));
 		item = new RockItem(this);
 		FAItems.items.add(item);
+		setSoundType(SoundHandler.rock);
 	}
 
 	@Override

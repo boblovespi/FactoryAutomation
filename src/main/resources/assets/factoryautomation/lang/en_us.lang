@@ -298,3 +298,6 @@ tile.pillar_block_steel.name=Steel decorative pillar
 tile.pillar_block_tin.name=Tin decorative pillar
 tile.pillar_block_lead.name=Lead decorative pillar
 tile.pillar_block_silver.name=Silver decorative pillar
+
+#subtitles
+subtitle.breakRock=Rock Broken

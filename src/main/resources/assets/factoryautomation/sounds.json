@@ -1,7 +1,7 @@
 {
-	"break_rock":{
-		"category":"block",
-		"subtitle":"Rock Broken",
-		"sounds":["factoryautomation:assets/factoryautomation/sounds/dig/rock1.ogg"]
+	"break_rock": {
+		"category": "block",
+		"subtitle": "factoryautomation.subtitle.breakRock",
+		"sounds": ["factoryautomation:sounds/dig/rock1", "factoryautomation:sounds/dig/rock2"]
 	}
 }
