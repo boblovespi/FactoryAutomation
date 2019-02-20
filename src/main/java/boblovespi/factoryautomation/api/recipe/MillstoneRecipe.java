@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
-import scala.actors.threadpool.Arrays;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
