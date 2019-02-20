@@ -8,6 +8,7 @@ import mezz.jei.api.gui.IDrawableStatic;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -62,8 +63,8 @@ public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecip
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, JawCrusherRecipeWrapper recipeWrapper, IIngredients ing)
 	{
-		List<List<ItemStack>> inputs = ing.getInputs(ItemStack.class);
-		List<List<ItemStack>> outputs = ing.getOutputs(ItemStack.class);
+		List<List<ItemStack>> inputs = ing.getInputs(VanillaTypes.ITEM);
+		List<List<ItemStack>> outputs = ing.getOutputs(VanillaTypes.ITEM);
 
 		IGuiItemStackGroup gui = recipeLayout.getItemStacks();
 

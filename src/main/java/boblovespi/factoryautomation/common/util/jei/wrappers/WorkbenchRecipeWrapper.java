@@ -2,8 +2,8 @@ package boblovespi.factoryautomation.common.util.jei.wrappers;
 
 import boblovespi.factoryautomation.api.recipe.IWorkbenchRecipe;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -26,9 +26,14 @@ public class WorkbenchRecipeWrapper implements IRecipeWrapper
 	@Override
 	public void getIngredients(IIngredients ingredients)
 	{
-		ingredients.setInputs(
-				ItemStack.class,
-				recipe.GetJeiRecipe().stream().map(n -> Arrays.asList(n.getMatchingStacks())).collect(Collectors.toList()));
-		ingredients.setOutput(ItemStack.class, recipe.GetResultItem());
+		ingredients.setInputLists(
+				VanillaTypes.ITEM, recipe.GetJeiRecipe().stream().map(n -> Arrays.asList(n.getMatchingStacks()))
+										 .collect(Collectors.toList()));
+		ingredients.setOutput(VanillaTypes.ITEM, recipe.GetResultItem());
+	}
+
+	public IWorkbenchRecipe getRecipe()
+	{
+		return recipe;
 	}
 }

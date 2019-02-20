@@ -1,6 +1,10 @@
 package boblovespi.factoryautomation.common.util.jei.categories;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.api.recipe.IWorkbenchRecipe;
+import boblovespi.factoryautomation.api.recipe.WorkbenchPart;
+import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
+import boblovespi.factoryautomation.common.util.jei.wrappers.WorkbenchRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IDrawableStatic;
@@ -11,12 +15,19 @@ import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Willi on 5/5/2018.
  */
-public class WorkbenchRecipeCategory implements IRecipeCategory
+public class WorkbenchRecipeCategory implements IRecipeCategory<WorkbenchRecipeWrapper>
 {
 	private static final int u = 15;
 	private static final int v = 16;
@@ -85,12 +96,14 @@ public class WorkbenchRecipeCategory implements IRecipeCategory
 	 * @since JEI 3.11.0
 	 */
 	@Override
-	public void setRecipe(IRecipeLayout layout, IRecipeWrapper wrapper, IIngredients ingredients)
+	public void setRecipe(IRecipeLayout layout, WorkbenchRecipeWrapper wrapper, IIngredients ingredients)
 	{
 		IGuiItemStackGroup gui = layout.getItemStacks();
-		gui.init(0, false, 198 - u, 53 - v);
+		gui.init(0, false, 197 - u, 52 - v);
+		IWorkbenchRecipe recipe = wrapper.getRecipe();
+		List<Ingredient> inputs = recipe.GetJeiRecipe();
 
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 7; i++) // init all the slots using black magic
 		{
 			for (int j = 0; j < 5; j++)
 			{
@@ -99,15 +112,37 @@ public class WorkbenchRecipeCategory implements IRecipeCategory
 			}
 		}
 
-		for (int x = 0; x < 5; x++)
+		for (int x = 0; x < 5; x++) // set the main recipe slots
 		{
 			for (int y = 0; y < 5; y++)
 			{
-				if (ingredients.getInputs(ItemStack.class).size() > y + x * 5)
-					gui.set(y + x * 5 + 2 + 10, ingredients.getInputs(ItemStack.class).get(x + y * 5));
+				if (inputs.get(x + y * 5).getMatchingStacks().length > 0)
+					gui.set(y + x * 5 + 2 + 10, Arrays.asList(inputs.get(x + y * 5).getMatchingStacks()));
 			}
 		}
 
-		gui.set(0, ingredients.getOutputs(ItemStack.class).get(0));
+		Iterator<Map.Entry<WorkbenchTool.Instance, Integer>> tools = recipe.GetToolDurabilityUsage().entrySet()
+																		   .iterator();
+		int y = 2;
+		while (tools.hasNext())
+		{
+			Map.Entry<WorkbenchTool.Instance, Integer> next = tools.next();
+			gui.set(y,
+					next.getKey().GetTool().GetItems().keySet().stream().map(n -> new ItemStack(n, 1, next.getValue()))
+						.collect(Collectors.toList()));
+			y++;
+		}
+
+		Iterator<Map.Entry<WorkbenchPart.Instance, Integer>> parts = recipe.GetPartUsage().entrySet().iterator();
+		y = 7;
+		while (parts.hasNext())
+		{
+			Map.Entry<WorkbenchPart.Instance, Integer> next = parts.next();
+			gui.set(y, next.getKey().GetPart().GetItems().keySet().stream().map(n -> new ItemStack(n, next.getValue()))
+						   .collect(Collectors.toList()));
+			y++;
+		}
+
+		gui.set(0, recipe.GetResultItem());
 	}
 }

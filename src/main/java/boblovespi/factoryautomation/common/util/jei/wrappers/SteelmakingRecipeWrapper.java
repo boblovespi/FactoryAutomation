@@ -2,9 +2,8 @@ package boblovespi.factoryautomation.common.util.jei.wrappers;
 
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -24,11 +23,11 @@ public class SteelmakingRecipeWrapper implements IRecipeWrapper
 	@Override
 	public void getIngredients(IIngredients ingredients)
 	{
-		ingredients.setInputs(
-				ItemStack.class, recipe.GetItemInputs().stream().map(n -> Arrays.asList(n.getMatchingStacks()))
-									   .collect(Collectors.toList()));
+		ingredients.setInputLists(
+				VanillaTypes.ITEM, recipe.GetItemInputs().stream().map(n -> Arrays.asList(n.getMatchingStacks()))
+										 .collect(Collectors.toList()));
 		if (recipe.GetFluidInputs() != null)
-			ingredients.setInputs(FluidStack.class, recipe.GetFluidInputs());
-		ingredients.setOutputs(ItemStack.class, recipe.GetPrimaryItemOutputs());
+			ingredients.setInputs(VanillaTypes.FLUID, recipe.GetFluidInputs());
+		ingredients.setOutputs(VanillaTypes.ITEM, recipe.GetPrimaryItemOutputs());
 	}
 }

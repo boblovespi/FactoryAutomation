@@ -6,9 +6,9 @@ import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -59,10 +59,10 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory
 		group.init(2, false, 111, 30);
 		group.init(3, false, 137, 30);
 
-		group.set(0, ingredients.getInputs(ItemStack.class).get(0));
-		group.set(1, ingredients.getInputs(ItemStack.class).get(1));
+		group.set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+		group.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(1));
 
-		group.set(2, ingredients.getOutputs(ItemStack.class).get(0));
-		group.set(3, ingredients.getOutputs(ItemStack.class).get(1));
+		group.set(2, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
+		group.set(3, ingredients.getOutputs(VanillaTypes.ITEM).get(1));
 	}
 }
