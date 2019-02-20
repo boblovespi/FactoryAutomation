@@ -13,7 +13,8 @@ public class SoundHandler
 {
 
 	// Rock
-	public static SoundEvent breakRock = new SoundEvent(new ResourceLocation("factoryautomation", "break_rock"));
+	public static SoundEvent breakRock = new SoundEvent(new ResourceLocation("factoryautomation", "break_rock"))
+			.setRegistryName("break_rock");
 	public static SoundType rock = new SoundType(1f, 1f, breakRock, SoundEvents.BLOCK_STONE_STEP,
 			SoundEvents.BLOCK_STONE_PLACE, SoundEvents.BLOCK_STONE_HIT, SoundEvents.BLOCK_STONE_FALL);
 

@@ -642,5 +642,14 @@
       }
     ],
     "name": "charcoal"
+  },
+  {
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "string"
+      }
+    ],
+    "name": "stringAny"
   }
 ]

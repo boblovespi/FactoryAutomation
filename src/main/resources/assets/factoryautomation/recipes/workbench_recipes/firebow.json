@@ -1,0 +1,19 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": [" sr", "ssr", " sr"],
+  "key": {
+    "r": {
+      "item": "#stringAny"
+    },
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    }
+  },
+  "tools": {},
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:firebow"
+  }
+}

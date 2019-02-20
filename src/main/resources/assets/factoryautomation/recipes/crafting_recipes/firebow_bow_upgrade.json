@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["b ", " s"],
+  "key": {
+    "s": {
+      "type": "forge:ore_dict",
+      "ore": "stickWood"
+    },
+    "b": {
+      "item": "minecraft:bow"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:firebow"
+  }
+}
