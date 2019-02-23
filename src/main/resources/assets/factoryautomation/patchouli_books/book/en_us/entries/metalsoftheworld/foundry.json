@@ -1,8 +1,8 @@
 {
   "name": "The Foundry",
   "icon": "factoryautomation:stone_crucible",
-  "category": "gettingstarted",
-  "sortnum": 3,
+  "category": "metalsoftheworld",
+  "sortnum": 1,
   "pages": [
     {
       "type": "text",
@@ -30,6 +30,15 @@
     {
       "type": "crafting",
       "recipe": "factoryautomation:crafting_recipes/green_sand"
+    },
+    {
+      "type": "image",
+      "images": ["factoryautomation:textures/patchouli/vessel_gui.png"],
+      "text": "Now, shift+right click the log with a rock. Voila! "
+    },
+    {
+      "type": "text",
+      "text": "Now, right click on the vessel with a stick to choose what you want to cast! After this, right click on the crucible to cast the metal, but worry! Its dangerous to touch hot things... "
     }
   ]
 }

@@ -12,7 +12,7 @@
         {
         	"type": "image",
         	"images": ["factoryautomation:textures/patchouli/chopping_block.png"],
-        	"text": "Now, shift+right click the log with a rock. Voila! "
+        	"text": "Now, shift+right click the log's top with a rock. Voila! "
         }
     ]
 }
