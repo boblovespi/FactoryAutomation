@@ -21,8 +21,8 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerCon
 import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible;
 import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
+import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
-import boblovespi.factoryautomation.common.util.patchouli.PatchouliHelper;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
@@ -43,7 +43,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class FactoryAutomation
 {
 	public static final String MODID = "factoryautomation";
-	public static final String VERSION = "Alpha 0.1.3";
+	public static final String VERSION = "Alpha 0.1.4";
 	public static final String NAME = "Factory Automation";
 	public static final String SERVER_PROXY_CLASS = "boblovespi.factoryautomation.common.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
@@ -89,7 +89,7 @@ public class FactoryAutomation
 
 	@SuppressWarnings("unused")
 	@Mod.EventHandler
-	public void Init(FMLInitializationEvent Event)
+	public void Init(FMLInitializationEvent event)
 	{
 		Log.getLogger().info("Initialization");
 		proxy.Init();
@@ -118,8 +118,7 @@ public class FactoryAutomation
 				new MultiblockStructurePattern(MultiblockStructures.stoneFoundry, new int[] { 0, 1, 0 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
-
-		PatchouliHelper.RegisterMultiblocks();
+		ModCompatHandler.Init();
 	}
 
 	@SuppressWarnings("unused")
