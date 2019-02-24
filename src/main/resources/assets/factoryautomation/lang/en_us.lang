@@ -125,6 +125,7 @@ item.copper_shovel.name=Copper Shovel
 item.copper_sword.name=Copper Sword
 
 item.chopping_blade.name=Chopping Blade
+item.firebow.name=Firebow
 
 item.copper_hammer.name=Copper Hammer
 item.iron_hammer.name=Iron Hammer
@@ -212,6 +213,7 @@ tile.chip_creator.name=Basic Chip Creator
 tile.treetap.name=Treetap
 tile.wood_chopping_block.name=Wood Chopping Block
 tile.campfire.name=Campfire
+tile.brick_maker_frame.name=Brick Maker Frame
 
 tile.log_pile.name=Log Pile
 tile.charcoal_pile.name=Charcoal Pile

@@ -34,11 +34,11 @@
     {
       "type": "image",
       "images": ["factoryautomation:textures/patchouli/vessel_gui.png"],
-      "text": "Now, shift+right click the log with a rock. Voila! "
+      "text": ""
     },
     {
       "type": "text",
-      "text": "Now, right click on the vessel with a stick to choose what you want to cast! After this, right click on the crucible to cast the metal, but worry! Its dangerous to touch hot things... "
+      "text": "Now, right click on the vessel with a stick to choose what you want to cast! After this, right click on the crucible to cast the metal, but be warned! It's dangerous to touch hot things... "
     }
   ]
 }

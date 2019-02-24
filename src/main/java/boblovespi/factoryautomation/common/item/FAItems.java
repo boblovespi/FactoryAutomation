@@ -156,7 +156,7 @@ public class FAItems
 
 	// guidebook
 
-	public static FAItem guidebook;
+	// public static FAItem guidebook;
 
 	public static void Init()
 	{
@@ -272,7 +272,7 @@ public class FAItems
 
 		// guidebook
 
-		guidebook = new Guidebook();
+		// guidebook = new Guidebook();
 	}
 
 	public static void RegisterItemRenders()

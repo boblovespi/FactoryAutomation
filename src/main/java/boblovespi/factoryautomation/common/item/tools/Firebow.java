@@ -27,6 +27,12 @@ public class Firebow extends FABaseItem
 		setMaxStackSize(1);
 	}
 
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		return "tools/" + RegistryName();
+	}
+
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */
