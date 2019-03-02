@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.multiblock.MultiblockPart;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import vazkii.patchouli.api.IMultiblock;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -29,5 +30,10 @@ public class PatchouliHelper
 						FABlocks.stoneCrucible, '0', Blocks.FURNACE, 'b', FABlocks.stoneCastingVessel);
 		PatchouliAPI.instance
 				.registerMultiblock(new ResourceLocation(FactoryAutomation.MODID, "stone_foundry"), stoneFoundry);
+	}
+
+	public static ItemStack GetGuidebook()
+	{
+		return PatchouliAPI.instance.getBookStack(FactoryAutomation.MODID+":book");
 	}
 }
