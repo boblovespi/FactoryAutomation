@@ -1,18 +1,9 @@
 package boblovespi.factoryautomation.common.util.jei;
 
-import boblovespi.factoryautomation.api.recipe.IWorkbenchRecipe;
-import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
-import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
-import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
+import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.util.jei.categories.BlastFurnaceRecipeCategory;
-import boblovespi.factoryautomation.common.util.jei.categories.JawCrusherRecipeCategory;
-import boblovespi.factoryautomation.common.util.jei.categories.SteelmakingRecipeCategory;
-import boblovespi.factoryautomation.common.util.jei.categories.WorkbenchRecipeCategory;
-import boblovespi.factoryautomation.common.util.jei.wrappers.BlastFurnaceRecipeWrapper;
-import boblovespi.factoryautomation.common.util.jei.wrappers.JawCrusherRecipeWrapper;
-import boblovespi.factoryautomation.common.util.jei.wrappers.SteelmakingRecipeWrapper;
-import boblovespi.factoryautomation.common.util.jei.wrappers.WorkbenchRecipeWrapper;
+import boblovespi.factoryautomation.common.util.jei.categories.*;
+import boblovespi.factoryautomation.common.util.jei.wrappers.*;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
@@ -54,6 +45,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipeCategories(new WorkbenchRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new JawCrusherRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SteelmakingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new ChoppingBlockRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -66,24 +58,27 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.jawCrusher.ToBlock()), JawCrusherRecipeCategory.ID);
 		registry.addRecipeCatalyst(
 				new ItemStack(FABlocks.steelmakingFurnaceController.ToBlock()), SteelmakingRecipeCategory.ID);
+		registry.addRecipeCatalyst(new ItemStack(FABlocks.woodChoppingBlock.ToBlock()), ChoppingBlockRecipeCategory.ID);
+
 		registry.addRecipes(Collections.singletonList(new BlastFurnaceRecipeWrapper()),
 				"factoryautomation.blast_furnace");
-
 		registry.addRecipes(WorkbenchRecipeHandler.recipes.values(), WORKBENCH);
 		registry.addRecipes(SteelmakingRecipe.GetRecipes(), SteelmakingRecipeCategory.ID);
 		registry.addRecipes(JawCrusherRecipe.GetRecipes(), JawCrusherRecipeCategory.ID);
+		registry.addRecipes(ChoppingBlockRecipe.GetRecipes(), ChoppingBlockRecipeCategory.ID);
 
 		registry.handleRecipes(IWorkbenchRecipe.class, WorkbenchRecipeWrapper::new, WORKBENCH);
 		registry.handleRecipes(SteelmakingRecipe.class, SteelmakingRecipeWrapper::new, SteelmakingRecipeCategory.ID);
 		registry.handleRecipes(JawCrusherRecipe.class, JawCrusherRecipeWrapper::new, JawCrusherRecipeCategory.ID);
+		registry.handleRecipes(
+				ChoppingBlockRecipe.class, ChoppingBlockRecipeWrapper::new, ChoppingBlockRecipeCategory.ID);
 
 		RegisterDescriptions(registry);
 	}
 
 	private void RegisterDescriptions(IModRegistry registry)
 	{
-		registry.addIngredientInfo(
-				Arrays.asList(new OreIngredient("logWood").getMatchingStacks()), VanillaTypes.ITEM,
+		registry.addIngredientInfo(Arrays.asList(new OreIngredient("logWood").getMatchingStacks()), VanillaTypes.ITEM,
 				"factoryautomation.jei.logs");
 	}
 

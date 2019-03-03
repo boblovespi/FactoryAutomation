@@ -7,8 +7,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
 
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by Willi on 12/26/2018.
@@ -87,5 +86,10 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 	public String GetName()
 	{
 		return name;
+	}
+
+	public static Collection<ChoppingBlockRecipe> GetRecipes()
+	{
+		return STRING_MAP.values();
 	}
 }
