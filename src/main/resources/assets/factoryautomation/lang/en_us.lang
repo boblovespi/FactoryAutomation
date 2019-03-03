@@ -306,3 +306,6 @@ tile.pillar_block_silver.name=Silver decorative pillar
 
 #subtitles
 factoryautomation.subtitle.break_rock=Rock broken
+
+# jei description
+factoryautomation.jei.logs=To obtain logs, first craft a chopping blade

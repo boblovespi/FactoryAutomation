@@ -7,10 +7,12 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
+import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockStone;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
@@ -104,13 +106,16 @@ public class BlockEventHandler
 			if (event.isSilkTouching())
 				return;
 
-			if (event.getHarvester() == null || !(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
-													   .getItem() == FAItems.choppingBlade))
+			if (event.getHarvester() == null || !(
+					event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()).getItem()
+							== FAItems.choppingBlade))
 				return;
 
 			event.setDropChance(1f);
 			event.getDrops().clear();
-			event.getDrops().add(new ItemStack(Blocks.TALLGRASS, 1));
+			event.getDrops()
+				 .add(new ItemStack(Blocks.TALLGRASS, 1, event.getState().getValue(BlockTallGrass.TYPE).getMeta()));
+			ItemHelper.DamageItem(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()), 1);
 		}
 	}
 

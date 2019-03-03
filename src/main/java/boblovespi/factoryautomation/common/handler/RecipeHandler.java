@@ -74,6 +74,7 @@ public class RecipeHandler
 			registry.remove(new ResourceLocation("minecraft", "dark_oak_planks"));
 			registry.remove(new ResourceLocation("minecraft", "birch_planks"));
 			registry.remove(new ResourceLocation("minecraft", "stick"));
+			registry.remove(new ResourceLocation("minecraft", "wooden_pickaxe"));
 		}
 
 		for (int i = 2; i < Metals.values().length; i++)
@@ -281,7 +282,7 @@ public class RecipeHandler
 						woodType.getMetadata() - 4, new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
 		}
 		ChoppingBlockRecipe.AddRecipe("plank_to_stick", "plankWood", new ItemStack(Items.STICK, 4, 0));
-		ChoppingBlockRecipe.AddRecipe("grass_to_fiber", Item.getItemFromBlock(Blocks.TALLGRASS), 0,
+		ChoppingBlockRecipe.AddRecipe("grass_to_fiber", Item.getItemFromBlock(Blocks.TALLGRASS), 1,
 				new ItemStack(FAItems.plantFiber.ToItem(), 2));
 
 		// campfire recipes

@@ -18,9 +18,12 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreIngredient;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -73,6 +76,15 @@ public class JEIPlugin implements IModPlugin
 		registry.handleRecipes(IWorkbenchRecipe.class, WorkbenchRecipeWrapper::new, WORKBENCH);
 		registry.handleRecipes(SteelmakingRecipe.class, SteelmakingRecipeWrapper::new, SteelmakingRecipeCategory.ID);
 		registry.handleRecipes(JawCrusherRecipe.class, JawCrusherRecipeWrapper::new, JawCrusherRecipeCategory.ID);
+
+		RegisterDescriptions(registry);
+	}
+
+	private void RegisterDescriptions(IModRegistry registry)
+	{
+		registry.addIngredientInfo(
+				Arrays.asList(new OreIngredient("logWood").getMatchingStacks()), VanillaTypes.ITEM,
+				"factoryautomation.jei.logs");
 	}
 
 	@Override

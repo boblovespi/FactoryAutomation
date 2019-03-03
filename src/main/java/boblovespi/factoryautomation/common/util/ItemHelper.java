@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.util;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -24,7 +25,12 @@ public class ItemHelper
 
 	public static void DamageItem(ItemStack stack, int amount)
 	{
-		boolean b = stack.attemptDamageItem(1, Randoms.MAIN.r, null);
+		DamageItem(stack, amount, null);
+	}
+
+	public static void DamageItem(ItemStack stack, int amount, EntityPlayerMP damager)
+	{
+		boolean b = stack.attemptDamageItem(1, damager == null ? Randoms.MAIN.r : damager.getRNG(), damager);
 		if (b)
 			stack.shrink(amount);
 	}

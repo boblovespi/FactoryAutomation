@@ -4,7 +4,6 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
-import boblovespi.factoryautomation.common.handler.VanillaTweakHandler;
 import boblovespi.factoryautomation.common.item.crucible.ClayCrucible;
 import boblovespi.factoryautomation.common.item.metals.Ingot;
 import boblovespi.factoryautomation.common.item.metals.MetalItem;
@@ -412,7 +411,7 @@ public class FAItems
 
 		items.forEach(event.getRegistry()::register);
 
-		VanillaTweakHandler.RemoveItems(event);
+		// VanillaTweakHandler.RemoveItems(event);
 
 		OreDictionaryHandler.registerOreDictionary();
 	}
