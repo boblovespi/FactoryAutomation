@@ -281,6 +281,8 @@ public class RecipeHandler
 						woodType.getMetadata() - 4, new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
 		}
 		ChoppingBlockRecipe.AddRecipe("plank_to_stick", "plankWood", new ItemStack(Items.STICK, 4, 0));
+		ChoppingBlockRecipe.AddRecipe("grass_to_fiber", Item.getItemFromBlock(Blocks.TALLGRASS), 0,
+				new ItemStack(FAItems.plantFiber.ToItem(), 2));
 
 		// campfire recipes
 		CampfireRecipe.AddRecipe("cooked_pork", Items.PORKCHOP, 0, new ItemStack(Items.COOKED_PORKCHOP), 20 * 60 * 4);

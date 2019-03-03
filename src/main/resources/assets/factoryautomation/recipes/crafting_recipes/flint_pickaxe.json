@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["fff", "psp", " s "],
+  "key": {
+    "f": {
+      "item": "minecraft:flint"
+    },
+    "s": {
+      "item": "#stick"
+    },
+    "p": {
+      "item": "factoryautomation:plant_fiber"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:flint_pickaxe"
+  }
+}

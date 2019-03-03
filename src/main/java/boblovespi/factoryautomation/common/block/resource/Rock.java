@@ -15,14 +15,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * Created by Willi on 12/26/2018.
@@ -85,6 +84,27 @@ public class Rock extends FABaseBlock
 	public IBlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(VARIANTS, Variants.values()[meta]);
+	}
+
+	/**
+	 * This gets a complete list of items dropped from this block.
+	 *
+	 * @param drops   add all items this block drops to this drops list
+	 * @param world   The current world
+	 * @param pos     Block position in world
+	 * @param state   Current state
+	 * @param fortune Breakers fortune level
+	 */
+	@Override
+	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+	{
+		super.getDrops(drops, world, pos, state, fortune);
+		if (state.getValue(VARIANTS) == Variants.MOSSY_COBBLESTONE)
+		{
+			Random rand = world instanceof World ? ((World) world).rand : RANDOM;
+			if (rand.nextFloat() < 0.4f)
+				drops.add(new ItemStack(FAItems.plantFiber.ToItem()));
+		}
 	}
 
 	/**

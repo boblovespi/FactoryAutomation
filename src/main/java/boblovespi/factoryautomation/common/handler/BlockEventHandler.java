@@ -87,9 +87,30 @@ public class BlockEventHandler
 				event.getDrops().add(new ItemStack(FAItems.stoneDust.ToItem(), 2 * (i + 1)));
 			}
 
-		} else if (false)
+		} else if (FABlocks.rock == event.getState().getBlock())
 		{
+			if (event.isSilkTouching())
+				return;
 
+			if (event.getHarvester() == null || !(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
+													   .getItem() instanceof Hammer))
+				return;
+
+			event.setDropChance(1f);
+			event.getDrops().clear();
+			event.getDrops().add(new ItemStack(FAItems.stoneDust.ToItem(), 1));
+		} else if (Blocks.TALLGRASS == event.getState().getBlock())
+		{
+			if (event.isSilkTouching())
+				return;
+
+			if (event.getHarvester() == null || !(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
+													   .getItem() == FAItems.choppingBlade))
+				return;
+
+			event.setDropChance(1f);
+			event.getDrops().clear();
+			event.getDrops().add(new ItemStack(Blocks.TALLGRASS, 1));
 		}
 	}
 

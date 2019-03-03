@@ -124,6 +124,8 @@ item.copper_hoe.name=Copper Hoe
 item.copper_shovel.name=Copper Shovel
 item.copper_sword.name=Copper Sword
 
+item.flint_pickaxe.name=Flint Pickaxe
+
 item.chopping_blade.name=Chopping Blade
 item.firebow.name=Firebow
 
@@ -159,6 +161,7 @@ item.bronze_flywheel.name=Bronze Flywheel
 item.stirling_generator_core.name=Stirling Generator Core
 item.terraclay.name=Terraclay
 item.terraclay_brick.name=Unfired Terraclay Brick
+item.plant_fiber.name=Plant Fiber
 
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame

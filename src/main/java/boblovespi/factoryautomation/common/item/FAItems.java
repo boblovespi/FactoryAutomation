@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.handler.OreDictionaryHandler;
+import boblovespi.factoryautomation.common.handler.VanillaTweakHandler;
 import boblovespi.factoryautomation.common.item.crucible.ClayCrucible;
 import boblovespi.factoryautomation.common.item.metals.Ingot;
 import boblovespi.factoryautomation.common.item.metals.MetalItem;
@@ -92,6 +93,7 @@ public class FAItems
 	public static FAItem graphite;
 	public static FAItem terraclay;
 	public static FAItem terraclayBrick;
+	public static FAItem plantFiber;
 
 	// crafting components
 
@@ -131,6 +133,8 @@ public class FAItems
 	public static FAItem copperHoe;
 	public static FAItem copperShovel;
 	public static FAItem copperSword;
+
+	public static FAItem flintPickaxe;
 
 	public static FAItem choppingBlade;
 	public static FAItem firebow;
@@ -210,6 +214,7 @@ public class FAItems
 		graphite = new FABaseItem("graphite", FACreativeTabs.resources);
 		terraclay = new FABaseItem("terraclay", FACreativeTabs.resources);
 		terraclayBrick = new FABaseItem("terraclay_brick", FACreativeTabs.resources);
+		plantFiber = new FABaseItem("plant_fiber", FACreativeTabs.resources);
 
 		// crafting components
 
@@ -249,6 +254,8 @@ public class FAItems
 		copperShovel = new FAShovel(copperMaterial, "copper_shovel");
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
+
+		flintPickaxe = new FAPickaxe(Item.ToolMaterial.WOOD, "flint_pickaxe");
 
 		choppingBlade = new FAAxe(flintMaterial, "chopping_blade");
 		firebow = new Firebow();
@@ -404,6 +411,8 @@ public class FAItems
 		Init();
 
 		items.forEach(event.getRegistry()::register);
+
+		VanillaTweakHandler.RemoveItems(event);
 
 		OreDictionaryHandler.registerOreDictionary();
 	}

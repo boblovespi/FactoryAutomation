@@ -4,6 +4,10 @@ import boblovespi.factoryautomation.common.config.SyncOnConfigChange;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.ForgeRegistry;
 
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.*;
@@ -50,5 +54,14 @@ public class VanillaTweakHandler
 		Items.STONE_PICKAXE.setHarvestLevel(pick, STONE);
 		Items.WOODEN_PICKAXE.setHarvestLevel(pick, WOOD);
 
+	}
+
+	public static void RemoveItems(RegistryEvent.Register<Item> event)
+	{
+		if (event.getRegistry() instanceof ForgeRegistry)
+		{
+			ForgeRegistry<Item> registry = (ForgeRegistry<Item>) event.getRegistry();
+			registry.remove(new ResourceLocation("minecraft", "wooden_pickaxe"));
+		}
 	}
 }
