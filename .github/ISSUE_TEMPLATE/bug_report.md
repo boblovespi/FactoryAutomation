@@ -10,6 +10,9 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Link to complete log**
+Please upload the log onto pastebin or gist or a similar site.
+
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Place block '...'
