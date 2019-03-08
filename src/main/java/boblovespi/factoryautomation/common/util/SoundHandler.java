@@ -12,15 +12,29 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class SoundHandler
 {
 
+	public static final INSTANCE = new SoundHandler();
+	
+	private SoundHandler(){
+		
+	}
+	
+	public static void preInit(){
+		MinecraftForge.EVENT_BUS.register(INSTANCE);
+	}
+	
 	// Rock
-	public static SoundEvent breakRock = new SoundEvent(new ResourceLocation("factoryautomation", "break_rock"))
-			.setRegistryName("break_rock");
-	public static SoundType rock = new SoundType(1f, 1f, breakRock, SoundEvents.BLOCK_STONE_STEP,
-			SoundEvents.BLOCK_STONE_PLACE, SoundEvents.BLOCK_STONE_HIT, SoundEvents.BLOCK_STONE_FALL);
-
+	public static SoundEvent breakRock;
+	
 	@SubscribeEvent
 	public static void RegisterSounds(RegistryEvent.Register<SoundEvent> event)
 	{
-		event.getRegistry().register(breakRock);
+		breakRock = getEvent("break_rock");
+	}
+	
+	public static SoundEvent getEvent(string id){
+		SoundEvent newSoundEvent = new SoundEvent(new ResourceLocation("factoryautomation", id));
+		newSoundEvent.setRegistryName(id);
+		ForgeRegistries.SOUND_EVENTS.register(newSoundEvent);
+		return sound;
 	}
 }
