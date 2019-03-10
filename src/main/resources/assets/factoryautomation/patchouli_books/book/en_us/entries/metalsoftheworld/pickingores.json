@@ -1,0 +1,21 @@
+{
+  "name": "Picking ores",
+  "icon": "factoryautomation:flint_pickaxe",
+  "category": "metalsoftheworld",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Your basic tools will made out of flint, will need it for mining stone.",
+	  "title": "Flint Pickaxe"
+    },
+    {
+      "type": "crafting",
+      "recipe": "factoryautomation:crafting_recipes/flint_pickaxe"
+    },
+    {
+      "type": "text",
+      "text": "After this, you can mine stone, and then craft a stone pickaxe. Its time to mine!"
+    }
+  ]
+}

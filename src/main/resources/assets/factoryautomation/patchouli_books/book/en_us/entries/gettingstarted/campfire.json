@@ -17,6 +17,10 @@
             "type": "text",
             "text": "Now, craft a campfire and light it on fire! And you can cook food on it.",
         	"title": "Campfire"
-        }
+        },
+		{
+			"type": "crafting",
+			"recipe": "factoryautomation:crafting_recipes/campfire"
+		}
     ]
 }

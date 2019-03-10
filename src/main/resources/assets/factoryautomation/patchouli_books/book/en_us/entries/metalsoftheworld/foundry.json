@@ -2,7 +2,7 @@
   "name": "The Foundry",
   "icon": "factoryautomation:stone_crucible",
   "category": "metalsoftheworld",
-  "sortnum": 1,
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",

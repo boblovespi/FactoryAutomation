@@ -1,6 +1,6 @@
 {
-  "name": "Factory Automation Guide Book",
+  "name": "F.A. Guide Book",
   "landing_text": "Welcome to the official Factory Automation's guidebook! This book will help you to survive and reach technologies!",
-  "version": 1.2,
+  "version": 2,
   "model": "factoryautomation:guidebook"
 }
