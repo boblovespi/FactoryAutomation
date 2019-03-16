@@ -39,6 +39,8 @@ public class StoneCrucible extends FABaseBlock
 		super(Material.ROCK, "stone_crucible", FACreativeTabs.metallurgy);
 		setDefaultState(getStateFromMeta(0));
 		TileEntityHandler.tiles.add(TEStoneCrucible.class);
+		setHardness(1.5f);
+		setHarvestLevel("pickaxe", 0);
 	}
 
 	public boolean isOpaqueCube(IBlockState state)

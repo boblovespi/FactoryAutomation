@@ -38,6 +38,8 @@ public class StoneCastingVessel extends FABaseBlock
 		super(Material.ROCK, "stone_casting_vessel", FACreativeTabs.metallurgy);
 		setDefaultState(getDefaultState().withProperty(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
+		setHardness(1.5f);
+		setHarvestLevel("pickaxe", 0);
 	}
 
 	@Override

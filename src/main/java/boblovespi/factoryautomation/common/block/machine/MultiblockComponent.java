@@ -34,7 +34,7 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 		setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
 		setLightOpacity(0);
-		setHardness(0.2f);
+		setHardness(1.5f);
 		setHarvestLevel("pickaxe", 0);
 		FABlocks.blocks.add(this);
 	}
