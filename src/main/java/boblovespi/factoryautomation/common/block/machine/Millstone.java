@@ -85,4 +85,19 @@ public class Millstone extends FABaseBlock
 		}
 		return true;
 	}
+
+	@Override
+	public boolean isFullCube(IBlockState state)
+	{
+		return false;
+	}
+
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	 */
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
 }
