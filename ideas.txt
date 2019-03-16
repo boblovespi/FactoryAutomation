@@ -267,3 +267,42 @@ fusion reactor core (mini):
 
 Battery core:
 Steel plate (laser)|M
+
+Shaft:
+___|___|iron_ingot
+___|___|iron_ingot -----> Shaft x1
+___|___|iron_ingot
+
+Millstone:
+Cobblestone|shaft|cobblestone
+shaft|(ore)rod|shaft
+Cobblestone|shaft|cobblestone
+
+Iron rod:
+Iron_ingot|___|___
+___|Iron_ingot|___
+___|___|Iron_ingot
+
+Gearbox:
+Iron_ingot|Iron_ingot|Iron_ingot
+Iron_ingot|(ore) gear|Iron_ingot
+Iron_ingot|Iron_ingot|Iron_ingot
+
+Hand Crank:
+
+___|stick|___
+___|stick|___
+plank|plank|plank
+
+Treetap
+___|___|___
+iron_ingot|___iron_ingot
+___|iron_ingot|___
+
+pillars
+(ore) sheet|(ore) sheet|(ore) sheet
+___|(ore)ingot|___
+(ore) sheet|(ore) sheet(ore) sheet
+
+
+

@@ -11,30 +11,21 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Mod.EventBusSubscriber
 public class SoundHandler
 {
-
-	public static final INSTANCE = new SoundHandler();
-	
-	private SoundHandler(){
-		
-	}
-	
-	public static void preInit(){
-		MinecraftForge.EVENT_BUS.register(INSTANCE);
-	}
-	
 	// Rock
-	public static SoundEvent breakRock;
-	
+	public static SoundEvent breakRock = CreateEvent("break_rock");
+	public static SoundType rock = new SoundType(1f, 1f, breakRock, SoundEvents.BLOCK_STONE_STEP,
+			SoundEvents.BLOCK_STONE_PLACE, SoundEvents.BLOCK_STONE_HIT, SoundEvents.BLOCK_STONE_FALL);
+
 	@SubscribeEvent
 	public static void RegisterSounds(RegistryEvent.Register<SoundEvent> event)
 	{
-		breakRock = getEvent("break_rock");
+		event.getRegistry().register(breakRock);
 	}
-	
-	public static SoundEvent getEvent(string id){
-		SoundEvent newSoundEvent = new SoundEvent(new ResourceLocation("factoryautomation", id));
-		newSoundEvent.setRegistryName(id);
-		ForgeRegistries.SOUND_EVENTS.register(newSoundEvent);
-		return sound;
+
+	public static SoundEvent CreateEvent(String id)
+	{
+		SoundEvent event = new SoundEvent(new ResourceLocation("factoryautomation", id));
+		event.setRegistryName(id);
+		return event;
 	}
 }
