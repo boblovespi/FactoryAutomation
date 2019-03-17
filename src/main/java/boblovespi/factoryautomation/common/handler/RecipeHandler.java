@@ -97,6 +97,25 @@ public class RecipeHandler
 
 			recipes.add(ingotToNugget);
 			recipes.add(nuggetToIngot);
+
+			IRecipe blockToIngot = new ShapedOreRecipe(
+					new ResourceLocation(MODID, "block_to_ingot_" + Metals.values()[i].getName()),
+					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i]), 9), "B", 'B',
+					Ingredient.fromItems(Item.getItemFromBlock(FABlocks.metalBlock.GetBlock(Metals.values()[i]))));
+
+			blockToIngot
+					.setRegistryName(new ResourceLocation(MODID, "block_to_ingot_" + Metals.values()[i].getName()));
+
+			IRecipe ingotToBlock = new ShapedOreRecipe(
+					new ResourceLocation(MODID, "ingot_to_block" + Metals.values()[i].getName()),
+					new ItemStack(Item.getItemFromBlock(FABlocks.metalBlock.GetBlock(Metals.values()[i])), 1), "III",
+					"III", "III", 'I', "ingot" + Cleanup(Metals.values()[i].getName()));
+
+			ingotToBlock
+					.setRegistryName(new ResourceLocation(MODID, "ingot_to_block" + Metals.values()[i].getName()));
+
+			recipes.add(blockToIngot);
+			recipes.add(ingotToBlock);
 		}
 		AddToolRecipes("bronze", "ingotBronze", "stickWood", FAItems.bronzePickaxe, FAItems.bronzeAxe,
 				FAItems.bronzeSword, FAItems.bronzeHoe, FAItems.bronzeShovel);
@@ -315,6 +334,8 @@ public class RecipeHandler
 				.LoadFromJson(Loader.instance().activeModContainer(), new ResourceLocation(MODID, "recipes"));
 
 		BasicCircuitRecipe.LoadFromJson(Loader.instance().activeModContainer(), new ResourceLocation(MODID, "recipes"));
+
+		recipes = null; // clear the cache
 
 	}
 
