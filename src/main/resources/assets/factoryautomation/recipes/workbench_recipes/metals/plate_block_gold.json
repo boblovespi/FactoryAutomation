@@ -1,16 +1,10 @@
 {
   "type": "factoryautomation:workbench_shaped",
   "tier": 1,
-  "pattern": ["isi", "sbs", "isi"],
+  "pattern": ["sss", "sss", "sss"],
   "key": {
-    "i": {
-      "item": "#ingotGold"
-    },
     "s": {
       "item": "#plateGold"
-    },
-    "b": {
-      "item": "#blockGold"
     }
   },
   "tools": {
