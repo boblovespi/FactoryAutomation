@@ -95,7 +95,7 @@ public class IronCharcoalMix extends FABaseBlock
 				{
 					sidesOnFire = true;
 				} else if (state1.getBlock() != FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
-						&& state1.getBlock() != this)
+						&& state1.getBlock() != this && state1.getBlock() != FABlocks.ironBloom)
 				{
 					isSurrounded = false;
 				}
