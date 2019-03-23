@@ -9,11 +9,14 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockNewLog;
+import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -161,9 +164,12 @@ public class Rock extends FABaseBlock
 			{
 				if (!world.isRemote)
 				{
+					int meta = world.getBlockState(pos).getBlock() == Blocks.LOG ?
+							world.getBlockState(pos).getValue(BlockOldLog.VARIANT).getMetadata() :
+							world.getBlockState(pos).getValue(BlockNewLog.VARIANT).getMetadata();
 					world.destroyBlock(pos, false);
 					world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
-							new ItemStack(FABlocks.woodChoppingBlock.ToBlock(), 2)));
+							new ItemStack(FABlocks.woodChoppingBlocks.get(meta).ToBlock(), 2)));
 				}
 				return EnumActionResult.SUCCESS;
 			} else

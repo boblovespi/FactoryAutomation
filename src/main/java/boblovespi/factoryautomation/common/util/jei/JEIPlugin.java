@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.util.jei;
 
 import boblovespi.factoryautomation.api.recipe.*;
+import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.jei.categories.*;
 import boblovespi.factoryautomation.common.util.jei.wrappers.*;
@@ -58,7 +59,10 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.jawCrusher.ToBlock()), JawCrusherRecipeCategory.ID);
 		registry.addRecipeCatalyst(
 				new ItemStack(FABlocks.steelmakingFurnaceController.ToBlock()), SteelmakingRecipeCategory.ID);
-		registry.addRecipeCatalyst(new ItemStack(FABlocks.woodChoppingBlock.ToBlock()), ChoppingBlockRecipeCategory.ID);
+		for (FABlock choppingBlock : FABlocks.woodChoppingBlocks)
+		{
+			registry.addRecipeCatalyst(new ItemStack(choppingBlock.ToBlock()), ChoppingBlockRecipeCategory.ID);
+		}
 
 		registry.addRecipes(Collections.singletonList(new BlastFurnaceRecipeWrapper()),
 				"factoryautomation.blast_furnace");

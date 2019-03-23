@@ -25,6 +25,7 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -74,7 +75,9 @@ public class FABlocks
 	public static FABlock placedBucket;
 	public static FABlock factorySign;
 	public static FABlock solidfueledfirebox;
+	// all the chopping blocks
 	public static FABlock woodChoppingBlock;
+	public static List<FABlock> woodChoppingBlocks;
 	public static FABlock campfire;
 	public static FABlock brickMakerFrame;
 	public static FABlock ironCharcoalMix;
@@ -204,7 +207,19 @@ public class FABlocks
 		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block", CreativeTabs.BUILDING_BLOCKS)
 				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
 		solidfueledfirebox = new SolidFueledFirebox();
+
+		// chopping blocks!
 		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10).Init(n -> n.setHardness(4.0f));
+		woodChoppingBlocks = new ArrayList<>(6);
+		woodChoppingBlocks.add(woodChoppingBlock);
+		for (int i = 1; i < 6; i++)
+		{
+			FABlock tempChoppingBlock = new ChoppingBlock(
+					Material.WOOD, "wood_chopping_block_" + BlockPlanks.EnumType.values()[i].getName(), 10)
+					.Init(n -> n.setHardness(4.0f));
+			woodChoppingBlocks.add(tempChoppingBlock);
+		}
+
 		campfire = new Campfire().Init(n -> n.setHardness(4.0f));
 		brickMakerFrame = new BrickMaker();
 		ironCharcoalMix = new IronCharcoalMix();

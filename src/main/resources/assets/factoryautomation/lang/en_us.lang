@@ -214,7 +214,12 @@ tile.iron_workbench.name=Iron Workbench
 tile.chip_creator.name=Basic Chip Creator
 
 tile.treetap.name=Treetap
-tile.wood_chopping_block.name=Wood Chopping Block
+tile.wood_chopping_block.name=Oak Chopping Block
+tile.wood_chopping_block_dark_oak.name=Dark Oak Chopping Block
+tile.wood_chopping_block_spruce.name=Spruce Chopping Block
+tile.wood_chopping_block_birch.name=Birch Chopping Block
+tile.wood_chopping_block_jungle.name=Jungle Chopping Block
+tile.wood_chopping_block_acacia.name=Acacia Chopping Block
 tile.campfire.name=Campfire
 tile.brick_maker_frame.name=Brick Maker Frame
 
