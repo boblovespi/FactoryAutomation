@@ -56,6 +56,20 @@
     "name": "ingotTin"
   },
   {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotLead"
+    },
+    "name": "ingotLead"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "ingotSilver"
+    },
+    "name": "ingotSilver"
+  },
+  {
     "ingredient": [
       {
         "item": "#ingotSteel"
@@ -162,6 +176,20 @@
       "ore": "plateTin"
     },
     "name": "plateTin"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateLead"
+    },
+    "name": "plateLead"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plateSilver"
+    },
+    "name": "plateSilver"
   },
   {
     "ingredient": [
@@ -272,6 +300,20 @@
     "name": "blockTin"
   },
   {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockLead"
+    },
+    "name": "blockLead"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "blockSilver"
+    },
+    "name": "blockSilver"
+  },
+  {
     "ingredient": [
       {
         "item": "#blockSteel"
@@ -380,6 +422,20 @@
     "name": "nuggetTin"
   },
   {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetLead"
+    },
+    "name": "nuggetLead"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "nuggetSilver"
+    },
+    "name": "nuggetSilver"
+  },
+  {
     "ingredient": [
       {
         "item": "#nuggetSteel"
@@ -486,6 +542,20 @@
       "ore": "stickTin"
     },
     "name": "stickTin"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickLead"
+    },
+    "name": "stickLead"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "stickSilver"
+    },
+    "name": "stickSilver"
   },
   {
     "ingredient": [

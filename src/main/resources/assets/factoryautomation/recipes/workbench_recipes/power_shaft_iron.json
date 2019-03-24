@@ -1,0 +1,20 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["s", "s", "s"],
+  "key": {
+    "s": {
+      "item": "#stickIron"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 5
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:power_shaft"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["ccc", "srs", "crc"],
+  "key": {
+    "r": {
+      "item": "factoryautomation:power_shaft"
+    },
+    "s": {
+      "item": "#slabCobblestone"
+    },
+    "c": {
+      "item": "#cobblestone"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 25
+    }
+  },
+  "parts": {
+  },
+  "result": {
+    "item": "factoryautomation:millstone"
+  }
+}
