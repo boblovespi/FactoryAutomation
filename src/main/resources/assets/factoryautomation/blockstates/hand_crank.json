@@ -1,6 +1,9 @@
 {
   "variants": {
-    "normal": {
+    "inverted=false": {
+      "model": "factoryautomation:empty"
+    },
+    "inverted=true": {
       "model": "factoryautomation:empty"
     }
   }
