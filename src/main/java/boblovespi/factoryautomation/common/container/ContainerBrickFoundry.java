@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.container;
 
-import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -11,15 +11,15 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
- * Created by Willi on 12/29/2018.
+ * Created by Willi on 4/11/2019.
  */
-public class ContainerStoneFoundry extends Container
+public class ContainerBrickFoundry extends Container
 {
 	private IItemHandler itemHandler;
 
-	public ContainerStoneFoundry(IInventory playerInv, TileEntity te)
+	public ContainerBrickFoundry(IInventory playerInv, TileEntity te)
 	{
-		itemHandler = ((TEStoneCrucible) te).GetInventory();
+		itemHandler = ((TEBrickCrucible) te).GetInventory();
 
 		addSlotToContainer(new SlotItemHandler(itemHandler, 1, 67, 18));
 		addSlotToContainer(new SlotItemHandler(itemHandler, 0, 67, 60));

@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.crafter.ChipCreator;
 import boblovespi.factoryautomation.common.block.crafter.workbench.IronWorkbench;
 import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbench;
+import boblovespi.factoryautomation.common.block.decoration.BrickCastingVessel;
 import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
 import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
@@ -126,6 +127,12 @@ public class FABlocks
 	public static FABlock stoneCrucible;
 	public static FABlock stoneCastingVessel;
 	public static FABlock slagGlass;
+
+	// smelting
+
+	public static FABlock brickCrucible;
+	public static FABlock brickCastingVessel;
+	public static FABlock brickFirebox;
 
 	// mechanical
 
@@ -276,6 +283,12 @@ public class FABlocks
 		stoneCrucible = new StoneCrucible();
 		stoneCastingVessel = new StoneCastingVessel();
 		slagGlass = new SlagGlass();
+
+		// smelting
+
+		brickCrucible = new BrickCrucible();
+		brickCastingVessel = new BrickCastingVessel();
+		brickFirebox = new BrickFirebox();
 
 		// mechanical
 

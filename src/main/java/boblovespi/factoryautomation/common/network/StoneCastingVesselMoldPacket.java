@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.network;
 
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
 import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCastingVessel;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;

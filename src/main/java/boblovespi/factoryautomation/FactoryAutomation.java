@@ -18,7 +18,8 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerController;
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
 import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
@@ -116,6 +117,10 @@ public class FactoryAutomation
 		MultiblockHandler.Register(
 				TEStoneCrucible.MULTIBLOCK_ID,
 				new MultiblockStructurePattern(MultiblockStructures.stoneFoundry, new int[] { 0, 1, 0 }));
+
+		MultiblockHandler.Register(
+				TEBrickCrucible.MULTIBLOCK_ID,
+				new MultiblockStructurePattern(MultiblockStructures.brickFoundry, new int[] { 0, 1, 0 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
 		ModCompatHandler.Init();

@@ -13,7 +13,7 @@ import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCastingVessel;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ChatType;

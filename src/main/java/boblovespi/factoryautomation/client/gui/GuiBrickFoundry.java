@@ -2,8 +2,8 @@ package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiBar;
-import boblovespi.factoryautomation.common.container.ContainerStoneFoundry;
-import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
+import boblovespi.factoryautomation.common.container.ContainerBrickFoundry;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -15,23 +15,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Willi on 10/28/2018.
+ * Created by Willi on 4/11/2019.
  */
-public class GuiStoneFoundry extends GuiContainer
+public class GuiBrickFoundry extends GuiContainer
 {
-	private TEStoneCrucible te;
+	private TEBrickCrucible te;
 	private IInventory playerInv;
-	private ContainerStoneFoundry container;
+	private ContainerBrickFoundry container;
 	private GuiBar flameBar;
 	private GuiBar tempBar;
 	private GuiBar progressBar;
 
-	public GuiStoneFoundry(IInventory playerInv, TileEntity te)
+	public GuiBrickFoundry(IInventory playerInv, TileEntity te)
 	{
-		super(new ContainerStoneFoundry(playerInv, te));
+		super(new ContainerBrickFoundry(playerInv, te));
 		this.playerInv = playerInv;
-		this.te = (TEStoneCrucible) te;
-		container = (ContainerStoneFoundry) inventorySlots;
+		this.te = (TEBrickCrucible) te;
+		container = (ContainerBrickFoundry) inventorySlots;
 		tempBar = new GuiBar(53, 16, 176, 16, 6, 61, GuiBar.ProgressDirection.UP);
 		flameBar = new GuiBar(67, 40, 176, 0, 14, 14, GuiBar.ProgressDirection.UP);
 		progressBar = new GuiBar(84, 21, 194, 2, 22, 10, GuiBar.ProgressDirection.RIGHT);
@@ -41,7 +41,7 @@ public class GuiStoneFoundry extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		drawCenteredString(mc.fontRenderer, "Stone Foundry", 56, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		drawCenteredString(mc.fontRenderer, "Brick Foundry", 56, 6, 180 + 100 * 256 + 100 * 256 * 256);
 		fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 100, this.ySize - 96 + 2, 4210752);
 	}
 
@@ -79,16 +79,14 @@ public class GuiStoneFoundry extends GuiContainer
 	{
 		GlStateManager.color(1, 1, 1);
 		mc.getTextureManager()
-		  .bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/stone_foundry.png"));
+		  .bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/brick_foundry.png"));
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		flameBar.Draw(this, te.GetBurnPercent());
 		tempBar.Draw(this, te.GetTempPercent());
 		progressBar.Draw(this, te.GetMeltPercent());
-		drawRect(
-				guiLeft + 107, guiTop + (int) (76 - 59 * te.GetCapacityPercent()), guiLeft + 123, guiTop + 76,
+		drawRect(guiLeft + 107, guiTop + (int) (76 - 59 * te.GetCapacityPercent()), guiLeft + 123, guiTop + 76,
 				te.GetColor());
 
-		// Log.LogInfo("tileentity nbt data", te.getTileData().toString());
 	}
 }

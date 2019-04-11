@@ -100,4 +100,11 @@ public class MultiblockStructures
 					new MultiblockPart[] { new MultiblockPart(FABlocks.stoneCrucible.ToBlock()) }
 			}
 	};
+
+	public static final MultiblockPart[][][] brickFoundry = new MultiblockPart[][][] {
+			new MultiblockPart[][]{
+					new MultiblockPart[] { new MultiblockPart(FABlocks.brickFirebox.ToBlock()) },
+					new MultiblockPart[] { new MultiblockPart(FABlocks.brickCrucible.ToBlock()) }
+			}
+	};
 }

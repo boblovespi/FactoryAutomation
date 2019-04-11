@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
-import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
@@ -28,17 +28,17 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 12/22/2018.
  */
-public class StoneCrucible extends FABaseBlock
+public class BrickCrucible extends FABaseBlock
 {
 	public static final PropertyBool MULTIBLOCK_COMPLETE = PropertyBool.create("multiblock_complete");
 	public static final PropertyEnum<EnumFacing> FACING = BlockHorizontal.FACING;
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(2 / 16d, 0, 2 / 16d, 14 / 16d, 1, 14 / 16d);
 
-	public StoneCrucible()
+	public BrickCrucible()
 	{
-		super(Material.ROCK, "stone_crucible", FACreativeTabs.metallurgy);
+		super(Material.ROCK, "brick_crucible", FACreativeTabs.metallurgy);
 		setDefaultState(getStateFromMeta(0));
-		TileEntityHandler.tiles.add(TEStoneCrucible.class);
+		TileEntityHandler.tiles.add(TEBrickCrucible.class);
 		setHardness(1.5f);
 		setHarvestLevel("pickaxe", 0);
 	}
@@ -75,7 +75,7 @@ public class StoneCrucible extends FABaseBlock
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state)
 	{
-		return new TEStoneCrucible();
+		return new TEBrickCrucible();
 	}
 
 	@Override
@@ -107,26 +107,26 @@ public class StoneCrucible extends FABaseBlock
 		if (!worldIn.isRemote)
 		{
 			if (MultiblockHelper
-					.IsStructureComplete(worldIn, pos, TEStoneCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
+					.IsStructureComplete(worldIn, pos, TEBrickCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
 			{
 				TileEntity te = worldIn.getTileEntity(pos);
-				if (te instanceof TEStoneCrucible)
+				if (te instanceof TEBrickCrucible)
 				{
-					TEStoneCrucible foundry = (TEStoneCrucible) te;
+					TEBrickCrucible foundry = (TEBrickCrucible) te;
 					if (!foundry.IsStructureValid())
 						foundry.CreateStructure();
 
 					if (facing == state.getValue(FACING).rotateYCCW())
 						foundry.PourInto(facing);
 					else
-						playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_FOUNDRY.id, worldIn,
+						playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.BRICK_FOUNDRY.id, worldIn,
 								pos.getX(), pos.getY(), pos.getZ());
 				}
 			} else
 			{
 				TileEntity te = worldIn.getTileEntity(pos);
-				if (te instanceof TEStoneCrucible)
-					((TEStoneCrucible) te).SetStructureInvalid();
+				if (te instanceof TEBrickCrucible)
+					((TEBrickCrucible) te).SetStructureInvalid();
 			}
 		}
 		return true;

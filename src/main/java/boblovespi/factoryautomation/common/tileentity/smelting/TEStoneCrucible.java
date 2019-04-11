@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.tileentity.processing;
+package boblovespi.factoryautomation.common.tileentity.smelting;
 
 import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
@@ -41,7 +41,7 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 public class TEStoneCrucible extends TileEntity implements IMultiblockControllerTE, ITickable
 {
 	public static final String MULTIBLOCK_ID = "stone_foundry";
-	private static final List<MetalInfo> infos = new ArrayList<MetalInfo>(20)
+	public static final List<MetalInfo> infos = new ArrayList<MetalInfo>(20)
 	{{
 		add(new MetalInfo(new OreIngredient("oreCopper"), "copper", 18));
 		add(new MetalInfo(new OreIngredient("nuggetCopper"), "copper", 2));
@@ -410,9 +410,9 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	public void PourInto(EnumFacing facing)
 	{
 		TileEntity te1 = world.getTileEntity(pos.down().offset(facing));
-		if (te1 instanceof TEStoneCastingVessel)
+		if (te1 instanceof ICastingVessel)
 		{
-			TEStoneCastingVessel te = (TEStoneCastingVessel) te1;
+			ICastingVessel te = (ICastingVessel) te1;
 			MetalForms form = te.GetForm();
 			if (!(form == MetalForms.NONE) && te.HasSpace())
 			{
@@ -434,10 +434,10 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 
 	public static class MetalHelper
 	{
-		private final int maxCapacity;
+		final int maxCapacity;
 		private final float wasteFactor;
-		private String metal = "none";
-		private int amount = 0;
+		String metal = "none";
+		int amount = 0;
 
 		public MetalHelper(int maxCapacity, float wasteFactor)
 		{
@@ -516,7 +516,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 
 	}
 
-	private static class MetalInfo
+	static class MetalInfo
 	{
 		public OreIngredient ore;
 		public String metal;
