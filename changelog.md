@@ -1,5 +1,9 @@
 ### Version 0.2.2 - alpha (unreleased)
-- 
+- added brick crucible
+- added recipes for rods and many other things
+- added model for hand crank
+- changed hand crank to be able to be placed upside down
+- changed wood chopping block to come in all types
 ### Version 0.2.1 - alpha
 - added recipes for metal blocks and back into ingots
 - changed plate block recipes to be slightly cheaper

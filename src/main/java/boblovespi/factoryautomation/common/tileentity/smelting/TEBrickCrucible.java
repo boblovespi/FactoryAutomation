@@ -3,14 +3,19 @@ package boblovespi.factoryautomation.common.tileentity.smelting;
 import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
+import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.util.NBTHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -23,6 +28,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 import static boblovespi.factoryautomation.common.block.processing.StoneCrucible.MULTIBLOCK_COMPLETE;
 
@@ -32,7 +39,7 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 public class TEBrickCrucible extends TileEntity implements IMultiblockControllerTE, ITickable
 {
 	public static final String MULTIBLOCK_ID = "brick_foundry";
-	private TEStoneCrucible.MetalHelper metals;
+	private MultiMetalHelper metals;
 	private ItemStackHandler inventory;
 	private HeatUser heatUser;
 	private int burnTime = 0;
@@ -45,7 +52,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 
 	public TEBrickCrucible()
 	{
-		metals = new TEStoneCrucible.MetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3, 1.5f);
+		metals = new MultiMetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 1000, 300);
 	}
@@ -106,7 +113,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 			if (metal.equals("none"))
 			{
 				meltTime = 0;
-			} else if (metal.equals(metals.metal) || metals.metal.equals("none"))
+			} else
 			{
 				int meltTemp = Metals.GetFromName(metal).meltTemp;
 				if (temp >= meltTemp)
@@ -277,6 +284,8 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	{
 		if (metals.metal.equals("none"))
 			return 0;
+		if (metals.metal.equals("unknown"))
+			return 0xFF453A2B;
 		return Metals.GetFromName(metals.metal).color;
 	}
 
@@ -308,6 +317,122 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 			{
 				te.CastInto(metals.CastItem(form), Metals.GetFromName(metals.metal).meltTemp);
 			}
+		}
+	}
+
+	private class MultiMetalHelper
+	{
+		final int maxCapacity;
+		final float wasteFactor;
+		String metal = "none";
+		int amount = 0;
+		Map<String, Integer> metals;
+
+		public MultiMetalHelper(int maxCapacity, float wasteFactor)
+		{
+			this.maxCapacity = maxCapacity;
+			this.wasteFactor = wasteFactor;
+			metals = new HashMap<>();
+		}
+
+		private void RecalculateMetal()
+		{
+			for (String s : metals.keySet())
+			{
+				if (metals.get(s) < 1)
+					metals.remove(s);
+			}
+			// not an alloy:
+			if (metals.size() == 1)
+			{
+				metal = metals.keySet().iterator().next();
+				return;
+			}
+			// bronze:
+			if (metals.size() == 2)
+			{
+				if (metals.containsKey(Metals.COPPER.getName()) && metals.containsKey(Metals.TIN.getName()))
+				{
+					if (metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) >= 7
+							&& metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) <= 9)
+					{
+						metal = "bronze";
+						return;
+					}
+				}
+			}
+			metal = "unknown";
+		}
+
+		public int AddMetal(String metalToAdd, int amountToAdd)
+		{
+			amountToAdd = Math.min(maxCapacity - amount, amountToAdd);
+			amount += amountToAdd;
+			if (metals.containsKey(metalToAdd))
+				metals.put(metalToAdd, metals.get(metalToAdd) + amountToAdd);
+			else
+				metals.put(metalToAdd, amountToAdd);
+
+			RecalculateMetal();
+			return amountToAdd - amount;
+		}
+
+		public void ReadFromNBT(NBTTagCompound tag)
+		{
+			metal = tag.getString("metal");
+			amount = tag.getShort("amount");
+			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((NBTTagInt) t).getInt());
+		}
+
+		public NBTTagCompound WriteToNBT()
+		{
+			NBTTagCompound tag = new NBTTagCompound();
+			tag.setString("metal", metal);
+			tag.setInteger("amount", amount);
+			NBTHelper.SetMap(tag, "metals", metals, k -> k, NBTTagInt::new);
+			return tag;
+		}
+
+		public ItemStack CastItem(TEStoneCrucible.MetalForms form)
+		{
+			if (metal.equals("none") || amount == 0 || metal.equals("unknown"))
+				return ItemStack.EMPTY;
+			float actualWaste =
+					form == TEStoneCrucible.MetalForms.INGOT || form == TEStoneCrucible.MetalForms.NUGGET ? 1 :
+							wasteFactor;
+			int left = Math.max(0, amount - (int) (form.amount * actualWaste));
+			int toDrain = amount - left;
+			amount = left;
+			String drainMetal = metal;
+			if (amount == 0)
+				metal = "none";
+			if (toDrain >= (int) (form.amount * actualWaste - 1))
+				switch (form)
+				{
+				case INGOT:
+					if (drainMetal.equals("iron"))
+						return new ItemStack(Items.IRON_INGOT);
+					else if (drainMetal.equals("gold"))
+						return new ItemStack(Items.GOLD_INGOT);
+					return new ItemStack(FAItems.ingot.GetItem(Metals.GetFromName(drainMetal)));
+				case NUGGET:
+					if (drainMetal.equals("iron"))
+						return new ItemStack(Items.IRON_NUGGET);
+					else if (drainMetal.equals("gold"))
+						return new ItemStack(Items.GOLD_NUGGET);
+					return new ItemStack(FAItems.nugget.GetItem(Metals.GetFromName(drainMetal)));
+				case SHEET:
+					return new ItemStack(FAItems.sheet.GetItem(Metals.GetFromName(drainMetal)));
+				case ROD:
+					return new ItemStack(FAItems.rod.GetItem(Metals.GetFromName(drainMetal)));
+				case GEAR:
+					if (drainMetal.equals("pig_iron") || drainMetal.equals("lead") || drainMetal.equals("silver"))
+						return ItemStack.EMPTY;
+					return new ItemStack(FAItems.gear.GetItem(Gearbox.GearType.valueOf(drainMetal.toUpperCase())));
+				case COIN:
+					return new ItemStack(FAItems.coin.GetItem(Metals.GetFromName(drainMetal)));
+				}
+			return ItemStack.EMPTY;
 		}
 	}
 }
