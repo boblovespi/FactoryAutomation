@@ -257,6 +257,7 @@ config.block_mining_level=Block Mining Levels
 
 # gui
 gui.misc.temperature=Temp
+gui.misc.efficiency=Efficiency
 gui.blast_furnace.name=Blast Furnace
 gui.workbench.name=Stone workbench
 gui.chopping_block.name=Chopping Block

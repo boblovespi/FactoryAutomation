@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.Optional;
 import vazkii.patchouli.api.IStateMatcher;
 
 import java.util.function.Predicate;
@@ -12,6 +13,7 @@ import java.util.function.Predicate;
 /**
  * Created by Willi on 12/24/2017.
  */
+@Optional.Interface(iface = "vazkii.patchouli.api.IStateMatcher", modid = "patchouli")
 public class MultiblockPart implements IStateMatcher
 {
 	public static final MultiblockPart EMPTY = new MultiblockPart(Blocks.AIR, false);

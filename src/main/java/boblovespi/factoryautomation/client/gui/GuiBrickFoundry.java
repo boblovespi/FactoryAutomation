@@ -25,6 +25,7 @@ public class GuiBrickFoundry extends GuiContainer
 	private GuiBar flameBar;
 	private GuiBar tempBar;
 	private GuiBar progressBar;
+	private GuiBar bellowsBar;
 
 	public GuiBrickFoundry(IInventory playerInv, TileEntity te)
 	{
@@ -32,9 +33,10 @@ public class GuiBrickFoundry extends GuiContainer
 		this.playerInv = playerInv;
 		this.te = (TEBrickCrucible) te;
 		container = (ContainerBrickFoundry) inventorySlots;
-		tempBar = new GuiBar(53, 16, 176, 16, 6, 61, GuiBar.ProgressDirection.UP);
+		tempBar = new GuiBar(53, 16, 176, 17, 6, 61, GuiBar.ProgressDirection.UP);
 		flameBar = new GuiBar(67, 40, 176, 0, 14, 14, GuiBar.ProgressDirection.UP);
 		progressBar = new GuiBar(84, 21, 194, 2, 22, 10, GuiBar.ProgressDirection.RIGHT);
+		bellowsBar = new GuiBar(86, 61, 190, 14, 16, 14, GuiBar.ProgressDirection.LEFT);
 		ySize = 180;
 	}
 
@@ -61,6 +63,13 @@ public class GuiBrickFoundry extends GuiContainer
 			text.add(I18n.format(te.GetMetalName()) + ": " + te.GetAmountMetal());
 			drawHoveringText(text, mouseX, mouseY);
 		}
+		if (isPointInRegion(87, 61, 16, 16, mouseX, mouseY))
+		{
+			List<String> text = new ArrayList<>(1);
+			text.add(I18n.format("gui.misc.efficiency") + ": " + String
+					.format("%1$.0f", te.GetEfficiencyPercent()) + "%");
+			drawHoveringText(text, mouseX, mouseY);
+		}
 	}
 
 	@Override
@@ -85,6 +94,7 @@ public class GuiBrickFoundry extends GuiContainer
 		flameBar.Draw(this, te.GetBurnPercent());
 		tempBar.Draw(this, te.GetTempPercent());
 		progressBar.Draw(this, te.GetMeltPercent());
+		bellowsBar.Draw(this, te.GetBellowsPercent());
 		drawRect(guiLeft + 107, guiTop + (int) (76 - 59 * te.GetCapacityPercent()), guiLeft + 123, guiTop + 76,
 				te.GetColor());
 

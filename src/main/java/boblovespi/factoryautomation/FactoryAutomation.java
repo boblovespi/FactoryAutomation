@@ -2,6 +2,7 @@ package boblovespi.factoryautomation;
 
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
+import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
@@ -73,6 +74,7 @@ public class FactoryAutomation
 		CapabilityPollutedChunk.Register();
 		CapabilityMechanicalUser.Register();
 		CapabilityHeatUser.Register();
+		CapabilityBellowsUser.Register();
 
 		// FAConfig.PreInit();
 		PacketHandler.CreateChannel(MODID);

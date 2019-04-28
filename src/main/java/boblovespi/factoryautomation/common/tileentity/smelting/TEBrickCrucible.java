@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.tileentity.smelting;
 
 import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
+import boblovespi.factoryautomation.api.misc.BellowsUser;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
@@ -49,12 +50,14 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	private FuelRegistry.FuelInfo fuelInfo = FuelRegistry.NULL;
 	private boolean isBurningFuel = false;
 	private boolean structureIsValid = false;
+	private BellowsUser bellowsUser;
 
 	public TEBrickCrucible()
 	{
 		metals = new MultiMetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 1000, 300);
+		bellowsUser = new BellowsUser(0.5f);
 	}
 
 	/**
@@ -65,6 +68,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	{
 		if (world.isRemote || !IsStructureValid())
 			return;
+		bellowsUser.Tick();
 		TEHelper.DissipateHeat(heatUser, 6);
 		ItemStack burnStack = inventory.getStackInSlot(0);
 		ItemStack meltStack = inventory.getStackInSlot(1);
@@ -81,9 +85,11 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 					isBurningFuel = false;
 				}
 			}
-			if (fuelInfo != FuelRegistry.NULL && heatUser.GetTemperature() <= fuelInfo.GetBurnTemp())
+			if (fuelInfo != FuelRegistry.NULL && heatUser.GetTemperature() <= fuelInfo.GetBurnTemp() * bellowsUser
+					.GetEfficiency())
 			{
-				heatUser.TransferEnergy(fuelInfo.GetTotalEnergy() / (float) fuelInfo.GetBurnTime());
+				heatUser.TransferEnergy(
+						fuelInfo.GetTotalEnergy() / (float) fuelInfo.GetBurnTime() * bellowsUser.GetEfficiency());
 			}
 			if (burnTime <= 0)
 			{
@@ -174,6 +180,8 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	@Override
 	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
 	{
+		if (offset[0] == 0 && offset[1] == 0 && offset[2] == 0)
+			return (T) bellowsUser;
 		return null;
 	}
 
@@ -184,7 +192,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
 	{
-		return !(oldState.getBlock() == FABlocks.stoneCrucible && newState.getBlock() == FABlocks.stoneCrucible);
+		return !(oldState.getBlock() == FABlocks.brickCrucible && newState.getBlock() == FABlocks.brickCrucible);
 	}
 
 	@Override
@@ -199,6 +207,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 		maxBurnTime = tag.getInteger("maxBurnTime");
 		meltTime = tag.getInteger("meltTime");
 		isBurningFuel = tag.getBoolean("isBurningFuel");
+		bellowsUser.ReadFromNBT(tag.getCompoundTag("bellowsUser"));
 	}
 
 	@Override
@@ -212,6 +221,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 		tag.setInteger("maxBurnTime", maxBurnTime);
 		tag.setInteger("meltTime", meltTime);
 		tag.setBoolean("isBurningFuel", isBurningFuel);
+		tag.setTag("bellowsUser", bellowsUser.WriteToNBT());
 		return super.writeToNBT(tag);
 	}
 
@@ -318,6 +328,16 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 				te.CastInto(metals.CastItem(form), Metals.GetFromName(metals.metal).meltTemp);
 			}
 		}
+	}
+
+	public float GetEfficiencyPercent()
+	{
+		return bellowsUser.GetEfficiency() * 100f;
+	}
+
+	public float GetBellowsPercent()
+	{
+		return bellowsUser.GetTime() * 1f / bellowsUser.GetMaxTime();
 	}
 
 	private class MultiMetalHelper
