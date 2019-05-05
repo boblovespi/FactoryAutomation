@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import net.minecraft.block.BlockHorizontal;
@@ -34,6 +35,7 @@ public class PaperBellows extends FABaseBlock implements ITileEntityProvider
 		super(Material.CLOTH, "paper_bellows", FACreativeTabs.primitive);
 		setHardness(0.5f);
 		setSoundType(SoundType.CLOTH);
+		TileEntityHandler.tiles.add(TEPaperBellows.class);
 	}
 
 	/**
