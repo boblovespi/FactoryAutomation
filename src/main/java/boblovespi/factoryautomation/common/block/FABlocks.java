@@ -133,6 +133,7 @@ public class FABlocks
 	public static FABlock brickCrucible;
 	public static FABlock brickCastingVessel;
 	public static FABlock brickFirebox;
+	public static FABlock paperBellows;
 
 	// mechanical
 
@@ -289,6 +290,7 @@ public class FABlocks
 		brickCrucible = new BrickCrucible();
 		brickCastingVessel = new BrickCastingVessel();
 		brickFirebox = new BrickFirebox();
+		paperBellows = new PaperBellows();
 
 		// mechanical
 
