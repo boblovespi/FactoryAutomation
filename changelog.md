@@ -1,4 +1,5 @@
 ### Version 0.2.2 - alpha (unreleased)
+- added leather bellows (mechanical)
 - added paper bellows (manual)
 - added brick crucible
 - added recipes for rods and many other things

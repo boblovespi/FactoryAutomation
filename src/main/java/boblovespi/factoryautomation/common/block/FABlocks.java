@@ -12,10 +12,7 @@ import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import boblovespi.factoryautomation.common.block.fluid.Pump;
 import boblovespi.factoryautomation.common.block.machine.*;
-import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
-import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
-import boblovespi.factoryautomation.common.block.mechanical.HandCrank;
-import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
+import boblovespi.factoryautomation.common.block.mechanical.*;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.processing.*;
 import boblovespi.factoryautomation.common.block.resource.*;
@@ -134,6 +131,7 @@ public class FABlocks
 	public static FABlock brickCastingVessel;
 	public static FABlock brickFirebox;
 	public static FABlock paperBellows;
+	public static FABlock leatherBellows;
 
 	// mechanical
 
@@ -291,6 +289,7 @@ public class FABlocks
 		brickCastingVessel = new BrickCastingVessel();
 		brickFirebox = new BrickFirebox();
 		paperBellows = new PaperBellows();
+		leatherBellows = new LeatherBellows();
 
 		// mechanical
 

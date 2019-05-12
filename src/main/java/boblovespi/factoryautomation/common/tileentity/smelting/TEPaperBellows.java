@@ -15,6 +15,8 @@ public class TEPaperBellows extends TileEntity
 	{
 		EnumFacing facing = world.getBlockState(pos).getValue(PaperBellows.FACING);
 		TileEntity te = world.getTileEntity(pos.offset(facing));
+		if (te == null)
+			return;
 		IBellowsable capability = te.getCapability(CapabilityBellowsUser.BELLOWS_USER_CAPABILITY, facing.getOpposite());
 		if (capability != null)
 			capability.Blow(0.75f, 400);
