@@ -23,6 +23,12 @@ public class BrickFirebox extends FABaseBlock /*implements ITileEntityProvider*/
 		TileEntityHandler.tiles.add(TESolidFueledFirebox.class);
 	}
 
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		return "processing/" + RegistryName();
+	}
+
 	/**
 	 * Called when the block is right clicked by a player.
 	 */

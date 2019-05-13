@@ -43,6 +43,12 @@ public class BrickCrucible extends FABaseBlock
 		setHarvestLevel("pickaxe", 0);
 	}
 
+	@Override
+	public String GetMetaFilePath(int meta)
+	{
+		return "processing/" + RegistryName();
+	}
+
 	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;

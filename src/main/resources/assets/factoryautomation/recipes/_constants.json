@@ -721,5 +721,13 @@
       }
     ],
     "name": "stringAny"
+  },
+  {
+    "ingredient": [
+      {
+        "item":"minecraft:brick_block"
+      }
+    ],
+    "name": "blockBrick"
   }
 ]
