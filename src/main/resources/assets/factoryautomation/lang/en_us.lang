@@ -236,6 +236,9 @@ tile.stone_casting_vessel.name=Stone Casting Vessel
 tile.brick_crucible.name=Brick Crucible
 tile.brick_firebox.name=Brick Firebox
 
+tile.paper_bellows.name=Paper Bellows
+tile.leather_bellows.name=Leather Bellows
+
 tile.green_sand.name=Green Sand
 tile.slag_glass.name=Slag Glass
 
