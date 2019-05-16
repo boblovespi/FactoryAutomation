@@ -176,6 +176,13 @@ item.silicon_quartz_crystal.name=§lSilicon Quartz Crystal
 # items - foods
 item.toasted_bread.name=Toasted Bread
 
+# items - ice cream
+item.ice_cream_vanilla.name=Vanilla Ice Cream
+item.ice_cream_coffee.name=Coffee Ice Cream
+item.ice_cream_mint.name=Mint Ice Cream
+item.ice_cream_chocolate.name=Chocolate Ice Cream
+item.ice_cream_cookies_n_cream.name=Cookies 'n Cream Ice Cream
+
 # tiles
 
 tile.concrete.name=Concrete
