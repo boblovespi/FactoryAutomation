@@ -16,7 +16,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -137,8 +137,8 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 			meltTime = 0;
 		if (meltTime < 0)
 			meltTime = 0;
-		if (heatUser.GetTemperature() > 1800)
-			heatUser.SetTemperature(1800);
+		if (heatUser.GetTemperature() > 2300)
+			heatUser.SetTemperature(2300);
 
 		markDirty();
 
@@ -325,7 +325,9 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 			TEStoneCrucible.MetalForms form = te.GetForm();
 			if (!(form == TEStoneCrucible.MetalForms.NONE) && te.HasSpace())
 			{
-				te.CastInto(metals.CastItem(form), Metals.GetFromName(metals.metal).meltTemp);
+				StringBuilder metalOut = new StringBuilder();
+				ItemStack item = metals.CastItem(form, metalOut);
+				te.CastInto(item, Metals.GetFromName(metalOut.toString()).meltTemp);
 			}
 		}
 	}
@@ -346,7 +348,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 		final float wasteFactor;
 		String metal = "none";
 		int amount = 0;
-		Map<String, Integer> metals;
+		Map<String, Float> metals;
 
 		public MultiMetalHelper(int maxCapacity, float wasteFactor)
 		{
@@ -357,11 +359,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 
 		private void RecalculateMetal()
 		{
-			for (String s : metals.keySet())
-			{
-				if (metals.get(s) < 1)
-					metals.remove(s);
-			}
+			metals.values().removeIf(n -> n < 0.1f);
 			// not an alloy:
 			if (metals.size() == 1)
 			{
@@ -374,7 +372,23 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 				if (metals.containsKey(Metals.COPPER.getName()) && metals.containsKey(Metals.TIN.getName()))
 				{
 					if (metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) >= 7
-							&& metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) <= 9)
+							&& metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) <= 9
+							&& heatUser.GetTemperature() > 2000)
+					{
+						metal = "bronze";
+						return;
+					}
+				}
+			}
+			// bronze (again):
+			if (metals.size() == 3)
+			{
+				if (metals.containsKey(Metals.COPPER.getName()) && metals.containsKey(Metals.TIN.getName()) && metals
+						.containsKey(Metals.BRONZE.getName()))
+				{
+					if (metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) >= 7
+							&& metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) <= 9
+							&& heatUser.GetTemperature() > 2000)
 					{
 						metal = "bronze";
 						return;
@@ -391,7 +405,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 			if (metals.containsKey(metalToAdd))
 				metals.put(metalToAdd, metals.get(metalToAdd) + amountToAdd);
 			else
-				metals.put(metalToAdd, amountToAdd);
+				metals.put(metalToAdd, (float) amountToAdd);
 
 			RecalculateMetal();
 			return amountToAdd - amount;
@@ -401,7 +415,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 		{
 			metal = tag.getString("metal");
 			amount = tag.getShort("amount");
-			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((NBTTagInt) t).getInt());
+			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((NBTTagFloat) t).getFloat());
 		}
 
 		public NBTTagCompound WriteToNBT()
@@ -409,11 +423,11 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 			NBTTagCompound tag = new NBTTagCompound();
 			tag.setString("metal", metal);
 			tag.setInteger("amount", amount);
-			NBTHelper.SetMap(tag, "metals", metals, k -> k, NBTTagInt::new);
+			NBTHelper.SetMap(tag, "metals", metals, k -> k, NBTTagFloat::new);
 			return tag;
 		}
 
-		public ItemStack CastItem(TEStoneCrucible.MetalForms form)
+		public ItemStack CastItem(TEStoneCrucible.MetalForms form, StringBuilder metalOut)
 		{
 			if (metal.equals("none") || amount == 0 || metal.equals("unknown"))
 				return ItemStack.EMPTY;
@@ -422,8 +436,19 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 							wasteFactor;
 			int left = Math.max(0, amount - (int) (form.amount * actualWaste));
 			int toDrain = amount - left;
+			float mult = left / (float) amount;
 			amount = left;
+
+			// update map
+			for (Map.Entry<String, Float> entry : metals.entrySet())
+			{
+				entry.setValue(entry.getValue() * mult);
+			}
 			String drainMetal = metal;
+			metalOut.append(drainMetal);
+
+			RecalculateMetal();
+
 			if (amount == 0)
 				metal = "none";
 			if (toDrain >= (int) (form.amount * actualWaste - 1))

@@ -416,7 +416,8 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			MetalForms form = te.GetForm();
 			if (!(form == MetalForms.NONE) && te.HasSpace())
 			{
-				te.CastInto(metals.CastItem(form), Metals.GetFromName(metals.metal).meltTemp);
+				StringBuilder metalOut = new StringBuilder();
+				te.CastInto(metals.CastItem(form, metalOut), Metals.GetFromName(metalOut.toString()).meltTemp);
 			}
 		}
 	}
@@ -445,7 +446,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			this.wasteFactor = wasteFactor;
 		}
 
-		public ItemStack CastItem(MetalForms form)
+		public ItemStack CastItem(MetalForms form, StringBuilder metalOut)
 		{
 			if (metal.equals("none") || amount == 0)
 				return ItemStack.EMPTY;
@@ -454,6 +455,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			int toDrain = amount - left;
 			amount = left;
 			String drainMetal = metal;
+			metalOut.append(drainMetal);
 			if (amount == 0)
 				metal = "none";
 			if (toDrain >= (int) (form.amount * actualWaste - 1))
