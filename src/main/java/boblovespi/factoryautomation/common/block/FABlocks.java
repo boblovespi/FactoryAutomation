@@ -260,7 +260,7 @@ public class FABlocks
 
 		rock = new Rock();
 
-		// TODO: replace with obsidian flake rock
+		// TODO: add obsidian flake rock
 		flintRock = new OreSample("flint_rock", new ItemStack[] { new ItemStack(Items.FLINT) });
 
 		// workbenches

@@ -1,4 +1,5 @@
 ### Version 0.2.3 - alpha (unreleased)
+- fixed rocks floating
 ### Version 0.2.2 - alpha
 - added leather bellows (mechanical)
 - added paper bellows (manual)

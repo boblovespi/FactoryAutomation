@@ -8,6 +8,7 @@ import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import boblovespi.factoryautomation.common.util.SoundHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockNewLog;
 import net.minecraft.block.BlockOldLog;
@@ -117,6 +118,31 @@ public class Rock extends FABaseBlock
 	public int getMetaFromState(IBlockState state)
 	{
 		return state.getValue(VARIANTS).ordinal();
+	}
+
+	/**
+	 * Called when a neighboring block was changed and marks that this state should perform any checks during a neighbor
+	 * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
+	 * block, etc.
+	 */
+	@Override
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos)
+	{
+		if (!world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP))
+		{
+			dropBlockAsItem(world, pos, state, 0);
+			world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+		}
+	}
+
+	/**
+	 * Checks if this block can be placed exactly at the given position.
+	 */
+	@Override
+	public boolean canPlaceBlockAt(World world, BlockPos pos)
+	{
+		return super.canPlaceBlockAt(world, pos) && world.getBlockState(pos.down())
+														 .isSideSolid(world, pos.down(), EnumFacing.UP);
 	}
 
 	public enum Variants implements IStringSerializable
