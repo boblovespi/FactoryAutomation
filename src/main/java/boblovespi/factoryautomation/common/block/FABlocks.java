@@ -86,6 +86,7 @@ public class FABlocks
 
 	public static FABlock powerShaft;
 	public static FABlock gearbox;
+	public static FABlock bevelGear;
 	public static FABlock jawCrusher;
 	public static FABlock creativeMechanicalSource;
 	public static FABlock motor;
@@ -186,6 +187,7 @@ public class FABlocks
 
 		powerShaft = new PowerShaft();
 		gearbox = new Gearbox();
+		bevelGear = new BevelGear();
 
 		jawCrusher = new JawCrusher();
 

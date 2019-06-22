@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.tileentity.smelting;
 import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.api.misc.BellowsUser;
+import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
@@ -180,7 +181,8 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	@Override
 	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
 	{
-		if (offset[0] == 0 && offset[1] == 0 && offset[2] == 0)
+		if (offset[0] == 0 && offset[1] == 0 && offset[2] == 0
+				&& capability == CapabilityBellowsUser.BELLOWS_USER_CAPABILITY)
 			return (T) bellowsUser;
 		return null;
 	}

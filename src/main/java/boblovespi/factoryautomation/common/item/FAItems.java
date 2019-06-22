@@ -294,7 +294,7 @@ public class FAItems
 	{
 		for (Item item : items)
 		{
-			Log.LogInfo("new item!", item.getRegistryName().getResourcePath());
+			Log.LogInfo("new item!", item.getRegistryName());
 			// Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
 			// Log.LogInfo("item resource path", item.getRegistryName().getResourcePath());
 			if (item instanceof FAItem)
