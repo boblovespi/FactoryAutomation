@@ -1,4 +1,4 @@
-#vanilla
+#vanilla materials
 
 minecraft.coal=C2Si2
 minecraft.iron_ingot;minecraft.iron_block;minecraft.iron_nugget=Fe2O3
@@ -9,7 +9,7 @@ minecraft.quartz=SiO2
 
 
 
-#base mod items
+#base fa materials
 
 factoryautomation.ingot_tin;factoryautomation.nugget_tin=SnO2
 factoryautomation.ingot_copper;factoryautomation.nugget_copper=Cu2O
@@ -20,3 +20,12 @@ factoryautomation.ingot_magmatic_brass;factoryautomation.nugget_magmatic_brass=I
 factoryautomation.silicon_quartz_crystal=Si4FeO6
 factoryautomation.ingot_lead;factoryautomation.nugget_lead=Pb3O2
 factoryautomation.ingot_silver;factoryautomation.nugget_silver=Ag2S
+
+#other fa items
+factoryautomation.ice_cream_vanilla=§3Regeneration
+factoryautomation.ice_cream_coffe=§3Haste
+factoryautomation.ice_cream_mint=§3Speed
+factoryautomation.ice_cream_chocolate=§3Saturation
+factoryautomation.ice_cream_cookies_n_cream=§3Strenght
+factoryautomation.patterned_plate_block_iron=Pattern: Diamond plate
+factoryautomation.factory_sign_block=§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹

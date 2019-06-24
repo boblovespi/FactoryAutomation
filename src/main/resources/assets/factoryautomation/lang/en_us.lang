@@ -1,13 +1,16 @@
 # items
 
 # items-misc
+
 item.rice.name=Rice
 item.wheat_flour.name=Wheat Flour
 item.slag.name=Slag
 item.coal_coke.name=Coal Coke
 item.iron_shard.name=Iron Shard
 
+
 # items-ingots
+
 item.ingot_copper.name=Copper Ingot
 item.ingot_tin.name=Tin Ingot
 item.ingot_bronze.name=Bronze Ingot
@@ -17,7 +20,9 @@ item.ingot_magmatic_brass.name=§6§lMagmatic Brass Clump
 item.ingot_lead.name=Lead Ingot
 item.ingot_silver.name=Silver Ingot
 
+
 # items-nuggets
+
 item.nugget_copper.name=Copper Nugget
 item.nugget_tin.name=Tin Nugget
 item.nugget_bronze.name=Bronze Nugget
@@ -27,7 +32,9 @@ item.nugget_magmatic_brass.name=§6§lMagmatic Brass Nugget
 item.nugget_lead.name=Lead Nugget
 item.nugget_silver.name=Silver Nugget
 
+
 # items-sheets
+
 item.sheet_iron.name=Iron Sheet
 item.sheet_gold.name=Gold Sheet
 item.sheet_copper.name=Copper Sheet
@@ -38,6 +45,7 @@ item.sheet_pig_iron.name=Pig Iron Sheet
 item.sheet_magmatic_brass.name=§6§lMagmatic Brass Sheet
 item.sheet_lead.name=Lead Sheet
 item.sheet_silver.name=Silver Sheet
+
 
 # blocks - metals
 
@@ -65,7 +73,9 @@ tile.metal_plate_block_silver.name=Silver Plate Block
 
 item.patterned_plate_block_iron=Iron patterned plate block
 
+
 # items-gears
+
 item.gear_wood.name=Wood Gear
 item.gear_stone.name=Stone Gear
 item.gear_copper.name=Copper Gear
@@ -75,6 +85,7 @@ item.gear_bronze.name=Bronze Gear
 item.gear_diamond.name=Diamond Gear
 item.gear_magmatic_brass.name=§6§lMagmatic Brass Gear
 item.gear_steel.name=Steel Gear
+
 
 # items-coins
 
@@ -106,6 +117,7 @@ item.rod_silver.name=Silver Rod
 
 
 # items-tools
+
 item.bronze_pickaxe.name=Bronze Pickaxe
 item.bronze_axe.name=Bronze Axe
 item.bronze_hoe.name=Bronze Hoe
@@ -137,11 +149,15 @@ item.steel_pinchers.name=Steel Pinchers
 item.advanced_flint_and_steel.name=Advanced flint and steel
 item.guidebook.name=F.A. Guidebook
 
+
 # items-jaw_plates
+
 item.wear_plate_iron.name=Iron Jaw Plate
 item.wear_plate_obsidian.name=Obsidian Jaw Plate
 
+
 # items-misc
+
 item.clay_crucible.name=Clay Crucible
 item.diamond_gravel.name=Diamond Gravel
 item.glass_lens.name=Glass Lens
@@ -166,17 +182,48 @@ item.plant_fiber.name=Plant Fiber
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame
 
+
 # items - circuits
+
 item.basic_chip.name=Basic Chip
 item.dataprint_circuit.name=Dataprint Circuit
 
+
 #items-materials
+
 item.silicon_quartz_crystal.name=§lSilicon Quartz Crystal
+#MAGNETITEEEE
+item.magnetite_poor_coarse_gravel.name=Poor magnetite coarse gravel
+item.magnetite_normal_coarse_gravel.name=Magnetite coarse gravel
+item.magnetite_rich_coarse_gravel.name=Rich magnetite coarse gravel
+item.magnetite_poor_gravel.name=Poor magnetite-gravel
+item.magnetite_normal_gravel.name=Magnetite-gravel
+item.magnetite_rich_gravel.name=Rich magnetite-gravel
+item.magnetite_poor_fine_gravel.name=Poor magnetite fine-gravel
+item.magnetite_normal_fine_gravel.name=Magnetite fine-gravel
+item.magnetite_rich_fine_gravel.name=Rich magnetite fine-gravel
+item.magnetite_poor_dust.name=Poor magnetite dust
+item.magnetite_normal_dust.name=Magnetite dust
+item.magnetite_rich_dust.name=Rich magnetite dust
+item.magnetite_purified_dust.name=Purified magnetite dust
+item.magnetite_extremly_purified_dust.name=Extremly purified magnetite dust
+item.magnetite_rich_pellet.name=Rich magnetite pellet
+item.magnetite_purified_pellet.name=Purified magnetite pellet
+item.magnetite_extremly_purified_pellet.name=Extremly purified magnetite pellet
+
 
 # items - foods
+
 item.toasted_bread.name=Toasted Bread
 
+
 # tiles
+
+tile.brick_casting_vessel.name=Brick casting vessel
+tile.solid_fueled_firebox.name=Solid fueled firebox
+tile.bevel_gear.name=Bevel gearbox
+tile.waterwheel.name=Water wheel
+tile.trip_hammer.name=Trip hammer
 
 tile.concrete.name=Concrete
 tile.concrete_slab.name=Concrete Slab
@@ -184,12 +231,17 @@ tile.concrete_slab.name=Concrete Slab
 tile.blast_furnace_controller.name=Blast Furnace Controller
 tile.steelmaking_furnace_controller.name=Steelmaking Furnace Controller
 
+#tiles-ores
 tile.ore_metal_copper.name=Malachite Ore
 tile.ore_metal_tin.name=Cassiterite Ore
 tile.ore_silicon_quartz.name=Silicon Quartz Ore
-tile.limonite_ore.poor.name=Limonite Ore
-tile.limonite_ore.normal.name=Limonite Ore
-tile.limonite_ore.rich.name=Limonite Ore
+tile.limonite_ore_poor.name=Limonite Ore
+tile.limonite_ore_normal.name=Limonite Ore
+tile.limonite_ore_rich.name=Limonite Ore
+
+tile.magnetite_ore_poor.name=Magnetite Ore
+tile.magnetite_ore_normal.name=Magnetite Ore
+tile.magnetite_ore_rich.name=Magnetite Ore
 
 tile.rock.name=Rock
 tile.flint_rock.name=Flint Rock
@@ -242,6 +294,10 @@ tile.terraclay_brick_block.name=Terraclay Brick Block
 
 tile.iron_charcoal_mix.name=Limonite-Charcoal Mix
 tile.iron_bloom.name=Iron Bloom
+
+tile.patterned_plate_block_iron.name=Patterned Iron plate block
+
+tile.factory_sign_block.name=Factory-sign Block
 
 # config
 
