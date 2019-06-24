@@ -21,6 +21,8 @@ factoryautomation.silicon_quartz_crystal=Si₄FeO₆
 factoryautomation.ingot_lead;factoryautomation.nugget_lead=Pb₃O₂
 factoryautomation.ingot_silver;factoryautomation.nugget_silver=Ag₂S
 
+factoryautomation.iron_shard=Put this into the foundry to cast ingots.
+
 #other fa items
 factoryautomation.ice_cream_vanilla=§3Regeneration
 factoryautomation.ice_cream_coffe=§3Haste
