@@ -12,6 +12,7 @@ import boblovespi.factoryautomation.common.item.metals.Sheet;
 import boblovespi.factoryautomation.common.item.ores.OreForms;
 import boblovespi.factoryautomation.common.item.ores.ProcessedOre;
 import boblovespi.factoryautomation.common.item.tools.*;
+import boblovespi.factoryautomation.common.item.types.IceCreams;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
@@ -76,6 +77,7 @@ public class FAItems
 	public static FAItem riceGrain;
 	public static FAItem toastedBread;
 	public static FAItem wheatFlour;
+	public static FAItem[] iceCream;
 
 	// resources
 
@@ -197,6 +199,13 @@ public class FAItems
 		toastedBread = new FAFood(
 				"toasted_bread", 5, 4, 32, false, false, Collections.emptyList(), Collections.emptyList());
 		wheatFlour = new FABaseItem("wheat_flour", FACreativeTabs.resources);
+		iceCream = new FAItem[IceCreams.values().length];
+		for (int i = 0; i < iceCream.length; i++)
+		{
+			iceCream[i] = new FAFood(
+					"ice_cream_" + IceCreams.values()[i].name().toLowerCase(), 8, 12, 32, false, true,
+					IceCreams.values()[i].GetPotionEffects(), Collections.singletonList(1f));
+		}
 
 		// resources
 
@@ -285,7 +294,7 @@ public class FAItems
 	{
 		for (Item item : items)
 		{
-			Log.LogInfo("new item!", item.getRegistryName().getResourcePath());
+			Log.LogInfo("new item!", item.getRegistryName());
 			// Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
 			// Log.LogInfo("item resource path", item.getRegistryName().getResourcePath());
 			if (item instanceof FAItem)

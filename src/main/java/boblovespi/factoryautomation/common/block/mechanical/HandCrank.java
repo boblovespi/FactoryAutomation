@@ -6,7 +6,10 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -23,13 +26,27 @@ import javax.annotation.Nullable;
  */
 public class HandCrank extends FABaseBlock implements ITileEntityProvider
 {
+	public static final PropertyBool INVERTED = PropertyBool.create("inverted");
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
 			2 / 16d, 0, 2 / 16d, 14 / 16d, 14 / 16d, 14 / 16d);
+	private static final AxisAlignedBB BOUNDING_BOX_I = new AxisAlignedBB(
+			2 / 16d, 2 / 16d, 2 / 16d, 14 / 16d, 1, 14 / 16d);
 
 	public HandCrank()
 	{
 		super(Material.WOOD, "hand_crank", FACreativeTabs.mechanical);
 		TileEntityHandler.tiles.add(TEHandCrank.class);
+		setDefaultState(getDefaultState().withProperty(INVERTED, false));
+	}
+
+	/**
+	 * Gets the {@link IBlockState} to place
+	 */
+	@Override
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	{
+		return facing == EnumFacing.DOWN ? getDefaultState().withProperty(INVERTED, true) : getDefaultState();
 	}
 
 	/**
@@ -79,6 +96,24 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
-		return BOUNDING_BOX;
+		return state.getValue(INVERTED) ? BOUNDING_BOX_I : BOUNDING_BOX;
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, INVERTED);
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta)
+	{
+		return getDefaultState().withProperty(INVERTED, meta == 1);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state)
+	{
+		return state.getValue(INVERTED) ? 1 : 0;
 	}
 }

@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.client.gui;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiBar;
 import boblovespi.factoryautomation.common.container.ContainerStoneFoundry;
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;

@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.container;
 
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation;
 
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
+import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
@@ -18,7 +19,8 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerController;
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
 import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
@@ -43,7 +45,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class FactoryAutomation
 {
 	public static final String MODID = "factoryautomation";
-	public static final String VERSION = "Alpha 0.2.1";
+	public static final String VERSION = "Alpha 0.2.2";
 	public static final String NAME = "Factory Automation";
 	public static final String SERVER_PROXY_CLASS = "boblovespi.factoryautomation.common.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
@@ -72,6 +74,7 @@ public class FactoryAutomation
 		CapabilityPollutedChunk.Register();
 		CapabilityMechanicalUser.Register();
 		CapabilityHeatUser.Register();
+		CapabilityBellowsUser.Register();
 
 		// FAConfig.PreInit();
 		PacketHandler.CreateChannel(MODID);
@@ -116,6 +119,10 @@ public class FactoryAutomation
 		MultiblockHandler.Register(
 				TEStoneCrucible.MULTIBLOCK_ID,
 				new MultiblockStructurePattern(MultiblockStructures.stoneFoundry, new int[] { 0, 1, 0 }));
+
+		MultiblockHandler.Register(
+				TEBrickCrucible.MULTIBLOCK_ID,
+				new MultiblockStructurePattern(MultiblockStructures.brickFoundry, new int[] { 0, 1, 0 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
 		ModCompatHandler.Init();

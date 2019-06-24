@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCastingVessel;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-import static boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible.MetalForms;
+import static boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible.MetalForms;
 
 /**
  * Created by Willi on 12/22/2018.

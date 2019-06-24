@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.client.tesr;
 
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCastingVessel;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.IBakedModel;

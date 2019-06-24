@@ -32,9 +32,14 @@ public class TESRHandCrank extends TileEntitySpecialRenderer<TEHandCrank>
 			GlStateManager.enableRescaleNormal();
 
 			GlStateManager.rotate(180, 0, 0, 1);
+			if (te.inverted)
+			{
+				GlStateManager.rotate(180, 1, 0, 0);
+				GlStateManager.translate(0, 1, -1);
+			}
 			GlStateManager.translate(-0.5, -1.5, 0.5);
 			if (te.IsRotating())
-				GlStateManager.rotate(te.rotation + partialTicks, 0, -1, 0);
+				GlStateManager.rotate((te.inverted ? -1 : 1) * (te.rotation + partialTicks), 0, -1, 0);
 
 			GlStateManager.scale(1 / 16d, 1 / 16d, 1 / 16d);
 			if (Minecraft.isAmbientOcclusionEnabled())

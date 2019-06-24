@@ -86,7 +86,8 @@ public class GuiHandler implements IGuiHandler
 		GUIDEBOOK(5, GuiType.ITEM, null, GuiGuidebook.class),
 		SOLID_FUELED_FIREBOX(6, GuiType.TILE_ENTITY, ContainerSolidFueledFirebox.class, GuiSolidFueledFirebox.class),
 		STONE_FOUNDRY(7, GuiType.TILE_ENTITY, ContainerStoneFoundry.class, GuiStoneFoundry.class),
-		STONE_CASTING_VESSEL(8, GuiType.TILE_ENTITY, ContainerStoneCastingVessel.class, GuiStoneCastingVessel.class);
+		STONE_CASTING_VESSEL(8, GuiType.TILE_ENTITY, ContainerStoneCastingVessel.class, GuiStoneCastingVessel.class),
+		BRICK_FOUNDRY(9, GuiType.TILE_ENTITY, ContainerBrickFoundry.class, GuiBrickFoundry.class);
 
 		public final int id;
 		public final GuiType type;

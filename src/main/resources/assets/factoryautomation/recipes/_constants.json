@@ -684,6 +684,13 @@
     "name": "log"
   },
   {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "name": "plank"
+  },
+  {
     "ingredient": [
       {
         "item": "minecraft:coal",
@@ -721,5 +728,20 @@
       }
     ],
     "name": "stringAny"
+  },
+  {
+    "ingredient": [
+      {
+        "item": "minecraft:brick_block"
+      }
+    ],
+    "name": "blockBrick"
+  },
+  {
+    "ingredient": {
+      "type": "forge:ore_dict",
+      "ore": "paper"
+    },
+    "name": "paper"
   }
 ]

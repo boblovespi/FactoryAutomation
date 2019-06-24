@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;

@@ -1,25 +1,25 @@
-#vanilla materials
+﻿#vanilla materials
 
-minecraft.coal=C2Si2
-minecraft.iron_ingot;minecraft.iron_block;minecraft.iron_nugget=Fe2O3
-minecraft.gold_ingot;minecraft.gold_block;minecraft.gold_nugget=Au2O3
-minecraft.diamond=C2H5
-minecraft.emerald=C4H10
-minecraft.quartz=SiO2
+minecraft.coal=C₂Si₂
+minecraft.iron_ingot;minecraft.iron_block;minecraft.iron_nugget=Fe₂O₃
+minecraft.gold_ingot;minecraft.gold_block;minecraft.gold_nugget=Au₂O₃
+minecraft.diamond=C₂H₅
+minecraft.emerald=C₄H10
+minecraft.quartz=SiO₂
 
 
 
 #base fa materials
 
-factoryautomation.ingot_tin;factoryautomation.nugget_tin=SnO2
-factoryautomation.ingot_copper;factoryautomation.nugget_copper=Cu2O
-factoryautomation.ingot_bronze;factoryautomation.nugget_bronze=SnCu2O2
-factoryautomation.ingot_pig_iron;factoryautomation.nugget_pig_iron=Fe2O3
-factoryautomation.ingot_steel;factoryautomation.nugget_steel=Fe2O2C
-factoryautomation.ingot_magmatic_brass;factoryautomation.nugget_magmatic_brass=Inf4SiSnO2
-factoryautomation.silicon_quartz_crystal=Si4FeO6
-factoryautomation.ingot_lead;factoryautomation.nugget_lead=Pb3O2
-factoryautomation.ingot_silver;factoryautomation.nugget_silver=Ag2S
+factoryautomation.ingot_tin;factoryautomation.nugget_tin=SnO₂
+factoryautomation.ingot_copper;factoryautomation.nugget_copper=Cu₂O
+factoryautomation.ingot_bronze;factoryautomation.nugget_bronze=SnCu₂O₂
+factoryautomation.ingot_pig_iron;factoryautomation.nugget_pig_iron=Fe₂O₃
+factoryautomation.ingot_steel;factoryautomation.nugget_steel=Fe₂O₂C
+factoryautomation.ingot_magmatic_brass;factoryautomation.nugget_magmatic_brass=Inf₄SiSnO₂
+factoryautomation.silicon_quartz_crystal=Si₄FeO₆
+factoryautomation.ingot_lead;factoryautomation.nugget_lead=Pb₃O₂
+factoryautomation.ingot_silver;factoryautomation.nugget_silver=Ag₂S
 
 #other fa items
 factoryautomation.ice_cream_vanilla=§3Regeneration

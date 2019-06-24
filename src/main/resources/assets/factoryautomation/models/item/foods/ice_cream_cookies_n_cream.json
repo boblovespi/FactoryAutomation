@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "factoryautomation:items/foods/ice_cream_cookies_n_cream"
+  }
+}

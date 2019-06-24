@@ -1,0 +1,24 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["bbb", "i i", "bbb"],
+  "key": {
+    "b": {
+      "item": "#blockBrick"
+    },
+    "i": {
+      "item": "#plateIron"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 15
+    }
+  },
+  "parts": {
+  },
+  "result": {
+    "item": "factoryautomation:brick_firebox"
+  }
+}

@@ -19,6 +19,7 @@ public class MultiblockStructures
 	public static final MultiblockPart OAK_LOG_UP = new MultiblockPart(Blocks.LOG, n -> true,
 			n -> n.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y
 					&& n.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.OAK, false);
+	public static final MultiblockPart BRICK = new MultiblockPart(Blocks.BRICK_BLOCK);
 
 	public static final Block[][][] blastFurnace = new Block[][][] {
 			new Block[][] {
@@ -100,4 +101,29 @@ public class MultiblockStructures
 					new MultiblockPart[] { new MultiblockPart(FABlocks.stoneCrucible.ToBlock()) }
 			}
 	};
+
+	public static final MultiblockPart[][][] brickFoundry = new MultiblockPart[][][] {
+			new MultiblockPart[][]{
+					new MultiblockPart[] { new MultiblockPart(FABlocks.brickFirebox.ToBlock()) },
+					new MultiblockPart[] { new MultiblockPart(FABlocks.brickCrucible.ToBlock()) }
+			}
+	};
+
+//	public static final MultiblockPart[][][] brickKiln = new MultiblockPart[][][] {
+//			new MultiblockPart[][] {
+//					new MultiblockPart[] { BRICK, BRICK, BRICK },
+//					new MultiblockPart[] { BRICK, BRICK, BRICK },
+//					new MultiblockPart[] { BRICK, BRICK, BRICK }
+//			},
+//			new MultiblockPart[][] {
+//					new MultiblockPart[] { BRICK, new MultiblockPart(FABlocks.brickKiln.ToBlock()), BRICK },
+//					new MultiblockPart[] { BRICK, BRICK, BRICK },
+//					new MultiblockPart[] { BRICK, BRICK, BRICK }
+//			},
+//			new MultiblockPart[][] {
+//					new MultiblockPart[] { BRICK, BRICK, BRICK },
+//					new MultiblockPart[] { BRICK, BRICK, BRICK },
+//					new MultiblockPart[] { BRICK, BRICK, BRICK }
+//			}
+//	};
 }

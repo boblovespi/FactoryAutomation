@@ -1,0 +1,24 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["i i", "b b", "bbb"],
+  "key": {
+    "b": {
+      "item": "#blockBrick"
+    },
+    "i": {
+      "item": "#stickIron"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 15
+    }
+  },
+  "parts": {
+  },
+  "result": {
+    "item": "factoryautomation:brick_crucible"
+  }
+}

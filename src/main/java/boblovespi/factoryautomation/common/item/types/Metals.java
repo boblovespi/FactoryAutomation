@@ -11,7 +11,7 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 	GOLD(1, "gold", 10000, 0xFFFAF437),
 	COPPER(2, "copper", 1084, 0xFFFF973D),
 	TIN(3, "tin", 232, 0xFFF7E8E8),
-	BRONZE(4, "bronze", 10000, 0xFF000000),
+	BRONZE(4, "bronze", 950, 0xFFFFB201),
 	STEEL(5, "steel", 10000, 0xFF000000),
 	PIG_IRON(6, "pig_iron", 10000, 0xFF000000),
 	MAGMATIC_BRASS(7, "magmatic_brass", 10000, 0xFF000000),

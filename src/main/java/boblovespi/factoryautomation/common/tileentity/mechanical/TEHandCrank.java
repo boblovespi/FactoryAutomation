@@ -14,6 +14,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
+import static boblovespi.factoryautomation.common.block.mechanical.HandCrank.INVERTED;
 import static boblovespi.factoryautomation.common.util.SetBlockStateFlags.FORCE_BLOCK_UPDATE;
 import static boblovespi.factoryautomation.common.util.SetBlockStateFlags.SEND_TO_CLIENT;
 
@@ -27,11 +28,19 @@ public class TEHandCrank extends TileEntity implements ITickable
 	public float rotation = 0;
 	private MechanicalUser mechanicalUser;
 	private boolean isRotating;
+	public boolean inverted = false;
 
 	public TEHandCrank()
 	{
 		mechanicalUser = new MechanicalUser(EnumSet.of(EnumFacing.DOWN));
 		isRotating = false;
+	}
+
+	@Override
+	public void onLoad()
+	{
+		inverted = world.getBlockState(pos).getValue(INVERTED);
+		mechanicalUser.SetSides(EnumSet.of(inverted ? EnumFacing.UP : EnumFacing.DOWN));
 	}
 
 	public void Rotate()
@@ -40,8 +49,8 @@ public class TEHandCrank extends TileEntity implements ITickable
 		{
 			isRotating = true;
 
-			mechanicalUser.SetTorqueOnFace(EnumFacing.DOWN, 1f);
-			mechanicalUser.SetSpeedOnFace(EnumFacing.DOWN, 1f);
+			mechanicalUser.SetTorqueOnFace(inverted ? EnumFacing.UP : EnumFacing.DOWN, 1f);
+			mechanicalUser.SetSpeedOnFace(inverted ? EnumFacing.UP : EnumFacing.DOWN, 1f);
 
 			markDirty();
 
@@ -138,8 +147,8 @@ public class TEHandCrank extends TileEntity implements ITickable
 				rotation = 0;
 				isRotating = false;
 
-				mechanicalUser.SetTorqueOnFace(EnumFacing.DOWN, 0);
-				mechanicalUser.SetSpeedOnFace(EnumFacing.DOWN, 0);
+				mechanicalUser.SetTorqueOnFace(inverted ? EnumFacing.UP : EnumFacing.DOWN, 0);
+				mechanicalUser.SetSpeedOnFace(inverted ? EnumFacing.UP : EnumFacing.DOWN, 0);
 
 				markDirty();
 

@@ -70,12 +70,13 @@ public class MultiblockHelper
 						{
 							if (te instanceof IMultiblockControllerTE)
 								continue;
-							if (part.AllowsAnyBlock())
-								continue;
-
 							IBlockState state = world.getBlockState(loc);
 
-							world.setBlockState(loc, FABlocks.multiblockPart.ToBlock().getDefaultState());
+							if (part.AllowsAnyBlock() && state.getBlock().isAir(state, world, loc))
+								continue;
+
+
+  							world.setBlockState(loc, FABlocks.multiblockPart.ToBlock().getDefaultState());
 							TEMultiblockPart newPart = (TEMultiblockPart) world.getTileEntity(loc);
 
 							newPart.SetMultiblockInformation(structureId, new BlockPos(x, y, z),

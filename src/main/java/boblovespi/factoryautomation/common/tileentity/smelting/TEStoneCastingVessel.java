@@ -1,8 +1,7 @@
-package boblovespi.factoryautomation.common.tileentity.processing;
+package boblovespi.factoryautomation.common.tileentity.smelting;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.CastingVesselStates;
-import boblovespi.factoryautomation.common.tileentity.processing.TEStoneCrucible.MetalForms;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -27,10 +26,10 @@ import static boblovespi.factoryautomation.common.block.decoration.StoneCastingV
 /**
  * Created by Willi on 12/29/2018.
  */
-public class TEStoneCastingVessel extends TileEntity implements ITickable
+public class TEStoneCastingVessel extends TileEntity implements ITickable, ICastingVessel
 {
 	private boolean hasSand;
-	private MetalForms form;
+	private TEStoneCrucible.MetalForms form;
 	private ItemStackHandler slot;
 	private float temp = 20f;
 	private int counter = 0;
@@ -50,11 +49,13 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable
 		form = world.getBlockState(pos).getValue(MOLD).metalForm;
 	}
 
-	public MetalForms GetForm()
+	@Override
+	public TEStoneCrucible.MetalForms GetForm()
 	{
 		return form;
 	}
 
+	@Override
 	public void CastInto(ItemStack stack, int temp)
 	{
 		slot.setStackInSlot(0, stack.copy());
@@ -64,6 +65,12 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable
 		markDirty();
 		IBlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 7);
+	}
+
+	@Override
+	public float GetLoss()
+	{
+		return 1.5f;
 	}
 
 	public void DropItems()
@@ -136,6 +143,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable
 				&& newState.getBlock() == FABlocks.stoneCastingVessel);
 	}
 
+	@Override
 	public boolean HasSpace()
 	{
 		return slot.getStackInSlot(0).isEmpty();
@@ -148,7 +156,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable
 		slot.deserializeNBT(tag.getCompoundTag("slot"));
 		hasSand = tag.getBoolean("hasSand");
 		temp = tag.getFloat("temp");
-		form = MetalForms.values()[tag.getInteger("form")];
+		form = TEStoneCrucible.MetalForms.values()[tag.getInteger("form")];
 	}
 
 	@Override

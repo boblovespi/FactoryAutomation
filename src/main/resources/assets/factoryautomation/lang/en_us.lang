@@ -215,7 +215,11 @@ item.magnetite_extremly_purified_pellet.name=Extremly purified magnetite pellet
 # items - foods
 
 item.toasted_bread.name=Toasted Bread
-
+item.ice_cream_vanilla.name=Vanilla Ice Cream
+item.ice_cream_coffee.name=Coffee Ice Cream
+item.ice_cream_mint.name=Mint Ice Cream
+item.ice_cream_chocolate.name=Chocolate Ice Cream
+item.ice_cream_cookies_n_cream.name=Cookies 'n Cream Ice Cream
 
 # tiles
 
@@ -285,6 +289,11 @@ tile.bronze_cauldron.name=Bronze Cauldron
 tile.bronze_fence.name=Bronze Fence
 tile.stone_crucible.name=Stone Crucible
 tile.stone_casting_vessel.name=Stone Casting Vessel
+tile.brick_crucible.name=Brick Crucible
+tile.brick_firebox.name=Brick Firebox
+
+tile.paper_bellows.name=Paper Bellows
+tile.leather_bellows.name=Leather Bellows
 
 tile.green_sand.name=Green Sand
 tile.slag_glass.name=Slag Glass
@@ -313,6 +322,7 @@ config.block_mining_level=Block Mining Levels
 
 # gui
 gui.misc.temperature=Temp
+gui.misc.efficiency=Efficiency
 gui.blast_furnace.name=Blast Furnace
 gui.workbench.name=Stone workbench
 gui.chopping_block.name=Chopping Block

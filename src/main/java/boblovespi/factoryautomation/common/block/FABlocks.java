@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.crafter.ChipCreator;
 import boblovespi.factoryautomation.common.block.crafter.workbench.IronWorkbench;
 import boblovespi.factoryautomation.common.block.crafter.workbench.StoneWorkbench;
+import boblovespi.factoryautomation.common.block.decoration.BrickCastingVessel;
 import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
 import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
@@ -11,10 +12,7 @@ import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import boblovespi.factoryautomation.common.block.fluid.Pump;
 import boblovespi.factoryautomation.common.block.machine.*;
-import boblovespi.factoryautomation.common.block.mechanical.CreativeMechanicalSource;
-import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
-import boblovespi.factoryautomation.common.block.mechanical.HandCrank;
-import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
+import boblovespi.factoryautomation.common.block.mechanical.*;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.processing.*;
 import boblovespi.factoryautomation.common.block.resource.*;
@@ -60,6 +58,7 @@ public class FABlocks
 	public static FABlock steelmakingFurnaceController;
 	public static FABlock blastFurnaceController;
 	public static FABlock tripHammerController;
+	public static FABlock brickKiln;
 
 	// misc - need to organize
 
@@ -87,6 +86,7 @@ public class FABlocks
 
 	public static FABlock powerShaft;
 	public static FABlock gearbox;
+	public static FABlock bevelGear;
 	public static FABlock jawCrusher;
 	public static FABlock creativeMechanicalSource;
 	public static FABlock motor;
@@ -127,6 +127,14 @@ public class FABlocks
 	public static FABlock stoneCastingVessel;
 	public static FABlock slagGlass;
 
+	// smelting
+
+	public static FABlock brickCrucible;
+	public static FABlock brickCastingVessel;
+	public static FABlock brickFirebox;
+	public static FABlock paperBellows;
+	public static FABlock leatherBellows;
+
 	// mechanical
 
 	public static FABlock handCrank;
@@ -158,6 +166,7 @@ public class FABlocks
 		blastFurnaceController = new BlastFurnaceController();
 		steelmakingFurnaceController = new SteelmakingFurnaceController();
 		tripHammerController = new TripHammerController();
+		// brickKiln = new BrickKiln();
 
 		// misc - need to organize
 
@@ -178,6 +187,7 @@ public class FABlocks
 
 		powerShaft = new PowerShaft();
 		gearbox = new Gearbox();
+		bevelGear = new BevelGear();
 
 		jawCrusher = new JawCrusher();
 
@@ -254,7 +264,7 @@ public class FABlocks
 
 		rock = new Rock();
 
-		// TODO: replace with obsidian flake rock
+		// TODO: add obsidian flake rock
 		flintRock = new OreSample("flint_rock", new ItemStack[] { new ItemStack(Items.FLINT) });
 
 		// workbenches
@@ -276,6 +286,14 @@ public class FABlocks
 		stoneCrucible = new StoneCrucible();
 		stoneCastingVessel = new StoneCastingVessel();
 		slagGlass = new SlagGlass();
+
+		// smelting
+
+		brickCrucible = new BrickCrucible();
+		brickCastingVessel = new BrickCastingVessel();
+		brickFirebox = new BrickFirebox();
+		paperBellows = new PaperBellows();
+		leatherBellows = new LeatherBellows();
 
 		// mechanical
 

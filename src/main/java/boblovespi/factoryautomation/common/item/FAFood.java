@@ -105,7 +105,7 @@ public class FAFood extends Item implements FAItem
 		if (entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
-			entityplayer.getFoodStats().addStats(amountOfFood, saturationAmount / amountOfFood);
+			entityplayer.getFoodStats().addStats(amountOfFood, saturationAmount / (float) amountOfFood);
 
 			worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ,
 					SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
