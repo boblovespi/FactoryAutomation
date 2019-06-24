@@ -4,7 +4,7 @@ minecraft.coal=C₂Si₂
 minecraft.iron_ingot;minecraft.iron_block;minecraft.iron_nugget=Fe₂O₃
 minecraft.gold_ingot;minecraft.gold_block;minecraft.gold_nugget=Au₂O₃
 minecraft.diamond=C₂H₅
-minecraft.emerald=C₄H10
+minecraft.emerald=C₄H₁0
 minecraft.quartz=SiO₂
 
 
@@ -29,3 +29,23 @@ factoryautomation.ice_cream_chocolate=§3Saturation
 factoryautomation.ice_cream_cookies_n_cream=§3Strenght
 factoryautomation.patterned_plate_block_iron=Pattern: Diamond plate
 factoryautomation.factory_sign_block=§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹
+
+
+#so here is my ideas! add the ability to "render" icons/items in the descriptions. heres some default icon idea:
+#define the icons by <>
+#a hp icon (from the hud) <icon.hud=heart_full> (why "full"? because a heart icon can be full, half or empty)
+#a hunger bar (also from the hud) <icon.hud=hungerbar_full> (why full? same as heart)
+#here are the eamples for items, using item id: <icon.item=minecraft.diamond_sword> (this makes a diamond sword)
+#or a modded one: <icon.item=factoryautomation.steel_ingot>
+#and/or can render blocks too: <icon.block=minecraft.brick_block> (using the block id. same, works with modded ones)
+#and, the harder one. from texture. needs defining a path for the file (with name), and the texture cordinates (by pixels).
+#here is the example: <icon.texture={[assets:factoryautomation\textures\icons\icon_sheet.png];[size=16;0.0,16.16]}>
+#the syntax of it: <icon.texture={[file path];[size;x1.y1,x2.y2]}> the size of the file can any, you just define the icon's size what needs to be loaded.
+#so you can have a 213px by 56px texture, you just define your icon's texture size. (can be the default minecraft sizes. like 16x16, 32x32, 64x64 etc...)
+#and the cordinates of the usable texture. its defines the starting (left upper corner) point and ending(right bottom corner) point,
+#this area need to be the selected size, or else will not work.
+
+#i wish you can implement those ideas, it wuld be very cool to have.
+#if my syntax ideas bad, or simply just "this is not how it works", well, if you do them, leave this text here and just replace the syntax examples.
+#and if those things works, we could release this description tool as a standalone mod.
+#i think so many people would like it to use.
