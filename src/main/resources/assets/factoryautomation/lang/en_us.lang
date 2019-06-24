@@ -243,9 +243,9 @@ tile.limonite_ore_poor.name=Limonite Ore
 tile.limonite_ore_normal.name=Limonite Ore
 tile.limonite_ore_rich.name=Limonite Ore
 
-tile.magnetite_ore_poor.name=Magnetite Ore
+tile.magnetite_ore_poor.name=Poor Magnetite Ore
 tile.magnetite_ore_normal.name=Magnetite Ore
-tile.magnetite_ore_rich.name=Magnetite Ore
+tile.magnetite_ore_rich.name=Rich Magnetite Ore
 
 tile.rock.name=Rock
 tile.flint_rock.name=Flint Rock
@@ -337,6 +337,8 @@ itemGroup.tabs.tools.name=F.A. Tools
 itemGroup.tabs.mechanical.name=Mechanical Stuff
 itemGroup.tabs.crafting.name=Crafting Items
 itemGroup.tabs.electrical.name=Electrical stuff
+itemGroup.tabs.heat.name=Heat stuff
+itemGroup.tabs.primitive.name=Primitive stuff
 
 # fluids
 fluid.fa_air=FA AIR

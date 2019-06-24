@@ -1,7 +1,7 @@
 ﻿#vanilla materials
 
 minecraft.coal=C₂Si₂
-minecraft.iron_ingot;minecraft.iron_block;minecraft.iron_nugget=Fe₂O₃
+minecraft.iron_ingot;minecraft.iron_block;minecraft.iron_nugget=Fe₂O₃C₃
 minecraft.gold_ingot;minecraft.gold_block;minecraft.gold_nugget=Au₂O₃
 minecraft.diamond=C₂H₅
 minecraft.emerald=C₄H₁0
@@ -15,7 +15,7 @@ factoryautomation.ingot_tin;factoryautomation.nugget_tin=SnO₂
 factoryautomation.ingot_copper;factoryautomation.nugget_copper=Cu₂O
 factoryautomation.ingot_bronze;factoryautomation.nugget_bronze=SnCu₂O₂
 factoryautomation.ingot_pig_iron;factoryautomation.nugget_pig_iron=Fe₂O₃
-factoryautomation.ingot_steel;factoryautomation.nugget_steel=Fe₂O₂C
+factoryautomation.ingot_steel;factoryautomation.nugget_steel=Fe₂O₂
 factoryautomation.ingot_magmatic_brass;factoryautomation.nugget_magmatic_brass=Inf₄SiSnO₂
 factoryautomation.silicon_quartz_crystal=Si₄FeO₆
 factoryautomation.ingot_lead;factoryautomation.nugget_lead=Pb₃O₂
@@ -44,6 +44,8 @@ factoryautomation.factory_sign_block=§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹�
 #so you can have a 213px by 56px texture, you just define your icon's texture size. (can be the default minecraft sizes. like 16x16, 32x32, 64x64 etc...)
 #and the cordinates of the usable texture. its defines the starting (left upper corner) point and ending(right bottom corner) point,
 #this area need to be the selected size, or else will not work.
+
+#AND! the rendered items not that large as the real items, their size is a height of a uppercase letter. same with hud parts, blocks and custom textures.
 
 #i wish you can implement those ideas, it wuld be very cool to have.
 #if my syntax ideas bad, or simply just "this is not how it works", well, if you do them, leave this text here and just replace the syntax examples.
