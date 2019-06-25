@@ -1,6 +1,7 @@
 ### Version 0.2.3 - alpha (unreleased)
 - added waterwheel
 - added bevel gears
+- changed furnace recipe
 - fixed rocks floating
 ### Version 0.2.2 - alpha
 - added leather bellows (mechanical)
