@@ -1,7 +1,9 @@
 ### Version 0.2.3 - alpha (unreleased)
 - added waterwheel
 - added bevel gears
+- added many textures
 - changed furnace recipe
+- changed charcoal pile drop rate (avg. 2.5 to avg. 6.5)
 - fixed rocks floating
 ### Version 0.2.2 - alpha
 - added leather bellows (mechanical)
