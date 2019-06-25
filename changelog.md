@@ -1,4 +1,5 @@
 ### Version 0.2.3 - alpha (unreleased)
+- added waterwheel
 - added bevel gears
 - fixed rocks floating
 ### Version 0.2.2 - alpha

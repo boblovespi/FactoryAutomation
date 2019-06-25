@@ -16,6 +16,9 @@ public class MultiblockStructures
 	public static final MultiblockPart AIR = new MultiblockPart(Blocks.AIR, true);
 	public static final MultiblockPart COBBLESTONE_WALL = new MultiblockPart(Blocks.COBBLESTONE_WALL);
 	public static final MultiblockPart OAK_FENCE = new MultiblockPart(Blocks.OAK_FENCE);
+	public static final MultiblockPart OAK_STAIR = new MultiblockPart(Blocks.OAK_STAIRS);
+	public static final MultiblockPart OAK_PLANK = new MultiblockPart(
+			Blocks.PLANKS, n -> true, n -> n.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.OAK, false);
 	public static final MultiblockPart OAK_LOG_UP = new MultiblockPart(Blocks.LOG, n -> true,
 			n -> n.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y
 					&& n.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.OAK, false);
@@ -126,4 +129,15 @@ public class MultiblockStructures
 //					new MultiblockPart[] { BRICK, BRICK, BRICK }
 //			}
 //	};
+
+	public static final MultiblockPart[][][] waterwheel = new MultiblockPart[][][] {
+			new MultiblockPart[][] {
+					new MultiblockPart[] { EMPTY    , OAK_STAIR, OAK_PLANK, OAK_STAIR, EMPTY },
+					new MultiblockPart[] { OAK_STAIR, AIR      , OAK_FENCE, AIR      , OAK_STAIR },
+					new MultiblockPart[] { OAK_PLANK, OAK_FENCE, new MultiblockPart(FABlocks.waterwheel.ToBlock()), OAK_FENCE, OAK_PLANK },
+					new MultiblockPart[] { OAK_STAIR, AIR      , OAK_FENCE, AIR      , OAK_STAIR },
+					new MultiblockPart[] { EMPTY    , OAK_STAIR, OAK_PLANK, OAK_STAIR, EMPTY }
+			}
+	};
+
 }

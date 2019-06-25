@@ -59,6 +59,7 @@ public class FABlocks
 	public static FABlock blastFurnaceController;
 	public static FABlock tripHammerController;
 	public static FABlock brickKiln;
+	public static FABlock waterwheel;
 
 	// misc - need to organize
 
@@ -167,6 +168,7 @@ public class FABlocks
 		steelmakingFurnaceController = new SteelmakingFurnaceController();
 		tripHammerController = new TripHammerController();
 		// brickKiln = new BrickKiln();
+		waterwheel = new Waterwheel();
 
 		// misc - need to organize
 

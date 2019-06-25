@@ -25,10 +25,10 @@ factoryautomation.iron_shard=Put this into the foundry to cast ingots.
 
 #other fa items
 factoryautomation.ice_cream_vanilla=§3Regeneration
-factoryautomation.ice_cream_coffe=§3Haste
+factoryautomation.ice_cream_coffee=§3Haste
 factoryautomation.ice_cream_mint=§3Speed
 factoryautomation.ice_cream_chocolate=§3Saturation
-factoryautomation.ice_cream_cookies_n_cream=§3Strenght
+factoryautomation.ice_cream_cookies_n_cream=§3Strength
 factoryautomation.patterned_plate_block_iron=Pattern: Diamond plate
 factoryautomation.factory_sign_block=§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹
 
