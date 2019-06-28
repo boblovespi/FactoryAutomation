@@ -4,6 +4,7 @@
 - added many textures
 - changed furnace recipe
 - changed charcoal pile drop rate (avg. 2.5 to avg. 6.5)
+- changed copper tool durability (100 to 180)
 - fixed rocks floating
 ### Version 0.2.2 - alpha
 - added leather bellows (mechanical)

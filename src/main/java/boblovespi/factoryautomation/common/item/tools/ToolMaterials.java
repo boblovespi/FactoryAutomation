@@ -34,7 +34,7 @@ public class ToolMaterials
 	public static ToolMaterial steelMaterial = EnumHelper
 			.addToolMaterial(FactoryAutomation.MODID + ":steel", STEEL, 1920, 6.5f, 8, 3);
 	public static ToolMaterial copperMaterial = EnumHelper
-			.addToolMaterial(FactoryAutomation.MODID + ":copper", COPPER, 100, 3.5f, 1.5f, 5);
+			.addToolMaterial(FactoryAutomation.MODID + ":copper", COPPER, 180, 3.5f, 1.5f, 5);
 
 	@SyncOnConfigChange(priority = SyncOnConfigChange.Priority.INIT_FIELDS)
 	public static void RefreshMiningLevels()
