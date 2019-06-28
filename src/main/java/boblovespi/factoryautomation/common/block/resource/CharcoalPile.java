@@ -53,6 +53,6 @@ public class CharcoalPile extends FABaseBlock
 	@Override
 	public int quantityDropped(IBlockState state, int fortune, Random random)
 	{
-		return 2 + random.nextInt(2 + fortune);
+		return 5 + random.nextInt(4 + fortune);
 	}
 }

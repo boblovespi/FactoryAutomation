@@ -75,6 +75,7 @@ public class RecipeHandler
 			registry.remove(new ResourceLocation("minecraft", "birch_planks"));
 			registry.remove(new ResourceLocation("minecraft", "stick"));
 			registry.remove(new ResourceLocation("minecraft", "wooden_pickaxe"));
+			registry.remove(new ResourceLocation("minecraft", "furnace"));
 		}
 
 		for (int i = 2; i < Metals.values().length; i++)
