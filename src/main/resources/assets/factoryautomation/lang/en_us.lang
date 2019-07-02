@@ -179,6 +179,15 @@ item.terraclay.name=Terraclay
 item.terraclay_brick.name=Unfired Terraclay Brick
 item.plant_fiber.name=Plant Fiber
 
+item.pig_tallow.name=Pig Tallow
+item.pig_tallow_cube.name=Pig Tallow Cube
+item.pig_tallow_ingot.name=Pig Tallow Ingot
+item.pig_tallow_sheet.name=Pig Tallow Sheet
+item.pig_tallow_nugget.name=Pig Tallow Nugget
+item.pig_tallow_coin.name=Pig Tallow Coin
+item.pig_tallow_rod.name=Pig Tallow Rod
+item.pig_tallow_gear.name=Pig Tallow Gear
+
 item.copper_wire.name=Copper Wire
 item.circuit_frame.name=Circuit Frame
 
