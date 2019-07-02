@@ -15,6 +15,7 @@ import boblovespi.factoryautomation.common.item.tools.*;
 import boblovespi.factoryautomation.common.item.types.IceCreams;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.item.types.Metals;
+import boblovespi.factoryautomation.common.item.types.TallowForms;
 import boblovespi.factoryautomation.common.util.FACreativeTabs;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.state.IBlockState;
@@ -67,6 +68,7 @@ public class FAItems
 	public static FAItem slag;
 	public static FAItem coalCoke;
 	public static FAItem ironShard;
+	public static MultiTypeItem<TallowForms> pigTallowMolds;
 
 	// ore processing forms
 
@@ -95,6 +97,7 @@ public class FAItems
 	public static FAItem terraclay;
 	public static FAItem terraclayBrick;
 	public static FAItem plantFiber;
+	public static FAItem pigTallow;
 
 	// crafting components
 
@@ -188,6 +191,7 @@ public class FAItems
 		slag = new FABaseItem("slag", FACreativeTabs.metallurgy);
 		coalCoke = new FAFuel("coal_coke", FACreativeTabs.metallurgy, 2000);
 		ironShard = new FABaseItem("iron_shard", FACreativeTabs.metallurgy);
+		pigTallowMolds = new TallowMold();
 
 		// ore processing forms
 
@@ -223,6 +227,7 @@ public class FAItems
 		terraclay = new FABaseItem("terraclay", FACreativeTabs.resources);
 		terraclayBrick = new FABaseItem("terraclay_brick", FACreativeTabs.resources);
 		plantFiber = new FABaseItem("plant_fiber", FACreativeTabs.resources);
+		pigTallow = new FABaseItem("pig_tallow", FACreativeTabs.resources);
 
 		// crafting components
 
