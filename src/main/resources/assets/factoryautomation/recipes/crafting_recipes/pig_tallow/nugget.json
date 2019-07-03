@@ -1,0 +1,13 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["t"],
+  "key": {
+    "t": {
+      "item": "factoryautomation:pig_tallow_ingot"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:pig_tallow_nugget",
+    "count": 9
+  }
+}

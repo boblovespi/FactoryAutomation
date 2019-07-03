@@ -743,5 +743,21 @@
       "ore": "paper"
     },
     "name": "paper"
+  },
+  {
+    "ingredient": [
+      {
+        "type": "forge:ore_dict",
+        "ore": "tallow"
+      },
+      {
+        "type": "forge:ore_dict",
+        "ore": "itemTallow"
+      },
+      {
+        "item": "factoryautomation:pig_tallow"
+      }
+    ],
+    "name": "tallow"
   }
 ]

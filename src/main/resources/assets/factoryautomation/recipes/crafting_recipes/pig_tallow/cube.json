@@ -1,0 +1,13 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["ttt", "ttt", "ttt"],
+  "key": {
+    "t": {
+      "item": "#tallow"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:pig_tallow_cube",
+    "count": 1
+  }
+}

@@ -8,10 +8,7 @@ import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.ConfigFields;
 import boblovespi.factoryautomation.common.fluid.Fluids;
-import boblovespi.factoryautomation.common.handler.RecipeHandler;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
-import boblovespi.factoryautomation.common.handler.VanillaTweakHandler;
-import boblovespi.factoryautomation.common.handler.WorldTickHandler;
+import boblovespi.factoryautomation.common.handler.*;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.tools.ToolMaterials;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
@@ -130,6 +127,7 @@ public class FactoryAutomation
 				new MultiblockStructurePattern(MultiblockStructures.waterwheel, new int[] { 0, 2, 2 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
+		LootTableHandler.RegisterTables();
 		ModCompatHandler.Init();
 	}
 

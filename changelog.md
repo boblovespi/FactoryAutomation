@@ -1,4 +1,5 @@
 ### Version 0.2.3 - alpha (unreleased)
+- added pig tallow
 - added waterwheel
 - added bevel gears
 - added many textures

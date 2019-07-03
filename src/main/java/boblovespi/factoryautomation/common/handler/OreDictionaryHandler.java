@@ -30,6 +30,7 @@ public class OreDictionaryHandler
 		OreDictionary.registerOre("glycerin", FAItems.dryGlycerin.ToItem());
 		OreDictionary.registerOre("ingotRubber", FAItems.rubber.ToItem());
 		OreDictionary.registerOre("gemGraphite", FAItems.graphite.ToItem());
+		OreDictionary.registerOre("tallow", FAItems.pigTallow.ToItem());
 
 		for (int i = 2; i < Metals.values().length; i++)
 		{
