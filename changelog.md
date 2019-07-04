@@ -3,6 +3,7 @@
 - added waterwheel
 - added bevel gears
 - added many textures
+- changed iron workbench recipe
 - changed furnace recipe
 - changed charcoal pile drop rate (avg. 2.5 to avg. 6.5)
 - changed copper tool durability (100 to 180)

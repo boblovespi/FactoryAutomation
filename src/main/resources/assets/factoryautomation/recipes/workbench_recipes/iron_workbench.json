@@ -4,20 +4,20 @@
   "pattern": ["ppp", "iai", "bcb"],
   "key": {
     "i": {
-      "item": "#ingotMetalT2"
+      "item": "#ingotMetalT3"
     },
     "p": {
-      "item": "#plateMetalT2"
+      "item": "#plateMetalT3"
     },
     "b": {
-      "item": "#blockMetalT2"
+      "item": "#blockMetalT3"
     },
     "a": {
       "item": "minecraft:anvil",
       "data": 0
     },
     "c": {
-      "item": "minecraft:crafting_table"
+      "item": "factoryautomation:stone_workbench"
     }
   },
   "tools": {
