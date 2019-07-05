@@ -140,6 +140,7 @@ public class FABlocks
 
 	public static FABlock handCrank;
 	public static FABlock millstone;
+	public static FABlock horseEngine;
 
 	// transfer
 
@@ -301,6 +302,7 @@ public class FABlocks
 
 		handCrank = new HandCrank();
 		millstone = new Millstone();
+		horseEngine = new HorseEngine();
 
 		// transfer
 
