@@ -6,9 +6,9 @@ import boblovespi.factoryautomation.common.util.FACreativeTabs;
 /**
  * Created by Willi on 7/1/2019.
  */
-public class TallowMold extends MultiTypeItem<TallowForms>
+public class TallowPart extends MultiTypeItem<TallowForms>
 {
-	public TallowMold()
+	public TallowPart()
 	{
 		super("pig_tallow", FACreativeTabs.metallurgy, TallowForms.class, "molds");
 	}

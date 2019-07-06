@@ -68,7 +68,9 @@ public class FAItems
 	public static FAItem slag;
 	public static FAItem coalCoke;
 	public static FAItem ironShard;
+	public static MultiTypeItem<TallowForms> pigTallowParts;
 	public static MultiTypeItem<TallowForms> pigTallowMolds;
+	public static MultiTypeItem<TallowForms> firedMolds;
 
 	// ore processing forms
 
@@ -191,7 +193,9 @@ public class FAItems
 		slag = new FABaseItem("slag", FACreativeTabs.metallurgy);
 		coalCoke = new FAFuel("coal_coke", FACreativeTabs.metallurgy, 2000);
 		ironShard = new FABaseItem("iron_shard", FACreativeTabs.metallurgy);
-		pigTallowMolds = new TallowMold();
+		pigTallowParts = new TallowPart();
+		pigTallowMolds = new MultiTypeItem<>("tallow_mold", FACreativeTabs.metallurgy, TallowForms.class, "molds");
+		firedMolds = new MultiTypeItem<>("fired_mold", FACreativeTabs.metallurgy, TallowForms.class, "molds");
 
 		// ore processing forms
 
