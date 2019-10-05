@@ -1,35 +1,37 @@
 package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.client.model.ElectricEngine2;
-import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.block.machine.Motor;
-import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
+import boblovespi.factoryautomation.client.model.BellowsModel;
+import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 /**
- * Created by Willi on 5/26/2018.
+ * Created by Willi on 8/7/2019.
  */
-public class TESRMotor extends TileEntitySpecialRenderer<TEMotor>
+public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends TileEntitySpecialRenderer<T>
 {
-	private ElectricEngine2 engineModel = new ElectricEngine2();
+	private final String texture;
+	private BellowsModel model = new BellowsModel();
+
+	protected TESRBellows(String texture)
+	{
+		this.texture = texture;
+	}
 
 	@Override
-	public void render(TEMotor te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+	public void render(T te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
 	{
-		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.motor)
-			return;
-
-		engineModel.Rotate(0);
-		engineModel = new ElectricEngine2();
-		bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"));
+		bindTexture(new ResourceLocation(FactoryAutomation.MODID, texture));
 
 		GlStateManager.pushMatrix();
 		{
@@ -41,9 +43,7 @@ public class TESRMotor extends TileEntitySpecialRenderer<TEMotor>
 			GlStateManager.enableRescaleNormal();
 
 			IBlockState state = te.getWorld().getBlockState(te.getPos());
-			EnumFacing facing = state.getValue(Motor.FACING);
-			int m = 0;
-			int n = 0;
+			EnumFacing facing = state.getValue(BlockHorizontal.FACING);
 			switch (facing)
 			{
 			case NORTH:
@@ -54,8 +54,6 @@ public class TESRMotor extends TileEntitySpecialRenderer<TEMotor>
 				GlStateManager.rotate(180, 0, 0, 1);
 				GlStateManager.rotate(180, 0, 1, 0);
 				GlStateManager.translate(0.5, -1.5, -0.5);
-				m = 1;
-				n = -1;
 				break;
 			case WEST:
 				GlStateManager.rotate(180, 0, 0, 1);
@@ -66,8 +64,6 @@ public class TESRMotor extends TileEntitySpecialRenderer<TEMotor>
 				GlStateManager.rotate(180, 0, 0, 1);
 				GlStateManager.rotate(90, 0, 1, 0);
 				GlStateManager.translate(-0.5, -1.5, -0.5);
-				m = 1;
-				n = -1;
 				break;
 			}
 
@@ -80,11 +76,26 @@ public class TESRMotor extends TileEntitySpecialRenderer<TEMotor>
 				GlStateManager.shadeModel(GL11.GL_FLAT);
 			}
 
-			engineModel.Rotate((float) Math.toRadians(te.rotation + partialTicks * te.GetSpeedOnFace(facing)));
+			model.Rotate(te.GetLerp() + te.GetLerpSpeed() * partialTicks);
 
-			engineModel.RenderTESR(1);
-
+			model.RenderTESR(1);
 		}
 		GlStateManager.popMatrix();
+	}
+
+	public static class Leather extends TESRBellows<TELeatherBellows>
+	{
+		public Leather()
+		{
+			super("textures/blocks/machines/leather_bellows.png");
+		}
+	}
+
+	public static class Paper extends TESRBellows<TEPaperBellows>
+	{
+		public Paper()
+		{
+			super("textures/blocks/machines/paper_bellows.png");
+		}
 	}
 }

@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.misc.IBellowsable;
+import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.block.state.IBlockState;
@@ -27,11 +28,12 @@ import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 /**
  * Created by Willi on 5/11/2019.
  */
-public class TELeatherBellows extends TileEntity implements ITickable
+public class TELeatherBellows extends TileEntity implements ITickable, IBellowsTE
 {
 	private float counter = 0;
 	private int c2 = 0;
 	private MechanicalUser mechanicalUser;
+	private float lerp = 0;
 
 	public TELeatherBellows()
 	{
@@ -64,7 +66,15 @@ public class TELeatherBellows extends TileEntity implements ITickable
 	public void update()
 	{
 		if (world.isRemote)
+		{
+			counter -= mechanicalUser.GetSpeed() / 10f;
+			if (counter <= 0)
+			{
+				counter = 100;
+			}
+			lerp = Math.abs(2 * (counter / 100f) - 1);
 			return;
+		}
 		counter -= mechanicalUser.GetSpeed() / 10f;
 		if (counter <= 0)
 		{
@@ -146,5 +156,17 @@ public class TELeatherBellows extends TileEntity implements ITickable
 		NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
 		return nbt;
+	}
+
+	@Override
+	public float GetLerp()
+	{
+		return lerp;
+	}
+
+	@Override
+	public float GetLerpSpeed()
+	{
+		return (counter > 50 ? -1 : 1) * mechanicalUser.GetSpeed() / 400f;
 	}
 }

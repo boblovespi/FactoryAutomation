@@ -13,6 +13,7 @@ import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,6 +57,9 @@ public class ClientProxy implements CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TECampfire.class, new TESRCampfire());
 		ClientRegistry.bindTileEntitySpecialRenderer(TEStoneCastingVessel.class, new TESRStoneCastingVessel());
 		ClientRegistry.bindTileEntitySpecialRenderer(TEMillstone.class, new TESRMillstone());
+		ClientRegistry.bindTileEntitySpecialRenderer(TEPaperBellows.class, new TESRBellows.Paper());
+		ClientRegistry.bindTileEntitySpecialRenderer(TELeatherBellows.class, new TESRBellows.Leather());
+		ClientRegistry.bindTileEntitySpecialRenderer(TEBevelGear.class, new TESRBevelGear());
 	}
 
 	@Override

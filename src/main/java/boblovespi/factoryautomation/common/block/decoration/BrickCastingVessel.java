@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -26,7 +25,6 @@ import javax.annotation.Nullable;
 public class BrickCastingVessel extends FABaseBlock
 {
 	public static final PropertyEnum<CastingVesselStates> MOLD = PropertyEnum.create("mold", CastingVesselStates.class);
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 0.5d, 1);
 
 	public BrickCastingVessel()
 	{
@@ -63,12 +61,6 @@ public class BrickCastingVessel extends FABaseBlock
 	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
 		return false;
-	}
-
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-	{
-		return BOUNDING_BOX;
 	}
 
 	@Override

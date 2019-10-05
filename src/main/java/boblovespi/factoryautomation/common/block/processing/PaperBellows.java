@@ -19,6 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -72,12 +73,9 @@ public class PaperBellows extends FABaseBlock implements ITileEntityProvider
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
-		if (!world.isRemote)
-		{
-			TileEntity te = world.getTileEntity(pos);
-			if (te instanceof TEPaperBellows)
-				((TEPaperBellows) te).Blow();
-		}
+		TileEntity te = world.getTileEntity(pos);
+		if (te instanceof TEPaperBellows)
+			((TEPaperBellows) te).Blow();
 		world.playSound(player, pos, SoundEvents.ENTITY_ENDERDRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
 		return true;
 	}
@@ -86,5 +84,23 @@ public class PaperBellows extends FABaseBlock implements ITileEntityProvider
 	protected BlockStateContainer createBlockState()
 	{
 		return new BlockStateContainer(this, FACING);
+	}
+
+	@Override
+	public boolean isFullBlock(IBlockState state)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	{
+		return false;
 	}
 }
