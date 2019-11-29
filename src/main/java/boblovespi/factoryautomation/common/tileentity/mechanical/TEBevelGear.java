@@ -65,6 +65,7 @@ public class TEBevelGear extends TileEntity implements ITickable
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
 	}
 
+	@SuppressWarnings("MethodCallSideOnly")
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
@@ -101,7 +102,8 @@ public class TEBevelGear extends TileEntity implements ITickable
 	{
 		if (world.isRemote)
 		{
-			rotation = (rotation + user.GetSpeed()) % 360;
+			rotation += user.GetSpeed();
+			rotation %= 360;
 			return;
 		}
 

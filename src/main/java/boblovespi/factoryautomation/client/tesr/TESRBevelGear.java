@@ -43,6 +43,7 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 			IBlockState state = te.getWorld().getBlockState(te.getPos());
 			EnumFacing facing = state.getValue(BevelGear.FACING);
 			int layer = state.getValue(BevelGear.LAYER);
+			int out = 1, in = 1;
 			switch (facing)
 			{
 			case NORTH:
@@ -53,27 +54,34 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 					GlStateManager.rotate(270, 0, 1, 0);
 					GlStateManager.rotate(270, 1, 0, 0);
 					GlStateManager.translate(-0.5, -0.5, 0.5);
+					in = -1;
+					isUpper = true;
 					break;
 				case 1:
 					GlStateManager.rotate(180, 0, 0, 1);
 					GlStateManager.rotate(90, 0, 1, 0);
 					GlStateManager.translate(-0.5, -1.5, -0.5);
+					in = -1;
+					out = -1;
 					break;
 				case 2:
 					GlStateManager.rotate(270, 0, 0, 1);
 					GlStateManager.rotate(90, 0, 1, 0);
 					GlStateManager.translate(-0.5, -0.5, -0.5);
+					in = -1;
+					out = -1;
 					break;
 				}
-				isUpper = true;
 				break;
-			case SOUTH: // lower gear
+			case SOUTH:
 				switch (layer)
 				{
-				case 0:
+				case 0: // lower gear
 					GlStateManager.rotate(90, 0, 0, 1);
 					GlStateManager.rotate(180, 0, 1, 0);
 					GlStateManager.translate(-0.5, -1.5, -0.5);
+					out = -1;
+					in = -1;
 					break;
 				case 1:
 					GlStateManager.rotate(180, 0, 0, 1);
@@ -81,47 +89,61 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 					GlStateManager.translate(0.5, -1.5, 0.5);
 					break;
 				case 2:
+					GlStateManager.rotate(90, 1, 0, 0);
 					GlStateManager.rotate(90, 0, 0, 1);
-					GlStateManager.rotate(270, 0, 1, 0);
 					GlStateManager.translate(0.5, -1.5, -0.5);
+					out = -1;
+					isUpper = true;
 					break;
 				}
 				break;
-			case WEST: // upper gear
+			case WEST:
 				switch (layer)
 				{
-				case 0:
-					GlStateManager.rotate(180, 0, 0, 1);
+				case 0: // upper gear
+					GlStateManager.rotate(270, 1, 0, 0);
+					GlStateManager.rotate(90, 0, 1, 0);
 					GlStateManager.translate(-0.5, -1.5, 0.5);
+					in = -1;
+					isUpper = true;
 					break;
 				case 1:
 					GlStateManager.rotate(180, 0, 0, 1);
 					GlStateManager.translate(-0.5, -1.5, 0.5);
+					in = -1;
+					isUpper = true;
 					break;
 				case 2:
 					GlStateManager.rotate(90, 1, 0, 0);
 					GlStateManager.rotate(180, 0, 0, 1);
 					GlStateManager.translate(-0.5, -1.5, -0.5);
+					in = -1;
+					out = -1;
 					break;
 				}
-				isUpper = true;
 				break;
-			case EAST: // lower gear
+			case EAST:
 				switch (layer)
 				{
-				case 0:
+				case 0: // lower gear
 					GlStateManager.rotate(90, 1, 0, 0);
 					GlStateManager.rotate(270, 0, 1, 0);
 					GlStateManager.translate(-0.5, -0.5, -0.5);
+					in = -1;
+					out = -1;
 					break;
 				case 1:
 					GlStateManager.rotate(180, 0, 0, 1);
 					GlStateManager.rotate(180, 0, 1, 0);
 					GlStateManager.translate(0.5, -1.5, -0.5);
+					out = -1;
+					isUpper = true;
 					break;
 				case 2:
-					GlStateManager.rotate(270, 1, 0, 0);
-					GlStateManager.translate(0.5, -1.5, 0.5);
+					GlStateManager.rotate(90, 1, 0, 0);
+					GlStateManager.translate(0.5, -0.5, -0.5);
+					out = -1;
+					isUpper = true;
 					break;
 				}
 				break;
@@ -135,8 +157,23 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 			{
 				GlStateManager.shadeModel(GL11.GL_FLAT);
 			}
-			model.Rotate(te.rotation);
+			model.Rotate(te.rotation + te.GetSpeed() * partialTicks, out, in);
 			model.RenderTESR(1);
+
+			if (isUpper)
+			{
+				in *= -1;
+				out *= -1; // flip the signs for some reason
+				RenderGear(
+						null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0, in);
+			} else
+			{
+				RenderGear(
+						null, 0, 16, -6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0, in);
+			}
+			GlStateManager.rotate(90, 0, 1, 0);
+			RenderGear(null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0, 0, out);
+
 		}
 		GlStateManager.popMatrix();
 	}
@@ -152,7 +189,7 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 		GlStateManager.pushMatrix();
 		{
 			GlStateManager.translate(posX, posY, posZ);
-			GlStateManager.scale(size, size, 0.6);
+			GlStateManager.scale(size, size, size);
 			GlStateManager.rotate(inToRotate, xD, yD, zD);
 
 			Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.NONE);
