@@ -16,31 +16,24 @@ import boblovespi.factoryautomation.common.item.types.IceCreams;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.TallowForms;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.*;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -48,7 +41,7 @@ import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.*;
 @Mod.EventBusSubscriber
 public class FAItems
 {
-	@GameRegistry.ObjectHolder("factoryautomation:ore_metal")
+	@ObjectHolder("factoryautomation:ore_metal")
 	public static final Item metalOre = null;
 
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
@@ -185,17 +178,19 @@ public class FAItems
 		items.remove(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
-		diamondCoin = new FABaseItem("coin_diamond", CreativeTabs.MISC);
+		diamondCoin = new FABaseItem("coin_diamond", ItemGroup.MISC);
 		rod = new MetalItem("rod");
 
 		// metallurgy misc
 
-		slag = new FABaseItem("slag", FACreativeTabs.metallurgy);
-		coalCoke = new FAFuel("coal_coke", FACreativeTabs.metallurgy, 2000);
-		ironShard = new FABaseItem("iron_shard", FACreativeTabs.metallurgy);
+		slag = new FABaseItem("slag", FAItemGroups.metallurgy);
+		coalCoke = new FAFuel("coal_coke", FAItemGroups.metallurgy, 2000);
+		ironShard = new FABaseItem("iron_shard", FAItemGroups.metallurgy);
 		pigTallowParts = new TallowPart();
-		pigTallowMolds = new MultiTypeItem<>("tallow_mold", FACreativeTabs.metallurgy, TallowForms.class, "molds");
-		firedMolds = new MultiTypeItem<>("fired_mold", FACreativeTabs.metallurgy, TallowForms.class, "molds");
+		pigTallowMolds = new MultiTypeItem<>(
+				"tallow_mold", TallowForms.class, "molds", prop().group(FAItemGroups.metallurgy));
+		firedMolds = new MultiTypeItem<>(
+				"fired_mold", TallowForms.class, "molds", prop().group(FAItemGroups.metallurgy));
 
 		// ore processing forms
 
@@ -206,51 +201,50 @@ public class FAItems
 		riceGrain = new RiceGrain();
 		toastedBread = new FAFood(
 				"toasted_bread", 5, 4, 32, false, false, Collections.emptyList(), Collections.emptyList());
-		wheatFlour = new FABaseItem("wheat_flour", FACreativeTabs.resources);
+		wheatFlour = new FABaseItem("wheat_flour", FAItemGroups.resources);
 		iceCream = new FAItem[IceCreams.values().length];
 		for (int i = 0; i < iceCream.length; i++)
 		{
-			iceCream[i] = new FAFood(
-					"ice_cream_" + IceCreams.values()[i].name().toLowerCase(), 8, 12, 32, false, true,
+			iceCream[i] = new FAFood("ice_cream_" + IceCreams.values()[i].name().toLowerCase(), 8, 12, 32, false, true,
 					IceCreams.values()[i].GetPotionEffects(), Collections.singletonList(1f));
 		}
 
 		// resources
 
-		diamondGravel = new CauldronCleanable("diamond_gravel", FACreativeTabs.resources, new ItemStack(Items.DIAMOND));
-		stoneDust = new FABaseItem("stone_dust", FACreativeTabs.resources);
-		porcelainClay = new FABaseItem("porcelain_clay", FACreativeTabs.resources);
-		siliconQuartz = new FABaseItem("silicon_quartz_crystal", FACreativeTabs.resources);
-		ash = new FABaseItem("ash", FACreativeTabs.resources);
-		liquidGlycerin = new FABaseItem("liquid_glycerin", FACreativeTabs.resources);
-		dryGlycerin = new FABaseItem("dry_glycerin", FACreativeTabs.resources);
-		acidPowder = new FABaseItem("acid_powder", FACreativeTabs.resources);
-		rawRubber = new FABaseItem("raw_rubber", FACreativeTabs.resources);
-		rubber = new FABaseItem("rubber", FACreativeTabs.resources);
-		graphite = new FABaseItem("graphite", FACreativeTabs.resources);
-		terraclay = new FABaseItem("terraclay", FACreativeTabs.resources);
-		terraclayBrick = new FABaseItem("terraclay_brick", FACreativeTabs.resources);
-		plantFiber = new FABaseItem("plant_fiber", FACreativeTabs.resources);
-		pigTallow = new FABaseItem("pig_tallow", FACreativeTabs.resources);
+		diamondGravel = new CauldronCleanable("diamond_gravel", FAItemGroups.resources, new ItemStack(Items.DIAMOND));
+		stoneDust = new FABaseItem("stone_dust", FAItemGroups.resources);
+		porcelainClay = new FABaseItem("porcelain_clay", FAItemGroups.resources);
+		siliconQuartz = new FABaseItem("silicon_quartz_crystal", FAItemGroups.resources);
+		ash = new FABaseItem("ash", FAItemGroups.resources);
+		liquidGlycerin = new FABaseItem("liquid_glycerin", FAItemGroups.resources);
+		dryGlycerin = new FABaseItem("dry_glycerin", FAItemGroups.resources);
+		acidPowder = new FABaseItem("acid_powder", FAItemGroups.resources);
+		rawRubber = new FABaseItem("raw_rubber", FAItemGroups.resources);
+		rubber = new FABaseItem("rubber", FAItemGroups.resources);
+		graphite = new FABaseItem("graphite", FAItemGroups.resources);
+		terraclay = new FABaseItem("terraclay", FAItemGroups.resources);
+		terraclayBrick = new FABaseItem("terraclay_brick", FAItemGroups.resources);
+		plantFiber = new FABaseItem("plant_fiber", FAItemGroups.resources);
+		pigTallow = new FABaseItem("pig_tallow", FAItemGroups.resources);
 
 		// crafting components
 
 		gear = new Gear();
-		glassLens = new FABaseItem("glass_lens", FACreativeTabs.crafting);
-		airPiston = new FABaseItem("air_piston", FACreativeTabs.crafting);
-		bronzeFlywheel = new FABaseItem("bronze_flywheel", FACreativeTabs.crafting);
-		stirlingGeneratorCore = new FABaseItem("stirling_generator_core", FACreativeTabs.crafting);
+		glassLens = new FABaseItem("glass_lens", FAItemGroups.crafting);
+		airPiston = new FABaseItem("air_piston", FAItemGroups.crafting);
+		bronzeFlywheel = new FABaseItem("bronze_flywheel", FAItemGroups.crafting);
+		stirlingGeneratorCore = new FABaseItem("stirling_generator_core", FAItemGroups.crafting);
 
 		// crafting parts
 
-		screw = new WorkbenchPartItem("screw", FACreativeTabs.crafting);
+		screw = new WorkbenchPartItem("screw", FAItemGroups.crafting);
 
 		// electrical parts
 
-		copperWire = new FABaseItem("copper_wire", FACreativeTabs.electrical);
-		basicChip = new FABaseItem("basic_chip", FACreativeTabs.electrical);
-		circuitFrame = new FABaseItem("circuit_frame", FACreativeTabs.electrical);
-		dataprintCircuit = new FABaseItem("dataprint_circuit", FACreativeTabs.electrical);
+		copperWire = new FABaseItem("copper_wire", FAItemGroups.electrical);
+		basicChip = new FABaseItem("basic_chip", FAItemGroups.electrical);
+		circuitFrame = new FABaseItem("circuit_frame", FAItemGroups.electrical);
+		dataprintCircuit = new FABaseItem("dataprint_circuit", FAItemGroups.electrical);
 
 		// regular tools
 
@@ -272,24 +266,24 @@ public class FAItems
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
 
-		flintPickaxe = new FAPickaxe(Item.ToolMaterial.WOOD, "flint_pickaxe");
+		flintPickaxe = new FAPickaxe(ItemTier.WOOD, "flint_pickaxe");
 
 		choppingBlade = new FAAxe(flintMaterial, "chopping_blade");
 		firebow = new Firebow();
 
 		// workbench tools
 
-		copperHammer = new Hammer("copper_hammer", 5, -3.7f, ToolMaterials.copperMaterial);
-		ironHammer = new Hammer("iron_hammer", 8, -3.7f, Item.ToolMaterial.IRON);
-		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterials.steelMaterial);
-		steelWrench = new Wrench("steel_wrench", 0, 0, ToolMaterials.steelMaterial);
-		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterials.steelMaterial);
-		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Item.ToolMaterial.WOOD);
+		copperHammer = new Hammer("copper_hammer", 5, -3.7f, ToolMaterial.copperMaterial);
+		ironHammer = new Hammer("iron_hammer", 8, -3.7f, ItemTier.IRON);
+		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterial.steelMaterial);
+		steelWrench = new Wrench("steel_wrench", 0, 0, ToolMaterial.steelMaterial);
+		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterial.steelMaterial);
+		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, ItemTier.WOOD);
 		advancedFlintAndSteel = new AdvancedFlintAndSteel();
 
 		// misc tools
 
-		wearPlate = new MultiTypeItem<>("wear_plate", FACreativeTabs.mechanical, MachineTiers.class, "");
+		wearPlate = new MultiTypeItem<>("wear_plate", MachineTiers.class, "", prop());
 		clayCrucible = new ClayCrucible();
 
 		// fluidCanister = new FluidCanister("fluid_canister", 3000);
@@ -297,6 +291,11 @@ public class FAItems
 		// guidebook
 
 		// guidebook = new Guidebook();
+	}
+
+	private static Item.Properties prop()
+	{
+		return new Item.Properties();
 	}
 
 	public static void RegisterItemRenders()
@@ -313,7 +312,7 @@ public class FAItems
 					if (((FAItemBlock) item).faBlock instanceof IFluidBlock)
 						RegisterFluidBlock((FAItemBlock) item);
 					else
-						RegisterItemBlock((ItemBlock) item);
+						RegisterItemBlock((BlockItem) item);
 
 				} else if (item instanceof MultiTypeItem)
 				{
@@ -327,9 +326,9 @@ public class FAItems
 				{
 					RegisterRender((FAItem) item, 0);
 				}
-			} else if (item instanceof ItemBlock)
+			} else if (item instanceof BlockItem)
 			{
-				RegisterItemBlock((ItemBlock) item);
+				RegisterItemBlock((BlockItem) item);
 			} else
 			{
 				// is a vanilla item, so we need to use a vanilla item method
@@ -401,7 +400,7 @@ public class FAItems
 	}
 
 	@SuppressWarnings("MethodCallSideOnly")
-	private static void RegisterItemBlock(ItemBlock item)
+	private static void RegisterItemBlock(BlockItem item)
 	{
 		if (item.getBlock() instanceof FABlock)
 		{

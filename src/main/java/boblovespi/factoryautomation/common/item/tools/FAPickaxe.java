@@ -2,21 +2,19 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.*;
 
-public class FAPickaxe extends ItemPickaxe implements FAItem
+public class FAPickaxe extends PickaxeItem implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FAPickaxe(ToolMaterial material, String unlocalizedName)
+	public FAPickaxe(IItemTier material, String name)
 	{
-		super(material);
-		this.unlocalizedName = unlocalizedName;
-		this.setUnlocalizedName(unlocalizedName);
-		this.setRegistryName(unlocalizedName);
+		super(material, 1, -2.8f, new Item.Properties().group(ItemGroup.TOOLS));
+		this.unlocalizedName = name;
+		// this.setUnlocalizedName(unlocalizedName); TODO: Translation key??
+		this.setRegistryName(name);
 		FAItems.items.add(this);
-
 	}
 
 	@Override

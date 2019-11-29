@@ -59,7 +59,7 @@ public class BlastFurnaceController extends Block
 								  .withProperty(MULTIBLOCK_COMPLETE, false));
 		FABlocks.blocks.add(this);
 		//		new FAItemBlock(this);
-		FAItems.items.add(new ItemBlock(this).setRegistryName(getRegistryName()));
+		FAItems.items.add(new BlockItem(this).setRegistryName(getRegistryName()));
 
 	}
 

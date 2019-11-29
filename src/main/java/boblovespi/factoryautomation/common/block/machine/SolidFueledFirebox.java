@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TESolidFueledFirebox;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -25,7 +25,7 @@ public class SolidFueledFirebox extends FABaseBlock implements ITileEntityProvid
 {
 	public SolidFueledFirebox()
 	{
-		super(Material.IRON, "solid_fueled_firebox", FACreativeTabs.heat);
+		super(Material.IRON, "solid_fueled_firebox", FAItemGroups.heat);
 		TileEntityHandler.tiles.add(TESolidFueledFirebox.class);
 	}
 

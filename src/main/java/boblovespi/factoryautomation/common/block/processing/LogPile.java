@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -28,7 +28,7 @@ public class LogPile extends FABaseBlock
 
 	public LogPile()
 	{
-		super(Material.WOOD, "log_pile", FACreativeTabs.primitive);
+		super(Material.WOOD, "log_pile", FAItemGroups.primitive);
 		setDefaultState(getDefaultState().withProperty(ACTIVATED, false));
 		setHardness(1.2f);
 		setHarvestLevel("axe", 0);

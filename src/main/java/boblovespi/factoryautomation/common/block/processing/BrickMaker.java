@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -27,7 +27,7 @@ public class BrickMaker extends FABaseBlock
 
 	public BrickMaker()
 	{
-		super(Material.WOOD, "brick_maker_frame", FACreativeTabs.primitive);
+		super(Material.WOOD, "brick_maker_frame", FAItemGroups.primitive);
 		setDefaultState(getDefaultState().withProperty(CONTENTS, Contents.EMPTY));
 		setHardness(2.0f);
 		setHarvestLevel("axe", 0);

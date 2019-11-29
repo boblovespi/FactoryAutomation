@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -35,7 +35,7 @@ public class StoneCastingVessel extends FABaseBlock
 
 	public StoneCastingVessel()
 	{
-		super(Material.ROCK, "stone_casting_vessel", FACreativeTabs.metallurgy);
+		super(Material.ROCK, "stone_casting_vessel", FAItemGroups.metallurgy);
 		setDefaultState(getDefaultState().withProperty(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
 		setHardness(1.5f);

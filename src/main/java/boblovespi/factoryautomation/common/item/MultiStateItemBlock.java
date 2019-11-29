@@ -4,8 +4,8 @@ import boblovespi.factoryautomation.common.block.MultiStateBlock;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IStringSerializable;
@@ -14,7 +14,7 @@ import net.minecraft.util.IStringSerializable;
  * Created by Willi on 12/23/2017.
  */
 public class MultiStateItemBlock
-		<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends ItemBlock
+		<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends BlockItem
 		implements FAItem
 {
 

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 
 /**
  * Created by Willi on 4/13/2017.
@@ -12,13 +12,18 @@ public class FABaseItem extends Item implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FABaseItem(String unlocalizedName, CreativeTabs ct)
+	public FABaseItem(String unlocalizedName, ItemGroup ct)
 	{
+		this(unlocalizedName, new Properties().group(ct));
+	}
+
+	public FABaseItem(String unlocalizedName, Properties properties)
+	{
+		super(properties);
 		this.unlocalizedName = unlocalizedName;
-		setUnlocalizedName(UnlocalizedName());
+		// setUnlocalizedName(UnlocalizedName()); TODO: figure out if we need to override translation key
 		setRegistryName(
 				RegistryName() == null ? UnlocalizedName() : RegistryName());
-		setCreativeTab(ct);
 		FAItems.items.add(this);
 	}
 

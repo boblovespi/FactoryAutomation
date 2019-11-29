@@ -5,6 +5,7 @@ import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -15,14 +16,14 @@ import java.util.Set;
  */
 public class Hammer extends WorkbenchToolItem
 {
-	public Hammer(String name, float attackDamageIn, float attackSpeedIn, ToolMaterial materialIn,
+	public Hammer(String name, float attackDamageIn, float attackSpeedIn, IItemTier materialIn,
 			Set<Block> effectiveBlocksIn)
 	{
 		super(name, attackDamageIn, attackSpeedIn, materialIn, effectiveBlocksIn);
 		setHarvestLevel("hammer", materialIn.getHarvestLevel());
 	}
 
-	public Hammer(String name, float attackDamageIn, float attackSpeedIn, ToolMaterial materialIn)
+	public Hammer(String name, float attackDamageIn, float attackSpeedIn, IItemTier materialIn)
 	{
 		super(name, attackDamageIn, attackSpeedIn, materialIn);
 		setHarvestLevel("hammer", materialIn.getHarvestLevel());

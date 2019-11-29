@@ -1,7 +1,6 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 
@@ -15,13 +14,12 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 	protected final Class<T> itemTypes;
 	protected final FABaseItem[] items;
 	private final String name;
-	private final CreativeTabs creativeTab;
 	private final String resourceFolder;
 
-	public MultiTypeItem(String unlocalizedName, CreativeTabs creativeTab, Class<T> types, String resourceFolder)
+	public MultiTypeItem(String unlocalizedName, Class<T> types, String resourceFolder, Properties properties)
 	{
+		super(properties);
 		this.name = unlocalizedName;
-		this.creativeTab = creativeTab;
 		itemTypes = types;
 		this.resourceFolder = resourceFolder;
 
@@ -29,7 +27,7 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 
 		for (int i = 0; i < items.length; i++)
 		{
-			items[i] = new FABaseItem(RegistryName() + "_" + itemTypes.getEnumConstants()[i].getName(), creativeTab)
+			items[i] = new FABaseItem(RegistryName() + "_" + itemTypes.getEnumConstants()[i].getName(), properties)
 			{
 				@Override
 				public String GetMetaFilePath(int meta)

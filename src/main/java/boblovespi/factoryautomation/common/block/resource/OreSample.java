@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +26,7 @@ public class OreSample extends FABaseBlock
 
 	public OreSample(String name, ItemStack[] possibleDrops)
 	{
-		super(Materials.ROCKS, name, FACreativeTabs.resources);
+		super(Materials.ROCKS, name, FAItemGroups.resources);
 		this.possibleDrops = possibleDrops;
 		setLightOpacity(0);
 		setHardness(0.1f);

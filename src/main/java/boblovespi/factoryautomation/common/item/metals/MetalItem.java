@@ -15,6 +15,6 @@ public class MetalItem extends MultiTypeItem<Metals>
 
 	public MetalItem(String unlocalizedName)
 	{
-		super(unlocalizedName, CreativeTabs.MISC, Metals.class, "metals");
+		super(unlocalizedName, Metals.class, "metals");
 	}
 }

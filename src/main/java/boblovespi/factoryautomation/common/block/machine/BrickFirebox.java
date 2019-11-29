@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.block.machine;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TESolidFueledFirebox;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +19,7 @@ public class BrickFirebox extends FABaseBlock /*implements ITileEntityProvider*/
 {
 	public BrickFirebox()
 	{
-		super(Material.IRON, "brick_firebox", FACreativeTabs.heat);
+		super(Material.IRON, "brick_firebox", FAItemGroups.heat);
 		TileEntityHandler.tiles.add(TESolidFueledFirebox.class);
 	}
 

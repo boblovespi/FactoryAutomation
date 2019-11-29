@@ -20,6 +20,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -33,8 +35,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Created by Willi on 11/8/2017.
  * client proxy class
  */
-@Mod.EventBusSubscriber(Side.CLIENT)
-@SideOnly(Side.CLIENT)
+@Mod.EventBusSubscriber(Dist.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ClientProxy implements CommonProxy
 {
 	@SuppressWarnings("unused")

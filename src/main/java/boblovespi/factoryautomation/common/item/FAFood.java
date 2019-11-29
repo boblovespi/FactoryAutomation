@@ -1,17 +1,12 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumAction;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -28,21 +23,21 @@ public class FAFood extends Item implements FAItem
 	private int amountOfFood;
 	private int saturationAmount;
 	private boolean isWolfFood;
-	private List<PotionEffect> potionEffects;
+	private List<EffectInstance> potionEffects;
 	private List<Float> potionEffectChances;
 	private int itemUseTime;
 	private boolean alwaysEdible;
 
 	public FAFood(String unName, int amount, int saturation, int eatTime, boolean WolfFood, boolean canAlwaysEat,
-			List<PotionEffect> potionEffects, List<Float> potionChances)
+			List<EffectInstance> potionEffects, List<Float> potionChances)
 	{
-		super();
+		super(new Properties().group(ItemGroup.FOOD));
 
 		if (potionEffects.size() != potionChances.size())
 			throw new IndexOutOfBoundsException("the potionEffects and potionEffectChances sizes are not the same");
 
 		this.unName = unName;
-		setUnlocalizedName(UnlocalizedName());
+		// setUnlocalizedName(UnlocalizedName()); TODO: localization!!!
 		setRegistryName(RegistryName());
 		//setHasSubtypes(true);
 
@@ -54,16 +49,7 @@ public class FAFood extends Item implements FAItem
 		potionEffectChances = potionChances;
 		alwaysEdible = canAlwaysEat;
 
-		setCreativeTab(CreativeTabs.FOOD);
 		FAItems.items.add(this);
-
-	}
-
-	@Override
-	public String getUnlocalizedName(ItemStack items)
-	{
-		return super.getUnlocalizedName();/* + "." + getType(
-				items.getItemDamage());*/
 	}
 
 	@Override
@@ -84,63 +70,67 @@ public class FAFood extends Item implements FAItem
 		return this;
 	}
 
-	protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
+	protected void applyPotionAffects(ItemStack stack, World worldIn, LivingEntity player)
 	{
 		if (!worldIn.isRemote)
 		{
 			for (int i = 0; i < potionEffects.size(); ++i)
 			{
 				if (worldIn.rand.nextFloat() <= potionEffectChances.get(i))
-					player.addPotionEffect(new PotionEffect(potionEffects.get(i)));
+					player.addPotionEffect(new EffectInstance(potionEffects.get(i)));
 			}
 		}
 	}
 
 	@Override
 	@Nullable
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving)
+	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving)
 	{
 		stack.shrink(1);
 
-		if (entityLiving instanceof EntityPlayer)
+		if (entityLiving instanceof PlayerEntity)
 		{
-			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
-			entityplayer.getFoodStats().addStats(amountOfFood, saturationAmount / (float) amountOfFood);
-
-			worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ,
+			PlayerEntity playerEntity = (PlayerEntity) entityLiving;
+			playerEntity.getFoodStats().addStats(amountOfFood, saturationAmount / (float) amountOfFood);
+			worldIn.playSound(null, playerEntity.posX, playerEntity.posY, playerEntity.posZ,
 					SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
 					worldIn.rand.nextFloat() * 0.1F + 0.9F);
 
-			onFoodEaten(stack, worldIn, entityplayer);
 			// entityplayer.addStat(StatList.getObjectUseStats(this));
 		}
-
+		applyPotionAffects(stack, worldIn, entityLiving);
 		return stack;
 	}
 
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack)
+	public int getUseDuration(ItemStack stack)
 	{
 		return itemUseTime;
 	}
 
+	//	@Override
+	//	public EnumAction getItemUseAction(ItemStack stack)
+	//	{
+	//		return EnumAction.EAT;
+	//	}
+
 	@Override
-	public EnumAction getItemUseAction(ItemStack stack)
+	public boolean isFood()
 	{
-		return EnumAction.EAT;
+		return true;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand)
 	{
-		ItemStack itemStackIn = playerIn.getHeldItem(hand);
+		ItemStack stack = playerIn.getHeldItem(hand);
 		if (playerIn.canEat(alwaysEdible))
 		{
 			playerIn.setActiveHand(hand);
-			return new ActionResult<>(EnumActionResult.SUCCESS, itemStackIn);
+			return ActionResult.newResult(ActionResultType.SUCCESS, stack);
 		} else
 		{
-			return new ActionResult<>(EnumActionResult.FAIL, itemStackIn);
+			return ActionResult.newResult(ActionResultType.FAIL, stack);
 		}
 	}
 

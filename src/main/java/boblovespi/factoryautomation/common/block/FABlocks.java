@@ -20,7 +20,7 @@ import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPlanks;
@@ -40,8 +40,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.COPPER;
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.STEEL;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.COPPER;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.STEEL;
 
 /**
  * Created by Willi on 11/9/2017.
@@ -311,7 +311,7 @@ public class FABlocks
 
 		// resource blocks
 
-		greenSand = new FABaseBlock(Material.CLAY, "green_sand", FACreativeTabs.metallurgy);
+		greenSand = new FABaseBlock(Material.CLAY, "green_sand", FAItemGroups.metallurgy);
 		charcoalPile = new CharcoalPile();
 		logPile = new LogPile();
 		terraclayBrickBlock = new FABaseBlock(Material.ROCK, "terraclay_brick_block", CreativeTabs.BUILDING_BLOCKS)

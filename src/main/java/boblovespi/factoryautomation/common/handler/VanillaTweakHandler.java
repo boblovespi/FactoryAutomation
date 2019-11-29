@@ -10,7 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistry;
 
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterials.*;
+import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
 
 /**
  * Created by Willi on 4/30/2018.

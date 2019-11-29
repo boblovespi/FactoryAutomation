@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEWaterwheel;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
@@ -35,7 +35,7 @@ public class Waterwheel extends FABaseBlock
 
 	public Waterwheel()
 	{
-		super(Materials.WOOD_MACHINE, "waterwheel", FACreativeTabs.mechanical);
+		super(Materials.WOOD_MACHINE, "waterwheel", FAItemGroups.mechanical);
 		setHardness(1f);
 		setResistance(10);
 		setHarvestLevel("axe", 0);

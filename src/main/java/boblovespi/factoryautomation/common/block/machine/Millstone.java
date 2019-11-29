@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.block.machine;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMillstone;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -27,7 +27,7 @@ public class Millstone extends FABaseBlock
 
 	public Millstone()
 	{
-		super(Material.ROCK, "millstone", FACreativeTabs.mechanical);
+		super(Material.ROCK, "millstone", FAItemGroups.mechanical);
 		setHardness(2.5f);
 		TileEntityHandler.tiles.add(TEMillstone.class);
 		setDefaultState(getDefaultState().withProperty(IS_TOP, false));

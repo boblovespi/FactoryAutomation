@@ -27,7 +27,7 @@ public class Concrete extends Block implements FABlock
 		setResistance(10000);
 		FABlocks.blocks.add(this);
 		//		new FAItemBlock(this);
-		FAItems.items.add(new ItemBlock(this)
+		FAItems.items.add(new BlockItem(this)
 				.setRegistryName(this.getRegistryName()));
 	}
 

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
@@ -16,7 +16,7 @@ public class CharcoalPile extends FABaseBlock
 {
 	public CharcoalPile()
 	{
-		super(Material.GROUND, "charcoal_pile", FACreativeTabs.resources);
+		super(Material.GROUND, "charcoal_pile", FAItemGroups.resources);
 		setHardness(0.5f);
 		setHarvestLevel("shovel", 0);
 	}

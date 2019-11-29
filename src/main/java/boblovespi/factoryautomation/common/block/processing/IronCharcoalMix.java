@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.block.processing;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.types.Metals;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -29,7 +29,7 @@ public class IronCharcoalMix extends FABaseBlock
 
 	public IronCharcoalMix()
 	{
-		super(Material.ROCK, "iron_charcoal_mix", FACreativeTabs.metallurgy);
+		super(Material.ROCK, "iron_charcoal_mix", FAItemGroups.metallurgy);
 		setDefaultState(getDefaultState().withProperty(ACTIVATED, false));
 		setHardness(3.5f);
 		setHarvestLevel("shovel", 0);

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.common.block.FABlock;
 import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
@@ -9,7 +10,7 @@ import net.minecraft.item.ItemBlock;
  * Created by Willi on 11/9/2017.
  * usable again!
  */
-public class FAItemBlock extends ItemBlock implements FAItem
+public class FAItemBlock extends BlockItem implements FAItem
 {
 
 	public final FABlock faBlock;

@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.block.mechanical;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -32,7 +32,7 @@ public class BevelGear extends FABaseBlock
 
 	public BevelGear()
 	{
-		super(Material.IRON, "bevel_gear", FACreativeTabs.mechanical);
+		super(Material.IRON, "bevel_gear", FAItemGroups.mechanical);
 		TileEntityHandler.tiles.add(TEBevelGear.class);
 	}
 

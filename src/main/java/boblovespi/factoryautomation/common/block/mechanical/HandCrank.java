@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.block.mechanical;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -34,7 +34,7 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 
 	public HandCrank()
 	{
-		super(Material.WOOD, "hand_crank", FACreativeTabs.mechanical);
+		super(Material.WOOD, "hand_crank", FAItemGroups.mechanical);
 		TileEntityHandler.tiles.add(TEHandCrank.class);
 		setDefaultState(getDefaultState().withProperty(INVERTED, false));
 	}

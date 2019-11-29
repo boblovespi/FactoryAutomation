@@ -6,7 +6,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -36,7 +36,7 @@ public class StoneCrucible extends FABaseBlock
 
 	public StoneCrucible()
 	{
-		super(Material.ROCK, "stone_crucible", FACreativeTabs.metallurgy);
+		super(Material.ROCK, "stone_crucible", FAItemGroups.metallurgy);
 		setDefaultState(getStateFromMeta(0));
 		TileEntityHandler.tiles.add(TEStoneCrucible.class);
 		setHardness(1.5f);

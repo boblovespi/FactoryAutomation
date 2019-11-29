@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHorseEngine;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -30,7 +30,7 @@ public class HorseEngine extends FABaseBlock
 
 	public HorseEngine()
 	{
-		super(Materials.WOOD_MACHINE, "horse_engine", FACreativeTabs.mechanical);
+		super(Materials.WOOD_MACHINE, "horse_engine", FAItemGroups.mechanical);
 		setDefaultState(getDefaultState().withProperty(PART, Part.TOP));
 		TileEntityHandler.tiles.add(TEHorseEngine.class);
 	}

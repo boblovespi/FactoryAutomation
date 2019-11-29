@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.block.mechanical;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -30,7 +30,7 @@ public class LeatherBellows extends FABaseBlock implements ITileEntityProvider
 
 	public LeatherBellows()
 	{
-		super(Material.CLOTH, "leather_bellows", FACreativeTabs.mechanical);
+		super(Material.CLOTH, "leather_bellows", FAItemGroups.mechanical);
 		setHardness(0.5f);
 		setSoundType(SoundType.CLOTH);
 		TileEntityHandler.tiles.add(TELeatherBellows.class);

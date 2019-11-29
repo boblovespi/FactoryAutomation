@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FABaseItem;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +22,7 @@ public class Firebow extends FABaseItem
 {
 	public Firebow()
 	{
-		super("firebow", FACreativeTabs.primitive);
+		super("firebow", FAItemGroups.primitive);
 		setMaxDamage(15);
 		setMaxStackSize(1);
 	}

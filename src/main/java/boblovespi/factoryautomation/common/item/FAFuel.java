@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -10,14 +10,14 @@ public class FAFuel extends FABaseItem
 {
 	private int burnTime;
 
-	public FAFuel(String unlocalizedName, CreativeTabs ct, int itemBurnTime)
+	public FAFuel(String unlocalizedName, ItemGroup ct, int itemBurnTime)
 	{
 		super(unlocalizedName, ct);
 		this.burnTime = itemBurnTime;
 	}
 
 	@Override
-	public int getItemBurnTime(ItemStack itemStack)
+	public int getBurnTime(ItemStack itemStack)
 	{
 		return burnTime;
 	}

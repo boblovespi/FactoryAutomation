@@ -10,7 +10,7 @@ import boblovespi.factoryautomation.common.config.ConfigFields;
 import boblovespi.factoryautomation.common.fluid.Fluids;
 import boblovespi.factoryautomation.common.handler.*;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.item.tools.ToolMaterials;
+import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
@@ -39,7 +39,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * Created by Willi on 11/8/2017.
  * main mod class
  */
-@Mod(modid = FactoryAutomation.MODID, name = FactoryAutomation.NAME, version = FactoryAutomation.VERSION/*, guiFactory = FactoryAutomation.GUI_FACTORY*/)
+@Mod(FactoryAutomation.MODID/*, name = FactoryAutomation.NAME, version = FactoryAutomation.VERSION/*, guiFactory = FactoryAutomation.GUI_FACTORY*/)
 public class FactoryAutomation
 {
 	public static final String MODID = "factoryautomation";
@@ -65,7 +65,7 @@ public class FactoryAutomation
 		Log.getLogger().info("Preinitialization");
 
 		ConfigFields.AddClass(VanillaTweakHandler.class);
-		ConfigFields.AddClass(ToolMaterials.class);
+		ConfigFields.AddClass(ToolMaterial.class);
 
 		ConfigManager.sync(MODID, Config.Type.INSTANCE);
 

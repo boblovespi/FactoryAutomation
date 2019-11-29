@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item.crucible;
 
 import boblovespi.factoryautomation.common.item.FABaseItem;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +19,7 @@ public abstract class Crucible extends FABaseItem
 {
 	public Crucible(String unlocalizedName)
 	{
-		super(unlocalizedName, FACreativeTabs.metallurgy);
+		super(unlocalizedName, FAItemGroups.metallurgy);
 		setMaxStackSize(1);
 	}
 

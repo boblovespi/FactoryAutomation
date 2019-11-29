@@ -1,16 +1,15 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.block.BlockCauldron;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CauldronBlock;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,7 +20,7 @@ public class CauldronCleanable extends FABaseItem
 {
 	private final ItemStack cleanedInto;
 
-	public CauldronCleanable(String unlocalizedName, CreativeTabs ct, ItemStack cleanedInto)
+	public CauldronCleanable(String unlocalizedName, ItemGroup ct, ItemStack cleanedInto)
 	{
 		super(unlocalizedName, ct);
 		this.cleanedInto = cleanedInto;
@@ -31,34 +30,37 @@ public class CauldronCleanable extends FABaseItem
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public ActionResultType onItemUse(ItemUseContext context)
 	{
-		IBlockState state = worldIn.getBlockState(pos);
-		ItemStack item = player.getHeldItem(hand);
+		World world = context.getWorld();
+		BlockPos pos = context.getPos();
+		PlayerEntity player = context.getPlayer();
+		BlockState state = world.getBlockState(pos);
+		ItemStack item = context.getItem();
 
-		if (!(state.getBlock() instanceof BlockCauldron))
-			return EnumActionResult.PASS;
+		if (!(state.getBlock() instanceof CauldronBlock))
+			return ActionResultType.PASS;
 
-		int i = state.getValue(BlockCauldron.LEVEL);
+		int i = state.get(CauldronBlock.LEVEL);
 
 		if (i > 0)
 		{
-			if (!worldIn.isRemote)
+			if (!world.isRemote)
 			{
 				item.shrink(1);
 
-				if (!player.addItemStackToInventory(cleanedInto.copy()))
-					worldIn.spawnEntity(
-							new EntityItem(worldIn, player.posX, player.posY, player.posZ, cleanedInto.copy()));
+				if (player == null || !player.addItemStackToInventory(cleanedInto.copy()))
+					world.addEntity(
+							new ItemEntity(world, pos.getX(), pos.getY() + 0.5f, pos.getZ(), cleanedInto.copy()));
 
-				Blocks.CAULDRON.setWaterLevel(worldIn, pos, state, i - 1);
-				player.addStat(StatList.ARMOR_CLEANED);
+				((CauldronBlock) Blocks.CAULDRON).setWaterLevel(world, pos, state, i - 1);
+				if (player != null)
+				player.addStat(Stats.USE_CAULDRON);
 			}
 
-			return EnumActionResult.SUCCESS;
+			return ActionResultType.SUCCESS;
 		}
 
-		return EnumActionResult.PASS;
+		return ActionResultType.PASS;
 	}
 }

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item.types;
 
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,19 +11,19 @@ import java.util.List;
  */
 public enum IceCreams
 {
-	VANILLA(Collections.singletonList(new PotionEffect(MobEffects.REGENERATION, 100))),
-	COFFEE(Collections.singletonList(new PotionEffect(MobEffects.HASTE, 300))),
-	MINT(Collections.singletonList(new PotionEffect(MobEffects.SPEED, 300))),
-	CHOCOLATE(Collections.singletonList(new PotionEffect(MobEffects.SATURATION, 300))),
-	COOKIES_N_CREAM(Collections.singletonList(new PotionEffect(MobEffects.STRENGTH, 100, 2))),;
-	private List<PotionEffect> potionEffects;
+	VANILLA(Collections.singletonList(new EffectInstance(Effects.REGENERATION, 100))),
+	COFFEE(Collections.singletonList(new EffectInstance(Effects.HASTE, 300))),
+	MINT(Collections.singletonList(new EffectInstance(Effects.SPEED, 300))),
+	CHOCOLATE(Collections.singletonList(new EffectInstance(Effects.SATURATION, 300))),
+	COOKIES_N_CREAM(Collections.singletonList(new EffectInstance(Effects.STRENGTH, 100, 2)));
+	private List<EffectInstance> potionEffects;
 
-	IceCreams(List<PotionEffect> potionEffects)
+	IceCreams(List<EffectInstance> potionEffects)
 	{
 		this.potionEffects = potionEffects;
 	}
 
-	public List<PotionEffect> GetPotionEffects()
+	public List<EffectInstance> GetPotionEffects()
 	{
 		return potionEffects;
 	}

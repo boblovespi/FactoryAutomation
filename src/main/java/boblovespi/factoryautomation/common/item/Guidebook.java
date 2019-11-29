@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -19,7 +19,7 @@ public class Guidebook extends FABaseItem
 {
 	public Guidebook()
 	{
-		super("guidebook", FACreativeTabs.tools);
+		super("guidebook", FAItemGroups.tools);
 	}
 
 	/**

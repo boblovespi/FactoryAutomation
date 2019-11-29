@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Randoms;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -18,7 +18,7 @@ public class IronBloom extends FABaseBlock
 {
 	public IronBloom()
 	{
-		super(Material.IRON, "iron_bloom", FACreativeTabs.metallurgy);
+		super(Material.IRON, "iron_bloom", FAItemGroups.metallurgy);
 		setHardness(4.0f);
 		setHarvestLevel("hammer", 0);
 	}

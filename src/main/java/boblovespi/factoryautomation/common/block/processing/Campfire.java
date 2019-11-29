@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
-import boblovespi.factoryautomation.common.util.FACreativeTabs;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -39,7 +39,7 @@ public class Campfire extends FABaseBlock
 
 	public Campfire()
 	{
-		super(Materials.WOOD_MACHINE, "campfire", FACreativeTabs.primitive);
+		super(Materials.WOOD_MACHINE, "campfire", FAItemGroups.primitive);
 		setDefaultState(getDefaultState().withProperty(LIT, false));
 		TileEntityHandler.tiles.add(TECampfire.class);
 	}
