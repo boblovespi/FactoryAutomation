@@ -3,38 +3,23 @@ package boblovespi.factoryautomation.common.item.tools;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
-import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
-
-import java.util.Set;
 
 public class FAAxe extends AxeItem implements FAItem
 {
-	private static final float[] ATTACK_DAMAGES = new float[] { 6.0F, 8.0F, 8.0F, 8.0F, 6.0F };
-	private static final float[] ATTACK_SPEEDS = new float[] { -3.2F, -3.2F, -3.1F, -3.0F, -3.0F };
 	private final String unlocalizedName;
 
-	public FAAxe(ToolMaterial material, String unlocalizedName)
+	public FAAxe(ToolMaterial material, String name)
 	{
-		super(material, material.getAttackDamage(), -3.0F);
-		this.unlocalizedName = unlocalizedName;
-		this.setUnlocalizedName(unlocalizedName);
-		this.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, unlocalizedName));
+		super(material, 6, -3.0F, new Item.Properties().group(ItemGroup.TOOLS));
+		unlocalizedName = name;
+		// this.setUnlocalizedName(name);
+		setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
 		FAItems.items.add(this);
 	}
-
-	//	public float getStrVsBlock(ItemStack stack, IBlockState state)
-	//	{
-	//		Material material = state.getMaterial();
-	//		return material != Material.WOOD && material != Material.PLANTS
-	//				&& material != Material.VINE ?
-	//				super.getStrVsBlock(stack, state) :
-	//				this.efficiencyOnProperMaterial;
-	//	}
 
 	@Override
 	public String UnlocalizedName()

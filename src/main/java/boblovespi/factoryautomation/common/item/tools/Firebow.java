@@ -3,15 +3,17 @@ package boblovespi.factoryautomation.common.item.tools;
 import boblovespi.factoryautomation.common.item.FABaseItem;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumAction;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.UseAction;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -22,9 +24,7 @@ public class Firebow extends FABaseItem
 {
 	public Firebow()
 	{
-		super("firebow", FAItemGroups.primitive);
-		setMaxDamage(15);
-		setMaxStackSize(1);
+		super("firebow", new Properties().group(FAItemGroups.primitive).maxDamage(15).maxStackSize(1));
 	}
 
 	@Override
@@ -37,21 +37,20 @@ public class Firebow extends FABaseItem
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public ActionResultType onItemUse(ItemUseContext context)
 	{
-		player.setActiveHand(hand);
-		return EnumActionResult.PASS;
+		context.getPlayer().setActiveHand(context.getHand());
+		return ActionResultType.PASS;
 	}
 
 	/**
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
 		player.setActiveHand(hand);
-		return ActionResult.newResult(EnumActionResult.PASS, player.getHeldItem(hand));
+		return ActionResult.newResult(ActionResultType.PASS, player.getHeldItem(hand));
 	}
 
 	/**
@@ -59,16 +58,17 @@ public class Firebow extends FABaseItem
 	 * the Item before the action is complete.
 	 */
 	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase living)
+	public ItemStack onItemUseFinish(ItemStack stack, World world, LivingEntity living)
 	{
-		if (!(living instanceof EntityPlayer))
+		if (!(living instanceof PlayerEntity))
 			return stack;
-		EntityPlayer player = (EntityPlayer) living;
-		RayTraceResult rayTrace = rayTrace(world, player, true);
-		if (rayTrace == null || rayTrace.typeOfHit != RayTraceResult.Type.BLOCK)
+		PlayerEntity player = (PlayerEntity) living;
+		RayTraceResult rayTrace = rayTrace(world, player, RayTraceContext.FluidMode.NONE);
+		if (rayTrace == null || rayTrace.getType() != RayTraceResult.Type.BLOCK)
 			return stack;
-		BlockPos pos = rayTrace.getBlockPos();
-		EnumFacing facing = rayTrace.sideHit;
+		BlockRayTraceResult blockRayTrace = (BlockRayTraceResult) rayTrace;
+		BlockPos pos = blockRayTrace.getPos();
+		Direction facing = blockRayTrace.getFace();
 		pos = pos.offset(facing);
 
 		if (!player.canPlayerEdit(pos, facing, stack))
@@ -78,18 +78,17 @@ public class Firebow extends FABaseItem
 		{
 			if (world.isAirBlock(pos))
 			{
-				world.playSound(
-						player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
-						itemRand.nextFloat() * 0.4F + 0.8F);
+				world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
+						random.nextFloat() * 0.4F + 0.8F);
 				world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 11);
 			}
 
-			if (player instanceof EntityPlayerMP)
+			if (player instanceof ServerPlayerEntity)
 			{
-				CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, stack);
+				CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) player, pos, stack);
 			}
 
-			stack.damageItem(1, player);
+			stack.damageItem(1, player, n -> n.sendBreakAnimation(player.getActiveHand()));
 			return stack;
 		}
 	}
@@ -98,7 +97,7 @@ public class Firebow extends FABaseItem
 	 * How long it takes to use or consume an item
 	 */
 	@Override
-	public int getMaxItemUseDuration(ItemStack stack)
+	public int getUseDuration(ItemStack stack)
 	{
 		return 60;
 	}
@@ -107,8 +106,8 @@ public class Firebow extends FABaseItem
 	 * returns the action that specifies what animation to play when the items is being used
 	 */
 	@Override
-	public EnumAction getItemUseAction(ItemStack stack)
+	public UseAction getUseAction(ItemStack stack)
 	{
-		return EnumAction.BOW;
+		return UseAction.BOW;
 	}
 }

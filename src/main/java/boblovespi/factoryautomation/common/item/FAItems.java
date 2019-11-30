@@ -249,18 +249,18 @@ public class FAItems
 
 		bronzePickaxe = new FAPickaxe(bronzeMaterial, "bronze_pickaxe");
 		bronzeAxe = new FAAxe(bronzeMaterial, "bronze_axe");
-		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe");
+		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe", -1.5f);
 		bronzeShovel = new FAShovel(bronzeMaterial, "bronze_shovel");
 		bronzeSword = new FASword(bronzeMaterial, "bronze_sword");
 
 		steelAxe = new FAAxe(steelMaterial, "steel_axe");
-		steelHoe = new FAHoe(steelMaterial, "steel_hoe");
+		steelHoe = new FAHoe(steelMaterial, "steel_hoe", -0.5f);
 		steelShovel = new FAShovel(steelMaterial, "steel_shovel");
 		steelSword = new FASword(steelMaterial, "steel_sword");
 		steelPickaxe = new FAPickaxe(steelMaterial, "steel_pickaxe");
 
 		copperAxe = new FAAxe(copperMaterial, "copper_axe");
-		copperHoe = new FAHoe(copperMaterial, "copper_hoe");
+		copperHoe = new FAHoe(copperMaterial, "copper_hoe", -2.5f);
 		copperShovel = new FAShovel(copperMaterial, "copper_shovel");
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
@@ -276,8 +276,9 @@ public class FAItems
 		ironHammer = new Hammer("iron_hammer", 8, -3.7f, ItemTier.IRON);
 		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterial.steelMaterial);
 		steelWrench = new Wrench("steel_wrench", 0, 0, ToolMaterial.steelMaterial);
-		steelPinchers = new WorkbenchToolItem("steel_pinchers", 0, 0, ToolMaterial.steelMaterial);
-		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, ItemTier.WOOD);
+		steelPinchers = new WorkbenchToolItem(
+				"steel_pinchers", 0, 0, ToolMaterial.steelMaterial, Prop(), FAToolTypes.NONE);
+		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, ItemTier.WOOD, Prop(), FAToolTypes.NONE);
 		advancedFlintAndSteel = new AdvancedFlintAndSteel();
 
 		// misc tools

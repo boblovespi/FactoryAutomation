@@ -2,19 +2,20 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemGroup;
 
-public class FAHoe extends ItemHoe implements FAItem
+public class FAHoe extends HoeItem implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FAHoe(ToolMaterial material, String unlocalizedName)
+	public FAHoe(ToolMaterial material, String name, float attackSpeed)
 	{
-		super(material);
-		this.unlocalizedName = unlocalizedName;
-		this.setUnlocalizedName(unlocalizedName);
-		this.setRegistryName(unlocalizedName);
+		super(material, attackSpeed, new Item.Properties().group(ItemGroup.TOOLS));
+		unlocalizedName = name;
+		// setUnlocalizedName(name);
+		setRegistryName(name);
 		FAItems.items.add(this);
 
 	}

@@ -6,8 +6,8 @@ import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemTool;
 import net.minecraft.item.ToolItem;
+import net.minecraftforge.common.ToolType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,21 +19,22 @@ public class WorkbenchToolItem extends ToolItem implements FAItem
 {
 	private final String name;
 
-	public WorkbenchToolItem(String name, float attackDamageIn, float attackSpeedIn, IItemTier materialIn,
-			Set<Block> effectiveBlocksIn)
+	public WorkbenchToolItem(String name, float damage, float speed, IItemTier material, Set<Block> effectiveBlocks,
+			Properties properties, ToolType toolType)
 	{
-		super(attackDamageIn, attackSpeedIn, materialIn, effectiveBlocksIn);
+		super(damage, speed, material, effectiveBlocks,
+				properties.addToolType(toolType, material.getHarvestLevel()).group(FAItemGroups.tools));
 		this.name = name;
-		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(
-				RegistryName() == null ? UnlocalizedName() : RegistryName());
-		setCreativeTab(FAItemGroups.tools);
+		// setUnlocalizedName(UnlocalizedName());
+		setRegistryName(RegistryName() == null ? UnlocalizedName() : RegistryName());
+		// setCreativeTab(FAItemGroups.tools);
 		FAItems.items.add(this);
 	}
 
-	public WorkbenchToolItem(String name, float attackDamageIn, float attackSpeedIn, IItemTier materialIn)
+	public WorkbenchToolItem(String name, float damage, float speed, IItemTier material, Properties properties,
+			ToolType toolType)
 	{
-		this(name, attackDamageIn, attackSpeedIn, materialIn, new HashSet<>());
+		this(name, damage, speed, material, new HashSet<>(), properties, toolType);
 	}
 
 	@Override
