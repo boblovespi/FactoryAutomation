@@ -1,18 +1,18 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
 
 /**
  * Created by Willi on 4/12/2017.
@@ -21,43 +21,41 @@ public class RiceGrain extends FABaseItem implements IPlantable
 {
 	public RiceGrain()
 	{
-		super("rice", CreativeTabs.FOOD);
+		super("rice", ItemGroup.FOOD);
 	}
 
 	@Override
-	public EnumPlantType getPlantType(IBlockAccess iBlockAccess,
-			BlockPos blockPos)
+	public PlantType getPlantType(IBlockReader iBlockAccess, BlockPos blockPos)
 	{
-		return EnumPlantType.Water;
+		return PlantType.Water;
 		// return EnumPlantType.Crop;
 	}
 
 	@Override
-	public IBlockState getPlant(IBlockAccess iBlockAccess, BlockPos blockPos)
+	public BlockState getPlant(IBlockReader iBlockAccess, BlockPos blockPos)
 	{
 		return FABlocks.riceCrop.ToBlock().getDefaultState();
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world,
-			BlockPos pos, EnumHand hand, EnumFacing facing, float dir, float x,
-			float y)
+	public ActionResultType onItemUse(ItemUseContext context)
 	{
-		IBlockState state = world.getBlockState(pos.up());
-
+		BlockState state = context.getWorld().getBlockState(context.getPos().up());
+		BlockPos pos = context.getPos();
+		PlayerEntity player = context.getPlayer();
+		Direction facing = context.getFace();
 		ItemStack items = player.getActiveItemStack();
-		if (facing == EnumFacing.UP && player
-				.canPlayerEdit(pos.offset(facing), facing, items) && state
-				.getBlock()
-				.canSustainPlant(state, world, pos.up(), EnumFacing.UP, this)
-				&& world.isAirBlock(pos.up(2)))
-		{
-			world.setBlockState(pos.up(2),
-								FABlocks.riceCrop.ToBlock().getDefaultState());
-			items.shrink(1);
+		World world = context.getWorld();
 
-			return EnumActionResult.SUCCESS;
-		} else
-			return EnumActionResult.FAIL;
+		if (facing == Direction.UP && player.canPlayerEdit(pos.offset(facing), facing, items))
+			if (state.getBlock().canSustainPlant(state, world, pos.up(), Direction.UP, this) && world
+					.isAirBlock(pos.up(2)))
+			{
+				world.setBlockState(pos.up(2), FABlocks.riceCrop.ToBlock().getDefaultState());
+				items.shrink(1);
+
+				return ActionResultType.SUCCESS;
+			}
+		return ActionResultType.FAIL;
 	}
 }

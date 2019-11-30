@@ -17,6 +17,7 @@ import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -85,7 +86,7 @@ public class ClientProxy implements CommonProxy
 	}
 
 	@Override
-	public void OpenGuidebook(World world, EntityPlayer player, GuidebookEntry entry, Guidebook.ExtraInfo extraInfo)
+	public void OpenGuidebook(World world, PlayerEntity player, GuidebookEntry entry, Guidebook.ExtraInfo extraInfo)
 	{
 		if (entry != null)
 			GuiGuidebook.SetPage(entry, extraInfo.pageNum);

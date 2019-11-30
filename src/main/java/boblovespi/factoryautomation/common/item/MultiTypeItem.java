@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Created by Willi on 11/9/2017.
@@ -16,10 +17,10 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 	private final String name;
 	private final String resourceFolder;
 
-	public MultiTypeItem(String unlocalizedName, Class<T> types, String resourceFolder, Properties properties)
+	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Function<T, Properties> properties)
 	{
-		super(properties);
-		this.name = unlocalizedName;
+		super(properties.apply(types.getEnumConstants()[0]));
+		this.name = name;
 		itemTypes = types;
 		this.resourceFolder = resourceFolder;
 
@@ -27,7 +28,9 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 
 		for (int i = 0; i < items.length; i++)
 		{
-			items[i] = new FABaseItem(RegistryName() + "_" + itemTypes.getEnumConstants()[i].getName(), properties)
+			items[i] = new FABaseItem(
+					RegistryName() + "_" + itemTypes.getEnumConstants()[i].getName(),
+					properties.apply(itemTypes.getEnumConstants()[i]))
 			{
 				@Override
 				public String GetMetaFilePath(int meta)
@@ -37,6 +40,11 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 				}
 			};
 		}
+	}
+
+	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Properties properties)
+	{
+		this(name, types, resourceFolder, n -> properties);
 	}
 
 	@Override

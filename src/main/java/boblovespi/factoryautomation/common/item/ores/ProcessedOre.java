@@ -9,6 +9,6 @@ public class ProcessedOre extends MultiTypeItem<OreForms>
 {
 	public ProcessedOre(String name)
 	{
-		super(name, OreForms.class, "ores");
+		super(name, OreForms.class, "ores", new Properties());
 	}
 }

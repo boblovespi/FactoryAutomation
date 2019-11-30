@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -26,7 +27,7 @@ public class NBTHelper
 		return MultiblockHandler.Get(compound.getString(key));
 	}
 
-	public static NBTTagCompound GetTag(ItemStack items)
+	public static CompoundNBT GetTag(ItemStack items)
 	{
 		if (!items.hasTagCompound())
 		{

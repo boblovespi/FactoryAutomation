@@ -322,11 +322,11 @@ public class FAItems
 				{
 					MultiTypeItem variantItem = (MultiTypeItem) item;
 					RegisterRenders(variantItem);
-				} else if (item instanceof MultiStateItemBlock)
+				} /*else if (item instanceof MultiStateItemBlock)
 				{
 					MultiStateItemBlock variantItem = (MultiStateItemBlock) item;
 					RegisterRenders(variantItem);
-				} else
+				}*/ else
 				{
 					RegisterRender((FAItem) item, 0);
 				}
@@ -384,13 +384,13 @@ public class FAItems
 		}
 	}
 
-	private static void RegisterRenders(MultiStateItemBlock item)
-	{
-		for (int meta = 0; meta < item.blockTypes.getEnumConstants().length; meta++)
-		{
-			RegisterRender(item, meta);
-		}
-	}
+	//	private static void RegisterRenders(MultiStateItemBlock item)
+	//	{
+	//		for (int meta = 0; meta < item.blockTypes.getEnumConstants().length; meta++)
+	//		{
+	//			RegisterRender(item, meta);
+	//		}
+	//	}
 
 	@SuppressWarnings("MethodCallSideOnly")
 	private static void RegisterVanillaRender(Item item)

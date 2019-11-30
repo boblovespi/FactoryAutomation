@@ -2,11 +2,11 @@ package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 /**
@@ -26,10 +26,10 @@ public class Guidebook extends FABaseItem
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
 		FactoryAutomation.proxy.OpenGuidebook(world, player, null, ExtraInfo.NONE);
-		return ActionResult.newResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
+		return ActionResult.newResult(ActionResultType.SUCCESS, player.getHeldItem(hand));
 	}
 
 	public static class ExtraInfo

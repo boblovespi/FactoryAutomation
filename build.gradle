@@ -17,10 +17,7 @@ version = "mc1.14.4-alpha0.2.2.2"
 group = "boblovespi.factoryautomation" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "FactoryAutomation"
 
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
     mappings channel: 'snapshot', version: '20190719-1.14.3'
@@ -42,7 +39,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                factoryautomation {
                     source sourceSets.main
                 }
             }
@@ -58,7 +55,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                factoryautomation {
                     source sourceSets.main
                 }
             }
@@ -76,7 +73,7 @@ minecraft {
             args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
 
             mods {
-                examplemod {
+                factoryautomation {
                     source sourceSets.main
                 }
             }

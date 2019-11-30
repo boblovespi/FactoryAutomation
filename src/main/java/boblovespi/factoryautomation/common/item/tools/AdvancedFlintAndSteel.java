@@ -3,19 +3,17 @@ package boblovespi.factoryautomation.common.item.tools;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFlintAndSteel;
 
 /**
  * Created by Willi on 5/10/2018.
  */
-public class AdvancedFlintAndSteel extends ItemFlintAndSteel implements FAItem
+public class AdvancedFlintAndSteel extends FlintAndSteelItem implements FAItem
 {
 	public AdvancedFlintAndSteel()
 	{
-		setCreativeTab(FAItemGroups.tools);
-		setMaxDamage(500);
-		setUnlocalizedName(UnlocalizedName());
+		super(new Properties().group(FAItemGroups.tools).maxDamage(500));
 		setRegistryName(RegistryName());
 		FAItems.items.add(this);
 	}
