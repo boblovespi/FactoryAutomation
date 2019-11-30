@@ -2,16 +2,9 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.MultiTypeBlock;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
-import java.util.List;
+import net.minecraftforge.common.ToolType;
 
 /**
  * Created by Willi on 4/1/2018.
@@ -19,19 +12,20 @@ import java.util.List;
  */
 public class Ore extends MultiTypeBlock<Ore.Grade>
 {
-	public Ore(String name, int harvestLevel)
+	public Ore(String name, int harvestLevel, Properties properties, Item.Properties itemProperties)
 	{
-		super(Material.ROCK, name, Grade.class, "ores");
-		Init(n -> n.setHarvestLevel("pickaxe", harvestLevel));
+		super(
+				name, Ore.Grade.class, "ores", properties.harvestTool(ToolType.PICKAXE).harvestLevel(harvestLevel),
+				itemProperties);
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
-	{
-		// String grade = NBTHelper.GetTag(stack).getCompoundTag("blockdata").getString("grade");
-		// tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.grade") + ": " + StringUtils.capitalize(grade));
-	}
+	//	@Override
+	//	@SideOnly(Side.CLIENT)
+	//	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+	//	{
+	//		// String grade = NBTHelper.GetTag(stack).getCompoundTag("blockdata").getString("grade");
+	//		// tooltip.add(TextFormatting.DARK_GRAY + I18n.format("tooltip.grade") + ": " + StringUtils.capitalize(grade));
+	//	}
 
 	public enum Grade implements IStringSerializable, IMultiTypeEnum
 	{

@@ -18,12 +18,11 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.TallowForms;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
-import net.minecraft.client.renderer.model.ModelBakery;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
@@ -38,7 +37,7 @@ import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
 /**
  * Created by Willi on 11/8/2017.
  */
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = FactoryAutomation.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FAItems
 {
 	@ObjectHolder("factoryautomation:ore_metal")
@@ -188,9 +187,9 @@ public class FAItems
 		ironShard = new FABaseItem("iron_shard", FAItemGroups.metallurgy);
 		pigTallowParts = new TallowPart();
 		pigTallowMolds = new MultiTypeItem<>(
-				"tallow_mold", TallowForms.class, "molds", prop().group(FAItemGroups.metallurgy));
+				"tallow_mold", TallowForms.class, "molds", Prop().group(FAItemGroups.metallurgy));
 		firedMolds = new MultiTypeItem<>(
-				"fired_mold", TallowForms.class, "molds", prop().group(FAItemGroups.metallurgy));
+				"fired_mold", TallowForms.class, "molds", Prop().group(FAItemGroups.metallurgy));
 
 		// ore processing forms
 
@@ -283,7 +282,7 @@ public class FAItems
 
 		// misc tools
 
-		wearPlate = new MultiTypeItem<>("wear_plate", MachineTiers.class, "", prop());
+		wearPlate = new MultiTypeItem<>("wear_plate", MachineTiers.class, "", Prop());
 		clayCrucible = new ClayCrucible();
 
 		// fluidCanister = new FluidCanister("fluid_canister", 3000);
@@ -293,9 +292,14 @@ public class FAItems
 		// guidebook = new Guidebook();
 	}
 
-	private static Item.Properties prop()
+	public static Item.Properties Prop()
 	{
 		return new Item.Properties();
+	}
+
+	public static Item.Properties Building()
+	{
+		return Prop().group(ItemGroup.BUILDING_BLOCKS);
 	}
 
 	public static void RegisterItemRenders()
@@ -342,18 +346,18 @@ public class FAItems
 	{
 		final ModelResourceLocation loc = new ModelResourceLocation(
 				new ResourceLocation(FactoryAutomation.MODID, item.GetMetaFilePath(0)), "inventory");
-		ModelBakery.registerItemVariants(item.ToItem(), loc);
-		ModelLoader.setCustomModelResourceLocation(item.ToItem(), 0, loc);
-		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
-		ModelLoader.setCustomStateMapper(item.getBlock(), new StateMapperBase()
-		{
-			@Override
-			protected ModelResourceLocation getModelResourceLocation(IBlockState state)
-			{
-				return new ModelResourceLocation(new ResourceLocation(FactoryAutomation.MODID, "fluids"),
-						((IFluidBlock) item.getBlock()).getFluid().getName());
-			}
-		});
+		//		ModelBakery.registerItemVariants(item.ToItem(), loc);
+		//		ModelLoader.setCustomModelResourceLocation(item.ToItem(), 0, loc);
+		//		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
+		//		ModelLoader.setCustomStateMapper(item.getBlock(), new StateMapperBase()
+		//		{
+		//			@Override
+		//			protected ModelResourceLocation getModelResourceLocation(IBlockState state)
+		//			{
+		//				return new ModelResourceLocation(new ResourceLocation(FactoryAutomation.MODID, "fluids"),
+		//						((IFluidBlock) item.getBlock()).getFluid().getName());
+		//			}
+		//		});
 	}
 
 	/*@SideOnly(Side.CLIENT)*/
@@ -367,9 +371,9 @@ public class FAItems
 
 		// Log.LogInfo("The other model resource location", loc);
 
-		ModelBakery.registerItemVariants(item.ToItem(), loc);
-		ModelLoader.setCustomModelResourceLocation(item.ToItem(), meta, loc);
-		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
+		//		ModelBakery.registerItemVariants(item.ToItem(), loc);
+		//		ModelLoader.setCustomModelResourceLocation(item.ToItem(), meta, loc);
+		//		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
 	}
 
 	private static void RegisterRenders(MultiTypeItem item)
@@ -393,9 +397,9 @@ public class FAItems
 	{
 		// Log.LogInfo("Registering a vanilla Item class");
 		final ModelResourceLocation loc = new ModelResourceLocation(item.getRegistryName(), "inventory");
-		ModelBakery.registerItemVariants(item, loc);
-		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
-		ModelLoader.setCustomMeshDefinition(item, stack -> loc);
+		//		ModelBakery.registerItemVariants(item, loc);
+		//		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
+		//		ModelLoader.setCustomMeshDefinition(item, stack -> loc);
 		// Log.LogInfo("Model resource location: ", loc);
 	}
 
@@ -412,9 +416,9 @@ public class FAItems
 
 			// Log.LogInfo("The other model resource location", loc);
 
-			ModelBakery.registerItemVariants(item, loc);
-			ModelLoader.setCustomModelResourceLocation(item, 0, loc);
-			ModelLoader.setCustomMeshDefinition(item, stack -> loc);
+			//			ModelBakery.registerItemVariants(item, loc);
+			//			ModelLoader.setCustomModelResourceLocation(item, 0, loc);
+			//			ModelLoader.setCustomMeshDefinition(item, stack -> loc);
 		} else
 		{
 			RegisterVanillaRender(item);

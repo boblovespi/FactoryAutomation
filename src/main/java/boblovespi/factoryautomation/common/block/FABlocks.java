@@ -17,36 +17,38 @@ import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.processing.*;
 import boblovespi.factoryautomation.common.block.resource.*;
 import boblovespi.factoryautomation.common.fluid.Fluids;
+import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
+import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemSlab;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
+import static boblovespi.factoryautomation.common.item.FAItems.Building;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.COPPER;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.STEEL;
+import static net.minecraft.block.Block.Properties.create;
 
 /**
  * Created by Willi on 11/9/2017.
  */
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = FactoryAutomation.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FABlocks
 {
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
@@ -178,15 +180,12 @@ public class FABlocks
 
 		concreteSlab = new ConcreteSlab.Half();
 		concreteDoubleSlab = new ConcreteSlab.Double();
-		FAItems.items
-				.add(new ItemSlab(concreteSlab.ToBlock(), concreteSlab.ToBlockSlab(), concreteDoubleSlab.ToBlockSlab())
-						.setUnlocalizedName(concreteSlab.UnlocalizedName())
-						.setRegistryName(concreteSlab.RegistryName()));
+		FAItems.items.add(new FAItemBlock(concreteSlab, Building()));
 		multiblockPart = new MultiblockComponent();
 
 		cable = new Cable();
 		solarPanel = new SolarPanel();
-		metalOres = new MetalOre().Init(n -> n.setHardness(2.7f));
+		metalOres = new MetalOre();
 
 		powerShaft = new PowerShaft();
 		gearbox = new Gearbox();
@@ -201,15 +200,14 @@ public class FABlocks
 		treetap = new Treetap();
 		placedBucket = new PlacedBucket();
 
-		metalBlock = new MetalBlock("metal_block");
-		metalBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
-		metalPlateBlock = new MetalBlock("metal_plate_block");
-		metalPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
-		//metalPatternedPlateBlock = new MetalBlock("metal_patterned_plate_block");
-		//metalPatternedPlateBlock.Init(n -> n.setHardness(5).setResistance(30).setHarvestLevel("pickaxe", COPPER));
-		ironPatternedPlateBlock = new FABaseBlock(
-				Material.IRON, "patterned_plate_block_iron", CreativeTabs.BUILDING_BLOCKS)
-				.Init(n -> n.setHardness(1f).setResistance(40).setHarvestLevel("pickaxe", 3));
+		metalBlock = new MetalBlock("metal_block",
+				create(Material.IRON).hardnessAndResistance(5, 30).harvestTool(ToolType.PICKAXE).harvestLevel(COPPER));
+		metalPlateBlock = new MetalBlock("metal_plate_block",
+				create(Material.IRON).hardnessAndResistance(5, 30).harvestTool(ToolType.PICKAXE).harvestLevel(COPPER));
+
+		ironPatternedPlateBlock = new FABaseBlock("patterned_plate_block_iron", false,
+				create(Material.IRON).hardnessAndResistance(1, 40).harvestTool(ToolType.PICKAXE).harvestLevel(3),
+				Building());
 
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
 		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
@@ -217,23 +215,24 @@ public class FABlocks
 		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).GetItem().ToItem());
 		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
 
-		factorySign = new FABaseBlock(Material.IRON, "factory_sign_block", CreativeTabs.BUILDING_BLOCKS)
-				.Init(n -> n.setHardness(1f).setResistance(10).setHarvestLevel("pickaxe", 1));
+		factorySign = new FABaseBlock("factory_sign_block", false,
+				create(Material.IRON).hardnessAndResistance(1, 10).harvestTool(ToolType.PICKAXE).harvestLevel(1),
+				Building());
+
 		solidfueledfirebox = new SolidFueledFirebox();
 
 		// chopping blocks!
-		woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10).Init(n -> n.setHardness(4.0f));
+		// woodChoppingBlock = new ChoppingBlock(Material.WOOD, "wood_chopping_block", 10).Init(n -> n.setHardness(4.0f));
 		woodChoppingBlocks = new ArrayList<>(6);
-		woodChoppingBlocks.add(woodChoppingBlock);
-		for (int i = 1; i < 6; i++)
+		// woodChoppingBlocks.add(woodChoppingBlock);
+		for (int i = 0; i < 6; i++)
 		{
-			FABlock tempChoppingBlock = new ChoppingBlock(
-					Material.WOOD, "wood_chopping_block_" + BlockPlanks.EnumType.values()[i].getName(), 10)
-					.Init(n -> n.setHardness(4.0f));
+			FABlock tempChoppingBlock = new ChoppingBlock("wood_chopping_block_" + WoodTypes.values()[i].GetName(), 10,
+					create(Material.WOOD, WoodTypes.values()[i].GetColor()).hardnessAndResistance(4));
 			woodChoppingBlocks.add(tempChoppingBlock);
 		}
 
-		campfire = new Campfire().Init(n -> n.setHardness(4.0f));
+		campfire = new Campfire();
 		brickMakerFrame = new BrickMaker();
 		ironCharcoalMix = new IronCharcoalMix();
 
@@ -257,10 +256,12 @@ public class FABlocks
 
 		// ores
 
-		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre)
-				.Init(n -> n.setHardness(2.5f).setResistance(14));
-		magnetiteOre = new Ore("magnetite_ore", blockMiningLevelCat.ironOre)
-				.Init(n -> n.setHardness(3f).setResistance(16));
+		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre,
+				create(Material.ROCK).hardnessAndResistance(2.5f, 14), Building());
+		// .Init(n -> n.setHardness(2.5f).setResistance(14));
+		magnetiteOre = new Ore("magnetite_ore", blockMiningLevelCat.ironOre,
+				create(Material.ROCK).hardnessAndResistance(3f, 16), Building());
+		// .Init(n -> n.setHardness(3f).setResistance(16));
 		siliconQuartzOre = new GemOre("ore_silicon_quartz",
 				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
 														   .SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
@@ -314,10 +315,12 @@ public class FABlocks
 		greenSand = new FABaseBlock(Material.CLAY, "green_sand", FAItemGroups.metallurgy);
 		charcoalPile = new CharcoalPile();
 		logPile = new LogPile();
-		terraclayBrickBlock = new FABaseBlock(Material.ROCK, "terraclay_brick_block", CreativeTabs.BUILDING_BLOCKS)
-				.Init(n -> n.setHardness(2f).setHarvestLevel("pickaxe", 0));
-		terraclayBlock = new FABaseBlock(Material.CLAY, "terraclay_block", CreativeTabs.BUILDING_BLOCKS)
-				.Init(n -> n.setHardness(0.8f).setHarvestLevel("shovel", 0));
+		terraclayBrickBlock = new FABaseBlock("terraclay_brick_block", false,
+				create(Material.ROCK).hardnessAndResistance(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
+				Building());
+		terraclayBlock = new FABaseBlock("terraclay_block", false,
+				create(Material.ROCK).hardnessAndResistance(0.8f).harvestTool(ToolType.SHOVEL).harvestLevel(0),
+				Building());
 		ironBloom = new IronBloom();
 	}
 

@@ -4,7 +4,6 @@ import boblovespi.factoryautomation.common.block.FABlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 
 /**
  * Created by Willi on 11/9/2017.
@@ -16,12 +15,12 @@ public class FAItemBlock extends BlockItem implements FAItem
 	public final FABlock faBlock;
 	private final Block block;
 
-	public FAItemBlock(FABlock base)
+	public FAItemBlock(FABlock base, Properties properties)
 	{
-		super(base.ToBlock());
+		super(base.ToBlock(), properties);
 		this.block = base.ToBlock();
 		this.faBlock = base;
-		setUnlocalizedName(UnlocalizedName());
+		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
 		// FAItems.items.add(this);
 	}

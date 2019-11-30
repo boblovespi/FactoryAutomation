@@ -6,26 +6,21 @@ import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -33,21 +28,22 @@ import java.util.Random;
  */
 public class Campfire extends FABaseBlock
 {
-	public static final PropertyBool LIT = PropertyBool.create("lit");
+	public static final BooleanProperty LIT = BooleanProperty.create("lit");
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
 			3 / 16d, 0, 3 / 16d, 13 / 16d, 6 / 16d, 13 / 16d);
 
 	public Campfire()
 	{
-		super(Materials.WOOD_MACHINE, "campfire", FAItemGroups.primitive);
-		setDefaultState(getDefaultState().withProperty(LIT, false));
+		super("campfire", false, Properties.create(Materials.WOOD_MACHINE).hardnessAndResistance(4),
+				new Item.Properties().group(FAItemGroups.primitive));
+		setDefaultState(getDefaultState().with(LIT, false));
 		TileEntityHandler.tiles.add(TECampfire.class);
 	}
 
 	@Override
-	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos)
+	public int getLightValue(BlockState state)
 	{
-		return state.getValue(LIT) ? 11 : 0;
+		return state.get(LIT) ? 11 : 0;
 	}
 
 	@Override
@@ -57,54 +53,54 @@ public class Campfire extends FABaseBlock
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
 
-	@Nullable
-	@Override
-	public TileEntity createTileEntity(World world, IBlockState state)
-	{
-		return new TECampfire();
-	}
+	//	@Nullable
+	//	@Override
+	//	public TileEntity createTileEntity(World world, BlockState state)
+	//	{
+	//		return new TECampfire();
+	//	}
 
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-	{
-		return BOUNDING_BOX;
-	}
+	//	@Override
+	//	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
+	//	{
+	//		return BOUNDING_BOX;
+	//	}
 
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	public boolean isFullCube(BlockState state)
 	{
-		return new BlockStateContainer(this, LIT);
+		return false;
 	}
 
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(LIT, meta == 1);
-	}
+	//	@Override
+	//	protected BlockStateContainer createBlockState()
+	//	{
+	//		return new BlockStateContainer(this, LIT);
+	//	}
 
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(LIT) ? 1 : 0;
-	}
+	//	@Override
+	//	public BlockState getStateFromMeta(int meta)
+	//	{
+	//		return getDefaultState().withProperty(LIT, meta == 1);
+	//	}
+	//
+	//	@Override
+	//	public int getMetaFromState(BlockState state)
+	//	{
+	//		return state.getValue(LIT) ? 1 : 0;
+	//	}
 
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	public void breakBlock(World worldIn, BlockPos pos, BlockState state)
 	{
 		TileEntity te = worldIn.getTileEntity(pos);
 
@@ -120,18 +116,18 @@ public class Campfire extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand,
+			float hitX, float hitY, float hitZ)
 	{
 		if (!world.isRemote)
 		{
-			boolean canLight = !state.getValue(LIT);
+			boolean canLight = !state.get(LIT);
 			ItemStack stack = player.getHeldItem(hand);
 			Item item = stack.getItem();
-			if (canLight && (item == Item.getItemFromBlock(Blocks.TORCH) || item == Items.FLINT_AND_STEEL
+			if (canLight && (item == Items.TORCH || item == Items.FLINT_AND_STEEL
 					|| item == FAItems.advancedFlintAndSteel.ToItem()))
 			{
-				world.setBlockState(pos, state.withProperty(LIT, true));
+				world.setBlockState(pos, state.with(LIT, true));
 				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TECampfire)
 					((TECampfire) te).SetLit(true);
@@ -146,7 +142,7 @@ public class Campfire extends FABaseBlock
 	}
 
 	@Override
-	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand)
+	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(LIT))
 			return;

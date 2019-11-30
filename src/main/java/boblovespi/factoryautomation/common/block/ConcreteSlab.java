@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -20,7 +21,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public abstract class ConcreteSlab extends BlockSlab implements FABlock
+public abstract class ConcreteSlab extends SlabBlock implements FABlock
 {
 	public static final PropertyEnum<Variant> VARIANT = PropertyEnum
 			.create("variant", Variant.class);

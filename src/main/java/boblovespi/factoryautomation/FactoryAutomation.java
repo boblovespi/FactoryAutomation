@@ -4,7 +4,9 @@ import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
+import boblovespi.factoryautomation.client.ClientProxy;
 import boblovespi.factoryautomation.common.CommonProxy;
+import boblovespi.factoryautomation.common.ServerProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.ConfigFields;
 import boblovespi.factoryautomation.common.fluid.Fluids;
@@ -23,17 +25,12 @@ import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
-import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -48,26 +45,31 @@ public class FactoryAutomation
 	public static final String SERVER_PROXY_CLASS = "boblovespi.factoryautomation.common.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
 	public static final String GUI_FACTORY = "net.minecraftforge.fml.client.DefaultGuiFactory";
-	@Mod.Instance(MODID)
+	// @Mod.Instance(MODID)
 	public static FactoryAutomation instance = new FactoryAutomation();
-	@SidedProxy(serverSide = SERVER_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
-	public static CommonProxy proxy;
+	// @SidedProxy(serverSide = SERVER_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
+	@SuppressWarnings("Convert2MethodRef")
+	public static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
-	static
+	//	static
+	//	{
+	//		FluidRegistry.enableUniversalBucket();
+	//	}
+
+	public FactoryAutomation()
 	{
-		FluidRegistry.enableUniversalBucket();
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
 	}
 
-	@SuppressWarnings("unused")
-	@Mod.EventHandler
-	public void PreInit(FMLPreInitializationEvent Event)
+	private void Setup(FMLCommonSetupEvent event)
 	{
 		Log.getLogger().info("Preinitialization");
 
 		ConfigFields.AddClass(VanillaTweakHandler.class);
 		ConfigFields.AddClass(ToolMaterial.class);
 
-		ConfigManager.sync(MODID, Config.Type.INSTANCE);
+		// ConfigManager.sync(MODID, Config.Type.INSTANCE);
 
 		CapabilityPollutedChunk.Register();
 		CapabilityMechanicalUser.Register();
@@ -83,18 +85,23 @@ public class FactoryAutomation
 		FAItems.Init();
 		FABlocks.Init();
 
-		proxy.RegisterRenders();
+		// proxy.RegisterRenders();
 
 		Log.getLogger().info("Preinitialization end");
 	}
 
+	private void ClientSetup(FMLClientSetupEvent event)
+	{
+		proxy.RegisterRenders();
+	}
+
 	@SuppressWarnings("unused")
-	@Mod.EventHandler
-	public void Init(FMLInitializationEvent event)
+	// @Mod.EventHandler
+	public void Init()
 	{
 		Log.getLogger().info("Initialization");
 		proxy.Init();
-		GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
+		// GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
 		FuelHandler.RegisterFuels();
 		// OreDictionaryHandler.registerOreDictionary();
 		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
@@ -132,8 +139,8 @@ public class FactoryAutomation
 	}
 
 	@SuppressWarnings("unused")
-	@Mod.EventHandler
-	public void PostInit(FMLPostInitializationEvent Event)
+	// @Mod.EventHandler
+	public void PostInit(/*FMLPostInitializationEvent Event*/)
 	{
 		Log.getLogger().info("Postinitialization");
 

@@ -1,0 +1,410 @@
+{
+  "_comment": "items",
+  
+  "_comment": "items-misc",
+  
+  "item.rice": "Rice",
+  "item.wheat_flour": "Wheat Flour",
+  "item.slag": "Slag",
+  "item.coal_coke": "Coal Coke",
+  "item.iron_shard": "Iron Shard",
+  
+  
+  "_comment": "items-ingots",
+  
+  "item.ingot_copper": "Copper Ingot",
+  "item.ingot_tin": "Tin Ingot",
+  "item.ingot_bronze": "Bronze Ingot",
+  "item.ingot_steel": "Steel Ingot",
+  "item.ingot_pig_iron": "Pig Iron Ingot",
+  "item.ingot_magmatic_brass": "§6§lMagmatic Brass Clump",
+  "item.ingot_lead": "Lead Ingot",
+  "item.ingot_silver": "Silver Ingot",
+  
+  
+  "_comment": "items-nuggets",
+  
+  "item.nugget_copper": "Copper Nugget",
+  "item.nugget_tin": "Tin Nugget",
+  "item.nugget_bronze": "Bronze Nugget",
+  "item.nugget_steel": "Steel Nugget",
+  "item.nugget_pig_iron": "Pig Iron Nugget",
+  "item.nugget_magmatic_brass": "§6§lMagmatic Brass Nugget",
+  "item.nugget_lead": "Lead Nugget",
+  "item.nugget_silver": "Silver Nugget",
+  
+  
+  "_comment": "items-sheets",
+  
+  "item.sheet_iron": "Iron Sheet",
+  "item.sheet_gold": "Gold Sheet",
+  "item.sheet_copper": "Copper Sheet",
+  "item.sheet_tin": "Tin Sheet",
+  "item.sheet_bronze": "Bronze Sheet",
+  "item.sheet_steel": "Steel Sheet",
+  "item.sheet_pig_iron": "Pig Iron Sheet",
+  "item.sheet_magmatic_brass": "§6§lMagmatic Brass Sheet",
+  "item.sheet_lead": "Lead Sheet",
+  "item.sheet_silver": "Silver Sheet",
+  
+  
+  "_comment": "blocks - metals",
+  
+  "block.metal_block_iron": "Iron Block",
+  "block.metal_block_gold": "Gold Block",
+  "block.metal_block_copper": "Copper Block",
+  "block.metal_block_tin": "Tin Block",
+  "block.metal_block_bronze": "Bronze Block",
+  "block.metal_block_steel": "Steel Block",
+  "block.metal_block_pig_iron": "Pig Iron Block",
+  "block.metal_block_magmatic_brass": "§6§lMagmatic Brass Block",
+  "block.metal_block_lead": "Lead Block",
+  "block.metal_block_silver": "Silver Block",
+  
+  "block.metal_plate_block_iron": "Iron Plate Block",
+  "block.metal_plate_block_gold": "Gold Plate Block",
+  "block.metal_plate_block_copper": "Copper Plate Block",
+  "block.metal_plate_block_tin": "Tin Plate Block",
+  "block.metal_plate_block_bronze": "Bronze Plate Block",
+  "block.metal_plate_block_steel": "Steel Plate Block",
+  "block.metal_plate_block_pig_iron": "Pig Iron Plate Block",
+  "block.metal_plate_block_magmatic_brass": "§6§lMagmatic Brass Plate Block",
+  "block.metal_plate_block_lead": "Lead Plate Block",
+  "block.metal_plate_block_silver": "Silver Plate Block",
+  
+  "item.patterned_plate_block_iron": "Iron patterned plate block",
+  
+  
+  "_comment": "items-gears",
+  
+  "item.gear_wood": "Wood Gear",
+  "item.gear_stone": "Stone Gear",
+  "item.gear_copper": "Copper Gear",
+  "item.gear_iron": "Iron Gear",
+  "item.gear_gold": "Gold Gear",
+  "item.gear_bronze": "Bronze Gear",
+  "item.gear_diamond": "Diamond Gear",
+  "item.gear_magmatic_brass": "§6§lMagmatic Brass Gear",
+  "item.gear_steel": "Steel Gear",
+  
+  
+  "_comment": "items-coins",
+  
+  "item.coin_iron": "Iron Coin",
+  "item.coin_gold": "Gold Coin",
+  "item.coin_copper": "Copper Coin",
+  "item.coin_tin": "Tin Coin",
+  "item.coin_bronze": "Bronze Coin",
+  "item.coin_steel": "Steel Coin",
+  "item.coin_pig_iron": "Pig Iron Coin",
+  "item.coin_magmatic_brass": "§6§lMagmatic Brass Coin",
+  "item.coin_diamond": "Diamond Coin",
+  "item.coin_lead": "Lead Coin",
+  "item.coin_silver": "Silver Coin",
+  
+  
+  "_comment": "items-rods",
+  
+  "item.rod_iron": "Iron Rod",
+  "item.rod_gold": "Gold Rod",
+  "item.rod_copper": "Copper Rod",
+  "item.rod_tin": "Tin Rod",
+  "item.rod_bronze": "Bronze Rod",
+  "item.rod_steel": "Steel Rod",
+  "item.rod_pig_iron": "Pig Iron Rod",
+  "item.rod_magmatic_brass": "§6§lMagmatic Brass Rod",
+  "item.rod_lead": "Lead Rod",
+  "item.rod_silver": "Silver Rod",
+  
+  
+  "_comment": "items-tools",
+  
+  "item.bronze_pickaxe": "Bronze Pickaxe",
+  "item.bronze_axe": "Bronze Axe",
+  "item.bronze_hoe": "Bronze Hoe",
+  "item.bronze_shovel": "Bronze Shovel",
+  "item.bronze_sword": "Bronze Sword",
+  
+  "item.steel_pickaxe": "Steel Pickaxe",
+  "item.steel_axe": "Steel Axe",
+  "item.steel_hoe": "Steel Hoe",
+  "item.steel_shovel": "Steel Shovel",
+  "item.steel_sword": "Steel Sword",
+  
+  "item.copper_pickaxe": "Copper Pickaxe",
+  "item.copper_axe": "Copper Axe",
+  "item.copper_hoe": "Copper Hoe",
+  "item.copper_shovel": "Copper Shovel",
+  "item.copper_sword": "Copper Sword",
+  
+  "item.flint_pickaxe": "Flint Pickaxe",
+  
+  "item.chopping_blade": "Chopping Blade",
+  "item.firebow": "Firebow",
+  
+  "item.copper_hammer": "Copper Hammer",
+  "item.iron_hammer": "Iron Hammer",
+  "item.steel_hammer": "Steel Hammer",
+  "item.steel_wrench": "Steel Wrench",
+  "item.steel_pinchers": "Steel Pinchers",
+  "item.advanced_flint_and_steel": "Advanced flint and steel",
+  "item.guidebook": "F.A. Guidebook",
+  
+  
+  "_comment": "items-jaw_plates",
+  
+  "item.wear_plate_iron": "Iron Jaw Plate",
+  "item.wear_plate_obsidian": "Obsidian Jaw Plate",
+  
+  
+  "_comment": "items-misc",
+  
+  "item.clay_crucible": "Clay Crucible",
+  "item.diamond_gravel": "Diamond Gravel",
+  "item.glass_lens": "Glass Lens",
+  "item.porcelain_clay": "Porcelain Clay",
+  "item.stone_dust": "Stone Dust",
+  "item.sandpaper": "Sandpaper",
+  "item.ash": "Ash",
+  "item.liquid_glycerin": "Liquid Glycerin",
+  "item.dry_glycerin": "Dry Glycerin",
+  "item.acid_powder": "Acid Powder",
+  "item.raw_rubber": "Raw Rubber",
+  "item.rubber": "Rubber",
+  "item.graphite": "Graphite",
+  "item.screw": "Screw",
+  "item.air_piston": "Air Piston",
+  "item.bronze_flywheel": "Bronze Flywheel",
+  "item.stirling_generator_core": "Stirling Generator Core",
+  "item.terraclay": "Terraclay",
+  "item.terraclay_brick": "Unfired Terraclay Brick",
+  "item.plant_fiber": "Plant Fiber",
+  
+  "item.pig_tallow": "Pig Tallow",
+  "item.pig_tallow_cube": "Pig Tallow Cube",
+  "item.pig_tallow_ingot": "Pig Tallow Ingot",
+  "item.pig_tallow_sheet": "Pig Tallow Sheet",
+  "item.pig_tallow_nugget": "Pig Tallow Nugget",
+  "item.pig_tallow_coin": "Pig Tallow Coin",
+  "item.pig_tallow_rod": "Pig Tallow Rod",
+  "item.pig_tallow_gear": "Pig Tallow Gear",
+  "item.tallow_mold_cube": "Unfired Cube Mold",
+  "item.tallow_mold_ingot": "Unfired Ingot Mold",
+  "item.tallow_mold_sheet": "Unfired Sheet Mold",
+  "item.tallow_mold_nugget": "Unfired Nugget Mold",
+  "item.tallow_mold_coin": "Unfired Coin Mold",
+  "item.tallow_mold_rod": "Unfired Rod Mold",
+  "item.tallow_mold_gear": "Unfired Gear Mold",
+  "item.fired_mold_cube": "Fired Cube Mold",
+  "item.fired_mold_ingot": "Fired Ingot Mold",
+  "item.fired_mold_sheet": "Fired Sheet Mold",
+  "item.fired_mold_nugget": "Fired Nugget Mold",
+  "item.fired_mold_coin": "Fired Coin Mold",
+  "item.fired_mold_rod": "Fired Rod Mold",
+  "item.fired_mold_gear": "Fired Gear Mold",
+  
+  "item.copper_wire": "Copper Wire",
+  "item.circuit_frame": "Circuit Frame",
+  
+  
+  "_comment": "items - circuits",
+  
+  "item.basic_chip": "Basic Chip",
+  "item.dataprint_circuit": "Dataprint Circuit",
+  
+  
+  "_comment": "items-materials",
+  
+  "item.silicon_quartz_crystal": "§lSilicon Quartz Crystal",
+  "_comment": "MAGNETITEEEE",
+  "item.magnetite_poor_coarse_gravel": "Poor magnetite coarse gravel",
+  "item.magnetite_normal_coarse_gravel": "Magnetite coarse gravel",
+  "item.magnetite_rich_coarse_gravel": "Rich magnetite coarse gravel",
+  "item.magnetite_poor_gravel": "Poor magnetite-gravel",
+  "item.magnetite_normal_gravel": "Magnetite-gravel",
+  "item.magnetite_rich_gravel": "Rich magnetite-gravel",
+  "item.magnetite_poor_fine_gravel": "Poor magnetite fine-gravel",
+  "item.magnetite_normal_fine_gravel": "Magnetite fine-gravel",
+  "item.magnetite_rich_fine_gravel": "Rich magnetite fine-gravel",
+  "item.magnetite_poor_dust": "Poor magnetite dust",
+  "item.magnetite_normal_dust": "Magnetite dust",
+  "item.magnetite_rich_dust": "Rich magnetite dust",
+  "item.magnetite_purified_dust": "Purified magnetite dust",
+  "item.magnetite_extremly_purified_dust": "Extremly purified magnetite dust",
+  "item.magnetite_rich_pellet": "Rich magnetite pellet",
+  "item.magnetite_purified_pellet": "Purified magnetite pellet",
+  "item.magnetite_extremly_purified_pellet": "Extremly purified magnetite pellet",
+  
+  
+  "_comment": "items - foods",
+  
+  "item.toasted_bread": "Toasted Bread",
+  "item.ice_cream_vanilla": "Vanilla Ice Cream",
+  "item.ice_cream_coffee": "Coffee Ice Cream",
+  "item.ice_cream_mint": "Mint Ice Cream",
+  "item.ice_cream_chocolate": "Chocolate Ice Cream",
+  "item.ice_cream_cookies_n_cream": "Cookies 'n Cream Ice Cream",
+  
+  "_comment": "tiles",
+  
+  "block.brick_casting_vessel": "Brick casting vessel",
+  "block.solid_fueled_firebox": "Solid fueled firebox",
+  "block.bevel_gear": "Bevel gearbox",
+  "block.waterwheel": "Water wheel",
+  "block.trip_hammer": "Trip hammer",
+  
+  "block.concrete": "Concrete",
+  "block.concrete_slab": "Concrete Slab",
+  
+  "block.blast_furnace_controller": "Blast Furnace Controller",
+  "block.steelmaking_furnace_controller": "Steelmaking Furnace Controller",
+  
+  "_comment": "tiles-ores",
+  "block.ore_metal_copper": "Malachite Ore",
+  "block.ore_metal_tin": "Cassiterite Ore",
+  "block.ore_silicon_quartz": "Silicon Quartz Ore",
+  "block.limonite_ore_poor": "Limonite Ore",
+  "block.limonite_ore_normal": "Limonite Ore",
+  "block.limonite_ore_rich": "Limonite Ore",
+  
+  "block.magnetite_ore_poor": "Poor Magnetite Ore",
+  "block.magnetite_ore_normal": "Magnetite Ore",
+  "block.magnetite_ore_rich": "Rich Magnetite Ore",
+  
+  "block.rock": "Rock",
+  "block.flint_rock": "Flint Rock",
+  
+  "block.lv_cable": "LV Cable",
+  "block.power_shaft": "Power Shaft",
+  "block.iron_pipe": "Iron Pipe",
+  "block.iron_pump": "Iron Pump",
+  
+  "block.solar_panel": "Solar Panel",
+  "block.creative_mechanical_source": "Radial Tachyon Accelerator",
+  "block.motor": "Motor",
+  "block.gearbox": "Gearbox",
+  "block.hand_crank": "Hand Crank",
+  
+  "block.jaw_crusher": "Jaw Crusher",
+  "block.millstone": "Millstone",
+  
+  "block.stone_workbench": "Stone Workbench",
+  "block.iron_workbench": "Iron Workbench",
+  
+  "block.chip_creator": "Basic Chip Creator",
+  
+  "block.treetap": "Treetap",
+  "block.wood_chopping_block": "Oak Chopping Block",
+  "block.wood_chopping_block_dark_oak": "Dark Oak Chopping Block",
+  "block.wood_chopping_block_spruce": "Spruce Chopping Block",
+  "block.wood_chopping_block_birch": "Birch Chopping Block",
+  "block.wood_chopping_block_jungle": "Jungle Chopping Block",
+  "block.wood_chopping_block_acacia": "Acacia Chopping Block",
+  "block.campfire": "Campfire",
+  "block.brick_maker_frame": "Brick Maker Frame",
+  
+  "block.log_pile": "Log Pile",
+  "block.charcoal_pile": "Charcoal Pile",
+  
+  "block.steel_pillar": "Steel pillar",
+  "block.pillar_block": "Steel pillar for decoration",
+  
+  "block.bronze_cauldron": "Bronze Cauldron",
+  "block.bronze_fence": "Bronze Fence",
+  "block.stone_crucible": "Stone Crucible",
+  "block.stone_casting_vessel": "Stone Casting Vessel",
+  "block.brick_crucible": "Brick Crucible",
+  "block.brick_firebox": "Brick Firebox",
+  
+  "block.paper_bellows": "Paper Bellows",
+  "block.leather_bellows": "Leather Bellows",
+  
+  "block.green_sand": "Green Sand",
+  "block.slag_glass": "Slag Glass",
+  
+  "block.terraclay_block": "Terraclay Block",
+  "block.terraclay_brick_block": "Terraclay Brick Block",
+  
+  "block.iron_charcoal_mix": "Limonite-Charcoal Mix",
+  "block.iron_bloom": "Iron Bloom",
+  
+  "block.patterned_plate_block_iron": "Patterned Iron plate block",
+  
+  "block.factory_sign_block": "Factory-sign Block",
+  
+  "_comment": "config",
+  
+  "gui.config.main_title": "Factory Automation Configuration",
+  "gui.config.category.test": "Test",
+  "gui.config.category.test.tooltip": "A category for testing - not actually used",
+  "gui.config.test.test_scalar": "Test Scalar",
+  "gui.config.test.test_scalar.comment": "A scalar for testing config with",
+  
+  "config.main": "Factory Automation Configuration",
+  "config.tool_mining_level": "Tool Mining Levels",
+  "config.block_mining_level": "Block Mining Levels",
+  
+  "_comment": "gui",
+  "gui.misc.temperature": "Temp",
+  "gui.misc.efficiency": "Efficiency",
+  "gui.blast_furnace": "Blast Furnace",
+  "gui.workbench": "Stone workbench",
+  "gui.chopping_block": "Chopping Block",
+  
+  "_comment": "tooltip",
+  "tooltip.grade": "Grade:",
+  
+  "_comment": "creative_tab",
+  "itemGroup.tabs.metallurgy": "Metallurgy",
+  "itemGroup.tabs.resources": "Resources",
+  "itemGroup.tabs.tools": "F.A. Tools",
+  "itemGroup.tabs.mechanical": "Mechanical Stuff",
+  "itemGroup.tabs.crafting": "Crafting Items",
+  "itemGroup.tabs.electrical": "Electrical stuff",
+  "itemGroup.tabs.heat": "Heat stuff",
+  "itemGroup.tabs.primitive": "Primitive stuff",
+  
+  "_comment": "fluids",
+  "fluid.fa_air": "FA AIR",
+  "fluid.fa_air": "FA AIR",
+  "fluid.fa_steam": "Steam",
+  "fluid.rubber_sap": "Rubber Sap",
+  "fluid.molten_nether_metal": "Molten Nether Metal",
+  "block.steam": "Steam",
+  "block.rubber_sap": "Rubber Sap",
+  "block.molten_nether_metal": "Molten Nether Metal",
+  
+  "_comment": "Guidebook",
+  "botaniamisc.prevPage": "Previous page",
+  "botaniamisc.nextPage": "Next page",
+  "botaniamisc.back": "Go back",
+  "botaniamisc.clickToIndex": "Back to the main page",
+  
+  "_comment": "The soo many pillars update",
+  "block.pillar_bronze": "Bronze pillar",
+  "block.pillar_copper": "Copper pillar",
+  "block.pillar_iron": "Iron pillar",
+  "block.pillar_magmatic_brass": "Magamatic brass pillar",
+  "block.pillar_pig_iron": "Pig iron pillar",
+  "block.pillar_steel": "Steel pillar",
+  "block.pillar_tin": "Tin pillar",
+  "block.pillar_lead": "Lead pillar",
+  "block.pillar_silver": "Silver pillar",
+  
+  
+  "block.pillar_block_bronze": "Bronze decorative pillar",
+  "block.pillar_block_copper": "Copper decorative pillar",
+  "block.pillar_block_iron": "Iron decorative pillar",
+  "block.pillar_block_magmatic_brass": "Magamatic brass decorative pillar",
+  "block.pillar_block_pig_iron": "Pig iron decorative pillar",
+  "block.pillar_block_steel": "Steel decorative pillar",
+  "block.pillar_block_tin": "Tin decorative pillar",
+  "block.pillar_block_lead": "Lead decorative pillar",
+  "block.pillar_block_silver": "Silver decorative pillar",
+  
+  "_comment": "subtitles",
+  "factoryautomation.subtitle.break_rock": "Rock broken",
+  
+  "_comment": "jei description",
+  "factoryautomation.jei.logs": "To obtain logs, first craft a chopping blade"
+}

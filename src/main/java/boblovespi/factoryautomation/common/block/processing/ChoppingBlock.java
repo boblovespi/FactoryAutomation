@@ -2,10 +2,12 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -25,9 +27,9 @@ public class ChoppingBlock extends FABaseBlock
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 0.5d, 1);
 	public final int maxUses;
 
-	public ChoppingBlock(Material material, String name, int maxUses)
+	public ChoppingBlock(String name, int maxUses, Properties properties)
 	{
-		super(material, name, CreativeTabs.DECORATIONS);
+		super(name, false, properties, new Item.Properties().group(ItemGroup.DECORATIONS));
 		this.maxUses = maxUses;
 	}
 
@@ -38,7 +40,7 @@ public class ChoppingBlock extends FABaseBlock
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
