@@ -1,58 +1,44 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
  * Created by Willi on 4/11/2017.
  */
-public class RiceCrop extends BlockBush implements IGrowable, FABlock
+public class RiceCrop extends BushBlock implements IGrowable, FABlock
 {
-	private static final PropertyInteger Age = PropertyInteger.create("age", 0, 7);
+	private static final IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
 	private static final AxisAlignedBB BoundingBox = new AxisAlignedBB(0, 0, 0, 1, 1 / 16, 1);
 
 	public RiceCrop()
 	{
-		setDefaultState(blockState.getBaseState().withProperty(AgeProperty(), 0));
-		setTickRandomly(true);
-
-		setHardness(0);
-		setSoundType(SoundType.PLANT);
-		disableStats();
-
-		setUnlocalizedName(UnlocalizedName());
+		super(Properties.create(Material.PLANTS).hardnessAndResistance(0).tickRandomly().sound(SoundType.CROP));
 		setRegistryName(RegistryName());
-
+		setDefaultState(stateContainer.getBaseState().with(AGE, 0));
 		FABlocks.blocks.add(this);
 	}
 
-	protected int getAge(IBlockState state)
+	protected int getAge(BlockState state)
 	{
-		return state.getValue(AgeProperty());
+		return state.get(AGE);
 	}
 
-	public IBlockState WithAge(int age)
+	public BlockState WithAge(int age)
 	{
-		return getDefaultState().withProperty(this.AgeProperty(), age);
+		return getDefaultState().with(AGE, age);
 	}
 
 	public int MaxAge()
@@ -60,72 +46,42 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 		return 7;
 	}
 
-	protected PropertyInteger AgeProperty()
+	@Override
+	public boolean canGrow(IBlockReader world, BlockPos blockPos, BlockState state, boolean b)
 	{
-		return Age;
+		return !isMaxAge(state);
+	}
+
+	private boolean isMaxAge(BlockState state)
+	{
+		return state.get(AGE) == MaxAge();
 	}
 
 	@Override
-	public boolean canGrow(World world, BlockPos blockPos, IBlockState iBlockState, boolean b)
-	{
-		return !isMaxAge(iBlockState);
-	}
-
-	private boolean isMaxAge(IBlockState state)
-	{
-		return state.getValue(Age) == MaxAge();
-	}
-
-	@Override
-	public boolean canUseBonemeal(World world, Random random, BlockPos blockPos, IBlockState iBlockState)
+	public boolean canUseBonemeal(World world, Random random, BlockPos blockPos, BlockState BlockState)
 	{
 		return true;
 	}
 
 	@Override
-	public void grow(World world, Random random, BlockPos blockPos, IBlockState iBlockState)
+	public void grow(World world, Random random, BlockPos blockPos, BlockState BlockState)
 	{
-		world.setBlockState(blockPos, WithAge(getAge(iBlockState) + 1 > MaxAge() ? MaxAge() : getAge(iBlockState) + 1),
+		world.setBlockState(blockPos, WithAge(getAge(BlockState) + 1 > MaxAge() ? MaxAge() : getAge(BlockState) + 1),
 				2);
 	}
 
-	@Override
-	protected boolean canSustainBush(IBlockState state)
+	protected boolean canSustainBush(BlockState state)
 	{
-		return state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.FLOWING_WATER;
+		return state.getFluidState().getFluid() == Fluids.WATER || state.getFluidState().getFluid() == Fluids.FLOWING_WATER;
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, Age);
+		builder.add(AGE);
 	}
 
-	@Override
-	public List<ItemStack> getDrops(IBlockAccess blockAccess, BlockPos pos, IBlockState state, int i)
-	{
-		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-
-		if (isMaxAge(state))
-		{
-			drops.add(new ItemStack(FAItems.riceGrain.ToItem(), (int) (Math.random() * 4)));
-		}
-		drops.add(new ItemStack(FAItems.riceGrain.ToItem()));
-
-		return drops;
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(AgeProperty());
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return WithAge(meta);
-	}
+	// TODO: LOOT TABLES!
 
 	@Override
 	public String UnlocalizedName()
@@ -134,30 +90,26 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 	}
 
 	@Override
-	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
+	public void tick(BlockState state, World world, BlockPos pos, Random rand)
 	{
-		super.updateTick(worldIn, pos, state, rand);
-
-		if (worldIn.getBlockState(pos.down()).getBlock() != Blocks.WATER
-				&& worldIn.getBlockState(pos.down()).getBlock() != Blocks.FLOWING_WATER)
+		if (canSustainBush(world.getBlockState(pos.down())))
 		{
-			worldIn.setBlockToAir(pos);
-			dropBlockAsItem(worldIn, pos, state, 0);
+			world.destroyBlock(pos, true);
 			return;
 		}
 
-		if (worldIn.getLightFromNeighbors(pos.up()) >= 9)
+		if (world.getLight(pos.up()) >= 9)
 		{
 			int i = getAge(state);
 
 			if (i < MaxAge())
 			{
-				float f = GrowthChance(this, worldIn, pos);
+				float f = GrowthChance(this, world, pos);
 
-				if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0))
+				if (ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0))
 				{
-					worldIn.setBlockState(pos, WithAge(i + 1), 2);
-					ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos));
+					world.setBlockState(pos, WithAge(i + 1), 2);
+					ForgeHooks.onCropsGrowPost(world, pos, state);
 				}
 			}
 		}
@@ -168,7 +120,7 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 		float chance = 0;
 
 		BlockPos d = pos.down();
-		if (w.getBlockState(d).getBlock() == Blocks.WATER || w.getBlockState(d).getBlock() == Blocks.FLOWING_WATER)
+		if (canSustainBush(w.getBlockState(d)))
 			chance += 1;
 		else
 			return 0;
@@ -177,13 +129,13 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 		{
 			for (int y = -2; y < 3; ++y)
 			{
-				if (w.getBlockState(d.add(x, 0, y)) == Blocks.WATER)
+				if (w.getBlockState(d.add(x, 0, y)).getFluidState().getFluid() == Fluids.WATER)
 					chance += 0.5;
-				if (w.getBlockState(d.add(x, 0, y)) == Blocks.FLOWING_WATER)
+				if (w.getBlockState(d.add(x, 0, y)).getFluidState().getFluid() == Fluids.FLOWING_WATER)
 					chance += 0.3;
 
-				if (w.getBlockState(d.add(x, -1, y)) == Blocks.DIRT || w.getBlockState(d.add(x, -1, y)) == Blocks.SAND
-						|| w.getBlockState(d.add(x, -1, y)) == Blocks.GRAVEL)
+				if (w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.DIRT || w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.SAND
+						|| w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.GRAVEL)
 					chance += 0.2;
 			}
 		}
@@ -192,11 +144,9 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
-			EntityPlayer player)
+	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state)
 	{
 		return new ItemStack(FAItems.riceGrain.ToItem());
-
 	}
 
 	@Override
@@ -205,7 +155,7 @@ public class RiceCrop extends BlockBush implements IGrowable, FABlock
 		return this;
 	}
 
-	//	@Override public boolean canSustainPlant(IBlockState state,
+	//	@Override public boolean canSustainPlant(BlockState state,
 	//			IBlockAccess world, BlockPos pos, EnumFacing direction,
 	//			IPlantable plantable)
 	//	{

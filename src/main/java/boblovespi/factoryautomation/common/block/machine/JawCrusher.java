@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.block.machine;
 
-import boblovespi.factoryautomation.common.block.FAObjModelBlock;
+import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEJawCrusher;
 import net.minecraft.block.BlockHorizontal;
@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 2/17/2018.
  */
-public class JawCrusher extends FAObjModelBlock implements ITileEntityProvider
+public class JawCrusher extends FABaseBlock implements ITileEntityProvider
 {
 	public static PropertyDirection FACING = BlockHorizontal.FACING;
 

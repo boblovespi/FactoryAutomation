@@ -68,7 +68,7 @@ public class FABlocks
 	public static FABlock concrete;
 	public static FABlock riceCrop;
 	public static ConcreteSlab concreteSlab;
-	public static ConcreteSlab concreteDoubleSlab;
+	// public static ConcreteSlab concreteDoubleSlab;
 
 	public static FABlock multiblockPart;
 	public static FABlock cable;
@@ -178,8 +178,8 @@ public class FABlocks
 		concrete = new Concrete();
 		riceCrop = new RiceCrop();
 
-		concreteSlab = new ConcreteSlab.Half();
-		concreteDoubleSlab = new ConcreteSlab.Double();
+		concreteSlab = new ConcreteSlab();
+		// concreteDoubleSlab = new ConcreteSlab.Double();
 		FAItems.items.add(new FAItemBlock(concreteSlab, Building()));
 		multiblockPart = new MultiblockComponent();
 

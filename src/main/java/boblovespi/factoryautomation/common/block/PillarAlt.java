@@ -1,74 +1,54 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.Metals;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
+import net.minecraftforge.common.ToolType;
 
 public class PillarAlt extends FABaseBlock
 {
-    final static PropertyBool TOP = PropertyBool.create("top");
-    final static PropertyBool BOTTOM = PropertyBool.create("bottom");
+	final static BooleanProperty TOP = BooleanProperty.create("top");
+	final static BooleanProperty BOTTOM = BooleanProperty.create("bottom");
 
-    public PillarAlt(String name, Metals metal)
-    {
-        super(Material.IRON, name, CreativeTabs.DECORATIONS);
-        setHardness(1f);
-        setResistance(10f);
-        setHarvestLevel("pickaxe", 1);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(TOP, false).withProperty(BOTTOM, false));
-    }
+	public PillarAlt(String name, Metals metal)
+	{
+		super(name, false, Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1)
+									 .hardnessAndResistance(1, 10), new Item.Properties().group(ItemGroup.DECORATIONS));
+		setDefaultState(stateContainer.getBaseState().with(TOP, false).with(BOTTOM, false));
+	}
 
-    @Override
-    public boolean isOpaqueCube(IBlockState state)
-    {
-        return false;
-    }
+	/**
+	 * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
+	 * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
+	 * returns its solidified counterpart.
+	 * Note that this method should ideally consider only the specific face passed in.
+	 */
+	@Override
+	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world,
+			BlockPos pos, BlockPos facingPos)
+	{
+		switch (facing)
+		{
+		case DOWN:
+			return state.with(BOTTOM, world.getBlockState(pos.down()).getBlock() == this);
+		case UP:
+			return state.with(TOP, world.getBlockState(pos.up()).getBlock() == this);
+		default:
+			return state;
+		}
+	}
 
-    @Override
-    public boolean isFullCube(IBlockState state)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-    {
-        return false;
-    }
-
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos)
-    {
-        boolean top = world.getBlockState(pos.up()).getBlock() == this;
-        boolean bottom = world.getBlockState(pos.down()).getBlock() == this;
-        return state.withProperty(TOP, top).withProperty(BOTTOM, bottom);
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state)
-    {
-        return 0;
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState();
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState()
-    {
-        return new BlockStateContainer(this, TOP, BOTTOM);
-    }
-
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	{
+		builder.add(TOP, BOTTOM);
+	}
 }
