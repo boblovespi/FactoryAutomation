@@ -11,16 +11,16 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -240,7 +240,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		markDirty();
 
 		/* IMPORTANT */
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
@@ -275,7 +275,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	}
 
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
+	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return null;
 	}
@@ -285,13 +285,13 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	 * Use with caution as this will leave straggler TileEntities, or create conflicts with other TileEntities if not used properly.
 	 */
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState)
 	{
 		return !(oldState.getBlock() == FABlocks.stoneCrucible && newState.getBlock() == FABlocks.stoneCrucible);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		metals.ReadFromNBT(tag.getCompoundTag("metals"));
@@ -305,7 +305,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setTag("metals", metals.WriteToNBT());
 		tag.setTag("inventory", inventory.serializeNBT());
@@ -326,17 +326,17 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -345,7 +345,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -353,7 +353,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}
@@ -407,7 +407,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		return metals.amount;
 	}
 
-	public void PourInto(EnumFacing facing)
+	public void PourInto(Direction facing)
 	{
 		TileEntity te1 = world.getTileEntity(pos.down().offset(facing));
 		if (te1 instanceof ICastingVessel)
@@ -502,15 +502,15 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 				return amountToAdd;
 		}
 
-		public NBTTagCompound WriteToNBT()
+		public CompoundNBT WriteToNBT()
 		{
-			NBTTagCompound tag = new NBTTagCompound();
+			CompoundNBT tag = new CompoundNBT();
 			tag.setString("metal", metal);
 			tag.setInteger("amount", amount);
 			return tag;
 		}
 
-		public void ReadFromNBT(NBTTagCompound tag)
+		public void ReadFromNBT(CompoundNBT tag)
 		{
 			metal = tag.getString("metal");
 			amount = tag.getShort("amount");

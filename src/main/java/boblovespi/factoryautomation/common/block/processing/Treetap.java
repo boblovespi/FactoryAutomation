@@ -8,10 +8,10 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -25,14 +25,14 @@ import javax.annotation.Nullable;
  */
 public class Treetap extends FABaseBlock implements ITileEntityProvider
 {
-	public static final IProperty<EnumFacing> FACING = BlockHorizontal.FACING;
+	public static final IProperty<Direction> FACING = BlockHorizontal.FACING;
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
 
 	public Treetap()
 	{
 		super(Material.IRON, "treetap", null);
 		TileEntityHandler.tiles.add(TETreetap.class);
-		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
+		setDefaultState(getDefaultState().withProperty(FACING, Direction.NORTH));
 	}
 
 	/**
@@ -49,22 +49,22 @@ public class Treetap extends FABaseBlock implements ITileEntityProvider
 	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
 	 */
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return BOUNDING_BOX;
 	}
 
 	/**
-	 * Gets the {@link IBlockState} to place
+	 * Gets the {@link BlockState} to place
 	 */
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
@@ -80,16 +80,16 @@ public class Treetap extends FABaseBlock implements ITileEntityProvider
 	 * Convert the given metadata into a BlockState for this Block
 	 */
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+		return getDefaultState().withProperty(FACING, Direction.getHorizontal(meta));
 	}
 
 	/**
 	 * Convert the BlockState into the correct metadata value
 	 */
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(FACING).getHorizontalIndex();
 	}

@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -133,12 +133,12 @@ public class RecipeHandler
 		AddPlankAndStickRecipes((ItemAxe) FAItems.bronzeAxe, "bronze_axe");
 
 		ItemStack filledCrucibleStack = new ItemStack(FAItems.clayCrucible.ToItem(), 1, 0);
-		NBTTagCompound filledTag = new NBTTagCompound();
+		CompoundNBT filledTag = new CompoundNBT();
 		filledTag.setTag("items", new ItemStackHandler(bronzeCrucibleItems).serializeNBT());
 		filledCrucibleStack.setTagCompound(filledTag);
 
 		ItemStack bronzeCrucibleStack = new ItemStack(FAItems.clayCrucible.ToItem(), 1, 0);
-		NBTTagCompound filledTag2 = new NBTTagCompound();
+		CompoundNBT filledTag2 = new CompoundNBT();
 		filledTag2.setTag("items", new ItemStackHandler(bronze).serializeNBT());
 		bronzeCrucibleStack.setTagCompound(filledTag2);
 

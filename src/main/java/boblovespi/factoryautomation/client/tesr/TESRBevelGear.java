@@ -7,14 +7,14 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -40,8 +40,8 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 			RenderHelper.enableStandardItemLighting();
 			GlStateManager.enableRescaleNormal();
 
-			IBlockState state = te.getWorld().getBlockState(te.getPos());
-			EnumFacing facing = state.getValue(BevelGear.FACING);
+			BlockState state = te.getWorld().getBlockState(te.getPos());
+			Direction facing = state.getValue(BevelGear.FACING);
 			int layer = state.getValue(BevelGear.LAYER);
 			int out = 1, in = 1;
 			switch (facing)

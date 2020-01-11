@@ -18,13 +18,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -55,7 +55,7 @@ public class BlastFurnaceController extends Block
 		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		setHardness(10);
 		setResistance(10000);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+		setDefaultState(blockState.getBaseState().withProperty(FACING, Direction.NORTH)
 								  .withProperty(MULTIBLOCK_COMPLETE, false));
 		FABlocks.blocks.add(this);
 		//		new FAItemBlock(this);
@@ -76,47 +76,47 @@ public class BlastFurnaceController extends Block
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World worldIn, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer)
 	{
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
-		EnumFacing enumfacing = EnumFacing.getHorizontal(meta & 3);
+		Direction Direction = Direction.getHorizontal(meta & 3);
 
-		if (enumfacing.getAxis() == EnumFacing.Axis.Y)
+		if (Direction.getAxis() == Direction.Axis.Y)
 		{
-			enumfacing = EnumFacing.NORTH;
+			Direction = Direction.NORTH;
 		}
 
-		return this.getDefaultState().withProperty(FACING, enumfacing)
+		return this.getDefaultState().withProperty(FACING, Direction)
 				   .withProperty(MULTIBLOCK_COMPLETE, (meta & 4) == 4);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(FACING).getHorizontalIndex() | (state.getValue(MULTIBLOCK_COMPLETE) ? 4 : 0);
 	}
 
 	@Override
-	public IBlockState withRotation(IBlockState state, Rotation rot)
+	public BlockState withRotation(BlockState state, Rotation rot)
 	{
 		return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
 	}
 
 	@Override
-	public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
+	public BlockState withMirror(BlockState state, Mirror mirrorIn)
 	{
 		return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
 	}
@@ -135,8 +135,8 @@ public class BlastFurnaceController extends Block
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
+			EnumHand hand, Direction side, float hitX, float hitY, float hitZ)
 	{
 		if (!worldIn.isRemote)
 		{
@@ -169,7 +169,7 @@ public class BlastFurnaceController extends Block
 	}
 
 	@Override
-	public boolean IsValidStructure(World world, BlockPos pos, IBlockState state)
+	public boolean IsValidStructure(World world, BlockPos pos, BlockState state)
 	{
 		boolean isValid = true;
 		MultiblockPart[][][] pattern = MultiblockHandler.Get(structurePattern).GetPattern();
@@ -326,7 +326,7 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
-						IBlockState st = world.getBlockState(lowerLeftFront.add(x, y, z));
+						BlockState st = world.getBlockState(lowerLeftFront.add(x, y, z));
 
 						if (world.isAirBlock(lowerLeftFront.add(x, y, z)) || Block
 								.isEqualTo(world.getBlockState(lowerLeftFront.add(x, y, z)).getBlock(), this))
@@ -356,7 +356,7 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
-						IBlockState st = world.getBlockState(lowerLeftFront.add(-x, y, -z));
+						BlockState st = world.getBlockState(lowerLeftFront.add(-x, y, -z));
 
 						if (world.isAirBlock(lowerLeftFront.add(-x, y, -z)) || Block
 								.isEqualTo(world.getBlockState(lowerLeftFront.add(-x, y, -z)).getBlock(), this))
@@ -386,7 +386,7 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
-						IBlockState st = world.getBlockState(lowerLeftFront.add(-z, y, x));
+						BlockState st = world.getBlockState(lowerLeftFront.add(-z, y, x));
 
 						if (world.isAirBlock(lowerLeftFront.add(-z, y, x)) || Block
 								.isEqualTo(world.getBlockState(lowerLeftFront.add(-z, y, x)).getBlock(), this))
@@ -416,7 +416,7 @@ public class BlastFurnaceController extends Block
 				{
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
-						IBlockState st = world.getBlockState(lowerLeftFront.add(z, y, -x));
+						BlockState st = world.getBlockState(lowerLeftFront.add(z, y, -x));
 
 						if (world.isAirBlock(lowerLeftFront.add(z, y, -x)) || Block
 								.isEqualTo(world.getBlockState(lowerLeftFront.add(z, y, -x)).getBlock(), this))

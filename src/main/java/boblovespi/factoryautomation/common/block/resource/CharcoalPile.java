@@ -3,11 +3,8 @@ package boblovespi.factoryautomation.common.block.resource;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-
-import java.util.Random;
+import net.minecraftforge.common.ToolType;
 
 /**
  * Created by Willi on 1/28/2019.
@@ -16,9 +13,9 @@ public class CharcoalPile extends FABaseBlock
 {
 	public CharcoalPile()
 	{
-		super(Material.GROUND, "charcoal_pile", FAItemGroups.resources);
-		setHardness(0.5f);
-		setHarvestLevel("shovel", 0);
+		super("charcoal_pile", false, Properties.create(Material.EARTH).hardnessAndResistance(0.5f).harvestLevel(0)
+												.harvestTool(ToolType.SHOVEL),
+				new Item.Properties().group(FAItemGroups.resources));
 	}
 
 	@Override
@@ -27,32 +24,33 @@ public class CharcoalPile extends FABaseBlock
 		return "resources/" + RegistryName();
 	}
 
-	/**
-	 * Get the Item that this Block should drop when harvested.
-	 */
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune)
-	{
-		return Items.COAL;
-	}
-
-	/**
-	 * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
-	 * returns the metadata of the dropped item based on the old metadata of the block.
-	 */
-	@Override
-	public int damageDropped(IBlockState state)
-	{
-		return 1;
-	}
-
-	/**
-	 * State and fortune sensitive version, this replaces the old (int meta, Random rand)
-	 * version in 1.1.
-	 */
-	@Override
-	public int quantityDropped(IBlockState state, int fortune, Random random)
-	{
-		return 5 + random.nextInt(4 + fortune);
-	}
+	// TODO: add loot tables
+	//	/**
+	//	 * Get the Item that this Block should drop when harvested.
+	//	 */
+	//	@Override
+	//	public Item getItemDropped(BlockState state, Random rand, int fortune)
+	//	{
+	//		return Items.COAL;
+	//	}
+	//
+	//	/**
+	//	 * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+	//	 * returns the metadata of the dropped item based on the old metadata of the block.
+	//	 */
+	//	@Override
+	//	public int damageDropped(BlockState state)
+	//	{
+	//		return 1;
+	//	}
+	//
+	//	/**
+	//	 * State and fortune sensitive version, this replaces the old (int meta, Random rand)
+	//	 * version in 1.1.
+	//	 */
+	//	@Override
+	//	public int quantityDropped(BlockState state, int fortune, Random random)
+	//	{
+	//		return 5 + random.nextInt(4 + fortune);
+	//	}
 }

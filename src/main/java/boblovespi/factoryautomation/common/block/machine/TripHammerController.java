@@ -8,15 +8,15 @@ import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.EnumProperty;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -30,8 +30,8 @@ import javax.annotation.Nullable;
  */
 public class TripHammerController extends FABaseBlock implements ITileEntityProvider
 {
-	public static final PropertyEnum<EnumFacing> FACING = BlockHorizontal.FACING;
-	public static final PropertyEnum<BlockstateEnum> MULTIBLOCK_COMPLETE = PropertyEnum
+	public static final EnumProperty<Direction> FACING = BlockHorizontal.FACING;
+	public static final EnumProperty<BlockstateEnum> MULTIBLOCK_COMPLETE = EnumProperty
 			.create("multiblock_complete", BlockstateEnum.class);
 
 	public TripHammerController()
@@ -50,7 +50,7 @@ public class TripHammerController extends FABaseBlock implements ITileEntityProv
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing())
@@ -58,15 +58,15 @@ public class TripHammerController extends FABaseBlock implements ITileEntityProv
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta / 2))
+		return getDefaultState().withProperty(FACING, Direction.getHorizontal(meta / 2))
 								.withProperty(MULTIBLOCK_COMPLETE,
 										(meta & 1) == 1 ? BlockstateEnum.TRUE : BlockstateEnum.FALSE);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(FACING).getHorizontalIndex() * 2 | (
 				state.getValue(MULTIBLOCK_COMPLETE) == BlockstateEnum.TRUE ? 1 : 0);
@@ -76,8 +76,8 @@ public class TripHammerController extends FABaseBlock implements ITileEntityProv
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
+			Direction facing, float hitX, float hitY, float hitZ)
 	{
 		if (world.isRemote)
 			return true;
@@ -118,18 +118,18 @@ public class TripHammerController extends FABaseBlock implements ITileEntityProv
 		return new TETripHammerController();
 	}
 
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face)
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face)
 	{
 		return BlockFaceShape.UNDEFINED;
 	}
 
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
 	{
 		return false;
 	}

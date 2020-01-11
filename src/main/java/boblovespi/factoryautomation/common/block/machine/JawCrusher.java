@@ -8,12 +8,12 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,7 +31,7 @@ public class JawCrusher extends FABaseBlock implements ITileEntityProvider
 	{
 		super(Material.CIRCUITS, "jaw_crusher");
 		setDefaultState(blockState.getBaseState()
-								  .withProperty(FACING, EnumFacing.NORTH));
+								  .withProperty(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEJawCrusher.class);
 	}
 
@@ -53,8 +53,8 @@ public class JawCrusher extends FABaseBlock implements ITileEntityProvider
 	 */
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos,
-			IBlockState state, EntityPlayer playerIn, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+			BlockState state, PlayerEntity playerIn, EnumHand hand,
+			Direction facing, float hitX, float hitY, float hitZ)
 	{
 		if (worldIn.isRemote)
 			return true;
@@ -75,8 +75,8 @@ public class JawCrusher extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos,
-			EnumFacing facing, float hitX, float hitY, float hitZ, int meta,
+	public BlockState getStateForPlacement(World world, BlockPos pos,
+			Direction facing, float hitX, float hitY, float hitZ, int meta,
 			EntityLivingBase placer, EnumHand hand)
 	{
 		return this.getDefaultState()
@@ -84,20 +84,20 @@ public class JawCrusher extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
-		EnumFacing enumfacing = EnumFacing.getHorizontal(meta & 3);
+		Direction Direction = Direction.getHorizontal(meta & 3);
 
-		if (enumfacing.getAxis() == EnumFacing.Axis.Y)
+		if (Direction.getAxis() == Direction.Axis.Y)
 		{
-			enumfacing = EnumFacing.NORTH;
+			Direction = Direction.NORTH;
 		}
 
-		return this.getDefaultState().withProperty(FACING, enumfacing);
+		return this.getDefaultState().withProperty(FACING, Direction);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(FACING).getHorizontalIndex();
 	}

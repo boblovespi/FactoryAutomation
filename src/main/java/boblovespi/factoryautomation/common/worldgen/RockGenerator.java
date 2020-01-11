@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.worldgen;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.resource.Rock.Variants;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -28,7 +28,7 @@ public class RockGenerator extends SurfaceWorldGenerator
 	@Override
 	public boolean generate(World world, Random rand, BlockPos position)
 	{
-		for (IBlockState block = world.getBlockState(position);
+		for (BlockState block = world.getBlockState(position);
 			 (block.getBlock().isAir(block, world, position) || block.getBlock().isLeaves(block, world, position))
 					 && position.getY() > 0; block = world.getBlockState(position))
 		{

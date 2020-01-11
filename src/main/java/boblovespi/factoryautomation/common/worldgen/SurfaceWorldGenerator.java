@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.worldgen;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -14,11 +14,11 @@ import java.util.Set;
  */
 public class SurfaceWorldGenerator extends WorldGenerator
 {
-	protected final IBlockState block;
+	protected final BlockState block;
 	protected final int tries;
 	protected final Set<Block> legalBlocks;
 
-	public SurfaceWorldGenerator(IBlockState block, int tries, Set<Block> legalBlocks)
+	public SurfaceWorldGenerator(BlockState block, int tries, Set<Block> legalBlocks)
 	{
 		this.block = block;
 		this.tries = tries;
@@ -29,7 +29,7 @@ public class SurfaceWorldGenerator extends WorldGenerator
 	@Override
 	public boolean generate(World worldIn, Random rand, BlockPos position)
 	{
-		for (IBlockState block = worldIn.getBlockState(position);
+		for (BlockState block = worldIn.getBlockState(position);
 			 (block.getBlock().isAir(block, worldIn, position) || block.getBlock().isLeaves(block, worldIn, position))
 					 && position.getY() > 0; block = worldIn.getBlockState(position))
 		{

@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.api.IUpdatable;
 import boblovespi.factoryautomation.api.energy.electricity.enums.WireType;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
@@ -25,7 +25,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	private static final int defaultGridSize = 256;
 	private static final String DATA_NAME = MODID + "_EnergyNetworkNew";
 	private static boolean isLoaded = false;
-	private NBTTagCompound uninitData = null;
+	private CompoundNBT uninitData = null;
 	private boolean isInit = false;
 
 	private Map<IProducesEnergy, List<EnergyConnection>> connections = new HashMap<>(defaultGridSize);
@@ -82,7 +82,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		Iterator<NBTBase> iterator = list.iterator();
 		while (iterator.hasNext())
 		{
-			NBTTagCompound next = (NBTTagCompound) iterator.next();
+			CompoundNBT next = (CompoundNBT) iterator.next();
 			EnergyConnection e = ReadConnectionFromTag(world, next);
 			AddConnection(e);
 		}
@@ -131,17 +131,17 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	}
 
 	/**
-	 * reads in data from the NBTTagCompound into this MapDataBase
+	 * reads in data from the CompoundNBT into this MapDataBase
 	 */
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		isInit = false;
 		uninitData = tag;
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		NBTTagList list = new NBTTagList();
 
@@ -167,12 +167,12 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		markDirty();
 	}
 
-	private NBTTagCompound WriteConnectionToTag(IProducesEnergy p, EnergyConnection e)
+	private CompoundNBT WriteConnectionToTag(IProducesEnergy p, EnergyConnection e)
 	{
-		NBTTagCompound tag = new NBTTagCompound();
+		CompoundNBT tag = new CompoundNBT();
 
 		tag.setTag("producerPos", NBTUtil.createPosTag(p.GetTe().getPos()));
-		NBTTagCompound eTag = new NBTTagCompound();
+		CompoundNBT eTag = new CompoundNBT();
 
 		eTag.setTag("consumerPos", NBTUtil.createPosTag(e.GetConsumer().GetTe().getPos()));
 		eTag.setDouble("maxVoltage", e.maxVoltage);
@@ -185,10 +185,10 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		return tag;
 	}
 
-	private EnergyConnection ReadConnectionFromTag(World w, NBTTagCompound tag)
+	private EnergyConnection ReadConnectionFromTag(World w, CompoundNBT tag)
 	{
 		BlockPos pPos = NBTUtil.getPosFromTag(tag.getCompoundTag("producerPos"));
-		NBTTagCompound tag1 = tag.getCompoundTag("energyConnection");
+		CompoundNBT tag1 = tag.getCompoundTag("energyConnection");
 		BlockPos cPos = NBTUtil.getPosFromTag(tag1.getCompoundTag("consumerPos"));
 
 		double maxVoltage = tag1.getDouble("maxVoltage");

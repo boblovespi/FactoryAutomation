@@ -18,7 +18,7 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 		super(Properties.create(Material.ROCK).hardnessAndResistance(10, 1000));
 		//		super(Material.ROCK);
 		//		isDouble = isDoubleSlab;
-		//		IBlockState state = blockState.getBaseState();
+		//		BlockState state = blockState.getBaseState();
 		//		if (!isDouble())
 		//			state = state.withProperty(HALF, EnumBlockHalf.BOTTOM);
 		//

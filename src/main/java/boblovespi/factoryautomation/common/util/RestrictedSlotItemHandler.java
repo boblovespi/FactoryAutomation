@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.util;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -82,13 +82,13 @@ public class RestrictedSlotItemHandler extends ItemStackHandler
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT()
+	public CompoundNBT serializeNBT()
 	{
 		return wrappingHandler.serializeNBT();
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt)
+	public void deserializeNBT(CompoundNBT nbt)
 	{
 		wrappingHandler.deserializeNBT(nbt);
 	}

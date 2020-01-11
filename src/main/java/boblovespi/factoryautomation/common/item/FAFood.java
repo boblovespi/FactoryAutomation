@@ -96,7 +96,7 @@ public class FAFood extends Item implements FAItem
 					SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
 					worldIn.rand.nextFloat() * 0.1F + 0.9F);
 
-			// entityplayer.addStat(StatList.getObjectUseStats(this));
+			// PlayerEntity.addStat(StatList.getObjectUseStats(this));
 		}
 		applyPotionAffects(stack, worldIn, entityLiving);
 		return stack;

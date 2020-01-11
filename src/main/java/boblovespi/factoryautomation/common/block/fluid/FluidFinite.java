@@ -7,13 +7,15 @@ import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluid;
 import net.minecraftforge.fluids.BlockFluidFinite;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.IFluidBlock;
 
 /**
  * Created by Willi on 4/25/2018.
  */
-public class FluidFinite extends BlockFluidFinite implements FABlock
+public class FluidFinite extends Fluid implements FABlock
 {
 	private final String name;
 

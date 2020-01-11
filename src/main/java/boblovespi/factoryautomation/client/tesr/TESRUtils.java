@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.pipeline.LightUtil;
@@ -79,9 +79,9 @@ public class TESRUtils
 	{
 		// bufferBuilder.begin(7, DefaultVertexFormats.ITEM);
 
-		for (EnumFacing enumfacing : EnumFacing.values())
+		for (Direction Direction : Direction.values())
 		{
-			RenderQuads(bufferBuilder, model.getQuads(null, enumfacing, 0L), color, stack, colorMult);
+			RenderQuads(bufferBuilder, model.getQuads(null, Direction, 0L), color, stack, colorMult);
 		}
 
 		RenderQuads(bufferBuilder, model.getQuads(null, null, 0L), color, stack, colorMult);

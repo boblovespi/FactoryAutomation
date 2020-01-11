@@ -3,12 +3,12 @@ package boblovespi.factoryautomation.common.tileentity.smelting;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.CastingVesselStates;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -63,7 +63,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 
 		/* IMPORTANT */
 		markDirty();
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 7);
 	}
 
@@ -85,12 +85,12 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 		markDirty();
 
 		/* IMPORTANT */
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 7);
 		return stack;
 	}
 
-	public void TakeOrPlace(ItemStack item, EntityPlayer player)
+	public void TakeOrPlace(ItemStack item, PlayerEntity player)
 	{
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
@@ -117,7 +117,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 
 			markDirty();
 			/* IMPORTANT */
-			IBlockState state = world.getBlockState(pos);
+			BlockState state = world.getBlockState(pos);
 			world.notifyBlockUpdate(pos, state, state, 7);
 		}
 	}
@@ -137,7 +137,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	 * Use with caution as this will leave straggler TileEntities, or create conflicts with other TileEntities if not used properly.
 	 */
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState)
 	{
 		return !(oldState.getBlock() == FABlocks.stoneCastingVessel
 				&& newState.getBlock() == FABlocks.stoneCastingVessel);
@@ -150,7 +150,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		slot.deserializeNBT(tag.getCompoundTag("slot"));
@@ -160,7 +160,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setTag("slot", slot.serializeNBT());
 		tag.setBoolean("hasSand", hasSand);
@@ -177,17 +177,17 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -196,7 +196,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -204,7 +204,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}
@@ -238,7 +238,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 		if (counter < 0)
 		{
 			markDirty();
-			IBlockState state = world.getBlockState(pos);
+			BlockState state = world.getBlockState(pos);
 			world.notifyBlockUpdate(pos, state, state, 7);
 			counter = 10;
 		}

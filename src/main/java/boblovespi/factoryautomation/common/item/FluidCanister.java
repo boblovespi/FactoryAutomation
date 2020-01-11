@@ -40,7 +40,7 @@ public class FluidCanister {}
 //	 */
 //	@Nonnull
 //	@Override
-//	public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull EntityPlayer player,
+//	public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull PlayerEntity player,
 //			@Nonnull EnumHand hand)
 //	{
 //		return ActionResult.newResult(EnumActionResult.PASS, player.getHeldItem(hand));
@@ -50,8 +50,8 @@ public class FluidCanister {}
 //	 * Called when a Block is right-clicked with this Item
 //	 */
 //	@Override
-//	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
-//			EnumFacing facing, float hitX, float hitY, float hitZ)
+//	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
+//			Direction facing, float hitX, float hitY, float hitZ)
 //	{
 //		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 //	}

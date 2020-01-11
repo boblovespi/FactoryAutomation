@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.api.recipe;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
@@ -46,5 +46,5 @@ public interface IMachineRecipe
 	@Nullable
 	Map<FluidStack, Float> GetSecondaryFluidOutputs();
 
-	void WriteToNBT(NBTTagCompound tag);
+	void WriteToNBT(CompoundNBT tag);
 }

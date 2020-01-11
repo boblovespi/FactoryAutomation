@@ -353,7 +353,7 @@ public class FAItems
 		//		ModelLoader.setCustomStateMapper(item.getBlock(), new StateMapperBase()
 		//		{
 		//			@Override
-		//			protected ModelResourceLocation getModelResourceLocation(IBlockState state)
+		//			protected ModelResourceLocation getModelResourceLocation(BlockState state)
 		//			{
 		//				return new ModelResourceLocation(new ResourceLocation(FactoryAutomation.MODID, "fluids"),
 		//						((IFluidBlock) item.getBlock()).getFluid().getName());

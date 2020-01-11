@@ -2,10 +2,10 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -20,7 +20,7 @@ public class TEMultiblockPart extends TileEntity
 	private int[] structurePosition = new int[3]; // the position of the block in the structure measured by {+x, +y, +z}
 	private String structureId = null; // the id of the multiblock structure
 	private int[] structureOffset = new int[3]; // the offset from the controller, in world coordinates
-	private IBlockState state;
+	private BlockState state;
 	private IMultiblockControllerTE controller;
 
 	/**
@@ -36,7 +36,7 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	public void SetMultiblockInformation(String structure, int posX, int posY, int posZ, int offX, int offY, int offZ,
-			IBlockState blockState)
+			BlockState blockState)
 	{
 		structureId = structure;
 		structurePosition[0] = posX;
@@ -49,14 +49,14 @@ public class TEMultiblockPart extends TileEntity
 		controller = (IMultiblockControllerTE) world.getTileEntity(pos.add(-offX, -offY, -offZ));
 	}
 
-	public void SetMultiblockInformation(String strucuture, BlockPos pos, BlockPos offset, IBlockState blockState)
+	public void SetMultiblockInformation(String strucuture, BlockPos pos, BlockPos offset, BlockState blockState)
 	{
 		SetMultiblockInformation(strucuture, pos.getX(), pos.getY(), pos.getZ(), offset.getX(), offset.getY(),
 				offset.getZ(), blockState);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound)
+	public void readFromNBT(CompoundNBT compound)
 	{
 		super.readFromNBT(compound);
 		structurePosition = compound.getIntArray("structurePosition");
@@ -66,7 +66,7 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public CompoundNBT writeToNBT(CompoundNBT compound)
 	{
 		compound.setIntArray("structurePosition", structurePosition);
 		compound.setString("structure", structureId);
@@ -90,14 +90,14 @@ public class TEMultiblockPart extends TileEntity
 		return structureOffset;
 	}
 
-	public IBlockState GetBlockState()
+	public BlockState GetBlockState()
 	{
 		return state;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (controller == null)
 			return null;
@@ -105,7 +105,7 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		if (controller == null)
 			return false;

@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.api.misc.IBellowsable;
 import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 
 /**
@@ -19,7 +19,7 @@ public class TEPaperBellows extends TileEntity implements ITickable, IBellowsTE
 	{
 		if (!world.isRemote)
 		{
-			EnumFacing facing = world.getBlockState(pos).getValue(PaperBellows.FACING);
+			Direction facing = world.getBlockState(pos).getValue(PaperBellows.FACING);
 			TileEntity te = world.getTileEntity(pos.offset(facing));
 			if (te == null)
 				return;

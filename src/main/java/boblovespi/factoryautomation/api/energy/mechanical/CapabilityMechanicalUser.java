@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.api.energy.mechanical;
 
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -24,21 +24,21 @@ public class CapabilityMechanicalUser
 		{
 			@Nullable
 			@Override
-			public NBTBase writeNBT(Capability<IMechanicalUser> capability, IMechanicalUser instance, EnumFacing side)
+			public NBTBase writeNBT(Capability<IMechanicalUser> capability, IMechanicalUser instance, Direction side)
 			{
-				NBTTagCompound nbtBase = new NBTTagCompound();
+				CompoundNBT nbtBase = new CompoundNBT();
 
 				return nbtBase;
 			}
 
 			@Override
-			public void readNBT(Capability<IMechanicalUser> capability, IMechanicalUser instance, EnumFacing side,
+			public void readNBT(Capability<IMechanicalUser> capability, IMechanicalUser instance, Direction side,
 					NBTBase nbt)
 			{
-				NBTTagCompound compound = (NBTTagCompound) nbt;
+				CompoundNBT compound = (CompoundNBT) nbt;
 				if (instance instanceof MechanicalUser)
 				{
-					EnumFacing facing = EnumFacing.byName(compound.getString("facing"));
+					Direction facing = Direction.byName(compound.getString("facing"));
 					float speed = compound.getFloat("speed");
 					float torque = compound.getFloat("torque");
 

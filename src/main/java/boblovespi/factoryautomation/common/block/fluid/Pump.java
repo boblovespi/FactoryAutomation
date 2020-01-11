@@ -3,77 +3,56 @@ package boblovespi.factoryautomation.common.block.fluid;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEPump;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.util.Direction;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 12/9/2018.
  */
-public class Pump extends FABaseBlock implements ITileEntityProvider
+public class Pump extends FABaseBlock
 {
-	public static final PropertyDirection FACING = BlockDirectional.FACING;
+	public static final DirectionProperty FACING = DirectionalBlock.FACING;
 
 	public Pump(String name)
 	{
-		super(Material.IRON, name, CreativeTabs.DECORATIONS);
-		setDefaultState(getDefaultState().withProperty(FACING, EnumFacing.NORTH));
+		super(Material.IRON, name, ItemGroup.DECORATIONS);
+		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEPump.class);
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, FACING);
+		builder.add(FACING);
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEPump();
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public boolean hasTileEntity(BlockState state)
 	{
-		return getDefaultState().withProperty(FACING, EnumFacing.getFront(meta));
+		return true;
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return state.getValue(FACING).getIndex();
-	}
-
-	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-	{
-		return getDefaultState().withProperty(FACING, facing);
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
+		return getDefaultState().with(FACING, context.getFace());
 	}
 }

@@ -9,10 +9,10 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -32,7 +32,7 @@ public class Motor extends FABaseBlock implements ITileEntityProvider,
 	{
 		super(Material.DRAGON_EGG, "motor", null);
 		setDefaultState(blockState.getBaseState()
-								  .withProperty(FACING, EnumFacing.NORTH));
+								  .withProperty(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEMotor.class);
 	}
 
@@ -59,15 +59,15 @@ public class Motor extends FABaseBlock implements ITileEntityProvider,
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	@Override
-	public boolean CanConnectCable(IBlockState state, EnumFacing side,
+	public boolean CanConnectCable(BlockState state, Direction side,
 			IBlockAccess world, BlockPos pos)
 	{
 		return side == state.getValue(FACING);
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos,
-			EnumFacing facing, float hitX, float hitY, float hitZ, int meta,
+	public BlockState getStateForPlacement(World world, BlockPos pos,
+			Direction facing, float hitX, float hitY, float hitZ, int meta,
 			EntityLivingBase placer, EnumHand hand)
 	{
 		return this.getDefaultState()
@@ -75,20 +75,20 @@ public class Motor extends FABaseBlock implements ITileEntityProvider,
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
-		EnumFacing enumfacing = EnumFacing.getHorizontal(meta & 3);
+		Direction Direction = Direction.getHorizontal(meta & 3);
 
-		if (enumfacing.getAxis() == EnumFacing.Axis.Y)
+		if (Direction.getAxis() == Direction.Axis.Y)
 		{
-			enumfacing = EnumFacing.NORTH;
+			Direction = Direction.NORTH;
 		}
 
-		return this.getDefaultState().withProperty(FACING, enumfacing);
+		return this.getDefaultState().withProperty(FACING, Direction);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(FACING).getHorizontalIndex();
 	}
@@ -99,7 +99,7 @@ public class Motor extends FABaseBlock implements ITileEntityProvider,
 		return new BlockStateContainer(this, FACING);
 	}
 	@Override
-	public boolean isFullBlock(IBlockState state)
+	public boolean isFullBlock(BlockState state)
 	{
 		return false;
 	}
@@ -110,7 +110,7 @@ public class Motor extends FABaseBlock implements ITileEntityProvider,
 	 * @param state
 	 */
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
@@ -126,7 +126,7 @@ public class Motor extends FABaseBlock implements ITileEntityProvider,
 	 * @return True if the block is a full cube
 	 */
 	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
 	{
 		return false;
 	}

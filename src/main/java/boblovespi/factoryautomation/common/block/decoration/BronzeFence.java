@@ -5,22 +5,24 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
+import net.minecraft.block.FenceBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 
 /**
  * Created by Willi on 8/26/2018.
  */
-public class BronzeFence extends BlockFence implements FABlock
+public class BronzeFence extends FenceBlock implements FABlock
 {
 	public BronzeFence()
 	{
-		super(Material.IRON, Material.IRON.getMaterialMapColor());
-		setUnlocalizedName(UnlocalizedName());
+		super(Properties.create(Material.IRON).hardnessAndResistance(2.5f));
+		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
-		setResistance(10000);
+		// setResistance(10000);
 		FABlocks.blocks.add(this);
-		FAItemBlock item = new FAItemBlock(this);
+		FAItemBlock item = new FAItemBlock(this, new Item.Properties().group(ItemGroup.DECORATIONS));
 		FAItems.items.add(item);
 	}
 

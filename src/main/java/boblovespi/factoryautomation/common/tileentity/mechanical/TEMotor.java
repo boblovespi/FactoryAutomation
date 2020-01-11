@@ -5,12 +5,12 @@ import boblovespi.factoryautomation.api.energy.electricity.IRequiresEnergy_;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
@@ -30,32 +30,32 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	private float energyProvided;
 
 	@Override
-	public boolean HasConnectionOnSide(EnumFacing side)
+	public boolean HasConnectionOnSide(Direction side)
 	{
 		return side == world.getBlockState(pos).getValue(Motor.FACING);
 	}
 
 	@Override
-	public float GetSpeedOnFace(EnumFacing side)
+	public float GetSpeedOnFace(Direction side)
 	{
 		return HasConnectionOnSide(side) ? speed : 0;
 	}
 
 	@Override
-	public float GetTorqueOnFace(EnumFacing side)
+	public float GetTorqueOnFace(Direction side)
 	{
 		return HasConnectionOnSide(side) ? torque : 0;
 	}
 
 	@Override
-	public void SetSpeedOnFace(EnumFacing side, float speed)
+	public void SetSpeedOnFace(Direction side, float speed)
 	{
 		if (HasConnectionOnSide(side))
 			this.speed = speed;
 	}
 
 	@Override
-	public void SetTorqueOnFace(EnumFacing side, float torque)
+	public void SetTorqueOnFace(Direction side, float torque)
 	{
 		if (HasConnectionOnSide(side))
 			this.torque = torque;
@@ -166,7 +166,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 		UpdateMotor();
 
 		markDirty();
-		IBlockState state2 = world.getBlockState(pos);
+		BlockState state2 = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state2, state2, 3);
 	}
 
@@ -177,7 +177,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound)
+	public void readFromNBT(CompoundNBT compound)
 	{
 		super.readFromNBT(compound);
 		energyProvided = compound.getFloat("energyProvided");
@@ -186,7 +186,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public CompoundNBT writeToNBT(CompoundNBT compound)
 	{
 		super.writeToNBT(compound);
 		compound.setFloat("energyProvided", energyProvided);
@@ -211,9 +211,9 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -222,21 +222,21 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return (T) this;

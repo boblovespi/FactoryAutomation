@@ -2,9 +2,9 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.common.Optional;
 import vazkii.patchouli.api.IStateMatcher;
 
@@ -19,12 +19,12 @@ public class MultiblockPart implements IStateMatcher
 	public static final MultiblockPart EMPTY = new MultiblockPart(Blocks.AIR, false);
 
 	private Block baseBlock;
-	private Predicate<NBTTagCompound> blockTagPredicate;
-	private Predicate<IBlockState> statePredicate;
+	private Predicate<CompoundNBT> blockTagPredicate;
+	private Predicate<BlockState> statePredicate;
 	private boolean mustBeAirBlock;
 
-	public MultiblockPart(Block baseBlock, Predicate<NBTTagCompound> blockTagPredicate,
-			Predicate<IBlockState> statePredicate, boolean mustBeAirBlock)
+	public MultiblockPart(Block baseBlock, Predicate<CompoundNBT> blockTagPredicate,
+			Predicate<BlockState> statePredicate, boolean mustBeAirBlock)
 	{
 		this.baseBlock = baseBlock;
 		this.blockTagPredicate = blockTagPredicate;
@@ -65,12 +65,12 @@ public class MultiblockPart implements IStateMatcher
 		return baseBlock;
 	}
 
-	public boolean MatchesNBT(NBTTagCompound compound)
+	public boolean MatchesNBT(CompoundNBT compound)
 	{
 		return blockTagPredicate.test(compound);
 	}
 
-	public boolean MatchesBlockstate(IBlockState state)
+	public boolean MatchesBlockstate(BlockState state)
 	{
 		return MatchesBlock(state.getBlock()) && statePredicate.test(state);
 	}
@@ -86,13 +86,13 @@ public class MultiblockPart implements IStateMatcher
 	}
 
 	@Override
-	public IBlockState getDisplayedState()
+	public BlockState getDisplayedState()
 	{
 		return baseBlock.getDefaultState();
 	}
 
 	@Override
-	public Predicate<IBlockState> getStatePredicate()
+	public Predicate<BlockState> getStatePredicate()
 	{
 		return this::MatchesBlockstate;
 	}

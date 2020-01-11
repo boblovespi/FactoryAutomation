@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.resource.Ore;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -47,7 +47,7 @@ public class SwampFloorOreGenerator extends WorldGenerator
 		else
 			type = Ore.Grade.RICH;
 
-		IBlockState toGen = ore.GetBlock(type).getDefaultState();
+		BlockState toGen = ore.GetBlock(type).getDefaultState();
 
 		for (int y = -10; y < 10; y++)
 		{

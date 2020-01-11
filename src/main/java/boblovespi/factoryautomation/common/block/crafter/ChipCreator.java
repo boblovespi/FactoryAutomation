@@ -1,19 +1,21 @@
 package boblovespi.factoryautomation.common.block.crafter;
 
-import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
+import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -39,28 +41,19 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 	 */
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createNewTileEntity(IBlockReader unused)
 	{
 		return new TEBasicCircuitCreator();
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
-		if (!worldIn.isRemote)
-			playerIn.openGui(
-					FactoryAutomation.instance, GuiHandler.GuiID.CHIP_CREATOR.id, worldIn, pos.getX(),
-					pos.getY(), pos.getZ());
+		if (!world.isRemote && player instanceof ServerPlayerEntity)
+			// playerIn.gui(FactoryAutomation.instance, GuiHandler.GuiID.CHIP_CREATOR.id, worldIn, pos.getX(), pos.getY(),
+			//		pos.getZ());
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
 		return true;
-	}
-
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
-	 */
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
 	}
 }

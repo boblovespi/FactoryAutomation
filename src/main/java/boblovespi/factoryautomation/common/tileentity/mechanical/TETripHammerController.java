@@ -6,13 +6,13 @@ import boblovespi.factoryautomation.api.recipe.TripHammerRecipe;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
@@ -53,7 +53,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	@Override
 	public void onLoad()
 	{
-		EnumFacing dir = world.getBlockState(pos).getValue(FACING);
+		Direction dir = world.getBlockState(pos).getValue(FACING);
 		mechanicalUser.SetSides(EnumSet.of(dir.rotateY(), dir.rotateYCCW()));
 	}
 
@@ -113,7 +113,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	 * @return the capability implementation which to use
 	 */
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
+	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		if (offset[0] == 5 && offset[1] == 1 && offset[2] == 0 && side.getAxis() == world.getBlockState(pos)
 																						 .getValue(FACING).rotateY()
@@ -169,12 +169,12 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 				}
 				markDirty();
 			}
-			IBlockState state = world.getBlockState(pos);
-			EnumFacing facing = state.getValue(FACING);
+			BlockState state = world.getBlockState(pos);
+			Direction facing = state.getValue(FACING);
 
 			BlockPos pos2 = MultiblockHelper.AddWithRotation(pos, 5, 1, 0, facing);
-			EnumFacing rotateY = facing.rotateY();
-			EnumFacing rotateYCCW = facing.rotateYCCW();
+			Direction rotateY = facing.rotateY();
+			Direction rotateYCCW = facing.rotateYCCW();
 			TileEntity teCW = world.getTileEntity(pos2.offset(rotateY, 1));
 			TileEntity teCCW = world.getTileEntity(pos2.offset(rotateYCCW, 1));
 
@@ -191,7 +191,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	public void readFromNBT(CompoundNBT nbt)
 	{
 		super.readFromNBT(nbt);
 
@@ -202,7 +202,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+	public CompoundNBT writeToNBT(CompoundNBT nbt)
 	{
 		nbt.setTag("inventory", itemHandler.serializeNBT());
 		nbt.setTag("mechanicalUser", mechanicalUser.WriteToNBT());
@@ -220,17 +220,17 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -239,7 +239,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -247,7 +247,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}

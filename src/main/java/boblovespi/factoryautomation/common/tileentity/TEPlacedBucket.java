@@ -1,11 +1,11 @@
 package boblovespi.factoryautomation.common.tileentity;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -29,21 +29,21 @@ public class TEPlacedBucket extends TileEntity
 			protected void onContentsChanged()
 			{
 				markDirty();
-				IBlockState state = world.getBlockState(pos);
+				BlockState state = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state, state, 3);
 			}
 		};
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public CompoundNBT writeToNBT(CompoundNBT compound)
 	{
 		handler.writeToNBT(compound);
 		return super.writeToNBT(compound);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound)
+	public void readFromNBT(CompoundNBT compound)
 	{
 		super.readFromNBT(compound);
 		handler.readFromNBT(compound);
@@ -56,17 +56,17 @@ public class TEPlacedBucket extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -75,7 +75,7 @@ public class TEPlacedBucket extends TileEntity
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -83,16 +83,16 @@ public class TEPlacedBucket extends TileEntity
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
-		return (facing == EnumFacing.UP && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+		return (facing == Direction.UP && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
-		if (facing == EnumFacing.UP && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+		if (facing == Direction.UP && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 			return (T) handler;
 		return super.getCapability(capability, facing);
 	}

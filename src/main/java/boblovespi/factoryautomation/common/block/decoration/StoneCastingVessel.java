@@ -1,25 +1,29 @@
 package boblovespi.factoryautomation.common.block.decoration;
 
-import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -30,16 +34,16 @@ import static boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCru
  */
 public class StoneCastingVessel extends FABaseBlock
 {
-	public static final PropertyEnum<CastingVesselStates> MOLD = PropertyEnum.create("mold", CastingVesselStates.class);
+	public static final EnumProperty<CastingVesselStates> MOLD = EnumProperty.create("mold", CastingVesselStates.class);
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 0.5d, 1);
 
 	public StoneCastingVessel()
 	{
-		super(Material.ROCK, "stone_casting_vessel", FAItemGroups.metallurgy);
-		setDefaultState(getDefaultState().withProperty(MOLD, CastingVesselStates.EMPTY));
+		super("stone_casting_vessel", false,
+				Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
+						  .harvestTool(ToolType.PICKAXE), new Item.Properties().group(FAItemGroups.primitive));
+		setDefaultState(stateContainer.getBaseState().with(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
-		setHardness(1.5f);
-		setHarvestLevel("pickaxe", 0);
 	}
 
 	@Override
@@ -49,71 +53,48 @@ public class StoneCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, MOLD);
+		builder.add(MOLD);
 	}
 
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-
-	public boolean isFullCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
 
-	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	public boolean isFullCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-	{
-		return BOUNDING_BOX;
-	}
-
-	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEStoneCastingVessel();
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(MOLD, CastingVesselStates.values()[meta]);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(MOLD).ordinal();
 	}
 
 	/**
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
 		{
-			if (player.getHeldItem(hand).getItem() == Items.STICK)
+			if (player.getHeldItem(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity)
 			{
-				player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_CASTING_VESSEL.id, world, pos.getX(),
-						pos.getY(), pos.getZ());
+				// player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_CASTING_VESSEL.id, world, pos.getX(),
+				// 		pos.getY(), pos.getZ());
+				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
 			} else
 			{
 				TileEntity te = world.getTileEntity(pos);

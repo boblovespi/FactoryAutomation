@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.api.energy.electricity;
 
 import boblovespi.factoryautomation.common.util.DimLocation;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -35,7 +35,7 @@ public class EnergyConnection_
 	}
 
 	@Nullable
-	public static EnergyConnection_ FromNBT(NBTTagCompound tag, World world)
+	public static EnergyConnection_ FromNBT(CompoundNBT tag, World world)
 	{
 		EnergyConnection_ en = new EnergyConnection_();
 		DimLocation loc1 = NBTHelper.GetLocationTag(tag, "sourceLoc");
@@ -79,9 +79,9 @@ public class EnergyConnection_
 		return en;
 	}
 
-	public NBTTagCompound ToNBT()
+	public CompoundNBT ToNBT()
 	{
-		NBTTagCompound tag = new NBTTagCompound();
+		CompoundNBT tag = new CompoundNBT();
 		NBTHelper.SetLocationTag(tag, "sourceLoc",
 								 source.GetTe().getWorld().getWorldType()
 									   .getId(), source.GetTe().getPos().getX(),

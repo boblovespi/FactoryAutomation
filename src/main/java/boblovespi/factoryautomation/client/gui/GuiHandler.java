@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.common.container.*;
 import boblovespi.factoryautomation.common.container.workbench.ContainerWorkbench;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
@@ -24,7 +24,7 @@ public class GuiHandler implements IGuiHandler
 {
 	@Nullable
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+	public Object getServerGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z)
 	{
 		if (ID < GuiID.values().length && ID >= 0)
 		{
@@ -51,7 +51,7 @@ public class GuiHandler implements IGuiHandler
 
 	@Nullable
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+	public Object getClientGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z)
 	{
 		if (ID < GuiID.values().length && ID >= 0)
 		{

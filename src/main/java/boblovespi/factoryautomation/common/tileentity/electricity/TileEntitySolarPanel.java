@@ -4,12 +4,12 @@ import boblovespi.factoryautomation.api.energy.electricity.EnergyConnection_;
 import boblovespi.factoryautomation.api.energy.electricity.EnergyNetwork_;
 import boblovespi.factoryautomation.api.energy.electricity.IProducesEnergy_;
 import boblovespi.factoryautomation.api.energy.electricity.InternalEnergyStorage;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
@@ -150,17 +150,17 @@ public class TileEntitySolarPanel extends TileEntity
 
 		// energyConnections.forEach(EnergyConnection_::Update);
 		markDirty();
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound)
+	public void readFromNBT(CompoundNBT compound)
 	{
 		super.readFromNBT(compound);
 		energyProduction = compound.getFloat("energyProduction");
 		energyUsed = compound.getFloat("energyUsed");
-		//		NBTTagCompound nbt = compound.getCompoundTag("connections");
+		//		CompoundNBT nbt = compound.getCompoundTag("connections");
 		//		for (int i = 0; i < nbt.getSize(); i++)
 		//		{
 		//			energyConnections.add(NBTHelper.GetEnergyConnection(
@@ -169,12 +169,12 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public CompoundNBT writeToNBT(CompoundNBT compound)
 	{
 		super.writeToNBT(compound);
 		compound.setFloat("energyProduction", energyProduction);
 		compound.setFloat("energyUsed", energyUsed);
-		//		NBTTagCompound nbt = new NBTTagCompound();
+		//		CompoundNBT nbt = new CompoundNBT();
 		//		for (int i = 0; i < energyConnections.size(); i++)
 		//		{
 		//			nbt.setTag(String.valueOf(i), energyConnections.get(i).ToNBT());
@@ -199,22 +199,22 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	/**
-	 * Gets a {@link NBTTagCompound} that can be used to store custom data for this tile entity.
+	 * Gets a {@link CompoundNBT} that can be used to store custom data for this tile entity.
 	 * It will be written, and read from disc, so it persists over world saves.
 	 *
 	 * @return A compound tag for custom data
 	 */
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
 	public boolean hasCapability(Capability<?> capability,
-			@Nullable EnumFacing facing)
+			@Nullable Direction facing)
 	{
 		if (capability == CapabilityEnergy.ENERGY)
 			return true;
@@ -224,7 +224,7 @@ public class TileEntitySolarPanel extends TileEntity
 	@Nullable
 	@Override
 	public <T> T getCapability(Capability<T> capability,
-			@Nullable EnumFacing facing)
+			@Nullable Direction facing)
 	{
 		if (capability == CapabilityEnergy.ENERGY)
 			return (T) energyStorage;

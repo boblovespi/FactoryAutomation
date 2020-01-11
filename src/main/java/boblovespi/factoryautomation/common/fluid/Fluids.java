@@ -1,13 +1,13 @@
 package boblovespi.factoryautomation.common.fluid;
 
+import net.minecraft.fluid.Fluid;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 /**
  * Created by Willi on 12/29/2017.
+ * TODO: figure out fluids
  */
 public class Fluids
 {

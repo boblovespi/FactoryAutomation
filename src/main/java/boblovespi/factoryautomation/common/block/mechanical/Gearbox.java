@@ -10,13 +10,13 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +35,7 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	public Gearbox()
 	{
 		super(Material.IRON, "gearbox", null);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.WEST));
+		setDefaultState(blockState.getBaseState().withProperty(FACING, Direction.WEST));
 		TileEntityHandler.tiles.add(TEGearbox.class);
 	}
 
@@ -53,7 +53,7 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	}
 
 	/**
-	 * Gets the {@link IBlockState} to place
+	 * Gets the {@link BlockState} to place
 	 *
 	 * @param world  The world the block is being placed in
 	 * @param pos    The position the block is being placed at
@@ -67,7 +67,7 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	 * @return The state to be placed in the world
 	 */
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return blockState.getBaseState().withProperty(FACING, facing);
@@ -79,7 +79,7 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	 * @param state
 	 */
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(FACING).ordinal();
 	}
@@ -90,9 +90,9 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	 * @param meta
 	 */
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(FACING, EnumFacing.values()[meta]);
+		return getDefaultState().withProperty(FACING, Direction.values()[meta]);
 	}
 
 	@Override
@@ -105,8 +105,8 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
+			EnumHand hand, Direction facing, float hitX, float hitY, float hitZ)
 	{
 		ItemStack stack = playerIn.getHeldItem(hand);
 
@@ -163,7 +163,7 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
 	 */
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
@@ -179,7 +179,7 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 	 * @return True if the block is a full cube
 	 */
 	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
 	{
 		return false;
 	}

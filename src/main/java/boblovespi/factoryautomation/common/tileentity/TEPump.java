@@ -4,9 +4,9 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
@@ -43,7 +43,7 @@ public class TEPump extends TileEntity implements ITickable
 			return;
 
 		timer -= transferSpeed * mechanicalUser.GetSpeed() / 10f;
-		EnumFacing dir = world.getBlockState(pos).getValue(FACING);
+		Direction dir = world.getBlockState(pos).getValue(FACING);
 		if (timer < 0)
 		{
 			TileEntity pushTo = world.getTileEntity(pos.offset(dir.getOpposite()));
@@ -75,9 +75,9 @@ public class TEPump extends TileEntity implements ITickable
 		}
 
 		boolean hasConnection = false;
-		for (EnumFacing facing : mechanicalUser.GetSides())
+		for (Direction facing : mechanicalUser.GetSides())
 		{
-			EnumFacing opposite = facing.getOpposite();
+			Direction opposite = facing.getOpposite();
 			TileEntity te = world.getTileEntity(pos.offset(facing));
 			if (TEHelper.IsMechanicalFace(te, opposite))
 			{
@@ -89,8 +89,8 @@ public class TEPump extends TileEntity implements ITickable
 		}
 		if (!hasConnection)
 		{
-			mechanicalUser.SetTorqueOnFace(EnumFacing.getFront((dir.getIndex() + 2) % 6), 0);
-			mechanicalUser.SetSpeedOnFace(EnumFacing.getFront((dir.getIndex() + 2) % 6), 0);
+			mechanicalUser.SetTorqueOnFace(Direction.getFront((dir.getIndex() + 2) % 6), 0);
+			mechanicalUser.SetSpeedOnFace(Direction.getFront((dir.getIndex() + 2) % 6), 0);
 		}
 		markDirty();
 	}
@@ -98,12 +98,12 @@ public class TEPump extends TileEntity implements ITickable
 	@Override
 	public void onLoad()
 	{
-		EnumFacing dir = world.getBlockState(pos).getValue(FACING);
+		Direction dir = world.getBlockState(pos).getValue(FACING);
 		mechanicalUser.SetSides(EnumSet.complementOf(EnumSet.of(dir, dir.getOpposite())));
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY && facing != null && mechanicalUser
 				.GetSides().contains(facing))
@@ -113,7 +113,7 @@ public class TEPump extends TileEntity implements ITickable
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY && facing != null && mechanicalUser
 				.GetSides().contains(facing))
@@ -122,7 +122,7 @@ public class TEPump extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		timer = tag.getFloat("timer");
@@ -130,7 +130,7 @@ public class TEPump extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setFloat("timer", timer);
 		tag.setTag("mechanicalUser", mechanicalUser.WriteToNBT());

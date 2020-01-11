@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -98,7 +98,7 @@ public abstract class TEMachine extends TileEntity implements ITickable
 
 		/* IMPORTANT */
 		markDirty();
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
@@ -107,10 +107,10 @@ public abstract class TEMachine extends TileEntity implements ITickable
 
 	}
 
-	protected abstract void ReadCustomNBT(NBTTagCompound tag);
+	protected abstract void ReadCustomNBT(CompoundNBT tag);
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		currentProgress = tag.getFloat("currentProgress");
@@ -119,10 +119,10 @@ public abstract class TEMachine extends TileEntity implements ITickable
 		ReadCustomNBT(tag);
 	}
 
-	protected abstract void WriteCustomNBT(NBTTagCompound tag);
+	protected abstract void WriteCustomNBT(CompoundNBT tag);
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		WriteCustomNBT(tag);
 		tag.setFloat("currentProgress", currentProgress);
@@ -139,17 +139,17 @@ public abstract class TEMachine extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -158,7 +158,7 @@ public abstract class TEMachine extends TileEntity implements ITickable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -166,7 +166,7 @@ public abstract class TEMachine extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}

@@ -3,14 +3,14 @@ package boblovespi.factoryautomation.client.tesr;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -26,8 +26,8 @@ public class TESRPowerShaft extends TileEntitySpecialRenderer<TEPowerShaft>
 			return;
 
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
-		IBlockState state = te.getWorld().getBlockState(te.getPos()).withProperty(PowerShaft.IS_TESR, true);
-		EnumFacing.Axis axis = state.getValue(PowerShaft.AXIS);
+		BlockState state = te.getWorld().getBlockState(te.getPos()).withProperty(PowerShaft.IS_TESR, true);
+		Direction.Axis axis = state.getValue(PowerShaft.AXIS);
 		float xD = 0, yD = 0, zD = 0;
 		switch (axis)
 		{

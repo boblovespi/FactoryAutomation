@@ -1,19 +1,19 @@
 package boblovespi.factoryautomation.api.energy.mechanical;
 
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 
 /**
  * Created by Willi on 1/15/2018.
  */
 public interface IMechanicalUser
 {
-	boolean HasConnectionOnSide(EnumFacing side);
+	boolean HasConnectionOnSide(Direction side);
 
-	float GetSpeedOnFace(EnumFacing side);
+	float GetSpeedOnFace(Direction side);
 
-	float GetTorqueOnFace(EnumFacing side);
+	float GetTorqueOnFace(Direction side);
 
-	void SetSpeedOnFace(EnumFacing side, float speed);
+	void SetSpeedOnFace(Direction side, float speed);
 
-	void SetTorqueOnFace(EnumFacing side, float torque);
+	void SetTorqueOnFace(Direction side, float torque);
 }

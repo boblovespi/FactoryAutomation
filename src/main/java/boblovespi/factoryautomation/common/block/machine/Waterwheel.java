@@ -8,29 +8,29 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TEWaterwheel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.EnumProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-import static net.minecraft.util.EnumFacing.AxisDirection.POSITIVE;
+import static net.minecraft.util.Direction.AxisDirection.POSITIVE;
 
 /**
  * Created by Willi on 6/23/2019.
  */
 public class Waterwheel extends FABaseBlock
 {
-	public static final PropertyEnum<Axis> AXIS = PropertyEnum.create("axis", Axis.class, Axis::isHorizontal);
+	public static final EnumProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class, Axis::isHorizontal);
 	public static final PropertyBool MULTIBLOCK_COMPLETE = PropertyBool.create("multiblock_complete");
 
 	public Waterwheel()
@@ -49,34 +49,34 @@ public class Waterwheel extends FABaseBlock
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(AXIS, (meta & 1) == 0 ? Axis.X : Axis.Z)
 								.withProperty(MULTIBLOCK_COMPLETE, (meta & 2) == 2);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return (state.getValue(AXIS) == Axis.X ? 0 : 1) + (state.getValue(MULTIBLOCK_COMPLETE) ? 2 : 0);
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getDefaultState().withProperty(AXIS, placer.getHorizontalFacing().getAxis());
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state)
+	public TileEntity createTileEntity(World world, BlockState state)
 	{
 		return new TEWaterwheel();
 	}
@@ -85,8 +85,8 @@ public class Waterwheel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
+			Direction facing, float hitX, float hitY, float hitZ)
 	{
 		if (!world.isRemote)
 		{
@@ -104,7 +104,7 @@ public class Waterwheel extends FABaseBlock
 		return true;
 	}
 
-	private boolean MatchesStair(IBlockState state, EnumFacing dir, BlockStairs.EnumHalf half)
+	private boolean MatchesStair(BlockState state, Direction dir, BlockStairs.EnumHalf half)
 	{
 		return state.getBlock() == Blocks.OAK_STAIRS && state.getValue(BlockStairs.FACING) == dir.getOpposite()
 				&& state.getValue(BlockStairs.HALF) == half;
@@ -113,10 +113,10 @@ public class Waterwheel extends FABaseBlock
 	private boolean IsComplete(World world, BlockPos pos, Axis axis)
 	{
 		if (MultiblockHelper
-				.IsStructureComplete(world, pos, "waterwheel", EnumFacing.getFacingFromAxis(POSITIVE, axis)))
+				.IsStructureComplete(world, pos, "waterwheel", Direction.getFacingFromAxis(POSITIVE, axis)))
 		{
-			EnumFacing back = EnumFacing.getFacingFromAxis(POSITIVE, axis).rotateYCCW();
-			EnumFacing front = EnumFacing.getFacingFromAxis(POSITIVE, axis).rotateY();
+			Direction back = Direction.getFacingFromAxis(POSITIVE, axis).rotateYCCW();
+			Direction front = Direction.getFacingFromAxis(POSITIVE, axis).rotateY();
 
 			if (!MatchesStair(world.getBlockState(pos.offset(back).up(2)), back, BlockStairs.EnumHalf.BOTTOM))
 				return false;

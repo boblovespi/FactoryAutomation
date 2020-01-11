@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.client.tesr;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.machine.Millstone;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMillstone;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 public class TESRMillstone extends TileEntitySpecialRenderer<TEMillstone>
 {
 	private IBakedModel cache = null;
-	private IBlockState state = null;
+	private BlockState state = null;
 
 	@Override
 	public void render(TEMillstone te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)

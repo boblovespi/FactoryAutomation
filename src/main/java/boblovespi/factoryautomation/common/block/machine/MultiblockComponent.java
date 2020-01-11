@@ -9,8 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -59,7 +59,7 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 	}
 
 	@Override
-	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, BlockState state, int fortune)
 	{
 		Random rand = world instanceof World ? ((World) world).rand : RANDOM;
 		TileEntity te = world.getTileEntity(pos);
@@ -76,14 +76,14 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 	}
 
 	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState state)
+	public void breakBlock(World world, BlockPos pos, BlockState state)
 	{
 
 		super.breakBlock(world, pos, state);
 	}
 
 	@Override
-	public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+	public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player)
 	{
 		//		Log.LogInfo("something broke!");
 		//		Log.LogInfo("blockPos", pos);
@@ -116,13 +116,13 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
 	 */
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state)
+	public boolean isFullCube(BlockState state)
 	{
 		return false;
 	}

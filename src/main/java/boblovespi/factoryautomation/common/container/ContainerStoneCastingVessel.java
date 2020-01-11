@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.container;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -35,7 +35,7 @@ public class ContainerStoneCastingVessel extends Container
 	 * Determines whether supplied player can use this container
 	 */
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn)
+	public boolean canInteractWith(PlayerEntity playerIn)
 	{
 		return !playerIn.isSpectator();
 	}

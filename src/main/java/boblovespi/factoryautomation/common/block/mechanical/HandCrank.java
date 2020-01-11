@@ -8,11 +8,11 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -40,13 +40,13 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 	}
 
 	/**
-	 * Gets the {@link IBlockState} to place
+	 * Gets the {@link BlockState} to place
 	 */
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
-		return facing == EnumFacing.DOWN ? getDefaultState().withProperty(INVERTED, true) : getDefaultState();
+		return facing == Direction.DOWN ? getDefaultState().withProperty(INVERTED, true) : getDefaultState();
 	}
 
 	/**
@@ -63,8 +63,8 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
+			Direction facing, float hitX, float hitY, float hitZ)
 	{
 		if (!world.isRemote)
 		{
@@ -82,19 +82,19 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state)
+	public boolean isFullCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return state.getValue(INVERTED) ? BOUNDING_BOX_I : BOUNDING_BOX;
 	}
@@ -106,13 +106,13 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(INVERTED, meta == 1);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(INVERTED) ? 1 : 0;
 	}

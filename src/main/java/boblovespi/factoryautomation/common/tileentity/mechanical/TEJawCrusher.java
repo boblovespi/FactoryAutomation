@@ -7,13 +7,13 @@ import boblovespi.factoryautomation.common.block.machine.JawCrusher;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.ItemStackHandler;
@@ -41,19 +41,19 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	{
 		super("jaw_crusher", new ItemStackHandler(3));
 
-		inputs.put(EnumFacing.UP, new int[] { INPUT_SLOT });
-		inputs.put(EnumFacing.DOWN, new int[] {});
-		inputs.put(EnumFacing.WEST, new int[] {});
-		inputs.put(EnumFacing.EAST, new int[] {});
-		inputs.put(EnumFacing.NORTH, new int[] {});
-		inputs.put(EnumFacing.SOUTH, new int[] {});
+		inputs.put(Direction.UP, new int[] { INPUT_SLOT });
+		inputs.put(Direction.DOWN, new int[] {});
+		inputs.put(Direction.WEST, new int[] {});
+		inputs.put(Direction.EAST, new int[] {});
+		inputs.put(Direction.NORTH, new int[] {});
+		inputs.put(Direction.SOUTH, new int[] {});
 
-		outputs.put(EnumFacing.UP, new int[] {});
-		outputs.put(EnumFacing.WEST, new int[] {});
-		outputs.put(EnumFacing.EAST, new int[] {});
-		outputs.put(EnumFacing.SOUTH, new int[] {});
-		outputs.put(EnumFacing.NORTH, new int[] {});
-		outputs.put(EnumFacing.DOWN, new int[] { OUTPUT_SLOT });
+		outputs.put(Direction.UP, new int[] {});
+		outputs.put(Direction.WEST, new int[] {});
+		outputs.put(Direction.EAST, new int[] {});
+		outputs.put(Direction.SOUTH, new int[] {});
+		outputs.put(Direction.NORTH, new int[] {});
+		outputs.put(Direction.DOWN, new int[] { OUTPUT_SLOT });
 
 	}
 
@@ -65,7 +65,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	{
 		if (world.isRemote)
 			return;
-		EnumFacing facing = world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW();
+		Direction facing = world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW();
 		TileEntity te = world.getTileEntity(pos.offset(facing));
 		if (TEHelper.IsMechanicalFace(te, facing))
 		{
@@ -126,7 +126,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 
 		markDirty();
 		/* IMPORTANT */
-		IBlockState state2 = world.getBlockState(pos);
+		BlockState state2 = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state2, state2, 3);
 	}
 
@@ -142,32 +142,32 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(EnumFacing side)
+	public boolean HasConnectionOnSide(Direction side)
 	{
 		return side == world.getBlockState(pos).getValue(JawCrusher.FACING).rotateYCCW();
 	}
 
 	@Override
-	public float GetSpeedOnFace(EnumFacing side)
+	public float GetSpeedOnFace(Direction side)
 	{
 		return HasConnectionOnSide(side) ? speed : 0;
 	}
 
 	@Override
-	public float GetTorqueOnFace(EnumFacing side)
+	public float GetTorqueOnFace(Direction side)
 	{
 		return HasConnectionOnSide(side) ? torque : 0;
 	}
 
 	@Override
-	public void SetSpeedOnFace(EnumFacing side, float speed)
+	public void SetSpeedOnFace(Direction side, float speed)
 	{
 		if (HasConnectionOnSide(side))
 			this.speed = speed;
 	}
 
 	@Override
-	public void SetTorqueOnFace(EnumFacing side, float torque)
+	public void SetTorqueOnFace(Direction side, float torque)
 	{
 		if (HasConnectionOnSide(side))
 			this.torque = torque;
@@ -184,7 +184,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	}
 
 	@Override
-	protected void ReadCustomNBT(NBTTagCompound tag)
+	protected void ReadCustomNBT(CompoundNBT tag)
 	{
 		speed = tag.getFloat("speed");
 		torque = tag.getFloat("torque");
@@ -193,7 +193,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	}
 
 	@Override
-	protected void WriteCustomNBT(NBTTagCompound tag)
+	protected void WriteCustomNBT(CompoundNBT tag)
 	{
 		tag.setFloat("speed", speed);
 		tag.setFloat("torque", torque);
@@ -220,7 +220,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return true;
@@ -229,7 +229,7 @@ public class TEJawCrusher extends FAMachine implements IMechanicalUser
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return (T) this;

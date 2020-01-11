@@ -2,12 +2,12 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
@@ -37,7 +37,7 @@ public class TEPipe extends TileEntity implements ITickable
 			protected void onContentsChanged()
 			{
 				markDirty();
-				IBlockState state = world.getBlockState(pos);
+				BlockState state = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state, state, 7);
 			}
 
@@ -68,10 +68,10 @@ public class TEPipe extends TileEntity implements ITickable
 			{
 				// we *should* have no more fluids to process after this
 				timer = -1;
-				IBlockState state = FABlocks.pipe.ToBlock().getActualState(world.getBlockState(pos), world, pos);
+				BlockState state = FABlocks.pipe.ToBlock().getActualState(world.getBlockState(pos), world, pos);
 				List<IFluidHandler> outputs = new ArrayList<>(6);
 
-				for (EnumFacing side : EnumFacing.values())
+				for (Direction side : Direction.values())
 				{
 					if (!state.getValue(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE))
 					{
@@ -113,7 +113,7 @@ public class TEPipe extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		timer = tag.getInteger("timer");
@@ -121,10 +121,10 @@ public class TEPipe extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setInteger("timer", timer);
-		tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
+		tag.setTag("tank", tank.writeToNBT(new CompoundNBT()));
 		return super.writeToNBT(tag);
 	}
 
@@ -136,17 +136,17 @@ public class TEPipe extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -155,7 +155,7 @@ public class TEPipe extends TileEntity implements ITickable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -163,14 +163,14 @@ public class TEPipe extends TileEntity implements ITickable
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		return (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 			return (T) tank;

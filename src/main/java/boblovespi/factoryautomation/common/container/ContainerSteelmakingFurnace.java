@@ -3,7 +3,7 @@ package boblovespi.factoryautomation.common.container;
 import boblovespi.factoryautomation.common.container.slot.SlotFuel;
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -68,13 +68,13 @@ public class ContainerSteelmakingFurnace extends Container
 	 * Determines whether supplied player can use this container
 	 */
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn)
+	public boolean canInteractWith(PlayerEntity playerIn)
 	{
 		return !playerIn.isSpectator();
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot)
+	public ItemStack transferStackInSlot(PlayerEntity playerIn, int fromSlot)
 	{
 		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.inventorySlots.get(fromSlot);

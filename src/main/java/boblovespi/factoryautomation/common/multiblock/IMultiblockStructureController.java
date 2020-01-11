@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.multiblock;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -15,7 +15,7 @@ public interface IMultiblockStructureController
 {
 	String GetPatternId();
 
-	default boolean IsValidStructure(World world, BlockPos pos, IBlockState state)
+	default boolean IsValidStructure(World world, BlockPos pos, BlockState state)
 	{
 		return false;
 	}

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -25,7 +25,7 @@ public class TileEntityCable extends TileEntity implements ICapabilityProvider
 	@Nullable
 	@Override
 	public <T> T getCapability(Capability<T> capability,
-			@Nullable EnumFacing facing)
+			@Nullable Direction facing)
 	{
 		if (capability == CapabilityEnergy.ENERGY)
 			return (T) energyStorage;

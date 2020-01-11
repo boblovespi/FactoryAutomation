@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.api.pollution;
 
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -24,18 +24,18 @@ public class CapabilityPollutedChunk
 		{
 			@Nullable
 			@Override
-			public NBTBase writeNBT(Capability<IPollutedChunk> capability, IPollutedChunk instance, EnumFacing side)
+			public NBTBase writeNBT(Capability<IPollutedChunk> capability, IPollutedChunk instance, Direction side)
 			{
-				NBTTagCompound nbtBase = new NBTTagCompound();
+				CompoundNBT nbtBase = new CompoundNBT();
 				nbtBase.setFloat("pollution", instance.GetPollution());
 				return nbtBase;
 			}
 
 			@Override
-			public void readNBT(Capability<IPollutedChunk> capability, IPollutedChunk instance, EnumFacing side,
+			public void readNBT(Capability<IPollutedChunk> capability, IPollutedChunk instance, Direction side,
 					NBTBase nbt)
 			{
-				NBTTagCompound compound = (NBTTagCompound) nbt;
+				CompoundNBT compound = (CompoundNBT) nbt;
 				if (instance instanceof PollutedChunk)
 				{
 					((PollutedChunk) instance).SetPollution(compound.getFloat("pollution"));

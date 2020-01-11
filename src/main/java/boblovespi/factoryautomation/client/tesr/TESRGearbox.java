@@ -6,7 +6,7 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox.GearType;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
@@ -34,9 +34,9 @@ public class TESRGearbox extends TileEntitySpecialRenderer<TEGearbox>
 		float outToRotate = te.rotationOut + partialTicks * te.GetSpeedOut();
 		float topToRotate = te.rotationTop + partialTicks * te.speedTop;
 
-		IBlockState state = te.getWorld().getBlockState(te.getPos());
-		EnumFacing facing = state.getValue(Gearbox.FACING);
-		EnumFacing.Axis axis = facing.getAxis();
+		BlockState state = te.getWorld().getBlockState(te.getPos());
+		Direction facing = state.getValue(Gearbox.FACING);
+		Direction.Axis axis = facing.getAxis();
 		float xD = 0, yD = 0, zD = 1;
 		float m = -1;
 		float n = 1;
@@ -106,10 +106,10 @@ public class TESRGearbox extends TileEntitySpecialRenderer<TEGearbox>
 
 	}
 
-	private void RenderAxle(TEGearbox te, Vec3d pos, Vec3d rotVec, float length, float rotation, EnumFacing facing)
+	private void RenderAxle(TEGearbox te, Vec3d pos, Vec3d rotVec, float length, float rotation, Direction facing)
 	{
-		IBlockState state = FABlocks.powerShaft.ToBlock().getDefaultState()
-											   .withProperty(PowerShaft.AXIS, EnumFacing.Axis.Z)
+		BlockState state = FABlocks.powerShaft.ToBlock().getDefaultState()
+											   .withProperty(PowerShaft.AXIS, Direction.Axis.Z)
 											   .withProperty(PowerShaft.IS_TESR, true);
 
 		GlStateManager.pushMatrix();

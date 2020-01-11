@@ -10,14 +10,14 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.EnumProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 public class SteelmakingFurnaceController extends FABaseBlock
 		implements ITileEntityProvider, IMultiblockStructureController
 {
-	public static final IProperty<Axis> AXIS = PropertyEnum.create("axis", Axis.class, Axis.X, Axis.Z);
+	public static final IProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class, Axis.X, Axis.Z);
 	public static final PropertyBool MULTIBLOCK_COMPLETE = PropertyBool.create("multiblock_complete");
 
 	public SteelmakingFurnaceController()
@@ -76,15 +76,15 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
+			EnumHand hand, Direction facing, float hitX, float hitY, float hitZ)
 	{
 		if (!worldIn.isRemote)
 		{
 			if (MultiblockHelper.IsStructureComplete(worldIn, pos, GetPatternId(),
-					worldIn.getBlockState(pos).getValue(AXIS) == Axis.X ? EnumFacing.WEST : EnumFacing.NORTH) /*|| MultiblockHelper
+					worldIn.getBlockState(pos).getValue(AXIS) == Axis.X ? Direction.WEST : Direction.NORTH) /*|| MultiblockHelper
 					.IsStructureComplete(worldIn, pos, GetPatternId(),
-										 EnumFacing.NORTH)*/)
+										 Direction.NORTH)*/)
 			{
 				TileEntity te = worldIn.getTileEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
@@ -102,7 +102,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return this.getDefaultState().withProperty(AXIS, placer.getHorizontalFacing().getAxis())
@@ -110,14 +110,14 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(AXIS, (meta & 1) == 1 ? Axis.X : Axis.Z)
 								.withProperty(MULTIBLOCK_COMPLETE, (meta & 2) == 2);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return (state.getValue(AXIS) == Axis.X ? 1 : 0) | (state.getValue(MULTIBLOCK_COMPLETE) ? 2 : 0);
 	}

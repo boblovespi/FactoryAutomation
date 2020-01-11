@@ -3,13 +3,13 @@ package boblovespi.factoryautomation.common.tileentity;
 import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.ItemStackHandler;
@@ -89,14 +89,14 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 		markDirty();
 
 		/* IMPORTANT */
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
-		if (capability == HEAT_USER_CAPABILITY && facing == EnumFacing.UP)
+		if (capability == HEAT_USER_CAPABILITY && facing == Direction.UP)
 			return true;
 		if (capability == ITEM_HANDLER_CAPABILITY)
 			return true;
@@ -105,9 +105,9 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
-		if (capability == HEAT_USER_CAPABILITY && facing == EnumFacing.UP)
+		if (capability == HEAT_USER_CAPABILITY && facing == Direction.UP)
 			return (T) heatUser;
 		if (capability == ITEM_HANDLER_CAPABILITY)
 			return (T) inventory;
@@ -130,7 +130,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		burnTime = tag.getInteger("burnTime");
 		maxBurnTime = tag.getInteger("maxBurnTime");
@@ -143,7 +143,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setInteger("burnTime", burnTime);
 		tag.setInteger("maxBurnTime", maxBurnTime);
@@ -163,17 +163,17 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -182,7 +182,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -190,7 +190,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}

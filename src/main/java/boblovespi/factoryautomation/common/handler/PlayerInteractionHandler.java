@@ -2,12 +2,12 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -29,7 +29,7 @@ public class PlayerInteractionHandler
 		ItemStack stack = event.getItemStack();
 		Item item = stack.getItem();
 		BlockPos pos = event.getPos();
-		EnumFacing facing = event.getFace();
+		Direction facing = event.getFace();
 		World world = event.getWorld();
 
 		if (item == Items.BUCKET && event.getEntityPlayer().isSneaking())
@@ -51,18 +51,18 @@ public class PlayerInteractionHandler
 	{
 		if (!event.getWorld().isRemote)
 		{
-			if (event.getEntity() instanceof EntityPlayer && !(event.getEntity() instanceof FakePlayer)) // is player
+			if (event.getEntity() instanceof PlayerEntity && !(event.getEntity() instanceof FakePlayer)) // is player
 			{
-				EntityPlayer player = (EntityPlayer) event.getEntity();
-				if (!player.getEntityData().hasKey(EntityPlayer.PERSISTED_NBT_TAG))
-					player.getEntityData().setTag(EntityPlayer.PERSISTED_NBT_TAG, new NBTTagCompound());
+				PlayerEntity player = (PlayerEntity) event.getEntity();
+				if (!player.getEntityData().hasKey(PlayerEntity.PERSISTED_NBT_TAG))
+					player.getEntityData().setTag(PlayerEntity.PERSISTED_NBT_TAG, new CompoundNBT());
 
-				if (!player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).hasKey("faGuidebookReceived")
+				if (!player.getEntityData().getCompoundTag(PlayerEntity.PERSISTED_NBT_TAG).hasKey("faGuidebookReceived")
 						&& Loader.isModLoaded("patchouli"))
 				{
 					player.addItemStackToInventory(ModCompatHandler.GetGuidebook());
 
-					player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG)
+					player.getEntityData().getCompoundTag(PlayerEntity.PERSISTED_NBT_TAG)
 						  .setBoolean("faGuidebookReceived", true);
 				}
 			}

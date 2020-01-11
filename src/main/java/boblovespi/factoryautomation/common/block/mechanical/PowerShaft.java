@@ -5,13 +5,13 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.EnumProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
  */
 public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 {
-	public static PropertyEnum<Axis> AXIS = PropertyEnum.create("facing", Axis.class);
+	public static EnumProperty<Axis> AXIS = EnumProperty.create("facing", Axis.class);
 	public static PropertyBool IS_TESR = PropertyBool.create("is_tesr");
 
 	public static AxisAlignedBB[] AABB = new AxisAlignedBB[] {
@@ -41,7 +41,7 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return AABB[GetAxisId(state.getValue(AXIS))];
 	}
@@ -80,7 +80,7 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 	 * @param meta
 	 */
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
 		switch (meta)
 		{
@@ -101,7 +101,7 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 	 * @param state
 	 */
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return GetAxisId(state.getValue(AXIS));
 	}
@@ -113,27 +113,27 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World worldIn, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer)
 	{
 		return this.getDefaultState().withProperty(AXIS, facing.getAxis());
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return this.getDefaultState().withProperty(AXIS, facing.getAxis());
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state)
+	public boolean isFullCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}

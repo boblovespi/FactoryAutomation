@@ -10,13 +10,13 @@ import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.EnumProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 public class StoneCrucible extends FABaseBlock
 {
 	public static final PropertyBool MULTIBLOCK_COMPLETE = PropertyBool.create("multiblock_complete");
-	public static final PropertyEnum<EnumFacing> FACING = BlockHorizontal.FACING;
+	public static final EnumProperty<Direction> FACING = BlockHorizontal.FACING;
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(2 / 16d, 0, 2 / 16d, 14 / 16d, 1, 14 / 16d);
 
 	public StoneCrucible()
@@ -43,37 +43,37 @@ public class StoneCrucible extends FABaseBlock
 		setHarvestLevel("pickaxe", 0);
 	}
 
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
 
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	public boolean isFullCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
+	{
+		return false;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return BOUNDING_BOX;
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state)
+	public TileEntity createTileEntity(World world, BlockState state)
 	{
 		return new TEStoneCrucible();
 	}
@@ -85,14 +85,14 @@ public class StoneCrucible extends FABaseBlock
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
-		return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 3))
+		return getDefaultState().withProperty(FACING, Direction.getHorizontal(meta & 3))
 								.withProperty(MULTIBLOCK_COMPLETE, (meta & 4) == 4);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(FACING).getHorizontalIndex() | (state.getValue(MULTIBLOCK_COMPLETE) ? 4 : 0);
 	}
@@ -101,8 +101,8 @@ public class StoneCrucible extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
+			EnumHand hand, Direction facing, float hitX, float hitY, float hitZ)
 	{
 		if (!worldIn.isRemote)
 		{
@@ -133,10 +133,10 @@ public class StoneCrucible extends FABaseBlock
 	}
 
 	/**
-	 * Gets the {@link IBlockState} to place
+	 * Gets the {@link BlockState} to place
 	 */
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
+	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
 			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().rotateYCCW());

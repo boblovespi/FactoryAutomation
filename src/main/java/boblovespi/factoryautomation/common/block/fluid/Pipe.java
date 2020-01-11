@@ -3,106 +3,76 @@ package boblovespi.factoryautomation.common.block.fluid;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEPipe;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 10/6/2018.
+ * TODO: optimize w/ manager object
  */
-public class Pipe extends FABaseBlock implements ITileEntityProvider
+public class Pipe extends FABaseBlock
 {
-	private static final PropertyEnum<Connection> WEST = PropertyEnum.create("west", Connection.class);
-	private static final PropertyEnum<Connection> EAST = PropertyEnum.create("east", Connection.class);
-	private static final PropertyEnum<Connection> SOUTH = PropertyEnum.create("south", Connection.class);
-	private static final PropertyEnum<Connection> NORTH = PropertyEnum.create("north", Connection.class);
-	private static final PropertyEnum<Connection> DOWN = PropertyEnum.create("down", Connection.class);
-	private static final PropertyEnum<Connection> UP = PropertyEnum.create("up", Connection.class);
+	private static final EnumProperty<Connection> WEST = EnumProperty.create("west", Connection.class);
+	private static final EnumProperty<Connection> EAST = EnumProperty.create("east", Connection.class);
+	private static final EnumProperty<Connection> SOUTH = EnumProperty.create("south", Connection.class);
+	private static final EnumProperty<Connection> NORTH = EnumProperty.create("north", Connection.class);
+	private static final EnumProperty<Connection> DOWN = EnumProperty.create("down", Connection.class);
+	private static final EnumProperty<Connection> UP = EnumProperty.create("up", Connection.class);
 
-	public static final PropertyEnum[] CONNECTIONS = new PropertyEnum[] { DOWN, UP, NORTH, SOUTH, WEST, EAST };
+	public static final EnumProperty[] CONNECTIONS = new EnumProperty[] { DOWN, UP, NORTH, SOUTH, WEST, EAST };
 
 	public Pipe(String name)
 	{
-		super(Material.IRON, name, CreativeTabs.DECORATIONS);
-		setDefaultState(getDefaultState().withProperty(UP, Connection.NONE).withProperty(DOWN, Connection.NONE)
-										 .withProperty(NORTH, Connection.NONE).withProperty(SOUTH, Connection.NONE)
-										 .withProperty(EAST, Connection.NONE).withProperty(WEST, Connection.NONE));
+		super(Material.IRON, name, ItemGroup.DECORATIONS);
+		setDefaultState(stateContainer.getBaseState().with(UP, Connection.NONE).with(DOWN, Connection.NONE)
+									  .with(NORTH, Connection.NONE).with(SOUTH, Connection.NONE)
+									  .with(EAST, Connection.NONE).with(WEST, Connection.NONE));
 		TileEntityHandler.tiles.add(TEPipe.class);
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, UP, DOWN, NORTH, SOUTH, EAST, WEST);
+		builder.add(CONNECTIONS);
 	}
 
-	/**
-	 * Get the actual Block state of this Block at the given position. This applies properties not visible in the
-	 * metadata, such as fence connections.
-	 */
-	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return getDefaultState().withProperty(UP, GetConnectionFor(world, pos, EnumFacing.UP))
-								.withProperty(DOWN, GetConnectionFor(world, pos, EnumFacing.DOWN))
-								.withProperty(NORTH, GetConnectionFor(world, pos, EnumFacing.NORTH))
-								.withProperty(SOUTH, GetConnectionFor(world, pos, EnumFacing.SOUTH))
-								.withProperty(EAST, GetConnectionFor(world, pos, EnumFacing.EAST))
-								.withProperty(WEST, GetConnectionFor(world, pos, EnumFacing.WEST));
-	}
-
-	private Connection GetConnectionFor(IBlockAccess world, BlockPos pos, EnumFacing side)
+	private Connection GetConnectionFor(IBlockReader world, BlockPos pos, Direction side)
 	{
 		pos = pos.offset(side);
 		if (world.getBlockState(pos).getBlock() instanceof Pipe || world.getBlockState(pos).getBlock() instanceof Pump)
 			return Connection.JOIN;
 
 		TileEntity te = world.getTileEntity(pos);
-		if (te != null && te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite()))
+		if (te != null && te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())
+							.isPresent())
 			return Connection.CONNECTOR;
 		return Connection.NONE;
 	}
 
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-
 	/**
-	 * Convert the given metadata into a BlockState for this Block
+	 * Update the provided state given the provided neighbor facing and neighbor state, returning a new state.
+	 * For example, fences make their connections to the passed in state if possible, and wet concrete powder immediately
+	 * returns its solidified counterpart.
+	 * Note that this method should ideally consider only the specific face passed in.
 	 */
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world,
+			BlockPos currentPos, BlockPos facingPos)
 	{
-		return getDefaultState();
-	}
-
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return 0;
+		return state.with(CONNECTIONS[facing.getIndex()], GetConnectionFor(world, currentPos, facing));
 	}
 
 	/**
@@ -110,9 +80,15 @@ public class Pipe extends FABaseBlock implements ITileEntityProvider
 	 */
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEPipe();
+	}
+
+	@Override
+	public boolean hasTileEntity()
+	{
+		return true;
 	}
 
 	public enum Connection implements IStringSerializable

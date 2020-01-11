@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.api.energy.mechanical;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -11,11 +11,11 @@ import java.util.Set;
  */
 public class MechanicalUser implements IMechanicalUser
 {
-	private Set<EnumFacing> sides;
+	private Set<Direction> sides;
 	private float speed;
 	private float torque;
 
-	public MechanicalUser(EnumSet<EnumFacing> sides)
+	public MechanicalUser(EnumSet<Direction> sides)
 	{
 		this.sides = sides;
 		speed = 0;
@@ -24,24 +24,24 @@ public class MechanicalUser implements IMechanicalUser
 
 	public MechanicalUser()
 	{
-		this.sides = EnumSet.noneOf(EnumFacing.class);
+		this.sides = EnumSet.noneOf(Direction.class);
 		speed = 0;
 		torque = 0;
 	}
 
-	public Set<EnumFacing> GetSides()
+	public Set<Direction> GetSides()
 	{
 		return sides;
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(EnumFacing side)
+	public boolean HasConnectionOnSide(Direction side)
 	{
 		return GetSides().contains(side);
 	}
 
 	@Override
-	public float GetSpeedOnFace(EnumFacing side)
+	public float GetSpeedOnFace(Direction side)
 	{
 		if (HasConnectionOnSide(side))
 			return speed;
@@ -49,7 +49,7 @@ public class MechanicalUser implements IMechanicalUser
 	}
 
 	@Override
-	public float GetTorqueOnFace(EnumFacing side)
+	public float GetTorqueOnFace(Direction side)
 	{
 		if (HasConnectionOnSide(side))
 			return torque;
@@ -57,14 +57,14 @@ public class MechanicalUser implements IMechanicalUser
 	}
 
 	@Override
-	public void SetSpeedOnFace(EnumFacing side, float speed)
+	public void SetSpeedOnFace(Direction side, float speed)
 	{
 		if (HasConnectionOnSide(side))
 			this.speed = speed;
 	}
 
 	@Override
-	public void SetTorqueOnFace(EnumFacing side, float torque)
+	public void SetTorqueOnFace(Direction side, float torque)
 	{
 		if (HasConnectionOnSide(side))
 			this.torque = torque;
@@ -80,21 +80,21 @@ public class MechanicalUser implements IMechanicalUser
 		return torque;
 	}
 
-	public NBTTagCompound WriteToNBT()
+	public CompoundNBT WriteToNBT()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		nbt.setFloat("speed", speed);
 		nbt.setFloat("torque", torque);
 		return nbt;
 	}
 
-	public void ReadFromNBT(NBTTagCompound tag)
+	public void ReadFromNBT(CompoundNBT tag)
 	{
 		this.speed = tag.getFloat("speed");
 		this.torque = tag.getFloat("torque");
 	}
 
-	public void SetSides(EnumSet<EnumFacing> sides)
+	public void SetSides(EnumSet<Direction> sides)
 	{
 		this.sides = sides;
 	}

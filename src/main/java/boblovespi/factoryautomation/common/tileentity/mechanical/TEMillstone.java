@@ -6,13 +6,13 @@ import boblovespi.factoryautomation.api.recipe.MillstoneRecipe;
 import boblovespi.factoryautomation.common.tileentity.TEMachine;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -36,7 +36,7 @@ public class TEMillstone extends TEMachine
 	public TEMillstone()
 	{
 		super(0);
-		mechanicalUser = new MechanicalUser(EnumSet.of(EnumFacing.DOWN));
+		mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
 	}
 
 	@Override
@@ -48,19 +48,19 @@ public class TEMillstone extends TEMachine
 		if (counter == 0)
 		{
 			TileEntity te = world.getTileEntity(pos.down());
-			EnumFacing facing = EnumFacing.UP;
+			Direction facing = Direction.UP;
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
-				mechanicalUser.SetSpeedOnFace(EnumFacing.DOWN, GetUser(te, facing).GetSpeedOnFace(facing));
-				mechanicalUser.SetTorqueOnFace(EnumFacing.DOWN, GetUser(te, facing).GetTorqueOnFace(facing));
+				mechanicalUser.SetSpeedOnFace(Direction.DOWN, GetUser(te, facing).GetSpeedOnFace(facing));
+				mechanicalUser.SetTorqueOnFace(Direction.DOWN, GetUser(te, facing).GetTorqueOnFace(facing));
 			} else
 			{
-				mechanicalUser.SetSpeedOnFace(EnumFacing.DOWN, 0);
-				mechanicalUser.SetTorqueOnFace(EnumFacing.DOWN, 0);
+				mechanicalUser.SetSpeedOnFace(Direction.DOWN, 0);
+				mechanicalUser.SetTorqueOnFace(Direction.DOWN, 0);
 			}
 
 			markDirty();
-			IBlockState state = world.getBlockState(pos);
+			BlockState state = world.getBlockState(pos);
 			world.notifyBlockUpdate(pos, state, state, 3);
 		}
 	}
@@ -117,31 +117,31 @@ public class TEMillstone extends TEMachine
 	}
 
 	@Override
-	protected void ReadCustomNBT(NBTTagCompound tag)
+	protected void ReadCustomNBT(CompoundNBT tag)
 	{
 		mechanicalUser.ReadFromNBT(tag.getCompoundTag("mechanicalUser"));
 		millstoneRecipe = MillstoneRecipe.GetRecipe(recipe);
 	}
 
 	@Override
-	protected void WriteCustomNBT(NBTTagCompound tag)
+	protected void WriteCustomNBT(CompoundNBT tag)
 	{
 		tag.setTag("mechanicalUser", mechanicalUser.WriteToNBT());
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return facing == EnumFacing.UP;
+			return facing == Direction.UP;
 		else if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return facing == EnumFacing.DOWN;
+			return facing == Direction.DOWN;
 		return false;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return (T) processingInv;
@@ -155,7 +155,7 @@ public class TEMillstone extends TEMachine
 		return mechanicalUser.GetSpeed();
 	}
 
-	public void TakeOrPlace(ItemStack item, EntityPlayer player)
+	public void TakeOrPlace(ItemStack item, PlayerEntity player)
 	{
 		if (!processingInv.getStackInSlot(0).isEmpty())
 		{
@@ -168,7 +168,7 @@ public class TEMillstone extends TEMachine
 		}
 
 		markDirty();
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 }

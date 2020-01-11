@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.api.energy.electricity;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
@@ -39,7 +39,7 @@ public class InternalEnergyStorage extends EnergyStorage
 
 	public void PushEnergy(TileEntity te, float maxPush, boolean allowPushToIUsesEnergy)
 	{
-		for (EnumFacing dir : EnumFacing.values())
+		for (Direction dir : Direction.values())
 		{
 			TileEntity te1 = te.getWorld().getTileEntity(te.getPos().offset(dir));
 			if (te1 != null && (!(te1 instanceof IUsesEnergy_ || te1 instanceof IUsesEnergy) || allowPushToIUsesEnergy))

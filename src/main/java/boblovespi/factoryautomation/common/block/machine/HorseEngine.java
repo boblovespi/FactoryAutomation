@@ -5,14 +5,14 @@ import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHorseEngine;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.EnumProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
  */
 public class HorseEngine extends FABaseBlock
 {
-	public static PropertyEnum<Part> PART = PropertyEnum.create("part", Part.class);
+	public static EnumProperty<Part> PART = EnumProperty.create("part", Part.class);
 
 	public HorseEngine()
 	{
@@ -36,14 +36,14 @@ public class HorseEngine extends FABaseBlock
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return state.getValue(PART) == Part.TOP;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state)
+	public TileEntity createTileEntity(World world, BlockState state)
 	{
 		return hasTileEntity(state) ? new TEHorseEngine() : null;
 	}
@@ -55,8 +55,8 @@ public class HorseEngine extends FABaseBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
+			Direction facing, float hitX, float hitY, float hitZ)
 	{
 		if (state.getValue(PART) != Part.TOP)
 			return false;
@@ -79,13 +79,13 @@ public class HorseEngine extends FABaseBlock
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(PART, Part.values()[meta]);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(PART).ordinal();
 	}

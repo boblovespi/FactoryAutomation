@@ -8,9 +8,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -48,7 +48,7 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand)
+	public void updateTick(World world, BlockPos pos, BlockState state, Random rand)
 	{
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
@@ -68,9 +68,9 @@ public class IronCharcoalMix extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos)
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos)
 	{
-		IBlockState block = world.getBlockState(fromPos);
+		BlockState block = world.getBlockState(fromPos);
 		if (!state.getValue(ACTIVATED))
 		{
 			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.getValue(ACTIVATED)))
@@ -83,10 +83,10 @@ public class IronCharcoalMix extends FABaseBlock
 		{
 			boolean sidesOnFire = false;
 			boolean isSurrounded = true;
-			for (EnumFacing face : EnumFacing.values())
+			for (Direction face : Direction.values())
 			{
 				BlockPos offset = pos.offset(face);
-				IBlockState state1 = world.getBlockState(offset);
+				BlockState state1 = world.getBlockState(offset);
 				if (state1.getBlock().isAir(state1, world, offset))
 				{
 					world.setBlockState(offset, Blocks.FIRE.getDefaultState());
@@ -116,13 +116,13 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(ACTIVATED, meta == 1);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return state.getValue(ACTIVATED) ? 1 : 0;
 	}
@@ -134,7 +134,7 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand)
+	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(ACTIVATED))
 			return;
@@ -149,12 +149,12 @@ public class IronCharcoalMix extends FABaseBlock
 				EnumParticleTypes.SMOKE_NORMAL, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
-	private boolean isSurrounded(World world, BlockPos pos, @Nullable Predicate<IBlockState> block)
+	private boolean isSurrounded(World world, BlockPos pos, @Nullable Predicate<BlockState> block)
 	{
-		for (EnumFacing dir : EnumFacing.values())
+		for (Direction dir : Direction.values())
 		{
 			BlockPos offset = pos.offset(dir);
-			IBlockState state = world.getBlockState(offset);
+			BlockState state = world.getBlockState(offset);
 			if (block == null)
 			{
 				if (!state.isSideSolid(world, offset, dir.getOpposite()) && state.getBlock() != this)

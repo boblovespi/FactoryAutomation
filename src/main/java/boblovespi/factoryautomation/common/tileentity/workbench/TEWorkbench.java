@@ -6,14 +6,14 @@ import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
 import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.capabilities.Capability;
@@ -138,7 +138,7 @@ public abstract class TEWorkbench extends TileEntity
 				if (!isUpdatingChanges)
 					CheckForRecipe();
 
-				IBlockState state = world.getBlockState(pos);
+				BlockState state = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state, state,
 						SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 								| SetBlockStateFlags.PREVENT_RERENDER);
@@ -148,7 +148,7 @@ public abstract class TEWorkbench extends TileEntity
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return true;
@@ -157,7 +157,7 @@ public abstract class TEWorkbench extends TileEntity
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return (T) inventory;
@@ -165,14 +165,14 @@ public abstract class TEWorkbench extends TileEntity
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound)
+	public void readFromNBT(CompoundNBT compound)
 	{
 		super.readFromNBT(compound);
 		inventory.deserializeNBT(compound.getCompoundTag("items"));
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public CompoundNBT writeToNBT(CompoundNBT compound)
 	{
 		compound.setTag("items", inventory.serializeNBT());
 		return super.writeToNBT(compound);
@@ -213,17 +213,17 @@ public abstract class TEWorkbench extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -232,7 +232,7 @@ public abstract class TEWorkbench extends TileEntity
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 

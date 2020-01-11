@@ -7,7 +7,7 @@ package boblovespi.factoryautomation.api.energy.electricity;
 
 import boblovespi.factoryautomation.api.IUpdatable;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
@@ -23,7 +23,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 	private static final String DATA_NAME = MODID + "_EnergyNetwork";
 	private static boolean isLoaded = false;
 	private List<EnergyConnection_> connections;
-	private NBTTagCompound uninitData;
+	private CompoundNBT uninitData;
 	private boolean isInit = false;
 
 	public EnergyNetwork_()
@@ -63,7 +63,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbt)
+	public void readFromNBT(CompoundNBT nbt)
 	{
 		//		for (int i = 0; i < nbt.getSize(); i++)
 		//		{
@@ -75,7 +75,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
+	public CompoundNBT writeToNBT(CompoundNBT nbt)
 	{
 		for (int i = 0; i < connections.size(); i++)
 		{

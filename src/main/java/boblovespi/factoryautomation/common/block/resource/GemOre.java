@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -31,7 +31,7 @@ public class GemOre extends FABaseBlock
 	 * Get the Item that this Block should drop when harvested.
 	 */
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+	public Item getItemDropped(BlockState state, Random rand, int fortune)
 	{
 		return data.ore;
 	}
@@ -67,7 +67,7 @@ public class GemOre extends FABaseBlock
 	}
 
 	@Override
-	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune)
+	public int getExpDrop(BlockState state, IBlockAccess world, BlockPos pos, int fortune)
 	{
 		Random rand = world instanceof World ? ((World) world).rand : new Random();
 

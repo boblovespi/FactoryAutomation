@@ -5,7 +5,7 @@ import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -63,13 +63,13 @@ public class PlacedBucket extends Block implements ITileEntityProvider, FABlock
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return AXIS_ALIGNED_BB;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
@@ -78,7 +78,7 @@ public class PlacedBucket extends Block implements ITileEntityProvider, FABlock
 	 * @return true if the state occupies all of its 1x1x1 cube
 	 */
 	@Override
-	public boolean isFullBlock(IBlockState state)
+	public boolean isFullBlock(BlockState state)
 	{
 		return false;
 	}
@@ -94,7 +94,7 @@ public class PlacedBucket extends Block implements ITileEntityProvider, FABlock
 	 * @return True if the block is a full cube
 	 */
 	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
+	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
 	{
 		return false;
 	}
@@ -103,7 +103,7 @@ public class PlacedBucket extends Block implements ITileEntityProvider, FABlock
 	 * Called serverside after this block is replaced with another in Chunk, but before the Tile Entity is updated
 	 */
 	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState state)
+	public void breakBlock(World world, BlockPos pos, BlockState state)
 	{
 		TileEntity te = world.getTileEntity(pos);
 		if (te != null)

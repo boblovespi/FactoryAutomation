@@ -156,7 +156,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	//	@Override public boolean canSustainPlant(BlockState state,
-	//			IBlockAccess world, BlockPos pos, EnumFacing direction,
+	//			IBlockAccess world, BlockPos pos, Direction direction,
 	//			IPlantable plantable)
 	//	{
 	//		if(plantable.getPlant(world, pos) instanceof RiceGrain)

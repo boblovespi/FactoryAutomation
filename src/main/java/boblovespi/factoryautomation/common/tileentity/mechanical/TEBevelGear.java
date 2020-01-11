@@ -3,12 +3,12 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -35,21 +35,21 @@ public class TEBevelGear extends TileEntity implements ITickable
 	@Override
 	public void onLoad()
 	{
-		IBlockState state = world.getBlockState(pos);
-		EnumFacing negativeFacing = BevelGear.GetNegative(state);
-		EnumFacing positiveFacing = state.getValue(BevelGear.FACING);
+		BlockState state = world.getBlockState(pos);
+		Direction negativeFacing = BevelGear.GetNegative(state);
+		Direction positiveFacing = state.getValue(BevelGear.FACING);
 		user.SetSides(EnumSet.of(negativeFacing, positiveFacing));
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		user.ReadFromNBT(tag.getCompoundTag("user"));
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setTag("user", user.WriteToNBT());
 		return super.writeToNBT(tag);
@@ -59,7 +59,7 @@ public class TEBevelGear extends TileEntity implements ITickable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
@@ -73,23 +73,23 @@ public class TEBevelGear extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -112,10 +112,10 @@ public class TEBevelGear extends TileEntity implements ITickable
 
 		if (counter == 0)
 		{
-			IBlockState state = world.getBlockState(pos);
+			BlockState state = world.getBlockState(pos);
 
-			EnumFacing negativeFacing = BevelGear.GetNegative(state);
-			EnumFacing positiveFacing = state.getValue(BevelGear.FACING);
+			Direction negativeFacing = BevelGear.GetNegative(state);
+			Direction positiveFacing = state.getValue(BevelGear.FACING);
 
 			TileEntity front = world.getTileEntity(pos.offset(positiveFacing));
 			TileEntity back = world.getTileEntity(pos.offset(negativeFacing));
@@ -135,7 +135,7 @@ public class TEBevelGear extends TileEntity implements ITickable
 			markDirty();
 
 			/* IMPORTANT */
-			IBlockState state2 = world.getBlockState(pos);
+			BlockState state2 = world.getBlockState(pos);
 			world.notifyBlockUpdate(pos, state2, state2, 3);
 
 		}
@@ -147,14 +147,14 @@ public class TEBevelGear extends TileEntity implements ITickable
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return (T) user;

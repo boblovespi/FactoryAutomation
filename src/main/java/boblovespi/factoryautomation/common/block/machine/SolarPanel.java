@@ -7,10 +7,10 @@ import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySola
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -45,7 +45,7 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntity
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	@Override
-	public boolean CanConnectCable(IBlockState state, EnumFacing side, IBlockAccess world, BlockPos pos)
+	public boolean CanConnectCable(BlockState state, Direction side, IBlockAccess world, BlockPos pos)
 	{
 		return side != null && side.getHorizontalIndex() >= 0;
 	}
@@ -62,8 +62,8 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntity
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
+			EnumHand hand, Direction facing, float hitX, float hitY, float hitZ)
 	{
 		TileEntity entity;
 		if ((entity = worldIn.getTileEntity(pos)) instanceof TileEntitySolarPanel)
@@ -89,19 +89,19 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock, ITileEntity
 	 * @return true if the state occupies all of its 1x1x1 cube
 	 */
 	@Override
-	public boolean isFullBlock(IBlockState state)
+	public boolean isFullBlock(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return BOUNDING_BOX;
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state)
+	public boolean isFullCube(BlockState state)
 	{
 		return false;
 	}

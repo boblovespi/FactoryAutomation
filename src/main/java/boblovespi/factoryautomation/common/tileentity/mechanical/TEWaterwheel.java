@@ -7,11 +7,11 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -32,7 +32,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	private boolean structureIsValid = false;
 	private MechanicalUser user;
 	private int counter = -1;
-	private EnumFacing out;
+	private Direction out;
 	private ArrayList<BlockPos> waterLoc;
 
 	public TEWaterwheel()
@@ -43,11 +43,11 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	@Override
 	public void onLoad()
 	{
-		out = EnumFacing.getFacingFromAxis(EnumFacing.AxisDirection.POSITIVE,
+		out = Direction.getFacingFromAxis(Direction.AxisDirection.POSITIVE,
 				world.getBlockState(pos).getValue(Waterwheel.AXIS));
 		user.SetSides(EnumSet.of(out));
 		waterLoc = new ArrayList<>(11);
-		EnumFacing front = out.rotateY();
+		Direction front = out.rotateY();
 		waterLoc.add(pos.offset(front, -1).up(3));
 		waterLoc.add(pos.up(3));
 		waterLoc.add(pos.offset(front).up(3));
@@ -96,7 +96,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	 * @return the capability implementation which to use
 	 */
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
+	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return null;
 	}
@@ -126,14 +126,14 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 				for (int i = 0; i < waterLoc.size(); i++)
 				{
 					BlockPos waterPos = waterLoc.get(i);
-					IBlockState state = world.getBlockState(waterPos);
+					BlockState state = world.getBlockState(waterPos);
 					if (state.getMaterial() == Material.WATER)
 					{
 						if (state.getBlock() instanceof BlockLiquid)
 						{
 							Vec3d acc = Blocks.FLOWING_WATER
 									.modifyAcceleration(world, waterPos, null, new Vec3d(0, 0, 0));
-							if (out.getAxis() == EnumFacing.Axis.X) // water flowing along z axis
+							if (out.getAxis() == Direction.Axis.X) // water flowing along z axis
 							{
 								if (i < 3 || i > 6)
 									torque += Math.abs(acc.z) * 2;
@@ -156,14 +156,14 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return (T) user;

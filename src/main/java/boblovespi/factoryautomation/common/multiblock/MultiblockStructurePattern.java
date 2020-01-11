@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import boblovespi.factoryautomation.common.util.NotYetImplemented;
 import net.minecraft.block.Block;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 
 /**
  * Created by Willi on 11/17/2017.
@@ -38,7 +38,7 @@ public class MultiblockStructurePattern
 	}
 
 	@NotYetImplemented
-	public static MultiblockStructurePattern FromNBT(NBTTagCompound compound)
+	public static MultiblockStructurePattern FromNBT(CompoundNBT compound)
 	{
 		return null;
 	}

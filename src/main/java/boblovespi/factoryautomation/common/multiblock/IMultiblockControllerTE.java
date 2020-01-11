@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.multiblock;
 
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 
 /**
@@ -34,5 +34,5 @@ public interface IMultiblockControllerTE
 	 * @param side the side which is accessed
 	 * @return the capability implementation which to use
 	 */
-	<T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side);
+	<T> T GetCapability(Capability<T> capability, int[] offset, Direction side);
 }

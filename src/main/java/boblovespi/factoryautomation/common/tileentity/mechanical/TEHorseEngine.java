@@ -2,13 +2,13 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.WorldServer;
@@ -32,7 +32,7 @@ public class TEHorseEngine extends TileEntity implements ITickable
 
 	public TEHorseEngine()
 	{
-		user = new MechanicalUser(EnumSet.of(EnumFacing.UP));
+		user = new MechanicalUser(EnumSet.of(Direction.UP));
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class TEHorseEngine extends TileEntity implements ITickable
 		}
 		if (horse.getNavigator().noPath())
 		{
-			user.SetSpeedOnFace(EnumFacing.UP, 45f / moveTimer);
+			user.SetSpeedOnFace(Direction.UP, 45f / moveTimer);
 			moveTimer = 0;
 			angle--;
 			angle = angle % 8;
@@ -75,7 +75,7 @@ public class TEHorseEngine extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		user.ReadFromNBT(tag.getCompoundTag("user"));
@@ -87,7 +87,7 @@ public class TEHorseEngine extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setTag("user", user.WriteToNBT());
 		if (hasHorse)
@@ -102,7 +102,7 @@ public class TEHorseEngine extends TileEntity implements ITickable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
@@ -116,36 +116,36 @@ public class TEHorseEngine extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return (T) user;
@@ -159,10 +159,10 @@ public class TEHorseEngine extends TileEntity implements ITickable
 		hasHorse = true;
 		this.horse = horse;
 		horseId = horse.getUniqueID();
-		user.SetTorqueOnFace(EnumFacing.UP, 10);
-		user.SetSpeedOnFace(EnumFacing.UP, 0);
+		user.SetTorqueOnFace(Direction.UP, 10);
+		user.SetSpeedOnFace(Direction.UP, 0);
 		markDirty();
-		IBlockState state2 = world.getBlockState(pos);
+		BlockState state2 = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state2, state2, 3);
 		return true;
 	}
@@ -174,10 +174,10 @@ public class TEHorseEngine extends TileEntity implements ITickable
 		hasHorse = false;
 		horse = null;
 		horseId = null;
-		user.SetTorqueOnFace(EnumFacing.UP, 0);
-		user.SetSpeedOnFace(EnumFacing.UP, 0);
+		user.SetTorqueOnFace(Direction.UP, 0);
+		user.SetSpeedOnFace(Direction.UP, 0);
 		markDirty();
-		IBlockState state2 = world.getBlockState(pos);
+		BlockState state2 = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state2, state2, 3);
 	}
 }

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.api.energy.heat;
 
 import boblovespi.factoryautomation.api.energy.EnergyConstants;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 
 /**
  * Created by Willi on 10/28/2018.
@@ -65,16 +65,16 @@ public class HeatUser implements IHeatUser
 		return conductivity;
 	}
 
-	public NBTTagCompound WriteToNBT()
+	public CompoundNBT WriteToNBT()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		nbt.setFloat("temperature", temperature);
 		nbt.setFloat("substanceAmount", substanceAmount);
 		nbt.setFloat("conductivity", conductivity);
 		return nbt;
 	}
 
-	public void ReadFromNBT(NBTTagCompound tag)
+	public void ReadFromNBT(CompoundNBT tag)
 	{
 		temperature = tag.getFloat("temperature");
 		substanceAmount = tag.getFloat("substanceAmount");

@@ -16,7 +16,6 @@ import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextComponentString;
@@ -29,8 +28,6 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Willi on 11/8/2017.

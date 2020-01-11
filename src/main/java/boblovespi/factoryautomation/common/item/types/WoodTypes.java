@@ -1,6 +1,8 @@
 package boblovespi.factoryautomation.common.item.types;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.tags.BlockTags;
 
 /**
  * Created by Willi on 11/29/2019.
@@ -33,5 +35,27 @@ public enum WoodTypes
 	public MaterialColor GetColor()
 	{
 		return color;
+	}
+
+	public static WoodTypes FromLog(Block log)
+	{
+		if (BlockTags.OAK_LOGS.contains(log))
+			return OAK;
+		if (BlockTags.SPRUCE_LOGS.contains(log))
+			return SPRUCE;
+		if (BlockTags.BIRCH_LOGS.contains(log))
+			return BIRCH;
+		if (BlockTags.JUNGLE_LOGS.contains(log))
+			return JUNGLE;
+		if (BlockTags.ACACIA_LOGS.contains(log))
+			return ACACIA;
+		if (BlockTags.DARK_OAK_LOGS.contains(log))
+			return DARK_OAK;
+		return OAK;
+	}
+
+	public int Index()
+	{
+		return i;
 	}
 }

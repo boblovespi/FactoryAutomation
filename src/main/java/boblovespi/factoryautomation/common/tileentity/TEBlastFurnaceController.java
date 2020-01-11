@@ -6,13 +6,13 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -63,7 +63,7 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound)
+	public void readFromNBT(CompoundNBT compound)
 	{
 		burnTime = compound.getInteger("burnTime");
 		fuelBurnTime = compound.getInteger("fuelBurnTime");
@@ -86,7 +86,7 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound)
+	public CompoundNBT writeToNBT(CompoundNBT compound)
 	{
 		compound.setInteger("burnTime", (int) burnTime);
 		compound.setInteger("fuelBurnTime", (int) fuelBurnTime);
@@ -181,7 +181,7 @@ public class TEBlastFurnaceController extends TileEntity
 			}
 		}
 		markDirty();
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
@@ -189,7 +189,7 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
@@ -202,29 +202,29 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return (T) itemHandler;
@@ -232,7 +232,7 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return true;
@@ -315,9 +315,9 @@ public class TEBlastFurnaceController extends TileEntity
 	 * @return the capability implementation which to use
 	 */
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
+	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
-		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == EnumFacing.UP
+		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == Direction.UP
 				&& capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return (T) inputHopperWrapper;
 		return null;

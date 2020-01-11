@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.api.recipe;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
@@ -86,7 +86,7 @@ public abstract class ChancelessMachineRecipe implements IMachineRecipe
 	}
 
 	@Override
-	public void WriteToNBT(NBTTagCompound tag)
+	public void WriteToNBT(CompoundNBT tag)
 	{
 		// itemInputs.stream().forEach(n -> n.w);
 

@@ -1,13 +1,13 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -25,9 +25,9 @@ import java.util.Map;
 public abstract class FAMachine extends TileEntity implements ITickable, ISidedInventory
 {
 	protected ItemStackHandler inventory;
-	protected Map<EnumFacing, int[]> inputs = new HashMap<>(6);
+	protected Map<Direction, int[]> inputs = new HashMap<>(6);
 	;
-	protected Map<EnumFacing, int[]> outputs = new HashMap<>(6);
+	protected Map<Direction, int[]> outputs = new HashMap<>(6);
 	;
 	private String name;
 
@@ -47,7 +47,7 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 	}
 
 	@Override
-	public int[] getSlotsForFace(EnumFacing side)
+	public int[] getSlotsForFace(Direction side)
 	{
 		return ArrayUtils.addAll(inputs.get(side), outputs.get(side));
 	}
@@ -56,7 +56,7 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 	 * Returns true if automation can insert the given item in the given slot from the given side.
 	 */
 	@Override
-	public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing side)
+	public boolean canInsertItem(int index, ItemStack itemStackIn, Direction side)
 	{
 		return ArrayUtils.contains(inputs.get(side), index);
 	}
@@ -65,7 +65,7 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 	 * Returns true if automation can extract the given item in the given slot from the given side.
 	 */
 	@Override
-	public boolean canExtractItem(int index, ItemStack stack, EnumFacing side)
+	public boolean canExtractItem(int index, ItemStack stack, Direction side)
 	{
 		return ArrayUtils.contains(outputs.get(side), index);
 	}
@@ -143,7 +143,7 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 	 */
 	@Override
 
-	public boolean isUsableByPlayer(EntityPlayer player)
+	public boolean isUsableByPlayer(PlayerEntity player)
 	{
 		return this.world.getTileEntity(this.pos) == this &&
 				player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D,
@@ -152,12 +152,12 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player)
+	public void openInventory(PlayerEntity player)
 	{
 	}
 
 	@Override
-	public void closeInventory(EntityPlayer player)
+	public void closeInventory(PlayerEntity player)
 	{
 	}
 
@@ -200,17 +200,17 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -219,7 +219,7 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -227,23 +227,23 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		inventory.deserializeNBT(tag.getCompoundTag("itemHandler"));
 		ReadCustomNBT(tag);
 	}
 
-	protected abstract void ReadCustomNBT(NBTTagCompound tag);
+	protected abstract void ReadCustomNBT(CompoundNBT tag);
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		super.writeToNBT(tag);
 		tag.setTag("itemHandler", inventory.serializeNBT());
@@ -251,10 +251,10 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 		return tag;
 	}
 
-	protected abstract void WriteCustomNBT(NBTTagCompound tag);
+	protected abstract void WriteCustomNBT(CompoundNBT tag);
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 		{
@@ -270,7 +270,7 @@ public abstract class FAMachine extends TileEntity implements ITickable, ISidedI
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 		{

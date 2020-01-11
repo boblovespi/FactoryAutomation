@@ -4,10 +4,10 @@ import boblovespi.factoryautomation.common.fluid.Fluids;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLog;
 import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
@@ -41,22 +41,22 @@ public class TETreetap extends TileEntity implements ITickable
 			TileEntity te = world.getTileEntity(pos.down());
 			if (te != null)
 			{
-				if (te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP))
+				if (te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP))
 				{
 					IFluidHandler handler = te
-							.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP);
+							.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP);
 
 					if (handler != null)
 					{
 						BlockPos offset = pos.offset(world.getBlockState(pos).getValue(FACING).getOpposite());
-						IBlockState block = world.getBlockState(offset);
+						BlockState block = world.getBlockState(offset);
 						BlockPos leafPos = offset;
 						if (block.getBlock() == Blocks.LOG
 								&& block.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.JUNGLE)
 						{
 							while (true)
 							{
-								IBlockState state = world.getBlockState(leafPos);
+								BlockState state = world.getBlockState(leafPos);
 								if (!(state.getBlock() == Blocks.LOG || state.getBlock() == Blocks.LEAVES))
 									return;
 								if (state.getBlock() == Blocks.LEAVES && state.getValue(BlockLeaves.DECAYABLE))

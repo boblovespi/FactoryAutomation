@@ -8,11 +8,11 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.EnumProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -46,10 +46,10 @@ public class Cable extends Block implements FABlock
 			new AxisAlignedBB(0.1875D, 0.0D, 0.0D, 1.0D, 4 * u, 1.0D),
 			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4 * u, 0.8125D),
 			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4 * u, 1.0D) };
-	private static final PropertyEnum<AttachPos> WEST = PropertyEnum.create("west", AttachPos.class);
-	private static final PropertyEnum<AttachPos> EAST = PropertyEnum.create("east", AttachPos.class);
-	private static final PropertyEnum<AttachPos> NORTH = PropertyEnum.create("north", AttachPos.class);
-	private static final PropertyEnum<AttachPos> SOUTH = PropertyEnum.create("south", AttachPos.class);
+	private static final EnumProperty<AttachPos> WEST = EnumProperty.create("west", AttachPos.class);
+	private static final EnumProperty<AttachPos> EAST = EnumProperty.create("east", AttachPos.class);
+	private static final EnumProperty<AttachPos> NORTH = EnumProperty.create("north", AttachPos.class);
+	private static final EnumProperty<AttachPos> SOUTH = EnumProperty.create("south", AttachPos.class);
 
 	public Cable()
 	{
@@ -62,7 +62,7 @@ public class Cable extends Block implements FABlock
 								  .withProperty(NORTH, AttachPos.NONE).withProperty(SOUTH, AttachPos.NONE));
 	}
 
-	public static boolean CanConnectTo(IBlockState state, EnumFacing side, IBlockAccess world, BlockPos pos)
+	public static boolean CanConnectTo(BlockState state, Direction side, IBlockAccess world, BlockPos pos)
 	{
 		Block block = state.getBlock();
 		if (Block.isEqualTo(FABlocks.cable.ToBlock(), block))
@@ -73,7 +73,7 @@ public class Cable extends Block implements FABlock
 
 	}
 
-	private static int getAABBIndex(IBlockState state)
+	private static int getAABBIndex(BlockState state)
 	{
 		int i = 0;
 		boolean flag = state.getValue(NORTH) != AttachPos.NONE;
@@ -83,22 +83,22 @@ public class Cable extends Block implements FABlock
 
 		if (flag || flag2 && !flag && !flag1 && !flag3)
 		{
-			i |= 1 << EnumFacing.NORTH.getHorizontalIndex();
+			i |= 1 << Direction.NORTH.getHorizontalIndex();
 		}
 
 		if (flag1 || flag3 && !flag && !flag1 && !flag2)
 		{
-			i |= 1 << EnumFacing.EAST.getHorizontalIndex();
+			i |= 1 << Direction.EAST.getHorizontalIndex();
 		}
 
 		if (flag2 || flag && !flag1 && !flag2 && !flag3)
 		{
-			i |= 1 << EnumFacing.SOUTH.getHorizontalIndex();
+			i |= 1 << Direction.SOUTH.getHorizontalIndex();
 		}
 
 		if (flag3 || flag1 && !flag && !flag2 && !flag3)
 		{
-			i |= 1 << EnumFacing.WEST.getHorizontalIndex();
+			i |= 1 << Direction.WEST.getHorizontalIndex();
 		}
 
 		return i;
@@ -117,33 +117,33 @@ public class Cable extends Block implements FABlock
 	}
 
 	@Override
-	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+	public BlockState getActualState(BlockState state, IBlockAccess worldIn, BlockPos pos)
 	{
-		state = state.withProperty(WEST, this.GetAttachPosition(worldIn, pos, EnumFacing.WEST));
-		state = state.withProperty(EAST, this.GetAttachPosition(worldIn, pos, EnumFacing.EAST));
-		state = state.withProperty(NORTH, this.GetAttachPosition(worldIn, pos, EnumFacing.NORTH));
-		state = state.withProperty(SOUTH, this.GetAttachPosition(worldIn, pos, EnumFacing.SOUTH));
+		state = state.withProperty(WEST, this.GetAttachPosition(worldIn, pos, Direction.WEST));
+		state = state.withProperty(EAST, this.GetAttachPosition(worldIn, pos, Direction.EAST));
+		state = state.withProperty(NORTH, this.GetAttachPosition(worldIn, pos, Direction.NORTH));
+		state = state.withProperty(SOUTH, this.GetAttachPosition(worldIn, pos, Direction.SOUTH));
 		return state;
 	}
 
-	private AttachPos GetAttachPosition(IBlockAccess worldIn, BlockPos pos1, EnumFacing facing)
+	private AttachPos GetAttachPosition(IBlockAccess worldIn, BlockPos pos1, Direction facing)
 	{
 		BlockPos blockpos = pos1.offset(facing);
-		IBlockState iblockstate = worldIn.getBlockState(pos1.offset(facing));
+		BlockState BlockState = worldIn.getBlockState(pos1.offset(facing));
 
-		if (!CanConnectTo(worldIn.getBlockState(blockpos), facing, worldIn, blockpos) && (iblockstate.isNormalCube()
+		if (!CanConnectTo(worldIn.getBlockState(blockpos), facing, worldIn, blockpos) && (BlockState.isNormalCube()
 				|| !CanConnectUpwardsTo(worldIn, blockpos.down())))
 		{
-			IBlockState iblockstate1 = worldIn.getBlockState(pos1.up());
+			BlockState iblockstate1 = worldIn.getBlockState(pos1.up());
 
 			if (!iblockstate1.isNormalCube())
 			{
-				boolean flag = worldIn.getBlockState(blockpos).isSideSolid(worldIn, blockpos, EnumFacing.UP)
+				boolean flag = worldIn.getBlockState(blockpos).isSideSolid(worldIn, blockpos, Direction.UP)
 						|| worldIn.getBlockState(blockpos).getBlock() == Blocks.GLOWSTONE;
 
 				if (flag && CanConnectUpwardsTo(worldIn, blockpos.up()))
 				{
-					if (iblockstate.isBlockNormalCube())
+					if (BlockState.isBlockNormalCube())
 					{
 						return AttachPos.UP;
 					}
@@ -170,9 +170,9 @@ public class Cable extends Block implements FABlock
 		{
 			world.notifyNeighborsOfStateChange(pos, this, false);
 
-			for (EnumFacing enumfacing : EnumFacing.values())
+			for (Direction Direction : Direction.values())
 			{
-				world.notifyNeighborsOfStateChange(pos.offset(enumfacing), this, false);
+				world.notifyNeighborsOfStateChange(pos.offset(Direction), this, false);
 			}
 		}
 	}
@@ -180,18 +180,18 @@ public class Cable extends Block implements FABlock
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
 	{
-		return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP)
+		return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, Direction.UP)
 				|| worldIn.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
 	}
 
 	@Override
-	public IBlockState getStateFromMeta(int meta)
+	public BlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState();
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state)
+	public int getMetaFromState(BlockState state)
 	{
 		return 0;
 	}
@@ -203,19 +203,19 @@ public class Cable extends Block implements FABlock
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
+	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
 	{
 		return CABLE_AABB[getAABBIndex(state.getActualState(source, pos))];
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state)
+	public boolean isFullCube(BlockState state)
 	{
 		return false;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state)
+	public boolean isOpaqueCube(BlockState state)
 	{
 		return false;
 	}
@@ -228,11 +228,11 @@ public class Cable extends Block implements FABlock
 	 * @param state
 	 */
 	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
+	public void onBlockAdded(World worldIn, BlockPos pos, BlockState state)
 	{
 		// NotifyNeighborCableOfStateChange(worldIn, pos);
 
-		IBlockState actualState = getActualState(state, worldIn, pos);
+		BlockState actualState = getActualState(state, worldIn, pos);
 
 		System.out.println("cable placed, checking the power connections!");
 
@@ -267,7 +267,7 @@ public class Cable extends Block implements FABlock
 
 	}
 
-	private List<Pair<IUsesEnergy_, Integer>> GetEnergyMachines(World world, BlockPos pos, IBlockState state, int stop,
+	private List<Pair<IUsesEnergy_, Integer>> GetEnergyMachines(World world, BlockPos pos, BlockState state, int stop,
 			List<BlockPos> prevCableLocs)
 	{
 		System.out.println("world = [" + world + "], pos = [" + pos + "], state = [" + state + "], stop = [" + stop

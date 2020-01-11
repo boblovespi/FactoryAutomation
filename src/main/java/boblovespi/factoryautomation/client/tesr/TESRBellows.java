@@ -5,13 +5,13 @@ import boblovespi.factoryautomation.client.model.BellowsModel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -42,8 +42,8 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 			RenderHelper.enableStandardItemLighting();
 			GlStateManager.enableRescaleNormal();
 
-			IBlockState state = te.getWorld().getBlockState(te.getPos());
-			EnumFacing facing = state.getValue(BlockHorizontal.FACING);
+			BlockState state = te.getWorld().getBlockState(te.getPos());
+			Direction facing = state.getValue(BlockHorizontal.FACING);
 			switch (facing)
 			{
 			case NORTH:

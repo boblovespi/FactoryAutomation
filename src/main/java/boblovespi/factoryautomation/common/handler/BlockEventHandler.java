@@ -13,17 +13,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.BlockTallGrass;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -42,7 +42,7 @@ import java.util.*;
 @Mod.EventBusSubscriber
 public class BlockEventHandler
 {
-	private static final Map<BlockPos, Set<EnumFacing>> ashFires = new HashMap<>();
+	private static final Map<BlockPos, Set<Direction>> ashFires = new HashMap<>();
 	private static final Set<Block> flamableBlocks = new HashSet<Block>()
 	{{
 		add(Blocks.PLANKS);
@@ -173,7 +173,7 @@ public class BlockEventHandler
 	@SubscribeEvent
 	public static void OnNeighborNotifyEvent(BlockEvent.NeighborNotifyEvent event)
 	{
-		IBlockState state = event.getState();
+		BlockState state = event.getState();
 		BlockPos pos = event.getPos().toImmutable();
 		World world = event.getWorld();
 		if (state.getBlock() == Blocks.FIRE)
@@ -181,7 +181,7 @@ public class BlockEventHandler
 			if (!ashFires.containsKey(pos))
 			{
 				ashFires.put(pos, new HashSet<>(6));
-				for (EnumFacing offset : EnumFacing.values())
+				for (Direction offset : Direction.values())
 				{
 					if (flamableBlocks.contains(world.getBlockState(pos.offset(offset)).getBlock()))
 						ashFires.get(pos).add(offset);
@@ -193,7 +193,7 @@ public class BlockEventHandler
 		{
 			if (ashFires.containsKey(pos))
 			{
-				for (EnumFacing facing : ashFires.get(pos))
+				for (Direction facing : ashFires.get(pos))
 				{
 					BlockPos oldWoodPos = pos.offset(facing);
 					CheckAndSpawnAsh(world, world.getBlockState(oldWoodPos), oldWoodPos);
@@ -206,10 +206,10 @@ public class BlockEventHandler
 	@SubscribeEvent
 	public static void OnLeftClickBLockEvent(PlayerInteractEvent.LeftClickBlock event)
 	{
-		IBlockState state = event.getWorld().getBlockState(event.getPos());
+		BlockState state = event.getWorld().getBlockState(event.getPos());
 		BlockPos pos = event.getPos().toImmutable();
 		World world = event.getWorld();
-		EntityPlayer player = event.getEntityPlayer();
+		PlayerEntity player = event.getEntityPlayer();
 
 		if (state.getBlock() instanceof BlockLog)
 		{
@@ -222,7 +222,7 @@ public class BlockEventHandler
 		}
 	}
 
-	private static void CheckAndSpawnAsh(World world, IBlockState state, BlockPos pos)
+	private static void CheckAndSpawnAsh(World world, BlockState state, BlockPos pos)
 	{
 		if (state.getBlock() == Blocks.FIRE || state.getBlock() == Blocks.AIR)
 		{

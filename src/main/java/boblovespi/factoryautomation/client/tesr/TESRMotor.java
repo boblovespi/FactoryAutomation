@@ -5,12 +5,12 @@ import boblovespi.factoryautomation.client.model.ElectricEngine2;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -40,8 +40,8 @@ public class TESRMotor extends TileEntitySpecialRenderer<TEMotor>
 			RenderHelper.enableStandardItemLighting();
 			GlStateManager.enableRescaleNormal();
 
-			IBlockState state = te.getWorld().getBlockState(te.getPos());
-			EnumFacing facing = state.getValue(Motor.FACING);
+			BlockState state = te.getWorld().getBlockState(te.getPos());
+			Direction facing = state.getValue(Motor.FACING);
 			int m = 0;
 			int n = 0;
 			switch (facing)

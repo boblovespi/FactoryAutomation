@@ -5,14 +5,14 @@ import boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceContr
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -82,8 +82,8 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	public void CreateStructure()
 	{
 		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID,
-				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == EnumFacing.Axis.X ?
-						EnumFacing.WEST : EnumFacing.NORTH);
+				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ?
+						Direction.WEST : Direction.NORTH);
 		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, true));
 	}
 
@@ -91,13 +91,13 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	public void BreakStructure()
 	{
 		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID,
-				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == EnumFacing.Axis.X ?
-						EnumFacing.WEST : EnumFacing.NORTH);
+				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ?
+						Direction.WEST : Direction.NORTH);
 		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, false));
 	}
 
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, EnumFacing side)
+	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return null;
 	}
@@ -205,7 +205,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 		markDirty();
 
 		/* IMPORTANT */
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
@@ -225,7 +225,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return true;
@@ -236,7 +236,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return (T) itemHandler;
@@ -246,7 +246,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		currentSmeltTime = tag.getFloat("currentSmeltTime");
 		currentMaxSmeltTime = tag.getFloat("currentMaxSmeltTime");
@@ -265,7 +265,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setFloat("currentSmeltTime", currentSmeltTime);
 		tag.setFloat("currentMaxSmeltTime", currentMaxSmeltTime);
@@ -303,17 +303,17 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -322,7 +322,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -330,7 +330,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}

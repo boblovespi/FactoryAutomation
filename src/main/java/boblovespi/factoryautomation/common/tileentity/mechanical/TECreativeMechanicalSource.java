@@ -2,8 +2,12 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
 
@@ -17,66 +21,61 @@ public class TECreativeMechanicalSource extends TileEntity implements IMechanica
 
 	public TECreativeMechanicalSource()
 	{
+		super(TileEntityHandler.teCreativeMechanicalSource);
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(EnumFacing side)
+	public boolean HasConnectionOnSide(Direction side)
 	{
 		return true;
 	}
 
 	@Override
-	public float GetSpeedOnFace(EnumFacing side)
+	public float GetSpeedOnFace(Direction side)
 	{
 		return speed;
 	}
 
 	@Override
-	public float GetTorqueOnFace(EnumFacing side)
+	public float GetTorqueOnFace(Direction side)
 	{
 		return torque;
 	}
 
 	@Override
-	public void SetSpeedOnFace(EnumFacing side, float speed)
+	public void SetSpeedOnFace(Direction side, float speed)
 	{
 
 	}
 
 	@Override
-	public void SetTorqueOnFace(EnumFacing side, float torque)
+	public void SetTorqueOnFace(Direction side, float torque)
 	{
 
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
+		super.read(tag);
 		speed = tag.getFloat("speed");
 		torque = tag.getFloat("torque");
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setFloat("speed", speed);
-		tag.setFloat("torque", torque);
-		return super.writeToNBT(tag);
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
-	{
-		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
+		tag.putFloat("speed", speed);
+		tag.putFloat("torque", torque);
+		return super.write(tag);
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return (T) this;
-		return null;
+			return LazyOptional.of(() -> (T) this);
+		return LazyOptional.empty();
 	}
 }

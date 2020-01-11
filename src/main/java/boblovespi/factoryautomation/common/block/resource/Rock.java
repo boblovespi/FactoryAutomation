@@ -6,74 +6,51 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockNewLog;
-import net.minecraft.block.BlockOldLog;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.*;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 /**
  * Created by Willi on 12/26/2018.
  */
 public class Rock extends FABaseBlock
 {
-	public static final PropertyEnum<Variants> VARIANTS = PropertyEnum.create("variants", Variants.class);
+	public static final EnumProperty<Variants> VARIANTS = EnumProperty.create("variants", Variants.class);
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
 			3 / 16d, 0, 3 / 16d, 13 / 16d, 5 / 16d, 13 / 16d);
 
 	public Rock()
 	{
-		super(Materials.ROCKS, "rock", FAItemGroups.resources, true);
-		setDefaultState(getDefaultState().withProperty(VARIANTS, Variants.COBBLESTONE));
+		super("rock", true, Properties.create(Materials.ROCKS), new Item.Properties());
+		// super(Materials.ROCKS, "rock", FAItemGroups.resources, true);
+		setDefaultState(stateContainer.getBaseState().with(VARIANTS, Variants.COBBLESTONE));
 		item = new RockItem(this);
 		FAItems.items.add(item);
-		setSoundType(SoundHandler.rock);
+		// setSoundType(SoundHandler.rock);
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, VARIANTS);
+		builder.add(VARIANTS);
 	}
 
-	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-	{
-		return BOUNDING_BOX;
-	}
+	// TODO: voxel shapes (bounding boxes)
 
 	@Override
 	public String GetMetaFilePath(int meta)
@@ -81,44 +58,21 @@ public class Rock extends FABaseBlock
 		return "resources/" + RegistryName();
 	}
 
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(VARIANTS, Variants.values()[meta]);
-	}
-
-	/**
-	 * This gets a complete list of items dropped from this block.
-	 *
-	 * @param drops   add all items this block drops to this drops list
-	 * @param world   The current world
-	 * @param pos     Block position in world
-	 * @param state   Current state
-	 * @param fortune Breakers fortune level
-	 */
-	@Override
-	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
-	{
-		super.getDrops(drops, world, pos, state, fortune);
-		if (state.getValue(VARIANTS) == Variants.MOSSY_COBBLESTONE)
-		{
-			Random rand = world instanceof World ? ((World) world).rand : RANDOM;
-			if (rand.nextFloat() < 0.4f)
-				drops.add(new ItemStack(FAItems.plantFiber.ToItem()));
-		}
-	}
-
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(VARIANTS).ordinal();
-	}
+	// TODO: loot tables
+	//	/**
+	//	 * This gets a complete list of items dropped from this block.
+	//	 */
+	//	@Override
+	//	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, BlockState state, int fortune)
+	//	{
+	//		super.getDrops(drops, world, pos, state, fortune);
+	//		if (state.getValue(VARIANTS) == Variants.MOSSY_COBBLESTONE)
+	//		{
+	//			Random rand = world instanceof World ? ((World) world).rand : RANDOM;
+	//			if (rand.nextFloat() < 0.4f)
+	//				drops.add(new ItemStack(FAItems.plantFiber.ToItem()));
+	//		}
+	//	}
 
 	/**
 	 * Called when a neighboring block was changed and marks that this state should perform any checks during a neighbor
@@ -126,12 +80,13 @@ public class Rock extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos)
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos,
+			boolean isMoving)
 	{
-		if (!world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP))
+		if (!world.getBlockState(pos.down()).func_224755_d(world, pos.down(), Direction.UP)) // isSideSolid ?
 		{
-			dropBlockAsItem(world, pos, state, 0);
-			world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+			spawnDrops(state, world, pos);
+			world.removeBlock(pos, isMoving);
 		}
 	}
 
@@ -139,10 +94,12 @@ public class Rock extends FABaseBlock
 	 * Checks if this block can be placed exactly at the given position.
 	 */
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos)
+	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
 	{
-		return super.canPlaceBlockAt(world, pos) && world.getBlockState(pos.down())
-														 .isSideSolid(world, pos.down(), EnumFacing.UP);
+		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.down())
+																			  .func_224755_d(world, pos.down(),
+																					  Direction.UP)
+				&& world.getBlockState(pos).getBlock() != this;
 	}
 
 	public enum Variants implements IStringSerializable
@@ -179,27 +136,26 @@ public class Rock extends FABaseBlock
 	{
 		public RockItem(FABlock base)
 		{
-			super(base);
+			super(base, new Item.Properties().group(FAItemGroups.resources));
 		}
 
 		@Override
-		public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-				EnumFacing facing, float hitX, float hitY, float hitZ)
+		public ActionResultType onItemUse(ItemUseContext context)
 		{
-			if (player.isSneaking() && world.getBlockState(pos).getBlock() instanceof BlockLog)
+			World world = context.getWorld();
+			BlockPos pos = context.getPos();
+			Block block = world.getBlockState(pos).getBlock();
+			if (context.isPlacerSneaking() && BlockTags.LOGS.contains(block))
 			{
 				if (!world.isRemote)
 				{
-					int meta = world.getBlockState(pos).getBlock() == Blocks.LOG ?
-							world.getBlockState(pos).getValue(BlockOldLog.VARIANT).getMetadata() :
-							world.getBlockState(pos).getValue(BlockNewLog.VARIANT).getMetadata();
 					world.destroyBlock(pos, false);
-					world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
-							new ItemStack(FABlocks.woodChoppingBlocks.get(meta).ToBlock(), 2)));
+					world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
+							new ItemStack(FABlocks.woodChoppingBlocks.get(WoodTypes.FromLog(block).Index()).ToBlock(), 2)));
 				}
-				return EnumActionResult.SUCCESS;
+				return ActionResultType.SUCCESS;
 			} else
-				return super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
+				return super.onItemUse(context);
 		}
 	}
 }

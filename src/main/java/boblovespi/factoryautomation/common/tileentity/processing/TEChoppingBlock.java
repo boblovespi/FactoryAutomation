@@ -4,14 +4,14 @@ import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
 import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -60,7 +60,7 @@ public class TEChoppingBlock extends TileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 		return stack;
 	}
@@ -72,12 +72,12 @@ public class TEChoppingBlock extends TileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 		return stack;
 	}
 
-	public void TakeOrPlace(ItemStack item, EntityPlayer player)
+	public void TakeOrPlace(ItemStack item, PlayerEntity player)
 	{
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
@@ -131,7 +131,7 @@ public class TEChoppingBlock extends TileEntity
 				markDirty();
 
 				/* IMPORTANT */
-				IBlockState state = world.getBlockState(pos);
+				BlockState state = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state, state, 3);
 			}
 			ItemHelper.DamageItem(tool);
@@ -141,7 +141,7 @@ public class TEChoppingBlock extends TileEntity
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		clicksLeft = tag.getInteger("clicksLeft");
@@ -152,7 +152,7 @@ public class TEChoppingBlock extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setInteger("clicksLeft", clicksLeft);
 		tag.setInteger("craftsBeforeBreak", craftsBeforeBreak);
@@ -170,17 +170,17 @@ public class TEChoppingBlock extends TileEntity
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -189,7 +189,7 @@ public class TEChoppingBlock extends TileEntity
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -197,7 +197,7 @@ public class TEChoppingBlock extends TileEntity
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}

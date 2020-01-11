@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.api.pollution;
 
 import boblovespi.factoryautomation.common.config.ConfigFields;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.Capability;
@@ -69,14 +69,14 @@ public class PollutionCapabilityProvider implements ICapabilityProvider
 	}
 
 	@Override
-	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing)
 	{
 		return capability == POLLUTED_CHUNK_CAPABILITY;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
 	{
 		//noinspection unchecked
 		return capability == POLLUTED_CHUNK_CAPABILITY ? (T) cap : null;

@@ -53,11 +53,11 @@ public class MultiStateItemBlock {}
 //	{
 //		T[] types = blockTypes.getEnumConstants();
 //
-//		for (IBlockState state : baseBlock.getBlockState().getValidStates())
+//		for (BlockState state : baseBlock.getBlockState().getValidStates())
 //			if (NBTHelper.HasKey(stack, "blockdata"))
 //			{
-//				NBTTagCompound blockdata = NBTHelper.GetTag(stack).getCompoundTag("blockdata");
-//				IBlockState stateFromTag = baseBlock.GetStateFromTag(blockdata);
+//				CompoundNBT blockdata = NBTHelper.GetTag(stack).getCompoundTag("blockdata");
+//				BlockState stateFromTag = baseBlock.GetStateFromTag(blockdata);
 //
 //				if (stateFromTag.equals(state))
 //

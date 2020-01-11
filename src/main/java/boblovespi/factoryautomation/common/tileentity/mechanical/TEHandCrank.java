@@ -2,12 +2,12 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -32,7 +32,7 @@ public class TEHandCrank extends TileEntity implements ITickable
 
 	public TEHandCrank()
 	{
-		mechanicalUser = new MechanicalUser(EnumSet.of(EnumFacing.DOWN));
+		mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
 		isRotating = false;
 	}
 
@@ -40,7 +40,7 @@ public class TEHandCrank extends TileEntity implements ITickable
 	public void onLoad()
 	{
 		inverted = world.getBlockState(pos).getValue(INVERTED);
-		mechanicalUser.SetSides(EnumSet.of(inverted ? EnumFacing.UP : EnumFacing.DOWN));
+		mechanicalUser.SetSides(EnumSet.of(inverted ? Direction.UP : Direction.DOWN));
 	}
 
 	public void Rotate()
@@ -49,19 +49,19 @@ public class TEHandCrank extends TileEntity implements ITickable
 		{
 			isRotating = true;
 
-			mechanicalUser.SetTorqueOnFace(inverted ? EnumFacing.UP : EnumFacing.DOWN, 1f);
-			mechanicalUser.SetSpeedOnFace(inverted ? EnumFacing.UP : EnumFacing.DOWN, 1f);
+			mechanicalUser.SetTorqueOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
+			mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
 
 			markDirty();
 
 			/* IMPORTANT */
-			IBlockState state2 = world.getBlockState(pos);
+			BlockState state2 = world.getBlockState(pos);
 			world.notifyBlockUpdate(pos, state2, state2, FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 		}
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		mechanicalUser.ReadFromNBT(tag.getCompoundTag("mechanicalUser"));
@@ -70,7 +70,7 @@ public class TEHandCrank extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setTag("mechanicalUser", mechanicalUser.WriteToNBT());
 		tag.setFloat("rotation", rotation);
@@ -79,14 +79,14 @@ public class TEHandCrank extends TileEntity implements ITickable
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return (T) mechanicalUser;
@@ -97,7 +97,7 @@ public class TEHandCrank extends TileEntity implements ITickable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
@@ -111,23 +111,23 @@ public class TEHandCrank extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -147,13 +147,13 @@ public class TEHandCrank extends TileEntity implements ITickable
 				rotation = 0;
 				isRotating = false;
 
-				mechanicalUser.SetTorqueOnFace(inverted ? EnumFacing.UP : EnumFacing.DOWN, 0);
-				mechanicalUser.SetSpeedOnFace(inverted ? EnumFacing.UP : EnumFacing.DOWN, 0);
+				mechanicalUser.SetTorqueOnFace(inverted ? Direction.UP : Direction.DOWN, 0);
+				mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, 0);
 
 				markDirty();
 
 				/* IMPORTANT */
-				IBlockState state2 = world.getBlockState(pos);
+				BlockState state2 = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state2, state2, FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 			}
 		}

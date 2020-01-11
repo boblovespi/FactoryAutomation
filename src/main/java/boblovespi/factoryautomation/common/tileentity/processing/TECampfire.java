@@ -4,11 +4,11 @@ import boblovespi.factoryautomation.api.recipe.CampfireRecipe;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.processing.Campfire;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -55,7 +55,7 @@ public class TECampfire extends TileEntity implements ITickable
 			recipe = "none";
 			timeLeft = -1;
 
-			IBlockState state = world.getBlockState(pos);
+			BlockState state = world.getBlockState(pos);
 			world.notifyBlockUpdate(pos, state, state, 3);
 		}
 		markDirty();
@@ -86,7 +86,7 @@ public class TECampfire extends TileEntity implements ITickable
 		markDirty();
 
 		/* IMPORTANT */
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 7);
 		return stack;
 	}
@@ -99,12 +99,12 @@ public class TECampfire extends TileEntity implements ITickable
 		markDirty();
 
 		/* IMPORTANT */
-		IBlockState state = world.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 7);
 		return stack;
 	}
 
-	public void TakeOrPlace(ItemStack item, EntityPlayer player)
+	public void TakeOrPlace(ItemStack item, PlayerEntity player)
 	{
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
@@ -124,7 +124,7 @@ public class TECampfire extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		timeLeft = tag.getInteger("timeLeft");
@@ -133,7 +133,7 @@ public class TECampfire extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setInteger("timeLeft", timeLeft);
 		tag.setString("recipe", recipe);
@@ -149,17 +149,17 @@ public class TECampfire extends TileEntity implements ITickable
 	}
 
 	@Override
-	public NBTTagCompound getTileData()
+	public CompoundNBT getTileData()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}
@@ -168,7 +168,7 @@ public class TECampfire extends TileEntity implements ITickable
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 
@@ -176,7 +176,7 @@ public class TECampfire extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag)
+	public void handleUpdateTag(CompoundNBT tag)
 	{
 		readFromNBT(tag);
 	}
@@ -186,7 +186,7 @@ public class TECampfire extends TileEntity implements ITickable
 	 * Use with caution as this will leave straggler TileEntities, or create conflicts with other TileEntities if not used properly.
 	 */
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState)
 	{
 		return !(oldState.getBlock() == FABlocks.campfire && newState.getBlock() == FABlocks.campfire);
 	}

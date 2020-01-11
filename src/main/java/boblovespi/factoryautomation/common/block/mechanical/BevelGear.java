@@ -4,21 +4,17 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.util.Direction;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
@@ -27,8 +23,8 @@ import javax.annotation.Nullable;
  */
 public class BevelGear extends FABaseBlock
 {
-	public static PropertyInteger LAYER = PropertyInteger.create("layer", 0, 2);
-	public static PropertyDirection FACING = BlockHorizontal.FACING;
+	public static IntegerProperty LAYER = IntegerProperty.create("layer", 0, 2);
+	public static DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
 	public BevelGear()
 	{
@@ -36,100 +32,50 @@ public class BevelGear extends FABaseBlock
 		TileEntityHandler.tiles.add(TEBevelGear.class);
 	}
 
-	public static EnumFacing GetNegative(IBlockState state)
+	public static Direction GetNegative(BlockState state)
 	{
-		if (state.getValue(LAYER) == 1)
-			return state.getValue(FACING).rotateY();
-		else if (state.getValue(LAYER) == 0)
-			return EnumFacing.DOWN;
+		if (state.get(LAYER) == 1)
+			return state.get(FACING).rotateY();
+		else if (state.get(LAYER) == 0)
+			return Direction.DOWN;
 		else
-			return EnumFacing.UP;
+			return Direction.UP;
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, LAYER, FACING);
+		builder.add(LAYER, FACING);
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, IBlockState state)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEBevelGear();
 	}
 
-	/**
-	 * Gets the {@link IBlockState} to place
-	 *
-	 * @param world  The world the block is being placed in
-	 * @param pos    The position the block is being placed at
-	 * @param facing The side the block is being placed on
-	 * @param hitX   The X coordinate of the hit vector
-	 * @param hitY   The Y coordinate of the hit vector
-	 * @param hitZ   The Z coordinate of the hit vector
-	 * @param meta   The metadata of {@link ItemStack} as processed by {@link Item#getMetadata(int)}
-	 * @param placer The entity placing the block
-	 * @param hand   The player hand used to place this block
-	 * @return The state to be placed in the world
-	 */
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		IBlockState state = getDefaultState();
-		if (facing == EnumFacing.UP)
-			state = state.withProperty(LAYER, 0);
-		else if (facing == EnumFacing.DOWN)
-			state = state.withProperty(LAYER, 1);
+		BlockState state = getDefaultState();
+		if (context.getFace() == Direction.UP)
+			state = state.with(LAYER, 0);
+		else if (context.getFace() == Direction.DOWN)
+			state = state.with(LAYER, 1);
 		else
-			state = state.withProperty(LAYER, hitY > 2 / 3f ? 2 : hitY > 1 / 3f ? 1 : 0);
-		if (facing.getHorizontalIndex() >= 0)
-			state = state.withProperty(FACING, facing.getOpposite());
+			state = state
+					.with(LAYER, context.getHitVec().getY() > 2 / 3f ? 2 : context.getHitVec().getY() > 1 / 3f ? 1 : 0);
+		if (context.getFace().getHorizontalIndex() >= 0)
+			state = state.with(FACING, context.getFace().getOpposite());
 		else
-			state = state.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+			state = state.with(FACING, context.getPlacementHorizontalFacing().getOpposite());
 		return state;
-	}
-
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(LAYER, meta / 4).withProperty(FACING, EnumFacing.getHorizontal(meta & 3));
-	}
-
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(LAYER) * 4 + state.getValue(FACING).getHorizontalIndex();
-	}
-
-	@Override
-	public boolean isFullBlock(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(IBlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return false;
 	}
 }

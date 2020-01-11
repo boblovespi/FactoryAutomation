@@ -7,13 +7,13 @@ import boblovespi.factoryautomation.api.misc.IBellowsable;
 import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
@@ -43,13 +43,13 @@ public class TELeatherBellows extends TileEntity implements ITickable, IBellowsT
 	@Override
 	public void onLoad()
 	{
-		EnumFacing dir = world.getBlockState(pos).getValue(FACING);
+		Direction dir = world.getBlockState(pos).getValue(FACING);
 		mechanicalUser.SetSides(EnumSet.of(dir.getOpposite()));
 	}
 
 	public void Blow()
 	{
-		EnumFacing facing = world.getBlockState(pos).getValue(PaperBellows.FACING);
+		Direction facing = world.getBlockState(pos).getValue(PaperBellows.FACING);
 		TileEntity te = world.getTileEntity(pos.offset(facing));
 		if (te == null)
 			return;
@@ -84,7 +84,7 @@ public class TELeatherBellows extends TileEntity implements ITickable, IBellowsT
 		c2--;
 		if (c2 <= 0)
 		{
-			EnumFacing facing = world.getBlockState(pos).getValue(FACING);
+			Direction facing = world.getBlockState(pos).getValue(FACING);
 			TileEntity te = world.getTileEntity(pos.offset(facing.getOpposite()));
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
@@ -96,14 +96,14 @@ public class TELeatherBellows extends TileEntity implements ITickable, IBellowsT
 				mechanicalUser.SetTorqueOnFace(facing.getOpposite(), 0);
 			}
 			markDirty();
-			IBlockState state = world.getBlockState(pos);
+			BlockState state = world.getBlockState(pos);
 			world.notifyBlockUpdate(pos, state, state, 3);
 			c2 = 4;
 		}
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		super.readFromNBT(tag);
 		mechanicalUser.ReadFromNBT(tag.getCompoundTag("mechanicalUser"));
@@ -111,7 +111,7 @@ public class TELeatherBellows extends TileEntity implements ITickable, IBellowsT
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag)
+	public CompoundNBT writeToNBT(CompoundNBT tag)
 	{
 		tag.setTag("mechanicalUser", mechanicalUser.WriteToNBT());
 		tag.setFloat("counter", counter);
@@ -119,14 +119,14 @@ public class TELeatherBellows extends TileEntity implements ITickable, IBellowsT
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing)
+	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
 	{
 		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing)
+	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return (T) mechanicalUser;
@@ -137,7 +137,7 @@ public class TELeatherBellows extends TileEntity implements ITickable, IBellowsT
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		int meta = getBlockMetadata();
 		return new SPacketUpdateTileEntity(pos, meta, nbt);
@@ -151,9 +151,9 @@ public class TELeatherBellows extends TileEntity implements ITickable, IBellowsT
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag()
+	public CompoundNBT getUpdateTag()
 	{
-		NBTTagCompound nbt = new NBTTagCompound();
+		CompoundNBT nbt = new CompoundNBT();
 		writeToNBT(nbt);
 		return nbt;
 	}

@@ -2,9 +2,9 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class MultiblockHelper
 {
 	private static boolean IterateOverMultiblock(World world, BlockPos controllerPos, String structureId,
-			EnumFacing facing, IterateAction action)
+			Direction facing, IterateAction action)
 	{
 		boolean isValid = true;
 
@@ -70,7 +70,7 @@ public class MultiblockHelper
 						{
 							if (te instanceof IMultiblockControllerTE)
 								continue;
-							IBlockState state = world.getBlockState(loc);
+							BlockState state = world.getBlockState(loc);
 
 							if (part.AllowsAnyBlock() && state.getBlock().isAir(state, world, loc))
 								continue;
@@ -91,22 +91,22 @@ public class MultiblockHelper
 		return true;
 	}
 
-	public static boolean IsStructureComplete(World world, BlockPos pos, String id, EnumFacing facing)
+	public static boolean IsStructureComplete(World world, BlockPos pos, String id, Direction facing)
 	{
 		return IterateOverMultiblock(world, pos, id, facing, IterateAction.CHECK_VALID);
 	}
 
-	public static void CreateStructure(World world, BlockPos pos, String id, EnumFacing facing)
+	public static void CreateStructure(World world, BlockPos pos, String id, Direction facing)
 	{
 		IterateOverMultiblock(world, pos, id, facing, IterateAction.CREATE);
 	}
 
-	public static void BreakStructure(World world, BlockPos pos, String id, EnumFacing facing)
+	public static void BreakStructure(World world, BlockPos pos, String id, Direction facing)
 	{
 		IterateOverMultiblock(world, pos, id, facing, IterateAction.BREAK);
 	}
 
-	public static BlockPos AddWithRotation(BlockPos pos, int x, int y, int z, EnumFacing dir)
+	public static BlockPos AddWithRotation(BlockPos pos, int x, int y, int z, Direction dir)
 	{
 		switch (dir)
 		{

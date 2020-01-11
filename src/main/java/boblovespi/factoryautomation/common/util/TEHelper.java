@@ -3,8 +3,10 @@ package boblovespi.factoryautomation.common.util;
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.IHeatUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Direction;
 
 import static boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 
@@ -13,12 +15,12 @@ import static boblovespi.factoryautomation.api.energy.mechanical.CapabilityMecha
  */
 public class TEHelper
 {
-	public static boolean IsMechanicalFace(TileEntity te, EnumFacing face)
+	public static boolean IsMechanicalFace(TileEntity te, Direction face)
 	{
-		return te != null && te.hasCapability(MECHANICAL_USER_CAPABILITY, face);
+		return te != null && te.getCapability(MECHANICAL_USER_CAPABILITY, face).isPresent();
 	}
 
-	public static IMechanicalUser GetUser(TileEntity te, EnumFacing face)
+	public static IMechanicalUser GetUser(TileEntity te, Direction face)
 	{
 		return te.getCapability(MECHANICAL_USER_CAPABILITY, face);
 	}
@@ -38,5 +40,12 @@ public class TEHelper
 		float gamma = CapabilityHeatUser.AIR_CONDUCTIVITY;
 		float transfer = K_d * gamma * 0.05f * numOfSides;
 		heatUser.TransferEnergy(-transfer);
+	}
+
+	public static INamedContainerProvider GetContainer(TileEntity te)
+	{
+		if (te instanceof INamedContainerProvider)
+			return (INamedContainerProvider) te;
+		return null;
 	}
 }
