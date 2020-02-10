@@ -4,17 +4,21 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMillstone;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 
@@ -23,14 +27,16 @@ import javax.annotation.Nullable;
  */
 public class Millstone extends FABaseBlock
 {
-	public static final PropertyBool IS_TOP = PropertyBool.create("is_top");
+	public static final BooleanProperty IS_TOP = BooleanProperty.create("is_top");
 
 	public Millstone()
 	{
-		super(Material.ROCK, "millstone", FAItemGroups.mechanical);
-		setHardness(2.5f);
+		super("millstone", false,
+				Properties.create(Material.ROCK).hardnessAndResistance(2.5f).harvestTool(ToolType.PICKAXE)
+						  .harvestLevel(0), new Item.Properties().group(FAItemGroups.mechanical));
+
 		TileEntityHandler.tiles.add(TEMillstone.class);
-		setDefaultState(getDefaultState().withProperty(IS_TOP, false));
+		setDefaultState(stateContainer.getBaseState().with(IS_TOP, false));
 	}
 
 	@Override
@@ -47,32 +53,20 @@ public class Millstone extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, BlockState state)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEMillstone();
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, IS_TOP);
+		builder.add(IS_TOP);
 	}
 
 	@Override
-	public BlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState();
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return 0;
-	}
-
-	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
-			Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult result)
 	{
 		if (world.isRemote)
 			return true;
@@ -86,18 +80,18 @@ public class Millstone extends FABaseBlock
 		return true;
 	}
 
-	@Override
-	public boolean isFullCube(BlockState state)
-	{
-		return false;
-	}
-
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
-	 */
-	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
+	//	@Override
+	//	public boolean isFullCube(BlockState state)
+	//	{
+	//		return false;
+	//	}
+	//
+	//	/**
+	//	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	//	 */
+	//	@Override
+	//	public boolean isOpaqueCube(BlockState state)
+	//	{
+	//		return false;
+	//	}
 }

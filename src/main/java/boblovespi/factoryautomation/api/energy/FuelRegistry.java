@@ -1,6 +1,5 @@
 package boblovespi.factoryautomation.api.energy;
 
-import boblovespi.factoryautomation.common.util.ItemInfo;
 import net.minecraft.item.Item;
 
 import java.util.HashMap;
@@ -11,25 +10,29 @@ import java.util.HashMap;
 public class FuelRegistry
 {
 	public static final FuelInfo NULL = new FuelInfo(0, 0, 0);
-	private static final HashMap<ItemInfo, FuelInfo> fuels = new HashMap<>(10);
+	private static final HashMap<Item, FuelInfo> fuels = new HashMap<>(10);
 
 	private FuelRegistry()
 	{
 	}
 
+	/**
+	 * metadata officially deprecated, ItemInfo class useless
+	 */
+	@Deprecated
 	public static FuelInfo GetInfo(Item item, int meta)
 	{
-		return fuels.getOrDefault(new ItemInfo(item, meta), NULL);
+		return fuels.getOrDefault(item, NULL);
 	}
 
 	public static FuelInfo GetInfo(Item item)
 	{
-		return GetInfo(item, 0);
+		return fuels.getOrDefault(item, NULL);
 	}
 
 	public static void PutInfo(Item item, int meta, float burnTemp, int burnTime, int totalEnergy)
 	{
-		fuels.put(new ItemInfo(item, meta), new FuelInfo(burnTemp, burnTime, totalEnergy));
+		fuels.put(item, new FuelInfo(burnTemp, burnTime, totalEnergy));
 	}
 
 	public static void PutInfo(Item item, float burnTemp, int burnTime, int totalEnergy)
@@ -65,6 +68,4 @@ public class FuelRegistry
 			return totalEnergy;
 		}
 	}
-
-
 }

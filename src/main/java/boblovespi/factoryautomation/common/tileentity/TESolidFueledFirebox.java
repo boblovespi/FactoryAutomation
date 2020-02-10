@@ -8,21 +8,24 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
 
 import static boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser.HEAT_USER_CAPABILITY;
+import static boblovespi.factoryautomation.common.handler.TileEntityHandler.teSolidFueledFirebox;
 import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 
 /**
  * Created by Willi on 10/28/2018.
  */
-public class TESolidFueledFirebox extends TileEntity implements ITickable
+public class TESolidFueledFirebox extends TileEntity implements ITickableTileEntity
 {
 	private HeatUser heatUser;
 	private ItemStackHandler inventory;
@@ -33,6 +36,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 
 	public TESolidFueledFirebox()
 	{
+		super(teSolidFueledFirebox);
 		heatUser = new HeatUser(20, 1600, 300);
 		inventory = new ItemStackHandler(1);
 	}
@@ -41,7 +45,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		float K_d = heatUser.GetTemperature() - 20f;
 		float gamma = CapabilityHeatUser.AIR_CONDUCTIVITY;
@@ -53,7 +57,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 			burnTime--;
 			if (fuelInfo == FuelRegistry.NULL)
 			{
-				fuelInfo = FuelRegistry.GetInfo(stack.getItem(), stack.getItemDamage());
+				fuelInfo = FuelRegistry.GetInfo(stack.getItem());
 				if (fuelInfo == FuelRegistry.NULL)
 				{
 					burnTime = 0;
@@ -75,7 +79,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 		{
 			if (!stack.isEmpty())
 			{
-				fuelInfo = FuelRegistry.GetInfo(stack.getItem(), stack.getItemDamage());
+				fuelInfo = FuelRegistry.GetInfo(stack.getItem());
 				if (fuelInfo != FuelRegistry.NULL)
 				{
 					burnTime = fuelInfo.GetBurnTime();
@@ -88,30 +92,20 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 
 		markDirty();
 
+		// TODO: FIGURE OUT UPDATING TEs
 		/* IMPORTANT */
 		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == HEAT_USER_CAPABILITY && facing == Direction.UP)
-			return true;
+			return LazyOptional.of(() -> (T) heatUser);
 		if (capability == ITEM_HANDLER_CAPABILITY)
-			return true;
-		return false;
-	}
-
-	@Nullable
-	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
-	{
-		if (capability == HEAT_USER_CAPABILITY && facing == Direction.UP)
-			return (T) heatUser;
-		if (capability == ITEM_HANDLER_CAPABILITY)
-			return (T) inventory;
-		return null;
+			return LazyOptional.of(() -> (T) inventory);
+		return LazyOptional.empty();
 	}
 
 	public float GetTemp()
@@ -130,29 +124,29 @@ public class TESolidFueledFirebox extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		burnTime = tag.getInteger("burnTime");
-		maxBurnTime = tag.getInteger("maxBurnTime");
+		burnTime = tag.getInt("burnTime");
+		maxBurnTime = tag.getInt("maxBurnTime");
 		isBurningFuel = tag.getBoolean("isBurningFuel");
 
-		inventory.deserializeNBT(tag.getCompoundTag("inventory"));
-		heatUser.ReadFromNBT(tag.getCompoundTag("heatUser"));
+		inventory.deserializeNBT(tag.getCompound("inventory"));
+		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
 
-		super.readFromNBT(tag);
+		super.read(tag);
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setInteger("burnTime", burnTime);
-		tag.setInteger("maxBurnTime", maxBurnTime);
-		tag.setBoolean("isBurningFuel", isBurningFuel);
+		tag.putInt("burnTime", burnTime);
+		tag.putInt("maxBurnTime", maxBurnTime);
+		tag.putBoolean("isBurningFuel", isBurningFuel);
 
-		tag.setTag("inventory", inventory.serializeNBT());
-		tag.setTag("heatUser", heatUser.WriteToNBT());
+		tag.put("inventory", inventory.serializeNBT());
+		tag.put("heatUser", heatUser.WriteToNBT());
 
-		return super.writeToNBT(tag);
+		return super.write(tag);
 	}
 
 	@SuppressWarnings("MethodCallSideOnly")

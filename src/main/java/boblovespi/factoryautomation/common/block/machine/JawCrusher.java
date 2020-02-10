@@ -3,19 +3,23 @@ package boblovespi.factoryautomation.common.block.machine;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEJawCrusher;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.ITileEntityProvider;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -23,27 +27,24 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 2/17/2018.
  */
-public class JawCrusher extends FABaseBlock implements ITileEntityProvider
+public class JawCrusher extends FABaseBlock
 {
-	public static PropertyDirection FACING = BlockHorizontal.FACING;
+	public static DirectionProperty FACING = BlockStateProperties.FACING;
 
 	public JawCrusher()
 	{
-		super(Material.CIRCUITS, "jaw_crusher");
-		setDefaultState(blockState.getBaseState()
-								  .withProperty(FACING, Direction.NORTH));
+		super("jaw_crusher", false, Properties.create(Material.IRON).hardnessAndResistance(1.5f),
+				new Item.Properties().group(FAItemGroups.mechanical));
+		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEJawCrusher.class);
 	}
 
 	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 *
-	 * @param worldIn
-	 * @param meta
 	 */
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState meta, IBlockReader worldIn)
 	{
 		return new TEJawCrusher();
 	}
@@ -52,9 +53,8 @@ public class JawCrusher extends FABaseBlock implements ITileEntityProvider
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos,
-			BlockState state, PlayerEntity playerIn, EnumHand hand,
-			Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand,
+			BlockRayTraceResult result)
 	{
 		if (worldIn.isRemote)
 			return true;
@@ -75,36 +75,14 @@ public class JawCrusher extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos,
-			Direction facing, float hitX, float hitY, float hitZ, int meta,
-			EntityLivingBase placer, EnumHand hand)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState()
-				   .withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
 	}
 
 	@Override
-	public BlockState getStateFromMeta(int meta)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		Direction Direction = Direction.getHorizontal(meta & 3);
-
-		if (Direction.getAxis() == Direction.Axis.Y)
-		{
-			Direction = Direction.NORTH;
-		}
-
-		return this.getDefaultState().withProperty(FACING, Direction);
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return state.getValue(FACING).getHorizontalIndex();
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, FACING);
+		builder.add(FACING);
 	}
 }

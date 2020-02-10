@@ -2,18 +2,19 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLiving;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.UUID;
@@ -21,32 +22,35 @@ import java.util.UUID;
 /**
  * Created by Willi on 7/4/2019.
  */
-public class TEHorseEngine extends TileEntity implements ITickable
+public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 {
 	private MechanicalUser user;
 	private boolean hasHorse = false;
 	private UUID horseId;
-	private EntityLiving horse;
+	private MobEntity horse;
 	private int moveTimer = 0;
 	private int angle = 0;
+	private LazyOptional<MechanicalUser> lazyUser;
 
 	public TEHorseEngine()
 	{
+		super(TileEntityHandler.teHorseEngine);
 		user = new MechanicalUser(EnumSet.of(Direction.UP));
+		lazyUser = LazyOptional.of(() -> user);
 	}
 
 	@Override
 	public void onLoad()
 	{
 		if (!world.isRemote && hasHorse)
-			horse = (EntityLiving) ((WorldServer) world).getEntityFromUuid(horseId);
+			horse = (MobEntity) ((ServerWorld) world).getEntityByUuid(horseId);
 	}
 
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote || !hasHorse)
 			return;
@@ -58,7 +62,7 @@ public class TEHorseEngine extends TileEntity implements ITickable
 				hasHorse = false;
 				return;
 			}
-			horse = (EntityLiving) ((WorldServer) world).getEntityFromUuid(horseId);
+			horse = (MobEntity) ((ServerWorld) world).getEntityByUuid(horseId);
 		}
 		if (horse.getNavigator().noPath())
 		{
@@ -75,84 +79,78 @@ public class TEHorseEngine extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
-		user.ReadFromNBT(tag.getCompoundTag("user"));
+		super.read(tag);
+		user.ReadFromNBT(tag.getCompound("user"));
 		hasHorse = tag.getBoolean("hasHorse");
 		if (hasHorse)
 			horseId = tag.getUniqueId("horseId");
-		moveTimer = tag.getInteger("moveTimer");
-		angle = tag.getInteger("angle");
+		moveTimer = tag.getInt("moveTimer");
+		angle = tag.getInt("angle");
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setTag("user", user.WriteToNBT());
+		tag.put("user", user.WriteToNBT());
 		if (hasHorse)
-			tag.setUniqueId("horseId", horseId);
-		tag.setBoolean("hasHorse", hasHorse);
-		tag.setInteger("moveTimer", moveTimer);
-		tag.setInteger("angle", angle);
-		return super.writeToNBT(tag);
+			tag.putUniqueId("horseId", horseId);
+		tag.putBoolean("hasHorse", hasHorse);
+		tag.putFloat("moveTimer", moveTimer);
+		tag.putFloat("angle", angle);
+		return super.write(tag);
 	}
 
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
+	//	@Nullable
+	//	@Override
+	//	public SPacketUpdateTileEntity getUpdatePacket()
+	//	{
+	//		CompoundNBT nbt = new CompoundNBT();
+	//		writeToNBT(nbt);
+	//		int meta = getBlockMetadata();
+	//		return new SPacketUpdateTileEntity(pos, meta, nbt);
+	//	}
+	//
+	//	@SuppressWarnings("MethodCallSideOnly")
+	//	@Override
+	//	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	//	{
+	//		this.readFromNBT(pkt.getNbtCompound());
+	//	}
+	//
+	//	@Override
+	//	public CompoundNBT getUpdateTag()
+	//	{
+	//		CompoundNBT nbt = new CompoundNBT();
+	//		writeToNBT(nbt);
+	//		return nbt;
+	//	}
+	//
+	//	@Override
+	//	public void handleUpdateTag(CompoundNBT tag)
+	//	{
+	//		readFromNBT(tag);
+	//	}
+	//
+	//	@Override
+	//	public CompoundNBT getTileData()
+	//	{
+	//		CompoundNBT nbt = new CompoundNBT();
+	//		writeToNBT(nbt);
+	//		return nbt;
+	//	}
 
-	@SuppressWarnings("MethodCallSideOnly")
+	@Nonnull
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
-	}
-
-	@Nullable
-	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return (T) user;
-		return null;
+			return lazyUser.cast();
+		return LazyOptional.empty();
 	}
 
-	public boolean AttachHorse(EntityLiving horse)
+	public boolean AttachHorse(MobEntity horse)
 	{
 		if (hasHorse)
 			return false;

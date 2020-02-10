@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 /**
  * Created by Willi on 11/19/2017.
@@ -34,5 +35,5 @@ public interface IMultiblockControllerTE
 	 * @param side the side which is accessed
 	 * @return the capability implementation which to use
 	 */
-	<T> T GetCapability(Capability<T> capability, int[] offset, Direction side);
+	<T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side);
 }

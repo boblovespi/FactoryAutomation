@@ -2,15 +2,19 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import static boblovespi.factoryautomation.common.handler.TileEntityHandler.teMultiblockPart;
 
 /**
  * Created by Willi on 11/26/2017.
@@ -22,6 +26,11 @@ public class TEMultiblockPart extends TileEntity
 	private int[] structureOffset = new int[3]; // the offset from the controller, in world coordinates
 	private BlockState state;
 	private IMultiblockControllerTE controller;
+
+	public TEMultiblockPart()
+	{
+		super(teMultiblockPart);
+	}
 
 	/**
 	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
@@ -56,9 +65,9 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT compound)
+	public void read(CompoundNBT compound)
 	{
-		super.readFromNBT(compound);
+		super.read(compound);
 		structurePosition = compound.getIntArray("structurePosition");
 		structureId = compound.getString("structure");
 		structureOffset = compound.getIntArray("structureOffset");
@@ -66,13 +75,13 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT compound)
+	public CompoundNBT write(CompoundNBT compound)
 	{
-		compound.setIntArray("structurePosition", structurePosition);
-		compound.setString("structure", structureId);
-		compound.setIntArray("structureOffset", structureOffset);
+		compound.putIntArray("structurePosition", structurePosition);
+		compound.putString("structure", structureId);
+		compound.putIntArray("structureOffset", structureOffset);
 		NBTHelper.SetBlockState(compound, state, "blockState");
-		return super.writeToNBT(compound);
+		return super.write(compound);
 	}
 
 	public String GetStructureId()
@@ -95,20 +104,12 @@ public class TEMultiblockPart extends TileEntity
 		return state;
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (controller == null)
-			return null;
+			return LazyOptional.empty();
 		return controller.GetCapability(capability, structurePosition, facing);
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		if (controller == null)
-			return false;
-		return controller.GetCapability(capability, structurePosition, facing) != null;
 	}
 }

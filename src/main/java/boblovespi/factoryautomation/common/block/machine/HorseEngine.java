@@ -5,18 +5,24 @@ import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHorseEngine;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.properties.EnumProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.passive.AbstractHorse;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -31,43 +37,43 @@ public class HorseEngine extends FABaseBlock
 	public HorseEngine()
 	{
 		super(Materials.WOOD_MACHINE, "horse_engine", FAItemGroups.mechanical);
-		setDefaultState(getDefaultState().withProperty(PART, Part.TOP));
+		setDefaultState(getDefaultState().with(PART, Part.TOP));
 		TileEntityHandler.tiles.add(TEHorseEngine.class);
 	}
 
 	@Override
 	public boolean hasTileEntity(BlockState state)
 	{
-		return state.getValue(PART) == Part.TOP;
+		return state.get(PART) == Part.TOP;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, BlockState state)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return hasTileEntity(state) ? new TEHorseEngine() : null;
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, PART);
+		builder.add(PART);
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
-			Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
-		if (state.getValue(PART) != Part.TOP)
+		if (state.get(PART) != Part.TOP)
 			return false;
 		if (world.isRemote)
 			return true;
 
-		for (EntityLiving horse : world.getEntitiesWithinAABB(EntityLiving.class,
+		for (MobEntity horse : world.getEntitiesWithinAABB(MobEntity.class,
 				new AxisAlignedBB(pos.getX() - 7.0D, pos.getY() - 7.0D, pos.getZ() - 7.0D, pos.getX() + 7.0D,
 						pos.getY() + 7.0D, pos.getZ() + 7.0D)))
 		{
-			if (horse.getLeashed() && horse.getLeashHolder() == player && horse instanceof AbstractHorse)
+			if (horse.getLeashed() && horse.getLeashHolder() == player && horse instanceof AbstractHorseEntity)
 			{
 				horse.clearLeashed(true, true);
 				TileEntity te = world.getTileEntity(pos);
@@ -77,19 +83,6 @@ public class HorseEngine extends FABaseBlock
 		}
 		return true;
 	}
-
-	@Override
-	public BlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(PART, Part.values()[meta]);
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return state.getValue(PART).ordinal();
-	}
-
 	public enum Part implements IStringSerializable
 	{
 		TOP("top"), MIDDLE("middle"), BOTTOM("bottom");
