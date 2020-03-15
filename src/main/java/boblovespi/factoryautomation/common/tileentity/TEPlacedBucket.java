@@ -1,16 +1,15 @@
 package boblovespi.factoryautomation.common.tileentity;
 
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nullable;
 
@@ -23,7 +22,8 @@ public class TEPlacedBucket extends TileEntity
 
 	public TEPlacedBucket()
 	{
-		handler = new FluidTank(Fluid.BUCKET_VOLUME)
+		super(/**/);
+		handler = new FluidTank(1000)
 		{
 			@Override
 			protected void onContentsChanged()
@@ -99,7 +99,7 @@ public class TEPlacedBucket extends TileEntity
 
 	public Fluid GetFluid()
 	{
-		if (handler.getFluidAmount() == handler.getCapacity() && handler.getFluid() != null)
+		if (handler.getFluidAmount() == handler.getCapacity())
 			return handler.getFluid().getFluid();
 		return null;
 	}

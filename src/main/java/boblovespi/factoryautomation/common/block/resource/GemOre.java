@@ -1,12 +1,14 @@
 package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
 
@@ -17,20 +19,20 @@ import java.util.Random;
 public class GemOre extends FABaseBlock
 {
 	private final OreData data;
+	private final Random random;
 
-	public GemOre(String unlocalizedName, OreData data)
+	public GemOre(String name, OreData data)
 	{
-		super(Material.ROCK, unlocalizedName, null);
+		super(name, false, Properties.create(Material.ROCK).hardnessAndResistance(data.hardness, data.resistance)
+									 .harvestLevel(data.miningLevel).harvestTool(ToolType.PICKAXE),
+				new Item.Properties().group(ItemGroup.BUILDING_BLOCKS));
 		this.data = data;
-		setHarvestLevel("pickaxe", data.miningLevel);
-		setHardness(data.hardness);
-		setResistance(data.resistance);
+		random = new Random();
 	}
 
 	/**
 	 * Get the Item that this Block should drop when harvested.
 	 */
-	@Override
 	public Item getItemDropped(BlockState state, Random rand, int fortune)
 	{
 		return data.ore;
@@ -49,8 +51,7 @@ public class GemOre extends FABaseBlock
 	 */
 	public int quantityDroppedWithBonus(int fortune, Random random)
 	{
-		if (fortune > 0 && Item.getItemFromBlock(this) != this
-				.getItemDropped(this.getBlockState().getValidStates().iterator().next(), random, fortune))
+		if (fortune > 0 && item != getItemDropped(stateContainer.getBaseState(), random, fortune))
 		{
 			int i = random.nextInt(fortune + 2) - 1;
 
@@ -67,10 +68,9 @@ public class GemOre extends FABaseBlock
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, IBlockAccess world, BlockPos pos, int fortune)
+	public int getExpDrop(BlockState state, IWorldReader world, BlockPos pos, int fortune, int silktouch)
 	{
-		Random rand = world instanceof World ? ((World) world).rand : new Random();
-
+		Random rand = world instanceof World ? ((World) world).rand : random;
 		return data.xpChance.apply(rand, fortune);
 	}
 
