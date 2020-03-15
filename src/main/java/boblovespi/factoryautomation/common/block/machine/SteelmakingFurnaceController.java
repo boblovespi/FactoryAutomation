@@ -1,25 +1,23 @@
 package boblovespi.factoryautomation.common.block.machine;
 
-import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.multiblock.IMultiblockStructureController;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.EnumProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -28,46 +26,23 @@ import javax.annotation.Nullable;
  * Created by Willi on 12/23/2017.
  */
 public class SteelmakingFurnaceController extends FABaseBlock
-		implements ITileEntityProvider, IMultiblockStructureController
 {
-	public static final IProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class, Axis.X, Axis.Z);
-	public static final PropertyBool MULTIBLOCK_COMPLETE = PropertyBool.create("multiblock_complete");
+	public static final EnumProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class, Axis.X, Axis.Z);
+	public static final BooleanProperty MULTIBLOCK_COMPLETE = BooleanProperty.create("multiblock_complete");
 
 	public SteelmakingFurnaceController()
 	{
 		super(Material.DRAGON_EGG, "steelmaking_furnace_controller", null);
 	}
 
-	@Override
 	public String GetPatternId()
 	{
 		return "steelmaking_furnace";
 	}
 
-	@Override
-	public void CreateStructure(World world, BlockPos pos)
-	{
-
-	}
-
-	@Override
-	public void BreakStructure(World world, BlockPos pos)
-	{
-
-	}
-
-	@Override
-	public void SetStructureCompleted(World world, BlockPos pos, boolean completed)
-	{
-
-	}
-
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 */
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TESteelmakingFurnace();
 	}
@@ -76,21 +51,22 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
-			EnumHand hand, Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
+			BlockRayTraceResult hit)
 	{
 		if (!worldIn.isRemote)
 		{
 			if (MultiblockHelper.IsStructureComplete(worldIn, pos, GetPatternId(),
-					worldIn.getBlockState(pos).getValue(AXIS) == Axis.X ? Direction.WEST : Direction.NORTH) /*|| MultiblockHelper
+					worldIn.getBlockState(pos).get(AXIS) == Axis.X ? Direction.WEST : Direction.NORTH) /*|| MultiblockHelper
 					.IsStructureComplete(worldIn, pos, GetPatternId(),
 										 Direction.NORTH)*/)
 			{
 				TileEntity te = worldIn.getTileEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
 					((TESteelmakingFurnace) te).CreateStructure();
-				playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STEELMAKING_FURNACE.id, worldIn,
-						pos.getX(), pos.getY(), pos.getZ());
+				// TODO: GUIS
+				//				playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STEELMAKING_FURNACE.id, worldIn,
+				//						pos.getX(), pos.getY(), pos.getZ());
 			} else
 			{
 				TileEntity te = worldIn.getTileEntity(pos);
@@ -102,30 +78,15 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	}
 
 	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState().withProperty(AXIS, placer.getHorizontalFacing().getAxis())
-				   .withProperty(MULTIBLOCK_COMPLETE, false);
+		return this.getDefaultState().with(AXIS, context.getPlacementHorizontalFacing().getAxis());
 	}
 
 	@Override
-	public BlockState getStateFromMeta(int meta)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return getDefaultState().withProperty(AXIS, (meta & 1) == 1 ? Axis.X : Axis.Z)
-								.withProperty(MULTIBLOCK_COMPLETE, (meta & 2) == 2);
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return (state.getValue(AXIS) == Axis.X ? 1 : 0) | (state.getValue(MULTIBLOCK_COMPLETE) ? 2 : 0);
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, AXIS, MULTIBLOCK_COMPLETE);
+		builder.add(AXIS, MULTIBLOCK_COMPLETE);
 	}
 }
 

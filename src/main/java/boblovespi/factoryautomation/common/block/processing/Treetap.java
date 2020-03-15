@@ -3,59 +3,55 @@ package boblovespi.factoryautomation.common.block.processing;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.processing.TETreetap;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.ITileEntityProvider;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 6/26/2018.
  */
-public class Treetap extends FABaseBlock implements ITileEntityProvider
+public class Treetap extends FABaseBlock
 {
-	public static final IProperty<Direction> FACING = BlockHorizontal.FACING;
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 1, 1);
+	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 1, 1, 1);
 
 	public Treetap()
 	{
-		super(Material.IRON, "treetap", null);
+		super("treetap", false, Properties.create(Material.IRON).hardnessAndResistance(1), new Item.Properties().group(
+				FAItemGroups.resources));
 		TileEntityHandler.tiles.add(TETreetap.class);
-		setDefaultState(getDefaultState().withProperty(FACING, Direction.NORTH));
+		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
 	}
 
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 */
+	@Override
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TETreetap();
 	}
 
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
-	 */
 	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
 		return BOUNDING_BOX;
 	}
@@ -64,33 +60,14 @@ public class Treetap extends FABaseBlock implements ITileEntityProvider
 	 * Gets the {@link BlockState} to place
 	 */
 	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+		return getDefaultState().with(FACING, context.getFace().getOpposite());
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, FACING);
-	}
-
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 */
-	@Override
-	public BlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(FACING, Direction.getHorizontal(meta));
-	}
-
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 */
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return state.getValue(FACING).getHorizontalIndex();
+		builder.add(FACING);
 	}
 }

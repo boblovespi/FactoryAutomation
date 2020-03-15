@@ -5,16 +5,19 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -25,14 +28,14 @@ import java.util.function.Predicate;
  */
 public class IronCharcoalMix extends FABaseBlock
 {
-	public static final PropertyBool ACTIVATED = LogPile.ACTIVATED;
+	public static final BooleanProperty ACTIVATED = LogPile.ACTIVATED;
 
 	public IronCharcoalMix()
 	{
-		super(Material.ROCK, "iron_charcoal_mix", FAItemGroups.metallurgy);
-		setDefaultState(getDefaultState().withProperty(ACTIVATED, false));
-		setHardness(3.5f);
-		setHarvestLevel("shovel", 0);
+		super("iron_charcoal_mix", false, Properties.create(Material.ROCK).hardnessAndResistance(3.5f).harvestLevel(0)
+													.harvestTool(ToolType.SHOVEL),
+				new Item.Properties().group(FAItemGroups.metallurgy));
+		setDefaultState(stateContainer.getBaseState().with(ACTIVATED, false));
 	}
 
 	@Override
@@ -42,15 +45,15 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public int tickRate(World worldIn)
+	public int tickRate(IWorldReader worldIn)
 	{
 		return 6000;
 	}
 
 	@Override
-	public void updateTick(World world, BlockPos pos, BlockState state, Random rand)
+	public void tick(BlockState state, World world, BlockPos pos, Random rand)
 	{
-		boolean activated = state.getValue(ACTIVATED);
+		boolean activated = state.get(ACTIVATED);
 		if (activated)
 		{
 			if (isSurrounded(
@@ -58,7 +61,7 @@ public class IronCharcoalMix extends FABaseBlock
 							|| n.getBlock() == FABlocks.ironBloom))
 				world.setBlockState(pos, FABlocks.ironBloom.ToBlock().getDefaultState());
 			else
-				world.setBlockState(pos, state.withProperty(ACTIVATED, false));
+				world.setBlockState(pos, state.with(ACTIVATED, false));
 		}
 	}
 
@@ -68,15 +71,15 @@ public class IronCharcoalMix extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos)
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block1, BlockPos fromPos, boolean isMoving)
 	{
 		BlockState block = world.getBlockState(fromPos);
-		if (!state.getValue(ACTIVATED))
+		if (!state.get(ACTIVATED))
 		{
-			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.getValue(ACTIVATED)))
+			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.get(ACTIVATED)))
 			{
-				world.setBlockState(pos, state.withProperty(ACTIVATED, true), 7);
-				world.scheduleUpdate(pos, this, tickRate(world));
+				world.setBlockState(pos, state.with(ACTIVATED, true), 7);
+				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 			}
 
 		} else
@@ -101,52 +104,37 @@ public class IronCharcoalMix extends FABaseBlock
 				}
 			}
 			if (!sidesOnFire && !isSurrounded)
-				world.setBlockState(pos, state.withProperty(ACTIVATED, false));
+				world.setBlockState(pos, state.with(ACTIVATED, false));
 		}
 	}
 
-	/**
-	 * Determines if this block should set fire and deal fire damage
-	 * to entities coming into contact with it.
-	 */
 	@Override
-	public boolean isBurning(IBlockAccess world, BlockPos pos)
+	public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos)
 	{
-		return world.getBlockState(pos).getValue(ACTIVATED);
+		return state.get(ACTIVATED);
 	}
 
 	@Override
-	public BlockState getStateFromMeta(int meta)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return getDefaultState().withProperty(ACTIVATED, meta == 1);
+		builder.add(ACTIVATED);
 	}
 
 	@Override
-	public int getMetaFromState(BlockState state)
+	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
-		return state.getValue(ACTIVATED) ? 1 : 0;
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, ACTIVATED);
-	}
-
-	@Override
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
-	{
-		if (!state.getValue(ACTIVATED))
+		if (!state.get(ACTIVATED))
 			return;
 		double x = pos.getX() + 0.5;
 		double y = pos.getY() + 0.5;
 		double z = pos.getZ() + 0.5;
-		world.spawnParticle(EnumParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
+		world.addParticle(
+				ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
 				rand.nextDouble() / 20d);
-		world.spawnParticle(
-				EnumParticleTypes.SMOKE_NORMAL, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
-		world.spawnParticle(
-				EnumParticleTypes.SMOKE_NORMAL, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		world.addParticle(
+				ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		world.addParticle(
+				ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
 	private boolean isSurrounded(World world, BlockPos pos, @Nullable Predicate<BlockState> block)
@@ -157,7 +145,7 @@ public class IronCharcoalMix extends FABaseBlock
 			BlockState state = world.getBlockState(offset);
 			if (block == null)
 			{
-				if (!state.isSideSolid(world, offset, dir.getOpposite()) && state.getBlock() != this)
+				if (!Block.hasSolidSide(state, world, offset, dir.getOpposite()) && state.getBlock() != this)
 					return false;
 			} else
 			{

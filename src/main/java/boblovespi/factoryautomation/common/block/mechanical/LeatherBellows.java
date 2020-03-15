@@ -4,89 +4,58 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.EnumProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 5/5/2019.
  */
-public class LeatherBellows extends FABaseBlock implements ITileEntityProvider
+public class LeatherBellows extends FABaseBlock
 {
-	public static final EnumProperty<Direction> FACING = BlockHorizontal.FACING;
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
 	public LeatherBellows()
 	{
-		super(Material.CLOTH, "leather_bellows", FAItemGroups.mechanical);
-		setHardness(0.5f);
-		setSoundType(SoundType.CLOTH);
+		super("leather_bellows", false,
+				Properties.create(Material.WOOD).hardnessAndResistance(0.5f).sound(SoundType.CLOTH),
+				new Item.Properties().group(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TELeatherBellows.class);
 	}
 
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 */
+	@Override
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TELeatherBellows();
 	}
 
 	@Override
-	public BlockState getStateFromMeta(int meta)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().withProperty(FACING, Direction.getHorizontal(meta));
-
+		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
 	}
 
 	@Override
-	public int getMetaFromState(BlockState state)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return state.getValue(FACING).getHorizontalIndex();
-	}
-
-	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-	{
-		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, FACING);
-	}
-
-	@Override
-	public boolean isFullBlock(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return false;
+		builder.add(FACING);
 	}
 }

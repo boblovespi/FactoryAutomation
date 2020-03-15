@@ -1,27 +1,29 @@
 package boblovespi.factoryautomation.common.block.processing;
 
-import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.EnumProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 
@@ -30,45 +32,21 @@ import javax.annotation.Nullable;
  */
 public class BrickCrucible extends FABaseBlock
 {
-	public static final PropertyBool MULTIBLOCK_COMPLETE = PropertyBool.create("multiblock_complete");
-	public static final EnumProperty<Direction> FACING = BlockHorizontal.FACING;
+	public static final BooleanProperty MULTIBLOCK_COMPLETE = BooleanProperty.create("multiblock_complete");
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(2 / 16d, 0, 2 / 16d, 14 / 16d, 1, 14 / 16d);
 
 	public BrickCrucible()
 	{
-		super(Material.ROCK, "brick_crucible", FAItemGroups.metallurgy);
-		setDefaultState(getStateFromMeta(0));
+		super("brick_crucible", false, Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0).harvestTool(
+				ToolType.PICKAXE), new Item.Properties().group(FAItemGroups.metallurgy));
 		TileEntityHandler.tiles.add(TEBrickCrucible.class);
-		setHardness(1.5f);
-		setHarvestLevel("pickaxe", 0);
 	}
 
 	@Override
 	public String GetMetaFilePath(int meta)
 	{
 		return "processing/" + RegistryName();
-	}
-
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
-	public boolean isFullCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return false;
-	}
-
-	@Override
-	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
-	{
-		return BOUNDING_BOX;
 	}
 
 	@Override
@@ -79,58 +57,46 @@ public class BrickCrucible extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, BlockState state)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEBrickCrucible();
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, FACING, MULTIBLOCK_COMPLETE);
-	}
-
-	@Override
-	public BlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(FACING, Direction.getHorizontal(meta & 3))
-								.withProperty(MULTIBLOCK_COMPLETE, (meta & 4) == 4);
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return state.getValue(FACING).getHorizontalIndex() | (state.getValue(MULTIBLOCK_COMPLETE) ? 4 : 0);
+		builder.add(FACING, MULTIBLOCK_COMPLETE);
 	}
 
 	/**
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
-			EnumHand hand, Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
-		if (!worldIn.isRemote)
+		if (!world.isRemote)
 		{
-			if (MultiblockHelper
-					.IsStructureComplete(worldIn, pos, TEBrickCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
+			if (MultiblockHelper.IsStructureComplete(world, pos, TEBrickCrucible.MULTIBLOCK_ID, state.get(FACING)))
 			{
-				TileEntity te = worldIn.getTileEntity(pos);
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TEBrickCrucible)
 				{
 					TEBrickCrucible foundry = (TEBrickCrucible) te;
 					if (!foundry.IsStructureValid())
 						foundry.CreateStructure();
 
-					if (facing == state.getValue(FACING).rotateYCCW())
-						foundry.PourInto(facing);
+					if (hit.getFace() == state.get(FACING).rotateYCCW())
+						foundry.PourInto(hit.getFace());
 					else
-						playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.BRICK_FOUNDRY.id, worldIn,
-								pos.getX(), pos.getY(), pos.getZ());
+						;
+					//	player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.BRICK_FOUNDRY.id, world,
+					//	pos.getX(), pos.getY(), pos.getZ());
+					// TODO: GUIs
 				}
 			} else
 			{
-				TileEntity te = worldIn.getTileEntity(pos);
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TEBrickCrucible)
 					((TEBrickCrucible) te).SetStructureInvalid();
 			}
@@ -142,9 +108,8 @@ public class BrickCrucible extends FABaseBlock
 	 * Gets the {@link BlockState} to place
 	 */
 	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().rotateYCCW());
+		return getDefaultState().with(FACING, context.getPlacementHorizontalFacing().rotateYCCW());
 	}
 }

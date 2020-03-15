@@ -2,59 +2,65 @@ package boblovespi.factoryautomation.common.block.mechanical;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.EnumProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 1/15/2018.
  */
-public class PowerShaft extends FABaseBlock implements ITileEntityProvider
+public class PowerShaft extends FABaseBlock
 {
 	public static EnumProperty<Axis> AXIS = EnumProperty.create("facing", Axis.class);
-	public static PropertyBool IS_TESR = PropertyBool.create("is_tesr");
+	public static BooleanProperty IS_TESR = BooleanProperty.create("is_tesr");
 
 	public static AxisAlignedBB[] AABB = new AxisAlignedBB[] {
 			new AxisAlignedBB(6.5 / 16d, 0 / 16d, 6.5 / 16d, 6.5 / 16d + 3 / 16d, 16 / 16d, 6.5 / 16d + 3 / 16d),
 			new AxisAlignedBB(0 / 16d, 6.5 / 16d, 6.5 / 16d, 16 / 16d, 6.5 / 16d + 3 / 16d, 6.5 / 16d + 3 / 16d),
 			new AxisAlignedBB(6.5 / 16d, 6.5 / 16d, 0 / 16d, 6.5 / 16d + 3 / 16d, 6.5 / 16d + 3 / 16d,
 					16 / 16d) }; // 0: up; 1: n-s; 2: e-w
+	public static VoxelShape[] VOXELS = new VoxelShape[3];
 
 	public PowerShaft()
 	{
 		super(Material.IRON, "power_shaft", null);
-		setDefaultState(blockState.getBaseState().withProperty(AXIS, Axis.X).withProperty(IS_TESR, false));
+		setDefaultState(stateContainer.getBaseState().with(AXIS, Axis.X).with(IS_TESR, false));
+		if (VOXELS[0] == null)
+			for (int i = 0; i < 3; i++)
+			{
+				VOXELS[i] = VoxelShapes.create(AABB[i]);
+			}
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
-		return AABB[GetAxisId(state.getValue(AXIS))];
+		return VOXELS[GetAxisId(state.get(AXIS))];
 	}
 
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 *
-	 * @param worldIn
-	 * @param meta
-	 */
+	@Override
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEPowerShaft();
 	}
@@ -74,68 +80,16 @@ public class PowerShaft extends FABaseBlock implements ITileEntityProvider
 		}
 	}
 
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 *
-	 * @param meta
-	 */
 	@Override
-	public BlockState getStateFromMeta(int meta)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		switch (meta)
-		{
-		case 0:
-			return getDefaultState().withProperty(AXIS, Axis.Y);
-		case 1:
-			return getDefaultState().withProperty(AXIS, Axis.X);
-		case 2:
-			return getDefaultState().withProperty(AXIS, Axis.Z);
-		default:
-			return getDefaultState();
-		}
-	}
-
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 *
-	 * @param state
-	 */
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return GetAxisId(state.getValue(AXIS));
+		builder.add(AXIS, IS_TESR);
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return new BlockStateContainer(this, AXIS, IS_TESR);
-	}
-
-	@Override
-	public BlockState getStateForPlacement(World worldIn, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer)
-	{
-		return this.getDefaultState().withProperty(AXIS, facing.getAxis());
-	}
-
-	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
-	{
-		return this.getDefaultState().withProperty(AXIS, facing.getAxis());
-	}
-
-	@Override
-	public boolean isFullCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
+		return this.getDefaultState().with(AXIS, context.getFace().getAxis());
 	}
 
 	@Override

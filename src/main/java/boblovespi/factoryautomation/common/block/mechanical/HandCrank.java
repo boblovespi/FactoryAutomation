@@ -4,19 +4,21 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -24,9 +26,9 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 9/3/2018.
  */
-public class HandCrank extends FABaseBlock implements ITileEntityProvider
+public class HandCrank extends FABaseBlock
 {
-	public static final PropertyBool INVERTED = PropertyBool.create("inverted");
+	public static final BooleanProperty INVERTED = BooleanProperty.create("inverted");
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
 			2 / 16d, 0, 2 / 16d, 14 / 16d, 14 / 16d, 14 / 16d);
 	private static final AxisAlignedBB BOUNDING_BOX_I = new AxisAlignedBB(
@@ -34,27 +36,27 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 
 	public HandCrank()
 	{
-		super(Material.WOOD, "hand_crank", FAItemGroups.mechanical);
+		super("hand_crank", false, Properties.create(Material.WOOD).hardnessAndResistance(1.3f),
+				new Item.Properties().group(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TEHandCrank.class);
-		setDefaultState(getDefaultState().withProperty(INVERTED, false));
+		setDefaultState(stateContainer.getBaseState().with(INVERTED, false));
 	}
 
-	/**
-	 * Gets the {@link BlockState} to place
-	 */
 	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return facing == Direction.DOWN ? getDefaultState().withProperty(INVERTED, true) : getDefaultState();
+		return context.getFace() == Direction.DOWN ? getDefaultState().with(INVERTED, true) : getDefaultState();
 	}
 
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 */
+	@Override
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEHandCrank();
 	}
@@ -63,8 +65,8 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
-			Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
 		{
@@ -82,38 +84,8 @@ public class HandCrank extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public boolean isFullCube(BlockState state)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
-	{
-		return state.getValue(INVERTED) ? BOUNDING_BOX_I : BOUNDING_BOX;
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, INVERTED);
-	}
-
-	@Override
-	public BlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(INVERTED, meta == 1);
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return state.getValue(INVERTED) ? 1 : 0;
+		builder.add(INVERTED);
 	}
 }

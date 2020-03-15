@@ -17,10 +17,10 @@ public class FABaseBlock extends Block implements FABlock
 	protected FAItemBlock item;
 	private String unlocalizedName;
 
-	public FABaseBlock(String unlocalizedName, boolean hasCustomItem, Properties properties, Item.Properties itemProperties)
+	public FABaseBlock(String name, boolean hasCustomItem, Properties properties, Item.Properties itemProperties)
 	{
 		super(properties);
-		this.unlocalizedName = unlocalizedName;
+		this.unlocalizedName = name;
 		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
 		// setResistance(10000);

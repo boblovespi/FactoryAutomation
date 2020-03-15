@@ -6,21 +6,23 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.tools.Wrench;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -28,95 +30,58 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 5/6/2018.
  */
-public class Gearbox extends FABaseBlock implements ITileEntityProvider
+public class Gearbox extends FABaseBlock
 {
-	public static PropertyDirection FACING = PropertyDirection.create("facing");
+	public static DirectionProperty FACING = BlockStateProperties.FACING;
 
 	public Gearbox()
 	{
 		super(Material.IRON, "gearbox", null);
-		setDefaultState(blockState.getBaseState().withProperty(FACING, Direction.WEST));
+		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.WEST));
 		TileEntityHandler.tiles.add(TEGearbox.class);
 	}
 
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 *
-	 * @param worldIn
-	 * @param meta
-	 */
+	@Override
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEGearbox();
 	}
 
-	/**
-	 * Gets the {@link BlockState} to place
-	 *
-	 * @param world  The world the block is being placed in
-	 * @param pos    The position the block is being placed at
-	 * @param facing The side the block is being placed on
-	 * @param hitX   The X coordinate of the hit vector
-	 * @param hitY   The Y coordinate of the hit vector
-	 * @param hitZ   The Z coordinate of the hit vector
-	 * @param meta   The metadata of {@link ItemStack} as processed by {@link Item#getMetadata(int)}
-	 * @param placer The entity placing the block
-	 * @param hand   The player hand used to place this block
-	 * @return The state to be placed in the world
-	 */
 	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return blockState.getBaseState().withProperty(FACING, facing);
-	}
-
-	/**
-	 * Convert the BlockState into the correct metadata value
-	 *
-	 * @param state
-	 */
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return state.getValue(FACING).ordinal();
-	}
-
-	/**
-	 * Convert the given metadata into a BlockState for this Block
-	 *
-	 * @param meta
-	 */
-	@Override
-	public BlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(FACING, Direction.values()[meta]);
+		return getDefaultState().with(FACING, context.getFace());
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, FACING);
+		builder.add(FACING);
 	}
 
 	/**
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
-			EnumHand hand, Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
-		ItemStack stack = playerIn.getHeldItem(hand);
+		ItemStack stack = player.getHeldItem(hand);
 
 		if (stack.getItem() instanceof Wrench)
 			return false;
 
-		if (worldIn.isRemote)
+		if (world.isRemote)
 			return true;
 
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		TileEntity tileEntity = world.getTileEntity(pos);
 		Item item = stack.getItem();
 		GearType gear = GetGear(item);
 
@@ -125,7 +90,7 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 			if (tileEntity instanceof TEGearbox)
 			{
 				TEGearbox te = (TEGearbox) tileEntity;
-				if (te.AddGear(gear, gear.durability - stack.getItemDamage()))
+				if (te.AddGear(gear, gear.durability - stack.getDamage()))
 					stack.shrink(1);
 			}
 		} else if (stack.isEmpty())
@@ -157,31 +122,6 @@ public class Gearbox extends FABaseBlock implements ITileEntityProvider
 				return gearType;
 		}
 		return null;
-	}
-
-	/**
-	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
-	 */
-	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
-	/**
-	 * Return true if the block is a normal, solid cube.  This
-	 * determines indirect power state, entity ejection from blocks, and a few
-	 * others.
-	 *
-	 * @param state The current state
-	 * @param world The current world
-	 * @param pos   Block position in world
-	 * @return True if the block is a full cube
-	 */
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return false;
 	}
 
 	@Override

@@ -1,22 +1,26 @@
 package boblovespi.factoryautomation.common.block.powercable;
 
 import boblovespi.factoryautomation.api.energy.electricity.*;
-import boblovespi.factoryautomation.common.block.FABlock;
+import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.item.FAItemBlock;
-import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Pair;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.EnumProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -25,10 +29,10 @@ import java.util.List;
 /**
  * Created by Willi on 12/20/2017.
  */
-public class Cable extends Block implements FABlock
+public class Cable extends FABaseBlock
 {
+	protected static final VoxelShape[] CABLE_VOXEL = new VoxelShape[16];
 	private static final double u = 1 / 16D;
-
 	protected static final AxisAlignedBB[] CABLE_AABB = new AxisAlignedBB[] {
 			new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 4 * u, 0.8125D),
 			new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 4 * u, 1.0D),
@@ -53,19 +57,17 @@ public class Cable extends Block implements FABlock
 
 	public Cable()
 	{
-		super(Material.CIRCUITS);
-		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
-		FABlocks.blocks.add(this);
-		FAItems.items.add(new FAItemBlock(this));
-		setDefaultState(blockState.getBaseState().withProperty(WEST, AttachPos.NONE).withProperty(EAST, AttachPos.NONE)
-								  .withProperty(NORTH, AttachPos.NONE).withProperty(SOUTH, AttachPos.NONE));
+		super("energy_cable", false,
+				Properties.create(Material.IRON).hardnessAndResistance(0.2f).sound(SoundType.CLOTH),
+				new Item.Properties().group(FAItemGroups.electrical));
+		setDefaultState(stateContainer.getBaseState().with(WEST, AttachPos.NONE).with(EAST, AttachPos.NONE)
+									  .with(NORTH, AttachPos.NONE).with(SOUTH, AttachPos.NONE));
 	}
 
-	public static boolean CanConnectTo(BlockState state, Direction side, IBlockAccess world, BlockPos pos)
+	public static boolean CanConnectTo(BlockState state, Direction side, IBlockReader world, BlockPos pos)
 	{
 		Block block = state.getBlock();
-		if (Block.isEqualTo(FABlocks.cable.ToBlock(), block))
+		if (FABlocks.cable.ToBlock() == block)
 			return true;
 		if (block instanceof IEnergyBlock)
 			return ((IEnergyBlock) block).CanConnectCable(state, side, world, pos);
@@ -76,10 +78,10 @@ public class Cable extends Block implements FABlock
 	private static int getAABBIndex(BlockState state)
 	{
 		int i = 0;
-		boolean flag = state.getValue(NORTH) != AttachPos.NONE;
-		boolean flag1 = state.getValue(EAST) != AttachPos.NONE;
-		boolean flag2 = state.getValue(SOUTH) != AttachPos.NONE;
-		boolean flag3 = state.getValue(WEST) != AttachPos.NONE;
+		boolean flag = state.get(NORTH) != AttachPos.NONE;
+		boolean flag1 = state.get(EAST) != AttachPos.NONE;
+		boolean flag2 = state.get(SOUTH) != AttachPos.NONE;
+		boolean flag3 = state.get(WEST) != AttachPos.NONE;
 
 		if (flag || flag2 && !flag && !flag1 && !flag3)
 		{
@@ -104,46 +106,33 @@ public class Cable extends Block implements FABlock
 		return i;
 	}
 
-	@Override
-	public String UnlocalizedName()
+	public BlockState GetActualState(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
-		return "lv_cable";
-	}
-
-	@Override
-	public Block ToBlock()
-	{
-		return this;
-	}
-
-	@Override
-	public BlockState getActualState(BlockState state, IBlockAccess worldIn, BlockPos pos)
-	{
-		state = state.withProperty(WEST, this.GetAttachPosition(worldIn, pos, Direction.WEST));
-		state = state.withProperty(EAST, this.GetAttachPosition(worldIn, pos, Direction.EAST));
-		state = state.withProperty(NORTH, this.GetAttachPosition(worldIn, pos, Direction.NORTH));
-		state = state.withProperty(SOUTH, this.GetAttachPosition(worldIn, pos, Direction.SOUTH));
+		state = state.with(WEST, GetAttachPosition(worldIn, pos, Direction.WEST));
+		state = state.with(EAST, GetAttachPosition(worldIn, pos, Direction.EAST));
+		state = state.with(NORTH, GetAttachPosition(worldIn, pos, Direction.NORTH));
+		state = state.with(SOUTH, GetAttachPosition(worldIn, pos, Direction.SOUTH));
 		return state;
 	}
 
-	private AttachPos GetAttachPosition(IBlockAccess worldIn, BlockPos pos1, Direction facing)
+	private AttachPos GetAttachPosition(IBlockReader world, BlockPos pos, Direction facing)
 	{
-		BlockPos blockpos = pos1.offset(facing);
-		BlockState BlockState = worldIn.getBlockState(pos1.offset(facing));
+		BlockPos offset = pos.offset(facing);
+		BlockState blockState = world.getBlockState(offset);
 
-		if (!CanConnectTo(worldIn.getBlockState(blockpos), facing, worldIn, blockpos) && (BlockState.isNormalCube()
-				|| !CanConnectUpwardsTo(worldIn, blockpos.down())))
+		if (!CanConnectTo(world.getBlockState(offset), facing, world, offset) && (blockState.isNormalCube(world, offset)
+				|| !CanConnectUpwardsTo(world, offset.down())))
 		{
-			BlockState iblockstate1 = worldIn.getBlockState(pos1.up());
+			BlockState stateUp = world.getBlockState(pos.up());
 
-			if (!iblockstate1.isNormalCube())
+			if (!stateUp.isNormalCube(world, offset.up()))
 			{
-				boolean flag = worldIn.getBlockState(blockpos).isSideSolid(worldIn, blockpos, Direction.UP)
-						|| worldIn.getBlockState(blockpos).getBlock() == Blocks.GLOWSTONE;
+				boolean flag = Block.hasSolidSide(world.getBlockState(offset), world, offset, Direction.UP)
+						|| world.getBlockState(offset).getBlock() == Blocks.GLOWSTONE;
 
-				if (flag && CanConnectUpwardsTo(worldIn, blockpos.up()))
+				if (flag && CanConnectUpwardsTo(world, offset.up()))
 				{
-					if (BlockState.isBlockNormalCube())
+					if (blockState.isNormalCube(world, offset))
 					{
 						return AttachPos.UP;
 					}
@@ -159,80 +148,39 @@ public class Cable extends Block implements FABlock
 		}
 	}
 
-	private boolean CanConnectUpwardsTo(IBlockAccess worldIn, BlockPos pos)
+	private boolean CanConnectUpwardsTo(IBlockReader worldIn, BlockPos pos)
 	{
 		return CanConnectTo(worldIn.getBlockState(pos), null, worldIn, pos);
 	}
 
-	public void NotifyNeighborCableOfStateChange(World world, BlockPos pos)
+	@Override
+	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
 	{
-		if (Block.isEqualTo(world.getBlockState(pos).getBlock(), this))
-		{
-			world.notifyNeighborsOfStateChange(pos, this, false);
-
-			for (Direction Direction : Direction.values())
-			{
-				world.notifyNeighborsOfStateChange(pos.offset(Direction), this, false);
-			}
-		}
+		return Block.hasSolidSide(world.getBlockState(pos.down()), world, pos.down(), Direction.UP)
+				|| world.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, Direction.UP)
-				|| worldIn.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
+		builder.add(WEST, EAST, NORTH, SOUTH);
 	}
 
 	@Override
-	public BlockState getStateFromMeta(int meta)
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
-		return getDefaultState();
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return 0;
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, WEST, EAST, NORTH, SOUTH);
-	}
-
-	@Override
-	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
-	{
-		return CABLE_AABB[getAABBIndex(state.getActualState(source, pos))];
-	}
-
-	@Override
-	public boolean isFullCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
+		return CABLE_VOXEL[getAABBIndex(state)];
 	}
 
 	/**
 	 * Called after the block is set in the Chunk data, but before the Tile Entity is set
-	 *
-	 * @param worldIn
-	 * @param pos
-	 * @param state
 	 */
 	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, BlockState state)
+	public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
 		// NotifyNeighborCableOfStateChange(worldIn, pos);
 
-		BlockState actualState = getActualState(state, worldIn, pos);
+		BlockState actualState = GetActualState(state, worldIn, pos);
 
 		System.out.println("cable placed, checking the power connections!");
 
@@ -281,10 +229,10 @@ public class Cable extends Block implements FABlock
 
 		prevCableLocs.add(pos);
 
-		AttachPos north = state.getValue(NORTH);
-		AttachPos south = state.getValue(SOUTH);
-		AttachPos east = state.getValue(EAST);
-		AttachPos west = state.getValue(WEST);
+		AttachPos north = state.get(NORTH);
+		AttachPos south = state.get(SOUTH);
+		AttachPos east = state.get(EAST);
+		AttachPos west = state.get(WEST);
 
 		if (north == AttachPos.UP)
 		{

@@ -4,80 +4,66 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerController;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.EnumProperty;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 8/13/2018.
  */
-public class TripHammerController extends FABaseBlock implements ITileEntityProvider
+public class TripHammerController extends FABaseBlock
 {
-	public static final EnumProperty<Direction> FACING = BlockHorizontal.FACING;
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final EnumProperty<BlockstateEnum> MULTIBLOCK_COMPLETE = EnumProperty
 			.create("multiblock_complete", BlockstateEnum.class);
 
 	public TripHammerController()
 	{
-		super(Material.IRON, "trip_hammer", null);
-		setHardness(3f);
-		setResistance(20);
-		setHarvestLevel("pickaxe", 0);
+		super("trip_hammer", false, Properties.create(Material.IRON).hardnessAndResistance(3, 20).harvestLevel(0)
+											  .harvestTool(ToolType.PICKAXE),
+				new Item.Properties().group(FAItemGroups.metallurgy));
 		TileEntityHandler.tiles.add(TETripHammerController.class);
 	}
 
 	@Override
-	protected BlockStateContainer createBlockState()
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return new BlockStateContainer(this, FACING, MULTIBLOCK_COMPLETE);
+		builder.add(FACING, MULTIBLOCK_COMPLETE);
 	}
 
 	@Override
-	public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing())
-				   .withProperty(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE);
-	}
-
-	@Override
-	public BlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(FACING, Direction.getHorizontal(meta / 2))
-								.withProperty(MULTIBLOCK_COMPLETE,
-										(meta & 1) == 1 ? BlockstateEnum.TRUE : BlockstateEnum.FALSE);
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return state.getValue(FACING).getHorizontalIndex() * 2 | (
-				state.getValue(MULTIBLOCK_COMPLETE) == BlockstateEnum.TRUE ? 1 : 0);
+		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing())
+				   .with(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE);
 	}
 
 	/**
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
-			Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
 		if (world.isRemote)
 			return true;
@@ -86,7 +72,7 @@ public class TripHammerController extends FABaseBlock implements ITileEntityProv
 		{
 			TETripHammerController te = (TETripHammerController) te1;
 			if (MultiblockHelper.IsStructureComplete(world, pos, TETripHammerController.MULTIBLOCK_ID,
-					world.getBlockState(pos).getValue(FACING)))
+					world.getBlockState(pos).get(FACING)))
 			{
 				System.out.println("complete!");
 				te.CreateStructure();
@@ -97,7 +83,7 @@ public class TripHammerController extends FABaseBlock implements ITileEntityProv
 					ItemHelper.PutItemsInInventoryOrDrop(player, item1, world);
 				} else
 				{
-					if (te.PutItem(item.copy().splitStack(1)))
+					if (te.PutItem(item.copy().split(1)))
 						item.shrink(1);
 				}
 			}
@@ -108,30 +94,17 @@ public class TripHammerController extends FABaseBlock implements ITileEntityProv
 		return true;
 	}
 
-	/**
-	 * Returns a new instance of a block's tile entity class. Called on placing the block.
-	 */
+	@Override
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TETripHammerController();
-	}
-
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face)
-	{
-		return BlockFaceShape.UNDEFINED;
-	}
-
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockAccess world, BlockPos pos)
-	{
-		return false;
 	}
 
 	public enum BlockstateEnum implements IStringSerializable

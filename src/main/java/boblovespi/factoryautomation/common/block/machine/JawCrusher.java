@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  */
 public class JawCrusher extends FABaseBlock
 {
-	public static DirectionProperty FACING = BlockStateProperties.FACING;
+	public static DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
 	public JawCrusher()
 	{

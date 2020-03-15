@@ -6,21 +6,27 @@ import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -29,8 +35,8 @@ import java.util.Random;
 public class Campfire extends FABaseBlock
 {
 	public static final BooleanProperty LIT = BooleanProperty.create("lit");
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
-			3 / 16d, 0, 3 / 16d, 13 / 16d, 6 / 16d, 13 / 16d);
+	private static final VoxelShape BOUNDING_BOX = Block
+			.makeCuboidShape(3 / 16d, 0, 3 / 16d, 13 / 16d, 6 / 16d, 13 / 16d);
 
 	public Campfire()
 	{
@@ -58,66 +64,45 @@ public class Campfire extends FABaseBlock
 		return true;
 	}
 
-	//	@Nullable
-	//	@Override
-	//	public TileEntity createTileEntity(World world, BlockState state)
-	//	{
-	//		return new TECampfire();
-	//	}
-
-	//	@Override
-	//	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
-	//	{
-	//		return BOUNDING_BOX;
-	//	}
-
-	public boolean isOpaqueCube(BlockState state)
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
-		return false;
+		return new TECampfire();
 	}
 
 	@Override
-	public boolean isFullCube(BlockState state)
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
-		return false;
+		return BOUNDING_BOX;
 	}
 
-	//	@Override
-	//	protected BlockStateContainer createBlockState()
-	//	{
-	//		return new BlockStateContainer(this, LIT);
-	//	}
-
-	//	@Override
-	//	public BlockState getStateFromMeta(int meta)
-	//	{
-	//		return getDefaultState().withProperty(LIT, meta == 1);
-	//	}
-	//
-	//	@Override
-	//	public int getMetaFromState(BlockState state)
-	//	{
-	//		return state.getValue(LIT) ? 1 : 0;
-	//	}
-
-	public void breakBlock(World worldIn, BlockPos pos, BlockState state)
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		TileEntity te = worldIn.getTileEntity(pos);
+		builder.add(LIT);
+	}
 
-		if (te instanceof TECampfire)
+	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
+	{
+		if (state.getBlock() != newState.getBlock())
 		{
-			((TECampfire) te).DropItems();
-		}
+			TileEntity te = worldIn.getTileEntity(pos);
+			if (te instanceof TECampfire)
+			{
+				((TECampfire) te).DropItems();
+			}
 
-		super.breakBlock(worldIn, pos, state);
+			super.onReplaced(state, worldIn, pos, newState, isMoving);
+		}
 	}
 
 	/**
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand,
-			float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
 		{
@@ -142,9 +127,9 @@ public class Campfire extends FABaseBlock
 	}
 
 	@Override
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
-		if (!state.getValue(LIT))
+		if (!state.get(LIT))
 			return;
 		if (rand.nextDouble() < 0.1D)
 		{
@@ -154,8 +139,10 @@ public class Campfire extends FABaseBlock
 		double x = pos.getX() + 0.5;
 		double y = pos.getY() + 0.2;
 		double z = pos.getZ() + 0.5;
-		world.spawnParticle(EnumParticleTypes.FLAME, x, y, z, 0, 0.02, 0);
-		world.spawnParticle(
-				EnumParticleTypes.SMOKE_NORMAL, x, y, z, rand.nextDouble() / 20d, 0.15, rand.nextDouble() / 20d);
+		world.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0.02, 0);
+		world.addParticle(ParticleTypes.SMOKE, x, y, z, rand.nextDouble() / 20d, 0.15, rand.nextDouble() / 20d);
+		if (rand.nextDouble() < 0.5D)
+			world.addParticle(
+					ParticleTypes.CAMPFIRE_COSY_SMOKE, x, y, z, rand.nextDouble() / 40d, 0.08, rand.nextDouble() / 40d);
 	}
 }

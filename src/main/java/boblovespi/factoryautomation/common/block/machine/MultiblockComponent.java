@@ -1,86 +1,92 @@
 package boblovespi.factoryautomation.common.block.machine;
 
-import boblovespi.factoryautomation.common.block.FABlock;
-import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
-import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
+import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 /**
  * Created by Willi on 11/26/2017.
  */
-public class MultiblockComponent extends Block implements ITileEntityProvider, FABlock
+public class MultiblockComponent extends FABaseBlock
 {
 	public MultiblockComponent()
 	{
-		super(Material.IRON, MapColor.IRON);
-		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
-		setLightOpacity(0);
-		setHardness(1.5f);
-		setHarvestLevel("pickaxe", 0);
-		FABlocks.blocks.add(this);
+		super("multiblock_part", true, Properties.create(Material.IRON).hardnessAndResistance(1.5f),
+				new Item.Properties());
+		//		setUnlocalizedName(UnlocalizedName());
+		//		setRegistryName(RegistryName());
+		//		setLightOpacity(0);
+		//		setHardness(1.5f);
+		//		setHarvestLevel("pickaxe", 0);
+		//		FABlocks.blocks.add(this);
+	}
+
+	@Override
+	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos)
+	{
+		return false;
+	}
+
+	/**
+	 * Check if the face of a block should block rendering.
+	 * <p>
+	 * Faces which are fully opaque should return true, faces with transparency
+	 * or faces which do not span the full size of the block should return false.
+	 */
+	@Override
+	public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction face)
+	{
+		return false;
+	}
+
+	@Override
+	public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos,
+			EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType)
+	{
+		return false;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEMultiblockPart();
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public boolean hasTileEntity(BlockState state)
 	{
-		return "multiblock_part";
+		return true;
 	}
 
-	@Override
-	public Block ToBlock()
-	{
-		return this;
-	}
-
-	@Override
-	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, BlockState state, int fortune)
-	{
-		Random rand = world instanceof World ? ((World) world).rand : RANDOM;
-		TileEntity te = world.getTileEntity(pos);
-
-		assert te != null && te instanceof TEMultiblockPart;
-
-		TEMultiblockPart part = (TEMultiblockPart) te;
-		MultiblockStructurePattern structure = MultiblockHandler.Get(part.GetStructureId());
-		int[] loc = part.GetPosition();
-		Block block = structure.GetPattern()[loc[0]][loc[1]][loc[2]].GetBlock();
-		Item item = block.getItemDropped(block.getDefaultState(), rand, fortune);
-		if (item != Items.AIR)
-			drops.add(new ItemStack(item));
-	}
-
-	@Override
-	public void breakBlock(World world, BlockPos pos, BlockState state)
-	{
-
-		super.breakBlock(world, pos, state);
-	}
+	//	public void getDrops(NonNullList<ItemStack> drops, ServerWorld world, BlockPos pos, BlockState state, int fortune)
+	//	{
+	//		Random rand = world != null ? world.rand : RANDOM;
+	//		TileEntity te = world.getTileEntity(pos);
+	//
+	//		assert te != null && te instanceof TEMultiblockPart;
+	//
+	//		TEMultiblockPart part = (TEMultiblockPart) te;
+	//		MultiblockStructurePattern structure = MultiblockHandler.Get(part.GetStructureId());
+	//		int[] loc = part.GetPosition();
+	//		Block block = structure.GetPattern()[loc[0]][loc[1]][loc[2]].GetBlock();
+	//		Item item = block.getItemDropped(block.getDefaultState(), rand, fortune);
+	//		if (item != Items.AIR)
+	//			drops.add(new ItemStack(item));
+	//	}
 
 	@Override
 	public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player)
@@ -115,15 +121,15 @@ public class MultiblockComponent extends Block implements ITileEntityProvider, F
 	/**
 	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
 	 */
-	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(BlockState state)
-	{
-		return false;
-	}
+	//	@Override
+	//	public boolean isOpaqueCube(BlockState state)
+	//	{
+	//		return false;
+	//	}
+	//
+	//	@Override
+	//	public boolean isFullCube(BlockState state)
+	//	{
+	//		return false;
+	//	}
 }

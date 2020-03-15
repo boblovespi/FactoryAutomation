@@ -4,17 +4,21 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.ItemHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.EnumProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
 
@@ -27,10 +31,9 @@ public class BrickMaker extends FABaseBlock
 
 	public BrickMaker()
 	{
-		super(Material.WOOD, "brick_maker_frame", FAItemGroups.primitive);
-		setDefaultState(getDefaultState().withProperty(CONTENTS, Contents.EMPTY));
-		setHardness(2.0f);
-		setHarvestLevel("axe", 0);
+		super("brick_maker_name", false, Properties.create(Material.WOOD).hardnessAndResistance(2).harvestLevel(0).harvestTool(
+				ToolType.AXE), new Item.Properties().group(FAItemGroups.primitive));
+		setDefaultState(stateContainer.getBaseState().with(CONTENTS, Contents.EMPTY));
 	}
 
 	@Override
@@ -40,20 +43,20 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	public int tickRate(World worldIn)
+	public int tickRate(IWorldReader worldIn)
 	{
 		return 3000;
 	}
 
 	@Override
-	public void updateTick(World world, BlockPos pos, BlockState state, Random rand)
+	public void tick(BlockState state, World world, BlockPos pos, Random rand)
 	{
-		Contents value = state.getValue(CONTENTS);
+		Contents value = state.get(CONTENTS);
 		if (value.CanDry())
 		{
-			world.setBlockState(pos, state.withProperty(CONTENTS, value.GetDried()));
+			world.setBlockState(pos, state.with(CONTENTS, value.GetDried()));
 			if (value.GetDried().CanDry())
-				world.scheduleUpdate(pos, this, tickRate(world));
+				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 		}
 	}
 
@@ -61,28 +64,28 @@ public class BrickMaker extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
-			Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
 		if (world.isRemote)
 			return true;
 
-		Contents value = state.getValue(CONTENTS);
+		Contents value = state.get(CONTENTS);
 		if (value.CanAddClay() && player.getHeldItem(hand).getItem() == FAItems.terraclay)
 		{
-			world.setBlockState(pos, state.withProperty(CONTENTS, value.AddClay()));
+			world.setBlockState(pos, state.with(CONTENTS, value.AddClay()));
 			player.getHeldItem(hand).shrink(1);
-			world.scheduleUpdate(pos, this, tickRate(world));
+			world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 		} else if (value.CanRemove())
 		{
 			if (value.CanRemoveBrick())
 			{
-				world.setBlockState(pos, state.withProperty(CONTENTS, value.RemoveClay()));
+				world.setBlockState(pos, state.with(CONTENTS, value.RemoveClay()));
 				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.ToItem()), world);
 
 			} else if (value.CanRemoveClay())
 			{
-				world.setBlockState(pos, state.withProperty(CONTENTS, value.RemoveClay()));
+				world.setBlockState(pos, state.with(CONTENTS, value.RemoveClay()));
 				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), world);
 			}
 		}
@@ -90,33 +93,9 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	public BlockState getStateFromMeta(int meta)
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
-		return getDefaultState().withProperty(CONTENTS, Contents.values()[meta]);
-	}
-
-	@Override
-	public int getMetaFromState(BlockState state)
-	{
-		return state.getValue(CONTENTS).ordinal();
-	}
-
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, CONTENTS);
-	}
-
-	@Override
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isFullCube(BlockState state)
-	{
-		return false;
+		builder.add(CONTENTS);
 	}
 
 	public enum Contents implements IStringSerializable

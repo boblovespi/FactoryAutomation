@@ -2,19 +2,19 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  */
 public class ChoppingBlock extends FABaseBlock
 {
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 0.5d, 1);
+	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 1, 0.5d, 1);
 	public final int maxUses;
 
 	public ChoppingBlock(String name, int maxUses, Properties properties)
@@ -47,30 +47,19 @@ public class ChoppingBlock extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(World world, BlockState state)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEChoppingBlock();
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos)
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
 		return BOUNDING_BOX;
 	}
 
-	public boolean isOpaqueCube(BlockState state)
-	{
-		return false;
-	}
-
 	@Override
-	public boolean isFullCube(BlockState state)
-	{
-		return false;
-	}
-
-	@Override
-	public void onBlockClicked(World world, BlockPos pos, PlayerEntity player)
+	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		if (world.isRemote)
 			return;
@@ -80,8 +69,8 @@ public class ChoppingBlock extends FABaseBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, EnumHand hand,
-			Direction facing, float hitX, float hitY, float hitZ)
+	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+			BlockRayTraceResult hit)
 	{
 		if (world.isRemote)
 			return true;
@@ -110,15 +99,18 @@ public class ChoppingBlock extends FABaseBlock
 		return true;
 	}
 
-	public void breakBlock(World worldIn, BlockPos pos, BlockState state)
+	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
 	{
-		TileEntity te = worldIn.getTileEntity(pos);
-
-		if (te instanceof TEChoppingBlock)
+		if (state.getBlock() != newState.getBlock())
 		{
-			((TEChoppingBlock) te).DropItems();
-		}
+			TileEntity te = worldIn.getTileEntity(pos);
 
-		super.breakBlock(worldIn, pos, state);
+			if (te instanceof TEChoppingBlock)
+			{
+				((TEChoppingBlock) te).DropItems();
+			}
+
+			super.onReplaced(state, worldIn, pos, newState, isMoving);
+		}
 	}
 }
