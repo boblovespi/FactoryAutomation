@@ -1,11 +1,12 @@
 package boblovespi.factoryautomation.common.tileentity;
 
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -14,15 +15,16 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 2/12/2019.
  */
-public abstract class TEMachine extends TileEntity implements ITickable
+public abstract class TEMachine extends TileEntity implements ITickableTileEntity
 {
 	protected ItemStackHandler processingInv;
 	protected String recipe = "none";
 	protected int maxProgress = 1;
 	protected float currentProgress = 0;
 
-	public TEMachine(int outputSize)
+	public TEMachine(int outputSize, TileEntityType<?> tileType)
 	{
+		super(tileType);
 		processingInv = new ItemStackHandler(outputSize + 1)
 		{
 			@Override
@@ -68,7 +70,7 @@ public abstract class TEMachine extends TileEntity implements ITickable
 	protected abstract void OnRecipeComplete(String recipe);
 
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 		{
@@ -110,11 +112,11 @@ public abstract class TEMachine extends TileEntity implements ITickable
 	protected abstract void ReadCustomNBT(CompoundNBT tag);
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
+		super.read(tag);
 		currentProgress = tag.getFloat("currentProgress");
-		maxProgress = tag.getInteger("maxProgress");
+		maxProgress = tag.getInt("maxProgress");
 		recipe = tag.getString("recipe");
 		ReadCustomNBT(tag);
 	}
@@ -122,52 +124,29 @@ public abstract class TEMachine extends TileEntity implements ITickable
 	protected abstract void WriteCustomNBT(CompoundNBT tag);
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
 		WriteCustomNBT(tag);
-		tag.setFloat("currentProgress", currentProgress);
-		tag.setInteger("maxProgress", maxProgress);
-		tag.setString("recipe", recipe);
-		return super.writeToNBT(tag);
+		tag.putFloat("currentProgress", currentProgress);
+		tag.putInt("maxProgress", maxProgress);
+		tag.putString("recipe", recipe);
+		return super.write(tag);
 	}
 
 	@SuppressWarnings("MethodCallSideOnly")
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
+		this.read(pkt.getNbtCompound());
 	}
 
 	@Nullable
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
+		write(nbt);
 
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 }

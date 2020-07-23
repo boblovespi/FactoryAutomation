@@ -3,15 +3,14 @@ package boblovespi.factoryautomation.common.tileentity;
 import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
@@ -20,6 +19,8 @@ import javax.annotation.Nullable;
 
 import static boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser.HEAT_USER_CAPABILITY;
 import static boblovespi.factoryautomation.common.handler.TileEntityHandler.teSolidFueledFirebox;
+import static net.minecraftforge.common.util.Constants.BlockFlags.DEFAULT;
+import static net.minecraftforge.common.util.Constants.BlockFlags.NO_RERENDER;
 import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 
 /**
@@ -93,9 +94,8 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		markDirty();
 
 		// TODO: FIGURE OUT UPDATING TEs
-		/* IMPORTANT */
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		 BlockState state = world.getBlockState(pos);
+		 world.notifyBlockUpdate(pos, state, state, DEFAULT | NO_RERENDER);
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 			return LazyOptional.of(() -> (T) heatUser);
 		if (capability == ITEM_HANDLER_CAPABILITY)
 			return LazyOptional.of(() -> (T) inventory);
-		return LazyOptional.empty();
+		return super.getCapability(capability, facing);
 	}
 
 	public float GetTemp()
@@ -149,43 +149,19 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		return super.write(tag);
 	}
 
-	@SuppressWarnings("MethodCallSideOnly")
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
+		read(pkt.getNbtCompound());
 	}
 
 	@Nullable
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
+		write(nbt);
 
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 }

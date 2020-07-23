@@ -1,21 +1,22 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -27,8 +28,7 @@ import java.util.BitSet;
  * Created by Willi on 11/12/2017.
  * shamelessly copied over from my old mod
  */
-public class TEBlastFurnaceController extends TileEntity
-		implements ITickable, ICapabilityProvider, IMultiblockControllerTE
+public class TEBlastFurnaceController extends TileEntity implements ITickableTileEntity, IMultiblockControllerTE
 {
 	public static final int[] COKE_SLOTS = { 3, 4 };
 	public static final int IRON_SLOT = 1;
@@ -53,6 +53,7 @@ public class TEBlastFurnaceController extends TileEntity
 
 	public TEBlastFurnaceController()
 	{
+		super(TileEntityHandler.teBlastFurnaceController);
 		itemHandler = new ItemStackHandler(7);
 		inputHopperWrapper = new RestrictedSlotItemHandler(new BitSet(7)
 		{{
@@ -63,19 +64,19 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT compound)
+	public void read(CompoundNBT compound)
 	{
-		burnTime = compound.getInteger("burnTime");
-		fuelBurnTime = compound.getInteger("fuelBurnTime");
+		burnTime = compound.getInt("burnTime");
+		fuelBurnTime = compound.getInt("fuelBurnTime");
 		isBurningFuel = compound.getBoolean("isBurningFuel");
 
-		smeltTime = compound.getInteger("smeltTime");
-		steelSmeltTime = compound.getInteger("steelSmeltTime");
+		smeltTime = compound.getInt("smeltTime");
+		steelSmeltTime = compound.getInt("steelSmeltTime");
 		isSmeltingItem = compound.getBoolean("isSmeltingItem");
 
-		itemHandler.deserializeNBT(compound.getCompoundTag("itemHandler"));
+		itemHandler.deserializeNBT(compound.getCompound("itemHandler"));
 
-		super.readFromNBT(compound);
+		super.read(compound);
 
 		//		inputHopperWrapper = new RestrictedSlotItemHandler(new HashSet<Integer>()
 		//		{{
@@ -86,28 +87,28 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT compound)
+	public CompoundNBT write(CompoundNBT compound)
 	{
-		compound.setInteger("burnTime", (int) burnTime);
-		compound.setInteger("fuelBurnTime", (int) fuelBurnTime);
-		compound.setBoolean("isBurningFuel", isBurningFuel);
+		compound.putInt("burnTime", (int) burnTime);
+		compound.putInt("fuelBurnTime", (int) fuelBurnTime);
+		compound.putBoolean("isBurningFuel", isBurningFuel);
 
-		compound.setInteger("smeltTime", (int) smeltTime);
-		compound.setInteger("steelSmeltTime", (int) steelSmeltTime);
-		compound.setBoolean("isSmeltingItem", isSmeltingItem);
+		compound.putInt("smeltTime", (int) smeltTime);
+		compound.putInt("steelSmeltTime", (int) steelSmeltTime);
+		compound.putBoolean("isSmeltingItem", isSmeltingItem);
 
-		compound.setTag("itemHandler", itemHandler.serializeNBT());
+		compound.put("itemHandler", itemHandler.serializeNBT());
 
-		return super.writeToNBT(compound);
+		return super.write(compound);
 	}
 
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 			return;
 
-		if (!world.getBlockState(pos).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
+		if (!world.getBlockState(pos).get(BlastFurnaceController.MULTIBLOCK_COMPLETE))
 			return;
 
 		steelSmeltTime = 2000; // TODO: read from config
@@ -127,14 +128,14 @@ public class TEBlastFurnaceController extends TileEntity
 					itemHandler.extractItem(IRON_SLOT, 1, false);
 					itemHandler.extractItem(FLUX_SLOT, 1, false);
 					itemHandler.insertItem(OUTPUT_SLOT, new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)), false);
-					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag.ToItem(), 1, 0), false);
+					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag.ToItem(), 1), false);
 				}
 			} else
 			{
 				if (!itemHandler.getStackInSlot(COKE_SLOTS[0]).isEmpty())
 				{
 					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0]).getItem()
-											  .getItemBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]));
+											  .getBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]));
 
 					itemHandler.extractItem(COKE_SLOTS[0], 1, false);
 					burnTime = fuelBurnTime;
@@ -142,7 +143,7 @@ public class TEBlastFurnaceController extends TileEntity
 				} else if (!itemHandler.getStackInSlot(COKE_SLOTS[1]).isEmpty())
 				{
 					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0]).getItem()
-											  .getItemBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]));
+											  .getBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]));
 
 					itemHandler.extractItem(COKE_SLOTS[1], 1, false);
 					burnTime = fuelBurnTime;
@@ -187,56 +188,25 @@ public class TEBlastFurnaceController extends TileEntity
 
 	@Nullable
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
+		write(nbt);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.readFromNBT(pkt.getNbtCompound());
+		this.read(pkt.getNbtCompound());
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public <T> T getCapability(Capability<T> capability, Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return (T) itemHandler;
+			return LazyOptional.of(() -> (T) itemHandler);
 		return super.getCapability(capability, facing);
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, Direction facing)
-	{
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return true;
-		return super.hasCapability(capability, facing);
 	}
 
 	public boolean isBurningFuel()
@@ -315,11 +285,11 @@ public class TEBlastFurnaceController extends TileEntity
 	 * @return the capability implementation which to use
 	 */
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == Direction.UP
 				&& capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return (T) inputHopperWrapper;
+			return LazyOptional.of(() -> (T) inputHopperWrapper);
 		return null;
 	}
 }

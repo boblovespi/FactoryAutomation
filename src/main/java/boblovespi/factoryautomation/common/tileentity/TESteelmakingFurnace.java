@@ -2,21 +2,20 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceController;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -30,7 +29,7 @@ import static boblovespi.factoryautomation.common.block.machine.SteelmakingFurna
 /**
  * Created by Willi on 12/24/2017.
  */
-public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapabilityProvider, IMultiblockControllerTE
+public class TESteelmakingFurnace extends TileEntity implements ITickableTileEntity, IMultiblockControllerTE
 {
 	public static final String MULTIBLOCK_ID = "steelmaking_furnace";
 
@@ -62,8 +61,9 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 
 	public TESteelmakingFurnace()
 	{
+		super(TileEntityHandler.teSteelmakingFurnace);
 		itemHandler = new ItemStackHandler(11);
-		fluidHandler = new MultiFluidTank(2, Fluid.BUCKET_VOLUME * 10);
+		fluidHandler = new MultiFluidTank(2, 1000/*magic number moment*/ * 10);
 	}
 
 	@Override
@@ -82,31 +82,31 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 	public void CreateStructure()
 	{
 		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID,
-				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ?
-						Direction.WEST : Direction.NORTH);
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, true));
+				world.getBlockState(pos).get(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
+						Direction.NORTH);
+		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, true));
 	}
 
 	@Override
 	public void BreakStructure()
 	{
 		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID,
-				world.getBlockState(pos).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ?
-						Direction.WEST : Direction.NORTH);
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, false));
+				world.getBlockState(pos).get(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
+						Direction.NORTH);
+		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, false));
 	}
 
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
-		return null;
+		return LazyOptional.empty();
 	}
 
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		// Log.LogInfo("heat", currentTemp);
 		if (world.isRemote)
@@ -125,7 +125,7 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 
 					itemHandler.extractItem(FUEL_SLOT, 1, false);
 					isBurningFuel = true;
-					currentMaxBurnTime = TileEntityFurnace.getItemBurnTime(fuel);
+					currentMaxBurnTime = fuel.getBurnTime();
 					currentBurnTime = currentMaxBurnTime;
 				}
 
@@ -224,29 +224,19 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 		return true;
 	}
 
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return true;
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-			return true;
-		return super.hasCapability(capability, facing);
-	}
-
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return (T) itemHandler;
+			return LazyOptional.of(() -> (T) itemHandler);
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-			return (T) fluidHandler;
+			return LazyOptional.of(() -> (T) fluidHandler);
 		return super.getCapability(capability, facing);
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
 		currentSmeltTime = tag.getFloat("currentSmeltTime");
 		currentMaxSmeltTime = tag.getFloat("currentMaxSmeltTime");
@@ -259,28 +249,28 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 		isBurningFuel = tag.getBoolean("isBurningFuel");
 		isSmeltingItem = tag.getBoolean("isSmeltingItem");
 
-		itemHandler.deserializeNBT(tag.getCompoundTag("itemHandler"));
+		itemHandler.deserializeNBT(tag.getCompound("itemHandler"));
 
-		super.readFromNBT(tag);
+		super.read(tag);
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setFloat("currentSmeltTime", currentSmeltTime);
-		tag.setFloat("currentMaxSmeltTime", currentMaxSmeltTime);
+		tag.putFloat("currentSmeltTime", currentSmeltTime);
+		tag.putFloat("currentMaxSmeltTime", currentMaxSmeltTime);
 
-		tag.setFloat("currentTemp", currentTemp);
+		tag.putFloat("currentTemp", currentTemp);
 
-		tag.setFloat("currentBurnTime", currentBurnTime);
-		tag.setFloat("currentMaxBurnTime", currentMaxBurnTime);
+		tag.putFloat("currentBurnTime", currentBurnTime);
+		tag.putFloat("currentMaxBurnTime", currentMaxBurnTime);
 
-		tag.setBoolean("isBurningFuel", isBurningFuel);
-		tag.setBoolean("isSmeltingItem", isSmeltingItem);
+		tag.putBoolean("isBurningFuel", isBurningFuel);
+		tag.putBoolean("isSmeltingItem", isSmeltingItem);
 
-		tag.setTag("itemHandler", itemHandler.serializeNBT());
+		tag.put("itemHandler", itemHandler.serializeNBT());
 
-		return super.writeToNBT(tag);
+		return super.write(tag);
 	}
 
 	private SteelmakingRecipe GetRecipe()
@@ -297,42 +287,18 @@ public class TESteelmakingFurnace extends TileEntity implements ITickable, ICapa
 
 	@SuppressWarnings("MethodCallSideOnly")
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
+		read(pkt.getNbtCompound());
 	}
 
 	@Nullable
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
+		write(nbt);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 
 	public float GetTempPercent()

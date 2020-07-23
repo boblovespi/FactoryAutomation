@@ -5,10 +5,12 @@ import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -21,7 +23,7 @@ import static boblovespi.factoryautomation.common.block.fluid.Pump.FACING;
 /**
  * Created by Willi on 12/9/2018.
  */
-public class TEPump extends TileEntity implements ITickable
+public class TEPump extends TileEntity implements ITickableTileEntity
 {
 	private static final float transferSpeed = 1f; // amount to decrease transfer time by per 10 rot speed
 	private static final float transferAmountScalar = 1f; // transfer amount per 10 rot torque
@@ -37,7 +39,7 @@ public class TEPump extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 			return;
@@ -51,16 +53,17 @@ public class TEPump extends TileEntity implements ITickable
 
 			if (pushTo != null && takeFrom != null)
 			{
-				IFluidHandler takeFromCapability = takeFrom
+				LazyOptional<IFluidHandler> takeFromCapability = takeFrom
 						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir.getOpposite());
-				IFluidHandler pushToCapability = pushTo
+				LazyOptional<IFluidHandler> pushToCapability = pushTo
 						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir);
 
-				if (takeFromCapability != null && pushToCapability != null)
+				if (takeFromCapability.isPresent() && pushToCapability.isPresent())
 				{
-					FluidStack drain = takeFromCapability
-							.drain((int) (transferAmount * transferAmountScalar * mechanicalUser.GetTorque() / 10f),
-									false);
+					FluidStack drain;
+					drain = takeFromCapability.orElse(null).drain(
+							(int) (transferAmount * transferAmountScalar * mechanicalUser.GetTorque() / 10f),
+							IFluidHandler.FluidAction.EXECUTE);
 					if (drain != null)
 					{
 						int fill = pushToCapability.fill(drain.copy(), true);
@@ -100,15 +103,6 @@ public class TEPump extends TileEntity implements ITickable
 	{
 		Direction dir = world.getBlockState(pos).getValue(FACING);
 		mechanicalUser.SetSides(EnumSet.complementOf(EnumSet.of(dir, dir.getOpposite())));
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY && facing != null && mechanicalUser
-				.GetSides().contains(facing))
-			return true;
-		return super.hasCapability(capability, facing);
 	}
 
 	@Nullable

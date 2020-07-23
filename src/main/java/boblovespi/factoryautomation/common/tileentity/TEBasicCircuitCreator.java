@@ -1,19 +1,21 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.BasicCircuitRecipe;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.IGuiElement;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTTagIntArray;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.IntArrayNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -30,6 +32,7 @@ public class TEBasicCircuitCreator extends TileEntity
 
 	public TEBasicCircuitCreator()
 	{
+		super(TileEntityHandler.teBasicCircuitCreator);
 		inventory = new ItemStackHandler(5)
 		{
 			@Override
@@ -131,71 +134,61 @@ public class TEBasicCircuitCreator extends TileEntity
 		layout.Set(Layout.Element.EMPTY, x, y);
 	}
 
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return true;
-		return super.hasCapability(capability, facing);
-	}
-
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return (T) inventory;
+			return LazyOptional.of(() -> (T) inventory);
 		return super.getCapability(capability, facing);
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT compound)
+	public void read(CompoundNBT compound)
 	{
-		super.readFromNBT(compound);
-		inventory.deserializeNBT(compound.getCompoundTag("items"));
-		layout.Deserialize(compound.getTagList("layout", 11));
+		super.read(compound);
+		inventory.deserializeNBT(compound.getCompound("items"));
+		layout.Deserialize(compound.getList("layout", 11));
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT compound)
+	public CompoundNBT write(CompoundNBT compound)
 	{
-		compound.setTag("items", inventory.serializeNBT());
-		compound.setTag("layout", layout.Serialize());
-		return super.writeToNBT(compound);
+		compound.put("items", inventory.serializeNBT());
+		compound.put("layout", layout.Serialize());
+		return super.write(compound);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		//noinspection MethodCallSideOnly
-		this.readFromNBT(pkt.getNbtCompound());
+		read(pkt.getNbtCompound());
 	}
 
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
+	//	@Override
+	//	public CompoundNBT getTileData()
+	//	{
+	//		CompoundNBT nbt = new CompoundNBT();
+	//		writeToNBT(nbt);
+	//		return nbt;
+	//	}
+	//
+	//	@Override
+	//	public CompoundNBT getUpdateTag()
+	//	{
+	//		CompoundNBT nbt = new CompoundNBT();
+	//		writeToNBT(nbt);
+	//		return nbt;
+	//	}
 
 	@Nullable
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
+	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
+		write(nbt);
 
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 
 	public Layout.Element[][] GetComponents()
@@ -229,9 +222,9 @@ public class TEBasicCircuitCreator extends TileEntity
 			return grid[y][x];
 		}
 
-		public NBTTagList Serialize()
+		public ListNBT Serialize()
 		{
-			NBTTagList list = new NBTTagList();
+			ListNBT list = new ListNBT();
 
 			for (int i = 0; i < grid.length; i++)
 			{
@@ -242,17 +235,17 @@ public class TEBasicCircuitCreator extends TileEntity
 					arr[j] = grid[i][j].ordinal();
 				}
 
-				list.appendTag(new NBTTagIntArray(arr));
+				list.add(new IntArrayNBT(arr));
 			}
 
 			return list;
 		}
 
-		public void Deserialize(NBTTagList list)
+		public void Deserialize(ListNBT list)
 		{
 			for (int i = 0; i < grid.length; i++)
 			{
-				int[] arr = list.getIntArrayAt(i);
+				int[] arr = list.getIntArray(i);
 
 				for (int j = 0; j < grid[i].length; j++)
 				{
