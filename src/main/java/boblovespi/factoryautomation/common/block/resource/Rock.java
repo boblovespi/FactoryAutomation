@@ -83,7 +83,7 @@ public class Rock extends FABaseBlock
 	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos,
 			boolean isMoving)
 	{
-		if (!world.getBlockState(pos.down()).func_224755_d(world, pos.down(), Direction.UP)) // isSideSolid ?
+		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.down(), Direction.UP)) // isSideSolid ?
 		{
 			spawnDrops(state, world, pos);
 			world.removeBlock(pos, isMoving);
@@ -97,7 +97,7 @@ public class Rock extends FABaseBlock
 	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
 	{
 		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.down())
-																			  .func_224755_d(world, pos.down(),
+																			  .isSolidSide(world, pos.down(),
 																					  Direction.UP)
 				&& world.getBlockState(pos).getBlock() != this;
 	}
@@ -145,13 +145,14 @@ public class Rock extends FABaseBlock
 			World world = context.getWorld();
 			BlockPos pos = context.getPos();
 			Block block = world.getBlockState(pos).getBlock();
-			if (context.isPlacerSneaking() && BlockTags.LOGS.contains(block))
+			if (context.func_225518_g_() /*isPlayerSneaking*/ && BlockTags.LOGS.contains(block))
 			{
 				if (!world.isRemote)
 				{
 					world.destroyBlock(pos, false);
 					world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
-							new ItemStack(FABlocks.woodChoppingBlocks.get(WoodTypes.FromLog(block).Index()).ToBlock(), 2)));
+							new ItemStack(FABlocks.woodChoppingBlocks.get(WoodTypes.FromLog(block).Index()).ToBlock(),
+									2)));
 				}
 				return ActionResultType.SUCCESS;
 			} else

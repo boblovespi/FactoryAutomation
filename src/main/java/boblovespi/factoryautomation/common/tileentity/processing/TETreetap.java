@@ -1,15 +1,16 @@
 package boblovespi.factoryautomation.common.tileentity.processing;
 
 import boblovespi.factoryautomation.common.fluid.Fluids;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockOldLog;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.init.Blocks;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -19,17 +20,22 @@ import static boblovespi.factoryautomation.common.block.processing.Treetap.FACIN
 /**
  * Created by Willi on 6/26/2018.
  */
-public class TETreetap extends TileEntity implements ITickable
+public class TETreetap extends TileEntity implements ITickableTileEntity
 {
 	private static final int AMOUNT_PER_UPDATE = 1;
 	private static final int AMOUNT_UNTIL_UPDATE = 24000 / (1000 / AMOUNT_PER_UPDATE); // TODO: move to config
 	private int counter = -1;
 
+	public TETreetap()
+	{
+		super(TileEntityHandler.teTreetap);
+	}
+
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 			return;
@@ -41,32 +47,26 @@ public class TETreetap extends TileEntity implements ITickable
 			TileEntity te = world.getTileEntity(pos.down());
 			if (te != null)
 			{
-				if (te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP))
-				{
-					IFluidHandler handler = te
-							.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP);
-
-					if (handler != null)
+				LazyOptional<IFluidHandler> handler = te
+						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP);
+				handler.ifPresent(n -> {
+					BlockPos offset = pos.offset(world.getBlockState(pos).get(FACING).getOpposite());
+					BlockState block = world.getBlockState(offset);
+					BlockPos leafPos = offset;
+					if (block.getBlock() == Blocks.JUNGLE_LOG)
 					{
-						BlockPos offset = pos.offset(world.getBlockState(pos).getValue(FACING).getOpposite());
-						BlockState block = world.getBlockState(offset);
-						BlockPos leafPos = offset;
-						if (block.getBlock() == Blocks.LOG
-								&& block.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.JUNGLE)
+						while (true)
 						{
-							while (true)
-							{
-								BlockState state = world.getBlockState(leafPos);
-								if (!(state.getBlock() == Blocks.LOG || state.getBlock() == Blocks.LEAVES))
-									return;
-								if (state.getBlock() == Blocks.LEAVES && state.getValue(BlockLeaves.DECAYABLE))
-									break;
-								leafPos = leafPos.up();
-							}
-							handler.fill(new FluidStack(Fluids.rubberSap, AMOUNT_PER_UPDATE), true);
+							BlockState state = world.getBlockState(leafPos);
+							if (state.getBlock() != Blocks.JUNGLE_LOG && state.getBlock() != Blocks.JUNGLE_LEAVES)
+								return;
+							if (state.getBlock() == Blocks.JUNGLE_LEAVES && state.get(LeavesBlock.PERSISTENT))
+								break;
+							leafPos = leafPos.up();
 						}
+						n.fill(new FluidStack(Fluids.rubberSap, AMOUNT_PER_UPDATE), IFluidHandler.FluidAction.EXECUTE);
 					}
-				}
+				});
 			}
 		}
 	}

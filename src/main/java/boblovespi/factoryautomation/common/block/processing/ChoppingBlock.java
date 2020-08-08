@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -69,11 +70,11 @@ public class ChoppingBlock extends FABaseBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (world.isRemote)
-			return true;
+			return ActionResultType.SUCCESS;
 		ItemStack item = player.getHeldItem(hand);
 		TileEntity te = world.getTileEntity(pos);
 		//		if (item.isEmpty())
@@ -96,7 +97,7 @@ public class ChoppingBlock extends FABaseBlock
 		{
 			((TEChoppingBlock) te).TakeOrPlace(item, player);
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)

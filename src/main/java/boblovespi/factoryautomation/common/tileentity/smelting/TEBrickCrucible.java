@@ -4,28 +4,25 @@ import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.api.misc.BellowsUser;
 import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
-import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.FloatNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -38,7 +35,7 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 /**
  * Created by Willi on 12/28/2018.
  */
-public class TEBrickCrucible extends TileEntity implements IMultiblockControllerTE, ITickable
+public class TEBrickCrucible extends TileEntity implements IMultiblockControllerTE, ITickableTileEntity
 {
 	public static final String MULTIBLOCK_ID = "brick_foundry";
 	private MultiMetalHelper metals;
@@ -55,6 +52,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 
 	public TEBrickCrucible()
 	{
+		super(TileEntityHandler.teBrickCrucible);
 		metals = new MultiMetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 1000, 300);
@@ -65,7 +63,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote || !IsStructureValid())
 			return;
@@ -78,7 +76,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 			burnTime--;
 			if (fuelInfo == FuelRegistry.NULL)
 			{
-				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem(), burnStack.getItemDamage());
+				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem());
 				if (fuelInfo == FuelRegistry.NULL)
 				{
 					burnTime = 0;
@@ -102,7 +100,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 		{
 			if (!burnStack.isEmpty())
 			{
-				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem(), burnStack.getItemDamage());
+				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem());
 				if (fuelInfo != FuelRegistry.NULL)
 				{
 					burnTime = fuelInfo.GetBurnTime();
@@ -144,8 +142,7 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 		markDirty();
 
 		/* IMPORTANT */
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
@@ -163,108 +160,56 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	@Override
 	public void CreateStructure()
 	{
-		MultiblockHelper
-				.CreateStructure(world, pos, MULTIBLOCK_ID, world.getBlockState(pos).getValue(StoneCrucible.FACING));
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, true));
+		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
+		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, true));
 		structureIsValid = true;
 	}
 
 	@Override
 	public void BreakStructure()
 	{
-		MultiblockHelper
-				.BreakStructure(world, pos, MULTIBLOCK_ID, world.getBlockState(pos).getValue(StoneCrucible.FACING));
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, false));
+		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
+		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, false));
 		structureIsValid = false;
 	}
 
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		if (offset[0] == 0 && offset[1] == 0 && offset[2] == 0
 				&& capability == CapabilityBellowsUser.BELLOWS_USER_CAPABILITY)
-			return (T) bellowsUser;
-		return null;
-	}
-
-	/**
-	 * Called from Chunk.setBlockIDWithMetadata and Chunk.fillChunk, determines if this tile entity should be re-created when the ID, or Metadata changes.
-	 * Use with caution as this will leave straggler TileEntities, or create conflicts with other TileEntities if not used properly.
-	 */
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState)
-	{
-		return !(oldState.getBlock() == FABlocks.brickCrucible && newState.getBlock() == FABlocks.brickCrucible);
+			return LazyOptional.of(() -> (T) bellowsUser);
+		return LazyOptional.empty();
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
-		metals.ReadFromNBT(tag.getCompoundTag("metals"));
-		inventory.deserializeNBT(tag.getCompoundTag("inventory"));
-		heatUser.ReadFromNBT(tag.getCompoundTag("heatUser"));
+		super.read(tag);
+		metals.ReadFromNBT(tag.getCompound("metals"));
+		inventory.deserializeNBT(tag.getCompound("inventory"));
+		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
 		structureIsValid = tag.getBoolean("structureIsValid");
-		burnTime = tag.getInteger("burnTime");
-		maxBurnTime = tag.getInteger("maxBurnTime");
-		meltTime = tag.getInteger("meltTime");
+		burnTime = tag.getInt("burnTime");
+		maxBurnTime = tag.getInt("maxBurnTime");
+		meltTime = tag.getInt("meltTime");
 		isBurningFuel = tag.getBoolean("isBurningFuel");
-		bellowsUser.ReadFromNBT(tag.getCompoundTag("bellowsUser"));
+		bellowsUser.ReadFromNBT(tag.getCompound("bellowsUser"));
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setTag("metals", metals.WriteToNBT());
-		tag.setTag("inventory", inventory.serializeNBT());
-		tag.setTag("heatUser", heatUser.WriteToNBT());
-		tag.setBoolean("structureIsValid", structureIsValid);
-		tag.setInteger("burnTime", burnTime);
-		tag.setInteger("maxBurnTime", maxBurnTime);
-		tag.setInteger("meltTime", meltTime);
-		tag.setBoolean("isBurningFuel", isBurningFuel);
-		tag.setTag("bellowsUser", bellowsUser.WriteToNBT());
-		return super.writeToNBT(tag);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
+		tag.put("metals", metals.WriteToNBT());
+		tag.put("inventory", inventory.serializeNBT());
+		tag.put("heatUser", heatUser.WriteToNBT());
+		tag.putBoolean("structureIsValid", structureIsValid);
+		tag.putInt("burnTime", burnTime);
+		tag.putInt("maxBurnTime", maxBurnTime);
+		tag.putInt("meltTime", meltTime);
+		tag.putBoolean("isBurningFuel", isBurningFuel);
+		tag.put("bellowsUser", bellowsUser.WriteToNBT());
+		return super.write(tag);
 	}
 
 	public IItemHandler GetInventory()
@@ -417,15 +362,15 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 		{
 			metal = tag.getString("metal");
 			amount = tag.getShort("amount");
-			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((NBTTagFloat) t).getFloat());
+			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((FloatNBT) t).getFloat());
 		}
 
 		public CompoundNBT WriteToNBT()
 		{
 			CompoundNBT tag = new CompoundNBT();
-			tag.setString("metal", metal);
-			tag.setInteger("amount", amount);
-			NBTHelper.SetMap(tag, "metals", metals, k -> k, NBTTagFloat::new);
+			tag.putString("metal", metal);
+			tag.putInt("amount", amount);
+			NBTHelper.SetMap(tag, "metals", metals, k -> k, FloatNBT::valueOf);
 			return tag;
 		}
 

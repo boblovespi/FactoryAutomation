@@ -2,14 +2,13 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
-import net.minecraft.block.state.BlockState;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -21,7 +20,7 @@ import static boblovespi.factoryautomation.common.util.SetBlockStateFlags.SEND_T
 /**
  * Created by Willi on 9/3/2018.
  */
-public class TEHandCrank extends TileEntity implements ITickable
+public class TEHandCrank extends TileEntity implements ITickableTileEntity
 {
 
 	private static final float SPEED = 1;
@@ -32,6 +31,7 @@ public class TEHandCrank extends TileEntity implements ITickable
 
 	public TEHandCrank()
 	{
+		super(TileEntityHandler.teHandCrank);
 		mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
 		isRotating = false;
 	}
@@ -39,7 +39,7 @@ public class TEHandCrank extends TileEntity implements ITickable
 	@Override
 	public void onLoad()
 	{
-		inverted = world.getBlockState(pos).getValue(INVERTED);
+		inverted = getBlockState().get(INVERTED);
 		mechanicalUser.SetSides(EnumSet.of(inverted ? Direction.UP : Direction.DOWN));
 	}
 
@@ -55,88 +55,42 @@ public class TEHandCrank extends TileEntity implements ITickable
 			markDirty();
 
 			/* IMPORTANT */
-			BlockState state2 = world.getBlockState(pos);
-			world.notifyBlockUpdate(pos, state2, state2, FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
+			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 		}
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
-		mechanicalUser.ReadFromNBT(tag.getCompoundTag("mechanicalUser"));
+		super.read(tag);
+		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 		rotation = tag.getFloat("rotation");
 		isRotating = tag.getBoolean("isRotating");
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setTag("mechanicalUser", mechanicalUser.WriteToNBT());
-		tag.setFloat("rotation", rotation);
-		tag.setBoolean("isRotating", isRotating);
-		return super.writeToNBT(tag);
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
+		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
+		tag.putFloat("rotation", rotation);
+		tag.putBoolean("isRotating", isRotating);
+		return super.write(tag);
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return (T) mechanicalUser;
+			return LazyOptional.of(()->(T) mechanicalUser);
 		return null;
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
 	}
 
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (isRotating)
 		{
@@ -153,8 +107,7 @@ public class TEHandCrank extends TileEntity implements ITickable
 				markDirty();
 
 				/* IMPORTANT */
-				BlockState state2 = world.getBlockState(pos);
-				world.notifyBlockUpdate(pos, state2, state2, FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
+				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 			}
 		}
 	}

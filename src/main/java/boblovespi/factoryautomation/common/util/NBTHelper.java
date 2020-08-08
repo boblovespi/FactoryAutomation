@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.NBTUtil;
 
 import javax.annotation.Nullable;
@@ -25,21 +26,21 @@ public class NBTHelper
 
 	public static CompoundNBT GetTag(ItemStack items)
 	{
-		if (!items.hasTagCompound())
+		if (!items.hasTag())
 		{
-			items.putTagCompound(new CompoundNBT());
+			items.setTag(new CompoundNBT());
 		}
-		return items.getTagCompound();
+		return items.getTag();
 	}
 
 	public static boolean HasKey(ItemStack stack, String key)
 	{
-		return HasTag(stack) && GetTag(stack).hasKey(key);
+		return HasTag(stack) && GetTag(stack).contains(key);
 	}
 
 	public static boolean HasTag(ItemStack stack)
 	{
-		return stack.hasTagCompound();
+		return stack.hasTag();
 	}
 
 	public static void SetLocationTag(ItemStack stack, String key, int dim, int x, int y, int z)
@@ -99,14 +100,13 @@ public class NBTHelper
 
 	public static ItemStack SetTag(ItemStack stack, String key, CompoundNBT tag)
 	{
-		stack.getOrCreateSubCompound(key);
-		stack.getTagCompound().putTag(key, tag);
+		stack.getOrCreateTag().put(key, tag);
 		return stack;
 	}
 
 	public static Gearbox.GearType GetGear(CompoundNBT compound, String key)
 	{
-		int integer = compound.getInteger(key);
+		int integer = compound.getInt(key);
 		if (integer == -1)
 			return null;
 		return Gearbox.GearType.values()[integer];
@@ -115,30 +115,30 @@ public class NBTHelper
 	public static void SetGear(CompoundNBT compound, String key, Gearbox.GearType gear)
 	{
 		if (gear == null)
-			compound.putInteger(key, -1);
+			compound.putInt(key, -1);
 		else
-			compound.putInteger(key, gear.GetId());
+			compound.putInt(key, gear.GetId());
 	}
 
 	public static <K, V> void SetMap(CompoundNBT compound, String key, Map<K, V> map,
-			Function<K, String> keySerializer, Function<V, NBTBase> valueSerializer)
+			Function<K, String> keySerializer, Function<V, INBT> valueSerializer)
 	{
 		CompoundNBT tag = new CompoundNBT();
 		for (Map.Entry<K, V> entry : map.entrySet())
 		{
-			tag.putTag(keySerializer.apply(entry.getKey()), valueSerializer.apply(entry.getValue()));
+			tag.put(keySerializer.apply(entry.getKey()), valueSerializer.apply(entry.getValue()));
 		}
-		compound.putTag(key, tag);
+		compound.put(key, tag);
 	}
 
 	public static <K, V> Map<K, V> GetMap(CompoundNBT compound, String key, Function<String, K> keyDeserializer,
-			Function<NBTBase, V> valueDeserializer)
+			Function<INBT, V> valueDeserializer)
 	{
 		Map<K, V> map = new HashMap<>();
-		CompoundNBT tag = compound.getCompoundTag(key);
-		for (String k : tag.getKeySet())
+		CompoundNBT tag = compound.getCompound(key);
+		for (String k : tag.keySet())
 		{
-			map.put(keyDeserializer.apply(k), valueDeserializer.apply(tag.getTag(k)));
+			map.put(keyDeserializer.apply(k), valueDeserializer.apply(tag.get(k)));
 		}
 		return map;
 	}

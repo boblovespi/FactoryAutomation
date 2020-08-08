@@ -3,18 +3,19 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
 
@@ -25,7 +26,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace
  * Created by Willi on 5/6/2018.
  * gearbox, like rotarycraft
  */
-public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
+public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableTileEntity
 {
 	public float rotationIn = 0;
 	public float rotationOut = 0;
@@ -41,20 +42,25 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 	private int outputDurability = -1;
 	private int counter = -1;
 
+	public TEGearbox()
+	{
+		super(TileEntityHandler.teGearbox);
+	}
+
 	public boolean SideIsInput(Direction side)
 	{
-		return world.getBlockState(pos).getValue(Gearbox.FACING) == side.getOpposite();
+		return getBlockState().get(Gearbox.FACING) == side.getOpposite();
 	}
 
 	public boolean SideIsOutput(Direction side)
 	{
-		return world.getBlockState(pos).getValue(Gearbox.FACING) == side;
+		return getBlockState().get(Gearbox.FACING) == side;
 	}
 
 	@Override
 	public boolean HasConnectionOnSide(Direction side)
 	{
-		return side.getAxis() == world.getBlockState(pos).getValue(Gearbox.FACING).getAxis();
+		return side.getAxis() == getBlockState().get(Gearbox.FACING).getAxis();
 	}
 
 	@Override
@@ -88,7 +94,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT compound)
+	public void read(CompoundNBT compound)
 	{
 		speedIn = compound.getFloat("speedIn");
 		torqueIn = compound.getFloat("torqueIn");
@@ -98,72 +104,34 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 		inputGear = NBTHelper.GetGear(compound, "gearIn");
 		outputGear = NBTHelper.GetGear(compound, "gearOut");
 
-		inputDurability = compound.getInteger("inputDurability");
-		outputDurability = compound.getInteger("outputDurability");
+		inputDurability = compound.getInt("inputDurability");
+		outputDurability = compound.getInt("outputDurability");
 
-		super.readFromNBT(compound);
+		super.read(compound);
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT compound)
+	public CompoundNBT write(CompoundNBT compound)
 	{
-		compound.setFloat("speedIn", speedIn);
-		compound.setFloat("torqueIn", torqueIn);
-		compound.setFloat("speedOut", speedOut);
-		compound.setFloat("torqueOut", torqueOut);
+		compound.putFloat("speedIn", speedIn);
+		compound.putFloat("torqueIn", torqueIn);
+		compound.putFloat("speedOut", speedOut);
+		compound.putFloat("torqueOut", torqueOut);
 
 		NBTHelper.SetGear(compound, "gearIn", inputGear);
 		NBTHelper.SetGear(compound, "gearOut", outputGear);
 
-		compound.setInteger("inputDurability", inputDurability);
-		compound.setInteger("outputDurability", outputDurability);
+		compound.putInt("inputDurability", inputDurability);
+		compound.putInt("outputDurability", outputDurability);
 
-		return super.writeToNBT(compound);
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
+		return super.write(compound);
 	}
 
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 		{
@@ -188,8 +156,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 			return;
 		}
 
-		BlockState state = world.getBlockState(pos);
-		Direction facing = state.getValue(Gearbox.FACING);
+		BlockState state = getBlockState();
+		Direction facing = state.get(Gearbox.FACING);
 
 		TileEntity te = world.getTileEntity(pos.offset(facing.getOpposite()));
 
@@ -264,8 +232,11 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 		if (outputGear != null)
 		{
 			if (!world.isRemote)
-				world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
-						new ItemStack(FAItems.gear.GetItem(outputGear), 1, outputGear.durability - outputDurability)));
+			{
+				ItemStack stack = new ItemStack(FAItems.gear.GetItem(outputGear), 1);
+				stack.setDamage(outputGear.durability - outputDurability);
+				world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+			}
 
 			outputGear = null;
 			outputDurability = -1;
@@ -276,8 +247,11 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 		} else if (inputGear != null)
 		{
 			if (!world.isRemote)
-				world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(),
-						new ItemStack(FAItems.gear.GetItem(inputGear), 1, inputGear.durability - inputDurability)));
+			{
+				ItemStack stack = new ItemStack(FAItems.gear.GetItem(inputGear), 1);
+				stack.setDamage(inputGear.durability - inputDurability);
+				world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+			}
 
 			inputGear = null;
 			inputDurability = -1;
@@ -337,18 +311,12 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickable
 		world.notifyBlockUpdate(pos, state2, state2, 3);
 	}
 
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
-	}
-
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return (T) this;
+			return LazyOptional.of(() -> (T) this);
 		return null;
 	}
 }

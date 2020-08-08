@@ -74,7 +74,7 @@ public class OreSample extends FABaseBlock
 	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos,
 			boolean isMoving)
 	{
-		if (!world.getBlockState(pos.down()).func_224755_d(world, pos.down(), Direction.UP)) // isSideSolid ?
+		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.down(), Direction.UP)) // isSideSolid ?
 		{
 			spawnDrops(state, world, pos);
 			world.removeBlock(pos, isMoving);
@@ -88,7 +88,7 @@ public class OreSample extends FABaseBlock
 	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
 	{
 		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.down())
-																			  .func_224755_d(world, pos.down(),
+																			  .isSolidSide(world, pos.down(),
 																					  Direction.UP)
 				&& world.getBlockState(pos).getBlock() != this;
 	}

@@ -4,29 +4,37 @@ import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.misc.IBellowsable;
 import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
+import net.minecraftforge.common.util.LazyOptional;
 
 /**
  * Created by Willi on 5/5/2019.
  */
-public class TEPaperBellows extends TileEntity implements ITickable, IBellowsTE
+public class TEPaperBellows extends TileEntity implements ITickableTileEntity, IBellowsTE
 {
 	private float lerp = 0;
+
+	public TEPaperBellows()
+	{
+		super(TileEntityHandler.tePaperBellows);
+	}
 
 	public void Blow()
 	{
 		if (!world.isRemote)
 		{
-			Direction facing = world.getBlockState(pos).getValue(PaperBellows.FACING);
+			Direction facing = world.getBlockState(pos).get(PaperBellows.FACING);
 			TileEntity te = world.getTileEntity(pos.offset(facing));
 			if (te == null)
 				return;
-			IBellowsable capability = te
+			LazyOptional<IBellowsable> capability = te
 					.getCapability(CapabilityBellowsUser.BELLOWS_USER_CAPABILITY, facing.getOpposite());
-			if (capability != null)
-				capability.Blow(0.75f, 400);
+
+			capability.ifPresent(n -> n.Blow(0.75f, 400));
 		} else
 		{
 			lerp = 1;
@@ -49,7 +57,7 @@ public class TEPaperBellows extends TileEntity implements ITickable, IBellowsTE
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (!world.isRemote)
 			return;

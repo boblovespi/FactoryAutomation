@@ -7,21 +7,18 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TEHorseEngine;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
-import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -61,13 +58,13 @@ public class HorseEngine extends FABaseBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (state.get(PART) != Part.TOP)
-			return false;
+			return ActionResultType.FAIL;
 		if (world.isRemote)
-			return true;
+			return ActionResultType.SUCCESS;
 
 		for (MobEntity horse : world.getEntitiesWithinAABB(MobEntity.class,
 				new AxisAlignedBB(pos.getX() - 7.0D, pos.getY() - 7.0D, pos.getZ() - 7.0D, pos.getX() + 7.0D,
@@ -81,7 +78,7 @@ public class HorseEngine extends FABaseBlock
 					((TEHorseEngine) te).AttachHorse(horse);
 			}
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 	public enum Part implements IStringSerializable
 	{

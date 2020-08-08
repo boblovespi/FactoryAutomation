@@ -15,6 +15,7 @@ import net.minecraft.item.Items;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -85,7 +86,7 @@ public class StoneCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
@@ -102,7 +103,7 @@ public class StoneCastingVessel extends FABaseBlock
 					((TEStoneCastingVessel) te).TakeOrPlace(player.getHeldItem(hand), player);
 			}
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	public enum CastingVesselStates implements IStringSerializable

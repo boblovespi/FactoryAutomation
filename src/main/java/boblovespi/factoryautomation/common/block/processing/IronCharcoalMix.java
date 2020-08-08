@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
@@ -51,7 +52,7 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public void tick(BlockState state, World world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
 		boolean activated = state.get(ACTIVATED);
 		if (activated)

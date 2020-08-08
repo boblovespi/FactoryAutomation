@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -65,11 +66,11 @@ public class Millstone extends FABaseBlock
 	}
 
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult result)
 	{
 		if (world.isRemote)
-			return true;
+			return ActionResultType.SUCCESS;
 		ItemStack item = player.getHeldItem(hand);
 		TileEntity te = world.getTileEntity(pos);
 
@@ -77,7 +78,7 @@ public class Millstone extends FABaseBlock
 		{
 			((TEMillstone) te).TakeOrPlace(item, player);
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	//	@Override

@@ -3,14 +3,14 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
-import net.minecraft.block.state.BlockState;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -21,7 +21,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace
 /**
  * Created by Willi on 6/21/2019.
  */
-public class TEBevelGear extends TileEntity implements ITickable
+public class TEBevelGear extends TileEntity implements ITickableTileEntity
 {
 	public float rotation = 0;
 	private MechanicalUser user;
@@ -29,6 +29,7 @@ public class TEBevelGear extends TileEntity implements ITickable
 
 	public TEBevelGear()
 	{
+		super(TileEntityHandler.teBevelGear);
 		user = new MechanicalUser();
 	}
 
@@ -37,68 +38,29 @@ public class TEBevelGear extends TileEntity implements ITickable
 	{
 		BlockState state = world.getBlockState(pos);
 		Direction negativeFacing = BevelGear.GetNegative(state);
-		Direction positiveFacing = state.getValue(BevelGear.FACING);
+		Direction positiveFacing = state.get(BevelGear.FACING);
 		user.SetSides(EnumSet.of(negativeFacing, positiveFacing));
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
-		user.ReadFromNBT(tag.getCompoundTag("user"));
+		super.read(tag);
+		user.ReadFromNBT(tag.getCompound("user"));
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setTag("user", user.WriteToNBT());
-		return super.writeToNBT(tag);
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
+		tag.put("user", user.WriteToNBT());
+		return super.write(tag);
 	}
 
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 		{
@@ -115,7 +77,7 @@ public class TEBevelGear extends TileEntity implements ITickable
 			BlockState state = world.getBlockState(pos);
 
 			Direction negativeFacing = BevelGear.GetNegative(state);
-			Direction positiveFacing = state.getValue(BevelGear.FACING);
+			Direction positiveFacing = state.get(BevelGear.FACING);
 
 			TileEntity front = world.getTileEntity(pos.offset(positiveFacing));
 			TileEntity back = world.getTileEntity(pos.offset(negativeFacing));
@@ -146,18 +108,12 @@ public class TEBevelGear extends TileEntity implements ITickable
 		return user.GetSpeed();
 	}
 
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
-	}
-
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return (T) user;
+			return LazyOptional.of(() -> (T) user);
 		return null;
 	}
 }

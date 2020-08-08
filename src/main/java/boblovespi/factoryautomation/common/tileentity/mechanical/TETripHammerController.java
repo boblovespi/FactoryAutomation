@@ -3,23 +3,21 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.TripHammerRecipe;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 
-import javax.annotation.Nullable;
-
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 
 import static boblovespi.factoryautomation.common.block.machine.TripHammerController.*;
@@ -27,7 +25,7 @@ import static boblovespi.factoryautomation.common.block.machine.TripHammerContro
 /**
  * Created by Willi on 8/13/2018.
  */
-public class TETripHammerController extends TileEntity implements IMultiblockControllerTE, ITickable
+public class TETripHammerController extends TileEntity implements IMultiblockControllerTE, ITickableTileEntity
 {
 	public static final String MULTIBLOCK_ID = "trip_hammer";
 	private ItemStackHandler itemHandler;
@@ -39,6 +37,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 
 	public TETripHammerController()
 	{
+		super(TileEntityHandler.teTripHammerController);
 		itemHandler = new ItemStackHandler(2)
 		{
 			@Override
@@ -53,7 +52,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	@Override
 	public void onLoad()
 	{
-		Direction dir = world.getBlockState(pos).getValue(FACING);
+		Direction dir = getBlockState().get(FACING);
 		mechanicalUser.SetSides(EnumSet.of(dir.rotateY(), dir.rotateYCCW()));
 	}
 
@@ -73,23 +72,23 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	public void CreateStructure()
 	{
 		SetStructureValid();
-		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID, world.getBlockState(pos).getValue(FACING));
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
+		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(FACING));
+		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
 	}
 
 	@Override
 	public void BreakStructure()
 	{
 		SetStructureInvalid();
-		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID, world.getBlockState(pos).getValue(FACING));
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
+		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(FACING));
+		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
 	}
 
 	public boolean PutItem(ItemStack item)
 	{
 		if (itemHandler.getStackInSlot(1).isEmpty() && itemHandler.getStackInSlot(0).isEmpty())
 		{
-			if (itemHandler.insertItem(0, item.splitStack(1), false).isEmpty())
+			if (itemHandler.insertItem(0, item.split(1), false).isEmpty())
 				return true;
 		}
 		return false;
@@ -112,22 +111,22 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	 * @param side       the side which is accessed
 	 * @return the capability implementation which to use
 	 */
+	@Nonnull
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
-		if (offset[0] == 5 && offset[1] == 1 && offset[2] == 0 && side.getAxis() == world.getBlockState(pos)
-																						 .getValue(FACING).rotateY()
-																						 .getAxis()
+		if (offset[0] == 5 && offset[1] == 1 && offset[2] == 0 && side.getAxis() == getBlockState().get(FACING)
+																								   .rotateY().getAxis()
 				&& capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return (T) mechanicalUser;
-		return null;
+			return LazyOptional.of(() -> (T) mechanicalUser);
+		return LazyOptional.empty();
 	}
 
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 		{
@@ -169,8 +168,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 				}
 				markDirty();
 			}
-			BlockState state = world.getBlockState(pos);
-			Direction facing = state.getValue(FACING);
+			Direction facing = getBlockState().get(FACING);
 
 			BlockPos pos2 = MultiblockHelper.AddWithRotation(pos, 5, 1, 0, facing);
 			Direction rotateY = facing.rotateY();
@@ -191,64 +189,24 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT nbt)
+	public void read(CompoundNBT nbt)
 	{
-		super.readFromNBT(nbt);
+		super.read(nbt);
 
-		itemHandler.deserializeNBT(nbt.getCompoundTag("inventory"));
-		mechanicalUser.ReadFromNBT(nbt.getCompoundTag("mechanicalUser"));
+		itemHandler.deserializeNBT(nbt.getCompound("inventory"));
+		mechanicalUser.ReadFromNBT(nbt.getCompound("mechanicalUser"));
 		currentRecipeString = nbt.getString("recipe");
 		timeLeftInRecipe = nbt.getFloat("timeLeftInRecipe");
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT nbt)
+	public CompoundNBT write(CompoundNBT nbt)
 	{
-		nbt.setTag("inventory", itemHandler.serializeNBT());
-		nbt.setTag("mechanicalUser", mechanicalUser.WriteToNBT());
-		nbt.setString("recipe", currentRecipeString);
-		nbt.setFloat("timeLeftInRecipe", timeLeftInRecipe);
+		nbt.put("inventory", itemHandler.serializeNBT());
+		nbt.put("mechanicalUser", mechanicalUser.WriteToNBT());
+		nbt.putString("recipe", currentRecipeString);
+		nbt.putFloat("timeLeftInRecipe", timeLeftInRecipe);
 
-		return super.writeToNBT(nbt);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
+		return super.write(nbt);
 	}
 }

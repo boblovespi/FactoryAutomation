@@ -2,18 +2,18 @@ package boblovespi.factoryautomation.common.tileentity.processing;
 
 import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
 import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Items;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -33,13 +33,14 @@ public class TEChoppingBlock extends TileEntity
 
 	public TEChoppingBlock()
 	{
+		super(TileEntityHandler.teChoppingBlock);
 		slot = new ItemStackHandler(1);
 	}
 
 	@Override
 	public void onLoad()
 	{
-		craftsBeforeBreak = ((ChoppingBlock) world.getBlockState(pos).getBlock()).maxUses;
+		craftsBeforeBreak = ((ChoppingBlock) getBlockState().getBlock()).maxUses;
 	}
 
 	public ItemStack PlaceItem(ItemStack items)
@@ -60,8 +61,7 @@ public class TEChoppingBlock extends TileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -72,8 +72,7 @@ public class TEChoppingBlock extends TileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -85,7 +84,7 @@ public class TEChoppingBlock extends TileEntity
 			ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
 		} else
 		{
-			ItemStack stack = PlaceItem(item.copy().splitStack(1));
+			ItemStack stack = PlaceItem(item.copy().split(1));
 			int itemsTaken = 1 - stack.getCount();
 			item.shrink(itemsTaken);
 		}
@@ -101,7 +100,7 @@ public class TEChoppingBlock extends TileEntity
 		if (recipe.equals("none"))
 			return false;
 		Item item = tool.getItem();
-		if (item instanceof ItemAxe)
+		if (item instanceof AxeItem || FATags.FAItemTag("axes").contains(item))
 		{
 			clicksLeft--;
 			if (clicksLeft <= 0)
@@ -131,8 +130,7 @@ public class TEChoppingBlock extends TileEntity
 				markDirty();
 
 				/* IMPORTANT */
-				BlockState state = world.getBlockState(pos);
-				world.notifyBlockUpdate(pos, state, state, 3);
+				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 			}
 			ItemHelper.DamageItem(tool);
 		}
@@ -141,71 +139,31 @@ public class TEChoppingBlock extends TileEntity
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
-		clicksLeft = tag.getInteger("clicksLeft");
-		slot.deserializeNBT(tag.getCompoundTag("slot"));
-		craftsBeforeBreak = tag.getInteger("craftsBeforeBreak");
-		craftsDone = tag.getInteger("craftsDone");
+		super.read(tag);
+		clicksLeft = tag.getInt("clicksLeft");
+		slot.deserializeNBT(tag.getCompound("slot"));
+		craftsBeforeBreak = tag.getInt("craftsBeforeBreak");
+		craftsDone = tag.getInt("craftsDone");
 		recipe = tag.getString("recipe");
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setInteger("clicksLeft", clicksLeft);
-		tag.setInteger("craftsBeforeBreak", craftsBeforeBreak);
-		tag.setInteger("craftsDone", craftsDone);
-		tag.setString("recipe", recipe);
-		tag.setTag("slot", slot.serializeNBT());
-		return super.writeToNBT(tag);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
+		tag.putInt("clicksLeft", clicksLeft);
+		tag.putInt("craftsBeforeBreak", craftsBeforeBreak);
+		tag.putInt("craftsDone", craftsDone);
+		tag.putString("recipe", recipe);
+		tag.put("slot", slot.serializeNBT());
+		return super.write(tag);
 	}
 
 	public void DropItems()
 	{
 		if (!world.isRemote && !slot.getStackInSlot(0).isEmpty())
-			world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
+			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack GetRenderStack()

@@ -17,6 +17,7 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
@@ -68,18 +69,19 @@ public class Gearbox extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 * @return
 	 */
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		ItemStack stack = player.getHeldItem(hand);
 
 		if (stack.getItem() instanceof Wrench)
-			return false;
+			return ActionResultType.PASS;
 
 		if (world.isRemote)
-			return true;
+			return ActionResultType.SUCCESS;
 
 		TileEntity tileEntity = world.getTileEntity(pos);
 		Item item = stack.getItem();
@@ -101,7 +103,7 @@ public class Gearbox extends FABaseBlock
 			}
 		}
 
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	private boolean IsGear(Item item)

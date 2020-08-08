@@ -5,31 +5,27 @@ import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.oredict.OreIngredient;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,23 +34,35 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 /**
  * Created by Willi on 12/28/2018.
  */
-public class TEStoneCrucible extends TileEntity implements IMultiblockControllerTE, ITickable
+public class TEStoneCrucible extends TileEntity implements IMultiblockControllerTE, ITickableTileEntity
 {
 	public static final String MULTIBLOCK_ID = "stone_foundry";
 	public static final List<MetalInfo> infos = new ArrayList<MetalInfo>(20)
 	{{
-		add(new MetalInfo(new OreIngredient("oreCopper"), "copper", 18));
-		add(new MetalInfo(new OreIngredient("nuggetCopper"), "copper", 2));
-		add(new MetalInfo(new OreIngredient("ingotCopper"), "copper", 18));
-		add(new MetalInfo(new OreIngredient("stickCopper"), "copper", 9));
-		add(new MetalInfo(new OreIngredient("plateCopper"), "copper", 18));
-		add(new MetalInfo(new OreIngredient("blockCopper"), "copper", 162));
-		add(new MetalInfo(new OreIngredient("oreTin"), "tin", 18));
-		add(new MetalInfo(new OreIngredient("nuggetTin"), "tin", 2));
-		add(new MetalInfo(new OreIngredient("ingotTin"), "tin", 18));
-		add(new MetalInfo(new OreIngredient("stickTin"), "tin", 9));
-		add(new MetalInfo(new OreIngredient("plateTin"), "tin", 18));
-		add(new MetalInfo(new OreIngredient("blockTin"), "tin", 162));
+		add(new MetalInfo("ores/iron", "iron", 18));
+		add(new MetalInfo("nuggets/iron", "iron", 2));
+		add(new MetalInfo("ingots/iron", "iron", 18));
+		add(new MetalInfo("sticks/iron", "iron", 9));
+		add(new MetalInfo("plates/iron", "iron", 18));
+		add(new MetalInfo("storage_blocks/iron", "iron", 162));
+		add(new MetalInfo("ores/gold", "gold", 18));
+		add(new MetalInfo("nuggets/gold", "gold", 2));
+		add(new MetalInfo("ingots/gold", "gold", 18));
+		add(new MetalInfo("sticks/gold", "gold", 9));
+		add(new MetalInfo("plates/gold", "gold", 18));
+		add(new MetalInfo("storage_blocks/gold", "gold", 162));
+		add(new MetalInfo("ores/copper", "copper", 18));
+		add(new MetalInfo("nuggets/copper", "copper", 2));
+		add(new MetalInfo("ingots/copper", "copper", 18));
+		add(new MetalInfo("sticks/copper", "copper", 9));
+		add(new MetalInfo("plates/copper", "copper", 18));
+		add(new MetalInfo("storage_blocks/copper", "copper", 162));
+		add(new MetalInfo("ores/tin", "tin", 18));
+		add(new MetalInfo("nuggets/tin", "tin", 2));
+		add(new MetalInfo("ingots/tin", "tin", 18));
+		add(new MetalInfo("sticks/tin", "tin", 9));
+		add(new MetalInfo("plates/tin", "tin", 18));
+		add(new MetalInfo("storage_blocks/tin", "tin", 162));
 	}};
 	private MetalHelper metals;
 	private ItemStackHandler inventory;
@@ -69,6 +77,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 
 	public TEStoneCrucible()
 	{
+		super(TileEntityHandler.teStoneCrucible);
 		metals = new MetalHelper(MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 1000, 300);
@@ -79,9 +88,9 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		Item item = stack.getItem();
 
 		// refined variants
-		if (item == Items.IRON_INGOT || item == Items.IRON_NUGGET || item == Item.getItemFromBlock(Blocks.IRON_BLOCK))
+		if (item == Items.IRON_INGOT || item == Items.IRON_NUGGET || item == Items.IRON_BLOCK)
 			return "iron";
-		if (item == Items.GOLD_INGOT || item == Items.GOLD_NUGGET || item == Item.getItemFromBlock(Blocks.GOLD_BLOCK))
+		if (item == Items.GOLD_INGOT || item == Items.GOLD_NUGGET || item == Items.GOLD_BLOCK)
 			return "gold";
 		for (Metals metal : Metals.values())
 		{
@@ -97,7 +106,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		}
 
 		// ores and other raw forms
-		if (item == Item.getItemFromBlock(Blocks.GOLD_ORE))
+		if (item == Items.GOLD_ORE)
 			return "gold";
 		if (item == Item.getItemFromBlock(FABlocks.metalOres.GetBlock(MetalOres.COPPER)))
 			return "copper";
@@ -108,10 +117,10 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		if (item == FAItems.ironShard)
 			return "iron";
 
-		// oredict
+		// tags now (formerly oredict)
 		for (MetalInfo info : infos)
 		{
-			if (info.ore.apply(stack))
+			if (FATags.ForgeItemTag(info.ore).contains(item))
 				return info.metal;
 		}
 		return "none";
@@ -153,10 +162,9 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		// oredict
 		for (MetalInfo info : infos)
 		{
-			if (info.ore.apply(stack))
+			if (FATags.ForgeItemTag(info.ore).contains(item))
 				return info.amount * mult;
 		}
-
 		return 0;
 	}
 
@@ -164,7 +172,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote || !IsStructureValid())
 			return;
@@ -176,7 +184,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 			burnTime--;
 			if (fuelInfo == FuelRegistry.NULL)
 			{
-				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem(), burnStack.getItemDamage());
+				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem());
 				if (fuelInfo == FuelRegistry.NULL)
 				{
 					burnTime = 0;
@@ -198,7 +206,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		{
 			if (!burnStack.isEmpty())
 			{
-				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem(), burnStack.getItemDamage());
+				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem());
 				if (fuelInfo != FuelRegistry.NULL)
 				{
 					burnTime = fuelInfo.GetBurnTime();
@@ -240,8 +248,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		markDirty();
 
 		/* IMPORTANT */
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
@@ -260,8 +267,8 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	public void CreateStructure()
 	{
 		MultiblockHelper
-				.CreateStructure(world, pos, MULTIBLOCK_ID, world.getBlockState(pos).getValue(StoneCrucible.FACING));
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, true));
+				.CreateStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
+		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, true));
 		structureIsValid = true;
 	}
 
@@ -269,93 +276,43 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	public void BreakStructure()
 	{
 		MultiblockHelper
-				.BreakStructure(world, pos, MULTIBLOCK_ID, world.getBlockState(pos).getValue(StoneCrucible.FACING));
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MULTIBLOCK_COMPLETE, false));
+				.BreakStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
+		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, false));
 		structureIsValid = false;
 	}
 
 	@Override
-	public <T> T GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
-		return null;
-	}
-
-	/**
-	 * Called from Chunk.setBlockIDWithMetadata and Chunk.fillChunk, determines if this tile entity should be re-created when the ID, or Metadata changes.
-	 * Use with caution as this will leave straggler TileEntities, or create conflicts with other TileEntities if not used properly.
-	 */
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState)
-	{
-		return !(oldState.getBlock() == FABlocks.stoneCrucible && newState.getBlock() == FABlocks.stoneCrucible);
+		return LazyOptional.empty();
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
-		metals.ReadFromNBT(tag.getCompoundTag("metals"));
-		inventory.deserializeNBT(tag.getCompoundTag("inventory"));
-		heatUser.ReadFromNBT(tag.getCompoundTag("heatUser"));
+		super.read(tag);
+		metals.ReadFromNBT(tag.getCompound("metals"));
+		inventory.deserializeNBT(tag.getCompound("inventory"));
+		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
 		structureIsValid = tag.getBoolean("structureIsValid");
-		burnTime = tag.getInteger("burnTime");
-		maxBurnTime = tag.getInteger("maxBurnTime");
-		meltTime = tag.getInteger("meltTime");
+		burnTime = tag.getInt("burnTime");
+		maxBurnTime = tag.getInt("maxBurnTime");
+		meltTime = tag.getInt("meltTime");
 		isBurningFuel = tag.getBoolean("isBurningFuel");
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setTag("metals", metals.WriteToNBT());
-		tag.setTag("inventory", inventory.serializeNBT());
-		tag.setTag("heatUser", heatUser.WriteToNBT());
-		tag.setBoolean("structureIsValid", structureIsValid);
-		tag.setInteger("burnTime", burnTime);
-		tag.setInteger("maxBurnTime", maxBurnTime);
-		tag.setInteger("meltTime", meltTime);
-		tag.setBoolean("isBurningFuel", isBurningFuel);
-		return super.writeToNBT(tag);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
+		tag.put("metals", metals.WriteToNBT());
+		tag.put("inventory", inventory.serializeNBT());
+		tag.put("heatUser", heatUser.WriteToNBT());
+		tag.putBoolean("structureIsValid", structureIsValid);
+		tag.putInt("burnTime", burnTime);
+		tag.putInt("maxBurnTime", maxBurnTime);
+		tag.putInt("meltTime", meltTime);
+		tag.putBoolean("isBurningFuel", isBurningFuel);
+		return super.write(tag);
 	}
 
 	public IItemHandler GetInventory()
@@ -505,8 +462,8 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		public CompoundNBT WriteToNBT()
 		{
 			CompoundNBT tag = new CompoundNBT();
-			tag.setString("metal", metal);
-			tag.setInteger("amount", amount);
+			tag.putString("metal", metal);
+			tag.putInt("amount", amount);
 			return tag;
 		}
 
@@ -520,11 +477,11 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 
 	static class MetalInfo
 	{
-		public OreIngredient ore;
+		public String ore;
 		public String metal;
 		public int amount;
 
-		public MetalInfo(OreIngredient ore, String metal, int amount)
+		public MetalInfo(String ore, String metal, int amount)
 		{
 			this.ore = ore;
 			this.metal = metal;

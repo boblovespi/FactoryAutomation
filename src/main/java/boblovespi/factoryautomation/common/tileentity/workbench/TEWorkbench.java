@@ -6,21 +6,19 @@ import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
 import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -42,8 +40,9 @@ public abstract class TEWorkbench extends TileEntity
 	protected IWorkbenchRecipe recipe = null;
 	private boolean isUpdatingChanges = false;
 
-	public TEWorkbench(int size, int tier)
+	public TEWorkbench(TileEntityType<? extends TEWorkbench> type, int size, int tier)
 	{
+		super(type);
 		this.size = size;
 		this.tier = tier;
 		firstPartIndex = 2 + size;
@@ -77,9 +76,10 @@ public abstract class TEWorkbench extends TileEntity
 
 							if (toolInfo.getKey().IsSameTool(tool) && toolInfo.getKey().tier <= tool.tier)
 							{
-								getStackInSlot(i + firstToolIndex).damageItem(
-										toolInfo.getValue(), FakePlayerFactory
-												.get((WorldServer) world, new GameProfile(null, "fakePlayer")));
+								getStackInSlot(i + firstToolIndex).damageItem(toolInfo.getValue(),
+										FakePlayerFactory.get((ServerWorld) world, new GameProfile(null, "fakePlayer")),
+										n -> {
+										});
 								break;
 							}
 						}
@@ -138,8 +138,7 @@ public abstract class TEWorkbench extends TileEntity
 				if (!isUpdatingChanges)
 					CheckForRecipe();
 
-				BlockState state = world.getBlockState(pos);
-				world.notifyBlockUpdate(pos, state, state,
+				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(),
 						SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 								| SetBlockStateFlags.PREVENT_RERENDER);
 			}
@@ -147,35 +146,27 @@ public abstract class TEWorkbench extends TileEntity
 
 	}
 
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return true;
-		return super.hasCapability(capability, facing);
-	}
-
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return (T) inventory;
+			return LazyOptional.of(() -> (T) inventory);
 		return super.getCapability(capability, facing);
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT compound)
+	public void read(CompoundNBT compound)
 	{
-		super.readFromNBT(compound);
-		inventory.deserializeNBT(compound.getCompoundTag("items"));
+		super.read(compound);
+		inventory.deserializeNBT(compound.getCompound("items"));
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT compound)
+	public CompoundNBT write(CompoundNBT compound)
 	{
-		compound.setTag("items", inventory.serializeNBT());
-		return super.writeToNBT(compound);
+		compound.put("items", inventory.serializeNBT());
+		return super.write(compound);
 	}
 
 	public void CheckForRecipe()
@@ -204,38 +195,5 @@ public abstract class TEWorkbench extends TileEntity
 	public void onLoad()
 	{
 		CheckForRecipe();
-	}
-
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
 	}
 }

@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -33,16 +34,17 @@ public class SolidFueledFirebox extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 * @return
 	 */
 	@Override
-	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
 			BlockRayTraceResult hit)
 	{
 		//		if (!worldIn.isRemote)
 		//			playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.SOLID_FUELED_FIREBOX.id, worldIn, pos.getX(),
 		//					pos.getY(), pos.getZ());
 		// TODO: GUIS
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override

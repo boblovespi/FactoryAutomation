@@ -9,10 +9,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -46,12 +44,11 @@ public class MultiblockComponent extends FABaseBlock
 	 * Faces which are fully opaque should return true, faces with transparency
 	 * or faces which do not span the full size of the block should return false.
 	 */
-	@Override
-	public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction face)
-	{
-		return false;
-	}
-
+	//	@Override
+	//	public boolean isSideInvisible(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction face)
+	//	{
+	//		return false;
+	//	}
 	@Override
 	public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos,
 			EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType)

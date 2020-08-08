@@ -16,6 +16,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -99,9 +100,10 @@ public class Campfire extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 * @return
 	 */
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
@@ -123,7 +125,7 @@ public class Campfire extends FABaseBlock
 					((TECampfire) te).TakeOrPlace(stack, player);
 			}
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override

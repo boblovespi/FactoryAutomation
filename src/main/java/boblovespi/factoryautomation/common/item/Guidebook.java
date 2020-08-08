@@ -29,7 +29,7 @@ public class Guidebook extends FABaseItem
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
 		FactoryAutomation.proxy.OpenGuidebook(world, player, null, ExtraInfo.NONE);
-		return ActionResult.newResult(ActionResultType.SUCCESS, player.getHeldItem(hand));
+		return ActionResult.resultSuccess(player.getHeldItem(hand));
 	}
 
 	public static class ExtraInfo

@@ -12,12 +12,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
@@ -49,7 +51,7 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	public void tick(BlockState state, World world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
 		Contents value = state.get(CONTENTS);
 		if (value.CanDry())
@@ -62,13 +64,14 @@ public class BrickMaker extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 * @return
 	 */
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (world.isRemote)
-			return true;
+			return ActionResultType.SUCCESS;
 
 		Contents value = state.get(CONTENTS);
 		if (value.CanAddClay() && player.getHeldItem(hand).getItem() == FAItems.terraclay)
@@ -89,7 +92,7 @@ public class BrickMaker extends FABaseBlock
 				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), world);
 			}
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override

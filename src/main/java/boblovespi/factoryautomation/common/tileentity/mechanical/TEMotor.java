@@ -3,24 +3,24 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.electricity.EnergyConnection_;
 import boblovespi.factoryautomation.api.energy.electricity.IRequiresEnergy_;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
-import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
-import net.minecraft.block.state.BlockState;
+import boblovespi.factoryautomation.common.block.machine.Motor;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 3/19/2018.
  */
-public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEnergy_, ITickable
+public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEnergy_, ITickableTileEntity
 {
 	public float rotation = 0;
 	private float speed;
@@ -29,10 +29,15 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	private int cooldown = -1;
 	private float energyProvided;
 
+	public TEMotor()
+	{
+		super(TileEntityHandler.teMotor);
+	}
+
 	@Override
 	public boolean HasConnectionOnSide(Direction side)
 	{
-		return side == world.getBlockState(pos).getValue(Motor.FACING);
+		return side == getBlockState().get(Motor.FACING);
 	}
 
 	@Override
@@ -139,7 +144,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 		{
@@ -166,8 +171,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 		UpdateMotor();
 
 		markDirty();
-		BlockState state2 = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state2, state2, 3);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 	}
 
 	private void UpdateMotor()
@@ -177,69 +181,30 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT compound)
+	public void read(CompoundNBT compound)
 	{
-		super.readFromNBT(compound);
+		super.read(compound);
 		energyProvided = compound.getFloat("energyProvided");
 		speed = compound.getFloat("speed");
 		torque = compound.getFloat("torque");
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT compound)
+	public CompoundNBT write(CompoundNBT compound)
 	{
-		super.writeToNBT(compound);
-		compound.setFloat("energyProvided", energyProvided);
-		compound.setFloat("speed", speed);
-		compound.setFloat("torque", torque);
+		super.write(compound);
+		compound.putFloat("energyProvided", energyProvided);
+		compound.putFloat("speed", speed);
+		compound.putFloat("torque", torque);
 		return compound;
 	}
 
-	/**
-	 * Called when you receive a TileEntityData packet for the location this
-	 * TileEntity is currently in. On the client, the NetworkManager will always
-	 * be the remote server. On the server, it will be whomever is responsible for
-	 * sending the packet.
-	 *
-	 * @param net The NetworkManager the packet originated from
-	 * @param pkt The data packet
-	 */
+	@Nonnull
 	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		return capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
-	}
-
-	@Nullable
-	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return (T) this;
-		return null;
+			return LazyOptional.of(() -> (T) this);
+		return super.getCapability(capability, facing);
 	}
 }

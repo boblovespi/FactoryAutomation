@@ -12,6 +12,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Hand;
@@ -49,9 +50,10 @@ public class SteelmakingFurnaceController extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 * @return
 	 */
 	@Override
-	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
 			BlockRayTraceResult hit)
 	{
 		if (!worldIn.isRemote)
@@ -74,7 +76,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 					((TESteelmakingFurnace) te).SetStructureInvalid();
 			}
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity;
 
+import boblovespi.factoryautomation.api.recipe.IMachineRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -15,10 +16,11 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 2/12/2019.
  */
-public abstract class TEMachine extends TileEntity implements ITickableTileEntity
+public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity implements ITickableTileEntity
 {
 	protected ItemStackHandler processingInv;
-	protected String recipe = "none";
+	protected String recipeName = "none";
+	protected T recipeCache = null;
 	protected int maxProgress = 1;
 	protected float currentProgress = 0;
 
@@ -32,17 +34,19 @@ public abstract class TEMachine extends TileEntity implements ITickableTileEntit
 			{
 				if (slot == 0)
 				{
-					String newRecipe = FindRecipe();
-					if (!recipe.equals(newRecipe))
+					String newRecipe = FindRecipeName();
+					if (!recipeName.equals(newRecipe))
 					{
 						if (newRecipe.equals("none"))
 						{
-							recipe = "none";
+							recipeName = "none";
+							recipeCache = null;
 							maxProgress = 1;
 							currentProgress = 0;
 						} else
 						{
-							recipe = newRecipe;
+							recipeName = newRecipe;
+							recipeCache = FindRecipe(recipeName);
 							maxProgress = GetMaxProgress();
 							currentProgress = 0;
 						}
@@ -53,7 +57,10 @@ public abstract class TEMachine extends TileEntity implements ITickableTileEntit
 	}
 
 	@Nonnull
-	protected abstract String FindRecipe();
+	protected abstract String FindRecipeName();
+
+	@Nullable
+	protected abstract T FindRecipe(String recipeName);
 
 	protected void Update()
 	{
@@ -78,21 +85,23 @@ public abstract class TEMachine extends TileEntity implements ITickableTileEntit
 			return;
 		}
 		Update();
-		if (recipe.equals("none"))
+		if (recipeName.equals("none"))
 			return;
 
 		if (currentProgress < maxProgress)
 			currentProgress += GetProgressScalar();
 		if (currentProgress >= maxProgress)
 		{
-			OnRecipeComplete(recipe);
-			recipe = FindRecipe();
-			if (!recipe.equals("none"))
+			OnRecipeComplete(recipeName);
+			recipeName = FindRecipeName();
+			if (!recipeName.equals("none"))
 			{
+				recipeCache = FindRecipe(recipeName);
 				maxProgress = GetMaxProgress();
 				currentProgress = 0;
 			} else
 			{
+				recipeCache = null;
 				maxProgress = 1;
 				currentProgress = 0;
 			}
@@ -100,8 +109,15 @@ public abstract class TEMachine extends TileEntity implements ITickableTileEntit
 
 		/* IMPORTANT */
 		markDirty();
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+	}
+
+	@Override
+	public void onLoad()
+	{
+		super.onLoad();
+		if (!recipeName.equals("none"))
+			recipeCache = FindRecipe(recipeName);
 	}
 
 	protected void UpdateClient()
@@ -117,7 +133,8 @@ public abstract class TEMachine extends TileEntity implements ITickableTileEntit
 		super.read(tag);
 		currentProgress = tag.getFloat("currentProgress");
 		maxProgress = tag.getInt("maxProgress");
-		recipe = tag.getString("recipe");
+		recipeName = tag.getString("recipe");
+		processingInv.deserializeNBT(tag.getCompound("processingInv"));
 		ReadCustomNBT(tag);
 	}
 
@@ -129,7 +146,8 @@ public abstract class TEMachine extends TileEntity implements ITickableTileEntit
 		WriteCustomNBT(tag);
 		tag.putFloat("currentProgress", currentProgress);
 		tag.putInt("maxProgress", maxProgress);
-		tag.putString("recipe", recipe);
+		tag.putString("recipe", recipeName);
+		tag.put("processingInv", processingInv.serializeNBT());
 		return super.write(tag);
 	}
 

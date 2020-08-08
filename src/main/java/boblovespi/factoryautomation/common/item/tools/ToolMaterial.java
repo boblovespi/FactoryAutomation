@@ -5,7 +5,6 @@ import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.LazyLoadBase;
 
 import java.util.function.Supplier;
 
@@ -21,7 +20,7 @@ public class ToolMaterial implements IItemTier
 		3: iron
 		4: bronze
 		5: diamond / steel
-
+		6: netherite / new alloy
 		 */
 
 	public static int WOOD = toolMiningLevelCat.wood;
@@ -32,13 +31,13 @@ public class ToolMaterial implements IItemTier
 	public static int IRON = toolMiningLevelCat.iron;
 	public static int BRONZE = toolMiningLevelCat.bronze;
 	public static ToolMaterial bronzeMaterial = new ToolMaterial(
-			BRONZE, 351, 5.0F, 2.0F, 12, () -> Ingredient.fromTag(FATags.itemTag("ingots/bronze")));
+			BRONZE, 351, 5.0F, 2.0F, 12, () -> Ingredient.fromTag(FATags.ForgeItemTag("ingots/bronze")));
 	public static int DIAMOND = toolMiningLevelCat.diamond;
 	public static int STEEL = toolMiningLevelCat.steel;
 	public static ToolMaterial steelMaterial = new ToolMaterial(
-			STEEL, 1920, 6.5f, 8, 3, () -> Ingredient.fromTag(FATags.itemTag("ingots/steel")));
+			STEEL, 1920, 6.5f, 8, 3, () -> Ingredient.fromTag(FATags.ForgeItemTag("ingots/steel")));
 	public static ToolMaterial copperMaterial = new ToolMaterial(COPPER, 180, 3.5f, 1.5f, 5,
-			() -> Ingredient.fromTag(FATags.itemTag("ingots/copper")));
+			() -> Ingredient.fromTag(FATags.ForgeItemTag("ingots/copper")));
 
 	//
 
@@ -47,7 +46,7 @@ public class ToolMaterial implements IItemTier
 	private final float efficiency;
 	private final float attackDamage;
 	private final int enchantability;
-	private final LazyLoadBase<Ingredient> repairMaterial;
+	private final Supplier<Ingredient> repairMaterial;
 
 	private ToolMaterial(int harvestLevelIn, int maxUsesIn, float efficiencyIn, float attackDamageIn,
 			int enchantabilityIn, Supplier<Ingredient> repairMaterialIn)
@@ -57,7 +56,7 @@ public class ToolMaterial implements IItemTier
 		this.efficiency = efficiencyIn;
 		this.attackDamage = attackDamageIn;
 		this.enchantability = enchantabilityIn;
-		this.repairMaterial = new LazyLoadBase<>(repairMaterialIn);
+		this.repairMaterial = repairMaterialIn;
 	}
 
 	@SyncOnConfigChange(priority = SyncOnConfigChange.Priority.INIT_FIELDS)
@@ -70,11 +69,11 @@ public class ToolMaterial implements IItemTier
 		IRON = toolMiningLevelCat.iron;
 		BRONZE = toolMiningLevelCat.bronze;
 		bronzeMaterial = new ToolMaterial(
-				BRONZE, 351, 5.0F, 2.0F, 12, () -> Ingredient.fromTag(FATags.itemTag("ingots/bronze")));
+				BRONZE, 351, 5.0F, 2.0F, 12, () -> Ingredient.fromTag(FATags.ForgeItemTag("ingots/bronze")));
 		DIAMOND = toolMiningLevelCat.diamond;
 		STEEL = toolMiningLevelCat.steel;
 		steelMaterial = new ToolMaterial(
-				STEEL, 1920, 6.5f, 8, 3, () -> Ingredient.fromTag(FATags.itemTag("ingots/steel")));
+				STEEL, 1920, 6.5f, 8, 3, () -> Ingredient.fromTag(FATags.ForgeItemTag("ingots/steel")));
 	}
 
 	@Override
@@ -110,6 +109,6 @@ public class ToolMaterial implements IItemTier
 	@Override
 	public Ingredient getRepairMaterial()
 	{
-		return repairMaterial.getValue();
+		return repairMaterial.get();
 	}
 }

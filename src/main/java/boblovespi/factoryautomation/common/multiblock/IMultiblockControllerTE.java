@@ -4,6 +4,8 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
+
 /**
  * Created by Willi on 11/19/2017.
  * interface for multiblock controller tile entities
@@ -35,5 +37,6 @@ public interface IMultiblockControllerTE
 	 * @param side the side which is accessed
 	 * @return the capability implementation which to use
 	 */
+	@Nonnull
 	<T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side);
 }

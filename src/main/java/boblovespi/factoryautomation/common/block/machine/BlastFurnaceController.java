@@ -21,6 +21,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -99,7 +100,7 @@ public class BlastFurnaceController extends Block implements FABlock /*, ITileEn
 	}
 
 	@Override
-	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
 			BlockRayTraceResult hit)
 	{
 		if (!worldIn.isRemote)
@@ -124,7 +125,7 @@ public class BlastFurnaceController extends Block implements FABlock /*, ITileEn
 				}
 			}
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	public String GetPatternId()

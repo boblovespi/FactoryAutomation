@@ -1,19 +1,19 @@
 package boblovespi.factoryautomation.common.tileentity;
 
-import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
-import net.minecraft.block.state.BlockState;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Willi on 10/7/2018.
  */
-public class TEPipe extends TileEntity implements ITickable
+public class TEPipe extends TileEntity implements ITickableTileEntity
 {
 	protected static int transferTime = 16;
 	protected static int transferAmount = 1500;
@@ -31,6 +31,7 @@ public class TEPipe extends TileEntity implements ITickable
 
 	public TEPipe()
 	{
+		super(TileEntityHandler.tePipe);
 		tank = new FluidTank(transferAmount)
 		{
 			@Override
@@ -42,9 +43,9 @@ public class TEPipe extends TileEntity implements ITickable
 			}
 
 			@Override
-			public int fill(FluidStack resource, boolean doFill)
+			public int fill(FluidStack resource, FluidAction doFill)
 			{
-				if (doFill && timer < 0)
+				if (doFill.execute() && timer < 0)
 					timer = transferTime;
 				return super.fill(resource, doFill);
 			}
@@ -55,7 +56,7 @@ public class TEPipe extends TileEntity implements ITickable
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 			return;
@@ -68,20 +69,19 @@ public class TEPipe extends TileEntity implements ITickable
 			{
 				// we *should* have no more fluids to process after this
 				timer = -1;
-				BlockState state = FABlocks.pipe.ToBlock().getActualState(world.getBlockState(pos), world, pos);
+				BlockState state = world.getBlockState(pos);
 				List<IFluidHandler> outputs = new ArrayList<>(6);
 
 				for (Direction side : Direction.values())
 				{
-					if (!state.getValue(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE))
+					if (!state.get(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE))
 					{
 						TileEntity te = world.getTileEntity(pos.offset(side));
 						if (te != null)
 						{
-							IFluidHandler fluidHandler = te
+							LazyOptional<IFluidHandler> fluidHandler = te
 									.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
-							if (fluidHandler != null)
-								outputs.add(fluidHandler);
+							fluidHandler.ifPresent(outputs::add);
 						}
 					}
 				}
@@ -98,12 +98,10 @@ public class TEPipe extends TileEntity implements ITickable
 
 				for (IFluidHandler output : outputs)
 				{
-					FluidStack fluid = tank.drain(transferAmount, true);
-					if (fluid == null)
-						continue;
-					int drained = output.fill(fluid.copy(), true);
-					fluid.amount -= drained;
-					tank.fillInternal(fluid, true);
+					FluidStack fluid = tank.drain(transferAmount, FluidAction.EXECUTE);
+					int drained = output.fill(fluid.copy(), FluidAction.EXECUTE);
+					fluid.shrink(drained);
+					tank.fill(fluid, FluidAction.EXECUTE);
 				}
 
 				if (tank.getFluidAmount() > 0)
@@ -113,67 +111,27 @@ public class TEPipe extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
-		timer = tag.getInteger("timer");
-		tank.readFromNBT(tag.getCompoundTag("tank"));
+		super.read(tag);
+		timer = tag.getInt("timer");
+		tank.readFromNBT(tag.getCompound("tank"));
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setInteger("timer", timer);
-		tag.setTag("tank", tank.writeToNBT(new CompoundNBT()));
-		return super.writeToNBT(tag);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
+		tag.putInt("timer", timer);
+		tag.put("tank", tank.writeToNBT(new CompoundNBT()));
+		return super.write(tag);
 	}
 
 	@Nullable
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable Direction facing)
-	{
-		return (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
-	}
-
-	@Nullable
-	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-			return (T) tank;
+			return LazyOptional.of(() -> (T) tank);
 		return super.getCapability(capability, facing);
 	}
 }

@@ -2,31 +2,26 @@ package boblovespi.factoryautomation.common.tileentity.smelting;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.CastingVesselStates;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
-
-import javax.annotation.Nullable;
 
 import static boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.MOLD;
 
 /**
  * Created by Willi on 12/29/2018.
  */
-public class TEStoneCastingVessel extends TileEntity implements ITickable, ICastingVessel
+public class TEStoneCastingVessel extends TileEntity implements ITickableTileEntity, ICastingVessel
 {
 	private boolean hasSand;
 	private TEStoneCrucible.MetalForms form;
@@ -36,6 +31,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 
 	public TEStoneCastingVessel()
 	{
+		super(TileEntityHandler.teStoneCastingVessel);
 		slot = new ItemStackHandler(1);
 	}
 
@@ -46,7 +42,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	@Override
 	public void onLoad()
 	{
-		form = world.getBlockState(pos).getValue(MOLD).metalForm;
+		form = getBlockState().get(MOLD).metalForm;
 	}
 
 	@Override
@@ -63,8 +59,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 
 		/* IMPORTANT */
 		markDirty();
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 7);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
 	}
 
 	@Override
@@ -76,7 +71,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	public void DropItems()
 	{
 		if (!world.isRemote && !slot.getStackInSlot(0).isEmpty())
-			world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
+			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack TakeItem()
@@ -85,8 +80,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 		markDirty();
 
 		/* IMPORTANT */
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 7);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 
@@ -107,18 +101,17 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 			{
 				player.attackEntityFrom(DamageSource.GENERIC, (temp - 40f) / (temp + 100f) * 20f);
 				player.sendStatusMessage(
-						new TextComponentString("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
+						new StringTextComponent("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
 			}
 		} else if (item.getItem() == Item.getItemFromBlock(FABlocks.greenSand.ToBlock())
-				&& world.getBlockState(pos).getValue(MOLD) == CastingVesselStates.EMPTY)
+				&& getBlockState().get(MOLD) == CastingVesselStates.EMPTY)
 		{
 			item.shrink(1);
 			SetForm(CastingVesselStates.SAND);
 
 			markDirty();
 			/* IMPORTANT */
-			BlockState state = world.getBlockState(pos);
-			world.notifyBlockUpdate(pos, state, state, 7);
+			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
 		}
 	}
 
@@ -128,19 +121,8 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 			hasSand = false;
 		else
 			hasSand = true;
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(MOLD, state));
+		world.setBlockState(pos, world.getBlockState(pos).with(MOLD, state));
 		form = state.metalForm;
-	}
-
-	/**
-	 * Called from Chunk.setBlockIDWithMetadata and Chunk.fillChunk, determines if this tile entity should be re-created when the ID, or Metadata changes.
-	 * Use with caution as this will leave straggler TileEntities, or create conflicts with other TileEntities if not used properly.
-	 */
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, BlockState oldState, BlockState newState)
-	{
-		return !(oldState.getBlock() == FABlocks.stoneCastingVessel
-				&& newState.getBlock() == FABlocks.stoneCastingVessel);
 	}
 
 	@Override
@@ -150,63 +132,23 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
-		slot.deserializeNBT(tag.getCompoundTag("slot"));
+		super.read(tag);
+		slot.deserializeNBT(tag.getCompound("slot"));
 		hasSand = tag.getBoolean("hasSand");
 		temp = tag.getFloat("temp");
-		form = TEStoneCrucible.MetalForms.values()[tag.getInteger("form")];
+		form = TEStoneCrucible.MetalForms.values()[tag.getInt("form")];
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setTag("slot", slot.serializeNBT());
-		tag.setBoolean("hasSand", hasSand);
-		tag.setFloat("temp", temp);
-		tag.setInteger("form", form.ordinal());
-		return super.writeToNBT(tag);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		this.readFromNBT(pkt.getNbtCompound());
-	}
-
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public CompoundNBT getUpdateTag()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Nullable
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		int meta = getBlockMetadata();
-
-		return new SPacketUpdateTileEntity(pos, meta, nbt);
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundNBT tag)
-	{
-		readFromNBT(tag);
+		tag.put("slot", slot.serializeNBT());
+		tag.putBoolean("hasSand", hasSand);
+		tag.putFloat("temp", temp);
+		tag.putInt("form", form.ordinal());
+		return super.write(tag);
 	}
 
 	public boolean HasSand()
@@ -223,7 +165,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 	 * Like the old updateEntity(), except more generic.
 	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		if (world.isRemote)
 			return;
@@ -238,8 +180,7 @@ public class TEStoneCastingVessel extends TileEntity implements ITickable, ICast
 		if (counter < 0)
 		{
 			markDirty();
-			BlockState state = world.getBlockState(pos);
-			world.notifyBlockUpdate(pos, state, state, 7);
+			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
 			counter = 10;
 		}
 	}

@@ -50,7 +50,7 @@ public class Firebow extends FABaseItem
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
 		player.setActiveHand(hand);
-		return ActionResult.newResult(ActionResultType.PASS, player.getHeldItem(hand));
+		return ActionResult.resultPass(player.getHeldItem(hand));
 	}
 
 	/**

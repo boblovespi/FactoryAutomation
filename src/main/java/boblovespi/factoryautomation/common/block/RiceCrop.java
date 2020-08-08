@@ -11,6 +11,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 
 import java.util.Random;
@@ -64,7 +65,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public void grow(World world, Random random, BlockPos blockPos, BlockState BlockState)
+	public void grow(ServerWorld world, Random random, BlockPos blockPos, BlockState BlockState)
 	{
 		world.setBlockState(blockPos, WithAge(getAge(BlockState) + 1 > MaxAge() ? MaxAge() : getAge(BlockState) + 1),
 				2);
@@ -90,7 +91,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public void tick(BlockState state, World world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
 		if (canSustainBush(world.getBlockState(pos.down())))
 		{

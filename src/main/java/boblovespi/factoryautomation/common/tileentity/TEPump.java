@@ -3,12 +3,12 @@ package boblovespi.factoryautomation.common.tileentity;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -34,6 +34,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 
 	public TEPump()
 	{
+		super(TileEntityHandler.tePump);
 		this.timer = 0;
 		mechanicalUser = new MechanicalUser();
 	}
@@ -45,7 +46,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 			return;
 
 		timer -= transferSpeed * mechanicalUser.GetSpeed() / 10f;
-		Direction dir = world.getBlockState(pos).getValue(FACING);
+		Direction dir = world.getBlockState(pos).get(FACING);
 		if (timer < 0)
 		{
 			TileEntity pushTo = world.getTileEntity(pos.offset(dir.getOpposite()));
@@ -64,14 +65,11 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 					drain = takeFromCapability.orElse(null).drain(
 							(int) (transferAmount * transferAmountScalar * mechanicalUser.GetTorque() / 10f),
 							IFluidHandler.FluidAction.EXECUTE);
-					if (drain != null)
-					{
-						int fill = pushToCapability.fill(drain.copy(), true);
-						if (fill > 0)
-						{
-							takeFromCapability.drain(fill, true);
-						}
-					}
+
+					pushToCapability.ifPresent(n -> takeFromCapability.ifPresent(m -> m.drain(
+							n.fill(drain.copy(), IFluidHandler.FluidAction.EXECUTE),
+							IFluidHandler.FluidAction.EXECUTE)));
+
 				}
 			}
 			timer = transferTime;
@@ -92,8 +90,8 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		}
 		if (!hasConnection)
 		{
-			mechanicalUser.SetTorqueOnFace(Direction.getFront((dir.getIndex() + 2) % 6), 0);
-			mechanicalUser.SetSpeedOnFace(Direction.getFront((dir.getIndex() + 2) % 6), 0);
+			mechanicalUser.SetTorqueOnFace(Direction.byIndex((dir.getIndex() + 2) % 6), 0);
+			mechanicalUser.SetSpeedOnFace(Direction.byIndex((dir.getIndex() + 2) % 6), 0);
 		}
 		markDirty();
 	}
@@ -101,33 +99,33 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	@Override
 	public void onLoad()
 	{
-		Direction dir = world.getBlockState(pos).getValue(FACING);
+		Direction dir = world.getBlockState(pos).get(FACING);
 		mechanicalUser.SetSides(EnumSet.complementOf(EnumSet.of(dir, dir.getOpposite())));
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY && facing != null && mechanicalUser
 				.GetSides().contains(facing))
-			return (T) mechanicalUser;
+			return LazyOptional.of(() -> (T) mechanicalUser);
 		return super.getCapability(capability, facing);
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
-		super.readFromNBT(tag);
+		super.read(tag);
 		timer = tag.getFloat("timer");
-		mechanicalUser.ReadFromNBT(tag.getCompoundTag("mechanicalUser"));
+		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		tag.setFloat("timer", timer);
-		tag.setTag("mechanicalUser", mechanicalUser.WriteToNBT());
-		return super.writeToNBT(tag);
+		tag.putFloat("timer", timer);
+		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
+		return super.write(tag);
 	}
 }

@@ -18,6 +18,7 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.Half;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Hand;
@@ -74,9 +75,10 @@ public class Waterwheel extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 * @return
 	 */
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
@@ -92,7 +94,7 @@ public class Waterwheel extends FABaseBlock
 					waterwheel.BreakStructure();
 			}
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 
 	private boolean MatchesStair(BlockState state, Direction dir, Half half)

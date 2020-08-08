@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -10,7 +11,7 @@ import java.util.BitSet;
 /**
  * Created by Willi on 8/13/2018.
  */
-public class RestrictedSlotItemHandler extends ItemStackHandler
+public class RestrictedSlotItemHandler implements IItemHandler
 {
 	private BitSet restrictedSlots;
 	private ItemStackHandler wrappingHandler;
@@ -24,20 +25,6 @@ public class RestrictedSlotItemHandler extends ItemStackHandler
 	private boolean IsInternalSlotValid(int slot)
 	{
 		return !restrictedSlots.get(slot);
-	}
-
-	@Override
-	public void setSize(int size)
-	{
-		wrappingHandler.setSize(size);
-	}
-
-	@Override
-	public void setStackInSlot(int slot, @Nonnull ItemStack stack)
-	{
-		if (!IsInternalSlotValid(slot))
-			return;
-		wrappingHandler.setStackInSlot(slot, stack);
 	}
 
 	@Override
@@ -79,18 +66,6 @@ public class RestrictedSlotItemHandler extends ItemStackHandler
 		if (!IsInternalSlotValid(slot))
 			return 0;
 		return wrappingHandler.getSlotLimit(slot);
-	}
-
-	@Override
-	public CompoundNBT serializeNBT()
-	{
-		return wrappingHandler.serializeNBT();
-	}
-
-	@Override
-	public void deserializeNBT(CompoundNBT nbt)
-	{
-		wrappingHandler.deserializeNBT(nbt);
 	}
 
 	@Override

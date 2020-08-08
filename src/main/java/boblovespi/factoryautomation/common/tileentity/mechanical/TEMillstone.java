@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.MillstoneRecipe;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEMachine;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
@@ -27,7 +28,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 /**
  * Created by Willi on 2/12/2019.
  */
-public class TEMillstone extends TEMachine
+public class TEMillstone extends TEMachine<MillstoneRecipe>
 {
 	public float rotation = 0;
 	private MechanicalUser mechanicalUser;
@@ -36,7 +37,7 @@ public class TEMillstone extends TEMachine
 
 	public TEMillstone()
 	{
-		super(0, tileType);
+		super(0, TileEntityHandler.teMillstone);
 		mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
 	}
 
@@ -74,7 +75,7 @@ public class TEMillstone extends TEMachine
 
 	@Nonnull
 	@Override
-	protected String FindRecipe()
+	protected String FindRecipeName()
 	{
 		MillstoneRecipe recipe1 = MillstoneRecipe.FindRecipe(processingInv.getStackInSlot(0));
 		if (recipe1 == null)
@@ -86,6 +87,13 @@ public class TEMillstone extends TEMachine
 			millstoneRecipe = recipe1;
 			return recipe1.GetName();
 		}
+	}
+
+	@Nullable
+	@Override
+	protected MillstoneRecipe FindRecipe(String recipeName)
+	{
+		return MillstoneRecipe.GetRecipe(recipeName);
 	}
 
 	@Override
@@ -121,7 +129,7 @@ public class TEMillstone extends TEMachine
 	protected void ReadCustomNBT(CompoundNBT tag)
 	{
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
-		millstoneRecipe = MillstoneRecipe.GetRecipe(recipe);
+		millstoneRecipe = MillstoneRecipe.GetRecipe(recipeName);
 	}
 
 	@Override

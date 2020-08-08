@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -47,13 +48,13 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (!world.isRemote && player instanceof ServerPlayerEntity)
 			// playerIn.gui(FactoryAutomation.instance, GuiHandler.GuiID.CHIP_CREATOR.id, worldIn, pos.getX(), pos.getY(),
 			//		pos.getZ());
 			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 }
