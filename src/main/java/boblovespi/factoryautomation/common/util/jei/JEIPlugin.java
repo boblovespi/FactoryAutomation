@@ -1,36 +1,46 @@
 package boblovespi.factoryautomation.common.util.jei;
 
+import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.jei.categories.*;
 import boblovespi.factoryautomation.common.util.jei.wrappers.*;
-import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.ISubtypeRegistry;
-import mezz.jei.api.ingredients.IModIngredientRegistration;
-import mezz.jei.api.ingredients.VanillaTypes;
-import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.registration.*;
+import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreIngredient;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * Created by Willi on 12/23/2017.
  */
 
-@mezz.jei.api.JEIPlugin
+@mezz.jei.api.JeiPlugin
 public class JEIPlugin implements IModPlugin
 {
-	public static final String WORKBENCH = "factoryautomation.workbench";
+	private static final ResourceLocation PLUGIN_ID = new ResourceLocation(FactoryAutomation.MODID, "jei_plugin");
 
 	@Override
-	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry)
+	public void registerItemSubtypes(ISubtypeRegistration subtypeRegistry)
 	{
 
+	}
+
+	@Nonnull
+	@Override
+	public ResourceLocation getPluginUid()
+	{
+		return PLUGIN_ID;
 	}
 
 	@Override
@@ -50,12 +60,36 @@ public class JEIPlugin implements IModPlugin
 	}
 
 	@Override
-	public void register(IModRegistry registry)
+	public void registerRecipes(IRecipeRegistration registry)
 	{
-		registry.addRecipeCatalyst(new ItemStack(FABlocks.stoneWorkbench.ToBlock()), WORKBENCH);
-		registry.addRecipeCatalyst(new ItemStack(FABlocks.ironWorkbench.ToBlock()), WORKBENCH);
+		registry.addRecipes(Collections.singletonList(new BlastFurnaceRecipeWrapper()), BlastFurnaceRecipeCategory.ID);
+		registry.addRecipes(WorkbenchRecipeHandler.recipes.values(), WorkbenchRecipeCategory.ID);
+		registry.addRecipes(SteelmakingRecipe.GetRecipes(), SteelmakingRecipeCategory.ID);
+		registry.addRecipes(JawCrusherRecipe.GetRecipes(), JawCrusherRecipeCategory.ID);
+		registry.addRecipes(ChoppingBlockRecipe.GetRecipes(), ChoppingBlockRecipeCategory.ID);
+		RegisterDescriptions(registry);
+	}
+
+	private void RegisterDescriptions(IRecipeRegistration registry)
+	{
+		registry.addIngredientInfo(
+				ItemTags.LOGS.getAllElements().stream().map(ItemStack::new).collect(Collectors.toList()),
+				VanillaTypes.ITEM, "factoryautomation.jei.logs");
+	}
+
+	@Override
+	public void onRuntimeAvailable(@Nonnull IJeiRuntime jeiRuntime)
+	{
+
+	}
+
+	@Override
+	public void registerRecipeCatalysts(@Nonnull IRecipeCatalystRegistration registry)
+	{
+		registry.addRecipeCatalyst(new ItemStack(FABlocks.stoneWorkbench.ToBlock()), WorkbenchRecipeCategory.ID);
+		registry.addRecipeCatalyst(new ItemStack(FABlocks.ironWorkbench.ToBlock()), WorkbenchRecipeCategory.ID);
 		registry.addRecipeCatalyst(
-				new ItemStack(FABlocks.blastFurnaceController.ToBlock()), "factoryautomation.blast_furnace");
+				new ItemStack(FABlocks.blastFurnaceController.ToBlock()), BlastFurnaceRecipeCategory.ID);
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.jawCrusher.ToBlock()), JawCrusherRecipeCategory.ID);
 		registry.addRecipeCatalyst(
 				new ItemStack(FABlocks.steelmakingFurnaceController.ToBlock()), SteelmakingRecipeCategory.ID);
@@ -63,33 +97,5 @@ public class JEIPlugin implements IModPlugin
 		{
 			registry.addRecipeCatalyst(new ItemStack(choppingBlock.ToBlock()), ChoppingBlockRecipeCategory.ID);
 		}
-
-		registry.addRecipes(Collections.singletonList(new BlastFurnaceRecipeWrapper()),
-				"factoryautomation.blast_furnace");
-		registry.addRecipes(WorkbenchRecipeHandler.recipes.values(), WORKBENCH);
-		registry.addRecipes(SteelmakingRecipe.GetRecipes(), SteelmakingRecipeCategory.ID);
-		registry.addRecipes(JawCrusherRecipe.GetRecipes(), JawCrusherRecipeCategory.ID);
-		registry.addRecipes(ChoppingBlockRecipe.GetRecipes(), ChoppingBlockRecipeCategory.ID);
-
-		registry.handleRecipes(IWorkbenchRecipe.class, WorkbenchRecipeWrapper::new, WORKBENCH);
-		registry.handleRecipes(SteelmakingRecipe.class, SteelmakingRecipeWrapper::new, SteelmakingRecipeCategory.ID);
-		registry.handleRecipes(JawCrusherRecipe.class, JawCrusherRecipeWrapper::new, JawCrusherRecipeCategory.ID);
-		registry.handleRecipes(
-				ChoppingBlockRecipe.class, ChoppingBlockRecipeWrapper::new, ChoppingBlockRecipeCategory.ID);
-
-		RegisterDescriptions(registry);
 	}
-
-	private void RegisterDescriptions(IModRegistry registry)
-	{
-		registry.addIngredientInfo(Arrays.asList(new OreIngredient("logWood").getMatchingStacks()), VanillaTypes.ITEM,
-				"factoryautomation.jei.logs");
-	}
-
-	@Override
-	public void onRuntimeAvailable(IJeiRuntime jeiRuntime)
-	{
-
-	}
-
 }

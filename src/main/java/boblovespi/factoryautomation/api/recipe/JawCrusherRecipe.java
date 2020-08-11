@@ -47,7 +47,6 @@ public class JawCrusherRecipe implements IMachineRecipe
 		this.speedReq = speedReq;
 		this.torqueReq = torqueReq;
 		this.time = time;
-
 	}
 
 	public JawCrusherRecipe(Ingredient input, Function<Float, ItemStack> output, int plateTier, String name,
@@ -55,6 +54,19 @@ public class JawCrusherRecipe implements IMachineRecipe
 	{
 		this.input = input;
 		this.output = output;
+
+		this.plateTier = plateTier;
+		this.name = name;
+		this.speedReq = speedReq;
+		this.torqueReq = torqueReq;
+		this.time = time;
+	}
+
+	public JawCrusherRecipe(Ingredient input, ItemStack output, int plateTier, String name,
+			float speedReq, float torqueReq, float time)
+	{
+		this.input = input;
+		this.output = n -> output;
 
 		this.plateTier = plateTier;
 		this.name = name;
@@ -72,7 +84,7 @@ public class JawCrusherRecipe implements IMachineRecipe
 	{
 		for (JawCrusherRecipe recipe : recipeMap.values())
 		{
-			if (recipe.input.apply(input.copy()) && tier >= recipe.plateTier)
+			if (recipe.input.test(input.copy()) && tier >= recipe.plateTier)
 			{
 				return recipe;
 			}
@@ -87,9 +99,7 @@ public class JawCrusherRecipe implements IMachineRecipe
 
 	public static Collection<JawCrusherRecipe> GetRecipes()
 	{
-
 		return recipeMap.values();
-
 	}
 
 	/**

@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import net.minecraft.block.*;
-import net.minecraft.init.Blocks;
+import net.minecraft.util.Direction;
 
 import static boblovespi.factoryautomation.common.multiblock.MultiblockPart.EMPTY;
 
@@ -11,34 +11,32 @@ import static boblovespi.factoryautomation.common.multiblock.MultiblockPart.EMPT
  */
 public class MultiblockStructures
 {
-	public static final MultiblockPart NETHER_BRICK = new MultiblockPart(Blocks.NETHER_BRICK);
+	public static final MultiblockPart NETHER_BRICK = new MultiblockPart(Blocks.NETHER_BRICKS);
 	public static final MultiblockPart IRON_BLOCK = new MultiblockPart(Blocks.IRON_BLOCK);
 	public static final MultiblockPart AIR = new MultiblockPart(Blocks.AIR, true);
 	public static final MultiblockPart COBBLESTONE_WALL = new MultiblockPart(Blocks.COBBLESTONE_WALL);
 	public static final MultiblockPart OAK_FENCE = new MultiblockPart(Blocks.OAK_FENCE);
 	public static final MultiblockPart OAK_STAIR = new MultiblockPart(Blocks.OAK_STAIRS);
-	public static final MultiblockPart OAK_PLANK = new MultiblockPart(
-			Blocks.PLANKS, n -> true, n -> n.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.OAK, false);
-	public static final MultiblockPart OAK_LOG_UP = new MultiblockPart(Blocks.LOG, n -> true,
-			n -> n.getValue(BlockLog.LOG_AXIS) == BlockLog.EnumAxis.Y
-					&& n.getValue(BlockOldLog.VARIANT) == BlockPlanks.EnumType.OAK, false);
-	public static final MultiblockPart BRICK = new MultiblockPart(Blocks.BRICK_BLOCK);
+	public static final MultiblockPart OAK_PLANK = new MultiblockPart(Blocks.OAK_PLANKS);
+	public static final MultiblockPart OAK_LOG_UP = new MultiblockPart(Blocks.OAK_LOG, n -> true,
+			n -> n.get(LogBlock.AXIS) == Direction.Axis.Y, false);
+	public static final MultiblockPart BRICK = new MultiblockPart(Blocks.BRICKS);
 
 	public static final Block[][][] blastFurnace = new Block[][][] {
 			new Block[][] {
-					new Block[] { Blocks.NETHER_BRICK, FABlocks.blastFurnaceController.ToBlock(), Blocks.NETHER_BRICK },
+					new Block[] { Blocks.NETHER_BRICKS, FABlocks.blastFurnaceController.ToBlock(), Blocks.NETHER_BRICKS },
 					new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 					new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 					new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 					new Block[] { Blocks.AIR, Blocks.AIR, Blocks.AIR } },
 			new Block[][] {
-					new Block[] { Blocks.NETHER_BRICK, Blocks.CAULDRON, Blocks.HOPPER },
-					new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK, Blocks.IRON_BLOCK },
-					new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK, Blocks.IRON_BLOCK },
-					new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICK, Blocks.IRON_BLOCK },
+					new Block[] { Blocks.NETHER_BRICKS, Blocks.CAULDRON, Blocks.HOPPER },
+					new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICKS, Blocks.IRON_BLOCK },
+					new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICKS, Blocks.IRON_BLOCK },
+					new Block[] { Blocks.IRON_BLOCK, Blocks.NETHER_BRICKS, Blocks.IRON_BLOCK },
 					new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.HOPPER } },
 			new Block[][] {
-				new Block[] { Blocks.NETHER_BRICK, Blocks.NETHER_BRICK, Blocks.NETHER_BRICK },
+				new Block[] { Blocks.NETHER_BRICKS, Blocks.NETHER_BRICKS, Blocks.NETHER_BRICKS },
 				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 				new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },

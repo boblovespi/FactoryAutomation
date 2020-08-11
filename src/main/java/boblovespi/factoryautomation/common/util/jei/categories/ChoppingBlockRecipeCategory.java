@@ -1,32 +1,36 @@
 package boblovespi.factoryautomation.common.util.jei.categories;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.util.jei.wrappers.ChoppingBlockRecipeWrapper;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IDrawableStatic;
-import mezz.jei.api.gui.IGuiItemStackGroup;
+import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
+import boblovespi.factoryautomation.common.block.FABlocks;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
+import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
-import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Willi on 3/3/2019.
  */
-public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBlockRecipeWrapper>
+public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBlockRecipe>
 {
-	public static final String ID = "factoryautomation.chopping_block";
+	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "chopping_block");
 	private static final int u = 54;
 	private static final int v = 16;
 	private final IGuiHelper guiHelper;
 	private final IDrawableStatic background;
+	private IDrawable icon;
 
 	public ChoppingBlockRecipeCategory(IGuiHelper guiHelper)
 	{
@@ -34,22 +38,17 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 		background = guiHelper
 				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/generic_energyless.png"),
 						u, v, 83, 54);
+		icon = guiHelper.createDrawableIngredient(FABlocks.woodChoppingBlocks.get(0));
 	}
 
-	/**
-	 * Returns a unique ID for this recipe category.
-	 * Referenced from recipes to identify which recipe category they belong to.
-	 */
+	@Nonnull
 	@Override
-	public String getUid()
+	public ResourceLocation getUid()
 	{
 		return ID;
 	}
 
-	/**
-	 * Returns the localized name for this recipe type.
-	 * Drawn at the top of the recipe GUI pages for this category.
-	 */
+	@Nonnull
 	@Override
 	public String getTitle()
 	{
@@ -57,40 +56,15 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 		return I18n.format("gui.chopping_block.name");
 	}
 
-	/**
-	 * Return the mod name or id associated with this recipe category.
-	 * Used for the recipe category tab's tooltip.
-	 *
-	 * @since JEI 4.5.0
-	 */
-	@Override
-	public String getModName()
-	{
-		return FactoryAutomation.NAME;
-	}
-
-	/**
-	 * Returns the drawable background for a single recipe in this category.
-	 * <p>
-	 * The size of the background determines how recipes are laid out by JEI,
-	 * make sure it is the right size to contains everything being displayed.
-	 */
+	@Nonnull
 	@Override
 	public IDrawable getBackground()
 	{
 		return background;
 	}
 
-	/**
-	 * Set the {@link IRecipeLayout} properties from the {@link IRecipeWrapper} and {@link IIngredients}.
-	 *
-	 * @param recipeLayout  the layout that needs its properties set.
-	 * @param recipeWrapper the recipeWrapper, for extra information.
-	 * @param ing           the ingredients, already set by the recipeWrapper
-	 * @since JEI 3.11.0
-	 */
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, ChoppingBlockRecipeWrapper recipeWrapper, IIngredients ing)
+	public void setRecipe(IRecipeLayout recipeLayout, ChoppingBlockRecipe recipe, IIngredients ing)
 	{
 		List<List<ItemStack>> inputs = ing.getInputs(VanillaTypes.ITEM);
 		List<List<ItemStack>> outputs = ing.getOutputs(VanillaTypes.ITEM);
@@ -102,5 +76,25 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 
 		gui.set(0, inputs.get(0));
 		gui.set(1, outputs.get(0));
+	}
+
+	@Override
+	public Class<? extends ChoppingBlockRecipe> getRecipeClass()
+	{
+		return ChoppingBlockRecipe.class;
+	}
+
+	@Override
+	public IDrawable getIcon()
+	{
+		return icon;
+	}
+
+	@Override
+	public void setIngredients(ChoppingBlockRecipe recipe, IIngredients ingredients)
+	{
+		ingredients.setInputLists(VanillaTypes.ITEM,
+				Collections.singletonList(Arrays.asList(recipe.GetInput().getMatchingStacks())));
+		ingredients.setOutput(VanillaTypes.ITEM, recipe.GetOutput());
 	}
 }

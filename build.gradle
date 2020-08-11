@@ -112,12 +112,24 @@ dependencies {
     // runtime "mezz.jei:jei_1.12.2:4.14.4.264"
     // compile "vazkii.patchouli:Patchouli:1.0-10.45"
 
+    // patchouli
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${mcversion}-${patchouliversion}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${mcversion}-${patchouliversion}")
+
+    // jei
+    compileOnly fg.deobf("mezz.jei:jei-${mcversion}:${jeiversion}:api")
+    // at runtime, use the full JEI jar
+    runtimeOnly fg.deobf("mezz.jei:jei-${mcversion}:${jeiversion}")
+
 }
 repositories {
     maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
         url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        url = "https://maven.blamejared.com"
     }
     maven {
         url = "https://maven.blamejared.com"

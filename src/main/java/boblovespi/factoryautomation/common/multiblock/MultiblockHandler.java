@@ -10,7 +10,6 @@ public class MultiblockHandler
 {
 	private static final Map<String, MultiblockStructurePattern> REGISTRY = new HashMap<>();
 
-
 	public static MultiblockStructurePattern Get(String key)
 	{
 		return REGISTRY.getOrDefault(key, null);

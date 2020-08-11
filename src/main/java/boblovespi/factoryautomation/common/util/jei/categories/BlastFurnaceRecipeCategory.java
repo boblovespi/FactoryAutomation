@@ -1,48 +1,58 @@
 package boblovespi.factoryautomation.common.util.jei.categories;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IGuiItemStackGroup;
+import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.util.jei.wrappers.BlastFurnaceRecipeWrapper;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
-import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nonnull;
 
 /**
  * Created by Willi on 12/23/2017.
  */
-public class BlastFurnaceRecipeCategory implements IRecipeCategory
+public class BlastFurnaceRecipeCategory implements IRecipeCategory<BlastFurnaceRecipeWrapper>
 {
+	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "blast_furnace");
 	private IDrawable background;
+	private IDrawable icon;
 
 	public BlastFurnaceRecipeCategory(IGuiHelper helper)
 	{
-		background = helper.createDrawable(new ResourceLocation(
-												   "factoryautomation:textures/gui/container/blast_furnace.png"),
-										   4, 4, 168, 78);
+		background = helper
+				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/blast_furnace.png"), 4,
+						4, 168, 78);
+		icon = helper.createDrawableIngredient(FABlocks.blastFurnaceController);
 	}
 
+	@Nonnull
 	@Override
-	public String getUid()
+	public ResourceLocation getUid()
 	{
-		return "factoryautomation.blast_furnace";
+		return ID;
 	}
 
+	@Nonnull
+	@Override
+	public Class<? extends BlastFurnaceRecipeWrapper> getRecipeClass()
+	{
+		return BlastFurnaceRecipeWrapper.class;
+	}
+
+	@Nonnull
 	@Override
 	public String getTitle()
 	{
 		return "gui.blast_furnace.name";
 	}
 
-	@Override
-	public String getModName()
-	{
-		return FactoryAutomation.NAME;
-	}
-
+	@Nonnull
 	@Override
 	public IDrawable getBackground()
 	{
@@ -50,8 +60,19 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout layout, IRecipeWrapper iRecipeWrapper,
-			IIngredients ingredients)
+	public IDrawable getIcon()
+	{
+		return icon;
+	}
+
+	@Override
+	public void setIngredients(BlastFurnaceRecipeWrapper recipe, IIngredients ingredients)
+	{
+		recipe.fillIngredients(ingredients);
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayout layout, BlastFurnaceRecipeWrapper recipe, IIngredients ingredients)
 	{
 		IGuiItemStackGroup group = layout.getItemStacks();
 		group.init(0, true, 42, 12);

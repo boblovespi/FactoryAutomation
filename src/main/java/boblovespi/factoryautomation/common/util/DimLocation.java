@@ -9,7 +9,6 @@ public class DimLocation
 {
 	public static final int CLASS_KEY = 31415;
 
-
 	private int dim, x, y, z;
 
 	public DimLocation(int dim, int x, int y, int z)

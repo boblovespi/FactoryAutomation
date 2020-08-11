@@ -4,15 +4,15 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.recipe.IWorkbenchRecipe;
 import boblovespi.factoryautomation.api.recipe.WorkbenchPart;
 import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
-import boblovespi.factoryautomation.common.util.jei.wrappers.WorkbenchRecipeWrapper;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IDrawableStatic;
-import mezz.jei.api.gui.IGuiItemStackGroup;
+import boblovespi.factoryautomation.common.block.FABlocks;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
+import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -27,12 +27,14 @@ import java.util.stream.Collectors;
 /**
  * Created by Willi on 5/5/2018.
  */
-public class WorkbenchRecipeCategory implements IRecipeCategory<WorkbenchRecipeWrapper>
+public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe>
 {
+	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "workbench");
 	private static final int u = 15;
 	private static final int v = 16;
 	private IDrawableStatic background;
 	private IGuiHelper guiHelper;
+	private IDrawable icon;
 
 	public WorkbenchRecipeCategory(IGuiHelper guiHelper)
 	{
@@ -40,22 +42,21 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<WorkbenchRecipeW
 		background = guiHelper
 				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/workbench.png"), u, v,
 						204, 90);
+		icon = guiHelper.createDrawableIngredient(FABlocks.ironWorkbench);
 	}
 
-	/**
-	 * Returns a unique ID for this recipe category.
-	 * Referenced from recipes to identify which recipe category they belong to.
-	 */
 	@Override
-	public String getUid()
+	public ResourceLocation getUid()
 	{
-		return "factoryautomation.workbench";
+		return ID;
 	}
 
-	/**
-	 * Returns the localized name for this recipe type.
-	 * Drawn at the top of the recipe GUI pages for this category.
-	 */
+	@Override
+	public Class<? extends IWorkbenchRecipe> getRecipeClass()
+	{
+		return IWorkbenchRecipe.class;
+	}
+
 	@Override
 	public String getTitle()
 	{
@@ -63,44 +64,32 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<WorkbenchRecipeW
 		return I18n.format("gui.workbench.name");
 	}
 
-	/**
-	 * Return the mod name or id associated with this recipe category.
-	 * Used for the recipe category tab's tooltip.
-	 *
-	 * @since JEI 4.5.0
-	 */
-	@Override
-	public String getModName()
-	{
-		return FactoryAutomation.NAME;
-	}
-
-	/**
-	 * Returns the drawable background for a single recipe in this category.
-	 * <p>
-	 * The size of the background determines how recipes are laid out by JEI,
-	 * make sure it is the right size to contains everything being displayed.
-	 */
 	@Override
 	public IDrawable getBackground()
 	{
 		return background;
 	}
 
-	/**
-	 * Set the {@link IRecipeLayout} properties from the {@link IRecipeWrapper} and {@link IIngredients}.
-	 *
-	 * @param layout      the layout that needs its properties set.
-	 * @param wrapper     the recipeWrapper, for extra information.
-	 * @param ingredients the ingredients, already set by the recipeWrapper
-	 * @since JEI 3.11.0
-	 */
 	@Override
-	public void setRecipe(IRecipeLayout layout, WorkbenchRecipeWrapper wrapper, IIngredients ingredients)
+	public IDrawable getIcon()
+	{
+		return icon;
+	}
+
+	@Override
+	public void setIngredients(IWorkbenchRecipe recipe, IIngredients ingredients)
+	{
+		ingredients.setInputLists(VanillaTypes.ITEM,
+				recipe.GetJeiRecipe().stream().map(n -> Arrays.asList(n.getMatchingStacks()))
+					  .collect(Collectors.toList()));
+		ingredients.setOutput(VanillaTypes.ITEM, recipe.GetResultItem());
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayout layout, IWorkbenchRecipe recipe, IIngredients ingredients)
 	{
 		IGuiItemStackGroup gui = layout.getItemStacks();
 		gui.init(0, false, 197 - u, 52 - v);
-		IWorkbenchRecipe recipe = wrapper.getRecipe();
 		List<Ingredient> inputs = recipe.GetJeiRecipe();
 
 		for (int i = 0; i < 7; i++) // init all the slots using black magic
@@ -127,9 +116,11 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<WorkbenchRecipeW
 		while (tools.hasNext())
 		{
 			Map.Entry<WorkbenchTool.Instance, Integer> next = tools.next();
-			gui.set(y,
-					next.getKey().GetTool().GetItems().keySet().stream().map(n -> new ItemStack(n, 1, next.getValue()))
-						.collect(Collectors.toList()));
+			gui.set(y, next.getKey().GetTool().GetItems().keySet().stream().map(n -> {
+				ItemStack itemStack = new ItemStack(n, 1);
+				itemStack.setDamage(next.getValue());
+				return itemStack;
+			}).collect(Collectors.toList()));
 			y++;
 		}
 
@@ -138,7 +129,8 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<WorkbenchRecipeW
 		while (parts.hasNext())
 		{
 			Map.Entry<WorkbenchPart.Instance, Integer> next = parts.next();
-			gui.set(y, next.getKey().GetPart().GetItems().keySet().stream().map(n -> new ItemStack(n, next.getValue()))
+			gui.set(
+					y, next.getKey().GetPart().GetItems().keySet().stream().map(n -> new ItemStack(n, next.getValue()))
 						   .collect(Collectors.toList()));
 			y++;
 		}

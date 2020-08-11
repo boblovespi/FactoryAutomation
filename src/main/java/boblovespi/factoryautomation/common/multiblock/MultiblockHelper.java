@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -37,10 +37,10 @@ public class MultiblockHelper
 					TEMultiblockPart tePart;
 					MultiblockPart part = structure.GetPattern()[x][y][z];
 
-					System.out.println("loc = " + loc);
-					System.out.println("relative = ( " + x + " , " + y + " , " + z + " )");
-					System.out.println("part = " + part.GetBlock().getLocalizedName());
-					System.out.println("block in world = " + world.getBlockState(loc).getBlock().getLocalizedName());
+					//					System.out.println("loc = " + loc);
+					//					System.out.println("relative = ( " + x + " , " + y + " , " + z + " )");
+					//					System.out.println("part = " + part.GetBlock().getLocalizedName());
+					//					System.out.println("block in world = " + world.getBlockState(loc).getBlock().getLocalizedName());
 
 					if (te != null && te instanceof TEMultiblockPart)
 					{
@@ -75,12 +75,11 @@ public class MultiblockHelper
 							if (part.AllowsAnyBlock() && state.getBlock().isAir(state, world, loc))
 								continue;
 
-
-  							world.setBlockState(loc, FABlocks.multiblockPart.ToBlock().getDefaultState());
+							world.setBlockState(loc, FABlocks.multiblockPart.ToBlock().getDefaultState());
 							TEMultiblockPart newPart = (TEMultiblockPart) world.getTileEntity(loc);
 
 							newPart.SetMultiblockInformation(structureId, new BlockPos(x, y, z),
-									AddWithRotation(AddWithRotation(BlockPos.ORIGIN, x, y, z, facing), -offset[0],
+									AddWithRotation(AddWithRotation(BlockPos.ZERO, x, y, z, facing), -offset[0],
 											-offset[1], -offset[2], facing), state);
 						}
 					}

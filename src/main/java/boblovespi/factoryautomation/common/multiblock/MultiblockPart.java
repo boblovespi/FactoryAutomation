@@ -2,10 +2,12 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.fml.common.Optional;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.util.TriPredicate;
 import vazkii.patchouli.api.IStateMatcher;
 
 import java.util.function.Predicate;
@@ -13,8 +15,7 @@ import java.util.function.Predicate;
 /**
  * Created by Willi on 12/24/2017.
  */
-@Optional.Interface(iface = "vazkii.patchouli.api.IStateMatcher", modid = "patchouli")
-public class MultiblockPart implements IStateMatcher
+public class MultiblockPart
 {
 	public static final MultiblockPart EMPTY = new MultiblockPart(Blocks.AIR, false);
 
@@ -77,23 +78,11 @@ public class MultiblockPart implements IStateMatcher
 
 	public boolean MatchesBlock(Block block)
 	{
-		return Block.isEqualTo(baseBlock, Blocks.AIR) && !mustBeAirBlock || Block.isEqualTo(baseBlock, block);
+		return baseBlock == Blocks.AIR && !mustBeAirBlock || baseBlock == block;
 	}
 
 	public boolean AllowsAnyBlock()
 	{
 		return !mustBeAirBlock;
-	}
-
-	@Override
-	public BlockState getDisplayedState()
-	{
-		return baseBlock.getDefaultState();
-	}
-
-	@Override
-	public Predicate<BlockState> getStatePredicate()
-	{
-		return this::MatchesBlockstate;
 	}
 }

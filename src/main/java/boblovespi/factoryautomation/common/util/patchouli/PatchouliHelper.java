@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.multiblock.MultiblockPart;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import vazkii.patchouli.api.IMultiblock;
@@ -15,6 +15,8 @@ import vazkii.patchouli.api.PatchouliAPI;
  */
 public class PatchouliHelper
 {
+	private static final ResourceLocation BOOK = new ResourceLocation(FactoryAutomation.MODID, "book");
+
 	public static void RegisterMultiblock(ResourceLocation id, MultiblockStructurePattern multiblock)
 	{
 		MultiblockPart[][][] pattern = multiblock.GetPattern();
@@ -34,6 +36,6 @@ public class PatchouliHelper
 
 	public static ItemStack GetGuidebook()
 	{
-		return PatchouliAPI.instance.getBookStack(FactoryAutomation.MODID+":book");
+		return PatchouliAPI.instance.getBookStack(BOOK);
 	}
 }
