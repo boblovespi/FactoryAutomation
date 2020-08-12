@@ -20,9 +20,11 @@ public class WorkbenchPart
 	}});
 
 	private HashMap<Item, Integer> items;
+	private ResourceLocation id;
 
 	public WorkbenchPart(ResourceLocation id, HashMap<Item, Integer> items)
 	{
+		this.id = id;
 		this.items = items;
 		parts.putIfAbsent(id, this);
 	}
@@ -35,6 +37,11 @@ public class WorkbenchPart
 	public void AddItem(Item item, int tier)
 	{
 		items.put(item, tier);
+	}
+
+	public ResourceLocation GetId()
+	{
+		return id;
 	}
 
 	public static class Instance

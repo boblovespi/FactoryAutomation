@@ -1,8 +1,11 @@
 package boblovespi.factoryautomation.api.recipe;
 
+import jdk.internal.org.objectweb.asm.tree.analysis.SourceValue;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.ArrayList;
@@ -13,7 +16,7 @@ import java.util.Map;
 /**
  * Created by Willi on 4/11/2018.
  */
-public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRecipe> implements IWorkbenchRecipe
+public class ShapedWorkbenchRecipe extends ForgeRegistryEntry<IWorkbenchRecipe> implements IWorkbenchRecipe
 {
 	private final int tier;
 	private final int sizeX;
@@ -66,7 +69,7 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 		{
 			for (int x = 0; x < sizeX; x++)
 			{
-				if (!recipe[y][x].apply(workbenchInv.getStackInSlot(gridIndex + x * (is3x3 ? 3 : 5) + y))) // correct
+				if (!recipe[y][x].test(workbenchInv.getStackInSlot(gridIndex + x * (is3x3 ? 3 : 5) + y))) // correct
 					return false;
 			}
 		}
@@ -141,5 +144,31 @@ public class ShapedWorkbenchRecipe extends IForgeRegistryEntry.Impl<IWorkbenchRe
 	public ItemStack GetResultItem()
 	{
 		return result.copy();
+	}
+
+	@Override
+	public IRecipeSerializer<?> getSerializer()
+	{
+		return WorkbenchRecipeHandler.SHAPED_SERIALIZER;
+	}
+
+	int GetTier()
+	{
+		return tier;
+	}
+
+	int GetSizeX()
+	{
+		return sizeX;
+	}
+
+	int GetSizeY()
+	{
+		return sizeY;
+	}
+
+	Ingredient[][] GetRecipe()
+	{
+		return recipe;
 	}
 }

@@ -44,7 +44,7 @@ public class SteelmakingRecipe extends ChancelessMachineRecipe
 			{
 				for (int i = 0; i < inputs.size(); i++)
 				{
-					isCorrectRecipe = recipe.itemInputs.get(i).apply(inputs.get(i));
+					isCorrectRecipe = recipe.itemInputs.get(i).test(inputs.get(i));
 					if (!isCorrectRecipe)
 						break;
 				}

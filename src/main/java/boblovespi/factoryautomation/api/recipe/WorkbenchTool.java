@@ -36,10 +36,12 @@ public class WorkbenchTool
 		put(FAItems.sandpaper.ToItem(), 1);
 	}});
 
+	private ResourceLocation id;
 	private HashMap<Item, Integer> items;
 
 	public WorkbenchTool(ResourceLocation id, HashMap<Item, Integer> items)
 	{
+		this.id = id;
 		this.items = items;
 		tools.put(id, this);
 	}
@@ -52,6 +54,11 @@ public class WorkbenchTool
 	public void AddItem(Item item, int tier)
 	{
 		items.put(item, tier);
+	}
+
+	public ResourceLocation GetId()
+	{
+		return id;
 	}
 
 	public static class Instance

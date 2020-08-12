@@ -35,7 +35,7 @@ public class TripHammerRecipe extends ChancelessMachineRecipe
 	{
 		for (TripHammerRecipe recipe : STRING_TRIP_HAMMER_RECIPE_MAP.values())
 		{
-			if (recipe.itemInput.apply(stack))
+			if (recipe.itemInput.test(stack))
 				return recipe;
 		}
 		return null;

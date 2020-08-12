@@ -2,10 +2,12 @@ package boblovespi.factoryautomation.common.util.recipes;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
 import javax.annotation.Nullable;
+import java.util.stream.Stream;
 
 /**
  * Created by Willi on 7/1/2018.
@@ -16,6 +18,7 @@ public class FluidIngredient extends Ingredient
 
 	public FluidIngredient(FluidStack fluid)
 	{
+		super(Stream.empty());
 		this.fluid = fluid;
 	}
 
@@ -26,15 +29,13 @@ public class FluidIngredient extends Ingredient
 	}
 
 	@Override
-	public boolean apply(@Nullable ItemStack stack)
+	public boolean test(@Nullable ItemStack stack)
 	{
 		if (fluid != null && stack != null && fluid.isFluidEqual(stack))
 		{
-			FluidStack f = FluidUtil.getFluidContained(stack);
-			if (f != null && fluid.amount <= f.amount)
-			{
+			LazyOptional<FluidStack> f = FluidUtil.getFluidContained(stack);
+			if (fluid.getAmount() <= f.orElse(FluidStack.EMPTY).getAmount())
 				return true;
-			}
 		}
 		return false;
 	}

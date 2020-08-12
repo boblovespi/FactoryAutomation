@@ -1,15 +1,15 @@
 package boblovespi.factoryautomation.api.recipe;
 
-import boblovespi.factoryautomation.common.util.ItemHelper;
+import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.OreIngredient;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by Willi on 2/12/2019.
@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class MillstoneRecipe extends ChancelessMachineRecipe
 {
 	private static final HashMap<String, MillstoneRecipe> STRING_MAP = new HashMap<>();
-	private static final HashMap<String, MillstoneRecipe> ITEM_MAP = new HashMap<>();
+	private static final HashMap<Item, MillstoneRecipe> ITEM_MAP = new HashMap<>();
 	private static final HashMap<String, MillstoneRecipe> OREDICT_MAP = new HashMap<>();
 	private final ItemStack[] output;
 	private final String name;
@@ -39,36 +39,34 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
-		MillstoneRecipe recipe = new MillstoneRecipe(name, new OreIngredient(oreName), time, torque, output);
+		MillstoneRecipe recipe = new MillstoneRecipe(name, Ingredient.fromTag(FATags.ForgeItemTag(oreName)), time, torque, output);
 		STRING_MAP.putIfAbsent(name, recipe);
-		OREDICT_MAP.put(oreName, recipe);
+		OREDICT_MAP.put("forge:" + oreName, recipe);
 	}
 
-	public static void AddRecipe(String name, Item item, int meta, int time, float torque, ItemStack output)
+	public static void AddRecipe(String name, Item item, int time, float torque, ItemStack output)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
-		MillstoneRecipe recipe = new MillstoneRecipe(name, Ingredient.fromStacks(new ItemStack(item, 1, meta)), time,
+		MillstoneRecipe recipe = new MillstoneRecipe(name, Ingredient.fromStacks(new ItemStack(item, 1)), time,
 				torque, output);
 		STRING_MAP.putIfAbsent(name, recipe);
-		String key = ItemHelper.GetItemID(item, meta);
-		ITEM_MAP.put(key, recipe);
+		ITEM_MAP.put(item, recipe);
 	}
 
 	public static MillstoneRecipe FindRecipe(ItemStack input)
 	{
 		if (input.isEmpty())
 			return null;
-		String key = ItemHelper.GetItemID(input);
-		if (ITEM_MAP.containsKey(key))
-			return ITEM_MAP.get(key);
+		if (ITEM_MAP.containsKey(input.getItem()))
+			return ITEM_MAP.get(input.getItem());
 		else
 		{
-			int[] oreIDs = OreDictionary.getOreIDs(input);
-			for (int id : oreIDs)
+			Set<ResourceLocation> oreIDs = input.getItem().getTags();
+			for (ResourceLocation id : oreIDs)
 			{
-				if (OREDICT_MAP.containsKey(OreDictionary.getOreName(id)))
-					return OREDICT_MAP.get(OreDictionary.getOreName(id));
+				if (OREDICT_MAP.containsKey(id.toString()))
+					return OREDICT_MAP.get(id.toString());
 			}
 			return null;
 		}

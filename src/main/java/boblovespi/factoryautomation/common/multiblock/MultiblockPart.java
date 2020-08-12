@@ -5,10 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.util.TriPredicate;
-import vazkii.patchouli.api.IStateMatcher;
 
 import java.util.function.Predicate;
 
