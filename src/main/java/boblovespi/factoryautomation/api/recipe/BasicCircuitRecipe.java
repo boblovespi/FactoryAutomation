@@ -28,7 +28,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 	public static final HashMap<ResourceLocation, BasicCircuitRecipe> recipes = new HashMap<>(2);
 	public static final IRecipeType<BasicCircuitRecipe> TYPE = IRecipeType
 			.register(FactoryAutomation.MODID + ":basic_circuit_creator");
-	private static final Serializer SERIALIZER = new Serializer();
+	public static final Serializer SERIALIZER = new Serializer();
 	private final ResourceLocation id;
 	private final ItemStack result;
 	private Element[][] recipe = new Element[8][8];

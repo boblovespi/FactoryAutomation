@@ -8,28 +8,22 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.OreIngredient;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.minecraftforge.registries.ForgeRegistry;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -52,6 +46,7 @@ public class RecipeHandler
 	private static NonNullList<ItemStack> bronze = NonNullList
 			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.BRONZE), 8));
 
+	/*
 	@SuppressWarnings("unused")
 	@SubscribeEvent
 	public static void registerIRecipes(RegistryEvent.Register<IRecipe> event)
@@ -76,47 +71,6 @@ public class RecipeHandler
 			registry.remove(new ResourceLocation("minecraft", "stick"));
 			registry.remove(new ResourceLocation("minecraft", "wooden_pickaxe"));
 			registry.remove(new ResourceLocation("minecraft", "furnace"));
-		}
-
-		for (int i = 2; i < Metals.values().length; i++)
-		{
-			IRecipe ingotToNugget = new ShapedOreRecipe(
-					new ResourceLocation(MODID, "ingot_to_nugget_" + Metals.values()[i].getName()),
-					new ItemStack(FAItems.nugget.GetItem(Metals.values()[i]), 9), "I", 'I',
-					"ingot" + Cleanup(Metals.values()[i].getName()));
-
-			ingotToNugget
-					.setRegistryName(new ResourceLocation(MODID, "ingot_to_nugget_" + Metals.values()[i].getName()));
-
-			IRecipe nuggetToIngot = new ShapedOreRecipe(
-					new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].getName()),
-					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i]), 1), "NNN", "NNN", "NNN", 'N',
-					"nugget" + Cleanup(Metals.values()[i].getName()));
-
-			nuggetToIngot
-					.setRegistryName(new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].getName()));
-
-			recipes.add(ingotToNugget);
-			recipes.add(nuggetToIngot);
-
-			IRecipe blockToIngot = new ShapedOreRecipe(
-					new ResourceLocation(MODID, "block_to_ingot_" + Metals.values()[i].getName()),
-					new ItemStack(FAItems.ingot.GetItem(Metals.values()[i]), 9), "B", 'B',
-					Ingredient.fromItems(Item.getItemFromBlock(FABlocks.metalBlock.GetBlock(Metals.values()[i]))));
-
-			blockToIngot
-					.setRegistryName(new ResourceLocation(MODID, "block_to_ingot_" + Metals.values()[i].getName()));
-
-			IRecipe ingotToBlock = new ShapedOreRecipe(
-					new ResourceLocation(MODID, "ingot_to_block" + Metals.values()[i].getName()),
-					new ItemStack(Item.getItemFromBlock(FABlocks.metalBlock.GetBlock(Metals.values()[i])), 1), "III",
-					"III", "III", 'I', "ingot" + Cleanup(Metals.values()[i].getName()));
-
-			ingotToBlock
-					.setRegistryName(new ResourceLocation(MODID, "ingot_to_block" + Metals.values()[i].getName()));
-
-			recipes.add(blockToIngot);
-			recipes.add(ingotToBlock);
 		}
 		AddToolRecipes("bronze", "ingotBronze", "stickWood", FAItems.bronzePickaxe, FAItems.bronzeAxe,
 				FAItems.bronzeSword, FAItems.bronzeHoe, FAItems.bronzeShovel);
@@ -374,7 +328,6 @@ public class RecipeHandler
 					new ItemStack(spade.ToItem()), "i", "s", "s", 'i', ingot, 's', stick);
 			recipes.add(r.setRegistryName(new ResourceLocation(MODID, materialName + "_spade")));
 		}
-
 	}
 
 	private static void AddPlankAndStickRecipes(ItemAxe axe, String axeName)
@@ -410,10 +363,10 @@ public class RecipeHandler
 		removeList.add(new OreIngredient("oreCopper"));
 		removeList.add(new OreIngredient("oreDiamond"));
 		removeList.add(new OreIngredient("oreTin"));
-		removeList.add(Ingredient.fromItem(Items.CLAY_BALL));
-		removeList.add(Ingredient.fromItem(Item.getItemFromBlock(Blocks.GOLD_ORE)));
-		removeList.add(Ingredient.fromItem(Item.getItemFromBlock(Blocks.IRON_ORE)));
-		removeList.add(Ingredient.fromItem(Item.getItemFromBlock(Blocks.DIAMOND_ORE)));
+		removeList.add(Ingredient.fromItems(Items.CLAY_BALL));
+		removeList.add(Ingredient.fromItems(Item.getItemFromBlock(Blocks.GOLD_ORE)));
+		removeList.add(Ingredient.fromItems(Item.getItemFromBlock(Blocks.IRON_ORE)));
+		removeList.add(Ingredient.fromItems(Item.getItemFromBlock(Blocks.DIAMOND_ORE)));
 		List<ItemStack> toRemoveList = new ArrayList<>();
 
 		for (Map.Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet())
@@ -432,6 +385,16 @@ public class RecipeHandler
 		{
 			FurnaceRecipes.instance().getSmeltingList().remove(stack);
 		}
-	}
+	} */
 
+	@SubscribeEvent
+	public static void RegisterSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event)
+	{
+		BasicCircuitRecipe.SERIALIZER.setRegistryName(MODID, "basic_circuit_recipe_serializer");
+		event.getRegistry().register(BasicCircuitRecipe.SERIALIZER);
+		WorkbenchRecipeHandler.SHAPED_SERIALIZER.setRegistryName(MODID, "workbench_shaped");
+		event.getRegistry().register(WorkbenchRecipeHandler.SHAPED_SERIALIZER);
+		HammerRecipe.SERIALIZER.setRegistryName(MODID, "hammer_recipe");
+		event.getRegistry().register(HammerRecipe.SERIALIZER);
+	}
 }
