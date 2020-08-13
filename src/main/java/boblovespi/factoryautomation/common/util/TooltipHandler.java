@@ -1,13 +1,19 @@
 package boblovespi.factoryautomation.common.util;
 
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.loading.moddiscovery.ModFile;
+import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,7 +31,7 @@ import java.util.Map;
 @Mod.EventBusSubscriber
 public class TooltipHandler
 {
-	private static Map<ItemInfo, String> tooltips;
+	private static Map<Item, ITextComponent> tooltips;
 
 	@SubscribeEvent
 	public static void AddTooltip(ItemTooltipEvent event)
@@ -33,8 +39,7 @@ public class TooltipHandler
 		if (tooltips == null)
 			return;
 		ItemStack stack = event.getItemStack();
-		ItemInfo item = new ItemInfo(stack.getItem(), stack.getItemDamage());
-		String tooltip = tooltips.get(item);
+		ITextComponent tooltip = tooltips.get(stack.getItem());
 		if (tooltip != null)
 			event.getToolTip().add(tooltip);
 	}
@@ -42,30 +47,26 @@ public class TooltipHandler
 	public static void RegisterTooltips()
 	{
 		tooltips = new HashMap<>();
-		ModContainer mod = Loader.instance().activeModContainer();
+		ModContainer mod = ModLoadingContext.get().getActiveContainer();
 		if (mod == null)
 			return;
-		File source = mod.getSource();
+		ModFile file = ((ModFileInfo) mod.getModInfo().getOwningFile()).getFile();
+		Path source = file.getFilePath();
 
-		Path root = null;
+		Path root;
 		String base = "assets/factoryautomation/data";
-		if (source.isFile())
+
+		try
 		{
-			try
-			{
-				FileSystem fs = FileSystems.newFileSystem(source.toPath(), null);
-				root = fs.getPath("/" + base);
-			} catch (IOException e)
-			{
-				FMLLog.log.error("Error loading FileSystem from jar: ", e);
-				return;
-			}
-		} else if (source.isDirectory())
+			FileSystem fs = FileSystems.newFileSystem(source, (ClassLoader) null);
+			root = fs.getPath("/" + base);
+		} catch (IOException e)
 		{
-			root = source.toPath().resolve(base);
+			Log.getLogger().error("Error loading FileSystem from jar: ", e);
+			return;
 		}
 
-		if (root == null || !Files.exists(root))
+		if (!Files.exists(root))
 			return;
 
 		Path fPath = root.resolve("tooltips.txt");
@@ -91,16 +92,9 @@ public class TooltipHandler
 
 					for (String key : keys)
 					{
-						String[] parts = key.split("\\.");
-						if (parts.length < 2)
-							continue;
-						Item item = Item.getByNameOrId(parts[0] + ":" + parts[1]);
-						int meta = 0;
+						Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryCreate(key));
 
-						if (parts.length > 2)
-							meta = Integer.parseInt(parts[2]);
-
-						tooltips.putIfAbsent(new ItemInfo(item, meta), "§7" + info);
+						tooltips.putIfAbsent(item, new StringTextComponent("§7" + info));
 					}
 				}
 

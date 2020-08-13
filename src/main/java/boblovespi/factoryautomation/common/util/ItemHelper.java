@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.common.util;
 
-import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -15,7 +15,7 @@ public class ItemHelper
 	public static void PutItemsInInventoryOrDrop(PlayerEntity player, ItemStack stack, World world)
 	{
 		if (!player.addItemStackToInventory(stack.copy()))
-			world.spawnEntity(new EntityItem(world, player.posX, player.posY, player.posZ, stack.copy()));
+			world.addEntity(new ItemEntity(world, player.getPosX(), player.getPosY(), player.getPosZ(), stack.copy()));
 	}
 
 	public static void DamageItem(ItemStack stack)
@@ -28,20 +28,10 @@ public class ItemHelper
 		DamageItem(stack, amount, null);
 	}
 
-	public static void DamageItem(ItemStack stack, int amount, EntityPlayerMP damager)
+	public static void DamageItem(ItemStack stack, int amount, ServerPlayerEntity damager)
 	{
 		boolean b = stack.attemptDamageItem(1, damager == null ? Randoms.MAIN.r : damager.getRNG(), damager);
 		if (b)
 			stack.shrink(amount);
-	}
-
-	public static String GetItemID(Item item, int meta)
-	{
-		return item.getRegistryName().toString() + ":" + meta;
-	}
-
-	public static String GetItemID(ItemStack input)
-	{
-		return GetItemID(input.getItem(), input.getMetadata());
 	}
 }

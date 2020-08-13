@@ -1,36 +1,36 @@
 ﻿#vanilla materials
 
-minecraft.coal=C₂Si₂
-minecraft.iron_ingot;minecraft.iron_block;minecraft.iron_nugget=Fe₂O₃C₃
-minecraft.gold_ingot;minecraft.gold_block;minecraft.gold_nugget=Au₂O₃
-minecraft.diamond=C₂H₅
-minecraft.emerald=C₄H₁0
-minecraft.quartz=SiO₂
+minecraft:coal=C₂Si₂
+minecraft:iron_ingot;minecraft:iron_block;minecraft:iron_nugget=Fe₂O₃C₃
+minecraft:gold_ingot;minecraft:gold_block;minecraft:gold_nugget=Au₂O₃
+minecraft:diamond=C₂H₅
+minecraft:emerald=C₄H₁0
+minecraft:quartz=SiO₂
 
 
 
 #base fa materials
 
-factoryautomation.ingot_tin;factoryautomation.nugget_tin=SnO₂
-factoryautomation.ingot_copper;factoryautomation.nugget_copper=Cu₂O
-factoryautomation.ingot_bronze;factoryautomation.nugget_bronze=SnCu₂O₂
-factoryautomation.ingot_pig_iron;factoryautomation.nugget_pig_iron=Fe₂O₃
-factoryautomation.ingot_steel;factoryautomation.nugget_steel=Fe₂O₂
-factoryautomation.ingot_magmatic_brass;factoryautomation.nugget_magmatic_brass=Inf₄SiSnO₂
-factoryautomation.silicon_quartz_crystal=Si₄FeO₆
-factoryautomation.ingot_lead;factoryautomation.nugget_lead=Pb₃O₂
-factoryautomation.ingot_silver;factoryautomation.nugget_silver=Ag₂S
+factoryautomation:ingot_tin;factoryautomation:nugget_tin=SnO₂
+factoryautomation:ingot_copper;factoryautomation:nugget_copper=Cu₂O
+factoryautomation:ingot_bronze;factoryautomation:nugget_bronze=SnCu₂O₂
+factoryautomation:ingot_pig_iron;factoryautomation:nugget_pig_iron=Fe₂O₃
+factoryautomation:ingot_steel;factoryautomation:nugget_steel=Fe₂O₂
+factoryautomation:ingot_magmatic_brass;factoryautomation:nugget_magmatic_brass=Inf₄SiSnO₂
+factoryautomation:silicon_quartz_crystal=Si₄FeO₆
+factoryautomation:ingot_lead;factoryautomation:nugget_lead=Pb₃O₂
+factoryautomation:ingot_silver;factoryautomation:nugget_silver=Ag₂S
 
-factoryautomation.iron_shard=Put this into the foundry to cast ingots.
+factoryautomation:iron_shard=Put this into the foundry to cast ingots.
 
 #other fa items
-factoryautomation.ice_cream_vanilla=§3Regeneration
-factoryautomation.ice_cream_coffee=§3Haste
-factoryautomation.ice_cream_mint=§3Speed
-factoryautomation.ice_cream_chocolate=§3Saturation
-factoryautomation.ice_cream_cookies_n_cream=§3Strength
-factoryautomation.patterned_plate_block_iron=Pattern: Diamond plate
-factoryautomation.factory_sign_block=§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹
+factoryautomation:ice_cream_vanilla=§3Regeneration
+factoryautomation:ice_cream_coffee=§3Haste
+factoryautomation:ice_cream_mint=§3Speed
+factoryautomation:ice_cream_chocolate=§3Saturation
+factoryautomation:ice_cream_cookies_n_cream=§3Strength
+factoryautomation:patterned_plate_block_iron=Pattern: Diamond plate
+factoryautomation:factory_sign_block=§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹§6⏹§0⏹
 
 
 #so here is my ideas! add the ability to "render" icons/items in the descriptions. heres some default icon idea:
