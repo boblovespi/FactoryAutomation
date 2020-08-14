@@ -24,11 +24,11 @@ public class ContainerStoneCastingVessel extends Container
 		for (int j = 0; j < 3; ++j)
 		{
 			for (int i = 0; i < 9; ++i)
-				addSlotToContainer(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
+				addSlot(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
 		}
 		for (int i = 0; i < 9; i++)
 		{
-			addSlotToContainer(new Slot(playerInv, i, x + i * 18, y + 58));
+			addSlot(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
 	}
 

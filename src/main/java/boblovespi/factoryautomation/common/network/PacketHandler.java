@@ -34,7 +34,8 @@ public class PacketHandler
 		INSTANCE.registerMessage(NextId(), BasicCircuitCreatorSyncPacket.class, BasicCircuitCreatorSyncPacket::ToBytes,
 				BasicCircuitCreatorSyncPacket::FromBytes, BasicCircuitCreatorSyncPacket::OnMessage,
 				Optional.of(NetworkDirection.PLAY_TO_SERVER));
-		INSTANCE.registerMessage(
-				StoneCastingVesselMoldPacket.Handler.class, StoneCastingVesselMoldPacket.class, NextId(), Side.SERVER);
+		INSTANCE.registerMessage(NextId(), StoneCastingVesselMoldPacket.class, StoneCastingVesselMoldPacket::ToBytes,
+				StoneCastingVesselMoldPacket::FromBytes, StoneCastingVesselMoldPacket::OnMessage,
+				Optional.of(NetworkDirection.PLAY_TO_SERVER));
 	}
 }

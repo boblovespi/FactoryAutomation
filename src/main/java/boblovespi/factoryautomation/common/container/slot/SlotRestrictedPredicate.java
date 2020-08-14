@@ -27,6 +27,6 @@ public class SlotRestrictedPredicate extends SlotItemHandler
 	@Override
 	public boolean isItemValid(@Nonnull ItemStack stack)
 	{
-		return predicate.apply(stack);
+		return predicate.test(stack);
 	}
 }

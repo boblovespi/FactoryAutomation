@@ -35,7 +35,7 @@ public class ContainerWorkbench extends Container
 			{
 				for (int y1 = 0; y1 < 3; y1++)
 				{
-					addSlotToContainer(new SlotItemHandler(inv, y1 + x1 * 3 + 2,
+					addSlot(new SlotItemHandler(inv, y1 + x1 * 3 + 2,
 							16 + (x1 < 1 ? 0 : 26 + (x1 < 2 ? 0 : 44 + (x1 - 2) * 18)), 35 + 18 * y1));
 				}
 			}
@@ -46,14 +46,14 @@ public class ContainerWorkbench extends Container
 			{
 				for (int y1 = 0; y1 < 5; y1++)
 				{
-					addSlotToContainer(new SlotItemHandler(inv, y1 + x1 * 5 + 2,
+					addSlot(new SlotItemHandler(inv, y1 + x1 * 5 + 2,
 							16 + (x1 < 1 ? 0 : 26 + (x1 < 2 ? 0 : 26 + (x1 - 2) * 18)), 17 + 18 * y1));
 				}
 			}
 		}
 
-		addSlotToContainer(new SlotOutputItem(inv, 0, 198, 53));
-		addSlotToContainer(new SlotItemHandler(inv, 1, 198, 89));
+		addSlot(new SlotOutputItem(inv, 0, 198, 53));
+		addSlot(new SlotItemHandler(inv, 1, 198, 89));
 
 		int x = 37;
 		int y = 120;
@@ -61,11 +61,11 @@ public class ContainerWorkbench extends Container
 		for (int j = 0; j < 3; ++j)
 		{
 			for (int i = 0; i < 9; ++i)
-				addSlotToContainer(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
+				addSlot(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
 		}
 		for (int i = 0; i < 9; i++)
 		{
-			addSlotToContainer(new Slot(playerInv, i, x + i * 18, y + 58));
+			addSlot(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
 
 	}

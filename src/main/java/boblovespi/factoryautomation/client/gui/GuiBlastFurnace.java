@@ -9,20 +9,17 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 /**
  * Created by Willi on 11/12/2017.
  */
 public class GuiBlastFurnace extends ContainerScreen<ContainerBlastFurnace>
 {
-	private TEBlastFurnaceController te;
-	private PlayerInventory playerInv;
-
-	public GuiBlastFurnace(PlayerInventory playerInv, TileEntity te)
+	public GuiBlastFurnace(ContainerBlastFurnace container, PlayerInventory playerInv, ITextComponent unused)
 	{
-		super(new ContainerBlastFurnace(playerInv, te), playerInv, null);
-		this.te = (TEBlastFurnaceController) te;
-		this.playerInv = playerInv;
+		super(container, playerInv, new TranslationTextComponent("gui.blast_furnace"));
 
 		this.xSize = 176;
 		this.ySize = 166;
@@ -36,16 +33,14 @@ public class GuiBlastFurnace extends ContainerScreen<ContainerBlastFurnace>
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/blast_furnace.png"));
 		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int k = (int) (te.getRemainingBurnTime() / te.getLastBurnTime() * 14);
-		int l = (int) (te.getCurrentSmeltTime() / te.getTotalSmeltTime() * 24);
-		if (te.isBurningFuel())
+		int k = container.GetProgressBars().get(0);
+		int l = container.GetProgressBars().get(1);
+		if (container.GetProgressBars().get(2) > 0)
 		{
-
 			this.blit(guiLeft + 56, guiTop + 50 - k, 176, 14 - k, 14, k);
 		}
-		if (te.isSmeltingItem())
+		if (container.GetProgressBars().get(3) > 0)
 		{
-
 			this.blit(guiLeft + 79, guiTop + 34, 176, 14, 24 - l, 16);
 		}
 
@@ -72,7 +67,7 @@ public class GuiBlastFurnace extends ContainerScreen<ContainerBlastFurnace>
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		drawCenteredString(minecraft.fontRenderer, "Blast Furnace", 84, 6, 180 + 100 * 256 + 100 * 256 * 256);
-		font.drawString(playerInv.getDisplayName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
+		font.drawString(playerInventory.getDisplayName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
 
 	}
 

@@ -4,15 +4,19 @@ import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
 import boblovespi.factoryautomation.common.container.slot.SlotRestrictedItem;
 import boblovespi.factoryautomation.common.container.slot.SlotRestrictedPredicate;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
+import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import java.util.Collections;
@@ -22,32 +26,41 @@ import java.util.Collections;
  */
 public class ContainerBasicCircuitCreator extends Container
 {
-	private TEBasicCircuitCreator te;
-	private IItemHandler inv;
+	public static final ContainerType<ContainerBasicCircuitCreator> TYPE = IForgeContainerType
+			.create(ContainerBasicCircuitCreator::new);
+	private final IItemHandler inv;
+	private BlockPos pos;
 
-	public ContainerBasicCircuitCreator(IInventory playerInv, TileEntity te)
+	// server-side container
+	public ContainerBasicCircuitCreator(int id, PlayerInventory playerInv, IItemHandler inv, BlockPos pos)
 	{
-		this.te = (TEBasicCircuitCreator) te;
-		inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		super(TYPE, id);
+		this.inv = inv;
+		this.pos = pos;
 
-		addSlotToContainer(new SlotOutputItem(inv, 0, 5, 102));
-		addSlotToContainer(new SlotRestrictedPredicate(inv, 1, 8, 9, new OreIngredient("nuggetTin")));
-		addSlotToContainer(new SlotRestrictedPredicate(inv, 2, 8, 27, new OreIngredient("wireCopper")));
-		addSlotToContainer(new SlotItemHandler(inv, 3, 8, 45));
-		addSlotToContainer(
-				new SlotRestrictedItem(inv, 4, 8, 63, Collections.singletonList(FAItems.circuitFrame.ToItem())));
+		addSlot(new SlotOutputItem(inv, 0, 5, 102));
+		addSlot(new SlotRestrictedPredicate(inv, 1, 8, 9, Ingredient.fromTag(FATags.ForgeItemTag("nuggets/tin"))));
+		addSlot(new SlotRestrictedPredicate(inv, 2, 8, 27, Ingredient.fromTag(FATags.ForgeItemTag("wires/copper"))));
+		addSlot(new SlotItemHandler(inv, 3, 8, 45));
+		addSlot(new SlotRestrictedItem(inv, 4, 8, 63, Collections.singletonList(FAItems.circuitFrame.ToItem())));
 		int x = 24;
 		int y = 84;
 
 		for (int j = 0; j < 3; ++j)
 		{
 			for (int i = 0; i < 9; ++i)
-				addSlotToContainer(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
+				addSlot(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
 		}
 		for (int i = 0; i < 9; i++)
 		{
-			addSlotToContainer(new Slot(playerInv, i, x + i * 18, y + 58));
+			addSlot(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
+	}
+
+	// client-side constructor
+	public ContainerBasicCircuitCreator(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	{
+		this(id, playerInv, new ItemStackHandler(5), extraData.readBlockPos());
 	}
 
 	/**
@@ -103,6 +116,12 @@ public class ContainerBasicCircuitCreator extends Container
 
 	public BlockPos GetPos()
 	{
-		return te.getPos();
+		return pos;
+	}
+
+	@Override
+	public void updateProgressBar(int id, int data)
+	{
+		super.updateProgressBar(id, data);
 	}
 }

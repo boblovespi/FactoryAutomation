@@ -22,8 +22,8 @@ public class ContainerStoneFoundry extends Container
 	{
 		itemHandler = ((TEStoneCrucible) te).GetInventory();
 
-		addSlotToContainer(new SlotItemHandler(itemHandler, 1, 67, 18));
-		addSlotToContainer(new SlotItemHandler(itemHandler, 0, 67, 60));
+		addSlot(new SlotItemHandler(itemHandler, 1, 67, 18));
+		addSlot(new SlotItemHandler(itemHandler, 0, 67, 60));
 
 		int x = 8;
 		int y = 98;
@@ -31,11 +31,11 @@ public class ContainerStoneFoundry extends Container
 		for (int j = 0; j < 3; ++j)
 		{
 			for (int i = 0; i < 9; ++i)
-				addSlotToContainer(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
+				addSlot(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
 		}
 		for (int i = 0; i < 9; i++)
 		{
-			addSlotToContainer(new Slot(playerInv, i, x + i * 18, y + 58));
+			addSlot(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
 	}
 

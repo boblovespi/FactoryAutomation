@@ -14,6 +14,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.items.IItemHandler;
 
 import java.io.IOException;
@@ -24,8 +26,6 @@ import java.io.IOException;
 public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircuitCreator>
 {
 	private TEBasicCircuitCreator te;
-	private IItemHandler inv;
-	private IInventory playerInv;
 
 	private ResourceLocation loc = new ResourceLocation(
 			FactoryAutomation.MODID, "textures/gui/container/chip_creator.png");
@@ -37,11 +37,10 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	private ImageButton addThirdMode;
 	private ImageButton craft;
 
-	public GuiBasicCircuitCreator(PlayerInventory playerInv, TileEntity te)
+	public GuiBasicCircuitCreator(ContainerBasicCircuitCreator container, PlayerInventory playerInv, ITextComponent unused)
 	{
-		super(new ContainerBasicCircuitCreator(playerInv, te), playerInv, null);
-		this.playerInv = playerInv;
-		this.te = (TEBasicCircuitCreator) te;
+		super(container, playerInv, new TranslationTextComponent("gui.basic_circuit_creator"));
+		this.te = (TEBasicCircuitCreator) playerInv.player.world.getTileEntity(container.GetPos());
 
 		xSize = 206;
 		ySize = 166;
@@ -56,7 +55,6 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 						TEBasicCircuitCreator.Layout.Element.EMPTY);
 			}
 		}
-
 	}
 
 	/**

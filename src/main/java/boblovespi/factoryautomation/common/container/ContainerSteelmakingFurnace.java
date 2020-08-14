@@ -36,20 +36,20 @@ public class ContainerSteelmakingFurnace extends Container
 		{
 			for (int j = 0; j < 2; j++)
 			{
-				addSlotToContainer(
+				addSlot(
 						new SlotItemHandler(itemHandler, TESteelmakingFurnace.INPUT_SLOTS[i * 2 + j], 58 + j * 18,
 								20 + i * 18));
 
-				addSlotToContainer(
+				addSlot(
 						new SlotOutputItem(itemHandler, TESteelmakingFurnace.OUTPUT_SLOTS[i * 2 + j], 124 + j * 18,
 								20 + i * 18));
 			}
 		}
 
-		addSlotToContainer(new SlotFuel(itemHandler, TESteelmakingFurnace.FUEL_SLOT, 58, 74));
+		addSlot(new SlotFuel(itemHandler, TESteelmakingFurnace.FUEL_SLOT, 58, 74));
 
-		addSlotToContainer(new SlotItemHandler(itemHandler, TESteelmakingFurnace.AIR_INPUT_SLOT, 8, 74));
-		addSlotToContainer(new SlotItemHandler(itemHandler, TESteelmakingFurnace.FUEL_INPUT_SLOT, 28, 74));
+		addSlot(new SlotItemHandler(itemHandler, TESteelmakingFurnace.AIR_INPUT_SLOT, 8, 74));
+		addSlot(new SlotItemHandler(itemHandler, TESteelmakingFurnace.FUEL_INPUT_SLOT, 28, 74));
 
 		int x = 8;
 		int y = 98;
@@ -57,11 +57,11 @@ public class ContainerSteelmakingFurnace extends Container
 		for (int j = 0; j < 3; ++j)
 		{
 			for (int i = 0; i < 9; ++i)
-				addSlotToContainer(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
+				addSlot(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
 		}
 		for (int i = 0; i < 9; i++)
 		{
-			addSlotToContainer(new Slot(playerInv, i, x + i * 18, y + 58));
+			addSlot(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
 	}
 

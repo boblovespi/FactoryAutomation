@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.container.*;
 import boblovespi.factoryautomation.common.container.workbench.ContainerWorkbench;
 import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -22,6 +23,11 @@ import java.util.Arrays;
 // TODO: move to proper location
 public class GuiHandler implements IGuiHandler
 {
+	public static void RegisterGuis()
+	{
+		ScreenManager.registerFactory(ContainerBlastFurnace.TYPE, GuiBlastFurnace::new);
+	}
+
 	@Nullable
 	@Override
 	public Object getServerGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z)

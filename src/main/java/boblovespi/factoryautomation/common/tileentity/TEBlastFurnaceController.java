@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
+import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
@@ -8,6 +9,11 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.IContainerProvider;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -15,6 +21,8 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -28,7 +36,8 @@ import java.util.BitSet;
  * Created by Willi on 11/12/2017.
  * shamelessly copied over from my old mod
  */
-public class TEBlastFurnaceController extends TileEntity implements ITickableTileEntity, IMultiblockControllerTE
+public class TEBlastFurnaceController extends TileEntity
+		implements ITickableTileEntity, IMultiblockControllerTE, INamedContainerProvider
 {
 	public static final int[] COKE_SLOTS = { 3, 4 };
 	public static final int IRON_SLOT = 1;
@@ -50,6 +59,37 @@ public class TEBlastFurnaceController extends TileEntity implements ITickableTil
 	private float smeltScalar = 1; // the speed at which the pig iron smelts
 	private boolean isStructureValid = false;
 	private IItemHandler inputHopperWrapper;
+	private IIntArray containerInfo = new IIntArray()
+	{
+		@Override
+		public int get(int index)
+		{
+			switch (index)
+			{
+			case 0:
+				return (int) (getRemainingBurnTime() / getLastBurnTime() * 14); // fuel burn time draw scalar
+			case 1:
+				return (int) (getCurrentSmeltTime() / getTotalSmeltTime() * 24); // smelt time draw scalar
+			case 2:
+				return isBurningFuel() ? 1 : 0; // if it is burning stuff
+			case 3:
+				return isSmeltingItem() ? 1 : 0; // if it is smelting
+			}
+			return 0;
+		}
+
+		@Override
+		public void set(int index, int value)
+		{
+
+		}
+
+		@Override
+		public int size()
+		{
+			return 4;
+		}
+	};
 
 	public TEBlastFurnaceController()
 	{
@@ -269,7 +309,7 @@ public class TEBlastFurnaceController extends TileEntity implements ITickableTil
 	@Override
 	public void BreakStructure()
 	{
-		Block block = world.getBlockState(pos).getBlock();
+		Block block = getBlockState().getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
 			((BlastFurnaceController) block).BreakStructure(world, pos);
@@ -291,5 +331,18 @@ public class TEBlastFurnaceController extends TileEntity implements ITickableTil
 				&& capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return LazyOptional.of(() -> (T) inputHopperWrapper);
 		return null;
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	{
+		return new ContainerBlastFurnace(id, playerInv, itemHandler, containerInfo, pos);
 	}
 }

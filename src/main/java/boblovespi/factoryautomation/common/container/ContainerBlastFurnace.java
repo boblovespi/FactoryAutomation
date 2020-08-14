@@ -5,15 +5,20 @@ import boblovespi.factoryautomation.common.container.slot.SlotRestrictedItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.item.Items;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import java.util.Collections;
@@ -27,26 +32,30 @@ import java.util.Collections;
  */
 public class ContainerBlastFurnace extends Container
 {
+	public static final ContainerType<ContainerBlastFurnace> TYPE = IForgeContainerType.create(ContainerBlastFurnace::new);
 	private TEBlastFurnaceController te;
 	private IItemHandler handler;
+	private IIntArray progressBars;
 
-	public ContainerBlastFurnace(IInventory playerInv, TileEntity te)
+	// server-side container
+	public ContainerBlastFurnace(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray progressBars, BlockPos pos)
 	{
-		handler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		super(TYPE, id);
+		handler = inv;
+		this.progressBars = progressBars;
+		trackIntArray(progressBars);
 
-		this.te = (TEBlastFurnaceController) te;
-
-		addSlotToContainer(new SlotItemHandler(handler, TEBlastFurnaceController.TUYERE_SLOT, 8, 8));
-		addSlotToContainer(new SlotRestrictedItem(handler, TEBlastFurnaceController.IRON_SLOT, 47, 17,
+		addSlot(new SlotItemHandler(handler, TEBlastFurnaceController.TUYERE_SLOT, 8, 8));
+		addSlot(new SlotRestrictedItem(handler, TEBlastFurnaceController.IRON_SLOT, 47, 17,
 				Collections.singletonList(Items.IRON_INGOT)));
-		addSlotToContainer(new SlotRestrictedItem(handler, TEBlastFurnaceController.FLUX_SLOT, 65, 17,
+		addSlot(new SlotRestrictedItem(handler, TEBlastFurnaceController.FLUX_SLOT, 65, 17,
 				Collections.singletonList(Items.REDSTONE)));
-		addSlotToContainer(new SlotRestrictedItem(handler, TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
+		addSlot(new SlotRestrictedItem(handler, TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
 				Collections.singletonList(FAItems.coalCoke.ToItem())));
-		addSlotToContainer(new SlotRestrictedItem(handler, TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
+		addSlot(new SlotRestrictedItem(handler, TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
 				Collections.singletonList(FAItems.coalCoke.ToItem())));
-		addSlotToContainer(new SlotOutputItem(handler, TEBlastFurnaceController.OUTPUT_SLOT, 116, 35));
-		addSlotToContainer(new SlotOutputItem(handler, TEBlastFurnaceController.SLAG_SLOT, 142, 35));
+		addSlot(new SlotOutputItem(handler, TEBlastFurnaceController.OUTPUT_SLOT, 116, 35));
+		addSlot(new SlotOutputItem(handler, TEBlastFurnaceController.SLAG_SLOT, 142, 35));
 
 		int x = 8;
 		int y = 84;
@@ -54,12 +63,18 @@ public class ContainerBlastFurnace extends Container
 		for (int j = 0; j < 3; ++j)
 		{
 			for (int i = 0; i < 9; ++i)
-				addSlotToContainer(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
+				addSlot(new Slot(playerInv, i + j * 9 + 9, x + i * 18, y + j * 18));
 		}
 		for (int i = 0; i < 9; i++)
 		{
-			addSlotToContainer(new Slot(playerInv, i, x + i * 18, 142));
+			addSlot(new Slot(playerInv, i, x + i * 18, 142));
 		}
+	}
+
+	// client-side constructor
+	public ContainerBlastFurnace(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	{
+		this(id, playerInv, new ItemStackHandler(7), new IntArray(4), extraData.readBlockPos());
 	}
 
 	@Override
@@ -105,5 +120,9 @@ public class ContainerBlastFurnace extends Container
 		return previous;
 	}
 
+	public IIntArray GetProgressBars()
+	{
+		return progressBars;
+	}
 }
 

@@ -4,18 +4,18 @@ import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
 import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 /**
  * Created by Willi on 12/30/2018.
  */
-public class StoneCastingVesselMoldPacket implements IMessage
+public class StoneCastingVesselMoldPacket
 {
 	private BlockPos pos;
 	private byte switchTo;
@@ -34,57 +34,44 @@ public class StoneCastingVesselMoldPacket implements IMessage
 	/**
 	 * Convert from the supplied buffer into your specific message type
 	 */
-	@Override
-	public void fromBytes(ByteBuf buf)
+	public static StoneCastingVesselMoldPacket FromBytes(ByteBuf buf)
 	{
-		pos = BlockPos.fromLong(buf.readLong());
-		switchTo = buf.readByte();
+		StoneCastingVesselMoldPacket packet = new StoneCastingVesselMoldPacket();
+		packet.pos = BlockPos.fromLong(buf.readLong());
+		packet.switchTo = buf.readByte();
+		return packet;
 	}
 
 	/**
 	 * Deconstruct your message into the supplied byte buffer
 	 */
-	@Override
-	public void toBytes(ByteBuf buf)
+	public void ToBytes(ByteBuf buf)
 	{
 		buf.writeLong(pos.toLong());
 		buf.writeByte(switchTo);
 	}
 
-	public static class Handler implements IMessageHandler<StoneCastingVesselMoldPacket, IMessage>
+	public void OnMessage(Supplier<NetworkEvent.Context> ctx)
 	{
-		/**
-		 * Called when a message is received of the appropriate type. You can optionally return a reply message, or null if no reply
-		 * is needed.
-		 *
-		 * @param message The message
-		 * @return an optional return message
-		 */
-		@Override
-		public IMessage onMessage(StoneCastingVesselMoldPacket message, MessageContext ctx)
+		if (switchTo < 6 && switchTo >= 0)
 		{
-			if (message.switchTo < 6 && message.switchTo >= 0)
-			{
-				EntityPlayerMP player = ctx.getServerHandler().player;
-				WorldServer world = player.getServerWorld();
-
-				world.addScheduledTask(() ->
+			ctx.get().enqueueWork(() -> {
+				ServerPlayerEntity player = ctx.get().getSender();
+				ServerWorld world = player.getServerWorld();
+				if (world.isBlockLoaded(pos))
 				{
-					if (world.isBlockLoaded(message.pos))
+					TileEntity te = world.getTileEntity(pos);
+					if (te instanceof TEStoneCastingVessel
+							&& player.openContainer instanceof ContainerStoneCastingVessel
+							&& ((ContainerStoneCastingVessel) player.openContainer).GetPos().equals(pos)
+							&& ((TEStoneCastingVessel) te).HasSand())
 					{
-						TileEntity te = world.getTileEntity(message.pos);
-						if (te instanceof TEStoneCastingVessel
-								&& player.openContainer instanceof ContainerStoneCastingVessel
-								&& ((ContainerStoneCastingVessel) player.openContainer).GetPos().equals(message.pos)
-								&& ((TEStoneCastingVessel) te).HasSand())
-						{
-							((TEStoneCastingVessel) te)
-									.SetForm(StoneCastingVessel.CastingVesselStates.values()[message.switchTo + 2]);
-						}
+						((TEStoneCastingVessel) te)
+								.SetForm(StoneCastingVessel.CastingVesselStates.values()[switchTo + 2]);
 					}
-				});
-			}
-			return null;
+				}
+			});
 		}
+		ctx.get().setPacketHandled(true);
 	}
 }
