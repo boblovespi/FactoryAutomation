@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.common.handler;
 
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Created by Willi on 2/11/2018.

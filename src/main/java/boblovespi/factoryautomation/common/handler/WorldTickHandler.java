@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.api.IUpdatable;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;

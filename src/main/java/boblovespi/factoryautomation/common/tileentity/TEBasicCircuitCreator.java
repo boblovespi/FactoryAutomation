@@ -1,11 +1,16 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.BasicCircuitRecipe;
+import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreator;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.IGuiElement;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.IntArrayNBT;
@@ -14,18 +19,20 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
 /**
  * Created by Willi on 5/28/2018.
  */
-public class TEBasicCircuitCreator extends TileEntity
+public class TEBasicCircuitCreator extends TileEntity implements INamedContainerProvider
 {
 	private Layout layout;
 	private ItemStackHandler inventory;
@@ -194,6 +201,19 @@ public class TEBasicCircuitCreator extends TileEntity
 	public Layout.Element[][] GetComponents()
 	{
 		return layout.grid.clone();
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	{
+		return new ContainerBasicCircuitCreator(id, playerInv, inventory, pos);
 	}
 
 	public static class Layout
