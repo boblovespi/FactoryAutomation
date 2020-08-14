@@ -1,14 +1,14 @@
 package boblovespi.factoryautomation.client.gui.component;
 
 import boblovespi.factoryautomation.common.util.IGuiElement;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Created by Willi on 6/9/2018.
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiGridElement
 {
 	private final int x;
@@ -35,12 +35,12 @@ public class GuiGridElement
 		this.element = element;
 	}
 
-	public void Draw(GuiContainer gui)
+	public void Draw(ContainerScreen<?> gui)
 	{
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();
 
-		gui.drawTexturedModalRect(guiLeft + x, guiTop + y, offsetX + element.GetX() * w, offsetY + element.GetY() * h,
+		gui.blit(guiLeft + x, guiTop + y, offsetX + element.GetX() * w, offsetY + element.GetY() * h,
 				w * element.GetU(), h * element.GetV());
 	}
 }

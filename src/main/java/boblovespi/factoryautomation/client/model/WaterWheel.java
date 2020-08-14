@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * WaterWheel - King_of_Creepers
  * Created using Tabula 7.0.1
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class WaterWheel extends ModelBase
 {
 	public ModelRenderer small_plate_horizontal_top;

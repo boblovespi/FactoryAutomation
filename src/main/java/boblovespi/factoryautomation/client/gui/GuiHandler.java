@@ -83,7 +83,7 @@ public class GuiHandler implements IGuiHandler
 		STONE_WORKBENCH(2, GuiType.TILE_ENTITY, ContainerWorkbench.class, GuiWorkbench.class),
 		WORKBENCH(3, GuiType.TILE_ENTITY, ContainerWorkbench.class, GuiWorkbench.class),
 		CHIP_CREATOR(4, GuiType.TILE_ENTITY, ContainerBasicCircuitCreator.class, GuiBasicCircuitCreator.class),
-		GUIDEBOOK(5, GuiType.ITEM, null, GuiGuidebook.class),
+		// GUIDEBOOK(5, GuiType.ITEM, null, GuiGuidebook.class),
 		SOLID_FUELED_FIREBOX(6, GuiType.TILE_ENTITY, ContainerSolidFueledFirebox.class, GuiSolidFueledFirebox.class),
 		STONE_FOUNDRY(7, GuiType.TILE_ENTITY, ContainerStoneFoundry.class, GuiStoneFoundry.class),
 		STONE_CASTING_VESSEL(8, GuiType.TILE_ENTITY, ContainerStoneCastingVessel.class, GuiStoneCastingVessel.class),

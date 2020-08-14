@@ -6,10 +6,11 @@ import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreato
 import boblovespi.factoryautomation.common.network.BasicCircuitCreatorSyncPacket;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiButtonImage;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.ImageButton;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -20,11 +21,10 @@ import java.io.IOException;
 /**
  * Created by Willi on 5/28/2018.
  */
-public class GuiBasicCircuitCreator extends GuiContainer
+public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircuitCreator>
 {
 	private TEBasicCircuitCreator te;
 	private IItemHandler inv;
-	private ContainerBasicCircuitCreator container;
 	private IInventory playerInv;
 
 	private ResourceLocation loc = new ResourceLocation(
@@ -32,17 +32,16 @@ public class GuiBasicCircuitCreator extends GuiContainer
 
 	private int mode = -1;
 	private GuiGridElement[][] elements;
-	private GuiButtonImage solderMode;
-	private GuiButtonImage wireMode;
-	private GuiButtonImage addThirdMode;
-	private GuiButtonImage craft;
+	private ImageButton solderMode;
+	private ImageButton wireMode;
+	private ImageButton addThirdMode;
+	private ImageButton craft;
 
-	public GuiBasicCircuitCreator(IInventory playerInv, TileEntity te)
+	public GuiBasicCircuitCreator(PlayerInventory playerInv, TileEntity te)
 	{
-		super(new ContainerBasicCircuitCreator(playerInv, te));
+		super(new ContainerBasicCircuitCreator(playerInv, te), playerInv, null);
 		this.playerInv = playerInv;
 		this.te = (TEBasicCircuitCreator) te;
-		container = (ContainerBasicCircuitCreator) inventorySlots;
 
 		xSize = 206;
 		ySize = 166;
@@ -65,16 +64,18 @@ public class GuiBasicCircuitCreator extends GuiContainer
 	 * window resizes, the buttonList is cleared beforehand.
 	 */
 	@Override
-	public void initGui()
+	public void init()
 	{
-		super.initGui();
-		solderMode = new GuiButtonImage(0, guiLeft + 106, guiTop + 12, 20, 18, 1, 167, 19, loc);
+		super.init();
+		solderMode = new ImageButton(guiLeft + 106, guiTop + 12, 20, 18, 1, 167, 19, loc, unused -> mode = 0);
 		addButton(solderMode);
-		wireMode = new GuiButtonImage(1, guiLeft + 106, guiTop + 32, 20, 18, 22, 167, 19, loc);
+		wireMode = new ImageButton(guiLeft + 106, guiTop + 32, 20, 18, 22, 167, 19, loc, unused -> mode = 1);
 		addButton(wireMode);
-		addThirdMode = new GuiButtonImage(2, guiLeft + 106, guiTop + 52, 20, 18, 43, 167, 19, loc);
+		addThirdMode = new ImageButton(guiLeft + 106, guiTop + 52, 20, 18, 43, 167, 19, loc, unused -> mode = 2);
 		addButton(addThirdMode);
-		craft = new GuiButtonImage(3, guiLeft + 106, guiTop + 72, 20, 18, 64, 167, 19, loc);
+		craft = new ImageButton(
+				guiLeft + 106, guiTop + 72, 20, 18, 64, 167, 19, loc, unused -> PacketHandler.INSTANCE
+				.sendToServer(new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) 4, (byte) 0, (byte) 0)));
 		addButton(craft);
 	}
 
@@ -84,13 +85,13 @@ public class GuiBasicCircuitCreator extends GuiContainer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
-		GlStateManager.color(1, 1, 1);
-		mc.getTextureManager().bindTexture(loc);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		GlStateManager.blendColor(1, 1, 1, 1);
+		minecraft.getTextureManager().bindTexture(loc);
+		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		// drawTexturedModalRect(guiLeft + 106, guiTop, 1, 167, 20, 18);
 
-		solderMode.drawButton(mc, mouseX, mouseY, partialTicks);
+		solderMode.renderButton(mouseX, mouseY, partialTicks);
 
 		TEBasicCircuitCreator.Layout.Element[][] components = te.GetComponents();
 
@@ -108,57 +109,31 @@ public class GuiBasicCircuitCreator extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		drawCenteredString(mc.fontRenderer, "Circuit Creator", 104, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		drawCenteredString(minecraft.fontRenderer, "Circuit Creator", 104, 6, 180 + 100 * 256 + 100 * 256 * 256);
 		// fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
-
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	public void render(int mouseX, int mouseY, float partialTicks)
 	{
-		drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		renderBackground();
+		super.render(mouseX, mouseY, partialTicks);
 		renderHoveredToolTip(mouseX, mouseY);
-	}
-
-	/**
-	 * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
-	 */
-	@Override
-	protected void actionPerformed(GuiButton button) throws IOException
-	{
-		if (button.id == solderMode.id)
-		{
-			mode = solderMode.id;
-		} else if (button.id == wireMode.id)
-		{
-			mode = wireMode.id;
-		} else if (button.id == addThirdMode.id)
-		{
-			mode = addThirdMode.id;
-		} else if (button.id == craft.id)
-		{
-			PacketHandler.INSTANCE
-					.sendToServer(new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) 4, (byte) 0, (byte) 0));
-		} else if (button.id == -1)
-		{
-
-		}
 	}
 
 	/**
 	 * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
 	 */
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)
 	{
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		System.out.println("mousePos: ( " + mouseX + " , " + mouseY + " )\nmouseButton: " + mouseButton);
 
 		if (container.HasFrame())
 		{
-			int x = (mouseX - 36 - guiLeft) / 8;
-			int y = (mouseY - 14 - guiTop) / 8;
+			int x = (int) ((mouseX - 36 - guiLeft) / 8);
+			int y = (int) ((mouseY - 14 - guiTop) / 8);
 
 			if (x >= 0 && x < 8 && y >= 0 && y < 8)
 			{
@@ -173,6 +148,7 @@ public class GuiBasicCircuitCreator extends GuiContainer
 							.sendToServer(new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) 3, (byte) x, (byte) y));
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -180,14 +156,15 @@ public class GuiBasicCircuitCreator extends GuiContainer
 	 * lastButtonClicked & timeSinceMouseClick.
 	 */
 	@Override
-	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick)
+	public boolean mouseDragged(double mouseX, double mouseY, int clickedMouseButton, double something,
+			double somethingElse)
 	{
-		super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
+		super.mouseDragged(mouseX, mouseY, clickedMouseButton, something, somethingElse);
 
 		if (container.HasFrame())
 		{
-			int x = (mouseX - 36 - guiLeft) / 8;
-			int y = (mouseY - 14 - guiTop) / 8;
+			int x = (int) ((mouseX - 36 - guiLeft) / 8);
+			int y = (int) ((mouseY - 14 - guiTop) / 8);
 
 			if (x >= 0 && x < 8 && y >= 0 && y < 8)
 			{
@@ -202,14 +179,6 @@ public class GuiBasicCircuitCreator extends GuiContainer
 							.sendToServer(new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) 3, (byte) x, (byte) y));
 			}
 		}
-	}
-
-	/**
-	 * Handles mouse input.
-	 */
-	@Override
-	public void handleMouseInput() throws IOException
-	{
-		super.handleMouseInput();
+		return true;
 	}
 }

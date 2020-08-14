@@ -1,7 +1,6 @@
 package boblovespi.factoryautomation.client;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.client.gui.GuiGuidebook;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.client.tesr.*;
 import boblovespi.factoryautomation.common.CommonProxy;

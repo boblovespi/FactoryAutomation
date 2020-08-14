@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Bevel_Gearbox - King_Of_Creepers
  * Created using Tabula 7.0.1
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class BevelGearbox extends ModelBase
 {
 	public ModelRenderer box_front;

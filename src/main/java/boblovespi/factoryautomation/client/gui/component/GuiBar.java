@@ -1,13 +1,13 @@
 package boblovespi.factoryautomation.client.gui.component;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Created by Willi on 12/24/2017.
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiBar
 {
 	private final int x;
@@ -29,7 +29,7 @@ public class GuiBar
 		this.direction = direction;
 	}
 
-	public void Draw(GuiContainer gui, float percentage)
+	public void Draw(ContainerScreen<?> gui, float percentage)
 	{
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();
@@ -37,18 +37,18 @@ public class GuiBar
 		switch (direction)
 		{
 		case DOWN:
-			gui.drawTexturedModalRect(guiLeft + x, guiTop + y, barX, barY, w, (int) (h * percentage));
+			gui.blit(guiLeft + x, guiTop + y, barX, barY, w, (int) (h * percentage));
 			break;
 		case UP:
-			gui.drawTexturedModalRect(guiLeft + x, guiTop + y + (int) (h * aPercentage), barX,
-					barY + (int) (h * aPercentage), w, (int) (h * percentage));
+			gui.blit(guiLeft + x, guiTop + y + (int) (h * aPercentage), barX, barY + (int) (h * aPercentage), w,
+					(int) (h * percentage));
 			break;
 		case RIGHT:
-			gui.drawTexturedModalRect(guiLeft + x, guiTop + y, barX, barY, (int) (w * percentage), h);
+			gui.blit(guiLeft + x, guiTop + y, barX, barY, (int) (w * percentage), h);
 			break;
 		case LEFT:
-			gui.drawTexturedModalRect(guiLeft + x + (int) (w * aPercentage), guiTop + y, barX + (int) (w * aPercentage),
-					barY, (int) (w * percentage), h);
+			gui.blit(guiLeft + x + (int) (w * aPercentage), guiTop + y, barX + (int) (w * aPercentage), barY,
+					(int) (w * percentage), h);
 			break;
 		}
 	}

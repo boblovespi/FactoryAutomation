@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * hand_crank - King_of_Creepers
  * Created using Tabula 7.0.0
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class HandCrankModel extends ModelBase
 {
 	public ModelRenderer shape1;

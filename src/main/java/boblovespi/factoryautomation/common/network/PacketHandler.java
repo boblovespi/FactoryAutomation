@@ -1,15 +1,19 @@
 package boblovespi.factoryautomation.common.network;
 
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
+
+import java.util.Optional;
 
 /**
  * Created by Willi on 6/9/2018.
  */
 public class PacketHandler
 {
-	public static SimpleNetworkWrapper INSTANCE = null;
+	public static String PROTOCOL_VERSION = "1.0";
+	public static SimpleChannel INSTANCE = null;
 	private static int packetId = 0;
 
 	private static int NextId()
@@ -19,16 +23,17 @@ public class PacketHandler
 
 	public static void CreateChannel(String channelName)
 	{
-		INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
+		INSTANCE = NetworkRegistry.newSimpleChannel(ResourceLocation.tryCreate(channelName), () -> PROTOCOL_VERSION,
+				PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 		RegisterMessages();
 	}
 
 	private static void RegisterMessages()
 	{
 		// Register messages which are sent from the client to the server here:
-		INSTANCE.registerMessage(
-				BasicCircuitCreatorSyncPacket.Handler.class, BasicCircuitCreatorSyncPacket.class, NextId(),
-				Side.SERVER);
+		INSTANCE.registerMessage(NextId(), BasicCircuitCreatorSyncPacket.class, BasicCircuitCreatorSyncPacket::ToBytes,
+				BasicCircuitCreatorSyncPacket::FromBytes, BasicCircuitCreatorSyncPacket::OnMessage,
+				Optional.of(NetworkDirection.PLAY_TO_SERVER));
 		INSTANCE.registerMessage(
 				StoneCastingVesselMoldPacket.Handler.class, StoneCastingVesselMoldPacket.class, NextId(), Side.SERVER);
 	}

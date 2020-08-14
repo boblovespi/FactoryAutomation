@@ -32,7 +32,7 @@ import java.util.List;
  * Created by Willi on 7/25/2018.
  */
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class TESRUtils
 {
 	public static final FaceBakery faceBakery = new FaceBakery();

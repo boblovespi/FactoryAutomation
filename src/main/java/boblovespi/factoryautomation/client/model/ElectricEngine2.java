@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * New_Electric_Engine - King_Of_Creepers
  * Created using Tabula 7.0.1
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ElectricEngine2 extends ModelBase
 {
 	public ModelRenderer bottom;

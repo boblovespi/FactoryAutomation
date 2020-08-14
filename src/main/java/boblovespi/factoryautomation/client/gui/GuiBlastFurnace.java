@@ -3,8 +3,9 @@ package boblovespi.factoryautomation.client.gui;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -12,45 +13,40 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by Willi on 11/12/2017.
  */
-public class GuiBlastFurnace extends GuiContainer
+public class GuiBlastFurnace extends ContainerScreen<ContainerBlastFurnace>
 {
 	private TEBlastFurnaceController te;
-	private IInventory playerInv;
+	private PlayerInventory playerInv;
 
-	public GuiBlastFurnace(IInventory playerInv, TileEntity te)
+	public GuiBlastFurnace(PlayerInventory playerInv, TileEntity te)
 	{
-		super(new ContainerBlastFurnace(playerInv, te));
+		super(new ContainerBlastFurnace(playerInv, te), playerInv, null);
 		this.te = (TEBlastFurnaceController) te;
 		this.playerInv = playerInv;
 
 		this.xSize = 176;
 		this.ySize = 166;
-
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
-		GlStateManager.color(1, 1, 1);
-		mc.getTextureManager().bindTexture(
-				new ResourceLocation(FactoryAutomation.MODID,
-						"textures/gui/container/blast_furnace.png"));
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		GlStateManager.blendColor(1, 1, 1, 1);
+		minecraft.getTextureManager().bindTexture(
+				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/blast_furnace.png"));
+		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		int k = (int) (te.getRemainingBurnTime() / te.getLastBurnTime() * 14);
 		int l = (int) (te.getCurrentSmeltTime() / te.getTotalSmeltTime() * 24);
 		if (te.isBurningFuel())
 		{
 
-			this.drawTexturedModalRect(guiLeft + 56, guiTop + 50 - k, 176,
-					14 - k, 14, k);
+			this.blit(guiLeft + 56, guiTop + 50 - k, 176, 14 - k, 14, k);
 		}
 		if (te.isSmeltingItem())
 		{
 
-			this.drawTexturedModalRect(guiLeft + 79, guiTop + 34, 176, 14,
-					24 - l, 16);
+			this.blit(guiLeft + 79, guiTop + 34, 176, 14, 24 - l, 16);
 		}
 
 		//		Debug.DebugLog()
@@ -70,26 +66,21 @@ public class GuiBlastFurnace extends GuiContainer
 		//		Debug.DebugLog()
 		//				.debug("remaining burn time: " + (te.getRemainingBurnTime()));
 
-
-
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		drawCenteredString(mc.fontRenderer, "Blast Furnace", 84, 6,
-				180 + 100 * 256 + 100 * 256 * 256);
-		fontRenderer
-				.drawString(playerInv.getDisplayName().getUnformattedText(), 8,
-						this.ySize - 96 + 2, 4210752);
+		drawCenteredString(minecraft.fontRenderer, "Blast Furnace", 84, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		font.drawString(playerInv.getDisplayName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
 
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	public void render(int mouseX, int mouseY, float partialTicks)
 	{
-		drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		renderBackground();
+		super.render(mouseX, mouseY, partialTicks);
 		renderHoveredToolTip(mouseX, mouseY);
 	}
 }
