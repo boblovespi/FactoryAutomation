@@ -1,18 +1,19 @@
 package boblovespi.factoryautomation.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Paper_Bellows - King_Of_Creepers
  * Created using Tabula 7.0.1
  */
 @OnlyIn(Dist.CLIENT)
-public class BellowsModel extends ModelBase
+public class BellowsModel extends Model
 {
 	public ModelRenderer bellowpart_1;
 	public ModelRenderer bellowpart_2;
@@ -25,6 +26,7 @@ public class BellowsModel extends ModelBase
 
 	public BellowsModel()
 	{
+		super();
 		this.textureWidth = 128;
 		this.textureHeight = 128;
 		this.bellowpart_4 = new ModelRenderer(this, 2, 22);
@@ -59,16 +61,16 @@ public class BellowsModel extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha)
 	{
-		this.bellowpart_4.render(f5);
-		this.bellowpart_2.render(f5);
-		this.bellowpart_3.render(f5);
-		this.pipe.render(f5);
-		this.top.render(f5);
-		this.base.render(f5);
-		this.bellowpart_1.render(f5);
-		this.bellowpart_5.render(f5);
+		this.bellowpart_4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.bellowpart_2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.bellowpart_3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.pipe.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.top.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.base.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.bellowpart_1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.bellowpart_5.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	/**

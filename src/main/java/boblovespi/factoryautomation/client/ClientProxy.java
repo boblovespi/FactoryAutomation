@@ -5,9 +5,7 @@ import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.client.tesr.*;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.guidebook.entry.GuidebookEntry;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.item.Guidebook;
 import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
@@ -15,10 +13,8 @@ import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -79,13 +75,5 @@ public class ClientProxy implements CommonProxy
 	public void AddChatMessage(ChatType type, TextComponentString string)
 	{
 		Minecraft.getMinecraft().ingameGUI.addChatMessage(type, string);
-	}
-
-	@Override
-	public void OpenGuidebook(World world, PlayerEntity player, GuidebookEntry entry, Guidebook.ExtraInfo extraInfo)
-	{
-		if (entry != null)
-			GuiGuidebook.SetPage(entry, extraInfo.pageNum);
-		player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.GUIDEBOOK.id, world, 0, 0, 0);
 	}
 }

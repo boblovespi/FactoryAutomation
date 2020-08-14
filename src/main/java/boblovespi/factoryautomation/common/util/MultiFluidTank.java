@@ -1,12 +1,11 @@
 package boblovespi.factoryautomation.common.util;
 
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+import org.graalvm.compiler.api.replacements.Snippet;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,36 +27,47 @@ public class MultiFluidTank implements IFluidHandler
 		}
 	}
 
-	/**
-	 * Returns an array of objects which represent the internal tanks.
-	 * These objects cannot be used to manipulate the internal tanks.
-	 *
-	 * @return Properties for the relevant internal tanks.
-	 */
 	@Override
-	public IFluidTankProperties[] getTankProperties()
+	public int getTanks()
 	{
-		return FluidTankProperties.convert(
-				tanks.stream().map(FluidTank::getInfo)
-					 .collect(Collectors.toList())
-					 .toArray(new FluidTankInfo[0]));
+		return tanks.size();
+	}
+
+	@Nonnull
+	@Override
+	public FluidStack getFluidInTank(int tank)
+	{
+		return tanks.get(tank).getFluid();
+	}
+
+	@Override
+	public int getTankCapacity(int tank)
+	{
+		return tanks.get(tank).getCapacity();
+	}
+
+	@Override
+	public boolean isFluidValid(int tank, @Nonnull FluidStack stack)
+	{
+		return tanks.get(tank).isFluidValid(stack);
 	}
 
 	/**
 	 * Fills fluid into internal tanks, distribution is left entirely to the IFluidHandler.
 	 *
 	 * @param resource FluidStack representing the Fluid and maximum amount of fluid to be filled.
-	 * @param doFill   If false, fill will only be simulated.
+	 * @param action   If SIMULATE, fill will only be simulated.
 	 * @return Amount of resource that was (or would have been, if simulated) filled.
 	 */
 	@Override
-	public int fill(FluidStack resource, boolean doFill)
+	public int fill(FluidStack resource, FluidAction action)
 	{
-		int amount = resource.amount;
+		int amount = resource.getAmount();
 		for (FluidTank tank : tanks)
 		{
-			amount -= tank.fill(resource, doFill);
-			resource.amount = amount;
+			amount -= tank.fill(resource, action);
+			if (action.execute())
+				resource.setAmount(amount);
 		}
 		return amount;
 	}
@@ -72,20 +82,19 @@ public class MultiFluidTank implements IFluidHandler
 	 */
 	@Nullable
 	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain)
+	public FluidStack drain(FluidStack resource, FluidAction doDrain)
 	{
-		int maxAmount = resource.amount;
+		int maxAmount = resource.getAmount();
 		int amountDrained = 0;
 
 		for (FluidTank tank : tanks)
 		{
 			FluidStack drained = tank.drain(resource, doDrain);
-			if (drained != null)
+			if (!drained.isEmpty())
 			{
-				maxAmount -= drained.amount;
-				amountDrained += drained.amount;
+				maxAmount -= drained.getAmount();
+				amountDrained += drained.getAmount();
 			}
-			resource.amount = maxAmount;
 		}
 		return new FluidStack(resource.getFluid(), amountDrained);
 	}
@@ -100,11 +109,24 @@ public class MultiFluidTank implements IFluidHandler
 	 * @return FluidStack representing the Fluid and amount that was (or would have been, if
 	 * simulated) drained.
 	 */
-	@Nullable
+	@Nonnull
 	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain)
+	public FluidStack drain(int maxDrain, FluidAction doDrain)
 	{
-		return null;
+		int amountDrained = 0;
+		FluidStack resource = FluidStack.EMPTY;
+		for (FluidTank tank : tanks)
+		{
+			FluidStack drained = tank.drain(new FluidStack(resource.getFluid(), maxDrain), doDrain);
+			if (!drained.isEmpty())
+			{
+				if (resource.isEmpty())
+					resource = drained;
+				maxDrain -= drained.getAmount();
+				amountDrained += drained.getAmount();
+			}
+		}
+		return new FluidStack(resource.getFluid(), amountDrained);
 	}
 
 	/**
@@ -112,7 +134,7 @@ public class MultiFluidTank implements IFluidHandler
 	 */
 	public List<FluidStack> GetFluids()
 	{
-		return tanks.stream().filter(t -> t.getFluidAmount() != 0)
-					.map(FluidTank::getFluid).collect(Collectors.toList());
+		return tanks.stream().filter(t -> t.getFluidAmount() != 0).map(FluidTank::getFluid)
+					.collect(Collectors.toList());
 	}
 }

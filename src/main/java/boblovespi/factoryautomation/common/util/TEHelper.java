@@ -22,7 +22,7 @@ public class TEHelper
 
 	public static IMechanicalUser GetUser(TileEntity te, Direction face)
 	{
-		return te.getCapability(MECHANICAL_USER_CAPABILITY, face);
+		return te.getCapability(MECHANICAL_USER_CAPABILITY, face).orElse(null);
 	}
 
 	public static void TransferHeat(IHeatUser from, IHeatUser to)
