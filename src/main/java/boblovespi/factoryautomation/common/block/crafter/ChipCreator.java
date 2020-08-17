@@ -52,8 +52,6 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 			BlockRayTraceResult hit)
 	{
 		if (!world.isRemote && player instanceof ServerPlayerEntity)
-			// playerIn.gui(FactoryAutomation.instance, GuiHandler.GuiID.CHIP_CREATOR.id, worldIn, pos.getX(), pos.getY(),
-			//		pos.getZ());
 			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}

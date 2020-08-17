@@ -8,11 +8,13 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockPart;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
+import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
@@ -29,6 +31,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -36,7 +39,8 @@ import java.util.Arrays;
 /**
  * Created by Willi on 11/11/2017.
  */
-public class BlastFurnaceController extends Block implements FABlock /*, ITileEntityProvider, IMultiblockStructureController*/
+public class BlastFurnaceController extends Block
+		implements FABlock /*, ITileEntityProvider, IMultiblockStructureController*/
 {
 	// TODO: implement tile entity stuff
 
@@ -100,8 +104,8 @@ public class BlastFurnaceController extends Block implements FABlock /*, ITileEn
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
-			BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+			Hand handIn, BlockRayTraceResult hit)
 	{
 		if (!worldIn.isRemote)
 		{
@@ -113,9 +117,8 @@ public class BlastFurnaceController extends Block implements FABlock /*, ITileEn
 					worldIn.setBlockState(pos, worldIn.getBlockState(pos).with(MULTIBLOCK_COMPLETE, true));
 				}
 
-				// TODO: GUIS
-				//player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.BLAST_FURNACE.id, worldIn, pos.getX(),
-				//		pos.getY(), pos.getZ());
+				NetworkHooks
+						.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(worldIn.getTileEntity(pos)), pos);
 			} else
 			{
 				if (worldIn.getBlockState(pos).get(MULTIBLOCK_COMPLETE))

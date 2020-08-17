@@ -3,10 +3,12 @@ package boblovespi.factoryautomation.common.block.machine;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
+import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
@@ -20,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -50,11 +53,12 @@ public class SteelmakingFurnaceController extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 *
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
-			BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+			Hand handIn, BlockRayTraceResult hit)
 	{
 		if (!worldIn.isRemote)
 		{
@@ -65,10 +69,10 @@ public class SteelmakingFurnaceController extends FABaseBlock
 			{
 				TileEntity te = worldIn.getTileEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
+				{
 					((TESteelmakingFurnace) te).CreateStructure();
-				// TODO: GUIS
-				//				playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STEELMAKING_FURNACE.id, worldIn,
-				//						pos.getX(), pos.getY(), pos.getZ());
+					NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(te), pos);
+				}
 			} else
 			{
 				TileEntity te = worldIn.getTileEntity(pos);

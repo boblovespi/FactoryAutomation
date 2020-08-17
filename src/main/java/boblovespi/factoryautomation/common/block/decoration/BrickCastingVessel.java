@@ -9,7 +9,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -20,6 +22,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -69,22 +72,21 @@ public class BrickCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+			Hand hand, BlockRayTraceResult hit)
 	{
-		//		if (!world.isRemote)
-		//		{
-		//			if (player.getHeldItem(hand).getItem() == Items.STICK)
-		//			{
-		//				player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_CASTING_VESSEL.id, world, pos.getX(),
-		//						pos.getY(), pos.getZ());
-		//			} else
-		//			{
-		//				TileEntity te = world.getTileEntity(pos);
-		//				if (te instanceof TEStoneCastingVessel)
-		//					((TEStoneCastingVessel) te).TakeOrPlace(player.getHeldItem(hand), player);
-		//			}
-		//		}
+		TileEntity te = world.getTileEntity(pos);
+		if (te instanceof TEStoneCastingVessel && !world.isRemote)
+		{
+			TEStoneCastingVessel vessel = (TEStoneCastingVessel) te;
+			if (player.getHeldItem(hand).getItem() == Items.STICK)
+			{
+				NetworkHooks.openGui((ServerPlayerEntity) player, vessel, pos);
+			} else
+			{
+				vessel.TakeOrPlace(player.getHeldItem(hand), player);
+			}
+		}
 		return ActionResultType.SUCCESS;
 	}
 }

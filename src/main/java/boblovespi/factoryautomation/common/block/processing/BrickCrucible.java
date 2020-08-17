@@ -9,8 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -25,6 +27,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -39,8 +42,9 @@ public class BrickCrucible extends FABaseBlock
 
 	public BrickCrucible()
 	{
-		super("brick_crucible", false, Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0).harvestTool(
-				ToolType.PICKAXE), new Item.Properties().group(FAItemGroups.metallurgy));
+		super("brick_crucible", false, Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
+												 .harvestTool(ToolType.PICKAXE),
+				new Item.Properties().group(FAItemGroups.metallurgy));
 		TileEntityHandler.tiles.add(TEBrickCrucible.class);
 	}
 
@@ -71,11 +75,12 @@ public class BrickCrucible extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 *
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
 		{
@@ -91,10 +96,7 @@ public class BrickCrucible extends FABaseBlock
 					if (hit.getFace() == state.get(FACING).rotateYCCW())
 						foundry.PourInto(hit.getFace());
 					else
-						;
-					//	player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.BRICK_FOUNDRY.id, world,
-					//	pos.getX(), pos.getY(), pos.getZ());
-					// TODO: GUIs
+						NetworkHooks.openGui((ServerPlayerEntity) player, foundry, pos);
 				}
 			} else
 			{

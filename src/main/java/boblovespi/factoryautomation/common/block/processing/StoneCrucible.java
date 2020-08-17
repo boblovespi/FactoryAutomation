@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.state.BooleanProperty;
@@ -26,6 +27,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -74,11 +76,12 @@ public class StoneCrucible extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 *
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
 		{
@@ -94,10 +97,7 @@ public class StoneCrucible extends FABaseBlock
 					if (hit.getFace() == state.get(FACING).rotateYCCW())
 						foundry.PourInto(hit.getFace());
 					else
-						;
-					// player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_FOUNDRY.id, world,
-					// 		pos.getX(), pos.getY(), pos.getZ());
-					// TODO: GUIs
+						NetworkHooks.openGui((ServerPlayerEntity) player, foundry, pos);
 				}
 			} else
 			{
