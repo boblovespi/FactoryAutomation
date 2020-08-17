@@ -1,14 +1,18 @@
 package boblovespi.factoryautomation.common.container;
 
-import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
@@ -16,11 +20,22 @@ import net.minecraftforge.items.SlotItemHandler;
  */
 public class ContainerBrickFoundry extends Container
 {
+	public static final ContainerType<ContainerBrickFoundry> TYPE = IForgeContainerType
+			.create(ContainerBrickFoundry::new);
 	private IItemHandler itemHandler;
+	private final IIntArray containerInfo;
+	private final StringIntArray metalName;
 
-	public ContainerBrickFoundry(IInventory playerInv, TileEntity te)
+	// server-side constructor
+	public ContainerBrickFoundry(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray containerInfo,
+			StringIntArray metalName, BlockPos pos)
 	{
-		itemHandler = ((TEBrickCrucible) te).GetInventory();
+		super(TYPE, id);
+		itemHandler = inv;
+		this.containerInfo = containerInfo;
+		this.metalName = metalName;
+		trackIntArray(containerInfo);
+		trackIntArray(metalName);
 
 		addSlot(new SlotItemHandler(itemHandler, 1, 67, 18));
 		addSlot(new SlotItemHandler(itemHandler, 0, 67, 60));
@@ -37,6 +52,12 @@ public class ContainerBrickFoundry extends Container
 		{
 			addSlot(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
+	}
+
+	// client-side constructor
+	public ContainerBrickFoundry(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	{
+		this(id, playerInv, new ItemStackHandler(2), new IntArray(9), new StringIntArray(8), extraData.readBlockPos());
 	}
 
 	/**
@@ -83,5 +104,15 @@ public class ContainerBrickFoundry extends Container
 
 		}
 		return previous;
+	}
+
+	public int GetBar(int id)
+	{
+		return containerInfo.get(id);
+	}
+
+	public String GetMetalName()
+	{
+		return metalName.GetString();
 	}
 }

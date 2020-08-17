@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.common.container.ContainerStoneFoundry;
 import boblovespi.factoryautomation.common.container.workbench.ContainerWorkbench;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEWorkbench;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -8,6 +9,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 /**
@@ -15,13 +17,9 @@ import net.minecraft.util.text.TranslationTextComponent;
  */
 public class GuiWorkbench extends ContainerScreen<ContainerWorkbench>
 {
-	protected TEWorkbench te;
-
-	public GuiWorkbench(PlayerInventory playerInv, TileEntity te)
+	public GuiWorkbench(ContainerWorkbench container, PlayerInventory playerInv, ITextComponent unused)
 	{
-		super(new ContainerWorkbench(playerInv, te), playerInv, new TranslationTextComponent("gui.workbench"));
-		this.te = (TEWorkbench) te;
-
+		super(container, playerInv, new TranslationTextComponent("gui.workbench"));
 		xSize = 234;
 		ySize = 202;
 	}

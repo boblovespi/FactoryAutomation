@@ -2,11 +2,16 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceController;
+import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -14,6 +19,8 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -29,7 +36,8 @@ import static boblovespi.factoryautomation.common.block.machine.SteelmakingFurna
 /**
  * Created by Willi on 12/24/2017.
  */
-public class TESteelmakingFurnace extends TileEntity implements ITickableTileEntity, IMultiblockControllerTE
+public class TESteelmakingFurnace extends TileEntity
+		implements ITickableTileEntity, IMultiblockControllerTE, INamedContainerProvider
 {
 	public static final String MULTIBLOCK_ID = "steelmaking_furnace";
 
@@ -58,6 +66,37 @@ public class TESteelmakingFurnace extends TileEntity implements ITickableTileEnt
 	private boolean isSmeltingItem = false;
 
 	private SteelmakingRecipe currentRecipe = null;
+	private IIntArray containerInfo = new IIntArray()
+	{
+		@Override
+		public int get(int index)
+		{
+			switch (index)
+			{
+			case 0:
+				return (int) (GetBurnPercent() * 100);
+			case 1:
+				return (int) (GetTempPercent() * 100);
+			case 2:
+				return (int) (GetSmeltPercent() * 100);
+			case 3:
+				return (int) (GetTemp() * 10);
+			}
+			return 0;
+		}
+
+		@Override
+		public void set(int index, int value)
+		{
+
+		}
+
+		@Override
+		public int size()
+		{
+			return 4;
+		}
+	};
 
 	public TESteelmakingFurnace()
 	{
@@ -319,5 +358,18 @@ public class TESteelmakingFurnace extends TileEntity implements ITickableTileEnt
 	public float GetTemp()
 	{
 		return currentTemp;
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	{
+		return new ContainerSteelmakingFurnace(id, playerInv, itemHandler, containerInfo, pos);
 	}
 }

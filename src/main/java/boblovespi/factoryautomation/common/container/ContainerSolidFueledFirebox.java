@@ -1,14 +1,18 @@
 package boblovespi.factoryautomation.common.container;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
@@ -16,11 +20,17 @@ import net.minecraftforge.items.SlotItemHandler;
  */
 public class ContainerSolidFueledFirebox extends Container
 {
+	public static final ContainerType<ContainerSolidFueledFirebox> TYPE = IForgeContainerType.create(ContainerSolidFueledFirebox::new);
 	private IItemHandler itemHandler;
+	private final IIntArray containerInfo;
 
-	public ContainerSolidFueledFirebox(IInventory playerInv, TileEntity te)
+	// server-side constructor
+	public ContainerSolidFueledFirebox(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray containerInfo, BlockPos pos)
 	{
-		itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		super(TYPE, id);
+		itemHandler = inv;
+		this.containerInfo = containerInfo;
+		trackIntArray(containerInfo);
 
 		addSlot(new SlotItemHandler(itemHandler, 0, 80, 53));
 
@@ -36,6 +46,12 @@ public class ContainerSolidFueledFirebox extends Container
 		{
 			addSlot(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
+	}
+
+	// client-side constructor
+	public ContainerSolidFueledFirebox(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	{
+		this(id, playerInv, new ItemStackHandler(1), new IntArray(3), extraData.readBlockPos());
 	}
 
 	/**
@@ -82,5 +98,10 @@ public class ContainerSolidFueledFirebox extends Container
 
 		}
 		return previous;
+	}
+
+	public int GetBar(int id)
+	{
+		return containerInfo.get(id);
 	}
 }

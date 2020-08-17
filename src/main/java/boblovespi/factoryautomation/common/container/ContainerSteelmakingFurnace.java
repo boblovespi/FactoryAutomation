@@ -4,16 +4,18 @@ import boblovespi.factoryautomation.common.container.slot.SlotFuel;
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
@@ -21,28 +23,29 @@ import net.minecraftforge.items.SlotItemHandler;
  */
 public class ContainerSteelmakingFurnace extends Container
 {
-	private TESteelmakingFurnace te;
+	public static final ContainerType<ContainerSteelmakingFurnace> TYPE = IForgeContainerType
+			.create(ContainerSteelmakingFurnace::new);
 	private IItemHandler itemHandler;
-	private IFluidHandler fluidHandler;
+	private IIntArray containerInfo;
 
-	public ContainerSteelmakingFurnace(IInventory playerInv, TileEntity te)
+	// server-side constructor
+	public ContainerSteelmakingFurnace(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray containerInfo,
+			BlockPos pos)
 	{
-		itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		fluidHandler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-
-		this.te = (TESteelmakingFurnace) te;
+		super(TYPE, id);
+		itemHandler = inv;
+		this.containerInfo = containerInfo;
+		trackIntArray(containerInfo);
 
 		for (int i = 0; i < 2; i++)
 		{
 			for (int j = 0; j < 2; j++)
 			{
-				addSlot(
-						new SlotItemHandler(itemHandler, TESteelmakingFurnace.INPUT_SLOTS[i * 2 + j], 58 + j * 18,
-								20 + i * 18));
+				addSlot(new SlotItemHandler(itemHandler, TESteelmakingFurnace.INPUT_SLOTS[i * 2 + j], 58 + j * 18,
+						20 + i * 18));
 
-				addSlot(
-						new SlotOutputItem(itemHandler, TESteelmakingFurnace.OUTPUT_SLOTS[i * 2 + j], 124 + j * 18,
-								20 + i * 18));
+				addSlot(new SlotOutputItem(itemHandler, TESteelmakingFurnace.OUTPUT_SLOTS[i * 2 + j], 124 + j * 18,
+						20 + i * 18));
 			}
 		}
 
@@ -63,6 +66,12 @@ public class ContainerSteelmakingFurnace extends Container
 		{
 			addSlot(new Slot(playerInv, i, x + i * 18, y + 58));
 		}
+	}
+
+	// client-side constructor
+	public ContainerSteelmakingFurnace(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	{
+		this(id, playerInv, new ItemStackHandler(11), new IntArray(4), extraData.readBlockPos());
 	}
 
 	/**
@@ -109,5 +118,10 @@ public class ContainerSteelmakingFurnace extends Container
 
 		}
 		return previous;
+	}
+
+	public int GetBar(int id)
+	{
+		return containerInfo.get(id);
 	}
 }

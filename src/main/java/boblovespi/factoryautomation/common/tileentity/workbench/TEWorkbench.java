@@ -6,12 +6,17 @@ import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
 import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
@@ -28,7 +33,7 @@ import java.util.Optional;
 /**
  * Created by Willi on 4/8/2018.
  */
-public abstract class TEWorkbench extends TileEntity
+public abstract class TEWorkbench extends TileEntity implements INamedContainerProvider
 {
 	protected final int size;
 	protected final int tier;
@@ -195,5 +200,11 @@ public abstract class TEWorkbench extends TileEntity
 	public void onLoad()
 	{
 		CheckForRecipe();
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return null;
 	}
 }

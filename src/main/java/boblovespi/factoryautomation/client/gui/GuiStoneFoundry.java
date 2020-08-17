@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.ArrayList;
@@ -22,15 +23,13 @@ import java.util.List;
  */
 public class GuiStoneFoundry extends ContainerScreen<ContainerStoneFoundry>
 {
-	private TEStoneCrucible te;
 	private GuiBar flameBar;
 	private GuiBar tempBar;
 	private GuiBar progressBar;
 
-	public GuiStoneFoundry(PlayerInventory playerInv, TileEntity te)
+	public GuiStoneFoundry(ContainerStoneFoundry container, PlayerInventory playerInv, ITextComponent unused)
 	{
-		super(new ContainerStoneFoundry(playerInv, te), playerInv, new TranslationTextComponent("gui.stone_foundry"));
-		this.te = (TEStoneCrucible) te;
+		super(container, playerInv, new TranslationTextComponent("gui.stone_foundry"));
 		tempBar = new GuiBar(53, 16, 176, 16, 6, 61, GuiBar.ProgressDirection.UP);
 		flameBar = new GuiBar(67, 40, 176, 0, 14, 14, GuiBar.ProgressDirection.UP);
 		progressBar = new GuiBar(84, 21, 194, 2, 22, 10, GuiBar.ProgressDirection.RIGHT);
@@ -51,13 +50,14 @@ public class GuiStoneFoundry extends ContainerScreen<ContainerStoneFoundry>
 		if (isPointInRegion(53, 16, 6, 61, mouseX, mouseY))
 		{
 			List<String> text = new ArrayList<>(1);
-			text.add(I18n.format("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", te.GetTemp()));
+			text.add(I18n.format("gui.misc.temperature") + ": " + String
+					.format("%1$.1f\u00b0C", container.GetBar(5) / 10f));
 			renderTooltip(text, mouseX, mouseY);
 		}
 		if (isPointInRegion(107, 17, 16, 59, mouseX, mouseY))
 		{
 			List<String> text = new ArrayList<>(1);
-			text.add(I18n.format(te.GetMetalName()) + ": " + te.GetAmountMetal());
+			text.add(I18n.format(container.GetMetalName()) + ": " + container.GetBar(6));
 			renderTooltip(text, mouseX, mouseY);
 		}
 	}
@@ -81,11 +81,11 @@ public class GuiStoneFoundry extends ContainerScreen<ContainerStoneFoundry>
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/stone_foundry.png"));
 		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		flameBar.Draw(this, te.GetBurnPercent());
-		tempBar.Draw(this, te.GetTempPercent());
-		progressBar.Draw(this, te.GetMeltPercent());
-		fill(guiLeft + 107, guiTop + (int) (76 - 59 * te.GetCapacityPercent()), guiLeft + 123, guiTop + 76,
-				te.GetColor());
+		flameBar.Draw(this, container.GetBar(0) / 100f);
+		tempBar.Draw(this, container.GetBar(1) / 100f);
+		progressBar.Draw(this, container.GetBar(2) / 100f);
+		fill(guiLeft + 107, guiTop + (int) (76 - 59 * container.GetBar(3) / 100f), guiLeft + 123, guiTop + 76,
+				container.GetBar(4));
 
 		// Log.LogInfo("tileentity nbt data", te.getTileData().toString());
 	}

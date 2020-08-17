@@ -5,6 +5,8 @@ import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
+import boblovespi.factoryautomation.common.container.ContainerStoneFoundry;
+import boblovespi.factoryautomation.common.container.StringIntArray;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
@@ -14,6 +16,10 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -21,11 +27,14 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +43,8 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 /**
  * Created by Willi on 12/28/2018.
  */
-public class TEStoneCrucible extends TileEntity implements IMultiblockControllerTE, ITickableTileEntity
+public class TEStoneCrucible extends TileEntity
+		implements IMultiblockControllerTE, ITickableTileEntity, INamedContainerProvider
 {
 	public static final String MULTIBLOCK_ID = "stone_foundry";
 	public static final List<MetalInfo> infos = new ArrayList<MetalInfo>(20)
@@ -74,6 +84,44 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	private FuelRegistry.FuelInfo fuelInfo = FuelRegistry.NULL;
 	private boolean isBurningFuel = false;
 	private boolean structureIsValid = false;
+	private IIntArray containerInfo = new IIntArray()
+	{
+		@Override
+		public int get(int index)
+		{
+			switch (index)
+			{
+			case 0:
+				return (int) (GetBurnPercent() * 100);
+			case 1:
+				return (int) (GetTempPercent() * 100);
+			case 2:
+				return (int) (GetMeltPercent() * 100);
+			case 3:
+				return (int) (GetCapacityPercent() * 100);
+			case 4:
+				return GetColor();
+			case 5:
+				return (int) (GetTemp() * 10);
+			case 6:
+				return GetAmountMetal();
+			}
+			return 0;
+		}
+
+		@Override
+		public void set(int index, int value)
+		{
+
+		}
+
+		@Override
+		public int size()
+		{
+			return 7;
+		}
+	};
+	private StringIntArray metalName;
 
 	public TEStoneCrucible()
 	{
@@ -81,6 +129,8 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 		metals = new MetalHelper(MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 1000, 300);
+		metalName = new StringIntArray(8);
+		metalName.SetSource(this::GetMetalName);
 	}
 
 	public static String GetMetalFromStack(ItemStack stack)
@@ -266,8 +316,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	@Override
 	public void CreateStructure()
 	{
-		MultiblockHelper
-				.CreateStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
+		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
 		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, true));
 		structureIsValid = true;
 	}
@@ -275,8 +324,7 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 	@Override
 	public void BreakStructure()
 	{
-		MultiblockHelper
-				.BreakStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
+		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
 		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, false));
 		structureIsValid = false;
 	}
@@ -377,6 +425,19 @@ public class TEStoneCrucible extends TileEntity implements IMultiblockController
 				te.CastInto(metals.CastItem(form, metalOut), Metals.GetFromName(metalOut.toString()).meltTemp);
 			}
 		}
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	{
+		return new ContainerStoneFoundry(id, playerInv, inventory, containerInfo, metalName, pos);
 	}
 
 	public enum MetalForms

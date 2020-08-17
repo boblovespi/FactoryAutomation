@@ -2,26 +2,35 @@ package boblovespi.factoryautomation.common.tileentity.smelting;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.CastingVesselStates;
+import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
+import boblovespi.factoryautomation.common.container.ContainerStoneFoundry;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
+
+import javax.annotation.Nullable;
 
 import static boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.MOLD;
 
 /**
  * Created by Willi on 12/29/2018.
  */
-public class TEStoneCastingVessel extends TileEntity implements ITickableTileEntity, ICastingVessel
+public class TEStoneCastingVessel extends TileEntity
+		implements ITickableTileEntity, ICastingVessel, INamedContainerProvider
 {
 	private boolean hasSand;
 	private TEStoneCrucible.MetalForms form;
@@ -188,5 +197,18 @@ public class TEStoneCastingVessel extends TileEntity implements ITickableTileEnt
 	public float GetTemp()
 	{
 		return temp;
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	{
+		return new ContainerStoneCastingVessel(id, playerInv, pos);
 	}
 }

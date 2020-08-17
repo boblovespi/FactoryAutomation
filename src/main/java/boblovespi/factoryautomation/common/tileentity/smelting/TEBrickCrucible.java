@@ -6,6 +6,8 @@ import boblovespi.factoryautomation.api.misc.BellowsUser;
 import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
+import boblovespi.factoryautomation.common.container.ContainerBrickFoundry;
+import boblovespi.factoryautomation.common.container.StringIntArray;
 import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
@@ -13,14 +15,19 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.FloatNBT;
-import net.minecraft.network.NetworkManager;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
@@ -35,7 +42,8 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 /**
  * Created by Willi on 12/28/2018.
  */
-public class TEBrickCrucible extends TileEntity implements IMultiblockControllerTE, ITickableTileEntity
+public class TEBrickCrucible extends TileEntity
+		implements IMultiblockControllerTE, ITickableTileEntity, INamedContainerProvider
 {
 	public static final String MULTIBLOCK_ID = "brick_foundry";
 	private MultiMetalHelper metals;
@@ -49,6 +57,48 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	private boolean isBurningFuel = false;
 	private boolean structureIsValid = false;
 	private BellowsUser bellowsUser;
+	private IIntArray containerInfo = new IIntArray()
+	{
+		@Override
+		public int get(int index)
+		{
+			switch (index)
+			{
+			case 0:
+				return (int) (GetBurnPercent() * 100);
+			case 1:
+				return (int) (GetTempPercent() * 100);
+			case 2:
+				return (int) (GetMeltPercent() * 100);
+			case 3:
+				return (int) (GetBellowsPercent() * 100);
+			case 4:
+				return (int) (GetCapacityPercent() * 100);
+			case 5:
+				return GetColor();
+			case 6:
+				return (int) (GetTemp() * 10);
+			case 7:
+				return GetAmountMetal();
+			case 8:
+				return (int) (GetEfficiencyPercent() * 100);
+			}
+			return 0;
+		}
+
+		@Override
+		public void set(int index, int value)
+		{
+
+		}
+
+		@Override
+		public int size()
+		{
+			return 9;
+		}
+	};
+	private StringIntArray metalName;
 
 	public TEBrickCrucible()
 	{
@@ -57,6 +107,8 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 1000, 300);
 		bellowsUser = new BellowsUser(0.5f);
+		metalName = new StringIntArray(8);
+		metalName.SetSource(this::GetMetalName);
 	}
 
 	/**
@@ -287,6 +339,19 @@ public class TEBrickCrucible extends TileEntity implements IMultiblockController
 	public float GetBellowsPercent()
 	{
 		return bellowsUser.GetTime() * 1f / bellowsUser.GetMaxTime();
+	}
+
+	@Override
+	public ITextComponent getDisplayName()
+	{
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	{
+		return new ContainerBrickFoundry(id, playerInv, inventory, containerInfo, metalName, pos);
 	}
 
 	private class MultiMetalHelper

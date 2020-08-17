@@ -1,23 +1,28 @@
 package boblovespi.factoryautomation.common.container;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 
 /**
  * Created by Willi on 12/30/2018.
  */
 public class ContainerStoneCastingVessel extends Container
 {
-	private TileEntity te;
 
-	public ContainerStoneCastingVessel(IInventory playerInv, TileEntity te)
+	public static final ContainerType<ContainerStoneCastingVessel> TYPE = IForgeContainerType.create(ContainerStoneCastingVessel::new);
+	private BlockPos pos;
+
+	// server-side constructor
+	public ContainerStoneCastingVessel(int id, PlayerInventory playerInv, BlockPos pos)
 	{
-		this.te = te;
+		super(TYPE, id);
+		this.pos = pos;
 		int x = 8;
 		int y = 98;
 
@@ -32,6 +37,12 @@ public class ContainerStoneCastingVessel extends Container
 		}
 	}
 
+	// client-side constructor
+	public ContainerStoneCastingVessel(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	{
+		this(id, playerInv, extraData.readBlockPos());
+	}
+
 	/**
 	 * Determines whether supplied player can use this container
 	 */
@@ -43,6 +54,6 @@ public class ContainerStoneCastingVessel extends Container
 
 	public BlockPos GetPos()
 	{
-		return te.getPos();
+		return pos;
 	}
 }

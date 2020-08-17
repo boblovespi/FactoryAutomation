@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiBar;
+import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -10,6 +11,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.ArrayList;
@@ -20,20 +22,16 @@ import java.util.List;
  */
 public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingFurnace>
 {
-	private TESteelmakingFurnace te;
-
 	private GuiBar flameBar;
 	private GuiBar airTankBar;
 	private GuiBar fuelTankBar;
 	private GuiBar tempBar;
 	private GuiBar progressBar;
 
-	public GuiSteelmakingFurnace(PlayerInventory playerInv, TileEntity te)
+	public GuiSteelmakingFurnace(ContainerSteelmakingFurnace container, PlayerInventory playerInv,
+			ITextComponent unused)
 	{
-		super(
-				new ContainerSteelmakingFurnace(playerInv, te), playerInv,
-				new TranslationTextComponent("gui.steelmaking_furnace"));
-		this.te = (TESteelmakingFurnace) te;
+		super(container, playerInv, new TranslationTextComponent("gui.steelmaking_furnace"));
 
 		this.xSize = 176;
 		this.ySize = 180;
@@ -56,11 +54,11 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/steelmaking_furnace.png"));
 		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		flameBar.Draw(this, te.GetBurnPercent());
+		flameBar.Draw(this, container.GetBar(0) / 100f);
 		airTankBar.Draw(this, 1);
 		fuelTankBar.Draw(this, 1);
-		tempBar.Draw(this, te.GetTempPercent());
-		progressBar.Draw(this, te.GetSmeltPercent());
+		tempBar.Draw(this, container.GetBar(1) / 100f);
+		progressBar.Draw(this, container.GetBar(2) / 100f);
 
 		// Log.LogInfo("tileentity nbt data", te.getTileData().toString());
 	}
@@ -88,7 +86,7 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 		if (isPointInRegion(48, 7, 6, 61, mouseX, mouseY))
 		{
 			List<String> text = new ArrayList<>(1);
-			text.add(I18n.format("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", te.GetTemp()));
+			text.add(I18n.format("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", container.GetBar(3) / 10f));
 			renderTooltip(text, mouseX, mouseY);
 		}
 	}

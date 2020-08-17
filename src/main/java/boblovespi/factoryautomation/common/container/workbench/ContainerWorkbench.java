@@ -1,36 +1,32 @@
 package boblovespi.factoryautomation.common.container.workbench;
 
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
-import boblovespi.factoryautomation.common.tileentity.workbench.TEStoneWorkbench;
-import boblovespi.factoryautomation.common.tileentity.workbench.TEWorkbench;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
  * Created by Willi on 4/9/2018.
  */
-public class ContainerWorkbench extends Container
+public abstract class ContainerWorkbench extends Container
 {
 	public final boolean is3x3;
-	protected TEWorkbench te;
 	protected IItemHandler inv;
 
-	public ContainerWorkbench(IInventory playerInv, TileEntity bench)
+	public ContainerWorkbench(int id, PlayerInventory playerInv, IItemHandler inv, BlockPos pos, boolean is3x3,
+			ContainerType<? extends ContainerWorkbench> type)
 	{
-		te = (TEWorkbench) bench;
-		inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-
-		if (te instanceof TEStoneWorkbench)
+		super(type, id);
+		this.inv = inv;
+		if (is3x3)
 		{
-			is3x3 = true;
+			this.is3x3 = true;
 			for (int x1 = 0; x1 < 5; x1++)
 			{
 				for (int y1 = 0; y1 < 3; y1++)
@@ -41,7 +37,7 @@ public class ContainerWorkbench extends Container
 			}
 		} else
 		{
-			is3x3 = false;
+			this.is3x3 = false;
 			for (int x1 = 0; x1 < 7; x1++)
 			{
 				for (int y1 = 0; y1 < 5; y1++)
@@ -112,5 +108,4 @@ public class ContainerWorkbench extends Container
 		}
 		return previous;
 	}
-
 }
