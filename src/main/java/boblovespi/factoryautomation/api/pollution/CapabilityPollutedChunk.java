@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.api.pollution;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -24,16 +24,16 @@ public class CapabilityPollutedChunk
 		{
 			@Nullable
 			@Override
-			public NBTBase writeNBT(Capability<IPollutedChunk> capability, IPollutedChunk instance, Direction side)
+			public INBT writeNBT(Capability<IPollutedChunk> capability, IPollutedChunk instance, Direction side)
 			{
 				CompoundNBT nbtBase = new CompoundNBT();
-				nbtBase.setFloat("pollution", instance.GetPollution());
+				nbtBase.putFloat("pollution", instance.GetPollution());
 				return nbtBase;
 			}
 
 			@Override
 			public void readNBT(Capability<IPollutedChunk> capability, IPollutedChunk instance, Direction side,
-					NBTBase nbt)
+					INBT nbt)
 			{
 				CompoundNBT compound = (CompoundNBT) nbt;
 				if (instance instanceof PollutedChunk)

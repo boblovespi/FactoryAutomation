@@ -3,12 +3,13 @@ package boblovespi.factoryautomation.client.tesr;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
-import net.minecraft.block.state.BlockState;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.Direction;
 import org.lwjgl.opengl.GL11;
@@ -17,17 +18,22 @@ import org.lwjgl.opengl.GL11;
  * Created by Willi on 1/15/2018.
  * power shaft renderer
  */
-public class TESRPowerShaft extends TileEntitySpecialRenderer<TEPowerShaft>
+public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 {
+	public TESRPowerShaft(TileEntityRendererDispatcher rendererDispatcherIn)
+	{
+		super(rendererDispatcherIn);
+	}
+
 	@Override
-	public void render(TEPowerShaft te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+	public void render(TEPowerShaft te, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn)
 	{
 		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.powerShaft)
 			return;
 
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
-		BlockState state = te.getWorld().getBlockState(te.getPos()).withProperty(PowerShaft.IS_TESR, true);
-		Direction.Axis axis = state.getValue(PowerShaft.AXIS);
+		BlockState state = te.getWorld().getBlockState(te.getPos()).with(PowerShaft.IS_TESR, true);
+		Direction.Axis axis = state.get(PowerShaft.AXIS);
 		float xD = 0, yD = 0, zD = 0;
 		switch (axis)
 		{

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.api.energy.mechanical;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -24,7 +24,7 @@ public class CapabilityMechanicalUser
 		{
 			@Nullable
 			@Override
-			public NBTBase writeNBT(Capability<IMechanicalUser> capability, IMechanicalUser instance, Direction side)
+			public INBT writeNBT(Capability<IMechanicalUser> capability, IMechanicalUser instance, Direction side)
 			{
 				CompoundNBT nbtBase = new CompoundNBT();
 
@@ -33,7 +33,7 @@ public class CapabilityMechanicalUser
 
 			@Override
 			public void readNBT(Capability<IMechanicalUser> capability, IMechanicalUser instance, Direction side,
-					NBTBase nbt)
+					INBT nbt)
 			{
 				CompoundNBT compound = (CompoundNBT) nbt;
 				if (instance instanceof MechanicalUser)

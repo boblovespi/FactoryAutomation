@@ -54,17 +54,17 @@ public class BellowsUser implements IBellowsable
 	public CompoundNBT WriteToNBT()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.setFloat("efficiency", efficiency);
-		nbt.setInteger("time", time);
-		nbt.setInteger("maxTime", maxTime);
+		nbt.putFloat("efficiency", efficiency);
+		nbt.putInt("time", time);
+		nbt.putInt("maxTime", maxTime);
 		return nbt;
 	}
 
 	public void ReadFromNBT(CompoundNBT tag)
 	{
 		efficiency = tag.getFloat("efficiency");
-		time = tag.getInteger("time");
-		maxTime = tag.getInteger("maxTime");
+		time = tag.getInt("time");
+		maxTime = tag.getInt("maxTime");
 	}
 
 	public int GetMaxTime()

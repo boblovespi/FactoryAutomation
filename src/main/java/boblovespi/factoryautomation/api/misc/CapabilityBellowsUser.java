@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.api.misc;
 
-import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -23,14 +23,14 @@ public class CapabilityBellowsUser
 		{
 			@Nullable
 			@Override
-			public NBTBase writeNBT(Capability<IBellowsable> capability, IBellowsable instance, Direction side)
+			public INBT writeNBT(Capability<IBellowsable> capability, IBellowsable instance, Direction side)
 			{
 				return new CompoundNBT();
 			}
 
 			@Override
 			public void readNBT(Capability<IBellowsable> capability, IBellowsable instance, Direction side,
-					NBTBase nbt)
+					INBT nbt)
 			{
 
 			}

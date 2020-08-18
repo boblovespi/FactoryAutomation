@@ -43,18 +43,18 @@ public class ClientProxy implements CommonProxy
 	@Override
 	public void RegisterRenders()
 	{
-		ClientRegistry.bindTileEntitySpecialRenderer(TEPowerShaft.class, new TESRPowerShaft());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEGearbox.class, new TESRGearbox());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEMotor.class, new TESRMotor());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEPlacedBucket.class, new TESRPlacedBucket());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEHandCrank.class, new TESRHandCrank());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEChoppingBlock.class, new TESRChoppingBlock());
-		ClientRegistry.bindTileEntitySpecialRenderer(TECampfire.class, new TESRCampfire());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEStoneCastingVessel.class, new TESRStoneCastingVessel());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEMillstone.class, new TESRMillstone());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEPaperBellows.class, new TESRBellows.Paper());
-		ClientRegistry.bindTileEntitySpecialRenderer(TELeatherBellows.class, new TESRBellows.Leather());
-		ClientRegistry.bindTileEntitySpecialRenderer(TEBevelGear.class, new TESRBevelGear());
+		ClientRegistry.bindTileEntityRenderer(TEPowerShaft.class, new TESRPowerShaft());
+		ClientRegistry.bindTileEntityRenderer(TEGearbox.class, new TESRGearbox());
+		ClientRegistry.bindTileEntityRenderer(TEMotor.class, new TESRMotor());
+		ClientRegistry.bindTileEntityRenderer(TEPlacedBucket.class, new TESRPlacedBucket());
+		ClientRegistry.bindTileEntityRenderer(TEHandCrank.class, new TESRHandCrank());
+		ClientRegistry.bindTileEntityRenderer(TEChoppingBlock.class, new TESRChoppingBlock());
+		ClientRegistry.bindTileEntityRenderer(TECampfire.class, new TESRCampfire());
+		ClientRegistry.bindTileEntityRenderer(TEStoneCastingVessel.class, new TESRStoneCastingVessel());
+		ClientRegistry.bindTileEntityRenderer(TEMillstone.class, new TESRMillstone());
+		ClientRegistry.bindTileEntityRenderer(TEPaperBellows.class, new TESRBellows.Paper());
+		ClientRegistry.bindTileEntityRenderer(TELeatherBellows.class, new TESRBellows.Leather());
+		ClientRegistry.bindTileEntityRenderer(TEBevelGear.class, new TESRBevelGear());
 	}
 
 	@Override

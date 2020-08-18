@@ -68,9 +68,9 @@ public class HeatUser implements IHeatUser
 	public CompoundNBT WriteToNBT()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.setFloat("temperature", temperature);
-		nbt.setFloat("substanceAmount", substanceAmount);
-		nbt.setFloat("conductivity", conductivity);
+		nbt.putFloat("temperature", temperature);
+		nbt.putFloat("substanceAmount", substanceAmount);
+		nbt.putFloat("conductivity", conductivity);
 		return nbt;
 	}
 

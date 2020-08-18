@@ -83,8 +83,8 @@ public class MechanicalUser implements IMechanicalUser
 	public CompoundNBT WriteToNBT()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.setFloat("speed", speed);
-		nbt.setFloat("torque", torque);
+		nbt.putFloat("speed", speed);
+		nbt.putFloat("torque", torque);
 		return nbt;
 	}
 

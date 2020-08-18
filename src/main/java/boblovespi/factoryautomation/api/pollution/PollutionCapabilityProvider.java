@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,58 +28,57 @@ public class PollutionCapabilityProvider implements ICapabilityProvider
 		this.chunk = chunk;
 		this.cap = new PollutedChunk();
 
-		cap.SetPollutionCallback(n ->
-		{
+		cap.SetPollutionCallback(n -> {
 			World world = chunk.getWorld();
 			if (world.isRemote)
 				return;
-			int x = chunk.x;
-			int z = chunk.z;
-			IPollutedChunk north = world.getChunkFromChunkCoords(x + 1, z)
-										.getCapability(POLLUTED_CHUNK_CAPABILITY, null);
-			IPollutedChunk south = world.getChunkFromChunkCoords(x - 1, z)
-										.getCapability(POLLUTED_CHUNK_CAPABILITY, null);
-			IPollutedChunk east = world.getChunkFromChunkCoords(x, z + 1)
-									   .getCapability(POLLUTED_CHUNK_CAPABILITY, null);
-			IPollutedChunk west = world.getChunkFromChunkCoords(x, z - 1)
-									   .getCapability(POLLUTED_CHUNK_CAPABILITY, null);
+			int x = chunk.getPos().x;
+			int z = chunk.getPos().z;
+			LazyOptional<IPollutedChunk> north = world.getChunk(x + 1, z)
+													  .getCapability(POLLUTED_CHUNK_CAPABILITY, null);
+			LazyOptional<IPollutedChunk> south = world.getChunk(x - 1, z)
+													  .getCapability(POLLUTED_CHUNK_CAPABILITY, null);
+			LazyOptional<IPollutedChunk> east = world.getChunk(x, z + 1).getCapability(POLLUTED_CHUNK_CAPABILITY, null);
+			LazyOptional<IPollutedChunk> west = world.getChunk(x, z - 1).getCapability(POLLUTED_CHUNK_CAPABILITY, null);
 			double v = n.GetPollution() - ConfigFields.pollutionCat.spillover;
 
-			if (north != null && north.GetPollution() < v)
-			{
-				north.AddPollution(1);
-				n.AddPollution(-1);
-			}
-			if (south != null && south.GetPollution() < v)
-			{
-				south.AddPollution(1);
-				n.AddPollution(-1);
-			}
-			if (east != null && east.GetPollution() < v)
-			{
-				east.AddPollution(1);
-				n.AddPollution(-1);
-			}
-			if (west != null && west.GetPollution() < v)
-			{
-				west.AddPollution(1);
-				n.AddPollution(-1);
-			}
+			north.ifPresent(o -> {
+				if (o.GetPollution() < v)
+				{
+					o.AddPollution(1);
+					n.AddPollution(-1);
+				}
+			});
+			south.ifPresent(o -> {
+				if (o.GetPollution() < v)
+				{
+					o.AddPollution(1);
+					n.AddPollution(-1);
+				}
+			});
+			east.ifPresent(o -> {
+				if (o.GetPollution() < v)
+				{
+					o.AddPollution(1);
+					n.AddPollution(-1);
+				}
+			});
+			west.ifPresent(o -> {
+				if (o.GetPollution() < v)
+				{
+					o.AddPollution(1);
+					n.AddPollution(-1);
+				}
+			});
 
 		});
 	}
 
-	@Override
-	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing)
-	{
-		return capability == POLLUTED_CHUNK_CAPABILITY;
-	}
-
 	@Nullable
 	@Override
-	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
 	{
 		//noinspection unchecked
-		return capability == POLLUTED_CHUNK_CAPABILITY ? (T) cap : null;
+		return capability == POLLUTED_CHUNK_CAPABILITY ? LazyOptional.of(() -> (T) cap) : null;
 	}
 }

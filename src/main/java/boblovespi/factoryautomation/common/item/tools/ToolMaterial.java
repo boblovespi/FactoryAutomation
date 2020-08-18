@@ -34,11 +34,11 @@ public class ToolMaterial implements IItemTier
 			BRONZE, 351, 5.0F, 2.0F, 12, () -> Ingredient.fromTag(FATags.ForgeItemTag("ingots/bronze")));
 	public static int DIAMOND = toolMiningLevelCat.diamond;
 	public static int STEEL = toolMiningLevelCat.steel;
+	public static int NETHERITE = toolMiningLevelCat.netherite;
 	public static ToolMaterial steelMaterial = new ToolMaterial(
 			STEEL, 1920, 6.5f, 8, 3, () -> Ingredient.fromTag(FATags.ForgeItemTag("ingots/steel")));
 	public static ToolMaterial copperMaterial = new ToolMaterial(COPPER, 180, 3.5f, 1.5f, 5,
 			() -> Ingredient.fromTag(FATags.ForgeItemTag("ingots/copper")));
-
 	//
 
 	private final int harvestLevel;
