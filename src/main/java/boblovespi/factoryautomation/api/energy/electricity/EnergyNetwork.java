@@ -3,14 +3,15 @@ package boblovespi.factoryautomation.api.energy.electricity;
 import boblovespi.factoryautomation.api.IUpdatable;
 import boblovespi.factoryautomation.api.energy.electricity.enums.WireType;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.MapStorage;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.DimensionSavedDataManager;
 import net.minecraft.world.storage.WorldSavedData;
 
 import java.util.*;
@@ -40,16 +41,16 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		super(DATA_NAME);
 	}
 
-	public static EnergyNetwork GetFromWorld(World world)
+	public static EnergyNetwork GetFromWorld(ServerWorld world)
 	{
 		System.out.println("Loading energy network!");
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		EnergyNetwork instance;
-		MapStorage storage = world.getPerWorldStorage();
+		DimensionSavedDataManager storage = world.getSavedData();
 		try
 		{
-			instance = (EnergyNetwork) storage.getOrLoadData(EnergyNetwork.class, DATA_NAME);
+			instance = (EnergyNetwork) storage.getOrCreate(EnergyNetwork::new, DATA_NAME);
 		} catch (Exception e)
 		{
 			instance = null;
@@ -58,7 +59,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		if (instance == null)
 		{
 			instance = new EnergyNetwork();
-			storage.setData(DATA_NAME, instance);
+			storage.set(instance);
 		}
 		if (!isLoaded)
 		{
@@ -78,8 +79,8 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		if (uninitData == null)
 			return;
 
-		NBTTagList list = uninitData.getTagList("connections", 10);
-		Iterator<NBTBase> iterator = list.iterator();
+		ListNBT list = uninitData.getList("connections", 10);
+		Iterator<INBT> iterator = list.iterator();
 		while (iterator.hasNext())
 		{
 			CompoundNBT next = (CompoundNBT) iterator.next();
@@ -134,19 +135,19 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	 * reads in data from the CompoundNBT into this MapDataBase
 	 */
 	@Override
-	public void readFromNBT(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
 		isInit = false;
 		uninitData = tag;
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT tag)
+	public CompoundNBT write(CompoundNBT tag)
 	{
-		NBTTagList list = new NBTTagList();
+		ListNBT list = new ListNBT();
 
-		connections.values().forEach(l -> l.forEach(e -> list.appendTag(WriteConnectionToTag(e.GetProducer(), e))));
-		tag.setTag("connections", list);
+		connections.values().forEach(l -> l.forEach(e -> list.add(WriteConnectionToTag(e.GetProducer(), e))));
+		tag.put("connections", list);
 
 		return tag;
 	}
@@ -171,29 +172,29 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	{
 		CompoundNBT tag = new CompoundNBT();
 
-		tag.setTag("producerPos", NBTUtil.createPosTag(p.GetTe().getPos()));
+		tag.put("producerPos", NBTUtil.writeBlockPos(p.GetTe().getPos()));
 		CompoundNBT eTag = new CompoundNBT();
 
-		eTag.setTag("consumerPos", NBTUtil.createPosTag(e.GetConsumer().GetTe().getPos()));
-		eTag.setDouble("maxVoltage", e.maxVoltage);
-		eTag.setDouble("maxAmperage", e.maxAmperage);
-		eTag.setInteger("wireType", e.wire.ordinal());
-		eTag.setDouble("wireLength", e.wireLength);
+		eTag.put("consumerPos", NBTUtil.writeBlockPos(e.GetConsumer().GetTe().getPos()));
+		eTag.putDouble("maxVoltage", e.maxVoltage);
+		eTag.putDouble("maxAmperage", e.maxAmperage);
+		eTag.putInt("wireType", e.wire.ordinal());
+		eTag.putDouble("wireLength", e.wireLength);
 
-		tag.setTag("energyConnection", eTag);
+		tag.put("energyConnection", eTag);
 
 		return tag;
 	}
 
 	private EnergyConnection ReadConnectionFromTag(World w, CompoundNBT tag)
 	{
-		BlockPos pPos = NBTUtil.getPosFromTag(tag.getCompoundTag("producerPos"));
-		CompoundNBT tag1 = tag.getCompoundTag("energyConnection");
-		BlockPos cPos = NBTUtil.getPosFromTag(tag1.getCompoundTag("consumerPos"));
+		BlockPos pPos = NBTUtil.readBlockPos(tag.getCompound("producerPos"));
+		CompoundNBT tag1 = tag.getCompound("energyConnection");
+		BlockPos cPos = NBTUtil.readBlockPos(tag1.getCompound("consumerPos"));
 
 		double maxVoltage = tag1.getDouble("maxVoltage");
 		double maxAmperage = tag1.getDouble("maxAmperage");
-		int wireType = tag1.getInteger("wireType");
+		int wireType = tag1.getInt("wireType");
 		double wireLength = tag1.getDouble("wireLength");
 
 		TileEntity pTE = w.getTileEntity(pPos);

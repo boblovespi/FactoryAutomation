@@ -72,7 +72,7 @@ public class EnergyConnection_
 
 		en.consumer = consumer;
 
-		en.distance = tag.getInteger("distance");
+		en.distance = tag.getInt("distance");
 		en.distanceEnergyDecay = tag.getFloat("distanceDecay");
 		en.maxEnergyTransfer = tag.getFloat("maxTransfer");
 
@@ -93,9 +93,9 @@ public class EnergyConnection_
 								 consumer.GetTe().getPos().getX(),
 								 consumer.GetTe().getPos().getY(),
 								 consumer.GetTe().getPos().getX());
-		tag.setInteger("distance", distance);
-		tag.setFloat("distanceDecay", distanceEnergyDecay);
-		tag.setFloat("maxTransfer", maxEnergyTransfer);
+		tag.putInt("distance", distance);
+		tag.putFloat("distanceDecay", distanceEnergyDecay);
+		tag.putFloat("maxTransfer", maxEnergyTransfer);
 		return tag;
 	}
 
