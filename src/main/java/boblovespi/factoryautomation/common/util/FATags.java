@@ -31,4 +31,9 @@ public class FATags
 	{
 		return BlockTags.getCollection().getOrCreate(new ResourceLocation(FactoryAutomation.MODID, name));
 	}
+
+	public static Tag<Block> ForgeBlockTag(String name)
+	{
+		return BlockTags.getCollection().getOrCreate(new ResourceLocation("forge", name));
+	}
 }

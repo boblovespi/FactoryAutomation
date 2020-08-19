@@ -104,7 +104,7 @@ public class FactoryAutomation
 		// GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
 		FuelHandler.RegisterFuels();
 		// OreDictionaryHandler.registerOreDictionary();
-		Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
+		// Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
 		TileEntityHandler.RegisterTileEntities();
 
 		Log.getLogger().info("Initialization end");
@@ -149,7 +149,7 @@ public class FactoryAutomation
 
 		TooltipHandler.RegisterTooltips();
 
-		RecipeHandler.RemoveSmeltingRecipes();
+		// RecipeHandler.RemoveSmeltingRecipes();
 
 		Log.getLogger().info("Postinitialization end");
 	}

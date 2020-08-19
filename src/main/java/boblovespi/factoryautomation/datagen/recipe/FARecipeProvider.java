@@ -1,24 +1,15 @@
 package boblovespi.factoryautomation.datagen.recipe;
 
-import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
-import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FATags;
-import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
-import net.minecraft.advancements.criterion.ItemPredicate;
-import net.minecraft.block.WoodType;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.RecipeProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 
@@ -27,7 +18,6 @@ import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-import static boblovespi.factoryautomation.common.handler.OreDictionaryHandler.Cleanup;
 
 public class FARecipeProvider extends RecipeProvider
 {
