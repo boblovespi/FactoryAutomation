@@ -4,18 +4,18 @@ import boblovespi.factoryautomation.api.energy.electricity.EnergyConnection_;
 import boblovespi.factoryautomation.api.energy.electricity.EnergyNetwork_;
 import boblovespi.factoryautomation.api.energy.electricity.IProducesEnergy_;
 import boblovespi.factoryautomation.api.energy.electricity.InternalEnergyStorage;
-import net.minecraft.block.state.BlockState;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
  * Created by Willi on 12/21/2017.
  */
 public class TileEntitySolarPanel extends TileEntity
-		implements IProducesEnergy_, ITickable, ICapabilityProvider
+		implements IProducesEnergy_, ITickableTileEntity, ICapabilityProvider
 {
 	private static final float productionScalar = 20f;
 	private boolean hasTicked = false;
@@ -36,6 +36,7 @@ public class TileEntitySolarPanel extends TileEntity
 
 	public TileEntitySolarPanel()
 	{
+		super(TileEntityHandler.teSolarPanel);
 		energyConnections = new ArrayList<>(256);
 		energyStorage = new InternalEnergyStorage(20);
 	}
@@ -106,8 +107,7 @@ public class TileEntitySolarPanel extends TileEntity
 	public float ExtractEnergy(float amount, boolean simulate)
 	{
 		ForceUpdate();
-		float amountExtracted = MathHelper
-				.clamp(amount, 0, energyProduction - energyUsed);
+		float amountExtracted = MathHelper.clamp(amount, 0, energyProduction - energyUsed);
 		if (!simulate)
 		{
 			energyUsed += amountExtracted;
@@ -115,11 +115,8 @@ public class TileEntitySolarPanel extends TileEntity
 		return amountExtracted;
 	}
 
-	/**
-	 * Like the old updateEntity(), except more generic.
-	 */
 	@Override
-	public void update()
+	public void tick()
 	{
 		hasTicked = false;
 		if ((cooldown = ++cooldown % 20) == 0)
@@ -137,8 +134,7 @@ public class TileEntitySolarPanel extends TileEntity
 		hasTicked = true;
 		if (world.canBlockSeeSky(pos.up()))
 		{
-			energyProduction =
-					productionScalar * world.getSunBrightnessFactor(0f);
+			energyProduction = productionScalar * (world.isDaytime() ? 1 : 0.1f);
 		} else
 		{
 			energyProduction = 0;
@@ -150,14 +146,13 @@ public class TileEntitySolarPanel extends TileEntity
 
 		// energyConnections.forEach(EnergyConnection_::Update);
 		markDirty();
-		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
-	public void readFromNBT(CompoundNBT compound)
+	public void read(CompoundNBT compound)
 	{
-		super.readFromNBT(compound);
+		super.read(compound);
 		energyProduction = compound.getFloat("energyProduction");
 		energyUsed = compound.getFloat("energyUsed");
 		//		CompoundNBT nbt = compound.getCompoundTag("connections");
@@ -169,11 +164,11 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT writeToNBT(CompoundNBT compound)
+	public CompoundNBT write(CompoundNBT compound)
 	{
-		super.writeToNBT(compound);
-		compound.setFloat("energyProduction", energyProduction);
-		compound.setFloat("energyUsed", energyUsed);
+		super.write(compound);
+		compound.putFloat("energyProduction", energyProduction);
+		compound.putFloat("energyUsed", energyUsed);
 		//		CompoundNBT nbt = new CompoundNBT();
 		//		for (int i = 0; i < energyConnections.size(); i++)
 		//		{
@@ -183,51 +178,12 @@ public class TileEntitySolarPanel extends TileEntity
 		return compound;
 	}
 
-	/**
-	 * Called when you receive a TileEntityData packet for the location this
-	 * TileEntity is currently in. On the client, the NetworkManager will always
-	 * be the remote server. On the server, it will be whomever is responsible for
-	 * sending the packet.
-	 *
-	 * @param net The NetworkManager the packet originated from
-	 * @param pkt The data packet
-	 */
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
-	{
-		readFromNBT(pkt.getNbtCompound());
-	}
-
-	/**
-	 * Gets a {@link CompoundNBT} that can be used to store custom data for this tile entity.
-	 * It will be written, and read from disc, so it persists over world saves.
-	 *
-	 * @return A compound tag for custom data
-	 */
-	@Override
-	public CompoundNBT getTileData()
-	{
-		CompoundNBT nbt = new CompoundNBT();
-		writeToNBT(nbt);
-		return nbt;
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability,
-			@Nullable Direction facing)
-	{
-		if (capability == CapabilityEnergy.ENERGY)
-			return true;
-		return false;
-	}
-
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability,
-			@Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityEnergy.ENERGY)
-			return (T) energyStorage;
-		return null;
+			return LazyOptional.of(() -> (T) energyStorage);
+		return super.getCapability(capability, facing);
 	}
 }

@@ -1,7 +1,5 @@
 package boblovespi.factoryautomation.client;
 
-import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.client.tesr.*;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
@@ -14,15 +12,13 @@ import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -61,19 +57,19 @@ public class ClientProxy implements CommonProxy
 	public void PreInit()
 	{
 		// ModelLoaderRegistry.registerLoader(new ObjModelLoader());
-		OBJLoader.INSTANCE.addDomain("factoryautomation");
+		// OBJLoader.INSTANCE.addDomain("factoryautomation");
 		// FAConfig.ClientPreInit();
 	}
 
 	@Override
 	public void Init()
 	{
-		NetworkRegistry.INSTANCE.registerGuiHandler(FactoryAutomation.instance, new GuiHandler());
+		// NetworkRegistry.INSTANCE.registerGuiHandler(FactoryAutomation.instance, new GuiHandler());
 	}
 
 	@Override
-	public void AddChatMessage(ChatType type, TextComponentString string)
+	public void AddChatMessage(ChatType type, ITextComponent string)
 	{
-		Minecraft.getMinecraft().ingameGUI.addChatMessage(type, string);
+		Minecraft.getInstance().ingameGUI.addChatMessage(type, string);
 	}
 }

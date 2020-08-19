@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.*;
+import boblovespi.factoryautomation.common.tileentity.electricity.TileEntityCable;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
@@ -68,6 +69,8 @@ public class TileEntityHandler
 	public static TileEntityType<TEStoneCrucible> teStoneCrucible;
 	public static TileEntityType<TEIronWorkbench> teIronWorkbench;
 	public static TileEntityType<TEStoneWorkbench> teStoneWorkbench;
+	public static TileEntityType<TileEntitySolarPanel> teSolarPanel;
+	public static TileEntityType<TileEntityCable> teCable;
 
 	public static void RegisterTileEntities()
 	{
@@ -101,6 +104,8 @@ public class TileEntityHandler
 		teStoneCastingVessel = BuildType(TEStoneCastingVessel::new, FABlocks.stoneCastingVessel, "stone_casting_vessel");
 		teIronWorkbench = BuildType(TEIronWorkbench::new, FABlocks.ironWorkbench, "iron_workbench");
 		teStoneWorkbench = BuildType(TEStoneWorkbench::new, FABlocks.stoneWorkbench, "stone_workbench");
+		teSolarPanel = BuildType(TileEntitySolarPanel::new, FABlocks.solarPanel, "solar_panel");
+		teCable = BuildType(TileEntityCable::new, FABlocks.cable, "cable");
 	}
 
 	private static <T extends TileEntity> TileEntityType<T> BuildType(Supplier<T> supplier, FABlock block, String name)

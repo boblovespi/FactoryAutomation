@@ -1,9 +1,11 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -19,16 +21,16 @@ public class TileEntityCable extends TileEntity implements ICapabilityProvider
 
 	public TileEntityCable()
 	{
+		super(TileEntityHandler.teCable);
 		energyStorage = new EnergyStorage(128);
 	}
 
 	@Nullable
 	@Override
-	public <T> T getCapability(Capability<T> capability,
-			@Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityEnergy.ENERGY)
-			return (T) energyStorage;
+			return LazyOptional.of(() -> (T) energyStorage);
 		return super.getCapability(capability, facing);
 	}
 }
