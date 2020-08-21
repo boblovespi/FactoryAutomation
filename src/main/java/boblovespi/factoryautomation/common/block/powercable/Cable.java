@@ -22,6 +22,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -204,7 +205,7 @@ public class Cable extends FABaseBlock
 					{
 						System.out.println("consumer = " + consumer.getKey().GetTe().getTileData().toString());
 						System.out.println("producer = " + machine.getKey().GetTe().getTileData().toString());
-						EnergyNetwork_.GetFromWorld(worldIn).AddConnection(
+						EnergyNetwork_.GetFromWorld((ServerWorld) worldIn).AddConnection(
 								new EnergyConnection_((IProducesEnergy_) machine.getKey(),
 										(IRequiresEnergy_) consumer.getKey(),
 										(stop - machine.getValue()) + stop - consumer.getValue(), 0.99f, 100));

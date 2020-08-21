@@ -4,12 +4,15 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.model.BellowsModel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.state.BlockState;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -18,84 +21,84 @@ import org.lwjgl.opengl.GL11;
 /**
  * Created by Willi on 8/7/2019.
  */
-public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends TileEntitySpecialRenderer<T>
+public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends TileEntityRenderer<T>
 {
 	private final String texture;
 	private BellowsModel model = new BellowsModel();
 
-	protected TESRBellows(String texture)
+	protected TESRBellows(TileEntityRendererDispatcher renderDispatcher, String texture)
 	{
+		super(renderDispatcher);
 		this.texture = texture;
 	}
 
 	@Override
-	public void render(T te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+	public void render(T te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLight,
+			int combinedOverlay)
 	{
-		bindTexture(new ResourceLocation(FactoryAutomation.MODID, texture));
+		renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, texture));
 
-		GlStateManager.pushMatrix();
+		matrix.push();
 		{
-			GlStateManager.translate(x, y, z);
-
-			GlStateManager.enableLighting();
-			GlStateManager.enableDepth();
+			RenderSystem.enableLighting();
+			RenderSystem.enableDepthTest();
 			RenderHelper.enableStandardItemLighting();
-			GlStateManager.enableRescaleNormal();
+			RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
-			Direction facing = state.getValue(BlockHorizontal.FACING);
+			Direction facing = state.get(HorizontalBlock.HORIZONTAL_FACING);
 			switch (facing)
 			{
 			case NORTH:
-				GlStateManager.rotate(180, 0, 0, 1);
-				GlStateManager.translate(-0.5, -1.5, 0.5);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.translate(-0.5, -1.5, 0.5);
 				break;
 			case SOUTH:
-				GlStateManager.rotate(180, 0, 0, 1);
-				GlStateManager.rotate(180, 0, 1, 0);
-				GlStateManager.translate(0.5, -1.5, -0.5);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 1, 0));
+				matrix.translate(0.5, -1.5, -0.5);
 				break;
 			case WEST:
-				GlStateManager.rotate(180, 0, 0, 1);
-				GlStateManager.rotate(270, 0, 1, 0);
-				GlStateManager.translate(0.5, -1.5, 0.5);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
+				matrix.translate(0.5, -1.5, 0.5);
 				break;
 			case EAST:
-				GlStateManager.rotate(180, 0, 0, 1);
-				GlStateManager.rotate(90, 0, 1, 0);
-				GlStateManager.translate(-0.5, -1.5, -0.5);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
+				matrix.translate(-0.5, -1.5, -0.5);
 				break;
 			}
 
-			GlStateManager.scale(1 / 16d, 1 / 16d, 1 / 16d);
+			matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				GlStateManager.shadeModel(GL11.GL_SMOOTH);
+				RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				GlStateManager.shadeModel(GL11.GL_FLAT);
+				RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
 			model.Rotate(te.GetLerp() + te.GetLerpSpeed() * partialTicks);
 
 			model.RenderTESR(1);
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 	}
 
 	public static class Leather extends TESRBellows<TELeatherBellows>
 	{
-		public Leather()
+		public Leather(TileEntityRendererDispatcher dispatcher)
 		{
-			super("textures/blocks/machines/leather_bellows.png");
+			super(dispatcher, "textures/blocks/machines/leather_bellows.png");
 		}
 	}
 
 	public static class Paper extends TESRBellows<TEPaperBellows>
 	{
-		public Paper()
+		public Paper(TileEntityRendererDispatcher dispatcher)
 		{
-			super("textures/blocks/machines/paper_bellows.png");
+			super(dispatcher, "textures/blocks/machines/paper_bellows.png");
 		}
 	}
 }

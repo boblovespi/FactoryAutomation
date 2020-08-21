@@ -5,13 +5,16 @@ import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.Direction;
+import net.minecraftforge.client.model.data.EmptyModelData;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -26,7 +29,8 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 	}
 
 	@Override
-	public void render(TEPowerShaft te, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn)
+	public void render(TEPowerShaft te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+			int combinedLight, int combinedOverlay)
 	{
 		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.powerShaft)
 			return;
@@ -51,17 +55,17 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 			break;
 		}
 
-		GlStateManager.pushMatrix();
+		matrix.push();
 		{
 			RenderHelper.disableStandardItemLighting();
-			GlStateManager.disableLighting();
-			GlStateManager.disableRescaleNormal();
-			GlStateManager.translate(x + 0.5, y + 0.5, z + 0.5);
-			GlStateManager.translate(-xD / 2d, -yD / 2d, -zD / 2d);
-			GlStateManager.rotate(toRotate, xD, yD, zD);
-			GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+			RenderSystem.disableLighting();
+			RenderSystem.disableRescaleNormal();
+			matrix.translate(0.5, 0.5, 0.5);
+			matrix.translate(-xD / 2d, -yD / 2d, -zD / 2d);
+			matrix.rotate(TESRUtils.QuatFromAngleAxis(toRotate, xD, yD, zD));
+			matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 
-			bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
@@ -71,18 +75,17 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 				GlStateManager.shadeModel(GL11.GL_FLAT);
 			}
 
-			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder buffer = tessellator.getBuffer();
+			// Tessellator tessellator = Tessellator.getInstance();
+			// BufferBuilder bufferBuilder = tessellator.getBuffer();
 
-			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-			IBakedModel model = dispatcher.getModelForState(state);
+			// bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
 
-			dispatcher.getBlockModelRenderer().renderModel(te.getWorld(), model, state, te.getPos(), buffer, true);
-			tessellator.draw();
+			dispatcher.renderBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			// tessellator.draw();
 			RenderHelper.enableStandardItemLighting();
-			GlStateManager.enableLighting();
+			RenderSystem.enableLighting();
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 	}
 }

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.Model;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
@@ -26,7 +27,7 @@ public class BellowsModel extends Model
 
 	public BellowsModel()
 	{
-		super();
+		super(RenderType::getEntityCutoutNoCull);
 		this.textureWidth = 128;
 		this.textureHeight = 128;
 		this.bellowpart_4 = new ModelRenderer(this, 2, 22);
@@ -85,7 +86,7 @@ public class BellowsModel extends Model
 
 	public void RenderTESR(float scale)
 	{
-		render(null, 0, 0, 0, 0, 0, scale);
+		// render(null, 0, 0, 0, 0, 0, scale);
 	}
 
 	public void Rotate(float lerp)

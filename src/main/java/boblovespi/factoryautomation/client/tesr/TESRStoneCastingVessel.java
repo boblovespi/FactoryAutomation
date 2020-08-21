@@ -1,24 +1,32 @@
 package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 
 /**
  * Created by Willi on 12/27/2018.
  */
-public class TESRStoneCastingVessel extends TileEntitySpecialRenderer<TEStoneCastingVessel>
+public class TESRStoneCastingVessel extends TileEntityRenderer<TEStoneCastingVessel>
 {
 	private IBakedModel modelCache = null;
 	private ItemStack itemCache = ItemStack.EMPTY;
 
+	public TESRStoneCastingVessel(TileEntityRendererDispatcher rendererDispatcherIn)
+	{
+		super(rendererDispatcherIn);
+	}
+
 	@Override
-	public void render(TEStoneCastingVessel te, double x, double y, double z, float partialTicks, int destroyStage,
-			float alpha)
+	public void render(TEStoneCastingVessel te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+			int combinedLight, int combinedOverlay)
 	{
 		ItemStack item = te.GetRenderStack();
 
@@ -26,22 +34,24 @@ public class TESRStoneCastingVessel extends TileEntitySpecialRenderer<TEStoneCas
 		{
 			if (!item.isItemEqual(itemCache)) // update the cache if outdated
 			{
-				modelCache = Minecraft.getMinecraft().getRenderItem()
-									  .getItemModelWithOverrides(item.copy().splitStack(1), null, null);
+				modelCache = Minecraft.getInstance().getItemRenderer()
+									  .getItemModelWithOverrides(item.copy().split(1), null, null);
 				itemCache = item;
 			}
-			GlStateManager.pushMatrix();
+			matrix.push();
 			{
-				GlStateManager.translate(x, y - 1.4 / 16d, z + 1);
-				GlStateManager.scale(0.99, 1, 0.99);
-				GlStateManager.rotate(-90, 1, 0, 0);
+				matrix.translate(0, -1.4 / 16d, 1);
+				matrix.scale(0.99f, 1, 0.99f);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(-90, 1, 0, 0));
 				float v = te.GetTemp();
+				RenderSystem.color3f(GetRed(v), GetGreen(v), GetBlue(v));
 				// TESRUtils.RenderBakedModel(modelCache, DefaultVertexFormats.ITEM,
 				// 		TESRUtils.RGBAToHex(GetRed(v), GetGreen(v), GetBlue(v), 1f));
-				TESRUtils.RenderItemWithColor(item, ItemCameraTransforms.TransformType.NONE, GetRed(v), GetGreen(v),
-						GetBlue(v), 1);
+				Minecraft.getInstance().getItemRenderer()
+						 .renderItem(item, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay,
+								 matrix, buffer);
 			}
-			GlStateManager.popMatrix();
+			matrix.pop();
 		}
 	}
 

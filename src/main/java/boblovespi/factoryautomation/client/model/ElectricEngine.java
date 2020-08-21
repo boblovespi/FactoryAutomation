@@ -1,19 +1,16 @@
 package boblovespi.factoryautomation.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * electric_engine - King_of_Creepers
  * Created using Tabula 7.0.0
  */
 @OnlyIn(Dist.CLIENT)
-public class ElectricEngine extends ModelBase
+public class ElectricEngine // extends ModelBase
 {
-	public ModelRenderer frame;
+	/*public ModelRenderer frame;
 	public ModelRenderer frame_1;
 	public ModelRenderer frame_2;
 	public ModelRenderer frame_3;
@@ -201,9 +198,9 @@ public class ElectricEngine extends ModelBase
 		this.frame_14.render(f5);
 	}
 
-	/**
-	 * This is a helper function from Tabula to set the rotation of model parts
-	 */
+	*//**
+ * This is a helper function from Tabula to set the rotation of model parts
+ *//*
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
 	{
 		modelRenderer.rotateAngleX = x;
@@ -263,5 +260,5 @@ public class ElectricEngine extends ModelBase
 	private void SetRot(ModelRenderer r, float x, float y, float z)
 	{
 		setRotateAngle(r, x, y, z);
-	}
+	}*/
 }

@@ -7,11 +7,15 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
@@ -165,36 +169,43 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 				in *= -1;
 				out *= -1; // flip the signs for some reason
 				RenderGear(
-						null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0, in);
+						null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
+						in);
 			} else
 			{
 				RenderGear(
-						null, 0, 16, -6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0, in);
+						null, 0, 16, -6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
+						in);
 			}
 			GlStateManager.rotate(90, 0, 1, 0);
-			RenderGear(null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0, 0, out);
+			RenderGear(
+					null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0, 0,
+					out);
 
 		}
 		GlStateManager.popMatrix();
 	}
 
 	private void RenderGear(TEGearbox te, float posX, float posY, float posZ, float size, Gearbox.GearType type,
-			float inToRotate, float xD, float yD, float zD)
+			float inToRotate, float xD, float yD, float zD, MatrixStack matrix, IRenderTypeBuffer buffer,
+			int combinedLight, int combinedOverlay)
 	{
 		if (type == null)
 			return;
 		ItemStack stack = new ItemStack(FAItems.gear.GetItem(type));
 		RenderHelper.enableStandardItemLighting();
-		GlStateManager.enableLighting();
-		GlStateManager.pushMatrix();
+		RenderSystem.enableLighting();
+		matrix.push();
 		{
-			GlStateManager.translate(posX, posY, posZ);
-			GlStateManager.scale(size, size, size);
-			GlStateManager.rotate(inToRotate, xD, yD, zD);
+			matrix.translate(posX, posY, posZ);
+			matrix.scale(size, size, 0.6f);
+			matrix.rotate(TESRUtils.QuatFromAngleAxis(inToRotate, xD, yD, zD));
 
-			Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.NONE);
+			Minecraft.getInstance().getItemRenderer()
+					 .renderItem(stack, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrix,
+							 buffer);
 
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 	}
 }

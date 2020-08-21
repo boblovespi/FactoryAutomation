@@ -6,72 +6,78 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox.GearType;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import net.minecraft.block.state.BlockState;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.model.data.EmptyModelData;
 import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 5/13/2018.
  */
-public class TESRGearbox extends TileEntitySpecialRenderer<TEGearbox>
+public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 {
-	@Override
-	public void render(TEGearbox te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+	public TESRGearbox(TileEntityRendererDispatcher rendererDispatcherIn)
 	{
-		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.gearbox)
-			return;
+		super(rendererDispatcherIn);
+	}
 
+	@Override
+	public void render(TEGearbox te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+			int combinedLight, int combinedOverlay)
+	{
 		float inToRotate = te.rotationIn + partialTicks * te.GetSpeedIn();
 		float outToRotate = te.rotationOut + partialTicks * te.GetSpeedOut();
 		float topToRotate = te.rotationTop + partialTicks * te.speedTop;
 
 		BlockState state = te.getWorld().getBlockState(te.getPos());
-		Direction facing = state.getValue(Gearbox.FACING);
+		Direction facing = state.get(Gearbox.FACING);
 		Direction.Axis axis = facing.getAxis();
 		float xD = 0, yD = 0, zD = 1;
 		float m = -1;
 		float n = 1;
 
-		GlStateManager.pushMatrix();
+		matrix.push();
 		{
-			GlStateManager.translate(x, y, z);
+			// matrix.translate(x, y, z);
 			// GlStateManager.translate(-xD / 2d, -yD / 2d, -zD / 2d);
 			switch (facing)
 			{
 			case DOWN:
-				GlStateManager.rotate(270, 1, 0, 0);
-				GlStateManager.translate(0, -1, 0);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 1, 0, 0));
+				matrix.translate(0, -1, 0);
 				break;
 			case UP:
-				GlStateManager.rotate(90, 1, 0, 0);
-				GlStateManager.translate(0, 0, -1);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
+				matrix.translate(0, 0, -1);
 				m = 1;
 				n = -1;
 				break;
 			case NORTH:
 				break;
 			case SOUTH:
-				GlStateManager.rotate(180, 0, 1, 0);
-				GlStateManager.translate(-1, 0, -1);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 1, 0));
+				matrix.translate(-1, 0, -1);
 				m = 1;
 				n = -1;
 				break;
 			case WEST:
-				GlStateManager.rotate(90, 0, 1, 0);
-				GlStateManager.translate(-1, 0, 0);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
+				matrix.translate(-1, 0, 0);
 				break;
 			case EAST:
-				GlStateManager.rotate(270, 0, 1, 0);
-				GlStateManager.translate(0, 0, -1);
+				matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
+				matrix.translate(0, 0, -1);
 				m = 1;
 				n = -1;
 				break;
@@ -86,88 +92,98 @@ public class TESRGearbox extends TileEntitySpecialRenderer<TEGearbox>
 
 			if (gearIn != null)
 			{
-				RenderGear(te, 0.5f, 0.5f, 0.9f, gearIn.scaleFactor / sum, gearIn, n * inToRotate, xD, yD, zD);
-				RenderGear(te, 0.5f, 0.5f, 0.1f, 0.5f, gearIn, n * outToRotate + 22.5f, xD, yD, zD);
+				RenderGear(te, 0.5f, 0.5f, 0.9f, gearIn.scaleFactor / sum, gearIn, n * inToRotate, xD, yD, zD, matrix,
+						buffer, combinedLight, combinedOverlay);
+				RenderGear(te, 0.5f, 0.5f, 0.1f, 0.5f, gearIn, n * outToRotate + 22.5f, xD, yD, zD, matrix, buffer,
+						combinedLight, combinedOverlay);
 			}
 
 			if (gearOut != null)
 			{
-				RenderGear(te, 0.5f, 1f, 0.9f, gearOut.scaleFactor / sum, gearOut, m * outToRotate, xD, yD, zD);
-				RenderGear(te, 0.5f, 1f, 0.1f, 0.5f, gearOut, m * outToRotate, xD, yD, zD);
+				RenderGear(te, 0.5f, 1f, 0.9f, gearOut.scaleFactor / sum, gearOut, m * outToRotate, xD, yD, zD, matrix,
+						buffer, combinedLight, combinedOverlay);
+				RenderGear(te, 0.5f, 1f, 0.1f, 0.5f, gearOut, m * outToRotate, xD, yD, zD, matrix, buffer,
+						combinedLight, combinedOverlay);
 			}
 
-			RenderAxle(te, new Vec3d(0.5, 1, 0.05f), new Vec3d(xD, yD, zD), 0.9f, m * outToRotate, facing);
+			RenderAxle(te, new Vec3d(0.5, 1, 0.05f), new Vec3d(xD, yD, zD), 0.9f, m * outToRotate, facing, matrix,
+					buffer, combinedLight, combinedOverlay);
 
-			RenderAxle(te, new Vec3d(0.5, 0.5, -0.14), new Vec3d(xD, yD, zD), 0.28f, n * outToRotate, facing);
-			RenderAxle(te, new Vec3d(0.5, 0.5, 0.86), new Vec3d(xD, yD, zD), 0.28f, n * inToRotate, facing);
+			RenderAxle(te, new Vec3d(0.5, 0.5, -0.14), new Vec3d(xD, yD, zD), 0.28f, n * outToRotate, facing, matrix,
+					buffer, combinedLight, combinedOverlay);
+			RenderAxle(te, new Vec3d(0.5, 0.5, 0.86), new Vec3d(xD, yD, zD), 0.28f, n * inToRotate, facing, matrix,
+					buffer, combinedLight, combinedOverlay);
 
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 
 	}
 
-	private void RenderAxle(TEGearbox te, Vec3d pos, Vec3d rotVec, float length, float rotation, Direction facing)
+	private void RenderAxle(TEGearbox te, Vec3d pos, Vec3d rotVec, float length, float rotation, Direction facing,
+			MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay)
 	{
-		BlockState state = FABlocks.powerShaft.ToBlock().getDefaultState()
-											   .withProperty(PowerShaft.AXIS, Direction.Axis.Z)
-											   .withProperty(PowerShaft.IS_TESR, true);
+		BlockState state = FABlocks.powerShaft.ToBlock().getDefaultState().with(PowerShaft.AXIS, Direction.Axis.Z)
+											  .with(PowerShaft.IS_TESR, true);
 
-		GlStateManager.pushMatrix();
+		matrix.push();
 		{
-			GlStateManager.disableLighting();
-			GlStateManager.disableRescaleNormal();
+			RenderSystem.disableLighting();
+			RenderSystem.disableRescaleNormal();
 
-			GlStateManager.translate(pos.x, pos.y, pos.z);
+			matrix.translate(pos.x, pos.y, pos.z);
 
-			GlStateManager.scale(0.2, 0.2, length);
+			matrix.scale(0.2f, 0.2f, length);
 
-			GlStateManager.rotate(rotation, (float) rotVec.x, (float) rotVec.y, (float) rotVec.z);
+			matrix.rotate(TESRUtils.QuatFromAngleAxis(rotation, (float) rotVec.x, (float) rotVec.y, (float) rotVec.z));
 
-			GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+			matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 
-			bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				GlStateManager.shadeModel(GL11.GL_SMOOTH);
+				RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				GlStateManager.shadeModel(GL11.GL_FLAT);
+				RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
-			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder buffer = tessellator.getBuffer();
+			// Tessellator tessellator = Tessellator.getInstance();
+			// BufferBuilder buffer = tessellator.getBuffer();
 
-			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-			IBakedModel model = dispatcher.getModelForState(state);
+			// buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
+			// IBakedModel model = dispatcher.getModelForState(state);
 
-			dispatcher.getBlockModelRenderer().renderModel(te.getWorld(), model, state, te.getPos(), buffer, true);
-			tessellator.draw();
+			dispatcher.renderBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			// tessellator.draw();
 
 			RenderHelper.enableStandardItemLighting();
-			GlStateManager.enableLighting();
+			RenderSystem.enableLighting();
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 	}
 
 	private void RenderGear(TEGearbox te, float posX, float posY, float posZ, float size, GearType type,
-			float inToRotate, float xD, float yD, float zD)
+			float inToRotate, float xD, float yD, float zD, MatrixStack matrix, IRenderTypeBuffer buffer,
+			int combinedLight, int combinedOverlay)
 	{
 		if (type == null)
 			return;
 		ItemStack stack = new ItemStack(FAItems.gear.GetItem(type));
 		RenderHelper.enableStandardItemLighting();
-		GlStateManager.enableLighting();
-		GlStateManager.pushMatrix();
+		RenderSystem.enableLighting();
+		matrix.push();
 		{
-			GlStateManager.translate(posX, posY, posZ);
-			GlStateManager.scale(size, size, 0.6);
-			GlStateManager.rotate(inToRotate, xD, yD, zD);
+			matrix.translate(posX, posY, posZ);
+			matrix.scale(size, size, 0.6f);
+			matrix.rotate(TESRUtils.QuatFromAngleAxis(inToRotate, xD, yD, zD));
 
-			Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.NONE);
+			Minecraft.getInstance().getItemRenderer()
+					 .renderItem(stack, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrix,
+							 buffer);
 
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 	}
 }

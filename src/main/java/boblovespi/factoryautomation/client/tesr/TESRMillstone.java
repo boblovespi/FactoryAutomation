@@ -3,64 +3,73 @@ package boblovespi.factoryautomation.client.tesr;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.machine.Millstone;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMillstone;
-import net.minecraft.block.state.BlockState;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraftforge.client.model.data.EmptyModelData;
 import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 2/12/2019.
  */
-public class TESRMillstone extends TileEntitySpecialRenderer<TEMillstone>
+public class TESRMillstone extends TileEntityRenderer<TEMillstone>
 {
 	private IBakedModel cache = null;
 	private BlockState state = null;
 
-	@Override
-	public void render(TEMillstone te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+	public TESRMillstone(TileEntityRendererDispatcher rendererDispatcherIn)
 	{
-		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.millstone)
-			return;
+		super(rendererDispatcherIn);
+	}
 
+	@Override
+	public void render(TEMillstone te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+			int combinedLight, int combinedOverlay)
+	{
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
 		if (state == null)
-			state = te.getWorld().getBlockState(te.getPos()).withProperty(Millstone.IS_TOP, true);
-		GlStateManager.pushMatrix();
+			state = FABlocks.millstone.ToBlock().getDefaultState().with(Millstone.IS_TOP, true);
+		matrix.push();
 		{
 			RenderHelper.disableStandardItemLighting();
-			GlStateManager.disableLighting();
-			GlStateManager.disableRescaleNormal();
-			GlStateManager.translate(x + 0.5, y, z + 0.5);
-			GlStateManager.rotate(toRotate, 0, 1, 0);
-			GlStateManager.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+			RenderSystem.disableLighting();
+			RenderSystem.disableRescaleNormal();
+			matrix.translate(0.5, 0, 0.5);
+			matrix.rotate(TESRUtils.QuatFromAngleAxis(toRotate, 0, 1, 0));
+			matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 
-			bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				GlStateManager.shadeModel(GL11.GL_SMOOTH);
+				RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				GlStateManager.shadeModel(GL11.GL_FLAT);
+				RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
-			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder buffer = tessellator.getBuffer();
+			// version that caches the blockstate model
 
-			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+			// Tessellator tessellator = Tessellator.getInstance();
+			// BufferBuilder buffer = tessellator.getBuffer();
+			// buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
 			if (cache == null)
 				cache = dispatcher.getModelForState(state);
+			dispatcher.getBlockModelRenderer()
+					  .renderModel(matrix.getLast(), buffer.getBuffer(Atlases.getCutoutBlockType()), state, cache, 1f,
+							  1f, 1f, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			// tessellator.draw();
 
-			dispatcher.getBlockModelRenderer().renderModel(te.getWorld(), cache, state, te.getPos(), buffer, true);
-			tessellator.draw();
 			RenderHelper.enableStandardItemLighting();
-			GlStateManager.enableLighting();
+			RenderSystem.enableLighting();
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 	}
 }
