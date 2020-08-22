@@ -1,18 +1,22 @@
 package boblovespi.factoryautomation.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * New_Electric_Engine - King_Of_Creepers
  * Created using Tabula 7.0.1
  */
 @OnlyIn(Dist.CLIENT)
-public class ElectricEngine2 extends ModelBase
+public class ElectricEngine2 extends Model
 {
 	public ModelRenderer bottom;
 	public ModelRenderer front;
@@ -31,6 +35,7 @@ public class ElectricEngine2 extends ModelBase
 
 	public ElectricEngine2()
 	{
+		super(RenderType::getEntityCutoutNoCull);
 		this.textureWidth = 128;
 		this.textureHeight = 128;
 		this.bottom = new ModelRenderer(this, -16, 0);
@@ -79,31 +84,32 @@ public class ElectricEngine2 extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
+			float red, float green, float blue, float alpha)
 	{
-		this.bottom.render(f5);
-		this.right.render(f5);
-		this.axle.render(f5);
-		this.back.render(f5);
-		this.front.render(f5);
-		GlStateManager.pushMatrix();
-		GlStateManager.translate(this.coil.offsetX, this.coil.offsetY, this.coil.offsetZ);
-		GlStateManager
-				.translate(this.coil.rotationPointX * f5, this.coil.rotationPointY * f5, this.coil.rotationPointZ * f5);
-		GlStateManager.scale(1.0D, 1.0D, 1.01D);
-		GlStateManager.translate(-this.coil.offsetX, -this.coil.offsetY, -this.coil.offsetZ);
-		GlStateManager.translate(-this.coil.rotationPointX * f5, -this.coil.rotationPointY * f5,
-				-this.coil.rotationPointZ * f5);
-		this.coil.render(f5);
-		GlStateManager.popMatrix();
-		this.left.render(f5);
-		this.top.render(f5);
-		this.bottom2.render(f5);
-		this.right2.render(f5);
-		this.back2.render(f5);
-		this.front2.render(f5);
-		this.left2.render(f5);
-		this.top2.render(f5);
+		this.bottom.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.right.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.axle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.back.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.front.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		// matrixStackIn.push();
+		// matrixStackIn.translate(this.coil.offsetX, this.coil.offsetY, this.coil.offsetZ);
+		// RenderSystem
+		// 		.translate(this.coil.rotationPointX * f5, this.coil.rotationPointY * f5, this.coil.rotationPointZ * f5);
+		// GlStateManager.scale(1.0D, 1.0D, 1.01D);
+		// GlStateManager.translate(-this.coil.offsetX, -this.coil.offsetY, -this.coil.offsetZ);
+		// GlStateManager.translate(-this.coil.rotationPointX * f5, -this.coil.rotationPointY * f5,
+		// 		-this.coil.rotationPointZ * f5);
+		this.coil.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		// GlStateManager.popMatrix();
+		this.left.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.top.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.bottom2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.right2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.back2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.front2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.left2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.top2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	/**
@@ -119,10 +125,5 @@ public class ElectricEngine2 extends ModelBase
 	public void Rotate(float rot)
 	{
 		setRotateAngle(axle, 0, 0, rot);
-	}
-
-	public void RenderTESR(float scale)
-	{
-		render(null, 0, 0, 0, 0, 0, scale);
 	}
 }

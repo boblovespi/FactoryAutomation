@@ -9,14 +9,14 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -25,28 +25,33 @@ import org.lwjgl.opengl.GL11;
 /**
  * Created by Willi on 8/9/2019.
  */
-public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
+public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 {
-	private BevelGearbox model = new BevelGearbox();
+	private final BevelGearbox model = new BevelGearbox();
+
+	public TESRBevelGear(TileEntityRendererDispatcher rendererDispatcherIn)
+	{
+		super(rendererDispatcherIn);
+	}
 
 	@Override
-	public void render(TEBevelGear te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
+	public void render(TEBevelGear te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+			int combinedLight, int combinedOverlay)
 	{
-		bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/bevel_gearbox.png"));
+		renderDispatcher.textureManager.bindTexture(
+				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/bevel_gearbox.png"));
 
 		boolean isUpper = false;
-		GlStateManager.pushMatrix();
+		matrix.push();
 		{
-			GlStateManager.translate(x, y, z);
-
-			GlStateManager.enableLighting();
-			GlStateManager.enableDepth();
+			RenderSystem.enableLighting();
+			RenderSystem.enableDepthTest();
 			RenderHelper.enableStandardItemLighting();
-			GlStateManager.enableRescaleNormal();
+			RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
-			Direction facing = state.getValue(BevelGear.FACING);
-			int layer = state.getValue(BevelGear.LAYER);
+			Direction facing = state.get(BevelGear.FACING);
+			int layer = state.get(BevelGear.LAYER);
 			int out = 1, in = 1;
 			switch (facing)
 			{
@@ -54,24 +59,24 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 				switch (layer)
 				{
 				case 0: // upper gear
-					GlStateManager.rotate(90, 1, 0, 0);
-					GlStateManager.rotate(270, 0, 1, 0);
-					GlStateManager.rotate(270, 1, 0, 0);
-					GlStateManager.translate(-0.5, -0.5, 0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 1, 0, 0));
+					matrix.translate(-0.5, -0.5, 0.5);
 					in = -1;
 					isUpper = true;
 					break;
 				case 1:
-					GlStateManager.rotate(180, 0, 0, 1);
-					GlStateManager.rotate(90, 0, 1, 0);
-					GlStateManager.translate(-0.5, -1.5, -0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
+					matrix.translate(-0.5, -1.5, -0.5);
 					in = -1;
 					out = -1;
 					break;
 				case 2:
-					GlStateManager.rotate(270, 0, 0, 1);
-					GlStateManager.rotate(90, 0, 1, 0);
-					GlStateManager.translate(-0.5, -0.5, -0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 0, 0, 1));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
+					matrix.translate(-0.5, -0.5, -0.5);
 					in = -1;
 					out = -1;
 					break;
@@ -81,21 +86,21 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 				switch (layer)
 				{
 				case 0: // lower gear
-					GlStateManager.rotate(90, 0, 0, 1);
-					GlStateManager.rotate(180, 0, 1, 0);
-					GlStateManager.translate(-0.5, -1.5, -0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 0, 1));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 1, 0));
+					matrix.translate(-0.5, -1.5, -0.5);
 					out = -1;
 					in = -1;
 					break;
 				case 1:
-					GlStateManager.rotate(180, 0, 0, 1);
-					GlStateManager.rotate(270, 0, 1, 0);
-					GlStateManager.translate(0.5, -1.5, 0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
+					matrix.translate(0.5, -1.5, 0.5);
 					break;
 				case 2:
-					GlStateManager.rotate(90, 1, 0, 0);
-					GlStateManager.rotate(90, 0, 0, 1);
-					GlStateManager.translate(0.5, -1.5, -0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 0, 1));
+					matrix.translate(0.5, -1.5, -0.5);
 					out = -1;
 					isUpper = true;
 					break;
@@ -105,22 +110,22 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 				switch (layer)
 				{
 				case 0: // upper gear
-					GlStateManager.rotate(270, 1, 0, 0);
-					GlStateManager.rotate(90, 0, 1, 0);
-					GlStateManager.translate(-0.5, -1.5, 0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 1, 0, 0));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
+					matrix.translate(-0.5, -1.5, 0.5);
 					in = -1;
 					isUpper = true;
 					break;
 				case 1:
-					GlStateManager.rotate(180, 0, 0, 1);
-					GlStateManager.translate(-0.5, -1.5, 0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+					matrix.translate(-0.5, -1.5, 0.5);
 					in = -1;
 					isUpper = true;
 					break;
 				case 2:
-					GlStateManager.rotate(90, 1, 0, 0);
-					GlStateManager.rotate(180, 0, 0, 1);
-					GlStateManager.translate(-0.5, -1.5, -0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+					matrix.translate(-0.5, -1.5, -0.5);
 					in = -1;
 					out = -1;
 					break;
@@ -130,22 +135,22 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 				switch (layer)
 				{
 				case 0: // lower gear
-					GlStateManager.rotate(90, 1, 0, 0);
-					GlStateManager.rotate(270, 0, 1, 0);
-					GlStateManager.translate(-0.5, -0.5, -0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
+					matrix.translate(-0.5, -0.5, -0.5);
 					in = -1;
 					out = -1;
 					break;
 				case 1:
-					GlStateManager.rotate(180, 0, 0, 1);
-					GlStateManager.rotate(180, 0, 1, 0);
-					GlStateManager.translate(0.5, -1.5, -0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 1, 0));
+					matrix.translate(0.5, -1.5, -0.5);
 					out = -1;
 					isUpper = true;
 					break;
 				case 2:
-					GlStateManager.rotate(90, 1, 0, 0);
-					GlStateManager.translate(0.5, -0.5, -0.5);
+					matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
+					matrix.translate(0.5, -0.5, -0.5);
 					out = -1;
 					isUpper = true;
 					break;
@@ -153,37 +158,36 @@ public class TESRBevelGear extends TileEntitySpecialRenderer<TEBevelGear>
 				break;
 			}
 
-			GlStateManager.scale(1 / 16d, 1 / 16d, 1 / 16d);
+			matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				GlStateManager.shadeModel(GL11.GL_SMOOTH);
+				RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				GlStateManager.shadeModel(GL11.GL_FLAT);
+				RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 			model.Rotate(te.rotation + te.GetSpeed() * partialTicks, out, in);
-			model.RenderTESR(1);
+			model.render(matrix, buffer.getBuffer(RenderType.getEntityCutoutNoCull(
+					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/bevel_gearbox.png"))),
+					combinedLight, combinedOverlay, 1, 1, 1, 1);
 
 			if (isUpper)
 			{
 				in *= -1;
 				out *= -1; // flip the signs for some reason
-				RenderGear(
-						null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
-						in);
+				RenderGear(null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
+						in, matrix, buffer, combinedLight, combinedOverlay);
 			} else
 			{
-				RenderGear(
-						null, 0, 16, -6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
-						in);
+				RenderGear(null, 0, 16, -6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
+						in, matrix, buffer, combinedLight, combinedOverlay);
 			}
-			GlStateManager.rotate(90, 0, 1, 0);
-			RenderGear(
-					null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0, 0,
-					out);
+			matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
+			RenderGear(null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0,
+					0, out, matrix, buffer, combinedLight, combinedOverlay);
 
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 	}
 
 	private void RenderGear(TEGearbox te, float posX, float posY, float posZ, float size, Gearbox.GearType type,

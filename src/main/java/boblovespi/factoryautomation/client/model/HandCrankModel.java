@@ -1,23 +1,27 @@
 package boblovespi.factoryautomation.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * hand_crank - King_of_Creepers
  * Created using Tabula 7.0.0
  */
 @OnlyIn(Dist.CLIENT)
-public class HandCrankModel extends ModelBase
+public class HandCrankModel extends Model
 {
 	public ModelRenderer shape1;
 	public ModelRenderer shape1_1;
 
 	public HandCrankModel()
 	{
+		super(RenderType::getEntityCutoutNoCull);
 		this.textureWidth = 64;
 		this.textureHeight = 32;
 		this.shape1 = new ModelRenderer(this, 8, 0);
@@ -29,10 +33,11 @@ public class HandCrankModel extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
+			float red, float green, float blue, float alpha)
 	{
-		this.shape1.render(f5);
-		this.shape1_1.render(f5);
+		this.shape1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.shape1_1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	/**
@@ -43,11 +48,5 @@ public class HandCrankModel extends ModelBase
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
-	}
-
-	public void RenderTESR(float scale)
-	{
-		shape1.render(scale);
-		shape1_1.render(scale);
 	}
 }

@@ -1,17 +1,20 @@
 package boblovespi.factoryautomation.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * WaterWheel - King_of_Creepers
  * Created using Tabula 7.0.1
  */
 @OnlyIn(Dist.CLIENT)
-public class WaterWheel extends ModelBase
+public class WaterWheel extends Model
 {
 	public ModelRenderer small_plate_horizontal_top;
 	public ModelRenderer small_plate_horizontal_bottom;
@@ -25,6 +28,7 @@ public class WaterWheel extends ModelBase
 
 	public WaterWheel()
 	{
+		super(RenderType::getEntityCutoutNoCull);
 		this.textureWidth = 128;
 		this.textureHeight = 128;
 		this.plate_upleft_to_downright = new ModelRenderer(this, 35, 101);
@@ -59,17 +63,24 @@ public class WaterWheel extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
+			float red, float green, float blue, float alpha)
 	{
-		this.plate_upleft_to_downright.render(f5);
-		this.small_plate_horizontal_bottom.render(f5);
-		this.small_plate_vertical_left.render(f5);
-		this.plate_vertical.render(f5);
-		this.axle.render(f5);
-		this.small_plate_horizontal_top.render(f5);
-		this.small_plate_vertical_right.render(f5);
-		this.plate_horizontal.render(f5);
-		this.plate_upright_to_downleft.render(f5);
+		this.plate_upleft_to_downright
+				.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.small_plate_horizontal_bottom
+				.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.small_plate_vertical_left
+				.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.plate_vertical.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.axle.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.small_plate_horizontal_top
+				.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.small_plate_vertical_right
+				.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.plate_horizontal.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.plate_upright_to_downleft
+				.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	/**

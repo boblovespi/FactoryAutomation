@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.container.slot;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.tileentity.FurnaceTileEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -12,8 +12,7 @@ import javax.annotation.Nonnull;
  */
 public class SlotFuel extends SlotItemHandler
 {
-	public SlotFuel(IItemHandler itemHandler, int index, int xPosition,
-			int yPosition)
+	public SlotFuel(IItemHandler itemHandler, int index, int xPosition, int yPosition)
 	{
 		super(itemHandler, index, xPosition, yPosition);
 	}
@@ -24,6 +23,6 @@ public class SlotFuel extends SlotItemHandler
 	@Override
 	public boolean isItemValid(@Nonnull ItemStack stack)
 	{
-		return TileEntityFurnace.isItemFuel(stack) || stack.isEmpty();
+		return FurnaceTileEntity.isFuel(stack) || stack.isEmpty();
 	}
 }

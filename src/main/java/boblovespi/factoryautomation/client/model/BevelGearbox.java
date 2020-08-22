@@ -1,17 +1,20 @@
 package boblovespi.factoryautomation.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Bevel_Gearbox - King_Of_Creepers
  * Created using Tabula 7.0.1
  */
 @OnlyIn(Dist.CLIENT)
-public class BevelGearbox extends ModelBase
+public class BevelGearbox extends Model
 {
 	public ModelRenderer box_front;
 	public ModelRenderer axle_out;
@@ -23,6 +26,7 @@ public class BevelGearbox extends ModelBase
 
 	public BevelGearbox()
 	{
+		super(RenderType::getEntityCutoutNoCull);
 		this.textureWidth = 128;
 		this.textureHeight = 128;
 		this.box_bottom = new ModelRenderer(this, 0, 36);
@@ -51,15 +55,16 @@ public class BevelGearbox extends ModelBase
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
+	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
+			float red, float green, float blue, float alpha)
 	{
-		this.box_bottom.render(f5);
-		this.axle_out.render(f5);
-		this.box_right.render(f5);
-		this.box_front.render(f5);
-		this.axle_in.render(f5);
-		this.box_back.render(f5);
-		this.box_left.render(f5);
+		this.box_bottom.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.axle_out.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.box_right.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.box_front.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.axle_in.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.box_back.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+		this.box_left.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
 	/**
@@ -70,11 +75,6 @@ public class BevelGearbox extends ModelBase
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
-	}
-
-	public void RenderTESR(float scale)
-	{
-		render(null, 0, 0, 0, 0, 0, scale);
 	}
 
 	public void Rotate(float rotation, int dir1, int dir2)
