@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.handler;
 
+import boblovespi.factoryautomation.FactoryAutomation;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -8,7 +9,7 @@ import net.minecraftforge.fml.common.Mod;
  * Created by Willi on 2/11/2018.
  */
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = FactoryAutomation.MODID)
 @SuppressWarnings("unused")
 public class AnvilRecipeHandler
 {

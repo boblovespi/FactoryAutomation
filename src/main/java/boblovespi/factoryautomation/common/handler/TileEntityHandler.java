@@ -35,7 +35,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 /**
  * Created by Willi on 11/12/2017.
  */
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = MODID)
 public class TileEntityHandler
 {
 	public static List<Class<? extends TileEntity>> tiles = new ArrayList<>(10);

@@ -44,7 +44,7 @@ public class FAItems
 	public static final Item metalOre = null;
 
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
-	public static List<Item> items;
+	public static final List<Item> items = new ArrayList<>(100);
 
 	// metal resources
 
@@ -164,8 +164,6 @@ public class FAItems
 	{
 		if (!isInit.compareAndSet(false, true))
 			return;
-
-		items = new ArrayList<>(100);
 
 		// metal resources
 

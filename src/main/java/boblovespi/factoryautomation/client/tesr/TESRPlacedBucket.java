@@ -1,57 +1,67 @@
 package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraftforge.fluids.FluidStack;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 7/25/2018.
  */
-public class TESRPlacedBucket extends TileEntitySpecialRenderer<TEPlacedBucket>
+public class TESRPlacedBucket extends TileEntityRenderer<TEPlacedBucket>
 {
+	public TESRPlacedBucket(TileEntityRendererDispatcher rendererDispatcherIn)
+	{
+		super(rendererDispatcherIn);
+	}
+
 	@Override
-	public void render(TEPlacedBucket te, double x, double y, double z, float partialTicks, int destroyStage,
-			float partial)
+	public void render(TEPlacedBucket te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+			int combinedLight, int combinedOverlay)
 	{
 		FluidStack fluidStack = te.GetFluidStack();
-		if (fluidStack == null)
+		if (fluidStack == null || fluidStack.isEmpty())
 			return;
 		// bindTexture();
 		TextureAtlasSprite sprite = TESRUtils.GetFlowingTextureFromFluid(fluidStack);
-		double amount = fluidStack.amount / 1000d;
+		double amount = fluidStack.getAmount() / 1000d;
 		float minU = sprite.getMinU();
 		float maxU = sprite.getMaxU();
 		float minV = sprite.getMinV();
 		float maxV = sprite.getMaxV();
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder buffer = tessellator.getBuffer();
+		// Tessellator tessellator = Tessellator.getInstance();
+		// BufferBuilder buffer1 = tessellator.getBuffer();
 
-		GlStateManager.pushMatrix();
+		matrix.push();
 		{
-			GlStateManager.translate(x + 5 / 16d, y + amount * 0.4 + 1 / 16d, z + 5 / 16d);
-			GlStateManager.scale(6 / 16d, 0.5, 6 / 16d);
+			matrix.translate(5 / 16d, amount * 0.4 + 1 / 16d, 5 / 16d);
+			matrix.scale(6 / 16f, 0.5f, 6 / 16f);
 
-			GlStateManager.disableLighting();
+			RenderSystem.disableLighting();
 
-			bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			// buffer1.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-			buffer.pos(0, 0, 0).tex(minU, minV).endVertex();
-			buffer.pos(0, 0, 1).tex(minU, maxV).endVertex();
-			buffer.pos(1, 0, 1).tex(maxU, maxV).endVertex();
-			buffer.pos(1, 0, 0).tex(maxU, minV).endVertex();
+			// buffer1.pos(0, 0, 0).tex(minU, minV).endVertex();
+			// buffer1.pos(0, 0, 1).tex(minU, maxV).endVertex();
+			// buffer1.pos(1, 0, 1).tex(maxU, maxV).endVertex();
+			// buffer1.pos(1, 0, 0).tex(maxU, minV).endVertex();
+			Minecraft.getInstance().getBlockRendererDispatcher().renderFluid(te.getPos(), te.getWorld(),
+					buffer.getBuffer(RenderTypeLookup.getRenderType(fluidStack.getFluid().getDefaultState())),
+					fluidStack.getFluid().getDefaultState());
+			// TODO: draw quads manually for efficiency
 
-			tessellator.draw();
+			// tessellator.draw();
 		}
-		GlStateManager.popMatrix();
+		matrix.pop();
 	}
 }

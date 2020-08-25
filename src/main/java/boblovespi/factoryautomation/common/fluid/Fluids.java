@@ -2,6 +2,16 @@ package boblovespi.factoryautomation.common.fluid;
 
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.minecraftforge.fluids.ForgeFlowingFluid.Properties;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -9,18 +19,41 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
  * Created by Willi on 12/29/2017.
  * TODO: figure out fluids
  */
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Fluids
 {
-	public static Fluid sodiumChloride = new FluidBase("sodium_chloride", null, null);
-	public static Fluid steam = new FluidBase("fa_steam", GetFluidPath("steam_still"), GetFluidPath("steam_flow"))
-			.Setup(n -> n.setDensity(0).setTemperature(373).setGaseous(true).setViscosity(8000));
-	public static Fluid air = new FluidBase("fa_air", GetFluidPath("air_still"), GetFluidPath("air_still"))
-			.Setup(n -> n.setDensity(0).setGaseous(true).setTemperature(300).setViscosity(15000));
-	public static Fluid rubberSap = new FluidBase("rubber_sap", GetFluidPath("rubber_sap"), GetFluidPath("rubber_sap"))
-			.Setup(n -> n.setDensity(1200).setGaseous(false).setTemperature(300).setViscosity(40000));
-	public static Fluid moltenNetherMetal = new FluidBase(
-			"molten_nether_metal", GetFluidPath("molten_nether_metal"), GetFluidPath("molten_nether_metal_flow"))
-			.Setup(n -> n.setDensity(5000).setGaseous(false).setTemperature(550).setViscosity(88000));
+	public static final DeferredRegister<Fluid> FLUID_REGISTER = new DeferredRegister<>(ForgeRegistries.FLUIDS, MODID);
+	// public static Fluid sodiumChloride = new FluidBase("sodium_chloride", null, null);
+
+	public static FluidBase steam = new FluidBase();
+	public static Properties steamProperties = new Properties(Fluids.steam::Still, Fluids.steam::Flowing,
+			FluidAttributes.builder(GetFluidPath("steam_still"), GetFluidPath("steam_flow")).density(0).temperature(373)
+						   .gaseous().viscosity(8000));
+
+	public static FluidBase air = new FluidBase();
+	public static Properties airProperties = new Properties(Fluids.air::Still, Fluids.air::Flowing,
+			FluidAttributes.builder(GetFluidPath("air_still"), GetFluidPath("air_still")).density(0).temperature(300)
+						   .gaseous().viscosity(15000));
+
+	public static FluidBase rubberSap = new FluidBase();
+	public static Properties rubberSapProperties = new Properties(Fluids.rubberSap::Still, Fluids.rubberSap::Flowing,
+			FluidAttributes.builder(GetFluidPath("rubber_sap"), GetFluidPath("rubber_sap")).density(1200)
+						   .temperature(300).gaseous().viscosity(40000));
+
+	public static FluidBase moltenNetherMetal = new FluidBase();
+	public static Properties moltenNetherMetalProperties = new Properties(Fluids.moltenNetherMetal::Still,
+			Fluids.moltenNetherMetal::Flowing,
+			FluidAttributes.builder(GetFluidPath("molten_nether_metal"), GetFluidPath("molten_nether_metal"))
+						   .density(5000).temperature(550).viscosity(88000));
+
+	static
+	{
+		steam.Update(MakeAndRegister("fa_steam", Fluids.steamProperties));
+		air.Update(MakeAndRegister("fa_air", Fluids.airProperties));
+		rubberSap.Update(MakeAndRegister("rubber_sap", Fluids.rubberSapProperties));
+		moltenNetherMetal.Update(MakeAndRegister("molten_nether_metal", Fluids.moltenNetherMetalProperties));
+	}
+	private static final List<Fluid> fluids = new ArrayList<>();
 
 	//	static
 	//	{
@@ -32,23 +65,11 @@ public class Fluids
 		return new ResourceLocation(MODID, "fluids/" + location);
 	}
 
-	public static void RegisterFluids()
+	private static FluidBase MakeAndRegister(String name, Properties properties)
 	{
-		RegisterFluid(steam);
-		RegisterFluid(air);
-		RegisterFluid(rubberSap);
-		RegisterFluid(moltenNetherMetal);
-		// TEMP
-		FluidRegistry.addBucketForFluid(rubberSap);
-		FluidRegistry.addBucketForFluid(steam);
-		FluidRegistry.addBucketForFluid(moltenNetherMetal);
-	}
-
-	private static void RegisterFluid(Fluid fluid)
-	{
-		if (!FluidRegistry.registerFluid(fluid))
-		{
-			fluid = FluidRegistry.getFluid(fluid.getName());
-		}
+		FluidBase base = new FluidBase();
+		base.flowing = FLUID_REGISTER.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(properties));
+		base.still = FLUID_REGISTER.register(name + "_still", () -> new ForgeFlowingFluid.Source(properties));
+		return base;
 	}
 }

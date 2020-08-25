@@ -1,19 +1,23 @@
 package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.resource.Ore;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.init.Biomes;
-import net.minecraft.init.Blocks;
+import com.mojang.datafixers.Dynamic;
+import net.minecraft.block.BlockState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import java.util.Random;
+import java.util.function.Function;
 
 /**
  * Created by Willi on 4/4/2018.
  */
-public class SwampFloorOreGenerator extends WorldGenerator
+public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 {
 	private final float spawnChance;
 	private final float lowCutoff;
@@ -21,9 +25,10 @@ public class SwampFloorOreGenerator extends WorldGenerator
 	private Ore ore;
 	private int radius;
 
-	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance)
+	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance,
+			Function<Dynamic<?>, ? extends NoFeatureConfig> config)
 	{
-		super(false);
+		super(config);
 		this.ore = ore;
 		this.radius = radius;
 		this.lowCutoff = lowCutoff;
@@ -32,9 +37,10 @@ public class SwampFloorOreGenerator extends WorldGenerator
 	}
 
 	@Override
-	public boolean generate(World worldIn, Random rand, BlockPos basePos)
+	public boolean place(IWorld worldIn, ChunkGenerator generator, Random rand, BlockPos basePos,
+			NoFeatureConfig config)
 	{
-		if (worldIn.getBiome(basePos) != Biomes.SWAMPLAND)
+		if (worldIn.getBiome(basePos).getCategory() != Biome.Category.SWAMP)
 			return false;
 
 		Ore.Grade type;
@@ -63,12 +69,12 @@ public class SwampFloorOreGenerator extends WorldGenerator
 					//									+ "], basePos = [" + basePos + "]");
 					//					System.out.println("pos = " + pos);
 
-					if (pos.distanceSq(basePos) <= radius * radius
-							&& worldIn.getBlockState(pos.up()).getBlock() == Blocks.WATER
-							&& worldIn.getBlockState(pos).getBlock() != Blocks.WATER)
+					if (pos.distanceSq(basePos) <= radius * radius && worldIn.getFluidState(pos.up()).getFluid()
+																			 .isEquivalentTo(Fluids.WATER) && worldIn
+							.getFluidState(pos).isEmpty())
 					{
 						if (rand.nextFloat() < spawnChance * (1 - pos.down(y).distanceSq(basePos) / (radius * radius)))
-							setBlockAndNotifyAdequately(worldIn, pos, toGen);
+							setBlockState(worldIn, pos, toGen);
 					}
 				}
 			}

@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.config;
 
+import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Pair;
 import net.minecraftforge.fml.common.Mod;
 
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by Willi on 5/2/2018.
  */
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = FactoryAutomation.MODID)
 // @LangKey("config.main")
 // @Config(modid = MODID)
 public class ConfigFields

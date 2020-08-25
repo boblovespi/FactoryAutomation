@@ -1,60 +1,49 @@
 package boblovespi.factoryautomation.common.handler;
 
-import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
-import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
+import boblovespi.factoryautomation.common.item.types.WoodTypes;
+import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistry;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 import static boblovespi.factoryautomation.common.block.resource.Ore.Grade.*;
-import static boblovespi.factoryautomation.common.handler.OreDictionaryHandler.Cleanup;
 import static boblovespi.factoryautomation.common.item.ores.OreForms.*;
 
-@Mod.EventBusSubscriber
-
+@Mod.EventBusSubscriber(modid = MODID)
 public class RecipeHandler
 {
 	public static List<IRecipe> recipes;
 
-	private static NonNullList<ItemStack> bronzeCrucibleItems = NonNullList
-			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.COPPER), 7),
-					new ItemStack(FAItems.nugget.GetItem(Metals.TIN), 1));
-	private static NonNullList<ItemStack> bronze = NonNullList
-			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.BRONZE), 8));
+	//	private static NonNullList<ItemStack> bronzeCrucibleItems = NonNullList
+	//			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.COPPER), 7),
+	//					new ItemStack(FAItems.nugget.GetItem(Metals.TIN), 1));
+	//	private static NonNullList<ItemStack> bronze = NonNullList
+	//			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.BRONZE), 8));
 
-	/*
 	@SuppressWarnings("unused")
-	@SubscribeEvent
-	public static void registerIRecipes(RegistryEvent.Register<IRecipe> event)
+	public static void registerIRecipes()
 	{
 		//		concrete = new ShapelessOreRecipe(new ResourceLocation(FactoryAutomation.MODID, "concrete"),
 		//				FABlocks.concrete.ToBlock(), FAItems.slag.ToItem(), Items.WATER_BUCKET, Blocks.SAND)
 		//				.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "concrete"));
-
+		/*
 		recipes = new ArrayList<>();
 		// recipes.add(concrete);
 
@@ -170,7 +159,7 @@ public class RecipeHandler
 				new ItemStack(FAItems.rubber.ToItem()), 0.6f);
 		FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(FAItems.slag.ToItem()),
 				new ItemStack(FABlocks.slagGlass.ToBlock()), 0.6f);
-
+		*/
 		//
 		//
 		// ================ BEGIN CUSTOM RECIPE REGISTERING ================
@@ -191,29 +180,27 @@ public class RecipeHandler
 		// jaw crusher
 		//
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItem(Item.getItemFromBlock(Blocks.STONE)),
-				n -> new ItemStack(Blocks.COBBLESTONE), 0, "stone-to-cobblestone", 20, 10, 10));
+		JawCrusherRecipe.AddRecipe(
+				new JawCrusherRecipe(Ingredient.fromItems(Blocks.STONE), n -> new ItemStack(Blocks.COBBLESTONE), 0,
+						"stone-to-cobblestone", 20, 10, 10));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItem(Item.getItemFromBlock(Blocks.DIAMOND_ORE)),
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItems(Blocks.DIAMOND_ORE),
 				n -> new ItemStack(FAItems.diamondGravel.ToItem()), 0, "diamond-processing", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItem(FABlocks.magnetiteOre.GetBlock(POOR).GetItem().ToItem()),
-						n -> new ItemStack(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)), 0,
-						"magnetite-poor-ore-to-coarse", 20, 10, 100));
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItems(FABlocks.magnetiteOre.GetBlock(POOR)),
+				n -> new ItemStack(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)), 0,
+				"magnetite-poor-ore-to-coarse", 20, 10, 100));
+
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItems(FABlocks.magnetiteOre.GetBlock(NORMAL)),
+				n -> new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)), 0,
+				"magnetite-normal-ore-to-coarse", 20, 10, 100));
+
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItems(FABlocks.magnetiteOre.GetBlock(RICH)),
+				n -> new ItemStack(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)), 0,
+				"magnetite-rich-ore-to-coarse", 20, 10, 100));
 
 		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItem(FABlocks.magnetiteOre.GetBlock(NORMAL).GetItem().ToItem()),
-						n -> new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)), 0,
-						"magnetite-normal-ore-to-coarse", 20, 10, 100));
-
-		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItem(FABlocks.magnetiteOre.GetBlock(RICH).GetItem().ToItem()),
-						n -> new ItemStack(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)), 0,
-						"magnetite-rich-ore-to-coarse", 20, 10, 100));
-
-		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItem(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)),
+				new JawCrusherRecipe(Ingredient.fromItems(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
 							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(POOR_GRAVEL)));
@@ -222,7 +209,7 @@ public class RecipeHandler
 						}}, 0, "magnetite-poor-coarse-to-gravel", 20, 10, 100));
 
 		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItem(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)),
+				new JawCrusherRecipe(Ingredient.fromItems(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
 							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_GRAVEL)));
@@ -231,7 +218,7 @@ public class RecipeHandler
 						}}, 0, "magnetite-normal-coarse-to-gravel", 20, 10, 100));
 
 		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItem(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)),
+				new JawCrusherRecipe(Ingredient.fromItems(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
 							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(RICH_GRAVEL)));
@@ -241,59 +228,55 @@ public class RecipeHandler
 
 		// trip hammer recipes
 
-		new TripHammerRecipe("iron-block-to-sheets", new OreIngredient("blockIron"),
+		new TripHammerRecipe("iron-block-to-sheets", Ingredient.fromTag(FATags.ForgeItemTag("storage_blocks/iron")),
 				new ItemStack(FAItems.sheet.GetItem(Metals.IRON), 6), 100, 10);
 
 		// chopping block recipes
-
-		for (BlockPlanks.EnumType woodType : BlockPlanks.EnumType.values())
+		for (WoodTypes type : WoodTypes.values())
 		{
-			if (woodType.getMetadata() < 4)
-				ChoppingBlockRecipe.AddRecipe(woodType.getName() + "_log_to_plank", Item.getItemFromBlock(Blocks.LOG),
-						woodType.getMetadata(), new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
-			else
-				ChoppingBlockRecipe.AddRecipe(woodType.getName() + "_log_to_plank", Item.getItemFromBlock(Blocks.LOG2),
-						woodType.getMetadata() - 4, new ItemStack(Blocks.PLANKS, 4, woodType.getMetadata()));
+			ChoppingBlockRecipe.AddRecipe(type.GetName() + "_log_to_plank", type.GetLog().asItem(),
+					new ItemStack(type.GetPlanks(), 4));
 		}
-		ChoppingBlockRecipe.AddRecipe("plank_to_stick", "plankWood", new ItemStack(Items.STICK, 4, 0));
-		ChoppingBlockRecipe.AddRecipe("grass_to_fiber", Item.getItemFromBlock(Blocks.TALLGRASS), 1,
-				new ItemStack(FAItems.plantFiber.ToItem(), 2));
+
+		ChoppingBlockRecipe.AddRecipe("plank_to_stick", "planks", new ItemStack(Items.STICK, 4));
+		ChoppingBlockRecipe
+				.AddRecipe("grass_to_fiber", Blocks.TALL_GRASS.asItem(), new ItemStack(FAItems.plantFiber.ToItem(), 2));
 
 		// campfire recipes
-		CampfireRecipe.AddRecipe("cooked_pork", Items.PORKCHOP, 0, new ItemStack(Items.COOKED_PORKCHOP), 20 * 60 * 4);
-		CampfireRecipe.AddRecipe("steak", Items.BEEF, 0, new ItemStack(Items.COOKED_BEEF), 20 * 60 * 2);
-		CampfireRecipe.AddRecipe("cooked_rabbit", Items.RABBIT, 0, new ItemStack(Items.COOKED_RABBIT), 20 * 60 * 5);
-		CampfireRecipe.AddRecipe("cooked_chicken", Items.CHICKEN, 0, new ItemStack(Items.COOKED_CHICKEN), 20 * 60 * 5);
-		CampfireRecipe.AddRecipe("mutton", Items.MUTTON, 0, new ItemStack(Items.COOKED_MUTTON), 20 * 60 * 3);
-		CampfireRecipe
-				.AddRecipe("chorus_popcorn", Items.CHORUS_FRUIT, 0, new ItemStack(Items.CHORUS_FRUIT_POPPED), 600);
-		CampfireRecipe.AddRecipe("baked_potato", Items.POTATO, 0, new ItemStack(Items.BAKED_POTATO), 600);
-		CampfireRecipe.AddRecipe("toasted_bread", Items.BREAD, 0, new ItemStack(FAItems.toastedBread.ToItem()), 300);
+		CampfireRecipe.AddRecipe("cooked_pork", Items.PORKCHOP, new ItemStack(Items.COOKED_PORKCHOP), 20 * 60 * 4);
+		CampfireRecipe.AddRecipe("steak", Items.BEEF, new ItemStack(Items.COOKED_BEEF), 20 * 60 * 2);
+		CampfireRecipe.AddRecipe("cooked_rabbit", Items.RABBIT, new ItemStack(Items.COOKED_RABBIT), 20 * 60 * 5);
+		CampfireRecipe.AddRecipe("cooked_chicken", Items.CHICKEN, new ItemStack(Items.COOKED_CHICKEN), 20 * 60 * 5);
+		CampfireRecipe.AddRecipe("mutton", Items.MUTTON, new ItemStack(Items.COOKED_MUTTON), 20 * 60 * 3);
+		CampfireRecipe.AddRecipe("chorus_popcorn", Items.CHORUS_FRUIT, new ItemStack(Items.POPPED_CHORUS_FRUIT), 600);
+		CampfireRecipe.AddRecipe("baked_potato", Items.POTATO, new ItemStack(Items.BAKED_POTATO), 600);
+		CampfireRecipe.AddRecipe("toasted_bread", Items.BREAD, new ItemStack(FAItems.toastedBread.ToItem()), 300);
 		//CampfireRecipe.AddRecipe("flatbread", Items.CHORUS_FRUIT, 0, new ItemStack(Items.CHORUS_FRUIT_POPPED),
 		//		20 * 60 * 3); // TODO: add basic bread
 		// fish
-		for (int i = 0; i < 2; i++)
-		{
-			CampfireRecipe.AddRecipe("fish" + i, Items.FISH, i, new ItemStack(Items.COOKED_FISH, 1, i), 20 * 60 * 3);
-		}
+		CampfireRecipe.AddRecipe("salmon", Items.SALMON, new ItemStack(Items.COOKED_SALMON, 1), 20 * 60 * 3);
+		CampfireRecipe.AddRecipe("salmon", Items.COD, new ItemStack(Items.COOKED_COD, 1), 20 * 60 * 3);
 
 		// millstone recipes
-		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 0, 50, 5, new ItemStack(FAItems.wheatFlour.ToItem()));
-		MillstoneRecipe.AddRecipe("bone_meal", Items.BONE, 0, 30, 5, new ItemStack(Items.DYE, 4, 15));
+		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 50, 5, new ItemStack(FAItems.wheatFlour.ToItem()));
+		MillstoneRecipe.AddRecipe("bone_meal", Items.BONE, 30, 5, new ItemStack(Items.BONE_MEAL, 4));
 
 		//
 
 		//
 
+		/*
 		WorkbenchRecipeHandler
 				.LoadFromJson(Loader.instance().activeModContainer(), new ResourceLocation(MODID, "recipes"));
 
 		BasicCircuitRecipe.LoadFromJson(Loader.instance().activeModContainer(), new ResourceLocation(MODID, "recipes"));
 
 		recipes = null; // clear the cache
+		*/
 
 	}
 
+	/*
 	private static void AddToolRecipes(String materialName, @Nonnull Object ingot, @Nonnull Object stick,
 			@Nullable FAItem pickaxe, @Nullable FAItem axe, @Nullable FAItem sword, @Nullable FAItem hoe,
 			@Nullable FAItem spade)

@@ -1,6 +1,5 @@
 package boblovespi.factoryautomation.common.util;
 
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -11,12 +10,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.fml.loading.moddiscovery.ModFileInfo;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -25,10 +24,12 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 /**
  * Created by Willi on 12/1/2018.
  */
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = MODID)
 public class TooltipHandler
 {
 	private static Map<Item, ITextComponent> tooltips;
@@ -56,15 +57,8 @@ public class TooltipHandler
 		Path root;
 		String base = "assets/factoryautomation/data";
 
-		try
-		{
-			FileSystem fs = FileSystems.newFileSystem(source, (ClassLoader) null);
-			root = fs.getPath("/" + base);
-		} catch (IOException e)
-		{
-			Log.getLogger().error("Error loading FileSystem from jar: ", e);
-			return;
-		}
+		// FileSystem fs = FileSystems.newFileSystem(source, FMLLoader.getLaunchClassLoader());
+		root = source.resolve("/" + base);
 
 		if (!Files.exists(root))
 			return;

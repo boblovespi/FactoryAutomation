@@ -163,6 +163,8 @@ public class FABlocks
 		if (!isInit.compareAndSet(false, true))
 			return;
 
+		FAItems.Init();
+
 		blocks = new ArrayList<>(100);
 
 		// multiblock controllers
@@ -279,9 +281,9 @@ public class FABlocks
 
 		// fluids
 
-		steam = new FluidFinite(Fluids.steam, Material.WATER, "steam");
-		rubberSap = new FluidFinite(Fluids.rubberSap, Materials.SAP, "rubber_sap");
-		moltenNetherMetal = new FluidFinite(Fluids.moltenNetherMetal, Material.LAVA, "molten_nether_metal");
+		steam = new FluidFinite(Fluids.steam.still, Material.WATER, "steam");
+		rubberSap = new FluidFinite(Fluids.rubberSap.still, Materials.SAP, "rubber_sap");
+		moltenNetherMetal = new FluidFinite(Fluids.moltenNetherMetal.still, Material.LAVA, "molten_nether_metal");
 
 		// decoration blocks
 
@@ -358,6 +360,7 @@ public class FABlocks
 		if (event == null || event.getRegistry() == null)
 			Log.LogWarning("Event is null!");
 		assert event != null;
+		blocks.forEach(n -> System.out.println(n.getRegistryName()));
 		blocks.forEach(event.getRegistry()::register);
 	}
 }

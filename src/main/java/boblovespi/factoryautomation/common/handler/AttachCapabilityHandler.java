@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
  * class for attaching capabilities to stuff
  */
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = FactoryAutomation.MODID)
 public class AttachCapabilityHandler
 {
 	@SubscribeEvent

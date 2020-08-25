@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.handler;
 
+import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.tools.Hammer;
@@ -40,7 +41,7 @@ import java.util.*;
  * Created by Willi on 4/10/2018.
  */
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = FactoryAutomation.MODID)
 public class BlockEventHandler
 {
 	private static final Map<BlockPos, Set<Direction>> ashFires = new HashMap<>();

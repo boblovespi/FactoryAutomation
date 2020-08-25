@@ -24,7 +24,7 @@ public class Firebow extends FABaseItem
 {
 	public Firebow()
 	{
-		super("firebow", new Properties().group(FAItemGroups.primitive).maxDamage(15).maxStackSize(1));
+		super("firebow", new Properties().group(FAItemGroups.primitive).maxDamage(15));
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 		//		setDefaultState(state.withProperty(VARIANT, Variant.DEFAULT));
 		//
 		//		setUnlocalizedName(UnlocalizedName());
-		//		setRegistryName(RegistryName());
+		setRegistryName(RegistryName());
 		//		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		//		setHardness(10);
 		//		setResistance(10000);

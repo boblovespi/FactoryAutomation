@@ -25,7 +25,10 @@ import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
+import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -37,6 +40,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
  * main mod class
  */
 @Mod(FactoryAutomation.MODID/*, name = FactoryAutomation.NAME, version = FactoryAutomation.VERSION/*, guiFactory = FactoryAutomation.GUI_FACTORY*/)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FactoryAutomation
 {
 	public static final String MODID = "factoryautomation";
@@ -46,10 +50,11 @@ public class FactoryAutomation
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
 	public static final String GUI_FACTORY = "net.minecraftforge.fml.client.DefaultGuiFactory";
 	// @Mod.Instance(MODID)
-	public static FactoryAutomation instance = new FactoryAutomation();
+	// public static FactoryAutomation instance = new FactoryAutomation();
 	// @SidedProxy(serverSide = SERVER_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
 	@SuppressWarnings("Convert2MethodRef")
-	public static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+	public static CommonProxy proxy = DistExecutor
+			.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
 	//	static
 	//	{
@@ -58,11 +63,14 @@ public class FactoryAutomation
 
 	public FactoryAutomation()
 	{
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
+		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
+		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
+		Fluids.FLUID_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
 
-	private void Setup(FMLCommonSetupEvent event)
+	@SubscribeEvent
+	public static void Setup(FMLCommonSetupEvent event)
 	{
 		Log.getLogger().info("Preinitialization");
 
@@ -80,24 +88,28 @@ public class FactoryAutomation
 		PacketHandler.CreateChannel(MODID);
 		proxy.PreInit();
 
-		Fluids.RegisterFluids();
-
 		FAItems.Init();
 		FABlocks.Init();
 
 		// proxy.RegisterRenders();
 
 		Log.getLogger().info("Preinitialization end");
+
+		Init();
+
+		PostInit();
 	}
 
-	private void ClientSetup(FMLClientSetupEvent event)
+	@SubscribeEvent
+	public static void ClientSetup(FMLClientSetupEvent event)
 	{
+		// TODO: RenderTypeLookup.setRenderLayer();
 		proxy.RegisterRenders();
 	}
 
 	@SuppressWarnings("unused")
 	// @Mod.EventHandler
-	public void Init()
+	public static void Init()
 	{
 		Log.getLogger().info("Initialization");
 		proxy.Init();
@@ -108,6 +120,8 @@ public class FactoryAutomation
 		TileEntityHandler.RegisterTileEntities();
 
 		Log.getLogger().info("Initialization end");
+
+		WorldGenHandler.AddFeaturesToBiomes();
 
 		MultiblockHandler.Register(
 				"blast_furnace",
@@ -140,7 +154,7 @@ public class FactoryAutomation
 
 	@SuppressWarnings("unused")
 	// @Mod.EventHandler
-	public void PostInit(/*FMLPostInitializationEvent Event*/)
+	public static void PostInit(/*FMLPostInitializationEvent Event*/)
 	{
 		Log.getLogger().info("Postinitialization");
 

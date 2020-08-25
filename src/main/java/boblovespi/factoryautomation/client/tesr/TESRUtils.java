@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.FaceBakery;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -46,7 +48,8 @@ public class TESRUtils
 
 	public static TextureAtlasSprite GetFlowingTextureFromFluid(FluidStack fluid)
 	{
-		return ModelLoader.defaultTextureGetter().apply(fluid.getFluid().getFlowing(fluid));
+		return ModelLoader.defaultTextureGetter()
+						  .apply(ForgeHooksClient.getFluidMaterials(fluid.getFluid()).skip(1).findFirst().get());
 	}
 
 	public static void RenderQuads(MatrixStack matrix, IVertexBuilder buffer, List<BakedQuad> quads, ItemStack stack,

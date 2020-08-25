@@ -1,8 +1,12 @@
 package boblovespi.factoryautomation.common.item.types;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.IItemProvider;
 
 /**
  * Created by Willi on 11/29/2019.
@@ -57,5 +61,45 @@ public enum WoodTypes
 	public int Index()
 	{
 		return i;
+	}
+
+	public Block GetLog()
+	{
+		switch (this)
+		{
+		case OAK:
+			return Blocks.OAK_LOG;
+		case SPRUCE:
+			return Blocks.SPRUCE_LOG;
+		case BIRCH:
+			return Blocks.BIRCH_LOG;
+		case JUNGLE:
+			return Blocks.JUNGLE_LOG;
+		case ACACIA:
+			return Blocks.ACACIA_LOG;
+		case DARK_OAK:
+			return Blocks.DARK_OAK_LOG;
+		}
+		return Blocks.OAK_LOG;
+	}
+
+	public Item GetPlanks()
+	{
+		switch (this)
+		{
+		case OAK:
+			return Items.OAK_PLANKS;
+		case SPRUCE:
+			return Items.SPRUCE_PLANKS;
+		case BIRCH:
+			return Items.BIRCH_PLANKS;
+		case JUNGLE:
+			return Items.JUNGLE_PLANKS;
+		case ACACIA:
+			return Items.ACACIA_PLANKS;
+		case DARK_OAK:
+			return Items.DARK_OAK_PLANKS;
+		}
+		return Items.OAK_PLANKS;
 	}
 }

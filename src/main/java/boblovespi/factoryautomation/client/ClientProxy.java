@@ -1,8 +1,10 @@
 package boblovespi.factoryautomation.client;
 
+import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.tesr.*;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
@@ -24,7 +26,7 @@ import net.minecraftforge.fml.common.Mod;
  * Created by Willi on 11/8/2017.
  * client proxy class
  */
-@Mod.EventBusSubscriber(Dist.CLIENT)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = FactoryAutomation.MODID)
 @OnlyIn(Dist.CLIENT)
 public class ClientProxy implements CommonProxy
 {
@@ -39,18 +41,18 @@ public class ClientProxy implements CommonProxy
 	@Override
 	public void RegisterRenders()
 	{
-		ClientRegistry.bindTileEntityRenderer(TEPowerShaft.class, new TESRPowerShaft());
-		ClientRegistry.bindTileEntityRenderer(TEGearbox.class, new TESRGearbox());
-		ClientRegistry.bindTileEntityRenderer(TEMotor.class, new TESRMotor());
-		ClientRegistry.bindTileEntityRenderer(TEPlacedBucket.class, new TESRPlacedBucket());
-		ClientRegistry.bindTileEntityRenderer(TEHandCrank.class, new TESRHandCrank());
-		ClientRegistry.bindTileEntityRenderer(TEChoppingBlock.class, new TESRChoppingBlock());
-		ClientRegistry.bindTileEntityRenderer(TECampfire.class, new TESRCampfire());
-		ClientRegistry.bindTileEntityRenderer(TEStoneCastingVessel.class, new TESRStoneCastingVessel());
-		ClientRegistry.bindTileEntityRenderer(TEMillstone.class, new TESRMillstone());
-		ClientRegistry.bindTileEntityRenderer(TEPaperBellows.class, new TESRBellows.Paper());
-		ClientRegistry.bindTileEntityRenderer(TELeatherBellows.class, new TESRBellows.Leather());
-		ClientRegistry.bindTileEntityRenderer(TEBevelGear.class, new TESRBevelGear());
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.tePowerShaft, TESRPowerShaft::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teGearbox, TESRGearbox::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teMotor, TESRMotor::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.tePlacedBucket, TESRPlacedBucket::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teHandCrank, TESRHandCrank::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teChoppingBlock, TESRChoppingBlock::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teCampfire, TESRCampfire::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teStoneCastingVessel, TESRStoneCastingVessel::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teMillstone, TESRMillstone::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.tePaperBellows, TESRBellows.Paper::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teLeatherBellows, TESRBellows.Leather::new);
+		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teBevelGear, TESRBevelGear::new);
 	}
 
 	@Override

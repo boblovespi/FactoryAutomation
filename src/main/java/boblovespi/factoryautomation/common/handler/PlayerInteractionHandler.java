@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.handler;
 
+import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,7 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 /**
  * Created by Willi on 6/27/2018.
  */
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = FactoryAutomation.MODID)
 public class PlayerInteractionHandler
 {
 	@SubscribeEvent

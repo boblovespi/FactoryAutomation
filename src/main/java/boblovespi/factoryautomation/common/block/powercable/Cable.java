@@ -19,6 +19,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapeCube;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -63,6 +65,10 @@ public class Cable extends FABaseBlock
 				new Item.Properties().group(FAItemGroups.electrical));
 		setDefaultState(stateContainer.getBaseState().with(WEST, AttachPos.NONE).with(EAST, AttachPos.NONE)
 									  .with(NORTH, AttachPos.NONE).with(SOUTH, AttachPos.NONE));
+		for (int i = 0; i < 16; i++)
+		{
+			CABLE_VOXEL[i] = VoxelShapes.create(CABLE_AABB[i]);
+		}
 	}
 
 	public static boolean CanConnectTo(BlockState state, Direction side, IBlockReader world, BlockPos pos)

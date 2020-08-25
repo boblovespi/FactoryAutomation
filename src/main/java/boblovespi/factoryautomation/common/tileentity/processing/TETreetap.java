@@ -64,7 +64,7 @@ public class TETreetap extends TileEntity implements ITickableTileEntity
 								break;
 							leafPos = leafPos.up();
 						}
-						n.fill(new FluidStack(Fluids.rubberSap, AMOUNT_PER_UPDATE), IFluidHandler.FluidAction.EXECUTE);
+						n.fill(new FluidStack(Fluids.rubberSap.still.get(), AMOUNT_PER_UPDATE), IFluidHandler.FluidAction.EXECUTE);
 					}
 				});
 			}
