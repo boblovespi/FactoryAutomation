@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "magmatic_brass_nugget",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/magmatic_brass"
+    }
+  ],
+  "result": {
+    "item": "factoryautomation:nugget_magmatic_brass",
+    "count": 9
+  }
+}

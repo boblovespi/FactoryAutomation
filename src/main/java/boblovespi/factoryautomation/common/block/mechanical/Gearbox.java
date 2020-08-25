@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.block.mechanical;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.tools.Wrench;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;

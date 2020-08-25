@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.tileentity.processing;
 
 import boblovespi.factoryautomation.api.recipe.CampfireRecipe;
 import boblovespi.factoryautomation.common.block.processing.Campfire;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;

@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "factoryautomation:empty"
+        "model": "factoryautomation:block/empty"
       }
     }
   ]

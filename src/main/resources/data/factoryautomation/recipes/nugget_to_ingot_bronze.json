@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bronze_ingot",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:nuggets/bronze"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:ingot_bronze"
+  }
+}

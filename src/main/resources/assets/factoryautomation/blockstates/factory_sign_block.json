@@ -1,10 +1,10 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:factory_sign_block"
+    "": {
+      "model": "factoryautomation:block/factory_sign_block"
     },
     "inventory": {
-      "model": "factoryautomation:factory_sign_block"
+      "model": "factoryautomation:block/factory_sign_block"
     }
   }
 }

@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_center"
+        "model": "factoryautomation:block/cable/lv_cable_center"
       }
     },
     {
@@ -10,7 +10,7 @@
         "north": "side"
       },
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_side"
+        "model": "factoryautomation:block/cable/lv_cable_side"
       }
     },
     {
@@ -18,7 +18,7 @@
         "east": "side"
       },
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_side",
+        "model": "factoryautomation:block/cable/lv_cable_side",
         "y": 90,
         "uvlock": true
       }
@@ -28,7 +28,7 @@
         "south": "side"
       },
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_side",
+        "model": "factoryautomation:block/cable/lv_cable_side",
         "y": 180,
         "uvlock": true
       }
@@ -38,7 +38,7 @@
         "west": "side"
       },
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_side",
+        "model": "factoryautomation:block/cable/lv_cable_side",
         "y": 270,
         "uvlock": true
       }
@@ -48,7 +48,7 @@
         "north": "up"
       },
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_up"
+        "model": "factoryautomation:block/cable/lv_cable_up"
       }
     },
     {
@@ -56,7 +56,7 @@
         "east": "up"
       },
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_up",
+        "model": "factoryautomation:block/cable/lv_cable_up",
         "y": 90,
         "uvlock": true
       }
@@ -66,7 +66,7 @@
         "south": "up"
       },
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_up",
+        "model": "factoryautomation:block/cable/lv_cable_up",
         "y": 180,
         "uvlock": true
       }
@@ -76,7 +76,7 @@
         "west": "up"
       },
       "apply": {
-        "model": "factoryautomation:cable/lv_cable_up",
+        "model": "factoryautomation:block/cable/lv_cable_up",
         "y": 270,
         "uvlock": true
       }

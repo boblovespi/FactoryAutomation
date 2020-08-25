@@ -1,13 +1,13 @@
 {
   "variants": {
     "normal": {
-      "model": "factoryautomation:concrete"
+      "": "factoryautomation:block/concrete"
     },
     "half=bottom,variant=default": {
-      "model": "factoryautomation:concrete"
+      "model": "factoryautomation:block/concrete"
     },
     "half=top,variant=default": {
-      "model": "factoryautomation:concrete"
+      "model": "factoryautomation:block/concrete"
     }
   }
 }

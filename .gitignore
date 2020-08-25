@@ -24,3 +24,4 @@ run
 
 # macOS files
 .DS_Store
+/src/generated/

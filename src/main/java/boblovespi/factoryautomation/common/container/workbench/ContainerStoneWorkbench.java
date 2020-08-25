@@ -8,9 +8,12 @@ import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 public class ContainerStoneWorkbench extends ContainerWorkbench
 {
-	public static final ContainerType<ContainerStoneWorkbench> TYPE = IForgeContainerType.create(ContainerStoneWorkbench::new);
+	public static final ContainerType<ContainerStoneWorkbench> TYPE = IForgeContainerType
+			.create(ContainerStoneWorkbench::new);
 
 	// server-side constructor
 	public ContainerStoneWorkbench(int id, PlayerInventory playerInv, IItemHandler inv, BlockPos pos)

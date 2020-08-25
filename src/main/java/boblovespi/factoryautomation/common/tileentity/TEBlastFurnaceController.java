@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.machine.BlastFurnaceController;
 import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
@@ -12,7 +11,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.IContainerProvider;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;

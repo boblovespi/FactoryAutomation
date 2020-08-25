@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.workbench;
 
 import boblovespi.factoryautomation.common.container.workbench.ContainerIronWorkbench;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;

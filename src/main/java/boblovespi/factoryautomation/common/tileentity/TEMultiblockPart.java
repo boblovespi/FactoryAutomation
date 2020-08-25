@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static boblovespi.factoryautomation.common.handler.TileEntityHandler.teMultiblockPart;
+import static boblovespi.factoryautomation.common.tileentity.TileEntityHandler.teMultiblockPart;
 
 /**
  * Created by Willi on 11/26/2017.

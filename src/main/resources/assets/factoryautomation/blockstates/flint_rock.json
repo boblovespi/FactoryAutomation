@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:resources/flint_rock"
+    "": {
+      "model": "factoryautomation:block/resources/flint_rock"
     }
   }
 }

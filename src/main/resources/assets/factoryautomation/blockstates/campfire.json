@@ -1,10 +1,10 @@
 {
   "variants": {
     "lit=false": {
-      "model": "factoryautomation:processing/campfire"
+      "model": "factoryautomation:block/processing/campfire"
     },
     "lit=true": {
-      "model": "factoryautomation:processing/campfire"
+      "model": "factoryautomation:block/processing/campfire"
     }
   }
 }

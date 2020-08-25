@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
@@ -37,7 +37,7 @@ public class Campfire extends FABaseBlock
 {
 	public static final BooleanProperty LIT = BooleanProperty.create("lit");
 	private static final VoxelShape BOUNDING_BOX = Block
-			.makeCuboidShape(3 / 16d, 0, 3 / 16d, 13 / 16d, 6 / 16d, 13 / 16d);
+			.makeCuboidShape(3, 0, 3, 13, 6, 13);
 
 	public Campfire()
 	{

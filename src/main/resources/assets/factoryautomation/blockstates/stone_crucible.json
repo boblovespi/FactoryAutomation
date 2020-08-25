@@ -1,33 +1,33 @@
 {
   "variants": {
     "facing=north,multiblock_complete=false": {
-      "model": "factoryautomation:processing/stone_crucible"
+      "model": "factoryautomation:block/processing/stone_crucible"
     },
     "facing=south,multiblock_complete=false": {
-      "model": "factoryautomation:processing/stone_crucible",
+      "model": "factoryautomation:block/processing/stone_crucible",
       "y": 180
     },
     "facing=west,multiblock_complete=false": {
-      "model": "factoryautomation:processing/stone_crucible",
+      "model": "factoryautomation:block/processing/stone_crucible",
       "y": 270
     },
     "facing=east,multiblock_complete=false": {
-      "model": "factoryautomation:processing/stone_crucible",
+      "model": "factoryautomation:block/processing/stone_crucible",
       "y": 90
     },
     "facing=north,multiblock_complete=true": {
-      "model": "factoryautomation:processing/stone_foundry_multiblock"
+      "model": "factoryautomation:block/processing/stone_foundry_multiblock"
     },
     "facing=south,multiblock_complete=true": {
-      "model": "factoryautomation:processing/stone_foundry_multiblock",
+      "model": "factoryautomation:block/processing/stone_foundry_multiblock",
       "y": 180
     },
     "facing=west,multiblock_complete=true": {
-      "model": "factoryautomation:processing/stone_foundry_multiblock",
+      "model": "factoryautomation:block/processing/stone_foundry_multiblock",
       "y": 270
     },
     "facing=east,multiblock_complete=true": {
-      "model": "factoryautomation:processing/stone_foundry_multiblock",
+      "model": "factoryautomation:block/processing/stone_foundry_multiblock",
       "y": 90
     }
   }

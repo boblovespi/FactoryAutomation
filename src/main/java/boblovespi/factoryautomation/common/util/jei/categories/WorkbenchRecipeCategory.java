@@ -42,7 +42,7 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 		background = guiHelper
 				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/workbench.png"), u, v,
 						204, 90);
-		icon = guiHelper.createDrawableIngredient(FABlocks.ironWorkbench);
+		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.ironWorkbench));
 	}
 
 	@Override

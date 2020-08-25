@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.api.energy.electricity.EnergyConnection_;
 import boblovespi.factoryautomation.api.energy.electricity.EnergyNetwork_;
 import boblovespi.factoryautomation.api.energy.electricity.IProducesEnergy_;
 import boblovespi.factoryautomation.api.energy.electricity.InternalEnergyStorage;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;

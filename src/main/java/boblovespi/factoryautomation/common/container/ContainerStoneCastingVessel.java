@@ -9,13 +9,16 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 /**
  * Created by Willi on 12/30/2018.
  */
 public class ContainerStoneCastingVessel extends Container
 {
 
-	public static final ContainerType<ContainerStoneCastingVessel> TYPE = IForgeContainerType.create(ContainerStoneCastingVessel::new);
+	public static final ContainerType<ContainerStoneCastingVessel> TYPE = IForgeContainerType
+			.create(ContainerStoneCastingVessel::new);
 	private BlockPos pos;
 
 	// server-side constructor

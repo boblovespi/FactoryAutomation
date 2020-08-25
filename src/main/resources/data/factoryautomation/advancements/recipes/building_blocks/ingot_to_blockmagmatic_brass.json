@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "factoryautomation:ingot_to_blockmagmatic_brass"
+    ]
+  },
+  "criteria": {
+    "has_magmatic_brass_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/magmatic_brass"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "factoryautomation:ingot_to_blockmagmatic_brass"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_magmatic_brass_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

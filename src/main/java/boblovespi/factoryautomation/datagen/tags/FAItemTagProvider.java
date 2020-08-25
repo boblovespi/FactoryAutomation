@@ -44,7 +44,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 			copy(
 					FATags.ForgeBlockTag("storage_blocks/" + Metals.values()[i].getName()),
 					FATags.ForgeItemTag("storage_blocks/" + Metals.values()[i].getName()));
-			getBuilder(FATags.ForgeItemTag("ingot/" + Metals.values()[i].getName()))
+			getBuilder(FATags.ForgeItemTag("ingots/" + Metals.values()[i].getName()))
 					.add(FAItems.ingot.GetItem(Metals.values()[i]));
 			getBuilder(FATags.ForgeItemTag("nuggets/" + Metals.values()[i].getName()))
 					.add(FAItems.nugget.GetItem(Metals.values()[i]));
@@ -101,7 +101,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 		copy(FATags.FABlockTag("storage_blocks/t5"), FATags.FAItemTag("storage_blocks/t5"));
 		copy(FATags.FABlockTag("storage_blocks/t4"), FATags.FAItemTag("storage_blocks/t4"));
 		copy(FATags.FABlockTag("storage_blocks/t3"), FATags.FAItemTag("storage_blocks/t3"));
-		copy(FATags.FABlockTag("storage_blocks/t2"), FATags.FAItemTag("storage_blocks/t2"));
-		copy(FATags.FABlockTag("storage_blocks/t1"), FATags.FAItemTag("storage_blocks/t1"));
+		// copy(FATags.FABlockTag("storage_blocks/t2"), FATags.FAItemTag("storage_blocks/t2"));
+		// copy(FATags.FABlockTag("storage_blocks/t1"), FATags.FAItemTag("storage_blocks/t1"));
 	}
 }

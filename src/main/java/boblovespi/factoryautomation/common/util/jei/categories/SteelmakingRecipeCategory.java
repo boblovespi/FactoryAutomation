@@ -38,7 +38,7 @@ public class SteelmakingRecipeCategory implements IRecipeCategory<SteelmakingRec
 		background = guiHelper.createDrawable(
 				new ResourceLocation("factoryautomation:textures/gui/container/steelmaking_furnace.png"), u, v, 153,
 				85);
-		icon = guiHelper.createDrawableIngredient(FABlocks.steelmakingFurnaceController);
+		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.steelmakingFurnaceController));
 	}
 
 	@Nonnull

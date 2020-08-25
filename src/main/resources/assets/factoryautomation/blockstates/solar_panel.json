@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:solar_panel"
+    "": {
+      "model": "factoryautomation:block/solar_panel"
     }
   }
 }

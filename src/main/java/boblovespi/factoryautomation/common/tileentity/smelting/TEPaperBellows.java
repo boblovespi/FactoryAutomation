@@ -4,10 +4,9 @@ import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.misc.IBellowsable;
 import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.LazyOptional;
 

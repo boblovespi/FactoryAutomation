@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "steel_ingot",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:nuggets/steel"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:ingot_steel"
+  }
+}

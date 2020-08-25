@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:resources/charcoal_pile"
+    "": {
+      "model": "factoryautomation:block/resources/charcoal_pile"
     }
   }
 }

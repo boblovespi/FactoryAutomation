@@ -15,6 +15,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 /**
  * Created by Willi on 4/11/2019.
  */

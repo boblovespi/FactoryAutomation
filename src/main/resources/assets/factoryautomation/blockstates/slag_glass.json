@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:resources/slag_glass"
+    "": {
+      "model": "factoryautomation:block/resources/slag_glass"
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:metals/block_copper"
+    "": {
+      "model": "factoryautomation:block/metals/block_copper"
     }
   }
 }

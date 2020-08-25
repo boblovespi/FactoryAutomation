@@ -1,10 +1,10 @@
 {
   "variants": {
     "is_top=false": {
-      "model": "factoryautomation:mechanical/millstone_bottom"
+      "model": "factoryautomation:block/mechanical/millstone_bottom"
     },
     "is_top=true": {
-      "model": "factoryautomation:mechanical/millstone_top"
+      "model": "factoryautomation:block/mechanical/millstone_top"
     }
   }
 }

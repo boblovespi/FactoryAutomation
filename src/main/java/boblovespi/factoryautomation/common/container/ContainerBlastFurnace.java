@@ -23,6 +23,8 @@ import net.minecraftforge.items.SlotItemHandler;
 
 import java.util.Collections;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 /**
  * Created by Willi on 11/12/2017.
  */
@@ -32,13 +34,15 @@ import java.util.Collections;
  */
 public class ContainerBlastFurnace extends Container
 {
-	public static final ContainerType<ContainerBlastFurnace> TYPE = IForgeContainerType.create(ContainerBlastFurnace::new);
+	public static final ContainerType<ContainerBlastFurnace> TYPE = IForgeContainerType
+			.create(ContainerBlastFurnace::new);
 	private TEBlastFurnaceController te;
 	private IItemHandler handler;
 	private IIntArray progressBars;
 
 	// server-side container
-	public ContainerBlastFurnace(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray progressBars, BlockPos pos)
+	public ContainerBlastFurnace(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray progressBars,
+			BlockPos pos)
 	{
 		super(TYPE, id);
 		handler = inv;

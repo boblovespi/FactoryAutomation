@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:ores/magnetite_ore_normal"
+    "": {
+      "model": "factoryautomation:block/ores/magnetite_ore_normal"
     }
   }
 }

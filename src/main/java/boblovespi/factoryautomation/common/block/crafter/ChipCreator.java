@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.block.crafter;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.block.BlockState;

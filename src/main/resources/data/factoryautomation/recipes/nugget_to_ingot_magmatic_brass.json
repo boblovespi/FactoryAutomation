@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "magmatic_brass_ingot",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:nuggets/magmatic_brass"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:ingot_magmatic_brass"
+  }
+}

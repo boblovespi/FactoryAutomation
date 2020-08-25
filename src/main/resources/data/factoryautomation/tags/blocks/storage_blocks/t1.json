@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:storage_blocks/copper",
+    "#factoryautomation:storage_blocks/t2"
+  ]
+}

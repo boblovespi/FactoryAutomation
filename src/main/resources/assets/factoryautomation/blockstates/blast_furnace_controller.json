@@ -1,33 +1,33 @@
 {
   "variants": {
     "facing=north,multiblock_complete=false": {
-      "model": "factoryautomation:blast_furnace_controller"
+      "model": "factoryautomation:block/blast_furnace_controller"
     },
     "facing=south,multiblock_complete=false": {
-      "model": "factoryautomation:blast_furnace_controller",
+      "model": "factoryautomation:block/blast_furnace_controller",
       "y": 180
     },
     "facing=west,multiblock_complete=false": {
-      "model": "factoryautomation:blast_furnace_controller",
+      "model": "factoryautomation:block/blast_furnace_controller",
       "y": 270
     },
     "facing=east,multiblock_complete=false": {
-      "model": "factoryautomation:blast_furnace_controller",
+      "model": "factoryautomation:block/blast_furnace_controller",
       "y": 90
     },
     "facing=north,multiblock_complete=true": {
-      "model": "factoryautomation:blast_furnace_multiblock.obj"
+      "model": "factoryautomation:block/blast_furnace_multiblock.obj"
     },
     "facing=south,multiblock_complete=true": {
-      "model": "factoryautomation:blast_furnace_multiblock.obj",
+      "model": "factoryautomation:block/blast_furnace_multiblock.obj",
       "y": 180
     },
     "facing=west,multiblock_complete=true": {
-      "model": "factoryautomation:blast_furnace_multiblock.obj",
+      "model": "factoryautomation:block/blast_furnace_multiblock.obj",
       "y": 270
     },
     "facing=east,multiblock_complete=true": {
-      "model": "factoryautomation:blast_furnace_multiblock.obj",
+      "model": "factoryautomation:block/blast_furnace_multiblock.obj",
       "y": 90
     }
   }

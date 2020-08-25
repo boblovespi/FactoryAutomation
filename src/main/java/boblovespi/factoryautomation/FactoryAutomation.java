@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
 import boblovespi.factoryautomation.client.ClientProxy;
+import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.CommonProxy;
 import boblovespi.factoryautomation.common.ServerProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
@@ -26,13 +27,18 @@ import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
+import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
+import boblovespi.factoryautomation.datagen.tags.FABlockTagProvider;
+import boblovespi.factoryautomation.datagen.tags.FAItemTagProvider;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 /**
@@ -105,6 +111,16 @@ public class FactoryAutomation
 	{
 		// TODO: RenderTypeLookup.setRenderLayer();
 		proxy.RegisterRenders();
+		GuiHandler.RegisterGuis();
+	}
+
+	@SubscribeEvent
+	public static void DataSetup(GatherDataEvent event)
+	{
+		DataGenerator generator = event.getGenerator();
+		generator.addProvider(new FARecipeProvider(generator));
+		generator.addProvider(new FABlockTagProvider(generator));
+		generator.addProvider(new FAItemTagProvider(generator));
 	}
 
 	@SuppressWarnings("unused")
@@ -115,9 +131,10 @@ public class FactoryAutomation
 		proxy.Init();
 		// GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
 		FuelHandler.RegisterFuels();
+		RecipeHandler.registerIRecipes();
 		// OreDictionaryHandler.registerOreDictionary();
 		// Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
-		TileEntityHandler.RegisterTileEntities();
+		// TileEntityHandler.RegisterTileEntities();
 
 		Log.getLogger().info("Initialization end");
 

@@ -1,33 +1,33 @@
 {
   "variants": {
     "facing=north,multiblock_complete=false": {
-      "model": "factoryautomation:trip_hammer"
+      "model": "factoryautomation:block/trip_hammer"
     },
     "facing=south,multiblock_complete=false": {
-      "model": "factoryautomation:trip_hammer",
+      "model": "factoryautomation:block/trip_hammer",
       "y": 180
     },
     "facing=west,multiblock_complete=false": {
-      "model": "factoryautomation:trip_hammer",
+      "model": "factoryautomation:block/trip_hammer",
       "y": 270
     },
     "facing=east,multiblock_complete=false": {
-      "model": "factoryautomation:trip_hammer",
+      "model": "factoryautomation:block/trip_hammer",
       "y": 90
     },
     "facing=north,multiblock_complete=true": {
-      "model": "factoryautomation:obj/trip_hammer.obj"
+      "model": "factoryautomation:block/obj/trip_hammer.obj"
     },
     "facing=south,multiblock_complete=true": {
-      "model": "factoryautomation:obj/trip_hammer.obj",
+      "model": "factoryautomation:block/obj/trip_hammer.obj",
       "y": 180
     },
     "facing=west,multiblock_complete=true": {
-      "model": "factoryautomation:obj/trip_hammer.obj",
+      "model": "factoryautomation:block/obj/trip_hammer.obj",
       "y": 270
     },
     "facing=east,multiblock_complete=true": {
-      "model": "factoryautomation:trip_hammer.obj",
+      "model": "factoryautomation:block/trip_hammer.obj",
       "y": 90
     }
   }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pig_iron_nugget",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/pig_iron"
+    }
+  ],
+  "result": {
+    "item": "factoryautomation:nugget_pig_iron",
+    "count": 9
+  }
+}

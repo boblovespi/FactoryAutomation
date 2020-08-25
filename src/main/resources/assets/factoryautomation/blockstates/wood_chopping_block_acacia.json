@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:processing/wood_chopping_block_acacia"
+    "": {
+      "model": "factoryautomation:block/processing/wood_chopping_block_acacia"
     }
   }
 }

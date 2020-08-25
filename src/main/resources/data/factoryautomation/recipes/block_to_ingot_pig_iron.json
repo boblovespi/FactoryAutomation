@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pig_iron_ingot",
+  "ingredients": [
+    {
+      "tag": "forge:storage_blocks/pig_iron"
+    }
+  ],
+  "result": {
+    "item": "factoryautomation:ingot_pig_iron",
+    "count": 9
+  }
+}

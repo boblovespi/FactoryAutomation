@@ -1,6 +1,6 @@
 {
   "variants": {
-    "normal": {
+    "": {
       "model": "factoryautomation:processing/brick_firebox"
     }
   }

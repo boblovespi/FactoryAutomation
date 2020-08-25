@@ -21,6 +21,8 @@ import net.minecraftforge.items.SlotItemHandler;
 
 import java.util.Collections;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 /**
  * Created by Willi on 5/28/2018.
  */

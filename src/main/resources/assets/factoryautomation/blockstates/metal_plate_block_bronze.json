@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:metals/plate_block_bronze"
+    "": {
+      "model": "factoryautomation:block/metals/plate_block_bronze"
     }
   }
 }

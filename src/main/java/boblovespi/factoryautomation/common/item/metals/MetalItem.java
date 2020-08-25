@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.item.metals;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.MultiTypeItem;
 import boblovespi.factoryautomation.common.item.types.Metals;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 
 /**
  * Created by Willi on 11/9/2017.
@@ -13,6 +14,6 @@ public class MetalItem extends MultiTypeItem<Metals> implements FAItem
 
 	public MetalItem(String unlocalizedName)
 	{
-		super(unlocalizedName, Metals.class, "metals", new Properties());
+		super(unlocalizedName, Metals.class, "metals", new Properties().group(FAItemGroups.metallurgy));
 	}
 }

@@ -1,10 +1,10 @@
 {
   "variants": {
     "activated=false": {
-      "model": "factoryautomation:processing/log_pile"
+      "model": "factoryautomation:block/processing/log_pile"
     },
     "activated=true": {
-      "model": "factoryautomation:processing/log_pile"
+      "model": "factoryautomation:block/processing/log_pile"
     }
   }
 }

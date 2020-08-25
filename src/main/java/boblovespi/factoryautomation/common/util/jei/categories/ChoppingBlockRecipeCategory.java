@@ -38,7 +38,7 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 		background = guiHelper
 				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/generic_energyless.png"),
 						u, v, 83, 54);
-		icon = guiHelper.createDrawableIngredient(FABlocks.woodChoppingBlocks.get(0));
+		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.woodChoppingBlocks.get(0)));
 	}
 
 	@Nonnull

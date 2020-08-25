@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:empty"
+    "": {
+      "model": "factoryautomation:block/empty"
     }
   }
 }

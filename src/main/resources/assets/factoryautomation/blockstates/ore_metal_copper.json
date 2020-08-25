@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:ores/ore_copper"
+    "": {
+      "model": "factoryautomation:block/ores/ore_copper"
     }
   }
 }

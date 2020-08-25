@@ -15,17 +15,21 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 /**
  * Created by Willi on 10/28/2018.
  */
 public class ContainerSolidFueledFirebox extends Container
 {
-	public static final ContainerType<ContainerSolidFueledFirebox> TYPE = IForgeContainerType.create(ContainerSolidFueledFirebox::new);
+	public static final ContainerType<ContainerSolidFueledFirebox> TYPE = IForgeContainerType
+			.create(ContainerSolidFueledFirebox::new);
 	private IItemHandler itemHandler;
 	private final IIntArray containerInfo;
 
 	// server-side constructor
-	public ContainerSolidFueledFirebox(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray containerInfo, BlockPos pos)
+	public ContainerSolidFueledFirebox(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray containerInfo,
+			BlockPos pos)
 	{
 		super(TYPE, id);
 		itemHandler = inv;

@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:storage_blocks/bronze",
+    "#factoryautomation:storage_blocks/t4"
+  ]
+}

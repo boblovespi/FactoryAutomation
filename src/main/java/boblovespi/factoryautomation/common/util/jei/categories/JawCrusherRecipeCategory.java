@@ -39,7 +39,7 @@ public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecip
 		background = guiHelper
 				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/machine_base.png"), u, v,
 						83, 54);
-		icon = guiHelper.createDrawableIngredient(FABlocks.jawCrusher);
+		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.jawCrusher));
 	}
 
 	@Override

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "factoryautomation:ingot_to_blockbronze"
+    ]
+  },
+  "criteria": {
+    "has_bronze_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/bronze"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "factoryautomation:ingot_to_blockbronze"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bronze_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}

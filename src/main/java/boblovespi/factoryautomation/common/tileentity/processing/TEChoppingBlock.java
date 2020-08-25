@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.tileentity.processing;
 
 import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
 import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
@@ -13,11 +13,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.items.ItemStackHandler;
-
-import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 12/26/2018.

@@ -1,7 +1,7 @@
 {
   "variants": {
     "normal": {
-      "model": "factoryautomation:workbench/stone_workbench"
+      "model": "factoryautomation:block/workbench/stone_workbench"
     }
   }
 }

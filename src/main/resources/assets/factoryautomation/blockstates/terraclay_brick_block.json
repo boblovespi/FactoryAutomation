@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:resources/terraclay_brick_block"
+    "": {
+      "model": "factoryautomation:block/resources/terraclay_brick_block"
     }
   }
 }

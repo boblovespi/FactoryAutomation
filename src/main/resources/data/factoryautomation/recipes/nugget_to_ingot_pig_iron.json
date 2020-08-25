@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pig_iron_ingot",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:nuggets/pig_iron"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:ingot_pig_iron"
+  }
+}

@@ -20,7 +20,7 @@ public abstract class ContainerWorkbench extends Container
 	protected IItemHandler inv;
 
 	public ContainerWorkbench(int id, PlayerInventory playerInv, IItemHandler inv, BlockPos pos, boolean is3x3,
-			ContainerType<? extends ContainerWorkbench> type)
+			ContainerType<?> type)
 	{
 		super(type, id);
 		this.inv = inv;

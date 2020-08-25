@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:resources/iron_bloom"
+    "": {
+      "model": "factoryautomation:block/resources/iron_bloom"
     }
   }
 }

@@ -25,7 +25,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nullable;
 
 import static boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser.HEAT_USER_CAPABILITY;
-import static boblovespi.factoryautomation.common.handler.TileEntityHandler.teSolidFueledFirebox;
+import static boblovespi.factoryautomation.common.tileentity.TileEntityHandler.teSolidFueledFirebox;
 import static net.minecraftforge.common.util.Constants.BlockFlags.DEFAULT;
 import static net.minecraftforge.common.util.Constants.BlockFlags.NO_RERENDER;
 import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;

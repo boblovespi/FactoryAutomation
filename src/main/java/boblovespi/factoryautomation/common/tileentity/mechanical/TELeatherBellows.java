@@ -6,7 +6,7 @@ import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.misc.IBellowsable;
 import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;

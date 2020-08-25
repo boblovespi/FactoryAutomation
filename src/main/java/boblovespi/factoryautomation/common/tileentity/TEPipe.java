@@ -1,7 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;

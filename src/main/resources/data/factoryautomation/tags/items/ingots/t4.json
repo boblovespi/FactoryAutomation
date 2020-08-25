@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:ingots/magmatic_brass",
+    "#factoryautomation:ingots/t5"
+  ]
+}

@@ -3,7 +3,6 @@ package boblovespi.factoryautomation.common.tileentity;
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceController;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;

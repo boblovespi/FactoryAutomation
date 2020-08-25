@@ -8,6 +8,8 @@ import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 public class ContainerIronWorkbench extends ContainerWorkbench
 {
 	public static final ContainerType<ContainerIronWorkbench> TYPE = IForgeContainerType

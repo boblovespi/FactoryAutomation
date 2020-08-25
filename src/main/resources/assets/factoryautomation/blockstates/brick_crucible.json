@@ -1,33 +1,33 @@
 {
   "variants": {
     "facing=north,multiblock_complete=false": {
-      "model": "factoryautomation:processing/brick_crucible",
+      "model": "factoryautomation:block/processing/brick_crucible",
       "y": 90
     },
     "facing=south,multiblock_complete=false": {
-      "model": "factoryautomation:processing/brick_crucible",
+      "model": "factoryautomation:block/processing/brick_crucible",
       "y": 270
     },
     "facing=west,multiblock_complete=false": {
-      "model": "factoryautomation:processing/brick_crucible"
+      "model": "factoryautomation:block/processing/brick_crucible"
     },
     "facing=east,multiblock_complete=false": {
-      "model": "factoryautomation:processing/brick_crucible",
+      "model": "factoryautomation:block/processing/brick_crucible",
       "y": 180
     },
     "facing=north,multiblock_complete=true": {
-      "model": "factoryautomation:processing/brick_foundry_multiblock",
+      "model": "factoryautomation:block/processing/brick_foundry_multiblock",
       "y": 90
     },
     "facing=south,multiblock_complete=true": {
-      "model": "factoryautomation:processing/brick_foundry_multiblock",
+      "model": "factoryautomation:block/processing/brick_foundry_multiblock",
       "y": 270
     },
     "facing=west,multiblock_complete=true": {
-      "model": "factoryautomation:processing/brick_foundry_multiblock"
+      "model": "factoryautomation:block/processing/brick_foundry_multiblock"
     },
     "facing=east,multiblock_complete=true": {
-      "model": "factoryautomation:processing/brick_foundry_multiblock",
+      "model": "factoryautomation:block/processing/brick_foundry_multiblock",
       "y": 180
     }
   }

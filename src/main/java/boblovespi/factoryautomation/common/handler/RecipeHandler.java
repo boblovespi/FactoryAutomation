@@ -37,7 +37,6 @@ public class RecipeHandler
 	//	private static NonNullList<ItemStack> bronze = NonNullList
 	//			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.BRONZE), 8));
 
-	@SuppressWarnings("unused")
 	public static void registerIRecipes()
 	{
 		//		concrete = new ShapelessOreRecipe(new ResourceLocation(FactoryAutomation.MODID, "concrete"),
@@ -255,7 +254,7 @@ public class RecipeHandler
 		//		20 * 60 * 3); // TODO: add basic bread
 		// fish
 		CampfireRecipe.AddRecipe("salmon", Items.SALMON, new ItemStack(Items.COOKED_SALMON, 1), 20 * 60 * 3);
-		CampfireRecipe.AddRecipe("salmon", Items.COD, new ItemStack(Items.COOKED_COD, 1), 20 * 60 * 3);
+		CampfireRecipe.AddRecipe("cod", Items.COD, new ItemStack(Items.COOKED_COD, 1), 20 * 60 * 3);
 
 		// millstone recipes
 		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 50, 5, new ItemStack(FAItems.wheatFlour.ToItem()));

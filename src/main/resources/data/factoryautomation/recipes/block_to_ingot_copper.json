@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "copper_ingot",
+  "ingredients": [
+    {
+      "tag": "forge:storage_blocks/copper"
+    }
+  ],
+  "result": {
+    "item": "factoryautomation:ingot_copper",
+    "count": 9
+  }
+}

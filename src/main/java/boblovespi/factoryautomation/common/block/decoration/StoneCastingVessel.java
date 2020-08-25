@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.block.decoration;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.TEHelper;

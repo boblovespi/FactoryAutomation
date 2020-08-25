@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.block.crafter.workbench;
 
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEStoneWorkbench;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.block.BlockState;

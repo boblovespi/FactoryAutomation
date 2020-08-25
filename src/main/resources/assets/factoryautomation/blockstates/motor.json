@@ -1,22 +1,22 @@
 {
   "variants": {
     "facing=north": {
-      "model": "factoryautomation:empty"
+      "model": "factoryautomation:block/empty"
     },
     "facing=south": {
-      "model": "factoryautomation:empty"
+      "model": "factoryautomation:block/empty"
     },
     "facing=east": {
-      "model": "factoryautomation:empty"
+      "model": "factoryautomation:block/empty"
     },
     "facing=west": {
-      "model": "factoryautomation:empty"
+      "model": "factoryautomation:block/empty"
     },
     "facing=up": {
-      "model": "factoryautomation:empty"
+      "model": "factoryautomation:block/empty"
     },
     "facing=down": {
-      "model": "factoryautomation:empty"
+      "model": "factoryautomation:block/empty"
     }
   }
 }

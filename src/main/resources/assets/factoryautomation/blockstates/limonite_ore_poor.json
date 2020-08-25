@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:ores/limonite_poor"
+    "": {
+      "model": "factoryautomation:block/ores/limonite_poor"
     }
   }
 }

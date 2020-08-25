@@ -1,7 +1,7 @@
 {
   "variants": {
-    "normal": {
-      "model": "factoryautomation:metals/block_pig_iron"
+    "": {
+      "model": "factoryautomation:block/metals/block_pig_iron"
     }
   }
 }

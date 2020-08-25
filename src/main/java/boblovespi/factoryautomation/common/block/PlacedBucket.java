@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.block;
 
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

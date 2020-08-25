@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.block.machine;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEWaterwheel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;

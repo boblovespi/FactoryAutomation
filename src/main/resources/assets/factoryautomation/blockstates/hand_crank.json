@@ -1,10 +1,10 @@
 {
   "variants": {
     "inverted=false": {
-      "model": "factoryautomation:empty"
+      "model": "factoryautomation:block/empty"
     },
     "inverted=true": {
-      "model": "factoryautomation:empty"
+      "model": "factoryautomation:block/empty"
     }
   }
 }

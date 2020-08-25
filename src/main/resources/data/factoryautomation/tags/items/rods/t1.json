@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:rods/copper",
+    "#factoryautomation:rods/t2"
+  ]
+}

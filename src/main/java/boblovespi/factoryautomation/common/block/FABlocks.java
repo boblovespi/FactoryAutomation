@@ -360,7 +360,7 @@ public class FABlocks
 		if (event == null || event.getRegistry() == null)
 			Log.LogWarning("Event is null!");
 		assert event != null;
-		blocks.forEach(n -> System.out.println(n.getRegistryName()));
+		// blocks.forEach(n -> System.out.println(n.getRegistryName()));
 		blocks.forEach(event.getRegistry()::register);
 	}
 }

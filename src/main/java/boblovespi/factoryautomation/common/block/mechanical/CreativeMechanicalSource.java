@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.block.mechanical;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TECreativeMechanicalSource;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;

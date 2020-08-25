@@ -10,6 +10,7 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -28,7 +29,7 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory<BlastFurnaceR
 		background = helper
 				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/blast_furnace.png"), 4,
 						4, 168, 78);
-		icon = helper.createDrawableIngredient(FABlocks.blastFurnaceController);
+		icon = helper.createDrawableIngredient(new ItemStack(FABlocks.blastFurnaceController));
 	}
 
 	@Nonnull

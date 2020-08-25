@@ -4,11 +4,10 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
 import boblovespi.factoryautomation.common.block.machine.JawCrusher;
-import boblovespi.factoryautomation.common.handler.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.tileentity.TEMachine;
-import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.entity.item.ItemEntity;
