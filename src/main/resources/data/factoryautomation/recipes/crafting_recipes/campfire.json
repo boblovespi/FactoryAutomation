@@ -1,15 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [" s ", "scs", "sls"],
   "key": {
     "c": {
-      "item": "#charcoalCoal"
+      "tag": "minecraft:coals"
     },
     "s": {
-      "item": "#stick"
+      "tag": "forge:rods/wooden"
     },
     "l": {
-      "item": "#log"
+      "tag": "minecraft:logs"
     }
   },
   "result": {

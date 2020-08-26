@@ -4,10 +4,10 @@
   "pattern": ["ss", " s", " r"],
   "key": {
     "r": {
-      "item": "#stickIron"
+      "tag": "forge:rods/iron"
     },
     "s": {
-      "item": "#stick"
+      "tag": "forge:rods/wooden"
     }
   },
   "tools": {

@@ -4,13 +4,13 @@
   "pattern": ["ppp", "iai", "bcb"],
   "key": {
     "i": {
-      "item": "#ingotMetalT3"
+      "tag": "factoryautomation:ingots/t3"
     },
     "p": {
-      "item": "#plateMetalT3"
+      "tag": "factoryautomation:plates/t3"
     },
     "b": {
-      "item": "#blockMetalT3"
+      "tag": "factoryautomation:storage_blocks/t3"
     },
     "a": {
       "item": "minecraft:anvil",

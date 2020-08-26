@@ -4,11 +4,10 @@
   "pattern": ["obo", "b b", "obo"],
   "key": {
     "b": {
-      "item": "#ingotBronze"
+      "tag": "forge:ingots/bronze"
     },
     "o": {
-      "type": "forge:ore_dict",
-      "ore": "nuggetBronze"
+      "tag": "forge:nuggets/bronze"
     }
   },
   "tools": {

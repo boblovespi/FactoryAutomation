@@ -1,9 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.workbench;
 
-import boblovespi.factoryautomation.api.recipe.IWorkbenchRecipe;
-import boblovespi.factoryautomation.api.recipe.WorkbenchPart;
-import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
-import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
+import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +8,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.tileentity.TileEntity;
@@ -176,9 +174,11 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 
 	public void CheckForRecipe()
 	{
-		Optional<IWorkbenchRecipe> recipeOptional = WorkbenchRecipeHandler.recipes.values().stream().filter(n -> n
-				.CanFitTier(size, size, tier)).filter(n -> n
-				.Matches(inventory, size <= 3, firstToolIndex, firstPartIndex, firstCraftingIndex)).findFirst();
+		Optional<IWorkbenchRecipe> recipeOptional = world.getRecipeManager()
+														 .getRecipes(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE)
+														 .values().stream().map(n -> (IWorkbenchRecipe) n)
+														 .filter(n -> n.CanFitTier(size, size, tier)).filter(n -> n
+						.Matches(inventory, size <= 3, firstToolIndex, firstPartIndex, firstCraftingIndex)).findFirst();
 		recipe = recipeOptional.orElse(null);
 		if (recipe != null)
 			output = recipe.GetResult(inventory);

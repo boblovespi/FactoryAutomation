@@ -1,10 +1,9 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["b ", " s"],
   "key": {
     "s": {
-      "type": "forge:ore_dict",
-      "ore": "stickWood"
+      "tag": "forge:rods/wooden"
     },
     "b": {
       "item": "minecraft:bow"

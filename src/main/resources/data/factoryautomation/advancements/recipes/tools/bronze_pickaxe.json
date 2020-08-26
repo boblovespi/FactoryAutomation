@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "factoryautomation:bronze_pickaxe"
+      "factoryautomation:crafting_recipes/metals/bronze_pickaxe"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "factoryautomation:bronze_pickaxe"
+        "recipe": "factoryautomation:crafting_recipes/metals/bronze_pickaxe"
       }
     }
   },

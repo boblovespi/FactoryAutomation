@@ -4,11 +4,10 @@
   "pattern": [" sr", "ssr", " sr"],
   "key": {
     "r": {
-      "item": "#stringAny"
+      "tag": "forge:string"
     },
     "s": {
-      "type": "forge:ore_dict",
-      "ore": "stickWood"
+      "tag": "forge:rods/wooden"
     }
   },
   "tools": {},

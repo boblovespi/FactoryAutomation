@@ -4,7 +4,7 @@
   "pattern": ["sss", "sss", "sss"],
   "key": {
     "s": {
-      "item": "#plateMagmaticBrass"
+      "tag": "forge:plates/magmatic_brass"
     }
   },
   "tools": {

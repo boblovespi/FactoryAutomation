@@ -4,10 +4,10 @@
   "pattern": ["bbb", "i i", "bbb"],
   "key": {
     "b": {
-      "item": "#blockBrick"
+      "item": "minecraft:bricks"
     },
     "i": {
-      "item": "#plateIron"
+      "tag": "forge:plates/iron"
     }
   },
   "tools": {

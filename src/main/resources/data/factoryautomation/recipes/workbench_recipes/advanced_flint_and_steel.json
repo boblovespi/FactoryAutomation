@@ -4,27 +4,23 @@
   "pattern": [" n   ", "ngn  ", " nf  ", "   ds", "   rr"],
   "key": {
     "n": {
-      "type": "forge:ore_dict",
-      "ore": "nuggetGold"
+      "tag": "forge:nuggets/gold"
     },
     "g": {
-      "type": "forge:ore_dict",
-      "ore": "ingotGold"
+      "tag": "forge:ingots/gold"
     },
     "f": {
       "item": "minecraft:flint_and_steel",
       "data": 0
     },
     "d": {
-      "type": "forge:ore_dict",
-      "ore": "gemDiamond"
+      "tag": "forge:gems/diamond"
     },
     "s": {
-      "item":"#ingotSteel"
+      "tag":"forge:ingots/steel"
     },
     "r": {
-      "type": "forge:ore_dict",
-      "ore": "dustRedstone"
+      "tag": "forge:dust/redstone"
     }
   },
   "tools": {

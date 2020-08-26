@@ -1,13 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["s s", "ppp"],
   "key": {
     "s": {
       "item": "minecraft:stick"
     },
     "p": {
-      "type": "forge:ore_dict",
-      "ore": "plankWood"
+      "tag": "minecraft:planks"
     }
   },
   "result": {

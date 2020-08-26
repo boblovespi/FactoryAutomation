@@ -4,7 +4,7 @@
   "pattern": ["ii"],
   "key": {
     "i": {
-      "item": "#ingotCopper"
+      "tag": "forge:ingots/copper"
     }
   },
   "tools": {

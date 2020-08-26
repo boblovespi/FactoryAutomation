@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FATags;
+import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
@@ -26,7 +27,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 import static boblovespi.factoryautomation.common.block.resource.Ore.Grade.*;
 import static boblovespi.factoryautomation.common.item.ores.OreForms.*;
 
-@Mod.EventBusSubscriber(modid = MODID)
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RecipeHandler
 {
 	public static List<IRecipe> recipes;
@@ -378,5 +379,7 @@ public class RecipeHandler
 		event.getRegistry().register(WorkbenchRecipeHandler.SHAPED_SERIALIZER);
 		HammerRecipe.SERIALIZER.setRegistryName(MODID, "hammer_recipe");
 		event.getRegistry().register(HammerRecipe.SERIALIZER);
+		AxeRecipe.SERIALIZER.setRegistryName(MODID, "axe_recipe");
+		event.getRegistry().register(AxeRecipe.SERIALIZER);
 	}
 }

@@ -4,14 +4,13 @@
   "pattern": ["rbr", "rir", "bpb"],
   "key": {
     "b": {
-      "item": "#ingotBronze"
+      "tag": "forge:ingots/bronze"
     },
     "r": {
-      "type": "forge:ore_dict",
-      "ore": "nuggetBronze"
+      "tag": "forge:nuggets/bronze"
     },
     "i": {
-      "item": "factoryautomation:rod_iron"
+      "tag": "forge:rods/iron"
     },
     "p": {
       "item": "minecraft:piston"

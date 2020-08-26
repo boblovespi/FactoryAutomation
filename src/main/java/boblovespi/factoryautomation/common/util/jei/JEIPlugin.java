@@ -11,6 +11,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
@@ -63,7 +64,9 @@ public class JEIPlugin implements IModPlugin
 	public void registerRecipes(IRecipeRegistration registry)
 	{
 		registry.addRecipes(Collections.singletonList(new BlastFurnaceRecipeWrapper()), BlastFurnaceRecipeCategory.ID);
-		registry.addRecipes(WorkbenchRecipeHandler.recipes.values(), WorkbenchRecipeCategory.ID);
+		registry.addRecipes(Minecraft.getInstance().world.getRecipeManager()
+														 .getRecipes(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE)
+														 .values(), WorkbenchRecipeCategory.ID);
 		registry.addRecipes(SteelmakingRecipe.GetRecipes(), SteelmakingRecipeCategory.ID);
 		registry.addRecipes(JawCrusherRecipe.GetRecipes(), JawCrusherRecipeCategory.ID);
 		registry.addRecipes(ChoppingBlockRecipe.GetRecipes(), ChoppingBlockRecipeCategory.ID);

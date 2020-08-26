@@ -1,23 +1,20 @@
 {
-  "type": "forge:ore_shapeless",
+  "type": "minecraft:crafting_shaped",
   "ingredients": [
     {
-      "type": "forge:ore_dict",
-      "ore": "slag"
+      "tag": "forge:slag"
     },
     {
-      "type": "forge:ore_dict",
-      "ore": "sand"
+      "tag": "minecraft:sand"
     },
     {
       "item": "factoryautomation:stone_dust"
     },
     {
-      "item": "#water"
+      "item": "minecraft:water_bucket"
     },
     {
-      "type": "forge:ore_dict",
-      "ore": "gravel"
+      "tag": "forge:gravel"
     }
   ],
   "result": {

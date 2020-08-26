@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "factoryautomation:copper_shovel"
+      "factoryautomation:crafting_recipes/metals/copper_shovel"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "factoryautomation:copper_shovel"
+        "recipe": "factoryautomation:crafting_recipes/metals/copper_shovel"
       }
     }
   },

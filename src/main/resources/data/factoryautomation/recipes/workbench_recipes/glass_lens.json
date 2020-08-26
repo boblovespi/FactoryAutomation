@@ -4,12 +4,10 @@
   "pattern": [" p ", "pgp", " p "],
   "key": {
     "p": {
-      "type": "forge:ore_dict",
-      "ore": "paneGlassColorless"
+      "tag": "forge:glass_panes/colorless"
     },
     "g": {
-      "type": "forge:ore_dict",
-      "ore": "blockGlassColorless"
+      "tag": "forge:glass/colorless"
     }
   },
   "tools": {

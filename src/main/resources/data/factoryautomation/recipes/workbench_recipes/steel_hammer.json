@@ -4,12 +4,10 @@
   "pattern": ["iii", "isi", " s "],
   "key": {
     "i": {
-      "type": "forge:ore_dict",
-      "ore": "ingotSteel"
+      "tag": "forge:ingots/steel"
     },
     "s": {
-      "type": "forge:ore_dict",
-      "ore": "stickWood"
+      "tag": "forge:rods/wooden"
     }
   },
   "tools": {

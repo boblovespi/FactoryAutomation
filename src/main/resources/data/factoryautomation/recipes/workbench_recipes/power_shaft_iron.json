@@ -4,7 +4,7 @@
   "pattern": ["s", "s", "s"],
   "key": {
     "s": {
-      "item": "#stickIron"
+      "tag": "forge:rods/iron"
     }
   },
   "tools": {

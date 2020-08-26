@@ -7,10 +7,10 @@
       "item": "factoryautomation:power_shaft"
     },
     "s": {
-      "item": "#slabCobblestone"
+      "tag": "forge:slabs/cobblestone"
     },
     "c": {
-      "item": "#cobblestone"
+      "tag": "forge:cobblestone"
     }
   },
   "tools": {

@@ -4,7 +4,7 @@
   "pattern": ["ii"],
   "key": {
     "i": {
-      "item": "#ingotBronze"
+      "tag": "forge:ingots/bronze"
     }
   },
   "tools": {

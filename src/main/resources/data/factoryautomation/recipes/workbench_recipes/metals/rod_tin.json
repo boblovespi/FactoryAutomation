@@ -4,7 +4,7 @@
   "pattern": ["i", "i"],
   "key": {
     "i": {
-      "item": "#ingotTin"
+      "tag": "forge:ingots/tin"
     }
   },
   "tools": {

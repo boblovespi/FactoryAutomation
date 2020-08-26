@@ -4,13 +4,13 @@
   "pattern": ["ppp", "w c", "ppp"],
   "key": {
     "c": {
-      "item": "#plateCopper"
+      "tag": "forge:plates/copper"
     },
     "w": {
-      "item": "#plank"
+      "tag": "minecraft:planks"
     },
     "p": {
-      "item": "#paper"
+      "tag": "forge:paper"
     }
   },
   "tools": {

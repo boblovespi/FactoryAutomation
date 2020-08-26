@@ -4,7 +4,7 @@
   "pattern": ["sss", "sss", "sss"],
   "key": {
     "s": {
-      "item": "#plateSilver"
+      "tag": "forge:plates/silver"
     }
   },
   "tools": {

@@ -4,10 +4,10 @@
   "pattern": ["nnn", " s "],
   "key": {
     "n": {
-      "item": "#nuggetCopper"
+      "tag": "forge:nuggets/copper"
     },
     "s": {
-      "item": "#stickCopper"
+      "tag": "forge:rods/copper"
     }
   },
   "tools": {

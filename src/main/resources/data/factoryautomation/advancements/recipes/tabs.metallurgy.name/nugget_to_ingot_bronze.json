@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "factoryautomation:nugget_to_ingot_bronze"
+      "factoryautomation:crafting_recipes/metals/nugget_to_ingot_bronze"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "factoryautomation:nugget_to_ingot_bronze"
+        "recipe": "factoryautomation:crafting_recipes/metals/nugget_to_ingot_bronze"
       }
     }
   },

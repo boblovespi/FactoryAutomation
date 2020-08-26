@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "factoryautomation:block_to_ingot_pig_iron"
+      "factoryautomation:crafting_recipes/metals/block_to_ingot_pig_iron"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "factoryautomation:block_to_ingot_pig_iron"
+        "recipe": "factoryautomation:crafting_recipes/metals/block_to_ingot_pig_iron"
       }
     }
   },

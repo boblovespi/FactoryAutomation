@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "factoryautomation:copper_sword"
+      "factoryautomation:crafting_recipes/metals/copper_sword"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "factoryautomation:copper_sword"
+        "recipe": "factoryautomation:crafting_recipes/metals/copper_sword"
       }
     }
   },

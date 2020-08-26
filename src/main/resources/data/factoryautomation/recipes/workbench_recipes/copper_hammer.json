@@ -4,11 +4,10 @@
   "pattern": ["iii", "isi", " s "],
   "key": {
     "i": {
-      "item": "#ingotCopper"
+      "tag": "forge:ingots/copper"
     },
     "s": {
-      "type": "forge:ore_dict",
-      "ore": "stickWood"
+      "tag": "forge:rods/wooden"
     }
   },
   "tools": {},

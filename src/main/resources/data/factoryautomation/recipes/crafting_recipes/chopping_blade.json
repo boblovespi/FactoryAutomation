@@ -1,12 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["rf", "r "],
   "key": {
     "r": {
-      "item": "#rock"
+      "item": "factoryautomation:rock"
     },
     "f": {
-      "item": "#flint"
+      "item": "minecraft:flint"
     }
   },
   "result": {

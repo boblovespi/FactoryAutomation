@@ -4,7 +4,7 @@
   "pattern": ["lll", "lll", "lll"],
   "key": {
     "l": {
-      "item": "#log"
+      "tag": "minecraft:logs"
     }
   },
   "tools": {

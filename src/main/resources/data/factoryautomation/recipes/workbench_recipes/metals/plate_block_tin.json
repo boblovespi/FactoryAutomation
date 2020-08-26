@@ -4,7 +4,7 @@
   "pattern": ["sss", "sss", "sss"],
   "key": {
     "s": {
-      "item": "#plateTin"
+      "tag": "forge:plates/tin"
     }
   },
   "tools": {

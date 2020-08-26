@@ -4,7 +4,7 @@
   "pattern": ["sss", "sss", "sss"],
   "key": {
     "s": {
-      "item": "#plateLead"
+      "tag": "forge:plates/lead"
     }
   },
   "tools": {

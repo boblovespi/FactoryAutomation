@@ -7,7 +7,7 @@
       "item": "factoryautomation:limonite_ore_normal"
     },
     "c": {
-      "item": "#charcoal"
+      "tag": "forge:gems/charcoal"
     }
   },
   "tools": {

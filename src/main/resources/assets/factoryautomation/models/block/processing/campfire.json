@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "block/log_oak",
-		"1": "block/log_oak_top",
+		"0": "block/oak_log",
+		"1": "block/oak_log_top",
 		"1_0": "block/coal_block",
 		"particle": "block/coal_block"
 	},

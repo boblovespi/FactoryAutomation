@@ -4,7 +4,7 @@
   "pattern": ["i", "i"],
   "key": {
     "i": {
-      "item": "#ingotMagmaticBrass"
+      "tag": "forge:ingots/magmatic_brass"
     }
   },
   "tools": {
