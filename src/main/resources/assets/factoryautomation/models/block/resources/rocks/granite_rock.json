@@ -1,0 +1,6 @@
+{
+  "parent": "factoryautomation:block/resources/rocks/rock",
+  "textures": {
+    "0": "minecraft:block/granite"
+  }
+}

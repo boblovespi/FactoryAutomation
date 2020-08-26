@@ -1,45 +1,151 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "factoryautomation:block/resources/rock"
-  },
   "variants": {
-    "variants": {
-      "cobblestone": {
-        "textures": {
-          "0": "blocks/cobblestone"
-        }
+    "variants=cobblestone": [
+      {
+        "model": "factoryautomation:block/resources/rocks/cobblestone_rock",
+        "uvlock": true
       },
-      "stone": {
-        "textures": {
-          "0": "blocks/stone"
-        }
+      {
+        "model": "factoryautomation:block/resources/rocks/cobblestone_rock",
+        "uvlock": true,
+        "y": 90
       },
-      "andesite": {
-        "textures": {
-          "0": "blocks/stone_andesite"
-        }
+      {
+        "model": "factoryautomation:block/resources/rocks/cobblestone_rock",
+        "uvlock": true,
+        "y": 180
       },
-      "diorite": {
-        "textures": {
-          "0": "blocks/stone_diorite"
-        }
-      },
-      "granite": {
-        "textures": {
-          "0": "blocks/stone_granite"
-        }
-      },
-      "sandstone": {
-        "textures": {
-          "0": "blocks/sandstone_normal"
-        }
-      },
-      "mossy_cobblestone": {
-        "textures": {
-          "0": "blocks/cobblestone_mossy"
-        }
+      {
+        "model": "factoryautomation:block/resources/rocks/cobblestone_rock",
+        "uvlock": true,
+        "y": 270
       }
-    }
+    ],
+    "variants=stone": [
+      {
+        "model": "factoryautomation:block/resources/rocks/stone_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/stone_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/stone_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/stone_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ],
+    "variants=andesite": [
+      {
+        "model": "factoryautomation:block/resources/rocks/andesite_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/andesite_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/andesite_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/andesite_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ],
+    "variants=diorite": [
+      {
+        "model": "factoryautomation:block/resources/rocks/diorite_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/diorite_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/diorite_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/diorite_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ],
+    "variants=granite": [
+      {
+        "model": "factoryautomation:block/resources/rocks/granite_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/granite_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/granite_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/granite_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ],
+    "variants=sandstone": [
+      {
+        "model": "factoryautomation:block/resources/rocks/sandstone_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/sandstone_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/sandstone_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/sandstone_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ],
+    "variants=mossy_cobblestone": [
+      {
+        "model": "factoryautomation:block/resources/rocks/mossy_cobblestone_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/mossy_cobblestone_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/mossy_cobblestone_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/mossy_cobblestone_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ]
   }
 }

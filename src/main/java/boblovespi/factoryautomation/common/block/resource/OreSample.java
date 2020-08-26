@@ -28,7 +28,7 @@ public class OreSample extends FABaseBlock
 
 	public OreSample(String name, ItemStack[] possibleDrops)
 	{
-		super("name", false, Properties.create(Materials.ROCKS).hardnessAndResistance(0.1f), FAItems.Prop());
+		super(name, false, Properties.create(Materials.ROCKS).hardnessAndResistance(0.1f), FAItems.Prop());
 		this.possibleDrops = possibleDrops;
 		// setLightOpacity(0);
 		// setHardness(0.1f);

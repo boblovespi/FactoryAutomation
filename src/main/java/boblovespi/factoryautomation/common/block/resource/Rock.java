@@ -22,6 +22,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
@@ -31,8 +35,7 @@ import net.minecraft.world.World;
 public class Rock extends FABaseBlock
 {
 	public static final EnumProperty<Variants> VARIANTS = EnumProperty.create("variants", Variants.class);
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
-			3 / 16d, 0, 3 / 16d, 13 / 16d, 5 / 16d, 13 / 16d);
+	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(3, 0, 3, 13, 5, 13);
 
 	public Rock()
 	{
@@ -50,7 +53,11 @@ public class Rock extends FABaseBlock
 		builder.add(VARIANTS);
 	}
 
-	// TODO: voxel shapes (bounding boxes)
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	{
+		return BOUNDING_BOX;
+	}
 
 	@Override
 	public String GetMetaFilePath(int meta)

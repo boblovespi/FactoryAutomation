@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "items/flint",
-		"particle": "items/flint"
+		"0": "minecraft:item/flint",
+		"particle": "minecraft:item/flint"
 	},
 	"elements": [
 		{
