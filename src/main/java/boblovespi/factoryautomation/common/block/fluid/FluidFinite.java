@@ -22,7 +22,7 @@ public class FluidFinite extends FlowingFluidBlock implements FABlock
 
 	public FluidFinite(Supplier<FlowingFluid> fluid, Material material, String name)
 	{
-		super(fluid, Properties.create(material));
+		super(fluid, Properties.create(material).noDrops().doesNotBlockMovement());
 		this.name = name;
 		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(FactoryAutomation.MODID, RegistryName());

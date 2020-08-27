@@ -9,6 +9,8 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -21,8 +23,12 @@ import java.util.Random;
  */
 public class RiceCrop extends BushBlock implements IGrowable, FABlock
 {
-	private static final IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
-	private static final AxisAlignedBB BoundingBox = new AxisAlignedBB(0, 0, 0, 1, 1 / 16, 1);
+	public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
+	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[] { Block.makeCuboidShape(0, 0, 0, 16, 1, 16),
+			Block.makeCuboidShape(0, 0, 0, 16, 3, 16), Block.makeCuboidShape(0, 0, 0, 16, 5, 16),
+			Block.makeCuboidShape(0, 0, 0, 16, 7, 16), Block.makeCuboidShape(0, 0, 0, 16, 9, 16),
+			Block.makeCuboidShape(0, 0, 0, 16, 11, 16), Block.makeCuboidShape(0, 0, 0, 16, 13, 16),
+			Block.makeCuboidShape(0, 0, 0, 16, 15, 16) };
 
 	public RiceCrop()
 	{
@@ -67,13 +73,13 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	@Override
 	public void grow(ServerWorld world, Random random, BlockPos blockPos, BlockState BlockState)
 	{
-		world.setBlockState(blockPos, WithAge(getAge(BlockState) + 1 > MaxAge() ? MaxAge() : getAge(BlockState) + 1),
-				2);
+		world.setBlockState(blockPos, WithAge(Math.min(getAge(BlockState) + 1, MaxAge())), 2);
 	}
 
 	protected boolean canSustainBush(BlockState state)
 	{
-		return state.getFluidState().getFluid() == Fluids.WATER || state.getFluidState().getFluid() == Fluids.FLOWING_WATER;
+		return state.getFluidState().getFluid() == Fluids.WATER
+				|| state.getFluidState().getFluid() == Fluids.FLOWING_WATER;
 	}
 
 	@Override
@@ -135,7 +141,8 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 				if (w.getBlockState(d.add(x, 0, y)).getFluidState().getFluid() == Fluids.FLOWING_WATER)
 					chance += 0.3;
 
-				if (w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.DIRT || w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.SAND
+				if (w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.DIRT
+						|| w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.SAND
 						|| w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.GRAVEL)
 					chance += 0.2;
 			}
@@ -168,5 +175,11 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	public boolean IsItemBlock()
 	{
 		return false;
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	{
+		return SHAPE_BY_AGE[state.get(AGE)];
 	}
 }

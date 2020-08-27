@@ -27,6 +27,7 @@ import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
+import boblovespi.factoryautomation.datagen.loottable.FALootTableProvider;
 import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
 import boblovespi.factoryautomation.datagen.tags.FABlockTagProvider;
 import boblovespi.factoryautomation.datagen.tags.FAItemTagProvider;
@@ -121,6 +122,7 @@ public class FactoryAutomation
 		generator.addProvider(new FARecipeProvider(generator));
 		generator.addProvider(new FABlockTagProvider(generator));
 		generator.addProvider(new FAItemTagProvider(generator));
+		generator.addProvider(new FALootTableProvider(generator));
 	}
 
 	@SuppressWarnings("unused")

@@ -84,15 +84,8 @@ public class FABlocks
 	public static FABlock brickMakerFrame;
 	public static FABlock ironCharcoalMix;
 
-	// will be removed soon
-	public static MultiTypeBlock<MetalOres> metalOres;
+	// metal blocks
 
-	public static FABlock powerShaft;
-	public static FABlock gearbox;
-	public static FABlock bevelGear;
-	public static FABlock jawCrusher;
-	public static FABlock creativeMechanicalSource;
-	public static FABlock motor;
 	public static MultiTypeBlock<Metals> metalBlock;
 	public static MultiTypeBlock<Metals> metalPlateBlock;
 	//public static MultiTypeBlock<Metals> metalPatternedPlateBlock;
@@ -104,6 +97,7 @@ public class FABlocks
 
 	// ores
 
+	public static MultiTypeBlock<MetalOres> metalOres;
 	public static MultiTypeBlock<Ore.Grade> limoniteOre;
 	public static MultiTypeBlock<Ore.Grade> magnetiteOre;
 	public static FABlock siliconQuartzOre;
@@ -126,12 +120,12 @@ public class FABlocks
 
 	public static FABlock bronzeCauldron;
 	public static FABlock bronzeFence;
-	public static FABlock stoneCrucible;
-	public static FABlock stoneCastingVessel;
 	public static FABlock slagGlass;
 
 	// smelting
 
+	public static FABlock stoneCrucible;
+	public static FABlock stoneCastingVessel;
 	public static FABlock brickCrucible;
 	public static FABlock brickCastingVessel;
 	public static FABlock brickFirebox;
@@ -140,6 +134,12 @@ public class FABlocks
 
 	// mechanical
 
+	public static FABlock powerShaft;
+	public static FABlock gearbox;
+	public static FABlock bevelGear;
+	public static FABlock jawCrusher;
+	public static FABlock creativeMechanicalSource;
+	public static FABlock motor;
 	public static FABlock handCrank;
 	public static FABlock millstone;
 	public static FABlock horseEngine;
