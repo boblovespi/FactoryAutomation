@@ -32,7 +32,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 
 	public RiceCrop()
 	{
-		super(Properties.create(Material.PLANTS).hardnessAndResistance(0).tickRandomly().sound(SoundType.CROP));
+		super(Properties.create(Material.PLANTS).hardnessAndResistance(0).tickRandomly().sound(SoundType.CROP).doesNotBlockMovement());
 		setRegistryName(RegistryName());
 		setDefaultState(stateContainer.getBaseState().with(AGE, 0));
 		FABlocks.blocks.add(this);
@@ -83,6 +83,12 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
+	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos)
+	{
+		return canSustainBush(state);
+	}
+
+	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(AGE);
@@ -99,7 +105,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	@Override
 	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
-		if (canSustainBush(world.getBlockState(pos.down())))
+		if (!canSustainBush(world.getBlockState(pos.down())))
 		{
 			world.destroyBlock(pos, true);
 			return;
