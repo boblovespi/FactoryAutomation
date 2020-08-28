@@ -1,13 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["rd"],
   "key": {
     "r": {
-      "item": "#rock"
+      "item": "factoryautomation:rock"
     },
     "d": {
-      "type": "forge:ore_dict",
-      "ore": "dirt"
+      "tag": "forge:dirt"
     }
   },
   "result": {

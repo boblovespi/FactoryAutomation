@@ -1,9 +1,9 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["ttt", "ttt", "ttt"],
   "key": {
     "t": {
-      "item": "#tallow"
+      "tag": "forge:tallow"
     }
   },
   "result": {

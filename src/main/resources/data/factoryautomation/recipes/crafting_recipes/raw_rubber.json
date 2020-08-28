@@ -1,10 +1,9 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["aaa", " b "],
   "key": {
     "a": {
-      "type": "forge:ore_dict",
-      "ore": "dustAcid"
+      "tag": "forge:dusts/acid"
     },
     "b": {
       "type": "factoryautomation:fluid",

@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Collection;
@@ -39,6 +40,16 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 				name, Ingredient.fromTag(FATags.ForgeItemTag(oreName)), output);
 		STRING_MAP.putIfAbsent(name, recipe);
 		OREDICT_MAP.put("forge:" + oreName, recipe);
+	}
+
+	public static void AddRecipe(String name, ResourceLocation oreName, ItemStack output)
+	{
+		if (STRING_MAP.containsKey(name))
+			return;
+		ChoppingBlockRecipe recipe = new ChoppingBlockRecipe(
+				name, Ingredient.fromTag(ItemTags.getCollection().getOrCreate(oreName)), output);
+		STRING_MAP.putIfAbsent(name, recipe);
+		OREDICT_MAP.put(oreName.toString(), recipe);
 	}
 
 	public static void AddRecipe(String name, Item item, ItemStack output)

@@ -20,7 +20,7 @@
       "tag":"forge:ingots/steel"
     },
     "r": {
-      "tag": "forge:dust/redstone"
+      "tag": "forge:dusts/redstone"
     }
   },
   "tools": {

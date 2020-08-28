@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "factoryautomation:block/processing/wood_chopping_block_oak"
+    }
+  }
+}

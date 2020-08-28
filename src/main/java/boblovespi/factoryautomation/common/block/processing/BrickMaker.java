@@ -33,7 +33,7 @@ public class BrickMaker extends FABaseBlock
 
 	public BrickMaker()
 	{
-		super("brick_maker_name", false, Properties.create(Material.WOOD).hardnessAndResistance(2).harvestLevel(0).harvestTool(
+		super("brick_maker_frame", false, Properties.create(Material.WOOD).hardnessAndResistance(2).harvestLevel(0).harvestTool(
 				ToolType.AXE), new Item.Properties().group(FAItemGroups.primitive));
 		setDefaultState(stateContainer.getBaseState().with(CONTENTS, Contents.EMPTY));
 	}

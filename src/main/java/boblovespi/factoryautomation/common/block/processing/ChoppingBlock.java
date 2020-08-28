@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
  */
 public class ChoppingBlock extends FABaseBlock
 {
-	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 1, 0.5d, 1);
+	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 16, 8, 16);
 	public final int maxUses;
 
 	public ChoppingBlock(String name, int maxUses, Properties properties)

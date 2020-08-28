@@ -1,12 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["fff", "psp", " s "],
   "key": {
     "f": {
       "item": "minecraft:flint"
     },
     "s": {
-      "item": "#stick"
+      "tag": "forge:rods/wooden"
     },
     "p": {
       "item": "factoryautomation:plant_fiber"

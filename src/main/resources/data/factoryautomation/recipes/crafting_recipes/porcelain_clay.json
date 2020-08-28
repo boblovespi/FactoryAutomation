@@ -1,18 +1,18 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["cbc", "sws", "bcb"],
   "key": {
     "c": {
       "item": "minecraft:clay_ball"
     },
     "b": {
-      "item": "#bonemeal"
+      "item": "minecraft:bonemeal"
     },
     "s": {
       "item": "factoryautomation:stone_dust"
     },
     "w": {
-      "item": "#water"
+      "item": "minecraft:water_bucket"
     }
   },
   "result": {

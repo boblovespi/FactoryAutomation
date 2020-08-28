@@ -15,6 +15,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -238,7 +239,7 @@ public class RecipeHandler
 					new ItemStack(type.GetPlanks(), 4));
 		}
 
-		ChoppingBlockRecipe.AddRecipe("plank_to_stick", "planks", new ItemStack(Items.STICK, 4));
+		ChoppingBlockRecipe.AddRecipe("plank_to_stick", new ResourceLocation("minecraft:planks"), new ItemStack(Items.STICK, 4));
 		ChoppingBlockRecipe
 				.AddRecipe("grass_to_fiber", Blocks.TALL_GRASS.asItem(), new ItemStack(FAItems.plantFiber.ToItem(), 2));
 

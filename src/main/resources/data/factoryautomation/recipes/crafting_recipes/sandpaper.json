@@ -1,16 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["s", "b", "p"],
   "key": {
     "s": {
-      "item": "minecraft:sand",
-      "data": 0
+      "tag": "minecraft:sand"
     },
     "b": {
       "item": "minecraft:slime_ball"
     },
     "p": {
-      "item": "minecraft:paper"
+      "tag": "forge:paper"
     }
   },
   "result": {

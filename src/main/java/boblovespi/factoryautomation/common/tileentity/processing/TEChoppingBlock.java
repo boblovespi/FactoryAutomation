@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.processing;
 
 import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
@@ -37,7 +38,7 @@ public class TEChoppingBlock extends TileEntity
 	@Override
 	public void onLoad()
 	{
-		craftsBeforeBreak = ((ChoppingBlock) getBlockState().getBlock()).maxUses;
+		craftsBeforeBreak = ((ChoppingBlock) FABlocks.woodChoppingBlocks.get(0)).maxUses;
 	}
 
 	public ItemStack PlaceItem(ItemStack items)

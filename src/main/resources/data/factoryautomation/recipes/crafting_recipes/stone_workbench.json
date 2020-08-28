@@ -1,12 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["sss", "iwi", "i i"],
   "key": {
     "i": {
-      "item": "#ingotMetalT1"
+      "tag": "factoryautomation:ingots/t1"
     },
     "s": {
-      "item": "#slabStone"
+      "item": "minecraft:smooth_stone_slab"
     },
     "w": {
       "item": "minecraft:crafting_table"

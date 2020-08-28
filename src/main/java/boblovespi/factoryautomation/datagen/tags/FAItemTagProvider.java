@@ -21,6 +21,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 		copy(FATags.ForgeBlockTag("concrete"), FATags.ForgeItemTag("concrete"));
 		copy(FATags.ForgeBlockTag("clay"), FATags.ForgeItemTag("clay"));
 		copy(FATags.ForgeBlockTag("slabs/cobblestone"), FATags.ForgeItemTag("slabs/cobblestone"));
+		copy(FATags.ForgeBlockTag("dirt"), FATags.ForgeItemTag("dirt"));
 
 		getBuilder(FATags.ForgeItemTag("slag")).add(FAItems.slag.ToItem());
 		getBuilder(FATags.ForgeItemTag("rice")).add(FAItems.riceGrain.ToItem());

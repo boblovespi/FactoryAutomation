@@ -22,6 +22,7 @@ public class FABlockTagProvider extends BlockTagsProvider
 		getBuilder(FATags.ForgeBlockTag("clay")).add(Blocks.CLAY);
 		getBuilder(FATags.ForgeBlockTag("slabs/cobblestone"))
 				.add(Blocks.COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE_SLAB);
+		getBuilder(FATags.ForgeBlockTag("dirt")).add(Blocks.DIRT, Blocks.COARSE_DIRT);
 		for (int i = 2; i < Metals.values().length; ++i)
 		{
 			getBuilder(FATags.ForgeBlockTag("storage_blocks/" + Metals.values()[i].getName()))

@@ -1,12 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["c c", "sss"],
   "key": {
     "c": {
-      "item": "#cobblestone"
+      "tag": "forge:cobblestone"
     },
     "s": {
-      "item": "#slabCobblestone"
+      "tag": "forge:slabs/cobblestone"
     }
   },
   "result": {

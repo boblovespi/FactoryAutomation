@@ -1,16 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["cd", "sc"],
   "key": {
     "s": {
-      "item": "#sand"
+      "tag": "minecraft:sand"
     },
     "c": {
       "item": "minecraft:clay_ball"
     },
     "d": {
-      "type": "forge:ore_dict",
-      "ore": "dirt"
+      "tag": "forge:dirt"
     }
   },
   "result": {

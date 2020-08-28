@@ -1,19 +1,18 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["aaa", "mwm", " b "],
   "key": {
     "a": {
-      "type": "forge:ore_dict",
-      "ore": "dustAsh"
+      "tag": "forge:dusts/ash"
     },
     "b": {
       "item": "minecraft:bowl"
     },
     "m": {
-      "item": "#bonemeal"
+      "item": "minecraft:bonemeal"
     },
     "w": {
-      "item": "#water"
+      "item": "minecraft:water_bucket"
     }
   },
   "result": {

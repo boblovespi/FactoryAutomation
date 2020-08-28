@@ -1,9 +1,9 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": ["rr", "rr"],
   "key": {
     "r": {
-      "item": "#rock"
+      "item": "factoryautomation:rock"
     }
   },
   "result": {
