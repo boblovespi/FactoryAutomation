@@ -8,6 +8,7 @@ import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
@@ -39,7 +40,7 @@ public class Rock extends FABaseBlock
 
 	public Rock()
 	{
-		super("rock", true, Properties.create(Materials.ROCKS), new Item.Properties());
+		super("rock", true, Properties.create(Materials.ROCKS).sound(SoundHandler.rock), new Item.Properties());
 		// super(Materials.ROCKS, "rock", FAItemGroups.resources, true);
 		setDefaultState(stateContainer.getBaseState().with(VARIANTS, Variants.COBBLESTONE));
 		item = new RockItem(this);

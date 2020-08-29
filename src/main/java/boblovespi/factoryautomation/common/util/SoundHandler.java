@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
-@Mod.EventBusSubscriber(modid = MODID)
+@Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SoundHandler
 {
 	// Rock

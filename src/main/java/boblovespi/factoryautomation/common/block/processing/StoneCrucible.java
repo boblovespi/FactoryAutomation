@@ -38,7 +38,7 @@ public class StoneCrucible extends FABaseBlock
 {
 	public static final BooleanProperty MULTIBLOCK_COMPLETE = BooleanProperty.create("multiblock_complete");
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
-	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(2, 0, 2, 14, 1, 14);
+	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(2, 0, 2, 14, 16, 14);
 
 	public StoneCrucible()
 	{

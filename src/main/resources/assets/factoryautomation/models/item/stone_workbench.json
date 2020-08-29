@@ -1,15 +1,14 @@
 {
-	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "factoryautomation:blocks/workbench/workbench_side1",
 		"1": "factoryautomation:blocks/workbench/workbench_side2",
 		"2": "factoryautomation:blocks/workbench/stone_workbench_top",
-		"3": "blocks/stone_slab_top",
-		"particle": "blocks/stone_slab_top"
+		"3": "minecraft:block/smooth_stone",
+		"particle": "minecraft:block/smooth_stone"
 	},
 	"elements": [
 		{
-			"name": "cube",
 			"from": [1, 0, 1],
 			"to": [15, 13, 15],
 			"faces": {
@@ -19,11 +18,9 @@
 				"west": {"uv": [1, 3, 15, 16], "texture": "#1"},
 				"up": {"uv": [1, 3, 15, 16], "texture": "#0"},
 				"down": {"uv": [1, 1, 15, 14], "texture": "#3"}
-			},
-			"type": "cube"
+			}
 		},
 		{
-			"name": "cube",
 			"from": [0, 13, 0],
 			"to": [16, 16, 16],
 			"faces": {
@@ -33,8 +30,42 @@
 				"west": {"uv": [0, 0, 16, 3], "texture": "#0"},
 				"up": {"uv": [0, 0, 16, 16], "texture": "#2"},
 				"down": {"uv": [0, 0, 16, 16], "texture": "#3"}
-			},
-			"type": "cube"
+			}
 		}
-	]
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 225, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"head": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 13, 7]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
 }

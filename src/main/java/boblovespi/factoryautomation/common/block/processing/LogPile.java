@@ -13,6 +13,9 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -29,6 +32,12 @@ import java.util.function.Predicate;
 public class LogPile extends FABaseBlock
 {
 	public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
+	private static final VoxelShape BOUNDING_BOX = VoxelShapes
+			.or(Block.makeCuboidShape(0, 0, 0, 4, 16, 4), Block.makeCuboidShape(6, 0, 0, 10, 16, 4),
+					Block.makeCuboidShape(12, 0, 0, 16, 16, 4), Block.makeCuboidShape(0, 0, 6, 4, 16, 10),
+					Block.makeCuboidShape(6, 0, 6, 10, 16, 10), Block.makeCuboidShape(12, 0, 6, 16, 16, 10),
+					Block.makeCuboidShape(0, 0, 12, 4, 16, 16), Block.makeCuboidShape(6, 0, 12, 10, 16, 16),
+					Block.makeCuboidShape(12, 0, 12, 16, 16, 16)).simplify();
 
 	public LogPile()
 	{
@@ -42,6 +51,12 @@ public class LogPile extends FABaseBlock
 	public String GetMetaFilePath(int meta)
 	{
 		return "processing/" + RegistryName();
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	{
+		return BOUNDING_BOX;
 	}
 
 	@Override
@@ -155,9 +170,9 @@ public class LogPile extends FABaseBlock
 	{
 		if (!state.get(ACTIVATED))
 			return;
-		double x = pos.getX() + 0.5;
-		double y = pos.getY() + 0.5;
-		double z = pos.getZ() + 0.5;
+		double x = pos.getX() + rand.nextDouble();
+		double y = pos.getY() + rand.nextDouble();
+		double z = pos.getZ() + rand.nextDouble();
 		world.addParticle(ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
 				rand.nextDouble() / 20d);
 		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);

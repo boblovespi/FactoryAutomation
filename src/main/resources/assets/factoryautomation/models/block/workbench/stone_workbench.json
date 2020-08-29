@@ -4,8 +4,8 @@
 		"0": "factoryautomation:blocks/workbench/workbench_side1",
 		"1": "factoryautomation:blocks/workbench/workbench_side2",
 		"2": "factoryautomation:blocks/workbench/stone_workbench_top",
-		"3": "blocks/stone_slab_top",
-		"particle": "blocks/stone_slab_top"
+		"3": "minecraft:block/smooth_stone",
+		"particle": "minecraft:block/smooth_stone"
 	},
 	"elements": [
 		{

@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FireBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleTypes;
@@ -59,7 +60,7 @@ public class IronCharcoalMix extends FABaseBlock
 		{
 			if (isSurrounded(
 					world, pos, n -> n.getBlock() == FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
-							|| n.getBlock() == FABlocks.ironBloom))
+							|| n.getBlock() == FABlocks.ironBloom || (n.getBlock() == this && n.get(ACTIVATED))))
 				world.setBlockState(pos, FABlocks.ironBloom.ToBlock().getDefaultState());
 			else
 				world.setBlockState(pos, state.with(ACTIVATED, false));
@@ -72,27 +73,50 @@ public class IronCharcoalMix extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block1, BlockPos fromPos, boolean isMoving)
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block1, BlockPos fromPos,
+			boolean isMoving)
 	{
 		BlockState block = world.getBlockState(fromPos);
+		boolean sidesOnFire = false;
+		boolean isSurrounded = true;
 		if (!state.get(ACTIVATED))
 		{
 			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.get(ACTIVATED)))
 			{
-				world.setBlockState(pos, state.with(ACTIVATED, true), 7);
-				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
+				for (Direction face : Direction.values())
+				{
+					BlockPos offset = pos.offset(face);
+					BlockState state1 = world.getBlockState(offset);
+					if (state1.getBlock().isAir(state1, world, offset))
+					{
+						isSurrounded = false;
+						world.setBlockState(offset, ((FireBlock) Blocks.FIRE).getStateForPlacement(world, offset));
+						sidesOnFire = true;
+					} else if (state1.getBlock() == Blocks.FIRE)
+					{
+						sidesOnFire = true;
+					} else if (state1.getBlock() != FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
+							&& state1.getBlock() != this && state1.getBlock() != FABlocks.ironBloom)
+					{
+						isSurrounded = false;
+					}
+				}
+				if (isSurrounded)
+				{
+					world.setBlockState(pos, state.with(ACTIVATED, true), 7);
+					world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
+				}
 			}
 
 		} else
 		{
-			boolean sidesOnFire = false;
-			boolean isSurrounded = true;
 			for (Direction face : Direction.values())
 			{
 				BlockPos offset = pos.offset(face);
 				BlockState state1 = world.getBlockState(offset);
 				if (state1.getBlock().isAir(state1, world, offset))
 				{
+					isSurrounded = false;
 					world.setBlockState(offset, Blocks.FIRE.getDefaultState());
 					sidesOnFire = true;
 				} else if (state1.getBlock() == Blocks.FIRE)
@@ -126,16 +150,13 @@ public class IronCharcoalMix extends FABaseBlock
 	{
 		if (!state.get(ACTIVATED))
 			return;
-		double x = pos.getX() + 0.5;
-		double y = pos.getY() + 0.5;
-		double z = pos.getZ() + 0.5;
-		world.addParticle(
-				ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
+		double x = pos.getX() + rand.nextDouble();
+		double y = pos.getY() + rand.nextDouble();
+		double z = pos.getZ() + rand.nextDouble();
+		world.addParticle(ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
 				rand.nextDouble() / 20d);
-		world.addParticle(
-				ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
-		world.addParticle(
-				ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
 	private boolean isSurrounded(World world, BlockPos pos, @Nullable Predicate<BlockState> block)
