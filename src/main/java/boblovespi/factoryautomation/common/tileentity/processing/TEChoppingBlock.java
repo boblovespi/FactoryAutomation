@@ -1,10 +1,8 @@
 package boblovespi.factoryautomation.common.tileentity.processing;
 
 import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
-import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.entity.item.ItemEntity;
@@ -35,10 +33,10 @@ public class TEChoppingBlock extends TileEntity
 		slot = new ItemStackHandler(1);
 	}
 
-	@Override
-	public void onLoad()
+	public TEChoppingBlock(int maxUses)
 	{
-		craftsBeforeBreak = ((ChoppingBlock) FABlocks.woodChoppingBlocks.get(0)).maxUses;
+		this();
+		craftsBeforeBreak = maxUses;
 	}
 
 	public ItemStack PlaceItem(ItemStack items)

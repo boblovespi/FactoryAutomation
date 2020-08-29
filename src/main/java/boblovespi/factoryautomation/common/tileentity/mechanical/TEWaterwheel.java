@@ -3,9 +3,9 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.block.machine.Waterwheel;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
@@ -35,6 +35,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	private int counter = -1;
 	private Direction out;
 	private ArrayList<BlockPos> waterLoc;
+	private boolean firstTick = true;
 
 	public TEWaterwheel()
 	{
@@ -42,8 +43,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 		user = new MechanicalUser();
 	}
 
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
 		out = Direction.getFacingFromAxis(Direction.AxisDirection.POSITIVE, getBlockState().get(Waterwheel.AXIS));
 		user.SetSides(EnumSet.of(out));
@@ -60,6 +60,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 		waterLoc.add(pos.offset(front, 1).up(-3));
 		waterLoc.add(pos.up(-3));
 		waterLoc.add(pos.offset(front, -1).up(-3));
+		firstTick = false;
 	}
 
 	@Override
@@ -112,6 +113,9 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 		{
 			return;
 		}
+		if (firstTick)
+			FirstLoad();
+
 		++counter;
 		counter %= 10;
 

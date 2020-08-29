@@ -36,10 +36,9 @@ public class TEMultiblockPart extends TileEntity
 	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
-	@Override
-	public void onLoad()
+	public void InitController()
 	{
-		if (!world.isRemote && structureId != null)
+		if (controller == null && !world.isRemote && structureId != null)
 			controller = (IMultiblockControllerTE) world
 					.getTileEntity(pos.add(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
 	}
@@ -109,7 +108,10 @@ public class TEMultiblockPart extends TileEntity
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (controller == null)
+		{
+			InitController();
 			return LazyOptional.empty();
+		}
 		return controller.GetCapability(capability, structurePosition, facing);
 	}
 }

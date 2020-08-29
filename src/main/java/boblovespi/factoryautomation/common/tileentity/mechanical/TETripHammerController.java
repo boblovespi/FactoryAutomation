@@ -3,9 +3,9 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.TripHammerRecipe;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -34,6 +34,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	private TripHammerRecipe currentRecipe = null;
 	private String currentRecipeString = "none";
 	private float timeLeftInRecipe = -1;
+	private boolean firstTick = true;
 
 	public TETripHammerController()
 	{
@@ -49,11 +50,11 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 		mechanicalUser = new MechanicalUser();
 	}
 
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
 		Direction dir = getBlockState().get(FACING);
 		mechanicalUser.SetSides(EnumSet.of(dir.rotateY(), dir.rotateYCCW()));
+		firstTick = false;
 	}
 
 	@Override
@@ -133,6 +134,9 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 			// do rendering calculations
 		} else
 		{
+			if (firstTick)
+				FirstLoad();
+
 			ItemStack stack = itemHandler.getStackInSlot(0);
 			if (stack.isEmpty() || !itemHandler.getStackInSlot(1).isEmpty())
 				return;

@@ -50,7 +50,7 @@ public class ChoppingBlock extends FABaseBlock
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
-		return new TEChoppingBlock();
+		return new TEChoppingBlock(maxUses);
 	}
 
 	@Override

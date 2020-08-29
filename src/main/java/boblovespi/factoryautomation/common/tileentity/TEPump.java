@@ -30,6 +30,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	protected static int transferAmount = 1500;
 	private float timer;
 	private MechanicalUser mechanicalUser;
+	private boolean firstTick = true;
 
 	public TEPump()
 	{
@@ -43,6 +44,9 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	{
 		if (world.isRemote)
 			return;
+
+		if (firstTick)
+			FirstLoad();
 
 		timer -= transferSpeed * mechanicalUser.GetSpeed() / 10f;
 		Direction dir = world.getBlockState(pos).get(FACING);
@@ -95,11 +99,11 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		markDirty();
 	}
 
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
 		Direction dir = world.getBlockState(pos).get(FACING);
 		mechanicalUser.SetSides(EnumSet.complementOf(EnumSet.of(dir, dir.getOpposite())));
+		firstTick = false;
 	}
 
 	@Nullable

@@ -23,6 +23,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 	protected T recipeCache = null;
 	protected int maxProgress = 1;
 	protected float currentProgress = 0;
+	private boolean firstTick = true;
 
 	public TEMachine(int outputSize, TileEntityType<?> tileType)
 	{
@@ -84,6 +85,9 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 			UpdateClient();
 			return;
 		}
+		if (firstTick)
+			FirstLoad();
+
 		Update();
 		if (recipeName.equals("none"))
 			return;
@@ -112,12 +116,11 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 	}
 
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
-		super.onLoad();
 		if (!recipeName.equals("none"))
 			recipeCache = FindRecipe(recipeName);
+		firstTick = false;
 	}
 
 	protected void UpdateClient()

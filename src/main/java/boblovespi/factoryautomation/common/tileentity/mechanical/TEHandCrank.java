@@ -28,6 +28,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	private MechanicalUser mechanicalUser;
 	private boolean isRotating;
 	public boolean inverted = false;
+	private boolean firstTick = true;
 
 	public TEHandCrank()
 	{
@@ -36,11 +37,11 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 		isRotating = false;
 	}
 
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
 		inverted = getBlockState().get(INVERTED);
 		mechanicalUser.SetSides(EnumSet.of(inverted ? Direction.UP : Direction.DOWN));
+		firstTick = false;
 	}
 
 	public void Rotate()
@@ -82,7 +83,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
-			return LazyOptional.of(()->(T) mechanicalUser);
+			return LazyOptional.of(() -> (T) mechanicalUser);
 		return null;
 	}
 
@@ -92,6 +93,8 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
+		if (firstTick)
+			FirstLoad();
 		if (isRotating)
 		{
 			rotation += SPEED;

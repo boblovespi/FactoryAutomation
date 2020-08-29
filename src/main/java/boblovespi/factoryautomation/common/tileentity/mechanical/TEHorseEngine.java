@@ -31,6 +31,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	private int moveTimer = 0;
 	private int angle = 0;
 	private LazyOptional<MechanicalUser> lazyUser;
+	private boolean firstTick = true;
 
 	public TEHorseEngine()
 	{
@@ -39,11 +40,11 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 		lazyUser = LazyOptional.of(() -> user);
 	}
 
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
 		if (!world.isRemote && hasHorse)
 			horse = (MobEntity) ((ServerWorld) world).getEntityByUuid(horseId);
+		firstTick = false;
 	}
 
 	/**
@@ -54,6 +55,8 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	{
 		if (world.isRemote || !hasHorse)
 			return;
+		if (firstTick)
+			FirstLoad();
 		moveTimer++;
 		if (horse == null)
 		{

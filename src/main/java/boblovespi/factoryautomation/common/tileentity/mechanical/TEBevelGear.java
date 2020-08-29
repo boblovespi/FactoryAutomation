@@ -26,6 +26,7 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 	public float rotation = 0;
 	private MechanicalUser user;
 	private int counter = -1;
+	private boolean firstTick = true;
 
 	public TEBevelGear()
 	{
@@ -33,13 +34,13 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 		user = new MechanicalUser();
 	}
 
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
 		BlockState state = world.getBlockState(pos);
 		Direction negativeFacing = BevelGear.GetNegative(state);
 		Direction positiveFacing = state.get(BevelGear.FACING);
 		user.SetSides(EnumSet.of(negativeFacing, positiveFacing));
+		firstTick = false;
 	}
 
 	@Override
@@ -68,6 +69,8 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 			rotation %= 360;
 			return;
 		}
+		if (firstTick)
+			FirstLoad();
 
 		++counter;
 		counter %= 4;

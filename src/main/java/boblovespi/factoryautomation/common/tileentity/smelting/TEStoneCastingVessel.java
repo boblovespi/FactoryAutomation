@@ -36,6 +36,7 @@ public class TEStoneCastingVessel extends TileEntity
 	private ItemStackHandler slot;
 	private float temp = 20f;
 	private int counter = 0;
+	private boolean firstTick = true;
 
 	public TEStoneCastingVessel()
 	{
@@ -47,10 +48,10 @@ public class TEStoneCastingVessel extends TileEntity
 	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
 		form = getBlockState().get(MOLD).metalForm;
+		firstTick = false;
 	}
 
 	@Override
@@ -177,6 +178,8 @@ public class TEStoneCastingVessel extends TileEntity
 	{
 		if (world.isRemote)
 			return;
+		if (firstTick)
+			FirstLoad();
 		if (temp > 20f)
 		{
 			if (world.isRaining())

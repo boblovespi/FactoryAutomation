@@ -34,6 +34,7 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	private int c2 = 0;
 	private MechanicalUser mechanicalUser;
 	private float lerp = 0;
+	private boolean firstTick = true;
 
 	public TELeatherBellows()
 	{
@@ -41,11 +42,11 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 		mechanicalUser = new MechanicalUser();
 	}
 
-	@Override
-	public void onLoad()
+	public void FirstLoad()
 	{
 		Direction dir = getBlockState().get(FACING);
 		mechanicalUser.SetSides(EnumSet.of(dir.getOpposite()));
+		firstTick = false;
 	}
 
 	public void Blow()
@@ -73,6 +74,9 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 			lerp = Math.abs(2 * (counter / 100f) - 1);
 			return;
 		}
+		if (firstTick)
+			FirstLoad();
+
 		counter -= mechanicalUser.GetSpeed() / 10f;
 		if (counter <= 0)
 		{
