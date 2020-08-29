@@ -1,0 +1,6 @@
+{
+  "parent": "factoryautomation:block/processing/stone_casting_vessel/casting_mold",
+  "textures": {
+    "1": "factoryautomation:blocks/processing/casting_sand_ingot_pattern"
+  }
+}

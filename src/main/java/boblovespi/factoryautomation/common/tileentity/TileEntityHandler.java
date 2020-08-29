@@ -101,6 +101,7 @@ public class TileEntityHandler
 		tePaperBellows = BuildType(TEPaperBellows::new, FABlocks.paperBellows, "paper_bellows");
 		teStoneCastingVessel = BuildType(
 				TEStoneCastingVessel::new, FABlocks.stoneCastingVessel, "stone_casting_vessel");
+		teStoneCrucible = BuildType(TEStoneCrucible::new, FABlocks.stoneCrucible, "stone_crucible");
 		teIronWorkbench = BuildType(TEIronWorkbench::new, FABlocks.ironWorkbench, "iron_workbench");
 		teStoneWorkbench = BuildType(TEStoneWorkbench::new, FABlocks.stoneWorkbench, "stone_workbench");
 		teSolarPanel = BuildType(TileEntitySolarPanel::new, FABlocks.solarPanel, "solar_panel");

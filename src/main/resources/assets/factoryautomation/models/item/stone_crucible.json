@@ -1,8 +1,8 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "1": "minecraft:blocks/furnace_top",
-    "2": "minecraft:blocks/furnace_side"
+    "1": "minecraft:block/furnace_top",
+    "2": "minecraft:block/furnace_side"
   },
   "elements": [
     {

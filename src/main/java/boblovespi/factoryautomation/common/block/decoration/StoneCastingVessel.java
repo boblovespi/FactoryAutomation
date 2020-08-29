@@ -18,9 +18,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
@@ -36,7 +39,12 @@ import static boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCru
 public class StoneCastingVessel extends FABaseBlock
 {
 	public static final EnumProperty<CastingVesselStates> MOLD = EnumProperty.create("mold", CastingVesselStates.class);
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0, 0, 0, 1, 0.5d, 1);
+	private static final VoxelShape BOUNDING_BOX_NO_SAND = VoxelShapes
+			.or(Block.makeCuboidShape(1, 0, 1, 15, 1, 15), Block.makeCuboidShape(0, 0, 1, 1, 8, 15),
+					Block.makeCuboidShape(15, 0, 1, 16, 8, 15), Block.makeCuboidShape(1, 0, 0, 15, 8, 1),
+					Block.makeCuboidShape(1, 0, 15, 15, 8, 16)).simplify();
+	private static final VoxelShape BOUNDING_BOX_SAND = VoxelShapes
+			.or(BOUNDING_BOX_NO_SAND, Block.makeCuboidShape(1, 0, 1, 15, 7, 15));
 
 	public StoneCastingVessel()
 	{
@@ -59,14 +67,12 @@ public class StoneCastingVessel extends FABaseBlock
 		builder.add(MOLD);
 	}
 
-	public boolean isOpaqueCube(BlockState state)
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
-		return false;
-	}
-
-	public boolean isFullCube(BlockState state)
-	{
-		return false;
+		if (state.get(MOLD) == CastingVesselStates.EMPTY)
+			return BOUNDING_BOX_NO_SAND;
+		return BOUNDING_BOX_SAND;
 	}
 
 	@Override
@@ -86,8 +92,8 @@ public class StoneCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
 		{
