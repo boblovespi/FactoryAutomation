@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
+import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.item.tools.FAToolTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 
 /**
@@ -13,7 +13,7 @@ public class IronBloom extends FABaseBlock
 {
 	public IronBloom()
 	{
-		super("iron_bloom", false, Properties.create(Material.IRON).hardnessAndResistance(4).harvestLevel(0)
+		super("iron_bloom", false, Properties.create(Materials.BLOOM).hardnessAndResistance(4).harvestLevel(0)
 											 .harvestTool(FAToolTypes.HAMMER),
 				new Item.Properties().group(FAItemGroups.metallurgy));
 	}

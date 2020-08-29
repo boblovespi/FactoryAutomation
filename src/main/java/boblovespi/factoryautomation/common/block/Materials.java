@@ -12,4 +12,5 @@ public class Materials
 																					 .replaceable().liquid().build();
 	public static final Material ROCKS = new Material.Builder(MaterialColor.STONE).replaceable().build();
 	public static final Material WOOD_MACHINE = new Material.Builder(MaterialColor.WOOD).build();
+	public static final Material BLOOM = new Material.Builder(MaterialColor.IRON).requiresTool().build();
 }

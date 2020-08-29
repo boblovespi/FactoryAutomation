@@ -63,6 +63,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 				if (!isUpdatingChanges && slot == 0 && recipe != null && getStackInSlot(0).isEmpty() && !output
 						.isEmpty())
 				{
+
 					isUpdatingChanges = true;
 					for (int i = 0; i < size * size; i++)
 					{
@@ -199,7 +200,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 	@Override
 	public void onLoad()
 	{
-		CheckForRecipe();
+		// CheckForRecipe();
 	}
 
 	@Override
