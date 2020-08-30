@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "mc1.14.4-alpha0.2.2.2"
+version = "mc1.14.4-alpha0.3.0"
 group = "boblovespi.factoryautomation" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "FactoryAutomation"
 

@@ -1,10 +1,13 @@
 {
   "variants": {
-    "half=bottom,variant=default": {
+    "type=bottom": {
       "model": "factoryautomation:block/concrete_slab_bottom"
     },
-    "half=top,variant=default": {
+    "type=top": {
       "model": "factoryautomation:block/concrete_slab_top"
+    },
+    "type=double": {
+      "model": "factoryautomation:block/concrete"
     }
   }
 }

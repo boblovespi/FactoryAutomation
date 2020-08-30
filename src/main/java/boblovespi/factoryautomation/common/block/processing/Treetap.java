@@ -62,7 +62,7 @@ public class Treetap extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getFace().getOpposite());
+		return getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
 	}
 
 	@Override

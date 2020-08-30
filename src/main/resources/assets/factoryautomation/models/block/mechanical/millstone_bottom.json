@@ -1,11 +1,11 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "minecraft:blocks/stone_granite",
-		"1": "minecraft:blocks/stonebrick_carved",
-		"2": "minecraft:blocks/furnace_top",
-		"3": "minecraft:blocks/stone",
-		"particle": "minecraft:blocks/stone_granite"
+		"0": "minecraft:block/granite",
+		"1": "minecraft:block/chiseled_stone_bricks",
+		"2": "minecraft:block/furnace_top",
+		"3": "minecraft:block/stone",
+		"particle": "minecraft:block/granite"
 	},
 	"elements": [
 		{

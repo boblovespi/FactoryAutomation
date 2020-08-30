@@ -60,7 +60,7 @@ public class Cable extends FABaseBlock
 
 	public Cable()
 	{
-		super("energy_cable", false,
+		super("lv_cable", false,
 				Properties.create(Material.IRON).hardnessAndResistance(0.2f).sound(SoundType.CLOTH),
 				new Item.Properties().group(FAItemGroups.electrical));
 		setDefaultState(stateContainer.getBaseState().with(WEST, AttachPos.NONE).with(EAST, AttachPos.NONE)

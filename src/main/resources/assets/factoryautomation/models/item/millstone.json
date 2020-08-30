@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "blocks/dispenser_front_vertical",
-		"1": "blocks/piston_bottom",
-		"particle": "blocks/piston_bottom"
+		"0": "block/dispenser_front_vertical",
+		"1": "block/piston_bottom",
+		"particle": "block/piston_bottom"
 	},
 	"elements": [
 		{

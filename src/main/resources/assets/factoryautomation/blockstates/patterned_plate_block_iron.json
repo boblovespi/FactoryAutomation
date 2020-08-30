@@ -2,9 +2,6 @@
   "variants": {
     "": {
       "model": "factoryautomation:block/metals/patterned_plate_block_iron"
-    },
-    "inventory": {
-      "model": "factoryautomation:block/metals/patterned_plate_block_iron"
     }
   }
 }

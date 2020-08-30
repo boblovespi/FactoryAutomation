@@ -75,6 +75,7 @@ public class TileEntityHandler
 		teCreativeMechanicalSource = BuildType(TECreativeMechanicalSource::new, FABlocks.creativeMechanicalSource,
 				"creative_mechanical_source");
 		teMultiblockPart = BuildType(TEMultiblockPart::new, FABlocks.multiblockPart, "multiblock_part");
+		teSolidFueledFirebox = BuildType(TESolidFueledFirebox::new, FABlocks.solidfueledfirebox, "solid_fueled_firebox");
 		teHorseEngine = BuildType(TEHorseEngine::new, FABlocks.horseEngine, "horse_engine");
 		teBasicCircuitCreator = BuildType(TEBasicCircuitCreator::new, FABlocks.chipCreator, "basic_circuit_creator");
 		teBlastFurnaceController = BuildType(

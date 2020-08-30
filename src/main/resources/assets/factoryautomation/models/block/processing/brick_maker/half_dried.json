@@ -1,0 +1,6 @@
+{
+  "parent": "factoryautomation:block/processing/brick_maker/brick_maker_half",
+  "textures": {
+    "clay": "factoryautomation:blocks/resources/dried_terraclay_block"
+  }
+}

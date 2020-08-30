@@ -1,62 +1,40 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "factoryautomation:processing/brick_maker_frame",
-    "textures": {
-      "clay": "factoryautomation:blocks/resources/terraclay_block",
-      "clay2": "factoryautomation:blocks/resources/terraclay_block"
-    }
-  },
-  "variants": {
-    "contents": {
-      "empty": {
+  "multipart": [
+    {
+      "apply": {
+        "model": "factoryautomation:block/processing/brick_maker_frame"
+      }
+    },
+    {
+      "apply": {
+        "model": "factoryautomation:block/processing/brick_maker/half"
       },
-      "half": {
-        "submodel": "factoryautomation:processing/brick_maker_half"
+      "when": {
+        "contents": "half|full"
+      }
+    },
+    {
+      "apply": {
+        "model": "factoryautomation:block/processing/brick_maker/half_dried"
       },
-      "half_dried": {
-        "textures": {
-          "clay": "factoryautomation:blocks/resources/dried_terraclay_block"
-        },
-        "submodel": "factoryautomation:processing/brick_maker_half"
+      "when": {
+        "contents": "half_dried|full_half_dried|full_dried"
+      }
+    },
+    {
+      "apply": {
+        "model": "factoryautomation:block/processing/brick_maker/full"
       },
-      "full": {
-        "submodel": {
-          "clay1": {
-            "model": "factoryautomation:processing/brick_maker_half"
-          },
-          "clay2": {
-            "model": "factoryautomation:processing/brick_maker_full"
-          }
-        }
+      "when": {
+        "contents": "full|full_dried|full_half_dried"
+      }
+    }, {
+      "apply": {
+        "model": "factoryautomation:block/processing/brick_maker/full_dried"
       },
-      "full_half_dried": {
-        "textures": {
-          "clay": "factoryautomation:blocks/resources/dried_terraclay_block"
-        },
-        "submodel": {
-          "clay1": {
-            "model": "factoryautomation:processing/brick_maker_half"
-          },
-          "clay2": {
-            "model": "factoryautomation:processing/brick_maker_full"
-          }
-        }
-      },
-      "full_dried": {
-        "textures": {
-          "clay": "factoryautomation:blocks/resources/dried_terraclay_block",
-          "clay2": "factoryautomation:blocks/resources/dried_terraclay_block"
-        },
-        "submodel": {
-          "clay1": {
-            "model": "factoryautomation:processing/brick_maker_half"
-          },
-          "clay2": {
-            "model": "factoryautomation:processing/brick_maker_full"
-          }
-        }
+      "when": {
+        "contents": "full_dried"
       }
     }
-  }
+  ]
 }

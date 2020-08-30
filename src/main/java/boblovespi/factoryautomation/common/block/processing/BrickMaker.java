@@ -17,6 +17,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -30,6 +34,7 @@ import java.util.Random;
 public class BrickMaker extends FABaseBlock
 {
 	public static EnumProperty<Contents> CONTENTS = EnumProperty.create("contents", Contents.class);
+	public static VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 16, 6, 16);
 
 	public BrickMaker()
 	{
@@ -60,6 +65,20 @@ public class BrickMaker extends FABaseBlock
 			if (value.GetDried().CanDry())
 				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 		}
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	{
+		return BOUNDING_BOX;
+	}
+
+	@Override
+	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	{
+		if (state.get(CONTENTS).CanAddClay())
+			return VoxelShapes.empty();
+		return BOUNDING_BOX;
 	}
 
 	/**
