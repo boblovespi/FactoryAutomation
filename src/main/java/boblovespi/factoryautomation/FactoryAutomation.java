@@ -11,7 +11,10 @@ import boblovespi.factoryautomation.common.ServerProxy;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.config.ConfigFields;
 import boblovespi.factoryautomation.common.fluid.Fluids;
-import boblovespi.factoryautomation.common.handler.*;
+import boblovespi.factoryautomation.common.handler.LootTableHandler;
+import boblovespi.factoryautomation.common.handler.RecipeHandler;
+import boblovespi.factoryautomation.common.handler.VanillaTweakHandler;
+import boblovespi.factoryautomation.common.handler.WorldTickHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
@@ -75,6 +78,7 @@ public class FactoryAutomation
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
 		Fluids.FLUID_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
+		// ResourcePackHandler p; // lol
 	}
 
 	@SubscribeEvent
