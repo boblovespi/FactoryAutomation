@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:shears",
+    "factoryautomation:chopping_blade"
+  ]
+}

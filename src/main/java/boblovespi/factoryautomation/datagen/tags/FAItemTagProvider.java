@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
+import net.minecraft.item.Items;
 
 public class FAItemTagProvider extends ItemTagsProvider
 {
@@ -42,8 +43,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 
 		for (int i = 2; i < Metals.values().length; ++i)
 		{
-			copy(
-					FATags.ForgeBlockTag("storage_blocks/" + Metals.values()[i].getName()),
+			copy(FATags.ForgeBlockTag("storage_blocks/" + Metals.values()[i].getName()),
 					FATags.ForgeItemTag("storage_blocks/" + Metals.values()[i].getName()));
 			getBuilder(FATags.ForgeItemTag("ingots/" + Metals.values()[i].getName()))
 					.add(FAItems.ingot.GetItem(Metals.values()[i]));
@@ -68,7 +68,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 				.add(FATags.ForgeItemTag("ingots/iron"), FATags.FAItemTag("ingots/t3"));
 		getBuilder(FATags.FAItemTag("ingots/t1"))
 				.add(FATags.ForgeItemTag("ingots/copper"), FATags.FAItemTag("ingots/t2"));
-		
+
 		getBuilder(FATags.FAItemTag("nuggets/t5")).add(FATags.ForgeItemTag("nuggets/steel"));
 		getBuilder(FATags.FAItemTag("nuggets/t4"))
 				.add(FATags.ForgeItemTag("nuggets/magmatic_brass"), FATags.FAItemTag("nuggets/t5"));
@@ -78,7 +78,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 				.add(FATags.ForgeItemTag("nuggets/iron"), FATags.FAItemTag("nuggets/t3"));
 		getBuilder(FATags.FAItemTag("nuggets/t1"))
 				.add(FATags.ForgeItemTag("nuggets/copper"), FATags.FAItemTag("nuggets/t2"));
-		
+
 		getBuilder(FATags.FAItemTag("plates/t5")).add(FATags.ForgeItemTag("plates/steel"));
 		getBuilder(FATags.FAItemTag("plates/t4"))
 				.add(FATags.ForgeItemTag("plates/magmatic_brass"), FATags.FAItemTag("plates/t5"));
@@ -88,21 +88,24 @@ public class FAItemTagProvider extends ItemTagsProvider
 				.add(FATags.ForgeItemTag("plates/iron"), FATags.FAItemTag("plates/t3"));
 		getBuilder(FATags.FAItemTag("plates/t1"))
 				.add(FATags.ForgeItemTag("plates/copper"), FATags.FAItemTag("plates/t2"));
-		
+
 		getBuilder(FATags.FAItemTag("rods/t5")).add(FATags.ForgeItemTag("rods/steel"));
 		getBuilder(FATags.FAItemTag("rods/t4"))
 				.add(FATags.ForgeItemTag("rods/magmatic_brass"), FATags.FAItemTag("rods/t5"));
-		getBuilder(FATags.FAItemTag("rods/t3"))
-				.add(FATags.ForgeItemTag("rods/bronze"), FATags.FAItemTag("rods/t4"));
-		getBuilder(FATags.FAItemTag("rods/t2"))
-				.add(FATags.ForgeItemTag("rods/iron"), FATags.FAItemTag("rods/t3"));
-		getBuilder(FATags.FAItemTag("rods/t1"))
-				.add(FATags.ForgeItemTag("rods/copper"), FATags.FAItemTag("rods/t2"));
+		getBuilder(FATags.FAItemTag("rods/t3")).add(FATags.ForgeItemTag("rods/bronze"), FATags.FAItemTag("rods/t4"));
+		getBuilder(FATags.FAItemTag("rods/t2")).add(FATags.ForgeItemTag("rods/iron"), FATags.FAItemTag("rods/t3"));
+		getBuilder(FATags.FAItemTag("rods/t1")).add(FATags.ForgeItemTag("rods/copper"), FATags.FAItemTag("rods/t2"));
 
 		copy(FATags.FABlockTag("storage_blocks/t5"), FATags.FAItemTag("storage_blocks/t5"));
 		copy(FATags.FABlockTag("storage_blocks/t4"), FATags.FAItemTag("storage_blocks/t4"));
 		copy(FATags.FABlockTag("storage_blocks/t3"), FATags.FAItemTag("storage_blocks/t3"));
 		// copy(FATags.FABlockTag("storage_blocks/t2"), FATags.FAItemTag("storage_blocks/t2"));
 		// copy(FATags.FABlockTag("storage_blocks/t1"), FATags.FAItemTag("storage_blocks/t1"));
+
+		getBuilder(FATags.FAItemTag("tools/axes"))
+				.add(Items.WOODEN_AXE, Items.STONE_AXE, Items.GOLDEN_AXE, Items.IRON_AXE, Items.DIAMOND_AXE,
+						FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem(), FAItems.copperAxe.ToItem(),
+						FAItems.choppingBlade.ToItem());
+		getBuilder(FATags.FAItemTag("tools/silks_grass")).add(Items.SHEARS, FAItems.choppingBlade.ToItem());
 	}
 }
