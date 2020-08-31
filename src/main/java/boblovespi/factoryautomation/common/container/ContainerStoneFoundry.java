@@ -57,7 +57,7 @@ public class ContainerStoneFoundry extends Container
 
 	public ContainerStoneFoundry(int id, PlayerInventory playerInv, PacketBuffer extraData)
 	{
-		this(id, playerInv, new ItemStackHandler(2), new IntArray(8), new StringIntArray(8), extraData.readBlockPos());
+		this(id, playerInv, new ItemStackHandler(2), new IntArray(7), new StringIntArray(8), extraData.readBlockPos());
 	}
 
 	/**

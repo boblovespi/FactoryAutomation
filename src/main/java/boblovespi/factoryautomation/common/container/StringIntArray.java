@@ -35,9 +35,9 @@ public class StringIntArray implements IIntArray
 			return;
 		}
 		string[index * 4 - 4] = (char) (value & 0x000000ff);
-		string[index * 4 - 3] = (char) (value & 0x0000ff00 >> 8);
-		string[index * 4 - 2] = (char) (value & 0x00ff0000 >> 16);
-		string[index * 4 - 1] = (char) (value & 0xff000000 >> 24);
+		string[index * 4 - 3] = (char) ((value & 0x0000ff00) >> 8);
+		string[index * 4 - 2] = (char) ((value & 0x00ff0000) >> 16);
+		string[index * 4 - 1] = (char) ((value & 0xff000000) >> 24);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class StringIntArray implements IIntArray
 			return;
 		char[] chars = toSet.toCharArray();
 		actualLength = toSet.length();
-		System.arraycopy(chars, 0, string, 0, string.length);
+		System.arraycopy(chars, 0, string, 0, chars.length);
 	}
 
 	public void SetSource(Supplier<String> source)
