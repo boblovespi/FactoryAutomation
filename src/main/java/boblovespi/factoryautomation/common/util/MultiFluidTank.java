@@ -3,7 +3,6 @@ package boblovespi.factoryautomation.common.util;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import org.graalvm.compiler.api.replacements.Snippet;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

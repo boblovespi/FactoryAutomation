@@ -47,23 +47,23 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 		super.init();
 		ingot = new ImageButton(guiLeft + 33, guiTop + 20, 18, 18, 0, 185, 19, loc,
 				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 0)));
-		buttons.add(ingot);
+		addButton(ingot);
 		nugget = new ImageButton(guiLeft + 33, guiTop + 39, 18, 18, 38, 185, 19, loc,
 				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 1)));
-		buttons.add(nugget);
+		addButton(nugget);
 		rod = new ImageButton(
 				guiLeft + 33, guiTop + 58, 18, 18, 76, 185, 19, loc,
 				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 4)));
-		buttons.add(rod);
+		addButton(rod);
 		sheet = new ImageButton(guiLeft + 52, guiTop + 20, 18, 18, 19, 185, 19, loc,
 				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 2)));
-		buttons.add(sheet);
+		addButton(sheet);
 		coin = new ImageButton(guiLeft + 52, guiTop + 39, 18, 18, 57, 185, 19, loc,
 				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 3)));
-		buttons.add(coin);
+		addButton(coin);
 		gear = new ImageButton(guiLeft + 52, guiTop + 58, 18, 18, 95, 185, 19, loc,
 				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 5)));
-		buttons.add(gear);
+		addButton(gear);
 	}
 
 	/**
