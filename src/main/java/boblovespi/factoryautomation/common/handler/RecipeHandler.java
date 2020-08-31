@@ -241,7 +241,7 @@ public class RecipeHandler
 
 		ChoppingBlockRecipe.AddRecipe("plank_to_stick", new ResourceLocation("minecraft:planks"), new ItemStack(Items.STICK, 4));
 		ChoppingBlockRecipe
-				.AddRecipe("grass_to_fiber", Blocks.TALL_GRASS.asItem(), new ItemStack(FAItems.plantFiber.ToItem(), 2));
+				.AddRecipe("grass_to_fiber", Blocks.GRASS.asItem(), new ItemStack(FAItems.plantFiber.ToItem(), 2));
 
 		// campfire recipes
 		CampfireRecipe.AddRecipe("cooked_pork", Items.PORKCHOP, new ItemStack(Items.COOKED_PORKCHOP), 20 * 60 * 4);
