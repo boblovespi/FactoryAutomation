@@ -40,7 +40,7 @@ public class TooltipHandler
 	public static void RegisterTooltips()
 	{
 		tooltips = new HashMap<>();
-		String path = "assets/factoryautomation/data/tooltips.txt";
+		String path = "/assets/factoryautomation/data/tooltips.txt";
 		try (BufferedReader r = new BufferedReader(
 				new InputStreamReader(FactoryAutomation.class.getResourceAsStream(path))))
 		{
