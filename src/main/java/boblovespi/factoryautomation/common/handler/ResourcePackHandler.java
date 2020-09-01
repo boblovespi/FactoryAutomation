@@ -41,7 +41,7 @@ public class ResourcePackHandler
 		{
 			// Thanks Dark Roleplay for showing off how to add more datapacks for each mod
 			T pack = ResourcePackInfo
-					.createResourcePack("zfa_override_pack", false, () -> new FAOverridePack(Set.of("minecraft")),
+					.createResourcePack("zfa_override_pack", false, () -> new FAOverridePack(Collections.singleton("minecraft")),
 							packInfoFactory, ResourcePackInfo.Priority.TOP);
 			if (pack != null)
 				nameToPackMap.put("zfa_override_pack", pack);
