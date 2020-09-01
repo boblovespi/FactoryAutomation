@@ -55,25 +55,32 @@ public class AxeRecipe extends ShapedRecipe
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
-			implements IRecipeSerializer<HammerRecipe>
+			implements IRecipeSerializer<AxeRecipe>
 	{
 		@Override
-		public HammerRecipe read(ResourceLocation recipeId, JsonObject json)
+		public AxeRecipe read(ResourceLocation recipeId, JsonObject json)
 		{
-			return (HammerRecipe) IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, json);
+			return AxeRecipe.From(IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, json));
 		}
 
 		@Nullable
 		@Override
-		public HammerRecipe read(ResourceLocation recipeId, PacketBuffer buffer)
+		public AxeRecipe read(ResourceLocation recipeId, PacketBuffer buffer)
 		{
-			return (HammerRecipe) IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, buffer);
+			return AxeRecipe.From(IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, buffer));
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, HammerRecipe recipe)
+		public void write(PacketBuffer buffer, AxeRecipe recipe)
 		{
 			IRecipeSerializer.CRAFTING_SHAPED.write(buffer, recipe);
 		}
+	}
+
+	private static AxeRecipe From(ShapedRecipe read)
+	{
+		return new AxeRecipe(
+				read.getId(), read.getGroup(), read.getRecipeWidth(), read.getRecipeHeight(), read.getIngredients(),
+				read.getRecipeOutput());
 	}
 }
