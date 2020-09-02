@@ -44,6 +44,7 @@ public class TEStoneCastingVessel extends TileEntity
 	{
 		super(TileEntityHandler.teStoneCastingVessel);
 		slot = new ItemStackHandler(1);
+		form = TEStoneCrucible.MetalForms.NONE;
 	}
 
 	/**
