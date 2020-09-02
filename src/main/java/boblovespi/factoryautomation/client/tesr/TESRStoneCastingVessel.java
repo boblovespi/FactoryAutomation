@@ -40,6 +40,7 @@ public class TESRStoneCastingVessel extends TileEntityRenderer<TEStoneCastingVes
 			}
 			matrix.push();
 			{
+				// matrix.translate(0.5, 0.5, 0.5);
 				matrix.translate(0, -1.4 / 16d, 1);
 				matrix.scale(0.99f, 1, 0.99f);
 				matrix.rotate(TESRUtils.QuatFromAngleAxis(-90, 1, 0, 0));
@@ -47,9 +48,12 @@ public class TESRStoneCastingVessel extends TileEntityRenderer<TEStoneCastingVes
 				RenderSystem.color3f(GetRed(v), GetGreen(v), GetBlue(v));
 				// TESRUtils.RenderBakedModel(modelCache, DefaultVertexFormats.ITEM,
 				// 		TESRUtils.RGBAToHex(GetRed(v), GetGreen(v), GetBlue(v), 1f));
-				Minecraft.getInstance().getItemRenderer()
-						 .renderItem(item, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay,
-								 matrix, buffer);
+				// Minecraft.getInstance().getItemRenderer()
+				//		 .renderItem(item, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay,
+				//				 matrix, buffer);
+				TESRUtils.RenderItemWithColor(item, ItemCameraTransforms.TransformType.NONE, false, matrix, buffer,
+						combinedLight, combinedOverlay, modelCache,
+						TESRUtils.RGBAToHex(GetRed(v), GetGreen(v), GetBlue(v), 1));
 			}
 			matrix.pop();
 		}

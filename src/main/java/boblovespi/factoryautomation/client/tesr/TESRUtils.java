@@ -2,9 +2,9 @@ package boblovespi.factoryautomation.client.tesr;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.model.BakedQuad;
@@ -75,6 +75,26 @@ public class TESRUtils
 		}
 	}
 
+	private static void RenderModel(IBakedModel modelIn, ItemStack stack, int combinedLightIn, int combinedOverlayIn,
+			MatrixStack matrixStackIn, IVertexBuilder bufferIn, int color)
+	{
+		Random random = new Random();
+		long i = 42L;
+
+		for (Direction direction : Direction.values())
+		{
+			random.setSeed(42L);
+			RenderQuads(
+					matrixStackIn, bufferIn, modelIn.getQuads(null, direction, random), stack, combinedLightIn,
+					combinedOverlayIn, color);
+		}
+
+		random.setSeed(42L);
+		RenderQuads(
+				matrixStackIn, bufferIn, modelIn.getQuads(null, null, random), stack, combinedLightIn,
+				combinedOverlayIn, color);
+	}
+
 	public static void RenderItemModelFast(IBakedModel model, int color, ItemStack stack, BufferBuilder bufferBuilder,
 			ItemColors colorMult)
 	{
@@ -88,31 +108,19 @@ public class TESRUtils
 		RenderQuads(bufferBuilder, model.getQuads(null, null, random), color, stack, colorMult);*/
 	}
 
-	public static void RenderItemWithColor(ItemStack stack, ItemCameraTransforms.TransformType transform, float r,
-			float g, float b, float a)
+	public static void RenderItemWithColor(ItemStack stack, ItemCameraTransforms.TransformType transforms,
+			boolean leftHand, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLightIn, int combinedOverlayIn,
+			IBakedModel model, int color)
 	{
-		/*if (!stack.isEmpty())
+		matrix.push();
 		{
-			IBakedModel bakedModel = Minecraft.getInstance().getItemRenderer()
-											  .getItemModelWithOverrides(stack, null, null);
-			GlStateManager.color(r, g, b, a);
-			GlStateManager.enableRescaleNormal();
-			GlStateManager.alphaFunc(516, 0.1F);
-			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-					GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-					GlStateManager.DestFactor.ZERO);
-			GlStateManager.pushMatrix();
-			bakedModel = ForgeHooksClient.handleCameraTransforms(bakedModel, transform, false);
-			// Minecraft.getMinecraft().getRenderItem().renderItem(stack, bakedModel);
-			RenderBakedModel(bakedModel, DefaultVertexFormats.ITEM, RGBAToHex(r, g, b, a));
-			GlStateManager.cullFace(GlStateManager.CullFace.BACK);
-			GlStateManager.popMatrix();
-			GlStateManager.disableRescaleNormal();
-			GlStateManager.disableBlend();
-			Minecraft.getInstance().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-			Minecraft.getInstance().renderEngine.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
-		}*/
+			RenderType rendertype = RenderTypeLookup.getRenderType(stack);
+			model = net.minecraftforge.client.ForgeHooksClient
+					.handleCameraTransforms(matrix, model, transforms, leftHand);
+			IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(buffer, rendertype, true, stack.hasEffect());
+			RenderModel(model, stack, combinedLightIn, combinedOverlayIn, matrix, ivertexbuilder, color);
+		}
+		matrix.pop();
 	}
 
 	public static void RenderBakedModel(IBakedModel model, VertexFormat fmt, int color)

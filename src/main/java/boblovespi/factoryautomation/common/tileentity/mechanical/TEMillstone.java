@@ -12,6 +12,8 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -169,5 +171,20 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		markDirty();
 		BlockState state = world.getBlockState(pos);
 		world.notifyBlockUpdate(pos, state, state, 3);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	{
+		read(pkt.getNbtCompound());
+	}
+
+	@Nullable
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket()
+	{
+		CompoundNBT nbt = new CompoundNBT();
+		write(nbt);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 }

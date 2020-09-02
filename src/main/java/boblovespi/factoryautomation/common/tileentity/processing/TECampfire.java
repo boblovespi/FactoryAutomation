@@ -8,9 +8,13 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.items.ItemStackHandler;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 12/27/2018.
@@ -135,5 +139,20 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 	public void SetLit(boolean isLit)
 	{
 		this.isLit = isLit;
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	{
+		read(pkt.getNbtCompound());
+	}
+
+	@Nullable
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket()
+	{
+		CompoundNBT nbt = new CompoundNBT();
+		write(nbt);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 }

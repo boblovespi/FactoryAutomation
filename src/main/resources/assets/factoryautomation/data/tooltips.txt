@@ -7,7 +7,8 @@ minecraft:diamond=C₂H₅
 minecraft:emerald=C₄H₁0
 minecraft:quartz=SiO₂
 
-
+# vanilla tools
+minecraft:wooden_pickaxe=Disabled, use a flint pickaxe
 
 #base fa materials
 

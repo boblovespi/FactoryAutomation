@@ -79,7 +79,7 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 				break;
 			}
 
-			matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
+			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
 				RenderSystem.shadeModel(GL11.GL_SMOOTH);

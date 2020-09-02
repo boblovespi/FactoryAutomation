@@ -4,6 +4,8 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -118,5 +120,20 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	public boolean IsRotating()
 	{
 		return isRotating;
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	{
+		read(pkt.getNbtCompound());
+	}
+
+	@Nullable
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket()
+	{
+		CompoundNBT nbt = new CompoundNBT();
+		write(nbt);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 }

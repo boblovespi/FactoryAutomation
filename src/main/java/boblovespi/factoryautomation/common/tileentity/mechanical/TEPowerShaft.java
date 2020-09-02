@@ -5,6 +5,8 @@ import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -135,5 +137,20 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> (T) this);
 		return super.getCapability(capability, facing);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	{
+		read(pkt.getNbtCompound());
+	}
+
+	@Nullable
+	@Override
+	public SUpdateTileEntityPacket getUpdatePacket()
+	{
+		CompoundNBT nbt = new CompoundNBT();
+		write(nbt);
+		return new SUpdateTileEntityPacket(pos, 0, nbt);
 	}
 }

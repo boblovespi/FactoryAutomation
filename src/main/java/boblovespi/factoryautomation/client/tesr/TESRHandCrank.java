@@ -49,7 +49,7 @@ public class TESRHandCrank extends TileEntityRenderer<TEHandCrank>
 			if (te.IsRotating())
 				matrix.rotate(TESRUtils.QuatFromAngleAxis((te.inverted ? -1 : 1) * (te.rotation + partialTicks), 0, -1, 0));
 
-			matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
+			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
 				RenderSystem.shadeModel(GL11.GL_SMOOTH);

@@ -107,5 +107,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 						FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem(), FAItems.copperAxe.ToItem(),
 						FAItems.choppingBlade.ToItem());
 		getBuilder(FATags.FAItemTag("tools/silks_grass")).add(Items.SHEARS, FAItems.choppingBlade.ToItem());
+		getBuilder(FATags.FAItemTag("tools/good_axes"))
+				.add(Items.IRON_AXE, Items.DIAMOND_AXE, FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem());
 	}
 }

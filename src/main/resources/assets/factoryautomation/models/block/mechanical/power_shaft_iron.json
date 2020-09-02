@@ -1,7 +1,7 @@
 {
   "parent": "factoryautomation:block/mechanical/power_shaft",
   "textures": {
-    "side": "blocks/iron_block",
-    "front": "blocks/iron_block"
+    "side": "minecraft:block/iron_block",
+    "front": "minecraft:block/iron_block"
   }
 }

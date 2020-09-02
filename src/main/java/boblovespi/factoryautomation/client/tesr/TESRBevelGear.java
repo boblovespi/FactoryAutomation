@@ -158,7 +158,7 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 				break;
 			}
 
-			matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
+			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
 				RenderSystem.shadeModel(GL11.GL_SMOOTH);
@@ -201,6 +201,7 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 		RenderSystem.enableLighting();
 		matrix.push();
 		{
+			matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			matrix.translate(posX, posY, posZ);
 			matrix.scale(size, size, 0.6f);
 			matrix.rotate(TESRUtils.QuatFromAngleAxis(inToRotate, xD, yD, zD));

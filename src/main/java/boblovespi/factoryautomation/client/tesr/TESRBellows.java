@@ -11,6 +11,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.TileEntity;
@@ -40,9 +41,9 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 
 		matrix.push();
 		{
-			RenderSystem.enableLighting();
-			RenderSystem.enableDepthTest();
-			RenderHelper.enableStandardItemLighting();
+			// RenderSystem.enableLighting();
+			// RenderSystem.enableDepthTest();
+			// RenderHelper.enableStandardItemLighting();
 			RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
@@ -70,7 +71,7 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 				break;
 			}
 
-			matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
+			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
 				RenderSystem.shadeModel(GL11.GL_SMOOTH);
@@ -81,7 +82,9 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 
 			model.Rotate(te.GetLerp() + te.GetLerpSpeed() * partialTicks);
 
-			model.RenderTESR(1);
+			model.render(matrix, buffer.getBuffer(RenderType.getEntityCutoutNoCull(
+					new ResourceLocation(FactoryAutomation.MODID, texture))),
+					combinedLight, combinedOverlay, 1, 1, 1, 1);
 		}
 		matrix.pop();
 	}

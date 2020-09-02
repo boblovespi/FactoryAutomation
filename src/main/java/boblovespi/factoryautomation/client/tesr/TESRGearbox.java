@@ -136,7 +136,7 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 
 			matrix.rotate(TESRUtils.QuatFromAngleAxis(rotation, (float) rotVec.x, (float) rotVec.y, (float) rotVec.z));
 
-			matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+			// matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 
 			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 

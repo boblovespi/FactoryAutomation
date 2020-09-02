@@ -63,16 +63,16 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 			matrix.translate(0.5, 0.5, 0.5);
 			matrix.translate(-xD / 2d, -yD / 2d, -zD / 2d);
 			matrix.rotate(TESRUtils.QuatFromAngleAxis(toRotate, xD, yD, zD));
-			matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+			// matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 
 			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				GlStateManager.shadeModel(GL11.GL_SMOOTH);
+				RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				GlStateManager.shadeModel(GL11.GL_FLAT);
+				RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
 			// Tessellator tessellator = Tessellator.getInstance();

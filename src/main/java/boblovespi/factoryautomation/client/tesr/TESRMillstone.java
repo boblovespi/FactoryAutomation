@@ -42,7 +42,7 @@ public class TESRMillstone extends TileEntityRenderer<TEMillstone>
 			RenderSystem.disableRescaleNormal();
 			matrix.translate(0.5, 0, 0.5);
 			matrix.rotate(TESRUtils.QuatFromAngleAxis(toRotate, 0, 1, 0));
-			matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+			// matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 
 			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
