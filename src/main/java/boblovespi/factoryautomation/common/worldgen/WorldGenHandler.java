@@ -74,11 +74,11 @@ public class WorldGenHandler
 				AddToBiome(biome, Feature.RANDOM_PATCH, new BlockClusterFeatureConfig.Builder(
 								new SimpleBlockStateProvider(FABlocks.flintRock.ToBlock().getDefaultState()),
 								new SimpleBlockPlacer()).tries(1).build(), VEGETAL_DECORATION,
-						COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(10)));
+						COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1)));
 				AddToBiome(biome, Feature.RANDOM_PATCH, new BlockClusterFeatureConfig.Builder(
 								new SimpleBlockStateProvider(FABlocks.rock.ToBlock().getDefaultState()), new RockBlockPlacer())
 								.tries(2).build(), VEGETAL_DECORATION,
-						COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(10)));
+						COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(5)));
 			}
 			if (biome.getCategory() == Biome.Category.THEEND)
 			{
@@ -89,7 +89,7 @@ public class WorldGenHandler
 			if (biome.getCategory() == Biome.Category.SWAMP)
 			{
 				AddToBiome(biome, limoniteGen.get(), NoFeatureConfig.NO_FEATURE_CONFIG, UNDERGROUND_ORES,
-						COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(10)));
+						COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2)));
 			}
 		}
 	}
