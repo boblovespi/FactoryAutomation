@@ -44,10 +44,10 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 		boolean isUpper = false;
 		matrix.push();
 		{
-			RenderSystem.enableLighting();
-			RenderSystem.enableDepthTest();
-			RenderHelper.enableStandardItemLighting();
-			RenderSystem.enableRescaleNormal();
+			// RenderSystem.enableLighting();
+			// RenderSystem.enableDepthTest();
+			// RenderHelper.enableStandardItemLighting();
+			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
 			Direction facing = state.get(BevelGear.FACING);
@@ -161,15 +161,14 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				RenderSystem.shadeModel(GL11.GL_SMOOTH);
+				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				RenderSystem.shadeModel(GL11.GL_FLAT);
+				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 			model.Rotate(te.rotation + te.GetSpeed() * partialTicks, out, in);
-			model.render(matrix, buffer.getBuffer(RenderType.getEntityCutoutNoCull(
-					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/bevel_gearbox.png"))),
-					combinedLight, combinedOverlay, 1, 1, 1, 1);
+			model.render(matrix, buffer.getBuffer(model.getRenderType(new ResourceLocation(FactoryAutomation.MODID,
+					"textures/blocks/machines/bevel_gearbox.png"))), combinedLight, combinedOverlay, 1, 1, 1, 1);
 
 			if (isUpper)
 			{

@@ -30,14 +30,14 @@ public class TESRHandCrank extends TileEntityRenderer<TEHandCrank>
 	public void render(TEHandCrank te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
 			int combinedLight, int combinedOverlay)
 	{
-		renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"));
+		// renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"));
 
 		matrix.push();
 		{
-			RenderSystem.enableLighting();
-			RenderSystem.enableDepthTest();
-			RenderHelper.enableStandardItemLighting();
-			RenderSystem.enableRescaleNormal();
+			// RenderSystem.enableLighting();
+			// RenderSystem.enableDepthTest();
+			// RenderHelper.enableStandardItemLighting();
+			// RenderSystem.enableRescaleNormal();
 
 			matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
 			if (te.inverted)
@@ -47,20 +47,20 @@ public class TESRHandCrank extends TileEntityRenderer<TEHandCrank>
 			}
 			matrix.translate(-0.5, -1.5, 0.5);
 			if (te.IsRotating())
-				matrix.rotate(TESRUtils.QuatFromAngleAxis((te.inverted ? -1 : 1) * (te.rotation + partialTicks), 0, -1, 0));
+				matrix.rotate(
+						TESRUtils.QuatFromAngleAxis((te.inverted ? -1 : 1) * (te.rotation + partialTicks), 0, -1, 0));
 
 			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				RenderSystem.shadeModel(GL11.GL_SMOOTH);
+				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				RenderSystem.shadeModel(GL11.GL_FLAT);
+				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
-			handCrankModel.render(
-					matrix, buffer.getBuffer(RenderType.getEntityCutoutNoCull(
-							new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"))),
+			handCrankModel.render(matrix, buffer.getBuffer(handCrankModel.getRenderType(
+					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"))),
 					combinedLight, combinedOverlay, 1, 1, 1, 1);
 
 		}

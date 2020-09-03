@@ -16,6 +16,8 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
 
@@ -35,6 +37,12 @@ public class Motor extends FABaseBlock implements IEnergyBlock
 				new Item.Properties().group(FAItemGroups.electrical));
 		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEMotor.class);
+	}
+
+	@Override
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
 	}
 
 	@Nullable
@@ -69,5 +77,11 @@ public class Motor extends FABaseBlock implements IEnergyBlock
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
+	}
+
+	@Override
+	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	{
+		return VoxelShapes.empty();
 	}
 }

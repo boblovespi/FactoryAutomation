@@ -17,6 +17,9 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
@@ -29,6 +32,9 @@ import javax.annotation.Nullable;
 public class Millstone extends FABaseBlock
 {
 	public static final BooleanProperty IS_TOP = BooleanProperty.create("is_top");
+	public static final VoxelShape BOUNDING_BOX = VoxelShapes
+			.or(Block.makeCuboidShape(0, 0, 0, 16, 8, 16), Block.makeCuboidShape(2, 8, 2, 14, 12, 14),
+					Block.makeCuboidShape(7.5, 12, 7.5, 8.5, 16, 8.5)).simplify();
 
 	public Millstone()
 	{
@@ -66,8 +72,8 @@ public class Millstone extends FABaseBlock
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult result)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+			Hand hand, BlockRayTraceResult result)
 	{
 		if (world.isRemote)
 			return ActionResultType.SUCCESS;
@@ -95,4 +101,16 @@ public class Millstone extends FABaseBlock
 	//	{
 	//		return false;
 	//	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	{
+		return BOUNDING_BOX;
+	}
+
+	@Override
+	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	{
+		return VoxelShapes.empty();
+	}
 }

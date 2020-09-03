@@ -1,10 +1,10 @@
 package boblovespi.factoryautomation.common.block.mechanical;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.tools.Wrench;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -23,6 +23,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -69,11 +71,12 @@ public class Gearbox extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 *
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+			Hand hand, BlockRayTraceResult hit)
 	{
 		ItemStack stack = player.getHeldItem(hand);
 
@@ -130,6 +133,12 @@ public class Gearbox extends FABaseBlock
 	public String GetMetaFilePath(int meta)
 	{
 		return "mechanical/" + RegistryName();
+	}
+
+	@Override
+	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	{
+		return VoxelShapes.empty();
 	}
 
 	public enum GearType implements IStringSerializable, IMultiTypeEnum

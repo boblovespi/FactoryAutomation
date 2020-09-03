@@ -16,9 +16,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -30,10 +32,8 @@ import javax.annotation.Nullable;
 public class HandCrank extends FABaseBlock
 {
 	public static final BooleanProperty INVERTED = BooleanProperty.create("inverted");
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
-			2 / 16d, 0, 2 / 16d, 14 / 16d, 14 / 16d, 14 / 16d);
-	private static final AxisAlignedBB BOUNDING_BOX_I = new AxisAlignedBB(
-			2 / 16d, 2 / 16d, 2 / 16d, 14 / 16d, 1, 14 / 16d);
+	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(2, 0, 2, 14, 14, 14);
+	private static final VoxelShape BOUNDING_BOX_I = Block.makeCuboidShape(2, 2, 2, 14, 1, 14);
 
 	public HandCrank()
 	{
@@ -64,11 +64,12 @@ public class HandCrank extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
+	 *
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult hit)
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isRemote)
 		{
@@ -89,5 +90,19 @@ public class HandCrank extends FABaseBlock
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(INVERTED);
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	{
+		if (state.get(INVERTED))
+			return BOUNDING_BOX_I;
+		return BOUNDING_BOX;
+	}
+
+	@Override
+	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	{
+		return VoxelShapes.empty();
 	}
 }

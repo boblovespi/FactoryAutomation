@@ -38,15 +38,15 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 
 		// engineModel.Rotate(0);
 		// engineModel = new ElectricEngine2();
-		renderDispatcher.textureManager.bindTexture(
-				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"));
+		// renderDispatcher.textureManager.bindTexture(
+		//		new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"));
 
 		matrix.push();
 		{
-			RenderSystem.enableLighting();
-			RenderSystem.enableDepthTest();
-			RenderHelper.enableStandardItemLighting();
-			RenderSystem.enableRescaleNormal();
+			// RenderSystem.enableLighting();
+			// RenderSystem.enableDepthTest();
+			// RenderHelper.enableStandardItemLighting();
+			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
 			Direction facing = state.get(Motor.FACING);
@@ -82,15 +82,15 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				RenderSystem.shadeModel(GL11.GL_SMOOTH);
+				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				RenderSystem.shadeModel(GL11.GL_FLAT);
+				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
 			engineModel.Rotate((float) Math.toRadians(te.rotation + partialTicks * te.GetSpeedOnFace(facing)));
 
-			engineModel.render(matrix, buffer.getBuffer(RenderType.getEntityCutoutNoCull(
+			engineModel.render(matrix, buffer.getBuffer(engineModel.getRenderType(
 					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"))),
 					combinedLight, combinedOverlay, 1, 1, 1, 1);
 

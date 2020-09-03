@@ -1,4 +1,4 @@
-### Version 0.3.1 - alpha
+### Version 0.3.2 - alpha
 - updated to Minecraft 1.15.2
 - changed charcoal pile drop rate (avg. 6.5 to avg. 8.5)
 ### Version 0.2.3 - alpha (unreleased)
