@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
@@ -20,6 +19,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -80,5 +81,11 @@ public class PaperBellows extends FABaseBlock
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEPaperBellows();
+	}
+
+	@Override
+	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	{
+		return VoxelShapes.empty();
 	}
 }

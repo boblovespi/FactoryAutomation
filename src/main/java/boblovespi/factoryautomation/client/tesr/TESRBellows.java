@@ -37,14 +37,14 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 	public void render(T te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLight,
 			int combinedOverlay)
 	{
-		renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, texture));
+		// renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, texture));
 
 		matrix.push();
 		{
 			// RenderSystem.enableLighting();
 			// RenderSystem.enableDepthTest();
 			// RenderHelper.enableStandardItemLighting();
-			RenderSystem.enableRescaleNormal();
+			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
 			Direction facing = state.get(HorizontalBlock.HORIZONTAL_FACING);
@@ -74,16 +74,16 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.isAmbientOcclusionEnabled())
 			{
-				RenderSystem.shadeModel(GL11.GL_SMOOTH);
+				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				RenderSystem.shadeModel(GL11.GL_FLAT);
+				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
 			model.Rotate(te.GetLerp() + te.GetLerpSpeed() * partialTicks);
 
-			model.render(matrix, buffer.getBuffer(RenderType.getEntityCutoutNoCull(
-					new ResourceLocation(FactoryAutomation.MODID, texture))),
+			model.render(matrix,
+					buffer.getBuffer(model.getRenderType(new ResourceLocation(FactoryAutomation.MODID, texture))),
 					combinedLight, combinedOverlay, 1, 1, 1, 1);
 		}
 		matrix.pop();
