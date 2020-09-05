@@ -41,5 +41,7 @@ public class FABlockTagProvider extends BlockTagsProvider
 				.add(FATags.ForgeBlockTag("storage_blocks/iron"), FATags.FABlockTag("storage_blocks/t3"));
 		getBuilder(FATags.FABlockTag("storage_blocks/t1"))
 				.add(FATags.ForgeBlockTag("storage_blocks/copper"), FATags.FABlockTag("storage_blocks/t2"));
+
+		getBuilder(FATags.FABlockTag("campfire")).add(FABlocks.campfire.ToBlock(), Blocks.CAMPFIRE);
 	}
 }

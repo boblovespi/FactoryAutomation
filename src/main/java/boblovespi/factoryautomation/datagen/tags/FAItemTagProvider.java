@@ -101,6 +101,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 		copy(FATags.FABlockTag("storage_blocks/t3"), FATags.FAItemTag("storage_blocks/t3"));
 		// copy(FATags.FABlockTag("storage_blocks/t2"), FATags.FAItemTag("storage_blocks/t2"));
 		// copy(FATags.FABlockTag("storage_blocks/t1"), FATags.FAItemTag("storage_blocks/t1"));
+		copy(FATags.FABlockTag("campfire"), FATags.FAItemTag("campfire"));
 
 		getBuilder(FATags.FAItemTag("tools/axes"))
 				.add(Items.WOODEN_AXE, Items.STONE_AXE, Items.GOLDEN_AXE, Items.IRON_AXE, Items.DIAMOND_AXE,

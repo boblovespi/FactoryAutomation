@@ -6,7 +6,7 @@
       "tag": "forge:cobblestone"
     },
     "f": {
-      "item": "factoryautomation:campfire"
+      "tag": "factoryautomation:campfire"
     }
   },
   "result": {
