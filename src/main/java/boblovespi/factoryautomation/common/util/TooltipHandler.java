@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -62,8 +63,7 @@ public class TooltipHandler
 				for (String key : keys)
 				{
 					Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryCreate(key));
-
-					tooltips.putIfAbsent(item, new StringTextComponent("§7" + info));
+					tooltips.putIfAbsent(item, new StringTextComponent("\u00A77" + info));
 				}
 			}
 
