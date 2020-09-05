@@ -119,6 +119,7 @@ public class FactoryAutomation
 		proxy.RegisterRenders();
 		GuiHandler.RegisterGuis();
 		RenderTypeLookup.setRenderLayer(FABlocks.riceCrop.ToBlock(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(FABlocks.ironWorkbench.ToBlock(), RenderType.getCutoutMipped());
 	}
 
 	@SubscribeEvent
