@@ -1,6 +1,7 @@
-### Version 0.3.2 - alpha
+### Version 0.3.3 - alpha
 - updated to Minecraft 1.15.2
 - changed charcoal pile drop rate (avg. 6.5 to avg. 8.5)
+- changed campfire name to small campfire
 ### Version 0.2.3 - alpha (unreleased)
 - added pig tallow
 - added waterwheel
