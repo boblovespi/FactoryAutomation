@@ -2,6 +2,8 @@
 - updated to Minecraft 1.15.2
 - changed charcoal pile drop rate (avg. 6.5 to avg. 8.5)
 - changed campfire name to small campfire
+- changed workbench recipe to allow new minecraft campfire
+- fixed workbench recipes allowing items not part of the recipe
 ### Version 0.2.3 - alpha (unreleased)
 - added pig tallow
 - added waterwheel
