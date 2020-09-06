@@ -18,7 +18,7 @@ public class ContainerIronWorkbench extends ContainerWorkbench
 	// server-side constructor
 	public ContainerIronWorkbench(int id, PlayerInventory playerInv, IItemHandler inv, BlockPos pos)
 	{
-		super(id, playerInv, inv, pos, true, TYPE);
+		super(id, playerInv, inv, pos, false, TYPE);
 	}
 
 	// client-side constructor
