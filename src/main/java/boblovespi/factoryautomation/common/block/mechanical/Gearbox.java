@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.item.tools.Wrench;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -39,7 +40,7 @@ public class Gearbox extends FABaseBlock
 
 	public Gearbox()
 	{
-		super(Material.IRON, "gearbox", null);
+		super(Material.IRON, "gearbox", FAItemGroups.mechanical);
 		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.WEST));
 		TileEntityHandler.tiles.add(TEGearbox.class);
 	}

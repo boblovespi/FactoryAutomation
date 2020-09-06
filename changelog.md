@@ -1,3 +1,7 @@
+### Version 0.3.4 - alpha
+- added gears and gearbox to the mechanical creative tab
+- added sweet berry ice cream (gives instant health)
+- updated many textures
 ### Version 0.3.3 - alpha
 - updated to Minecraft 1.15.2
 - changed charcoal pile drop rate (avg. 6.5 to avg. 8.5)

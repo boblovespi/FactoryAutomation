@@ -15,7 +15,8 @@ public enum IceCreams
 	COFFEE(Collections.singletonList(new EffectInstance(Effects.HASTE, 300))),
 	MINT(Collections.singletonList(new EffectInstance(Effects.SPEED, 300))),
 	CHOCOLATE(Collections.singletonList(new EffectInstance(Effects.SATURATION, 300))),
-	COOKIES_N_CREAM(Collections.singletonList(new EffectInstance(Effects.STRENGTH, 100, 2)));
+	COOKIES_N_CREAM(Collections.singletonList(new EffectInstance(Effects.STRENGTH, 100, 2))),
+	SWEET_BERRY(Collections.singletonList(new EffectInstance(Effects.INSTANT_HEALTH, 1)));
 	private List<EffectInstance> potionEffects;
 
 	IceCreams(List<EffectInstance> potionEffects)
