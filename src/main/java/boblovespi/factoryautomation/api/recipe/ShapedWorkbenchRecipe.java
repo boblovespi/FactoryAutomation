@@ -62,12 +62,16 @@ public class ShapedWorkbenchRecipe extends ForgeRegistryEntry<IWorkbenchRecipe> 
 			if (sizeX > 3 || sizeY > 3)
 				return false;
 		}
-
-		for (int y = 0; y < sizeY; y++)
+		int size = is3x3 ? 3 : 5;
+		for (int y = 0; y < size; y++)
 		{
-			for (int x = 0; x < sizeX; x++)
+			for (int x = 0; x < size; x++)
 			{
-				if (!recipe[y][x].test(workbenchInv.getStackInSlot(gridIndex + x * (is3x3 ? 3 : 5) + y))) // correct
+				if (y < sizeY && x < sizeX)
+				{
+					if (!recipe[y][x].test(workbenchInv.getStackInSlot(gridIndex + x * size + y))) // correct
+						return false;
+				} else if (!workbenchInv.getStackInSlot(gridIndex + x * size + y).isEmpty()) // make sure all other slots are empty
 					return false;
 			}
 		}
@@ -75,7 +79,7 @@ public class ShapedWorkbenchRecipe extends ForgeRegistryEntry<IWorkbenchRecipe> 
 		for (Map.Entry<WorkbenchTool.Instance, Integer> toolInfo : tools.entrySet())
 		{
 			boolean isPresent = false;
-			for (int i = 0; i < (is3x3 ? 3 : 5); i++)
+			for (int i = 0; i < size; i++)
 			{
 				WorkbenchTool.Instance tool = WorkbenchTool.Instance
 						.FromToolStack(workbenchInv.getStackInSlot(i + toolIndex));
@@ -93,7 +97,7 @@ public class ShapedWorkbenchRecipe extends ForgeRegistryEntry<IWorkbenchRecipe> 
 		for (Map.Entry<WorkbenchPart.Instance, Integer> partInfo : parts.entrySet())
 		{
 			boolean isPresent = false;
-			for (int i = 0; i < (is3x3 ? 3 : 5); i++)
+			for (int i = 0; i < size; i++)
 			{
 				WorkbenchPart.Instance part = WorkbenchPart.Instance
 						.FromPartStack(workbenchInv.getStackInSlot(i + partIndex));
