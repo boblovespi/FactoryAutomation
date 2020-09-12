@@ -13,6 +13,6 @@ public class FuelHandler
 	{
 		FuelRegistry.PutInfo(Items.COAL, 2172, 1600, 3520000);
 		FuelRegistry.PutInfo(FAItems.coalCoke.ToItem(), 2400, 2000, 5300000);
-		FuelRegistry.PutInfo(Items.COAL, 1, 2012, 1600, 2300000);
+		FuelRegistry.PutInfo(Items.CHARCOAL, 2012, 1600, 2300000);
 	}
 }
