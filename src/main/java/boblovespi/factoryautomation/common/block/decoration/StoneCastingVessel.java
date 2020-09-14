@@ -97,16 +97,15 @@ public class StoneCastingVessel extends FABaseBlock
 	{
 		if (!world.isRemote)
 		{
-			if (player.getHeldItem(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity)
+			TEStoneCastingVessel te = (TEStoneCastingVessel) world.getTileEntity(pos);
+
+			if (player.getHeldItem(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.HasSpace())
 			{
-				// player.openGui(FactoryAutomation.instance, GuiHandler.GuiID.STONE_CASTING_VESSEL.id, world, pos.getX(),
-				// 		pos.getY(), pos.getZ());
 				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
 			} else
 			{
-				TileEntity te = world.getTileEntity(pos);
-				if (te instanceof TEStoneCastingVessel)
-					((TEStoneCastingVessel) te).TakeOrPlace(player.getHeldItem(hand), player);
+				if (te != null)
+					te.TakeOrPlace(player.getHeldItem(hand), player);
 			}
 		}
 		return ActionResultType.SUCCESS;
