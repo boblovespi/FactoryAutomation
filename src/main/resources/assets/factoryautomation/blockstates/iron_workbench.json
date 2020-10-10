@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=east": {
       "model": "factoryautomation:block/workbench/iron_workbench"
+    },
+    "facing=south": {
+      "model": "factoryautomation:block/workbench/iron_workbench",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "factoryautomation:block/workbench/iron_workbench",
+      "y": 180
+    },
+    "facing=north": {
+      "model": "factoryautomation:block/workbench/iron_workbench",
+      "y": 270
     }
   }
 }

@@ -1,7 +1,10 @@
-### Version 0.3.4 - alpha
+### Version 0.3.4 - alpha (dev build)
 - added gears and gearbox to the mechanical creative tab
 - added sweet berry ice cream (gives instant health)
-- updated many textures
+- changed many textures
+- changed workbenches so they now can rotate
+- fixed charcoal not burning in foundries
+- fixed bug with stone casting vessel allowing you to change mold after casting a metal
 ### Version 0.3.3 - alpha
 - updated to Minecraft 1.15.2
 - changed charcoal pile drop rate (avg. 6.5 to avg. 8.5)
