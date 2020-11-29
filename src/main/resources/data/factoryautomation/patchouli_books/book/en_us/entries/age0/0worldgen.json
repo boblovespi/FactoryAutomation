@@ -2,6 +2,7 @@
     "name": "Gathering flint and rocks",
     "icon": "minecraft:flint",
     "category": "age0",
+    "sortnum": 0,
     "pages": [
         {
             "type": "text",
