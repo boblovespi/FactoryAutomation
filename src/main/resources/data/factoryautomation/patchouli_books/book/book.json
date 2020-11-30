@@ -1,9 +1,13 @@
 {
   "name": "Factory Guide Book",
-  "landing_text": "Welcome to the official Factory Automation's guidebook! This book will help you to survive and reach technologies!",
+  "landing_text": "Welcome to the official Factory Automation guidebook! This book will help you to survive and reach technologies! $(br)$(br)$(br)This Handbook was made with Patchouli by Vazkii",
   "version": 3,
-  "nameplate_color": "999999",
+  "nameplate_color": "000000",
   "filler_texture": "factoryautomation:textures/gui/page_filler.png",
   "book_texture": "factoryautomation:textures/gui/guide_book.png",
-  "model": "factoryautomation:guidebook"
+  "model": "factoryautomation:guidebook",
+  "progress_bar_color": "1654be",
+  "progress_bar_background": "06152f",
+  "creative_tab": "tabs.tools.name",
+  "pause_game": "false"
 }

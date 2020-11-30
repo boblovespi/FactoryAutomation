@@ -1,0 +1,18 @@
+{
+    "name": "Mining Stone",
+    "icon": "minecraft:cobblestone",
+    "category": "age0",
+    "sortnum": 2,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Wait, what do you mean you want stone? Oh so you tried to make a wooden pickaxe... That wont be big news if i told you it wont work. Wood is not strong enough to mine stone with it, so you will need something stronger. Do you remember what you used for the chopping blade? Since you have acces to wood and its planks, you can make a Crafting Table.",
+        	"title": "Leave no stone unturned"
+        },
+		{
+        	"type": "crafting",
+        	"recipe": "factoryautomation:crafting_recipes/flint_pickaxe",
+        	"text": "Get 3 piece of flint, 2 sticks and 2 plant fiber, put them into your crafting grid shown above, and now you have a pickaxe strong enough to mine stone."
+        }
+    ]
+}

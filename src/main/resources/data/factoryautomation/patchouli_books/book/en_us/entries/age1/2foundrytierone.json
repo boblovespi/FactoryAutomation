@@ -1,0 +1,37 @@
+{
+    "name": "Smelting metals I",
+    "icon": "minecraft:furnace",
+    "category": "age1",
+    "sortnum": 2,
+    "pages": [
+        {
+            "type": "text",
+            "text": "After you gathered some ore chunks, you will need some stone to craft a furnace and use that to build a foundry which can melt and cast several things.",
+        	"title": "Foundry Chapter I"
+        },
+		{
+            "type": "crafting",
+        	"recipe": "factoryautomation:crafting_recipes/stone_crucible",
+            "text": "The first piece of the Foundry I, is a stone crucible, which will hold all the moletn metal in the structure.",
+        	"title": "Stone Crucible"
+        },
+		{
+            "type": "crafting",
+        	"recipe": "factoryautomation:crafting_recipes/stone_casting_vessel",
+            "text": "The second piece is the stone casting vessel, which will be used for holding the shapes that you will cast in.",
+        	"title": "Stone Casting Vessel"
+        },
+		{
+            "type": "crafting",
+        	"recipe": "minecraft:furnace",
+            "text": "The last piece is a regular old furnace",
+        	"title": "The Good ol'"
+        },
+		{
+            "type": "multiblock",
+			"name": "Foundry Tier I",
+			"multiblock_id": "factoryautomation:stone_foundry",
+            "text": "Use the book to visualise how to build the Foundry, and then you can go smelt your ores :3"
+        }
+    ]
+}
