@@ -6,24 +6,19 @@
     "pages": [
         {
             "type": "text",
-            "text": "Now you have yourself a chopping blade, and you attacked some trees with it. But what can you achieve with some logs? Right, you wants some planks. To turn your wood logs into planks, make a chopping block. Now you ask how to make that, FINE i'll tell you: Grab a rock from the ground, then press down shift and right click on a wood log with your rock. Tadaa, now you got not one but two chopping blocks.",
+            "text": "Now you have yourself a chopping blade, and you attacked some trees with it. But what can you achieve with some logs? Right, you want some planks. To turn your logs into planks, make a chopping block. Now you ask how to make that, FINE i'll tell you: Grab a rock from the ground, then press down shift, and right click on a wood log with your rock. Tadaa, now you got not one but two chopping blocks.",
         	"title": "Woods everywhere"
         },
 		{
             "type": "spotlight",
 			"item": "factoryautomation:wood_chopping_block_oak",
-            "text": "Now to get your wooden planks, place a wood log on your chopping block with right click, and the grab your chopping blade and start chopping with left click, until it turns into planks. There are other things you can make with this method: You can turn planks into sticks; grass into plant fiber.",
+            "text": "Now to get your wooden planks, place a wood log on your chopping block with right click, and then grab your chopping blade and start chopping with left click, until it turns into planks. There are other things you can make with this method: You can turn planks into sticks; grass into plant fiber.",
         	"title": "The Chopping block"
         },
 		{
             "type": "image",
 			"images": ["factoryautomation:textures/patchouli/use_chopping_block.png"],
             "title": "Chopping irl"
-        },
-		{
-            "type": "text",
-            "text": "Now to get your wooden planks, place a wood log on your chopping block with right click, and the grab your chopping blade and start chopping with left click, until it turns into planks. There are other things you can make with this method: You can turn planks into sticks; grass into plant fiber.",
-        	"title": "It goes Chop-Chop"
         }
     ]
 }

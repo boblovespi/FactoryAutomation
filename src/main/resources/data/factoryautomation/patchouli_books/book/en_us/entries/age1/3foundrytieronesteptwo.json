@@ -6,13 +6,13 @@
     "pages": [
         {
             "type": "text",
-            "text": "I know that you finally want to have your ingots, but theres more until you can get one. To use the foundry, you will nood coal or charcoal to heat it up. Oncee you have that, you will need something to cast in. Here comes in the greensand",
+            "text": "I know that you finally want to have your ingots, but theres more until you can get one. To use the foundry, you will nood coal or charcoal to heat it up. Once you have that, you will need something to cast in. Here comes in the greensand",
         	"title": "Foundry Chapter II"
         },
 		{
             "type": "crafting",
         	"recipe": "factoryautomation:crafting_recipes/green_sand",
-            "text": "You will need some clay balls and sand. AFter you have that, right click with the greensand on the casting vessel. After thats done, get yourself a regular stick, and right click with it on the vessel, to open the gui where you can select what pattern should be casted.",
+            "text": "You will need some clay balls and sand. After you have that, right click with the greensand on the casting vessel. After thats done, get yourself a regular stick, and right click with it on the vessel, to open the gui where you can select what pattern should be casted.",
         	"title": "Stone Crucible"
         },
 		{
