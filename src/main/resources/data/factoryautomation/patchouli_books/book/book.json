@@ -1,6 +1,6 @@
 {
   "name": "Factory Guide Book",
-  "landing_text": "Welcome to the official Factory Automation guidebook! This book will help you to survive and reach technologies! $(br)$(br)$(br)$(br)This Handbook was made with Patchouli by Vazkii $(br)$(br)$(br)$(br)If you find any typos, please report them!",
+  "landing_text": "Welcome to the official Factory Automation guidebook! This book will help you to survive and reach technologies! $(br) $(br)$(br)$(br)This Handbook was made with Patchouli by Vazkii $(br)$(br) $(br)$(br)If you find any typos, please report them!",
   "version": 3,
   "nameplate_color": "000000",
   "filler_texture": "factoryautomation:textures/gui/page_filler.png",
