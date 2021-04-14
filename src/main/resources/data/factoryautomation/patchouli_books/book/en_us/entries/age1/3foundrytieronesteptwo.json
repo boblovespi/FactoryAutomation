@@ -6,13 +6,13 @@
     "pages": [
         {
             "type": "text",
-            "text": "I know that you finally want to have your ingots, but theres more until you can get one. To use the foundry, you will nood coal or charcoal to heat it up. Oncee you have that, you will need something to cast in. Here comes in the greensand",
+            "text": "I know that you finally want to have your ingots, but theres more until you can get one. To use the foundry, you will nood coal or charcoal to heat it up. Once you have that, you will need something to cast in. Here comes in the greensand",
         	"title": "Foundry Chapter II"
         },
 		{
             "type": "crafting",
         	"recipe": "factoryautomation:crafting_recipes/green_sand",
-            "text": "You will need some clay balls and sand. AFter you have that, right click with the greensand on the casting vessel. After thats done, get yourself a regular stick, and right click with it on the vessel, to open the gui where you can select what pattern should be casted.",
+            "text": "You will need some clay balls and sand. After you have that, right click with the greensand on the casting vessel. After thats done, get yourself a regular stick, and right click with it on the vessel, to open the gui where you can select what pattern should be casted.",
         	"title": "Stone Crucible"
         },
 		{
@@ -24,6 +24,11 @@
             "type": "text",
             "text": "Here you can select what you want to cast. Now you can put your ore chunks into the basin, and after they melt you can cast them into the vessel. But be careful, dont touch the hot parts immediately because they WILL burn you. After they are cool enough, you can grab them.",
             "title": "How to use it"
+        },
+		{
+            "type": "text",
+            "text": "The major issue with this machine is, if you dont cast the the right amount eg. dont have enough molten metal in it, and start casting into shapes, the material simply will be wasted. So heres a quic tip: An ore gives 1 ingot of molten metal; An ingot obviously costs one ingot; A plate costs 2 ingots; A gear costs 6 ingots; A rod costs 1 ingots; A coin costs 1 ingot;",
+            "title": "The Drawbacks"
         }
     ]
 }
