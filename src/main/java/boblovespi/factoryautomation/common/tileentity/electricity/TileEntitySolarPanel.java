@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.api.energy.electricity.EnergyNetwork_;
 import boblovespi.factoryautomation.api.energy.electricity.IProducesEnergy_;
 import boblovespi.factoryautomation.api.energy.electricity.InternalEnergyStorage;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -150,9 +151,9 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.read(state, compound);
 		energyProduction = compound.getFloat("energyProduction");
 		energyUsed = compound.getFloat("energyUsed");
 		//		CompoundNBT nbt = compound.getCompoundTag("connections");

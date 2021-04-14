@@ -20,9 +20,9 @@ public class PillarAlt extends FABaseBlock
 
 	public PillarAlt(String name, Metals metal)
 	{
-		super(name, false, Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1)
-									 .hardnessAndResistance(1, 10), new Item.Properties().group(ItemGroup.DECORATIONS));
-		setDefaultState(stateContainer.getBaseState().with(TOP, false).with(BOTTOM, false));
+		super(name, false, Properties.of(Material.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1)
+									 .strength(1, 10), new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
+		registerDefaultState(stateDefinition.getBaseState().with(TOP, false).with(BOTTOM, false));
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class PillarAlt extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(TOP, BOTTOM);
 	}

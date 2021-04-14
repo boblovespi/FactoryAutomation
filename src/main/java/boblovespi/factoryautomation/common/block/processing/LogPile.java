@@ -42,9 +42,9 @@ public class LogPile extends FABaseBlock
 	public LogPile()
 	{
 		super("log_pile", false,
-				Properties.create(Material.WOOD).hardnessAndResistance(1.2f).harvestLevel(0).harvestTool(ToolType.AXE),
-				new Item.Properties().group(FAItemGroups.primitive));
-		setDefaultState(stateContainer.getBaseState().with(ACTIVATED, false));
+				Properties.of(Material.WOOD).strength(1.2f).harvestLevel(0).harvestTool(ToolType.AXE),
+				new Item.Properties().tab(FAItemGroups.primitive));
+		registerDefaultState(stateDefinition.getBaseState().with(ACTIVATED, false));
 	}
 
 	@Override
@@ -71,7 +71,6 @@ public class LogPile extends FABaseBlock
 		return state.get(ACTIVATED) ? 120 : 20;
 	}
 
-	@Override
 	public int tickRate(IWorldReader worldIn)
 	{
 		return 6000;
@@ -141,7 +140,7 @@ public class LogPile extends FABaseBlock
 				{
 					// do something later?
 					sidesOnFire = true;
-				} else if (!Block.hasSolidSide(state1, world, offset, face.getOpposite()) && state1.getBlock() != this)
+				} else if (!state1.isSolidSide(world, offset, face.getOpposite()) && state1.getBlock() != this)
 				{
 					// if (world.rand.nextFloat() < 0.2f)
 					// 	world.setBlockState(pos, Blocks.FIRE.getDefaultState());
@@ -160,7 +159,7 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(ACTIVATED);
 	}
@@ -187,7 +186,7 @@ public class LogPile extends FABaseBlock
 			BlockState state = world.getBlockState(offset);
 			if (block == null)
 			{
-				if (!Block.hasSolidSide(state, world, offset, dir.getOpposite()) && state.getBlock() != this)
+				if (!state.isSolidSide(world, offset, dir.getOpposite()) && state.getBlock() != this)
 					return false;
 			} else
 			{

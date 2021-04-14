@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.client.gui;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.container.ContainerBlastFurnace;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -26,22 +27,22 @@ public class GuiBlastFurnace extends ContainerScreen<ContainerBlastFurnace>
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(MatrixStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
 		GlStateManager.blendColor(1, 1, 1, 1);
 		minecraft.getTextureManager().bindTexture(
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/blast_furnace.png"));
-		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
+		blit(matrix, guiLeft, guiTop, 0, 0, xSize, ySize);
 
 		int k = container.GetProgressBars().get(0);
 		int l = container.GetProgressBars().get(1);
 		if (container.GetProgressBars().get(2) > 0)
 		{
-			this.blit(guiLeft + 56, guiTop + 50 - k, 176, 14 - k, 14, k);
+			this.blit(matrix, guiLeft + 56, guiTop + 50 - k, 176, 14 - k, 14, k);
 		}
 		if (container.GetProgressBars().get(3) > 0)
 		{
-			this.blit(guiLeft + 79, guiTop + 34, 176, 14, 24 - l, 16);
+			this.blit(matrix, guiLeft + 79, guiTop + 34, 176, 14, 24 - l, 16);
 		}
 
 		//		Debug.DebugLog()
@@ -64,18 +65,18 @@ public class GuiBlastFurnace extends ContainerScreen<ContainerBlastFurnace>
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+	protected void drawGuiContainerForegroundLayer(MatrixStack matrix, int mouseX, int mouseY)
 	{
-		drawCenteredString(minecraft.fontRenderer, "Blast Furnace", 84, 6, 180 + 100 * 256 + 100 * 256 * 256);
-		font.drawString(playerInventory.getDisplayName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
+		drawCenteredString(matrix, minecraft.fontRenderer, "Blast Furnace", 84, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		font.func_243246_a(matrix, playerInventory.getDisplayName(), 8, this.ySize - 96 + 2, 4210752);
 
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground();
-		super.render(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+		renderBackground(matrix);
+		super.render(matrix, mouseX, mouseY, partialTicks);
+		renderHoveredTooltip(matrix, mouseX, mouseY);
 	}
 }

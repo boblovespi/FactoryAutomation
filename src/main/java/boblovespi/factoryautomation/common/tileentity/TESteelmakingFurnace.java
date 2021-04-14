@@ -274,7 +274,7 @@ public class TESteelmakingFurnace extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
 		currentSmeltTime = tag.getFloat("currentSmeltTime");
 		currentMaxSmeltTime = tag.getFloat("currentMaxSmeltTime");
@@ -289,7 +289,7 @@ public class TESteelmakingFurnace extends TileEntity
 
 		itemHandler.deserializeNBT(tag.getCompound("itemHandler"));
 
-		super.read(tag);
+		super.read(state, tag);
 	}
 
 	@Override
@@ -327,7 +327,7 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

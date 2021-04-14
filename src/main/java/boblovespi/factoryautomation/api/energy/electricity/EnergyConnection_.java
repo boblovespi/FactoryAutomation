@@ -83,13 +83,11 @@ public class EnergyConnection_
 	{
 		CompoundNBT tag = new CompoundNBT();
 		NBTHelper.SetLocationTag(tag, "sourceLoc",
-								 source.GetTe().getWorld().getWorldType()
-									   .getId(), source.GetTe().getPos().getX(),
+								 source.GetTe().getWorld().getDimensionKey().getLocation(), source.GetTe().getPos().getX(),
 								 source.GetTe().getPos().getY(),
 								 source.GetTe().getPos().getX());
 		NBTHelper.SetLocationTag(tag, "consumerLoc",
-								 consumer.GetTe().getWorld().getWorldType()
-										 .getId(),
+								 consumer.GetTe().getWorld().getDimensionKey().getLocation(),
 								 consumer.GetTe().getPos().getX(),
 								 consumer.GetTe().getPos().getY(),
 								 consumer.GetTe().getPos().getX());

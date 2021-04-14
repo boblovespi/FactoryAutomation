@@ -15,6 +15,7 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -149,10 +150,10 @@ public class TEStoneCrucible extends TileEntity
 				if (item == FAItems.ingot.GetItem(metal) || item == FAItems.nugget.GetItem(metal)
 						|| item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal)
 						|| item == FABlocks.metalBlock.GetBlock(metal).GetItem())
-					return metal.getName();
+					return metal.getString();
 			} else if (item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal)
 					|| item == FABlocks.metalBlock.GetBlock(metal).GetItem())
-				return metal.getName();
+				return metal.getString();
 		}
 
 		// ores and other raw forms
@@ -336,9 +337,9 @@ public class TEStoneCrucible extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		metals.ReadFromNBT(tag.getCompound("metals"));
 		inventory.deserializeNBT(tag.getCompound("inventory"));
 		heatUser.ReadFromNBT(tag.getCompound("heatUser"));

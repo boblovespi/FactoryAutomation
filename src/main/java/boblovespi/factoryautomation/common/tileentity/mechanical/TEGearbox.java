@@ -95,7 +95,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
 		speedIn = compound.getFloat("speedIn");
 		torqueIn = compound.getFloat("torqueIn");
@@ -108,7 +108,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 		inputDurability = compound.getInt("inputDurability");
 		outputDurability = compound.getInt("outputDurability");
 
-		super.read(compound);
+		super.read(state, compound);
 	}
 
 	@Override
@@ -324,7 +324,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

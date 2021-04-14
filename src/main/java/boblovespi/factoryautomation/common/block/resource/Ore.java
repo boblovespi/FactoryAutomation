@@ -41,7 +41,7 @@ public class Ore extends MultiTypeBlock<Ore.Grade>
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name;
 		}

@@ -21,13 +21,13 @@ public class RiceGrain extends FABaseItem implements IPlantable
 {
 	public RiceGrain()
 	{
-		super("rice", ItemGroup.FOOD);
+		super("rice", ItemGroup.TAB_FOOD);
 	}
 
 	@Override
 	public PlantType getPlantType(IBlockReader iBlockAccess, BlockPos blockPos)
 	{
-		return PlantType.Water;
+		return PlantType.WATER;
 		// return EnumPlantType.Crop;
 	}
 

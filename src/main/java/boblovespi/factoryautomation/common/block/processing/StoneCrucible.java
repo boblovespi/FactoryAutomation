@@ -42,10 +42,10 @@ public class StoneCrucible extends FABaseBlock
 
 	public StoneCrucible()
 	{
-		super("stone_crucible", false, Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
+		super("stone_crucible", false, Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
 												 .harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(FAItemGroups.metallurgy));
-		setDefaultState(stateContainer.getBaseState().with(MULTIBLOCK_COMPLETE, false).with(FACING, Direction.NORTH));
+				new Item.Properties().tab(FAItemGroups.metallurgy));
+		registerDefaultState(stateDefinition.getBaseState().with(MULTIBLOCK_COMPLETE, false).with(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEStoneCrucible.class);
 	}
 
@@ -69,7 +69,7 @@ public class StoneCrucible extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(MULTIBLOCK_COMPLETE, FACING);
 	}

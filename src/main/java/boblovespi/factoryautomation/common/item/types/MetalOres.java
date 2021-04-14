@@ -22,7 +22,7 @@ public enum MetalOres implements IMultiTypeEnum, IStringSerializable
 	}
 
 	@Override
-	public String getName()
+	public String getString()
 	{
 		return name;
 	}

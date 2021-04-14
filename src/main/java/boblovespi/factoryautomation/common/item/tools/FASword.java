@@ -12,7 +12,7 @@ public class FASword extends SwordItem implements FAItem
 
 	public FASword(ToolMaterial material, String name)
 	{
-		super(material, 3, -2.4f, new Properties().group(ItemGroup.COMBAT));
+		super(material, 3, -2.4f, new Item.Properties().tab(ItemGroup.TAB_COMBAT));
 		unlocalizedName = name;
 		// setUnlocalizedName(unlocalizedName);
 		setRegistryName(name);

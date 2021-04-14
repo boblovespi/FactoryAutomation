@@ -110,9 +110,9 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		timer = tag.getInt("timer");
 		tank.readFromNBT(tag.getCompound("tank"));
 	}

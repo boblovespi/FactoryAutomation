@@ -50,7 +50,7 @@ public enum OreForms implements IMultiTypeEnum, IStringSerializable
 	}
 
 	@Override
-	public String getName()
+	public String getString()
 	{
 		return name().toLowerCase();
 	}
@@ -58,7 +58,7 @@ public enum OreForms implements IMultiTypeEnum, IStringSerializable
 	@Override
 	public String toString()
 	{
-		return getName();
+		return getString();
 	}
 
 	public enum Grade

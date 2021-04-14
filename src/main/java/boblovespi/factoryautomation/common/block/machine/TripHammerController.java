@@ -40,14 +40,14 @@ public class TripHammerController extends FABaseBlock
 
 	public TripHammerController()
 	{
-		super("trip_hammer", false, Properties.create(Material.IRON).hardnessAndResistance(3, 20).harvestLevel(0)
+		super("trip_hammer", false, Properties.of(Material.METAL).strength(3, 20).harvestLevel(0)
 											  .harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(FAItemGroups.metallurgy));
+				new Item.Properties().tab(FAItemGroups.metallurgy));
 		TileEntityHandler.tiles.add(TETripHammerController.class);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING, MULTIBLOCK_COMPLETE);
 	}
@@ -114,7 +114,7 @@ public class TripHammerController extends FABaseBlock
 		FALSE, TRUE, TESR;
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name().toLowerCase();
 		}

@@ -34,7 +34,7 @@ public class HorseEngine extends FABaseBlock
 	public HorseEngine()
 	{
 		super(Materials.WOOD_MACHINE, "horse_engine", FAItemGroups.mechanical);
-		setDefaultState(getDefaultState().with(PART, Part.TOP));
+		registerDefaultState(getDefaultState().with(PART, Part.TOP));
 		TileEntityHandler.tiles.add(TEHorseEngine.class);
 	}
 
@@ -52,7 +52,7 @@ public class HorseEngine extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(PART);
 	}
@@ -92,7 +92,7 @@ public class HorseEngine extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name;
 		}

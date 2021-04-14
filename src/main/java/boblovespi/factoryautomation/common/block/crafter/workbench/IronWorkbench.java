@@ -31,7 +31,7 @@ public class IronWorkbench extends Workbench
 
 	public IronWorkbench()
 	{
-		super(Material.ROCK, "iron_workbench");
+		super(Material.STONE, "iron_workbench");
 		TileEntityHandler.tiles.add(TEIronWorkbench.class);
 	}
 

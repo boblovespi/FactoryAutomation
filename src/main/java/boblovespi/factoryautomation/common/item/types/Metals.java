@@ -36,7 +36,7 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 	}
 
 	@Override
-	public String getName()
+	public String getString()
 	{
 		return name;
 	}

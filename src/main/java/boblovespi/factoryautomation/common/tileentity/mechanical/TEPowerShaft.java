@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -69,12 +70,12 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
 		speed = compound.getFloat("speed");
 		torque = compound.getFloat("torque");
 
-		super.read(compound);
+		super.read(state, compound);
 	}
 
 	@Override
@@ -142,7 +143,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

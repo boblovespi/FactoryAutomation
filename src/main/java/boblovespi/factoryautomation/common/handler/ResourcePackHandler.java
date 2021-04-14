@@ -2,10 +2,7 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
-import net.minecraft.resources.IPackFinder;
-import net.minecraft.resources.ResourcePack;
-import net.minecraft.resources.ResourcePackInfo;
-import net.minecraft.resources.ResourcePackType;
+import net.minecraft.resources.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -35,16 +33,13 @@ public class ResourcePackHandler
 
 	public static class FAOverridePackFinder implements IPackFinder
 	{
-		@Override
-		public <T extends ResourcePackInfo> void addPackInfosToMap(Map<String, T> nameToPackMap,
-				ResourcePackInfo.IFactory<T> packInfoFactory)
+		public void findPacks(Consumer<ResourcePackInfo> packInfoConsumer, ResourcePackInfo.IFactory packInfoFactory)
 		{
 			// Thanks Dark Roleplay for showing off how to add more datapacks for each mod
-			T pack = ResourcePackInfo
-					.createResourcePack("zfa_override_pack", false, () -> new FAOverridePack(Collections.singleton("minecraft")),
-							packInfoFactory, ResourcePackInfo.Priority.TOP);
+			ResourcePackInfo pack = ResourcePackInfo.createResourcePack("zfa_override_pack", false, () -> new FAOverridePack(Collections.singleton("minecraft")),
+					packInfoFactory, ResourcePackInfo.Priority.TOP, IPackNameDecorator.PLAIN);
 			if (pack != null)
-				nameToPackMap.put("zfa_override_pack", pack);
+				packInfoConsumer.accept(pack);
 		}
 	}
 
@@ -119,7 +114,7 @@ public class ResourcePackHandler
 		}
 
 		@Override
-		public void close() throws IOException
+		public void close()
 		{
 
 		}

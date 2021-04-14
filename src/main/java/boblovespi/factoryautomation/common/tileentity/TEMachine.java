@@ -131,9 +131,9 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 	protected abstract void ReadCustomNBT(CompoundNBT tag);
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		currentProgress = tag.getFloat("currentProgress");
 		maxProgress = tag.getInt("maxProgress");
 		recipeName = tag.getString("recipe");
@@ -158,7 +158,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.read(pkt.getNbtCompound());
+		this.read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

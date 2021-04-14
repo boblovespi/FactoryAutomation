@@ -14,7 +14,7 @@ public class FABaseItem extends Item implements FAItem
 
 	public FABaseItem(String unlocalizedName, ItemGroup ct)
 	{
-		this(unlocalizedName, new Properties().group(ct));
+		this(unlocalizedName, new Item.Properties().tab(ct));
 	}
 
 	public FABaseItem(String unlocalizedName, Properties properties)

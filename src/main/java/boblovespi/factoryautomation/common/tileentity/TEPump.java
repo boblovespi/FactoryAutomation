@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -117,9 +118,9 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		timer = tag.getFloat("timer");
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 	}

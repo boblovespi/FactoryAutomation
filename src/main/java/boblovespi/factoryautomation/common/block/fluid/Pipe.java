@@ -36,15 +36,15 @@ public class Pipe extends FABaseBlock
 
 	public Pipe(String name)
 	{
-		super(Material.IRON, name, ItemGroup.DECORATIONS);
-		setDefaultState(stateContainer.getBaseState().with(UP, Connection.NONE).with(DOWN, Connection.NONE)
+		super(Material.METAL, name, ItemGroup.TAB_DECORATIONS);
+		registerDefaultState(stateDefinition.getBaseState().with(UP, Connection.NONE).with(DOWN, Connection.NONE)
 									  .with(NORTH, Connection.NONE).with(SOUTH, Connection.NONE)
 									  .with(EAST, Connection.NONE).with(WEST, Connection.NONE));
 		TileEntityHandler.tiles.add(TEPipe.class);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(CONNECTIONS);
 	}
@@ -86,7 +86,7 @@ public class Pipe extends FABaseBlock
 	}
 
 	@Override
-	public boolean hasTileEntity()
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
@@ -103,7 +103,7 @@ public class Pipe extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name;
 		}

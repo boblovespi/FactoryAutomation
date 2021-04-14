@@ -37,10 +37,10 @@ public class HandCrank extends FABaseBlock
 
 	public HandCrank()
 	{
-		super("hand_crank", false, Properties.create(Material.WOOD).hardnessAndResistance(1.3f),
-				new Item.Properties().group(FAItemGroups.mechanical));
+		super("hand_crank", false, Properties.of(Material.WOOD).strength(1.3f),
+				new Item.Properties().tab(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TEHandCrank.class);
-		setDefaultState(stateContainer.getBaseState().with(INVERTED, false));
+		registerDefaultState(stateDefinition.getBaseState().with(INVERTED, false));
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class HandCrank extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(INVERTED);
 	}

@@ -36,10 +36,10 @@ public class BrickCastingVessel extends FABaseBlock
 	public BrickCastingVessel()
 	{
 		super("brick_casting_vessel", false,
-				Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
-						  .harvestTool(ToolType.PICKAXE), new Item.Properties().group(FAItemGroups.metallurgy));
+				Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
+						  .harvestTool(ToolType.PICKAXE), new Item.Properties().tab(FAItemGroups.metallurgy));
 		// super(Material.ROCK, "brick_casting_vessel", FAItemGroups.metallurgy);
-		setDefaultState(stateContainer.getBaseState().with(MOLD, CastingVesselStates.EMPTY));
+		registerDefaultState(stateDefinition.getBaseState().with(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
 	}
 
@@ -50,7 +50,7 @@ public class BrickCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(MOLD);
 	}

@@ -28,8 +28,8 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 	{
 		super(
 				"solar_panel", false,
-				Properties.create(Material.IRON).hardnessAndResistance(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
-				new Item.Properties().group(FAItemGroups.electrical));
+				Properties.of(Material.METAL).strength(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
+				new Item.Properties().tab(FAItemGroups.electrical));
 	}
 
 	/**

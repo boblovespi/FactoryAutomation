@@ -15,6 +15,7 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -235,9 +236,9 @@ public class TEBrickCrucible extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		metals.ReadFromNBT(tag.getCompound("metals"));
 		inventory.deserializeNBT(tag.getCompound("inventory"));
 		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
@@ -381,10 +382,10 @@ public class TEBrickCrucible extends TileEntity
 			// bronze:
 			if (metals.size() == 2)
 			{
-				if (metals.containsKey(Metals.COPPER.getName()) && metals.containsKey(Metals.TIN.getName()))
+				if (metals.containsKey(Metals.COPPER.getString()) && metals.containsKey(Metals.TIN.getString()))
 				{
-					if (metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) >= 7
-							&& metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) <= 9
+					if (metals.get(Metals.COPPER.getString()) / metals.get(Metals.TIN.getString()) >= 7
+							&& metals.get(Metals.COPPER.getString()) / metals.get(Metals.TIN.getString()) <= 9
 							&& heatUser.GetTemperature() > 2000)
 					{
 						metal = "bronze";
@@ -395,11 +396,11 @@ public class TEBrickCrucible extends TileEntity
 			// bronze (again):
 			if (metals.size() == 3)
 			{
-				if (metals.containsKey(Metals.COPPER.getName()) && metals.containsKey(Metals.TIN.getName()) && metals
-						.containsKey(Metals.BRONZE.getName()))
+				if (metals.containsKey(Metals.COPPER.getString()) && metals.containsKey(Metals.TIN.getString()) && metals
+						.containsKey(Metals.BRONZE.getString()))
 				{
-					if (metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) >= 7
-							&& metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) <= 9
+					if (metals.get(Metals.COPPER.getString()) / metals.get(Metals.TIN.getString()) >= 7
+							&& metals.get(Metals.COPPER.getString()) / metals.get(Metals.TIN.getString()) <= 9
 							&& heatUser.GetTemperature() > 2000)
 					{
 						metal = "bronze";

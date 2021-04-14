@@ -10,7 +10,7 @@ public class FAPickaxe extends PickaxeItem implements FAItem
 
 	public FAPickaxe(IItemTier material, String name)
 	{
-		super(material, 1, -2.8f, new Item.Properties().group(ItemGroup.TOOLS));
+		super(material, 1, -2.8f, new Item.Properties().tab(ItemGroup.TAB_TOOLS));
 		this.unlocalizedName = name;
 		// this.setUnlocalizedName(unlocalizedName); TODO: Translation key??
 		this.setRegistryName(name);

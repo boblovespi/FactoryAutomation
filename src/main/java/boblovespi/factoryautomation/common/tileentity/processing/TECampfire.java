@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.api.recipe.CampfireRecipe;
 import boblovespi.factoryautomation.common.block.processing.Campfire;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -119,9 +120,9 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		timeLeft = tag.getInt("timeLeft");
 		slot.deserializeNBT(tag.getCompound("slot"));
 		recipe = tag.getString("recipe");
@@ -144,7 +145,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

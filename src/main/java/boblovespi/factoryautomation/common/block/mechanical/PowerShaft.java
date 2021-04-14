@@ -37,8 +37,8 @@ public class PowerShaft extends FABaseBlock
 
 	public PowerShaft()
 	{
-		super(Material.IRON, "power_shaft", null);
-		setDefaultState(stateContainer.getBaseState().with(AXIS, Axis.X).with(IS_TESR, false));
+		super(Material.METAL, "power_shaft", null);
+		registerDefaultState(stateDefinition.getBaseState().with(AXIS, Axis.X).with(IS_TESR, false));
 		if (VOXELS[0] == null)
 			for (int i = 0; i < 3; i++)
 			{
@@ -81,7 +81,7 @@ public class PowerShaft extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(AXIS, IS_TESR);
 	}

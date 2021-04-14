@@ -43,9 +43,9 @@ public class TEPlacedBucket extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.read(state, compound);
 		handler.readFromNBT(compound);
 	}
 
@@ -69,15 +69,5 @@ public class TEPlacedBucket extends TileEntity
 	public FluidStack GetFluidStack()
 	{
 		return handler.getFluid();
-	}
-
-	/**
-	 * If the TileEntitySpecialRenderer associated with this TileEntity can be batched in with another renderers, and won't access the GL state.
-	 * If TileEntity returns true, then TESR should have the same functionality as (and probably extend) the FastTESR class.
-	 */
-	@Override
-	public boolean hasFastRenderer()
-	{
-		return false;
 	}
 }

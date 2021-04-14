@@ -66,6 +66,6 @@ public class ClientProxy implements CommonProxy
 	@Override
 	public void AddChatMessage(ChatType type, ITextComponent string)
 	{
-		Minecraft.getInstance().ingameGUI.addChatMessage(type, string);
+		Minecraft.getInstance().ingameGUI.func_238450_a_(type, string, Minecraft.getInstance().player.getUniqueID());
 	}
 }

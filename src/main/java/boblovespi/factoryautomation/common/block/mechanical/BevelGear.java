@@ -31,7 +31,7 @@ public class BevelGear extends FABaseBlock
 
 	public BevelGear()
 	{
-		super(Material.IRON, "bevel_gear", FAItemGroups.mechanical);
+		super(Material.METAL, "bevel_gear", FAItemGroups.mechanical);
 		TileEntityHandler.tiles.add(TEBevelGear.class);
 	}
 
@@ -46,7 +46,7 @@ public class BevelGear extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(LAYER, FACING);
 	}

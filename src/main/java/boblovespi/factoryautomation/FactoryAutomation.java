@@ -34,11 +34,11 @@ import boblovespi.factoryautomation.datagen.loottable.FALootTableProvider;
 import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
 import boblovespi.factoryautomation.datagen.tags.FABlockTagProvider;
 import boblovespi.factoryautomation.datagen.tags.FAItemTagProvider;
+import com.google.common.eventbus.Subscribe;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -122,7 +122,7 @@ public class FactoryAutomation
 		RenderTypeLookup.setRenderLayer(FABlocks.ironWorkbench.ToBlock(), RenderType.getCutoutMipped());
 	}
 
-	@SubscribeEvent
+	@Subscribe
 	public static void DataSetup(GatherDataEvent event)
 	{
 		DataGenerator generator = event.getGenerator();
@@ -147,7 +147,7 @@ public class FactoryAutomation
 
 		Log.getLogger().info("Initialization end");
 
-		WorldGenHandler.AddFeaturesToBiomes();
+		// WorldGenHandler.AddFeaturesToBiomes();
 
 		MultiblockHandler.Register(
 				"blast_furnace",

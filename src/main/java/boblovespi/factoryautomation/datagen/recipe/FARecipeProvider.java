@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.data.*;
 import net.minecraft.item.Item;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 
@@ -30,38 +31,38 @@ public class FARecipeProvider extends RecipeProvider
 		for (int i = 2; i < Metals.values().length; i++)
 		{
 			ShapelessRecipeBuilder.shapelessRecipe(FAItems.nugget.GetItem(Metals.values()[i]), 9)
-								  .addIngredient(FATags.ForgeItemTag("ingots/" + Metals.values()[i].getName()))
-								  .setGroup(Metals.values()[i].getName() + "_nugget")
-								  .addCriterion("has_" + Metals.values()[i].getName() + "_ingot",
-										  hasItem(FATags.ForgeItemTag("ingots/" + Metals.values()[i].getName())))
+								  .addIngredient(FATags.ForgeItemTag("ingots/" + Metals.values()[i].getString()))
+								  .setGroup(Metals.values()[i].getString() + "_nugget")
+								  .addCriterion("has_" + Metals.values()[i].getString() + "_ingot",
+										  hasItem(FATags.ForgeItemTag("ingots/" + Metals.values()[i].getString())))
 								  .build(consumer, new ResourceLocation(MODID,
-										  "ingot_to_nugget_" + Metals.values()[i].getName()));
+										  "ingot_to_nugget_" + Metals.values()[i].getString()));
 
 			ShapedRecipeBuilder.shapedRecipe(FAItems.ingot.GetItem(Metals.values()[i])).patternLine("III")
 							   .patternLine("III").patternLine("III")
-							   .key('I', FATags.ForgeItemTag("nuggets/" + Metals.values()[i].getName()))
-							   .setGroup(Metals.values()[i].getName() + "_ingot")
-							   .addCriterion("has_" + Metals.values()[i].getName() + "_nugget",
-									   hasItem(FATags.ForgeItemTag("nuggets/" + Metals.values()[i].getName())))
+							   .key('I', FATags.ForgeItemTag("nuggets/" + Metals.values()[i].getString()))
+							   .setGroup(Metals.values()[i].getString() + "_ingot")
+							   .addCriterion("has_" + Metals.values()[i].getString() + "_nugget",
+									   hasItem(FATags.ForgeItemTag("nuggets/" + Metals.values()[i].getString())))
 							   .build(consumer,
-									   new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].getName()));
+									   new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].getString()));
 
 			ShapelessRecipeBuilder.shapelessRecipe(FAItems.ingot.GetItem(Metals.values()[i]), 9)
-								  .addIngredient(FATags.ForgeItemTag("storage_blocks/" + Metals.values()[i].getName()))
-								  .setGroup(Metals.values()[i].getName() + "_ingot")
-								  .addCriterion("has_" + Metals.values()[i].getName() + "_block", hasItem(FATags
-										  .ForgeItemTag("storage_blocks/" + Metals.values()[i].getName())))
+								  .addIngredient(FATags.ForgeItemTag("storage_blocks/" + Metals.values()[i].getString()))
+								  .setGroup(Metals.values()[i].getString() + "_ingot")
+								  .addCriterion("has_" + Metals.values()[i].getString() + "_block", hasItem(FATags
+										  .ForgeItemTag("storage_blocks/" + Metals.values()[i].getString())))
 								  .build(consumer, new ResourceLocation(MODID,
-										  "block_to_ingot_" + Metals.values()[i].getName()));
+										  "block_to_ingot_" + Metals.values()[i].getString()));
 
 			ShapedRecipeBuilder.shapedRecipe(FABlocks.metalBlock.GetBlock(Metals.values()[i])).patternLine("III")
 							   .patternLine("III").patternLine("III")
-							   .key('I', FATags.ForgeItemTag("ingots/" + Metals.values()[i].getName()))
-							   .setGroup(Metals.values()[i].getName() + "_block")
-							   .addCriterion("has_" + Metals.values()[i].getName() + "_ingot",
-									   hasItem(FATags.ForgeItemTag("ingots/" + Metals.values()[i].getName())))
+							   .key('I', FATags.ForgeItemTag("ingots/" + Metals.values()[i].getString()))
+							   .setGroup(Metals.values()[i].getString() + "_block")
+							   .addCriterion("has_" + Metals.values()[i].getString() + "_ingot",
+									   hasItem(FATags.ForgeItemTag("ingots/" + Metals.values()[i].getString())))
 							   .build(consumer,
-									   new ResourceLocation(MODID, "ingot_to_block" + Metals.values()[i].getName()));
+									   new ResourceLocation(MODID, "ingot_to_block" + Metals.values()[i].getString()));
 		}
 
 		// tools
@@ -76,8 +77,8 @@ public class FARecipeProvider extends RecipeProvider
 
 	}
 
-	private void AddToolRecipes(Consumer<IFinishedRecipe> consumer, String materialName, @Nonnull Tag<Item> ingot,
-			@Nonnull Tag<Item> stick, @Nullable FAItem pickaxe, @Nullable FAItem axe, @Nullable FAItem sword,
+	private void AddToolRecipes(Consumer<IFinishedRecipe> consumer, String materialName, @Nonnull ITag<Item> ingot,
+			@Nonnull ITag<Item> stick, @Nullable FAItem pickaxe, @Nullable FAItem axe, @Nullable FAItem sword,
 			@Nullable FAItem hoe, @Nullable FAItem shovel)
 	{
 		if (pickaxe != null)

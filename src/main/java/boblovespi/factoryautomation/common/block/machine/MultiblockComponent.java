@@ -22,7 +22,7 @@ public class MultiblockComponent extends FABaseBlock
 {
 	public MultiblockComponent()
 	{
-		super("multiblock_part", true, Properties.create(Material.IRON).hardnessAndResistance(1.5f),
+		super("multiblock_part", true, Properties.of(Material.METAL).strength(1.5f),
 				new Item.Properties());
 		//		setUnlocalizedName(UnlocalizedName());
 		//		setRegistryName(RegistryName());
@@ -30,12 +30,6 @@ public class MultiblockComponent extends FABaseBlock
 		//		setHardness(1.5f);
 		//		setHarvestLevel("pickaxe", 0);
 		//		FABlocks.blocks.add(this);
-	}
-
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos)
-	{
-		return false;
 	}
 
 	/**

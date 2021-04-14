@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiBar;
 import boblovespi.factoryautomation.common.container.ContainerBrickFoundry;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.resources.I18n;
@@ -12,6 +13,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.ArrayList;
@@ -39,60 +41,60 @@ public class GuiBrickFoundry extends ContainerScreen<ContainerBrickFoundry>
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+	protected void drawGuiContainerForegroundLayer(MatrixStack matrix, int mouseX, int mouseY)
 	{
-		drawCenteredString(minecraft.fontRenderer, "Brick Foundry", 56, 6, 180 + 100 * 256 + 100 * 256 * 256);
-		font.drawString(playerInventory.getDisplayName().getFormattedText(), 100, this.ySize - 96 + 2, 4210752);
+		drawCenteredString(matrix, minecraft.fontRenderer, "Brick Foundry", 56, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		font.drawString(matrix, playerInventory.getDisplayName().getString(), 100, this.ySize - 96 + 2, 4210752);
 	}
 
 	@Override
-	protected void renderHoveredToolTip(int mouseX, int mouseY)
+	protected void renderHoveredTooltip(MatrixStack matrix, int mouseX, int mouseY)
 	{
-		super.renderHoveredToolTip(mouseX, mouseY);
+		super.renderHoveredTooltip(matrix, mouseX, mouseY);
 		if (isPointInRegion(53, 16, 6, 61, mouseX, mouseY))
 		{
-			List<String> text = Collections.singletonList(I18n.format("gui.misc.temperature") + ": " + String
+			ITextComponent text = new StringTextComponent(I18n.format("gui.misc.temperature") + ": " + String
 					.format("%1$.1f\u00b0C", container.GetBar(6) / 10f));
-			renderTooltip(text, mouseX, mouseY);
+			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 		if (isPointInRegion(107, 17, 16, 59, mouseX, mouseY))
 		{
-			List<String> text = Collections.singletonList(I18n.format(container.GetMetalName()) + ": " + container.GetBar(7));
-			renderTooltip(text, mouseX, mouseY);
+			ITextComponent text = new StringTextComponent(I18n.format(container.GetMetalName()) + ": " + container.GetBar(7));
+			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 		if (isPointInRegion(87, 61, 16, 16, mouseX, mouseY))
 		{
-			List<String> text = Collections.singletonList(
+			ITextComponent text =  new StringTextComponent(
 					I18n.format("gui.misc.efficiency") + ": " + String.format("%1$.0f", container.GetBar(8) / 100f)
 							+ "%");
-			renderTooltip(text, mouseX, mouseY);
+			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground();
-		super.render(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+		renderBackground(matrix);
+		super.render(matrix, mouseX, mouseY, partialTicks);
+		renderHoveredTooltip(matrix, mouseX, mouseY);
 	}
 
 	/**
 	 * Draws the background layer of this container (behind the items).
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	protected void drawGuiContainerBackgroundLayer(MatrixStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
 		GlStateManager.blendColor(1, 1, 1, 1);
 		minecraft.getTextureManager().bindTexture(
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/brick_foundry.png"));
-		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
+		blit(matrix, guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		flameBar.Draw(this, container.GetBar(0) / 100f);
-		tempBar.Draw(this, container.GetBar(1) / 100f);
-		progressBar.Draw(this, container.GetBar(2) / 100f);
-		bellowsBar.Draw(this, container.GetBar(3) / 100f);
-		fill(guiLeft + 107, guiTop + (int) (76 - 59 * container.GetBar(4) / 100f), guiLeft + 123, guiTop + 76,
+		flameBar.Draw(matrix, this, container.GetBar(0) / 100f);
+		tempBar.Draw(matrix, this, container.GetBar(1) / 100f);
+		progressBar.Draw(matrix, this, container.GetBar(2) / 100f);
+		bellowsBar.Draw(matrix, this, container.GetBar(3) / 100f);
+		fill(matrix, guiLeft + 107, guiTop + (int) (76 - 59 * container.GetBar(4) / 100f), guiLeft + 123, guiTop + 76,
 				container.GetBar(5));
 
 	}

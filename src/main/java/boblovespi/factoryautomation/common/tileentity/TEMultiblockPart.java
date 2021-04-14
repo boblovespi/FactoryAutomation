@@ -64,9 +64,9 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.read(state, compound);
 		structurePosition = compound.getIntArray("structurePosition");
 		structureId = compound.getString("structure");
 		structureOffset = compound.getIntArray("structureOffset");

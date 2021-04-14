@@ -13,7 +13,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -121,7 +121,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 
 		if (counter == 0)
 		{
-			if (world.getBiome(pos) == Biomes.RIVER)
+			if (world.getBiome(pos).delegate == Biomes.RIVER)
 			{
 				user.SetSpeedOnFace(out, 10);
 				user.SetTorqueOnFace(out, 25);
@@ -136,7 +136,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 					{
 						if (state.getBlock() instanceof FlowingFluidBlock)
 						{
-							Vec3d acc = state.getFluidState().getFlow(world, waterPos);
+							Vector3d acc = state.getFluidState().getFlow(world, waterPos);
 							if (out.getAxis() == Direction.Axis.X) // water flowing along z axis
 							{
 								if (i < 3 || i > 6)

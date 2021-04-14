@@ -20,7 +20,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -49,9 +48,9 @@ public class StoneCastingVessel extends FABaseBlock
 	public StoneCastingVessel()
 	{
 		super("stone_casting_vessel", false,
-				Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
-						  .harvestTool(ToolType.PICKAXE), new Item.Properties().group(FAItemGroups.primitive));
-		setDefaultState(stateContainer.getBaseState().with(MOLD, CastingVesselStates.EMPTY));
+				Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
+						  .harvestTool(ToolType.PICKAXE), new Item.Properties().tab(FAItemGroups.primitive));
+		registerDefaultState(stateDefinition.getBaseState().with(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
 	}
 
@@ -62,7 +61,7 @@ public class StoneCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(MOLD);
 	}
@@ -129,7 +128,7 @@ public class StoneCastingVessel extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name().toLowerCase();
 		}
@@ -137,7 +136,7 @@ public class StoneCastingVessel extends FABaseBlock
 		@Override
 		public String toString()
 		{
-			return getName();
+			return getString();
 		}
 	}
 }

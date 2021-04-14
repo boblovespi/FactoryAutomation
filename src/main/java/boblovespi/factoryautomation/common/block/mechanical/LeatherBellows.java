@@ -33,8 +33,8 @@ public class LeatherBellows extends FABaseBlock
 	public LeatherBellows()
 	{
 		super("leather_bellows", false,
-				Properties.create(Material.WOOD).hardnessAndResistance(0.5f).sound(SoundType.CLOTH),
-				new Item.Properties().group(FAItemGroups.mechanical));
+				Properties.of(Material.WOOD).strength(0.5f).sound(SoundType.CLOTH),
+				new Item.Properties().tab(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TELeatherBellows.class);
 	}
 
@@ -58,7 +58,7 @@ public class LeatherBellows extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}

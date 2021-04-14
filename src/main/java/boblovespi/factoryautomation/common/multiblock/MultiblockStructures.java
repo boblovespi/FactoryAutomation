@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import net.minecraft.block.*;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 
 import static boblovespi.factoryautomation.common.multiblock.MultiblockPart.EMPTY;
@@ -19,7 +20,7 @@ public class MultiblockStructures
 	public static final MultiblockPart OAK_STAIR = new MultiblockPart(Blocks.OAK_STAIRS);
 	public static final MultiblockPart OAK_PLANK = new MultiblockPart(Blocks.OAK_PLANKS);
 	public static final MultiblockPart OAK_LOG_UP = new MultiblockPart(Blocks.OAK_LOG, n -> true,
-			n -> n.get(LogBlock.AXIS) == Direction.Axis.Y, false);
+			n -> n.get(BlockStateProperties.AXIS) == Direction.Axis.Y, false);
 	public static final MultiblockPart BRICK = new MultiblockPart(Blocks.BRICKS);
 
 	public static final Block[][][] blastFurnace = new Block[][][] {

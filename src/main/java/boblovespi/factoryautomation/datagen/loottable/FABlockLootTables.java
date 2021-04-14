@@ -10,13 +10,13 @@ import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
-import net.minecraft.world.storage.loot.ItemLootEntry;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTable;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.BlockStateProperty;
-import net.minecraft.world.storage.loot.functions.ApplyBonus;
-import net.minecraft.world.storage.loot.functions.SetCount;
+import net.minecraft.loot.ItemLootEntry;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.RandomValueRange;
+import net.minecraft.loot.conditions.BlockStateProperty;
+import net.minecraft.loot.functions.ApplyBonus;
+import net.minecraft.loot.functions.SetCount;
 
 public class FABlockLootTables extends BlockLootTables
 {
@@ -43,12 +43,12 @@ public class FABlockLootTables extends BlockLootTables
 											  .acceptFunction(ApplyBonus.uniformBonusCount(Enchantments.FORTUNE)))));
 		registerLootTable(FABlocks.concreteSlab, BlockLootTables::droppingSlab);
 		// handle multiblock part separately
-		registerLootTable(FABlocks.multiblockPart.ToBlock(), func_218482_a());
+		registerLootTable(FABlocks.multiblockPart.ToBlock(), blockNoDrop());
 		registerDropSelfLootTable(FABlocks.cable.ToBlock());
 		registerDropSelfLootTable(FABlocks.solarPanel.ToBlock());
 		registerDropSelfLootTable(FABlocks.treetap.ToBlock());
 		// handle bucket separately
-		registerLootTable(FABlocks.placedBucket.ToBlock(), func_218482_a());
+		registerLootTable(FABlocks.placedBucket.ToBlock(), blockNoDrop());
 		registerDropSelfLootTable(FABlocks.factorySign.ToBlock());
 		registerDropSelfLootTable(FABlocks.solidfueledfirebox.ToBlock());
 		FABlocks.woodChoppingBlocks.forEach(n -> registerDropSelfLootTable(n.ToBlock()));

@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -193,9 +194,9 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public void read(CompoundNBT nbt)
+	public void read(BlockState state, CompoundNBT nbt)
 	{
-		super.read(nbt);
+		super.read(state, nbt);
 
 		itemHandler.deserializeNBT(nbt.getCompound("inventory"));
 		mechanicalUser.ReadFromNBT(nbt.getCompound("mechanicalUser"));

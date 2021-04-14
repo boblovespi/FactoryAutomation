@@ -10,9 +10,9 @@ public class FAHoe extends HoeItem implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FAHoe(ToolMaterial material, String name, float attackSpeed)
+	public FAHoe(ToolMaterial material, String name, float attackSpeed, int attackDamage)
 	{
-		super(material, attackSpeed, new Item.Properties().group(ItemGroup.TOOLS));
+		super(material, attackDamage, attackSpeed, new Item.Properties().tab(ItemGroup.TAB_TOOLS));
 		unlocalizedName = name;
 		// setUnlocalizedName(name);
 		setRegistryName(name);

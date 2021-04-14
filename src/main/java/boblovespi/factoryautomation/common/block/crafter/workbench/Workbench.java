@@ -24,8 +24,8 @@ public abstract class Workbench extends FABaseBlock
 {
 	public Workbench(Material material, String name)
 	{
-		super(name, false, Properties.create(material).hardnessAndResistance(2),
-				new Item.Properties().group(FAItemGroups.crafting));
+		super(name, false, Properties.of(material).strength(2),
+				new Item.Properties().tab(FAItemGroups.crafting));
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public abstract class Workbench extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(HORIZONTAL_FACING);
 	}

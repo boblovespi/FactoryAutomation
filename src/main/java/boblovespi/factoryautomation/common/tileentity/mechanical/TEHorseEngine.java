@@ -82,9 +82,9 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		user.ReadFromNBT(tag.getCompound("user"));
 		hasHorse = tag.getBoolean("hasHorse");
 		if (hasHorse)

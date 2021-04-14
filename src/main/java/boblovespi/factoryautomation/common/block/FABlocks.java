@@ -43,7 +43,7 @@ import static boblovespi.factoryautomation.common.config.ConfigFields.blockMinin
 import static boblovespi.factoryautomation.common.item.FAItems.Building;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.COPPER;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.STEEL;
-import static net.minecraft.block.Block.Properties.create;
+import static net.minecraft.block.AbstractBlock.Properties.of;
 
 /**
  * Created by Willi on 11/9/2017.
@@ -203,12 +203,12 @@ public class FABlocks
 		placedBucket = new PlacedBucket();
 
 		metalBlock = new MetalBlock("metal_block",
-				create(Material.IRON).hardnessAndResistance(5, 30).harvestTool(ToolType.PICKAXE).harvestLevel(COPPER));
+				of(Material.METAL).strength(5, 30).harvestTool(ToolType.PICKAXE).harvestLevel(COPPER));
 		metalPlateBlock = new MetalBlock("metal_plate_block",
-				create(Material.IRON).hardnessAndResistance(5, 30).harvestTool(ToolType.PICKAXE).harvestLevel(COPPER));
+				of(Material.METAL).strength(5, 30).harvestTool(ToolType.PICKAXE).harvestLevel(COPPER));
 
 		ironPatternedPlateBlock = new FABaseBlock("patterned_plate_block_iron", false,
-				create(Material.IRON).hardnessAndResistance(1, 40).harvestTool(ToolType.PICKAXE).harvestLevel(3),
+				of(Material.METAL).strength(1, 40).harvestTool(ToolType.PICKAXE).harvestLevel(3),
 				Building());
 
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
@@ -218,7 +218,7 @@ public class FABlocks
 		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
 
 		factorySign = new FABaseBlock("factory_sign_block", false,
-				create(Material.IRON).hardnessAndResistance(1, 10).harvestTool(ToolType.PICKAXE).harvestLevel(1),
+				of(Material.METAL).strength(1, 10).harvestTool(ToolType.PICKAXE).harvestLevel(1),
 				Building());
 
 		solidfueledfirebox = new SolidFueledFirebox();
@@ -230,7 +230,7 @@ public class FABlocks
 		for (int i = 0; i < 6; i++)
 		{
 			FABlock tempChoppingBlock = new ChoppingBlock("wood_chopping_block_" + WoodTypes.values()[i].GetName(), 10,
-					create(Material.WOOD, WoodTypes.values()[i].GetColor()).hardnessAndResistance(4));
+					of(Material.WOOD, WoodTypes.values()[i].GetColor()).strength(4));
 			woodChoppingBlocks.add(tempChoppingBlock);
 		}
 
@@ -259,10 +259,10 @@ public class FABlocks
 		// ores
 
 		limoniteOre = new Ore("limonite_ore", blockMiningLevelCat.limoniteOre,
-				create(Material.ROCK).hardnessAndResistance(2.5f, 14), Building());
+				of(Material.STONE).strength(2.5f, 14), Building());
 		// .Init(n -> n.setHardness(2.5f).setResistance(14));
 		magnetiteOre = new Ore("magnetite_ore", blockMiningLevelCat.ironOre,
-				create(Material.ROCK).hardnessAndResistance(3f, 16), Building());
+				of(Material.STONE).strength(3f, 16), Building());
 		// .Init(n -> n.setHardness(3f).setResistance(16));
 		siliconQuartzOre = new GemOre("ore_silicon_quartz",
 				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
@@ -318,10 +318,10 @@ public class FABlocks
 		charcoalPile = new CharcoalPile();
 		logPile = new LogPile();
 		terraclayBrickBlock = new FABaseBlock("terraclay_brick_block", false,
-				create(Material.ROCK).hardnessAndResistance(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
+				of(Material.STONE).strength(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
 				Building());
 		terraclayBlock = new FABaseBlock("terraclay_block", false,
-				create(Material.ROCK).hardnessAndResistance(0.8f).harvestTool(ToolType.SHOVEL).harvestLevel(0),
+				of(Material.STONE).strength(0.8f).harvestTool(ToolType.SHOVEL).harvestLevel(0),
 				Building());
 		ironBloom = new IronBloom();
 	}

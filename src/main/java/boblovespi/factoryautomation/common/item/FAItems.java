@@ -175,7 +175,7 @@ public class FAItems
 		items.remove(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
-		diamondCoin = new FABaseItem("coin_diamond", ItemGroup.MISC);
+		diamondCoin = new FABaseItem("coin_diamond", ItemGroup.TAB_MISC);
 		rod = new MetalItem("rod");
 
 		// metallurgy misc
@@ -247,18 +247,18 @@ public class FAItems
 
 		bronzePickaxe = new FAPickaxe(bronzeMaterial, "bronze_pickaxe");
 		bronzeAxe = new FAAxe(bronzeMaterial, "bronze_axe");
-		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe", -1.5f);
+		bronzeHoe = new FAHoe(bronzeMaterial, "bronze_hoe", -1.5f, 1);
 		bronzeShovel = new FAShovel(bronzeMaterial, "bronze_shovel");
 		bronzeSword = new FASword(bronzeMaterial, "bronze_sword");
 
 		steelAxe = new FAAxe(steelMaterial, "steel_axe");
-		steelHoe = new FAHoe(steelMaterial, "steel_hoe", -0.5f);
+		steelHoe = new FAHoe(steelMaterial, "steel_hoe", -0.5f, 1);
 		steelShovel = new FAShovel(steelMaterial, "steel_shovel");
 		steelSword = new FASword(steelMaterial, "steel_sword");
 		steelPickaxe = new FAPickaxe(steelMaterial, "steel_pickaxe");
 
 		copperAxe = new FAAxe(copperMaterial, "copper_axe");
-		copperHoe = new FAHoe(copperMaterial, "copper_hoe", -2.5f);
+		copperHoe = new FAHoe(copperMaterial, "copper_hoe", -2.5f, 1);
 		copperShovel = new FAShovel(copperMaterial, "copper_shovel");
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
@@ -298,7 +298,7 @@ public class FAItems
 
 	public static Item.Properties Building()
 	{
-		return Prop().group(ItemGroup.BUILDING_BLOCKS);
+		return Prop().group(ItemGroup.TAB_BUILDING_BLOCKS);
 	}
 
 	public static void RegisterItemRenders()

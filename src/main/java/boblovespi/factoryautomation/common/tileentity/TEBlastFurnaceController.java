@@ -102,7 +102,7 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
 		burnTime = compound.getInt("burnTime");
 		fuelBurnTime = compound.getInt("fuelBurnTime");
@@ -114,7 +114,7 @@ public class TEBlastFurnaceController extends TileEntity
 
 		itemHandler.deserializeNBT(compound.getCompound("itemHandler"));
 
-		super.read(compound);
+		super.read(state, compound);
 
 		//		inputHopperWrapper = new RestrictedSlotItemHandler(new HashSet<Integer>()
 		//		{{
@@ -236,7 +236,7 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.read(pkt.getNbtCompound());
+		this.read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Override

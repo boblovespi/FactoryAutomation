@@ -26,13 +26,13 @@ public class Pump extends FABaseBlock
 
 	public Pump(String name)
 	{
-		super(Material.IRON, name, ItemGroup.DECORATIONS);
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
+		super(Material.METAL, name, ItemGroup.TAB_DECORATIONS);
+		registerDefaultState(stateDefinition.getBaseState().with(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEPump.class);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}

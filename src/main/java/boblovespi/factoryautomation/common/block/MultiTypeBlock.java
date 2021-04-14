@@ -34,7 +34,7 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 
 		for (int i = 0; i < blocks.length; i++)
 		{
-			blocks[i] = new FABaseBlock(registeryName + "_" + blockTypes.getEnumConstants()[i].getName(), false,
+			blocks[i] = new FABaseBlock(registeryName + "_" + blockTypes.getEnumConstants()[i].name(), false,
 					properties, itemProperties)
 			{
 				@Override
@@ -67,9 +67,9 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 
 		for (int i = 0; i < types.length; i++)
 			if (meta == i)
-				return folder + UnlocalizedName() + "_" + types[i].getName();
+				return folder + UnlocalizedName() + "_" + types[i].name();
 
-		return folder + UnlocalizedName() + "_" + types[0].getName();
+		return folder + UnlocalizedName() + "_" + types[0].name();
 	}
 
 	@Override

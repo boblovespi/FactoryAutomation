@@ -41,9 +41,9 @@ public class BrickCrucible extends FABaseBlock
 
 	public BrickCrucible()
 	{
-		super("brick_crucible", false, Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
+		super("brick_crucible", false, Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
 												 .harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(FAItemGroups.metallurgy));
+				new Item.Properties().tab(FAItemGroups.metallurgy));
 		TileEntityHandler.tiles.add(TEBrickCrucible.class);
 	}
 
@@ -67,7 +67,7 @@ public class BrickCrucible extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING, MULTIBLOCK_COMPLETE);
 	}

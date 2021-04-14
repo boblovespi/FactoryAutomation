@@ -40,8 +40,8 @@ public class Gearbox extends FABaseBlock
 
 	public Gearbox()
 	{
-		super(Material.IRON, "gearbox", FAItemGroups.mechanical);
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.WEST));
+		super(Material.METAL, "gearbox", FAItemGroups.mechanical);
+		registerDefaultState(stateDefinition.getBaseState().with(FACING, Direction.WEST));
 		TileEntityHandler.tiles.add(TEGearbox.class);
 	}
 
@@ -65,7 +65,7 @@ public class Gearbox extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}
@@ -172,7 +172,7 @@ public class Gearbox extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name;
 		}

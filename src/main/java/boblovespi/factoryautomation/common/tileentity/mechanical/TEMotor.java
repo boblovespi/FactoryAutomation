@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -181,9 +182,9 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.read(state, compound);
 		energyProvided = compound.getFloat("energyProvided");
 		speed = compound.getFloat("speed");
 		torque = compound.getFloat("torque");

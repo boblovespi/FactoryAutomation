@@ -9,7 +9,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FireBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.DirectionalPlaceContext;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -22,6 +25,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -34,10 +38,10 @@ public class IronCharcoalMix extends FABaseBlock
 
 	public IronCharcoalMix()
 	{
-		super("iron_charcoal_mix", false, Properties.create(Material.ROCK).hardnessAndResistance(3.5f).harvestLevel(0)
+		super("iron_charcoal_mix", false, Properties.of(Material.STONE).strength(3.5f).harvestLevel(0)
 													.harvestTool(ToolType.SHOVEL),
-				new Item.Properties().group(FAItemGroups.metallurgy));
-		setDefaultState(stateContainer.getBaseState().with(ACTIVATED, false));
+				new Item.Properties().tab(FAItemGroups.metallurgy));
+		registerDefaultState(stateDefinition.getBaseState().with(ACTIVATED, false));
 	}
 
 	@Override
@@ -46,7 +50,6 @@ public class IronCharcoalMix extends FABaseBlock
 		return "processing/" + RegistryName();
 	}
 
-	@Override
 	public int tickRate(IWorldReader worldIn)
 	{
 		return 6000;
@@ -90,7 +93,7 @@ public class IronCharcoalMix extends FABaseBlock
 					if (state1.getBlock().isAir(state1, world, offset))
 					{
 						isSurrounded = false;
-						world.setBlockState(offset, ((FireBlock) Blocks.FIRE).getStateForPlacement(world, offset));
+						world.setBlockState(offset, Objects.requireNonNull(Blocks.FIRE.getStateForPlacement(new DirectionalPlaceContext(world, offset, Direction.UP, ItemStack.EMPTY, Direction.UP))));
 						sidesOnFire = true;
 					} else if (state1.getBlock() == Blocks.FIRE)
 					{
@@ -140,7 +143,7 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(ACTIVATED);
 	}
@@ -167,7 +170,7 @@ public class IronCharcoalMix extends FABaseBlock
 			BlockState state = world.getBlockState(offset);
 			if (block == null)
 			{
-				if (!Block.hasSolidSide(state, world, offset, dir.getOpposite()) && state.getBlock() != this)
+				if (!state.isSolidSide(world, offset, dir.getOpposite()) && state.getBlock() != this)
 					return false;
 			} else
 			{

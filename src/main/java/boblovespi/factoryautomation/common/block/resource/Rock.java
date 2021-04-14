@@ -40,16 +40,16 @@ public class Rock extends FABaseBlock
 
 	public Rock()
 	{
-		super("rock", true, Properties.create(Materials.ROCKS).sound(SoundHandler.rock), new Item.Properties());
+		super("rock", true, Properties.of(Materials.ROCKS).sound(SoundHandler.rock), new Item.Properties());
 		// super(Materials.ROCKS, "rock", FAItemGroups.resources, true);
-		setDefaultState(stateContainer.getBaseState().with(VARIANTS, Variants.COBBLESTONE));
+		registerDefaultState(stateDefinition.getBaseState().with(VARIANTS, Variants.COBBLESTONE));
 		item = new RockItem(this);
 		FAItems.items.add(item);
 		// setSoundType(SoundHandler.rock);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(VARIANTS);
 	}
@@ -128,7 +128,7 @@ public class Rock extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name;
 		}
@@ -144,7 +144,7 @@ public class Rock extends FABaseBlock
 	{
 		public RockItem(FABlock base)
 		{
-			super(base, new Item.Properties().group(FAItemGroups.resources));
+			super(base, new Item.Properties().tab(FAItemGroups.resources));
 		}
 
 		@Override
@@ -153,7 +153,7 @@ public class Rock extends FABaseBlock
 			World world = context.getWorld();
 			BlockPos pos = context.getPos();
 			Block block = world.getBlockState(pos).getBlock();
-			if (context.func_225518_g_() /*isPlayerSneaking*/ && BlockTags.LOGS.contains(block))
+			if (context.getPlayer().isSneaking() && BlockTags.LOGS.contains(block))
 			{
 				if (!world.isRemote)
 				{

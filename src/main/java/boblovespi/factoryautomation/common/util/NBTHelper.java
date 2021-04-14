@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -43,9 +44,9 @@ public class NBTHelper
 		return stack.hasTag();
 	}
 
-	public static void SetLocationTag(ItemStack stack, String key, int dim, int x, int y, int z)
+	public static void SetLocationTag(ItemStack stack, String key, ResourceLocation dim, int x, int y, int z)
 	{
-		GetTag(stack).putIntArray(key, new int[] { 31415, dim, x, y, z });
+		GetTag(stack).putIntArray(key, new int[] { 31415, 0 /* TODO: probably unneeded */, x, y, z });
 	}
 
 	@Nullable
@@ -73,9 +74,9 @@ public class NBTHelper
 		SetBoolTag(stack, key, !GetBoolTag(stack, key));
 	}
 
-	public static void SetLocationTag(CompoundNBT stack, String key, int dim, int x, int y, int z)
+	public static void SetLocationTag(CompoundNBT stack, String key, ResourceLocation dim, int x, int y, int z)
 	{
-		stack.putIntArray(key, new int[] { 31415, dim, x, y, z });
+		stack.putIntArray(key, new int[] { 31415, 0 /* TODO: probably unneeded */, x, y, z });
 	}
 
 	@Nullable

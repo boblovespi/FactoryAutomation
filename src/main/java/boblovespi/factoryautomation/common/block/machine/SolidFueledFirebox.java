@@ -30,8 +30,8 @@ public class SolidFueledFirebox extends FABaseBlock
 	public SolidFueledFirebox()
 	{
 		super("solid_fueled_firebox", false,
-				Properties.create(Material.ROCK).hardnessAndResistance(3).harvestTool(ToolType.PICKAXE).harvestLevel(0),
-				new Item.Properties().group(FAItemGroups.heat));
+				Properties.of(Material.STONE).strength(3).harvestTool(ToolType.PICKAXE).harvestLevel(0),
+				new Item.Properties().tab(FAItemGroups.heat));
 		TileEntityHandler.tiles.add(TESolidFueledFirebox.class);
 	}
 

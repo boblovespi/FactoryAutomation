@@ -30,7 +30,7 @@ public class PlacedBucket extends FABaseBlock
 
 	public PlacedBucket()
 	{
-		super("placed_bucket", true, Properties.create(Material.IRON).hardnessAndResistance(0.2f), null);
+		super("placed_bucket", true, Properties.of(Material.METAL).strength(0.2f), null);
 		TileEntityHandler.tiles.add(TEPlacedBucket.class);
 	}
 

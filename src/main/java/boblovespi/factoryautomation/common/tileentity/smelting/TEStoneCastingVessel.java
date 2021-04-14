@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.C
 import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -144,9 +145,9 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		slot.deserializeNBT(tag.getCompound("slot"));
 		hasSand = tag.getBoolean("hasSand");
 		temp = tag.getFloat("temp");
@@ -220,7 +221,7 @@ public class TEStoneCastingVessel extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

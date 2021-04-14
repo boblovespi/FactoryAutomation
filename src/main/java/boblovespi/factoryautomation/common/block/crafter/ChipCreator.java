@@ -27,7 +27,7 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 {
 	public ChipCreator()
 	{
-		super(Material.IRON, "chip_creator", null);
+		super(Material.METAL, "chip_creator", null);
 		TileEntityHandler.tiles.add(TEBasicCircuitCreator.class);
 	}
 

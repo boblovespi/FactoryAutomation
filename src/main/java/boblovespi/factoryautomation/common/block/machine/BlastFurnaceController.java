@@ -51,16 +51,16 @@ public class BlastFurnaceController extends Block
 
 	public BlastFurnaceController()
 	{
-		super(Properties.create(Material.IRON).hardnessAndResistance(10).harvestTool(ToolType.PICKAXE).harvestLevel(0));
+		super(Properties.of(Material.METAL).strength(10).harvestTool(ToolType.PICKAXE).harvestLevel(0));
 		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
 		// setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		// setHardness(10);
 		// setResistance(10000);
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH).with(MULTIBLOCK_COMPLETE, false));
+		registerDefaultState(stateDefinition.getBaseState().with(FACING, Direction.NORTH).with(MULTIBLOCK_COMPLETE, false));
 		FABlocks.blocks.add(this);
 		//		new FAItemBlock(this);
-		FAItems.items.add(new BlockItem(this, new Item.Properties().group(ItemGroup.BUILDING_BLOCKS))
+		FAItems.items.add(new BlockItem(this, new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS))
 				.setRegistryName(getRegistryName()));
 
 	}
@@ -85,7 +85,7 @@ public class BlastFurnaceController extends Block
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING, MULTIBLOCK_COMPLETE);
 	}

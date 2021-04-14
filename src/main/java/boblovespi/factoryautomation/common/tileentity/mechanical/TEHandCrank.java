@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -63,9 +64,9 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 		rotation = tag.getFloat("rotation");
 		isRotating = tag.getBoolean("isRotating");
@@ -125,7 +126,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

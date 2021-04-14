@@ -39,11 +39,11 @@ public class Millstone extends FABaseBlock
 	public Millstone()
 	{
 		super("millstone", false,
-				Properties.create(Material.ROCK).hardnessAndResistance(2.5f).harvestTool(ToolType.PICKAXE)
-						  .harvestLevel(0), new Item.Properties().group(FAItemGroups.mechanical));
+				Properties.of(Material.STONE).strength(2.5f).harvestTool(ToolType.PICKAXE)
+						  .harvestLevel(0), new Item.Properties().tab(FAItemGroups.mechanical));
 
 		TileEntityHandler.tiles.add(TEMillstone.class);
-		setDefaultState(stateContainer.getBaseState().with(IS_TOP, false));
+		registerDefaultState(stateDefinition.getBaseState().with(IS_TOP, false));
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class Millstone extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(IS_TOP);
 	}

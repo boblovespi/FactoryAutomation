@@ -29,7 +29,7 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 		for (int i = 0; i < items.length; i++)
 		{
 			items[i] = new FABaseItem(
-					RegistryName() + "_" + itemTypes.getEnumConstants()[i].getName(),
+					RegistryName() + "_" + itemTypes.getEnumConstants()[i].name(),
 					properties.apply(itemTypes.getEnumConstants()[i]))
 			{
 				@Override
@@ -62,9 +62,9 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 
 		for (int i = 0; i < types.length; i++)
 			if (meta == i)
-				return folder + UnlocalizedName() + "_" + types[i].getName();
+				return folder + UnlocalizedName() + "_" + types[i].name();
 
-		return folder + UnlocalizedName() + "_" + types[0].getName();
+		return folder + UnlocalizedName() + "_" + types[0].name();
 	}
 
 	@Override

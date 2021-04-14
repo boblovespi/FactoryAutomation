@@ -13,7 +13,7 @@ public class BrickFirebox extends FABaseBlock /*implements ITileEntityProvider*/
 {
 	public BrickFirebox()
 	{
-		super(Material.IRON, "brick_firebox", FAItemGroups.heat);
+		super(Material.METAL, "brick_firebox", FAItemGroups.heat);
 		TileEntityHandler.tiles.add(TESolidFueledFirebox.class);
 	}
 

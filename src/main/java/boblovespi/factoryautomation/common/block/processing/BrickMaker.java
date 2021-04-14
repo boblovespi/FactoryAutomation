@@ -38,9 +38,9 @@ public class BrickMaker extends FABaseBlock
 
 	public BrickMaker()
 	{
-		super("brick_maker_frame", false, Properties.create(Material.WOOD).hardnessAndResistance(2).harvestLevel(0).harvestTool(
-				ToolType.AXE), new Item.Properties().group(FAItemGroups.primitive));
-		setDefaultState(stateContainer.getBaseState().with(CONTENTS, Contents.EMPTY));
+		super("brick_maker_frame", false, Properties.of(Material.WOOD).strength(2).harvestLevel(0).harvestTool(
+				ToolType.AXE), new Item.Properties().tab(FAItemGroups.primitive));
+		registerDefaultState(stateDefinition.getBaseState().with(CONTENTS, Contents.EMPTY));
 	}
 
 	@Override
@@ -49,7 +49,6 @@ public class BrickMaker extends FABaseBlock
 		return "processing/" + RegistryName();
 	}
 
-	@Override
 	public int tickRate(IWorldReader worldIn)
 	{
 		return 3000;
@@ -115,7 +114,7 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(CONTENTS);
 	}
@@ -137,7 +136,7 @@ public class BrickMaker extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name;
 		}

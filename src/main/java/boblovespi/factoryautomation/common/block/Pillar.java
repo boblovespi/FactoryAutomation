@@ -22,10 +22,10 @@ public class Pillar extends FABaseBlock
 
 	public Pillar(String name, Metals metal)
 	{
-		super(name, false, Properties.create(Material.IRON).hardnessAndResistance(1, 10).harvestLevel(1)
+		super(name, false, Properties.of(Material.METAL).strength(1, 10).harvestLevel(1)
 									 .harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(ItemGroup.DECORATIONS));
-		setDefaultState(stateContainer.getBaseState().with(HEIGHT, 1));
+				new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
+		registerDefaultState(stateDefinition.getBaseState().with(HEIGHT, 1));
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class Pillar extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(HEIGHT);
 	}

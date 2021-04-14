@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.client.tesr;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.color.BlockColors;
@@ -11,12 +10,12 @@ import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.FaceBakery;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -114,7 +113,7 @@ public class TESRUtils
 	{
 		matrix.push();
 		{
-			RenderType rendertype = RenderTypeLookup.getRenderType(stack);
+			RenderType rendertype = RenderTypeLookup.func_239219_a_(stack, false);
 			model = net.minecraftforge.client.ForgeHooksClient
 					.handleCameraTransforms(matrix, model, transforms, leftHand);
 			IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(buffer, rendertype, true, stack.hasEffect());

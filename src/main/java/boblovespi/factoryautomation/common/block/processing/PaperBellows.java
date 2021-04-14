@@ -36,8 +36,8 @@ public class PaperBellows extends FABaseBlock
 	public PaperBellows()
 	{
 		super("paper_bellows", false,
-				Properties.create(Material.WOOL).hardnessAndResistance(0.5f).sound(SoundType.CLOTH),
-				new Item.Properties().group(FAItemGroups.primitive));
+				Properties.of(Material.WOOL).strength(0.5f).sound(SoundType.CLOTH),
+				new Item.Properties().tab(FAItemGroups.primitive));
 		TileEntityHandler.tiles.add(TEPaperBellows.class);
 	}
 
@@ -59,7 +59,7 @@ public class PaperBellows extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}

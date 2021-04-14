@@ -31,7 +31,7 @@ public class FAFood extends Item implements FAItem
 	public FAFood(String unName, int amount, int saturation, int eatTime, boolean WolfFood, boolean canAlwaysEat,
 			List<EffectInstance> potionEffects, List<Float> potionChances)
 	{
-		super(new Properties().group(ItemGroup.FOOD));
+		super(new Item.Properties().tab(ItemGroup.TAB_FOOD));
 
 		if (potionEffects.size() != potionChances.size())
 			throw new IndexOutOfBoundsException("the potionEffects and potionEffectChances sizes are not the same");

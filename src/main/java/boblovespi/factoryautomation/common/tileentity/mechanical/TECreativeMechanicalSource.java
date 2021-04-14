@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -55,9 +56,9 @@ public class TECreativeMechanicalSource extends TileEntity implements IMechanica
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		speed = tag.getFloat("speed");
 		torque = tag.getFloat("torque");
 	}

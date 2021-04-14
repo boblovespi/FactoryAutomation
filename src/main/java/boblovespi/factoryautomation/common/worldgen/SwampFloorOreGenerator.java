@@ -1,18 +1,17 @@
 package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.resource.Ore;
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import java.util.Random;
-import java.util.function.Function;
 
 /**
  * Created by Willi on 4/4/2018.
@@ -26,7 +25,7 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 	private int radius;
 
 	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance,
-			Function<Dynamic<?>, ? extends NoFeatureConfig> config)
+			Codec<NoFeatureConfig> config)
 	{
 		super(config);
 		this.ore = ore;
@@ -37,8 +36,8 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 	}
 
 	@Override
-	public boolean place(IWorld worldIn, ChunkGenerator generator, Random rand, BlockPos basePos,
-			NoFeatureConfig config)
+	public boolean generate(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos basePos,
+							NoFeatureConfig config)
 	{
 		if (worldIn.getBiome(basePos).getCategory() != Biome.Category.SWAMP)
 			return false;

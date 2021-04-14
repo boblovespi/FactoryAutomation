@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -33,7 +34,7 @@ public class FluidIngredient extends Ingredient
 	{
 		if (fluid != null && stack != null && fluid.isFluidEqual(stack))
 		{
-			LazyOptional<FluidStack> f = FluidUtil.getFluidContained(stack);
+			Optional<FluidStack> f = FluidUtil.getFluidContained(stack);
 			if (fluid.getAmount() <= f.orElse(FluidStack.EMPTY).getAmount())
 				return true;
 		}

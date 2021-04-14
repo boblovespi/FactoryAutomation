@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.tileentity.workbench;
 import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -160,9 +161,9 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.read(state, compound);
 		inventory.deserializeNBT(compound.getCompound("items"));
 	}
 

@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client.gui.component;
 
 import boblovespi.factoryautomation.common.util.IGuiElement;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,12 +36,12 @@ public class GuiGridElement
 		this.element = element;
 	}
 
-	public void Draw(ContainerScreen<?> gui)
+	public void Draw(MatrixStack matrix, ContainerScreen<?> gui)
 	{
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();
 
-		gui.blit(guiLeft + x, guiTop + y, offsetX + element.GetX() * w, offsetY + element.GetY() * h,
+		gui.blit(matrix, guiLeft + x, guiTop + y, offsetX + element.GetX() * w, offsetY + element.GetY() * h,
 				w * element.GetU(), h * element.GetV());
 	}
 }

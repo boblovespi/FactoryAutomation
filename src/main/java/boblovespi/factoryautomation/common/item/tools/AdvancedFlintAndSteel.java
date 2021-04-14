@@ -13,7 +13,7 @@ public class AdvancedFlintAndSteel extends FlintAndSteelItem implements FAItem
 {
 	public AdvancedFlintAndSteel()
 	{
-		super(new Properties().group(FAItemGroups.tools).maxDamage(500));
+		super(new Item.Properties().tab(FAItemGroups.tools).maxDamage(500));
 		setRegistryName(RegistryName());
 		FAItems.items.add(this);
 	}

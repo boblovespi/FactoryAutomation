@@ -34,9 +34,9 @@ public class JawCrusher extends FABaseBlock
 
 	public JawCrusher()
 	{
-		super("jaw_crusher", false, Properties.create(Material.IRON).hardnessAndResistance(1.5f),
-				new Item.Properties().group(FAItemGroups.mechanical));
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
+		super("jaw_crusher", false, Properties.of(Material.METAL).strength(1.5f),
+				new Item.Properties().tab(FAItemGroups.mechanical));
+		registerDefaultState(stateDefinition.getBaseState().with(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEJawCrusher.class);
 	}
 
@@ -83,7 +83,7 @@ public class JawCrusher extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}

@@ -7,18 +7,18 @@ import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.BlockRendererDispatcher;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import org.lwjgl.opengl.GL11;
 
@@ -106,12 +106,12 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 						combinedLight, combinedOverlay);
 			}
 
-			RenderAxle(te, new Vec3d(0.5, 1, 0.05f), new Vec3d(xD, yD, zD), 0.9f, m * outToRotate, facing, matrix,
+			RenderAxle(te, new Vector3d(0.5, 1, 0.05f), new Vector3d(xD, yD, zD), 0.9f, m * outToRotate, facing, matrix,
 					buffer, combinedLight, combinedOverlay);
 
-			RenderAxle(te, new Vec3d(0.5, 0.5, -0.14), new Vec3d(xD, yD, zD), 0.28f, n * outToRotate, facing, matrix,
+			RenderAxle(te, new Vector3d(0.5, 0.5, -0.14), new Vector3d(xD, yD, zD), 0.28f, n * outToRotate, facing, matrix,
 					buffer, combinedLight, combinedOverlay);
-			RenderAxle(te, new Vec3d(0.5, 0.5, 0.86), new Vec3d(xD, yD, zD), 0.28f, n * inToRotate, facing, matrix,
+			RenderAxle(te, new Vector3d(0.5, 0.5, 0.86), new Vector3d(xD, yD, zD), 0.28f, n * inToRotate, facing, matrix,
 					buffer, combinedLight, combinedOverlay);
 
 		}
@@ -119,7 +119,7 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 
 	}
 
-	private void RenderAxle(TEGearbox te, Vec3d pos, Vec3d rotVec, float length, float rotation, Direction facing,
+	private void RenderAxle(TEGearbox te, Vector3d pos, Vector3d rotVec, float length, float rotation, Direction facing,
 			MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay)
 	{
 		BlockState state = FABlocks.powerShaft.ToBlock().getDefaultState().with(PowerShaft.AXIS, Direction.Axis.Z)

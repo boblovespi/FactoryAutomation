@@ -8,6 +8,7 @@ import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -105,9 +106,9 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 		counter = tag.getFloat("counter");
 	}

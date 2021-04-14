@@ -43,13 +43,13 @@ public class Waterwheel extends FABaseBlock
 	public Waterwheel()
 	{
 		super("waterwheel", false,
-				Properties.create(Materials.WOOD_MACHINE).hardnessAndResistance(1, 10).harvestLevel(0)
-						  .harvestTool(ToolType.AXE), new Item.Properties().group(FAItemGroups.mechanical));
+				Properties.of(Materials.WOOD_MACHINE).strength(1, 10).harvestLevel(0)
+						  .harvestTool(ToolType.AXE), new Item.Properties().tab(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TEWaterwheel.class);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(AXIS, MULTIBLOCK_COMPLETE);
 	}

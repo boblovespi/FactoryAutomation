@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
@@ -139,9 +140,9 @@ public class TEChoppingBlock extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.read(state, tag);
 		clicksLeft = tag.getInt("clicksLeft");
 		slot.deserializeNBT(tag.getCompound("slot"));
 		craftsBeforeBreak = tag.getInt("craftsBeforeBreak");
@@ -175,7 +176,7 @@ public class TEChoppingBlock extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

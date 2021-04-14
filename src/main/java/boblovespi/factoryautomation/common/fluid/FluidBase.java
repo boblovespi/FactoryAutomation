@@ -1,13 +1,7 @@
 package boblovespi.factoryautomation.common.fluid;
 
 import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.IFluidState;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
-
-import java.util.function.Consumer;
 
 /**
  * Created by Willi on 12/28/2017.

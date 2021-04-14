@@ -17,12 +17,12 @@ public class BronzeCauldron extends CauldronBlock implements FABlock
 {
 	public BronzeCauldron()
 	{
-		super(Properties.create(Material.IRON).hardnessAndResistance(2.5f));
+		super(Properties.of(Material.METAL).strength(2.5f));
 		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
 		// setResistance(10000);
 		FABlocks.blocks.add(this);
-		FAItemBlock item = new FAItemBlock(this, new Item.Properties().group(ItemGroup.DECORATIONS));
+		FAItemBlock item = new FAItemBlock(this, new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
 		FAItems.items.add(item);
 	}
 

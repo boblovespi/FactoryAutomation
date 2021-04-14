@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.IGuiElement;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -149,9 +150,9 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.read(state, compound);
 		inventory.deserializeNBT(compound.getCompound("items"));
 		layout.Deserialize(compound.getList("layout", 11));
 	}
@@ -167,7 +168,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	//	@Override

@@ -33,7 +33,7 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 
 	public StoneWorkbench()
 	{
-		super(Material.ROCK, "stone_workbench");
+		super(Material.STONE, "stone_workbench");
 		TileEntityHandler.tiles.add(TEStoneWorkbench.class);
 	}
 

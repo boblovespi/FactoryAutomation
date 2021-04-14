@@ -32,10 +32,10 @@ public class Motor extends FABaseBlock implements IEnergyBlock
 
 	public Motor()
 	{
-		super("motor", false, Properties.create(Material.IRON).hardnessAndResistance(3, 5).harvestLevel(0)
+		super("motor", false, Properties.of(Material.METAL).strength(3, 5).harvestLevel(0)
 										.harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(FAItemGroups.electrical));
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
+				new Item.Properties().tab(FAItemGroups.electrical));
+		registerDefaultState(stateDefinition.getBaseState().with(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEMotor.class);
 	}
 
@@ -74,7 +74,7 @@ public class Motor extends FABaseBlock implements IEnergyBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}

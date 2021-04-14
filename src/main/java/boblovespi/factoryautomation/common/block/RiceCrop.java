@@ -32,9 +32,9 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 
 	public RiceCrop()
 	{
-		super(Properties.create(Material.PLANTS).hardnessAndResistance(0).tickRandomly().sound(SoundType.CROP).doesNotBlockMovement());
+		super(Properties.of(Material.PLANTS).strength(0).tickRandomly().sound(SoundType.CROP).doesNotBlockMovement());
 		setRegistryName(RegistryName());
-		setDefaultState(stateContainer.getBaseState().with(AGE, 0));
+		registerDefaultState(stateDefinition.getBaseState().with(AGE, 0));
 		FABlocks.blocks.add(this);
 	}
 
@@ -89,7 +89,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(AGE);
 	}

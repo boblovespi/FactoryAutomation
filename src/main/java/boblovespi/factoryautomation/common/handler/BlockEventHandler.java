@@ -3,23 +3,18 @@ package boblovespi.factoryautomation.common.handler;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.item.tools.Hammer;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import boblovespi.factoryautomation.common.util.FATags;
-import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.Log;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.LogBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntity;
@@ -35,7 +30,10 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Willi on 4/10/2018.
@@ -53,67 +51,67 @@ public class BlockEventHandler
 	//		// TODO: add the rest of the blocks (also migrate to tags)
 	//	}};
 
-	@SubscribeEvent
-	public static void OnBlockHarvestedEvent(BlockEvent.HarvestDropsEvent event)
-	{
-		if (Blocks.DIAMOND_ORE == event.getState().getBlock())
-		{
-			if (event.getFortuneLevel() > 0)
-				return;
-
-			event.setDropChance(1f);
-			event.getDrops().clear();
-			event.getDrops().add(new ItemStack(Blocks.DIAMOND_ORE));
-
-		} else if (Blocks.STONE == event.getState().getBlock())
-		{
-			if (event.isSilkTouching())
-				return;
-
-			if (event.getHarvester() == null || !(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
-													   .getItem() instanceof Hammer))
-				return;
-
-			int fortune = event.getFortuneLevel();
-			Random random = event.getHarvester().getRNG();
-			int i = random.nextInt(fortune + 2) - 1;
-
-			if (i < 0)
-			{
-				i = 0;
-			}
-
-			event.setDropChance(1f);
-			event.getDrops().clear();
-			event.getDrops().add(new ItemStack(FAItems.stoneDust.ToItem(), 2 * (i + 1)));
-		} else if (FABlocks.rock == event.getState().getBlock())
-		{
-			if (event.isSilkTouching())
-				return;
-
-			if (event.getHarvester() == null || !(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
-													   .getItem() instanceof Hammer))
-				return;
-
-			event.setDropChance(1f);
-			event.getDrops().clear();
-			event.getDrops().add(new ItemStack(FAItems.stoneDust.ToItem(), 1));
-		} else if (Blocks.GRASS == event.getState().getBlock())
-		{
-			if (event.isSilkTouching())
-				return;
-
-			if (event.getHarvester() == null || !(
-					event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()).getItem()
-							== FAItems.choppingBlade))
-				return;
-
-			event.setDropChance(1f);
-			event.getDrops().clear();
-			event.getDrops().add(new ItemStack(Blocks.GRASS, 1));
-			ItemHelper.DamageItem(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()), 1);
-		}
-	}
+	//	@SubscribeEvent
+	//	public static void OnBlockHarvestedEvent(BlockEvent.HarvestDropsEvent event)
+	//	{
+	//		if (Blocks.DIAMOND_ORE == event.getState().getBlock())
+	//		{
+	//			if (event.getFortuneLevel() > 0)
+	//				return;
+	//
+	//			event.setDropChance(1f);
+	//			event.getDrops().clear();
+	//			event.getDrops().add(new ItemStack(Blocks.DIAMOND_ORE));
+	//
+	//		} else if (Blocks.STONE == event.getState().getBlock())
+	//		{
+	//			if (event.isSilkTouching())
+	//				return;
+	//
+	//			if (event.getHarvester() == null || !(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
+	//													   .getItem() instanceof Hammer))
+	//				return;
+	//
+	//			int fortune = event.getFortuneLevel();
+	//			Random random = event.getHarvester().getRNG();
+	//			int i = random.nextInt(fortune + 2) - 1;
+	//
+	//			if (i < 0)
+	//			{
+	//				i = 0;
+	//			}
+	//
+	//			event.setDropChance(1f);
+	//			event.getDrops().clear();
+	//			event.getDrops().add(new ItemStack(FAItems.stoneDust.ToItem(), 2 * (i + 1)));
+	//		} else if (FABlocks.rock == event.getState().getBlock())
+	//		{
+	//			if (event.isSilkTouching())
+	//				return;
+	//
+	//			if (event.getHarvester() == null || !(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
+	//													   .getItem() instanceof Hammer))
+	//				return;
+	//
+	//			event.setDropChance(1f);
+	//			event.getDrops().clear();
+	//			event.getDrops().add(new ItemStack(FAItems.stoneDust.ToItem(), 1));
+	//		} else if (Blocks.GRASS == event.getState().getBlock())
+	//		{
+	//			if (event.isSilkTouching())
+	//				return;
+	//
+	//			if (event.getHarvester() == null || !(
+	//					event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()).getItem()
+	//							== FAItems.choppingBlade))
+	//				return;
+	//
+	//			event.setDropChance(1f);
+	//			event.getDrops().clear();
+	//			event.getDrops().add(new ItemStack(Blocks.GRASS, 1));
+	//			ItemHelper.DamageItem(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()), 1);
+	//		}
+	//	}
 
 	@SubscribeEvent
 	public static void OnBlockBrokenEvent(BlockEvent.BreakEvent event)

@@ -2,8 +2,8 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.block.Block;
@@ -41,14 +41,14 @@ public class Campfire extends FABaseBlock
 
 	public Campfire()
 	{
-		super("campfire", false, Properties.create(Materials.WOOD_MACHINE).hardnessAndResistance(4),
-				new Item.Properties().group(FAItemGroups.primitive));
-		setDefaultState(getDefaultState().with(LIT, false));
+		super("campfire", false, Properties.of(Materials.WOOD_MACHINE).strength(4),
+				new Item.Properties().tab(FAItemGroups.primitive));
+		registerDefaultState(getDefaultState().with(LIT, false));
 		TileEntityHandler.tiles.add(TECampfire.class);
 	}
 
 	@Override
-	public int getLightValue(BlockState state)
+	public int getLightValue(BlockState state, IBlockReader world, BlockPos pos)
 	{
 		return state.get(LIT) ? 11 : 0;
 	}
@@ -79,7 +79,7 @@ public class Campfire extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(LIT);
 	}

@@ -160,7 +160,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void read(BlockState state, CompoundNBT tag)
 	{
 		burnTime = tag.getInt("burnTime");
 		maxBurnTime = tag.getInt("maxBurnTime");
@@ -169,7 +169,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		inventory.deserializeNBT(tag.getCompound("inventory"));
 		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
 
-		super.read(tag);
+		super.read(state, tag);
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		read(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Nullable

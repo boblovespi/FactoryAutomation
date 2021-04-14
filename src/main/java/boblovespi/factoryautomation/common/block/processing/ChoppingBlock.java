@@ -30,7 +30,7 @@ public class ChoppingBlock extends FABaseBlock
 
 	public ChoppingBlock(String name, int maxUses, Properties properties)
 	{
-		super(name, false, properties, new Item.Properties().group(ItemGroup.DECORATIONS));
+		super(name, false, properties, new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
 		this.maxUses = maxUses;
 	}
 

@@ -61,9 +61,9 @@ public class Cable extends FABaseBlock
 	public Cable()
 	{
 		super("lv_cable", false,
-				Properties.create(Material.IRON).hardnessAndResistance(0.2f).sound(SoundType.CLOTH),
-				new Item.Properties().group(FAItemGroups.electrical));
-		setDefaultState(stateContainer.getBaseState().with(WEST, AttachPos.NONE).with(EAST, AttachPos.NONE)
+				Properties.of(Material.METAL).strength(0.2f).sound(SoundType.CLOTH),
+				new Item.Properties().tab(FAItemGroups.electrical));
+		registerDefaultState(stateDefinition.getBaseState().with(WEST, AttachPos.NONE).with(EAST, AttachPos.NONE)
 									  .with(NORTH, AttachPos.NONE).with(SOUTH, AttachPos.NONE));
 		for (int i = 0; i < 16; i++)
 		{
@@ -134,7 +134,7 @@ public class Cable extends FABaseBlock
 
 			if (!stateUp.isNormalCube(world, offset.up()))
 			{
-				boolean flag = Block.hasSolidSide(world.getBlockState(offset), world, offset, Direction.UP)
+				boolean flag = world.getBlockState(offset).isSolidSide(world, offset, Direction.UP)
 						|| world.getBlockState(offset).getBlock() == Blocks.GLOWSTONE;
 
 				if (flag && CanConnectUpwardsTo(world, offset.up()))
@@ -163,12 +163,12 @@ public class Cable extends FABaseBlock
 	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
 	{
-		return Block.hasSolidSide(world.getBlockState(pos.down()), world, pos.down(), Direction.UP)
+		return world.getBlockState(pos.down()).isSolidSide(world, pos.down(), Direction.UP)
 				|| world.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(WEST, EAST, NORTH, SOUTH);
 	}
@@ -365,7 +365,7 @@ public class Cable extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getString()
 		{
 			return name;
 		}

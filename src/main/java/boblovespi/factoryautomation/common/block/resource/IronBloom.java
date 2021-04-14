@@ -13,9 +13,9 @@ public class IronBloom extends FABaseBlock
 {
 	public IronBloom()
 	{
-		super("iron_bloom", false, Properties.create(Materials.BLOOM).hardnessAndResistance(4).harvestLevel(0)
+		super("iron_bloom", false, Properties.of(Materials.BLOOM).strength(4).harvestLevel(0)
 											 .harvestTool(FAToolTypes.HAMMER),
-				new Item.Properties().group(FAItemGroups.metallurgy));
+				new Item.Properties().tab(FAItemGroups.metallurgy));
 	}
 
 	@Override
