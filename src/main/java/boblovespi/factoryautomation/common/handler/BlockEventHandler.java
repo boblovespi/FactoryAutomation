@@ -11,15 +11,12 @@ import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.Log;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.LogBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntity;
@@ -125,7 +122,7 @@ public class BlockEventHandler
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
 
-			TEMultiblockPart part = (TEMultiblockPart) world.getTileEntity(pos);
+			TEMultiblockPart part = (TEMultiblockPart) world.getBlockEntity(pos);
 
 			Log.LogInfo("part is null", part == null);
 
@@ -135,7 +132,7 @@ public class BlockEventHandler
 				int[] offset = part.GetOffset();
 
 				BlockPos controllerLoc = pos.add(-offset[0], -offset[1], -offset[2]);
-				TileEntity te = world.getTileEntity(controllerLoc);
+				TileEntity te = world.getBlockEntity(controllerLoc);
 				if (te instanceof IMultiblockControllerTE)
 				{
 					IMultiblockControllerTE controllerTe = (IMultiblockControllerTE) te;
@@ -148,7 +145,7 @@ public class BlockEventHandler
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
 
-			IMultiblockControllerTE part = (IMultiblockControllerTE) world.getTileEntity(pos);
+			IMultiblockControllerTE part = (IMultiblockControllerTE) world.getBlockEntity(pos);
 
 			part.BreakStructure();
 			part.SetStructureInvalid();
@@ -156,12 +153,9 @@ public class BlockEventHandler
 		} else if (Blocks.DIAMOND_ORE == event.getState().getBlock())
 		{
 			int enchantmentLevel = EnchantmentHelper
-					.getEnchantmentLevel(Enchantments.FORTUNE, event.getPlayer().getHeldItemMainhand());
+					.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE, event.getPlayer());
 			if (enchantmentLevel == 0)
 				event.setExpToDrop(0);
-
-		} else if (false)
-		{
 
 		}
 	}
@@ -170,7 +164,7 @@ public class BlockEventHandler
 	public static void OnNeighborNotifyEvent(BlockEvent.NeighborNotifyEvent event)
 	{
 		BlockState state = event.getState();
-		BlockPos pos = event.getPos().toImmutable();
+		BlockPos pos = event.getPos().immutable();
 		IWorld world = event.getWorld();
 		if (state.getBlock() == Blocks.FIRE)
 		{
@@ -179,7 +173,7 @@ public class BlockEventHandler
 				ashFires.put(pos, new HashSet<>(6));
 				for (Direction offset : Direction.values())
 				{
-					if (FATags.FABlockTag("gives_ash").contains(world.getBlockState(pos.offset(offset)).getBlock()))
+					if (FATags.FABlockTag("gives_ash").contains(world.getBlockState(pos.offset(offset.getNormal())).getBlock()))
 						ashFires.get(pos).add(offset);
 					else
 						ashFires.get(pos).remove(offset);
@@ -191,7 +185,7 @@ public class BlockEventHandler
 			{
 				for (Direction facing : ashFires.get(pos))
 				{
-					BlockPos oldWoodPos = pos.offset(facing);
+					BlockPos oldWoodPos = pos.offset(facing.getNormal());
 					CheckAndSpawnAsh(world, world.getBlockState(oldWoodPos), oldWoodPos);
 				}
 				ashFires.remove(pos);
@@ -203,7 +197,7 @@ public class BlockEventHandler
 	public static void OnLeftClickBLockEvent(PlayerInteractEvent.LeftClickBlock event)
 	{
 		BlockState state = event.getWorld().getBlockState(event.getPos());
-		BlockPos pos = event.getPos().toImmutable();
+		BlockPos pos = event.getPos().immutable();
 		World world = event.getWorld();
 		PlayerEntity player = event.getPlayer();
 
@@ -211,7 +205,7 @@ public class BlockEventHandler
 		{
 			if (!FATags.FAItemTag("tools/axes").contains(player.getHeldItem(Hand.MAIN_HAND).getItem()))
 			{
-				player.attackEntityFrom(DamageSource.GENERIC, 1);
+				player.hurt(DamageSource.GENERIC, 1);
 				event.setUseBlock(Event.Result.DENY);
 				event.setUseItem(Event.Result.DENY);
 			}
@@ -225,7 +219,7 @@ public class BlockEventHandler
 			ItemEntity item = new ItemEntity((World) world, pos.getX(), pos.getY(), pos.getZ(),
 					new ItemStack(FAItems.ash.ToItem(), world.getRandom().nextInt(2) + 1));
 			item.setInvulnerable(true);
-			world.addEntity(item);
+			world.addFreshEntity(item);
 		}
 	}
 }

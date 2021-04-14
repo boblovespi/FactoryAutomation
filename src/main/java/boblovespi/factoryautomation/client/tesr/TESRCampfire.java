@@ -4,7 +4,6 @@ import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -28,16 +27,16 @@ public class TESRCampfire extends TileEntityRenderer<TECampfire>
 
 		if (!item.isEmpty())
 		{
-			matrix.push();
+			matrix.pushPose();
 			{
 				matrix.translate(0.5, 0.4, 0.5);
 				matrix.scale(0.4f, 0.4f, 0.4f);
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
 				Minecraft.getInstance().getItemRenderer()
-						 .renderItem(item, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay,
+						 .renderStatic(item, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay,
 								 matrix, buffer);
 			}
-			matrix.pop();
+			matrix.popPose();
 		}
 	}
 }

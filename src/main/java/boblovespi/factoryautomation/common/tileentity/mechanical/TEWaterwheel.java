@@ -9,18 +9,20 @@ import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.biome.Biomes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.block.machine.Waterwheel.MULTIBLOCK_COMPLETE;
 
@@ -45,21 +47,21 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 
 	public void FirstLoad()
 	{
-		out = Direction.getFacingFromAxis(Direction.AxisDirection.POSITIVE, getBlockState().get(Waterwheel.AXIS));
+		out = Direction.get(Direction.AxisDirection.POSITIVE, getBlockState().getValue(Waterwheel.AXIS));
 		user.SetSides(EnumSet.of(out));
 		waterLoc = new ArrayList<>(11);
-		Direction front = out.rotateY();
-		waterLoc.add(pos.offset(front, -1).up(3));
-		waterLoc.add(pos.up(3));
-		waterLoc.add(pos.offset(front).up(3));
-		waterLoc.add(pos.offset(front, 2).up(2));
-		waterLoc.add(pos.offset(front, 3).up());
-		waterLoc.add(pos.offset(front, 3));
-		waterLoc.add(pos.offset(front, 3).up(-1));
-		waterLoc.add(pos.offset(front, 2).up(-2));
-		waterLoc.add(pos.offset(front, 1).up(-3));
-		waterLoc.add(pos.up(-3));
-		waterLoc.add(pos.offset(front, -1).up(-3));
+		Direction front = out.getClockWise();
+		waterLoc.add(worldPosition.relative(front, -1).above(3));
+		waterLoc.add(worldPosition.above(3));
+		waterLoc.add(worldPosition.relative(front).above(3));
+		waterLoc.add(worldPosition.relative(front, 2).above(2));
+		waterLoc.add(worldPosition.relative(front, 3).above());
+		waterLoc.add(worldPosition.relative(front, 3));
+		waterLoc.add(worldPosition.relative(front, 3).above(-1));
+		waterLoc.add(worldPosition.relative(front, 2).above(-2));
+		waterLoc.add(worldPosition.relative(front, 1).above(-3));
+		waterLoc.add(worldPosition.above(-3));
+		waterLoc.add(worldPosition.relative(front, -1).above(-3));
 		firstTick = false;
 	}
 
@@ -78,15 +80,15 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	@Override
 	public void CreateStructure()
 	{
-		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID, out);
-		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, true));
+		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, out);
+		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
 	}
 
 	@Override
 	public void BreakStructure()
 	{
-		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID, out);
-		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, false));
+		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, out);
+		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
 	}
 
 	/**
@@ -109,7 +111,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (Objects.requireNonNull(level).isClientSide)
 		{
 			return;
 		}
@@ -121,7 +123,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 
 		if (counter == 0)
 		{
-			if (world.getBiome(pos) == Biomes.RIVER)
+			if (level.getBiome(worldPosition).getRegistryName() == Biomes.RIVER.location())
 			{
 				user.SetSpeedOnFace(out, 10);
 				user.SetTorqueOnFace(out, 25);
@@ -131,12 +133,12 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 				for (int i = 0; i < waterLoc.size(); i++)
 				{
 					BlockPos waterPos = waterLoc.get(i);
-					BlockState state = world.getBlockState(waterPos);
+					BlockState state = level.getBlockState(waterPos);
 					if (state.getMaterial() == Material.WATER)
 					{
 						if (state.getBlock() instanceof FlowingFluidBlock)
 						{
-							Vec3d acc = state.getFluidState().getFlow(world, waterPos);
+							Vector3d acc = state.getFluidState().getFlow(level, waterPos);
 							if (out.getAxis() == Direction.Axis.X) // water flowing along z axis
 							{
 								if (i < 3 || i > 6)
@@ -159,9 +161,10 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 		}
 	}
 
-	@Nullable
+	@SuppressWarnings("unchecked")
+	@Nonnull
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> (T) user);
