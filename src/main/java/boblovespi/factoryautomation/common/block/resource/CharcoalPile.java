@@ -13,9 +13,9 @@ public class CharcoalPile extends FABaseBlock
 {
 	public CharcoalPile()
 	{
-		super("charcoal_pile", false, Properties.create(Material.EARTH).hardnessAndResistance(0.5f).harvestLevel(0)
+		super("charcoal_pile", false, Properties.of(Material.EARTH).strength(0.5f).harvestLevel(0)
 												.harvestTool(ToolType.SHOVEL),
-				new Item.Properties().group(FAItemGroups.resources));
+				new Item.Properties().tab(FAItemGroups.resources));
 	}
 
 	@Override

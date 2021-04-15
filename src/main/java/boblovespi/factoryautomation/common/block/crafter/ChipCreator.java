@@ -27,7 +27,7 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 {
 	public ChipCreator()
 	{
-		super(Material.IRON, "chip_creator", null);
+		super(Material.METAL, "chip_creator", null);
 		TileEntityHandler.tiles.add(TEBasicCircuitCreator.class);
 	}
 
@@ -48,11 +48,11 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (!world.isRemote && player instanceof ServerPlayerEntity)
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
+		if (!world.isClientSide && player instanceof ServerPlayerEntity)
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 }

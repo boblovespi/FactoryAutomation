@@ -11,6 +11,6 @@ public class Gear extends MultiTypeItem<Gearbox.GearType>
 	public Gear()
 	{
 		super("gear", Gearbox.GearType.class, "mechanical",
-				n -> new Properties().maxDamage(n.durability).group(FAItemGroups.mechanical));
+				n -> new Properties().durability(n.durability).tab(FAItemGroups.mechanical));
 	}
 }

@@ -18,7 +18,7 @@ public class Concrete extends Block implements FABlock
 {
 	public Concrete()
 	{
-		super(Properties.create(Material.ROCK).hardnessAndResistance(10, 1000));
+		super(Properties.of(Material.STONE).strength(10, 1000));
 		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
 		// setCreativeTab(CreativeTabs.BUILDING_BLOCKS);

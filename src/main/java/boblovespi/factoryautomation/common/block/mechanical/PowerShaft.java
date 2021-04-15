@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.block.mechanical;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -19,10 +20,14 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 1/15/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+
 public class PowerShaft extends FABaseBlock
 {
 	public static EnumProperty<Axis> AXIS = EnumProperty.create("facing", Axis.class);
@@ -37,8 +42,8 @@ public class PowerShaft extends FABaseBlock
 
 	public PowerShaft()
 	{
-		super(Material.IRON, "power_shaft", null);
-		setDefaultState(stateContainer.getBaseState().with(AXIS, Axis.X).with(IS_TESR, false));
+		super(Material.METAL, "power_shaft", null);
+		registerDefaultState(stateDefinition.any().setValue(AXIS, Axis.X).setValue(IS_TESR, false));
 		if (VOXELS[0] == null)
 			for (int i = 0; i < 3; i++)
 			{
@@ -49,7 +54,7 @@ public class PowerShaft extends FABaseBlock
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
-		return VOXELS[GetAxisId(state.get(AXIS))];
+		return VOXELS[GetAxisId(state.getValue(AXIS))];
 	}
 
 	@Override
@@ -81,7 +86,7 @@ public class PowerShaft extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(AXIS, IS_TESR);
 	}
@@ -89,7 +94,7 @@ public class PowerShaft extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState().with(AXIS, context.getFace().getAxis());
+		return this.defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getAxis());
 	}
 
 	@Override

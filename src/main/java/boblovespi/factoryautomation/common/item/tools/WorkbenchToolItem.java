@@ -23,7 +23,7 @@ public class WorkbenchToolItem extends ToolItem implements FAItem
 			Properties properties, ToolType toolType)
 	{
 		super(damage, speed, material, effectiveBlocks,
-				properties.addToolType(toolType, material.getHarvestLevel()).group(FAItemGroups.tools));
+				properties.addToolType(toolType, material.getLevel()).tab(FAItemGroups.tools));
 		this.name = name;
 		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName() == null ? UnlocalizedName() : RegistryName());

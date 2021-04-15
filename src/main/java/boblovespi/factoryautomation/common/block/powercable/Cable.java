@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Pair;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -26,12 +27,16 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Willi on 12/20/2017.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("deprecation")
 public class Cable extends FABaseBlock
 {
 	protected static final VoxelShape[] CABLE_VOXEL = new VoxelShape[16];
@@ -61,9 +66,9 @@ public class Cable extends FABaseBlock
 	public Cable()
 	{
 		super("lv_cable", false,
-				Properties.create(Material.IRON).hardnessAndResistance(0.2f).sound(SoundType.CLOTH),
-				new Item.Properties().group(FAItemGroups.electrical));
-		setDefaultState(stateContainer.getBaseState().with(WEST, AttachPos.NONE).with(EAST, AttachPos.NONE)
+				Properties.of(Material.METAL).strength(0.2f).sound(SoundType.WOOL),
+				new Item.Properties().tab(FAItemGroups.electrical));
+		registerDefaultState(stateDefinition.any().setValue(WEST, AttachPos.NONE).setValue(EAST, AttachPos.NONE)
 									  .with(NORTH, AttachPos.NONE).with(SOUTH, AttachPos.NONE));
 		for (int i = 0; i < 16; i++)
 		{
@@ -85,29 +90,30 @@ public class Cable extends FABaseBlock
 	private static int getAABBIndex(BlockState state)
 	{
 		int i = 0;
-		boolean flag = state.get(NORTH) != AttachPos.NONE;
-		boolean flag1 = state.get(EAST) != AttachPos.NONE;
-		boolean flag2 = state.get(SOUTH) != AttachPos.NONE;
-		boolean flag3 = state.get(WEST) != AttachPos.NONE;
+		boolean flag = state.getValue(NORTH) != AttachPos.NONE;
+		boolean flag1 = state.getValue(EAST) != AttachPos.NONE;
+		boolean flag2 = state.getValue(SOUTH) != AttachPos.NONE;
+		boolean flag3 = state.getValue(WEST) != AttachPos.NONE;
 
+		// Todo: These if statements can be optimized, see IntelliJ IDEA suggestions.
 		if (flag || flag2 && !flag && !flag1 && !flag3)
 		{
-			i |= 1 << Direction.NORTH.getHorizontalIndex();
+			i |= 1 << Direction.NORTH.get2DDataValue();
 		}
 
 		if (flag1 || flag3 && !flag && !flag1 && !flag2)
 		{
-			i |= 1 << Direction.EAST.getHorizontalIndex();
+			i |= 1 << Direction.EAST.get2DDataValue();
 		}
 
 		if (flag2 || flag && !flag1 && !flag2 && !flag3)
 		{
-			i |= 1 << Direction.SOUTH.getHorizontalIndex();
+			i |= 1 << Direction.SOUTH.get2DDataValue();
 		}
 
 		if (flag3 || flag1 && !flag && !flag2 && !flag3)
 		{
-			i |= 1 << Direction.WEST.getHorizontalIndex();
+			i |= 1 << Direction.WEST.get2DDataValue();
 		}
 
 		return i;
@@ -115,24 +121,24 @@ public class Cable extends FABaseBlock
 
 	public BlockState GetActualState(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
-		state = state.with(WEST, GetAttachPosition(worldIn, pos, Direction.WEST));
-		state = state.with(EAST, GetAttachPosition(worldIn, pos, Direction.EAST));
-		state = state.with(NORTH, GetAttachPosition(worldIn, pos, Direction.NORTH));
-		state = state.with(SOUTH, GetAttachPosition(worldIn, pos, Direction.SOUTH));
+		state = state.setValue(WEST, GetAttachPosition(worldIn, pos, Direction.WEST));
+		state = state.setValue(EAST, GetAttachPosition(worldIn, pos, Direction.EAST));
+		state = state.setValue(NORTH, GetAttachPosition(worldIn, pos, Direction.NORTH));
+		state = state.setValue(SOUTH, GetAttachPosition(worldIn, pos, Direction.SOUTH));
 		return state;
 	}
 
 	private AttachPos GetAttachPosition(IBlockReader world, BlockPos pos, Direction facing)
 	{
-		BlockPos offset = pos.offset(facing);
+		BlockPos offset = pos.relative(facing);
 		BlockState blockState = world.getBlockState(offset);
 
 		if (!CanConnectTo(world.getBlockState(offset), facing, world, offset) && (blockState.isNormalCube(world, offset)
-				|| !CanConnectUpwardsTo(world, offset.down())))
+				|| !CanConnectUpwardsTo(world, offset.below())))
 		{
-			BlockState stateUp = world.getBlockState(pos.up());
+			BlockState stateUp = world.getBlockState(pos.above());
 
-			if (!stateUp.isNormalCube(world, offset.up()))
+			if (!stateUp.isRedstoneConductor(world, offset.above()))
 			{
 				boolean flag = Block.hasSolidSide(world.getBlockState(offset), world, offset, Direction.UP)
 						|| world.getBlockState(offset).getBlock() == Blocks.GLOWSTONE;
@@ -161,14 +167,14 @@ public class Cable extends FABaseBlock
 	}
 
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
+	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
 	{
 		return Block.hasSolidSide(world.getBlockState(pos.down()), world, pos.down(), Direction.UP)
 				|| world.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(WEST, EAST, NORTH, SOUTH);
 	}
@@ -236,10 +242,10 @@ public class Cable extends FABaseBlock
 
 		prevCableLocs.add(pos);
 
-		AttachPos north = state.get(NORTH);
-		AttachPos south = state.get(SOUTH);
-		AttachPos east = state.get(EAST);
-		AttachPos west = state.get(WEST);
+		AttachPos north = state.getValue(NORTH);
+		AttachPos south = state.getValue(SOUTH);
+		AttachPos east = state.getValue(EAST);
+		AttachPos west = state.getValue(WEST);
 
 		if (north == AttachPos.UP)
 		{
@@ -250,9 +256,9 @@ public class Cable extends FABaseBlock
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 
-			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
+			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 
 		} else if (north == AttachPos.SIDE)
@@ -263,9 +269,9 @@ public class Cable extends FABaseBlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
+			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 		}
 
@@ -277,9 +283,9 @@ public class Cable extends FABaseBlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
+			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 
 		} else if (west == AttachPos.SIDE)
@@ -290,9 +296,9 @@ public class Cable extends FABaseBlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
+			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 		}
 
@@ -304,9 +310,9 @@ public class Cable extends FABaseBlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
+			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 
 		} else if (south == AttachPos.SIDE)
@@ -317,9 +323,9 @@ public class Cable extends FABaseBlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
+			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 		}
 
@@ -331,9 +337,9 @@ public class Cable extends FABaseBlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
+			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 
 		} else if (east == AttachPos.SIDE)
@@ -344,9 +350,9 @@ public class Cable extends FABaseBlock
 
 				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
-			if (world.getTileEntity(bp) instanceof IUsesEnergy_)
+			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) world.getTileEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 		}
 

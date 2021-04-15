@@ -1,17 +1,26 @@
 package boblovespi.factoryautomation.common.block.machine;
 
+import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.energy.electricity.IEnergyBlock;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import boblovespi.factoryautomation.common.util.Log;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ChatType;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
@@ -28,8 +37,8 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 	{
 		super(
 				"solar_panel", false,
-				Properties.create(Material.IRON).hardnessAndResistance(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
-				new Item.Properties().group(FAItemGroups.electrical));
+				Properties.of(Material.METAL).strength(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
+				new Item.Properties().tab(FAItemGroups.electrical));
 	}
 
 	/**
@@ -44,7 +53,7 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 	@Override
 	public boolean CanConnectCable(BlockState state, Direction side, IBlockReader world, BlockPos pos)
 	{
-		return side != null && side.getHorizontalIndex() >= 0;
+		return side != null && side.get2DDataValue() >= 0;
 	}
 
 	@Nullable
@@ -54,28 +63,28 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 		return new TileEntitySolarPanel();
 	}
 
-	//	@Override
-	//	public boolean onBlockActivated(World worldIn, BlockPos pos, BlockState state, PlayerEntity playerIn,
-	//			EnumHand hand, Direction facing, float hitX, float hitY, float hitZ)
-	//	{
-	//		TileEntity entity;
-	//		if ((entity = worldIn.getTileEntity(pos)) instanceof TileEntitySolarPanel)
-	//		{
-	//			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
-	//			entity1.ForceUpdate();
-	//			if (!worldIn.isRemote)
-	//				FactoryAutomation.proxy.AddChatMessage(
-	//						ChatType.GAME_INFO, new TextComponentString(
-	//								"Power: " + entity1.AmountProduced() + " | Power generated - used: " + entity1
-	//										.ActualAmountProduced()));
-	//			Log.LogInfo("Can see sky", worldIn.canBlockSeeSky(pos));
-	//			Log.LogInfo("Sunlight factor", worldIn.getSunBrightnessFactor(0));
-	//			Log.LogInfo("Can block above see sky", worldIn.canBlockSeeSky(pos.up()));
-	//			Log.LogInfo("Power generated", entity1.AmountProduced());
-	//			Log.LogInfo("Actual power generated", entity1.ActualAmountProduced());
-	//		}
-	//		return true;
-	//	}
+//	@Override
+//	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn,
+//					   Hand hand, BlockRayTraceResult rayTraceResult)
+//	{
+//		TileEntity entity;
+//		if ((entity = worldIn.getBlockEntity(pos)) instanceof TileEntitySolarPanel)
+//		{
+//			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
+//			entity1.ForceUpdate();
+//			if (!worldIn.isClientSide)
+//				FactoryAutomation.proxy.AddChatMessage(
+//						ChatType.GAME_INFO, new StringTextComponent(
+//								"Power: " + entity1.AmountProduced() + " | Power generated - used: " + entity1
+//										.ActualAmountProduced()));
+//			Log.LogInfo("Can see sky", worldIn.canSeeSkyFromBelowWater(pos));
+//			Log.LogInfo("Sunlight factor", worldIn.getSunAngle(0));
+//			Log.LogInfo("Can block above see sky", worldIn.canSeeSkyFromBelowWater(pos.up()));
+//			Log.LogInfo("Power generated", entity1.AmountProduced());
+//			Log.LogInfo("Actual power generated", entity1.ActualAmountProduced());
+//		}
+//		return true;
+//	}
 
 	/**
 	 * Called throughout the code as a replacement for block instanceof BlockContainer

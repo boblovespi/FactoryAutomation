@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 
 import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
@@ -21,10 +23,12 @@ import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace
 /**
  * Created by Willi on 6/21/2019.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TEBevelGear extends TileEntity implements ITickableTileEntity
 {
 	public float rotation = 0;
-	private MechanicalUser user;
+	private final MechanicalUser user;
 	private int counter = -1;
 	private boolean firstTick = true;
 
@@ -36,25 +40,25 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 
 	public void FirstLoad()
 	{
-		BlockState state = world.getBlockState(pos);
+		BlockState state = level.getBlockState(worldPosition);
 		Direction negativeFacing = BevelGear.GetNegative(state);
-		Direction positiveFacing = state.get(BevelGear.FACING);
+		Direction positiveFacing = state.getValue(BevelGear.FACING);
 		user.SetSides(EnumSet.of(negativeFacing, positiveFacing));
 		firstTick = false;
 	}
-
+	
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.load(state, tag);
 		user.ReadFromNBT(tag.getCompound("user"));
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.put("user", user.WriteToNBT());
-		return super.write(tag);
+		return super.save(tag);
 	}
 
 	/**
@@ -63,7 +67,7 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (level.isClientSide)
 		{
 			rotation += user.GetSpeed();
 			rotation %= 360;
@@ -77,13 +81,13 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 
 		if (counter == 0)
 		{
-			BlockState state = world.getBlockState(pos);
+			BlockState state = level.getBlockState(worldPosition);
 
 			Direction negativeFacing = BevelGear.GetNegative(state);
-			Direction positiveFacing = state.get(BevelGear.FACING);
+			Direction positiveFacing = state.getValue(BevelGear.FACING);
 
-			TileEntity front = world.getTileEntity(pos.offset(positiveFacing));
-			TileEntity back = world.getTileEntity(pos.offset(negativeFacing));
+			TileEntity front = level.getBlockEntity(worldPosition.relative(positiveFacing));
+			TileEntity back = level.getBlockEntity(worldPosition.relative(negativeFacing));
 
 			user.SetSpeedOnFace(negativeFacing, ((IsMechanicalFace(front, positiveFacing.getOpposite()) ?
 					GetUser(front, positiveFacing.getOpposite()).GetSpeedOnFace(positiveFacing.getOpposite()) : 0) + (
@@ -97,11 +101,11 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 							GetUser(back, negativeFacing.getOpposite()).GetTorqueOnFace(negativeFacing.getOpposite()) :
 							0)) / 2f);
 
-			markDirty();
+			setChanged();
 
 			/* IMPORTANT */
-			BlockState state2 = world.getBlockState(pos);
-			world.notifyBlockUpdate(pos, state2, state2, 3);
+			BlockState state2 = level.getBlockState(worldPosition);
+			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
 
 		}
 	}

@@ -2,8 +2,10 @@ package boblovespi.factoryautomation.common.container;
 
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
 import boblovespi.factoryautomation.common.container.slot.SlotRestrictedItem;
+import boblovespi.factoryautomation.common.container.slot.SlotRestrictedPredicate;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -11,6 +13,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
@@ -21,24 +24,24 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 /**
  * Created by Willi on 11/12/2017.
- */
-
-/**
  * Created by Willi on 4/13/2017.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ContainerBlastFurnace extends Container
 {
 	public static final ContainerType<ContainerBlastFurnace> TYPE = IForgeContainerType
 			.create(ContainerBlastFurnace::new);
 	private TEBlastFurnaceController te;
-	private IItemHandler handler;
-	private IIntArray progressBars;
+	private final IItemHandler handler;
+	private final IIntArray progressBars;
 
 	// server-side container
 	public ContainerBlastFurnace(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray progressBars,
@@ -47,17 +50,17 @@ public class ContainerBlastFurnace extends Container
 		super(TYPE, id);
 		handler = inv;
 		this.progressBars = progressBars;
-		trackIntArray(progressBars);
+		addDataSlots(progressBars);
 
 		addSlot(new SlotItemHandler(handler, TEBlastFurnaceController.TUYERE_SLOT, 8, 8));
-		addSlot(new SlotRestrictedItem(handler, TEBlastFurnaceController.IRON_SLOT, 47, 17,
-				Collections.singletonList(Items.IRON_INGOT)));
-		addSlot(new SlotRestrictedItem(handler, TEBlastFurnaceController.FLUX_SLOT, 65, 17,
-				Collections.singletonList(Items.REDSTONE)));
-		addSlot(new SlotRestrictedItem(handler, TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
-				Collections.singletonList(FAItems.coalCoke.ToItem())));
-		addSlot(new SlotRestrictedItem(handler, TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
-				Collections.singletonList(FAItems.coalCoke.ToItem())));
+		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.IRON_SLOT, 47, 17,
+				Ingredient.of(Items.IRON_INGOT)));
+		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.FLUX_SLOT, 65, 17,
+				Ingredient.of(Items.REDSTONE)));
+		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
+				Ingredient.of(FAItems.coalCoke.ToItem())));
+		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
+				Ingredient.of(FAItems.coalCoke.ToItem())));
 		addSlot(new SlotOutputItem(handler, TEBlastFurnaceController.OUTPUT_SLOT, 116, 35));
 		addSlot(new SlotOutputItem(handler, TEBlastFurnaceController.SLAG_SLOT, 142, 35));
 
@@ -82,39 +85,39 @@ public class ContainerBlastFurnace extends Container
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn)
+	public boolean stillValid(PlayerEntity playerIn)
 	{
 		return !playerIn.isSpectator();
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int fromSlot)
+	public ItemStack quickMoveStack(PlayerEntity playerIn, int fromSlot)
 	{
 		ItemStack previous = ItemStack.EMPTY;
-		Slot slot = this.inventorySlots.get(fromSlot);
+		Slot slot = this.slots.get(fromSlot);
 
-		if (slot != null && slot.getHasStack())
+		if (slot != null && slot.hasItem())
 		{
-			ItemStack current = slot.getStack();
+			ItemStack current = slot.getItem();
 			previous = current.copy();
 
 			if (fromSlot < this.handler.getSlots())
 			{
 				// From the block breaker inventory to player's inventory
-				if (!this.mergeItemStack(current, handler.getSlots(), handler.getSlots() + 36, true))
+				if (!this.moveItemStackTo(current, handler.getSlots(), handler.getSlots() + 36, true))
 					return ItemStack.EMPTY;
 			} else
 			{
 				// From the player's inventory to block breaker's inventory
-				if (!this.mergeItemStack(current, 0, handler.getSlots(), false))
+				if (!this.moveItemStackTo(current, 0, handler.getSlots(), false))
 					return ItemStack.EMPTY;
 			}
 
 			if (current.isEmpty()) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
-				slot.putStack(
+				slot.set(
 						ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
 			else
-				slot.onSlotChanged();
+				slot.setChanged();
 
 			if (current.getCount() == previous.getCount())
 				return ItemStack.EMPTY;

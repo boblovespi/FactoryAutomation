@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -30,18 +31,22 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 5/6/2018.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Gearbox extends FABaseBlock
 {
 	public static DirectionProperty FACING = BlockStateProperties.FACING;
 
 	public Gearbox()
 	{
-		super(Material.IRON, "gearbox", FAItemGroups.mechanical);
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.WEST));
+		super(Material.METAL, "gearbox", FAItemGroups.mechanical);
+		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.WEST));
 		TileEntityHandler.tiles.add(TEGearbox.class);
 	}
 
@@ -61,11 +66,11 @@ public class Gearbox extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getFace());
+		return defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}
@@ -76,18 +81,18 @@ public class Gearbox extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		ItemStack stack = player.getHeldItem(hand);
+		ItemStack stack = player.getItemInHand(hand);
 
 		if (stack.getItem() instanceof Wrench)
 			return ActionResultType.PASS;
 
-		if (world.isRemote)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 
-		TileEntity tileEntity = world.getTileEntity(pos);
+		TileEntity tileEntity = world.getBlockEntity(pos);
 		Item item = stack.getItem();
 		GearType gear = GetGear(item);
 
@@ -96,7 +101,7 @@ public class Gearbox extends FABaseBlock
 			if (tileEntity instanceof TEGearbox)
 			{
 				TEGearbox te = (TEGearbox) tileEntity;
-				if (te.AddGear(gear, gear.durability - stack.getDamage()))
+				if (te.AddGear(gear, gear.durability - stack.getDamageValue()))
 					stack.shrink(1);
 			}
 		} else if (stack.isEmpty())
@@ -120,6 +125,7 @@ public class Gearbox extends FABaseBlock
 		return false;
 	}
 
+	@Nullable
 	private GearType GetGear(Item item)
 	{
 		for (GearType gearType : GearType.values())
@@ -137,7 +143,7 @@ public class Gearbox extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}
@@ -172,7 +178,7 @@ public class Gearbox extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getSerializedName()
 		{
 			return name;
 		}

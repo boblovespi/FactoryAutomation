@@ -36,10 +36,10 @@ public class BrickCastingVessel extends FABaseBlock
 	public BrickCastingVessel()
 	{
 		super("brick_casting_vessel", false,
-				Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
-						  .harvestTool(ToolType.PICKAXE), new Item.Properties().group(FAItemGroups.metallurgy));
-		// super(Material.ROCK, "brick_casting_vessel", FAItemGroups.metallurgy);
-		setDefaultState(stateContainer.getBaseState().with(MOLD, CastingVesselStates.EMPTY));
+				Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
+						  .harvestTool(ToolType.PICKAXE), new Item.Properties().tab(FAItemGroups.metallurgy));
+		// super(Material.STONE, "brick_casting_vessel", FAItemGroups.metallurgy);
+		registerDefaultState(stateDefinition.any().with(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
 	}
 
@@ -72,19 +72,19 @@ public class BrickCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof TEStoneCastingVessel && !world.isRemote)
+		TileEntity te = world.getBlockEntity(pos);
+		if (te instanceof TEStoneCastingVessel && !world.isClientSide)
 		{
 			TEStoneCastingVessel vessel = (TEStoneCastingVessel) te;
-			if (player.getHeldItem(hand).getItem() == Items.STICK)
+			if (player.getItemInHand(hand).getItem() == Items.STICK)
 			{
 				NetworkHooks.openGui((ServerPlayerEntity) player, vessel, pos);
 			} else
 			{
-				vessel.TakeOrPlace(player.getHeldItem(hand), player);
+				vessel.TakeOrPlace(player.getItemInHand(hand), player);
 			}
 		}
 		return ActionResultType.SUCCESS;

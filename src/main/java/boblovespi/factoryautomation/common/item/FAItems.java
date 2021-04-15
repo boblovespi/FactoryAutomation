@@ -30,6 +30,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
@@ -175,7 +176,8 @@ public class FAItems
 		items.remove(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
-		diamondCoin = new FABaseItem("coin_diamond", ItemGroup.MISC);
+		diamondCoin = new FABaseItem("coin_diamond", ItemGroup.TAB_MISC
+		);
 		rod = new MetalItem("rod");
 
 		// metallurgy misc
@@ -185,9 +187,9 @@ public class FAItems
 		ironShard = new FABaseItem("iron_shard", FAItemGroups.metallurgy);
 		pigTallowParts = new TallowPart();
 		pigTallowMolds = new MultiTypeItem<>(
-				"tallow_mold", TallowForms.class, "molds", Prop().group(FAItemGroups.metallurgy));
+				"tallow_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy));
 		firedMolds = new MultiTypeItem<>(
-				"fired_mold", TallowForms.class, "molds", Prop().group(FAItemGroups.metallurgy));
+				"fired_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy));
 
 		// ore processing forms
 
@@ -298,14 +300,14 @@ public class FAItems
 
 	public static Item.Properties Building()
 	{
-		return Prop().group(ItemGroup.BUILDING_BLOCKS);
+		return Prop().tab(ItemGroup.TAB_BUILDING_BLOCKS);
 	}
 
 	public static void RegisterItemRenders()
 	{
 		for (Item item : items)
 		{
-			Log.LogInfo("new item!", item.getRegistryName());
+			Log.LogInfo("new item!", Objects.requireNonNull(item.getRegistryName()));
 			// Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
 			// Log.LogInfo("item resource path", item.getRegistryName().getResourcePath());
 			if (item instanceof FAItem)
@@ -319,7 +321,7 @@ public class FAItems
 
 				} else if (item instanceof MultiTypeItem)
 				{
-					MultiTypeItem variantItem = (MultiTypeItem) item;
+					MultiTypeItem<?> variantItem = (MultiTypeItem<?>) item;
 					RegisterRenders(variantItem);
 				} /*else if (item instanceof MultiStateItemBlock)
 				{
@@ -375,7 +377,7 @@ public class FAItems
 		//		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
 	}
 
-	private static void RegisterRenders(MultiTypeItem item)
+	private static void RegisterRenders(MultiTypeItem<?> item)
 	{
 		for (int meta = 0; meta < item.itemTypes.getEnumConstants().length; meta++)
 		{

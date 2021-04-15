@@ -38,14 +38,14 @@ public class StoneCrucible extends FABaseBlock
 {
 	public static final BooleanProperty MULTIBLOCK_COMPLETE = BooleanProperty.create("multiblock_complete");
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
-	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(2, 0, 2, 14, 16, 14);
+	private static final VoxelShape BOUNDING_BOX = Block.box(2, 0, 2, 14, 16, 14);
 
 	public StoneCrucible()
 	{
-		super("stone_crucible", false, Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
+		super("stone_crucible", false, Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
 												 .harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(FAItemGroups.metallurgy));
-		setDefaultState(stateContainer.getBaseState().with(MULTIBLOCK_COMPLETE, false).with(FACING, Direction.NORTH));
+				new Item.Properties().tab(FAItemGroups.metallurgy));
+		registerDefaultState(stateDefinition.any().with(MULTIBLOCK_COMPLETE, false).with(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEStoneCrucible.class);
 	}
 
@@ -80,28 +80,28 @@ public class StoneCrucible extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isRemote)
+		if (!world.isClientSide)
 		{
-			if (MultiblockHelper.IsStructureComplete(world, pos, TEStoneCrucible.MULTIBLOCK_ID, state.get(FACING)))
+			if (MultiblockHelper.IsStructureComplete(world, pos, TEStoneCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
 			{
-				TileEntity te = world.getTileEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEStoneCrucible)
 				{
 					TEStoneCrucible foundry = (TEStoneCrucible) te;
 					if (!foundry.IsStructureValid())
 						foundry.CreateStructure();
 
-					if (hit.getFace() == state.get(FACING).rotateYCCW())
+					if (hit.getFace() == state.getValue(FACING).rotateYCCW())
 						foundry.PourInto(hit.getFace());
 					else
 						NetworkHooks.openGui((ServerPlayerEntity) player, foundry, pos);
 				}
 			} else
 			{
-				TileEntity te = world.getTileEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEStoneCrucible)
 					((TEStoneCrucible) te).SetStructureInvalid();
 			}
@@ -115,6 +115,6 @@ public class StoneCrucible extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getPlacementHorizontalFacing().rotateYCCW());
+		return getDefaultState().with(FACING, context.getHorizontalDirection().rotateYCCW());
 	}
 }

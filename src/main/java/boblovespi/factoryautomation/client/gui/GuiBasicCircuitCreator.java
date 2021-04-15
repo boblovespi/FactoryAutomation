@@ -40,7 +40,7 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	public GuiBasicCircuitCreator(ContainerBasicCircuitCreator container, PlayerInventory playerInv, ITextComponent unused)
 	{
 		super(container, playerInv, new TranslationTextComponent("gui.basic_circuit_creator"));
-		this.te = (TEBasicCircuitCreator) playerInv.player.world.getTileEntity(container.GetPos());
+		this.te = (TEBasicCircuitCreator) playerInv.player.world.getBlockEntity(container.GetPos());
 
 		xSize = 206;
 		ySize = 166;

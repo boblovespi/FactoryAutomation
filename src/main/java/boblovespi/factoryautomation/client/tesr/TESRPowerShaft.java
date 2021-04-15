@@ -37,7 +37,7 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
 		BlockState state = te.getWorld().getBlockState(te.getPos()).with(PowerShaft.IS_TESR, true);
-		Direction.Axis axis = state.get(PowerShaft.AXIS);
+		Direction.Axis axis = state.getValue(PowerShaft.AXIS);
 		float xD = 0, yD = 0, zD = 0;
 		switch (axis)
 		{

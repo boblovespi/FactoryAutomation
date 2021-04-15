@@ -15,8 +15,8 @@ public class SlagGlass extends FABaseBlock
 	public SlagGlass()
 	{
 		super("slag_glass", false,
-				Properties.create(Material.GLASS).sound(SoundType.GLASS).hardnessAndResistance(1.2f).harvestLevel(0)
-						  .harvestTool(ToolType.PICKAXE), new Item.Properties().group(FAItemGroups.resources));
+				Properties.of(Material.GLASS).sound(SoundType.GLASS).strength(1.2f).harvestLevel(0)
+						  .harvestTool(ToolType.PICKAXE), new Item.Properties().tab(FAItemGroups.resources));
 		//		super(Material.GLASS, "slag_glass", FAItemGroups.resources);
 		//		setLightOpacity(2);
 		//		setSoundType(SoundType.GLASS);

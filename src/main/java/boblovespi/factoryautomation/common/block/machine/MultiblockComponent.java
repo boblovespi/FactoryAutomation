@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.block.machine;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -14,15 +15,19 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 11/26/2017.
  */
+@SuppressWarnings({"DanglingJavadoc", "CommentedOutCode", "SpellCheckingInspection"})
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MultiblockComponent extends FABaseBlock
 {
 	public MultiblockComponent()
 	{
-		super("multiblock_part", true, Properties.create(Material.IRON).hardnessAndResistance(1.5f),
+		super("multiblock_part", true, Properties.of(Material.METAL).strength(1.5f).isRedstoneConductor(MultiblockComponent::isRedstoneConductor),
 				new Item.Properties());
 		//		setUnlocalizedName(UnlocalizedName());
 		//		setRegistryName(RegistryName());
@@ -32,8 +37,8 @@ public class MultiblockComponent extends FABaseBlock
 		//		FABlocks.blocks.add(this);
 	}
 
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos)
+	// Todo: translate this to 1.16.5 with mojmaps.
+	public static boolean isRedstoneConductor(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		return false;
 	}
@@ -72,7 +77,7 @@ public class MultiblockComponent extends FABaseBlock
 	//	public void getDrops(NonNullList<ItemStack> drops, ServerWorld world, BlockPos pos, BlockState state, int fortune)
 	//	{
 	//		Random rand = world != null ? world.rand : RANDOM;
-	//		TileEntity te = world.getTileEntity(pos);
+	//		TileEntity te = world.getBlockEntity(pos);
 	//
 	//		assert te != null && te instanceof TEMultiblockPart;
 	//
@@ -86,12 +91,12 @@ public class MultiblockComponent extends FABaseBlock
 	//	}
 
 	@Override
-	public void onBlockHarvested(World world, BlockPos pos, BlockState state, PlayerEntity player)
+	public void playerWillDestroy(World world, BlockPos pos, BlockState state, PlayerEntity player)
 	{
 		//		Log.LogInfo("something broke!");
 		//		Log.LogInfo("blockPos", pos);
 		//
-		//		TEMultiblockPart part = (TEMultiblockPart) world.getTileEntity(pos);
+		//		TEMultiblockPart part = (TEMultiblockPart) world.getBlockEntity(pos);
 		//
 		//		Log.LogInfo("part is null", part == null);
 		//

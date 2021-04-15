@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -20,33 +21,37 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 6/20/2019.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class BevelGear extends FABaseBlock
 {
 	public static IntegerProperty LAYER = IntegerProperty.create("layer", 0, 2);
-	public static DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+	public static DirectionProperty FACING = HorizontalBlock.FACING;
 
 	public BevelGear()
 	{
-		super(Material.IRON, "bevel_gear", FAItemGroups.mechanical);
+		super(Material.METAL, "bevel_gear", FAItemGroups.mechanical);
 		TileEntityHandler.tiles.add(TEBevelGear.class);
 	}
 
 	public static Direction GetNegative(BlockState state)
 	{
-		if (state.get(LAYER) == 1)
-			return state.get(FACING).rotateY();
-		else if (state.get(LAYER) == 0)
+		if (state.getValue(LAYER) == 1)
+			return state.getValue(FACING).getClockWise();
+		else if (state.getValue(LAYER) == 0)
 			return Direction.DOWN;
 		else
 			return Direction.UP;
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(LAYER, FACING);
 	}
@@ -67,23 +72,23 @@ public class BevelGear extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		BlockState state = getDefaultState();
-		if (context.getFace() == Direction.UP)
-			state = state.with(LAYER, 0);
-		else if (context.getFace() == Direction.DOWN)
-			state = state.with(LAYER, 1);
+		BlockState state = defaultBlockState();
+		if (context.getHorizontalDirection() == Direction.UP)
+			state = state.setValue(LAYER, 0);
+		else if (context.getHorizontalDirection() == Direction.DOWN)
+			state = state.setValue(LAYER, 1);
 		else
 			state = state
-					.with(LAYER, context.getHitVec().getY() > 2 / 3f ? 2 : context.getHitVec().getY() > 1 / 3f ? 1 : 0);
-		if (context.getFace().getHorizontalIndex() >= 0)
-			state = state.with(FACING, context.getFace().getOpposite());
+					.setValue(LAYER, context.getClickLocation().y > 2 / 3f ? 2 : context.getClickLocation().y > 1 / 3f ? 1 : 0);
+		if (context.getHorizontalDirection().get2DDataValue() >= 0)
+			state = state.setValue(FACING, context.getHorizontalDirection().getOpposite());
 		else
-			state = state.with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+			state = state.setValue(FACING, context.getHorizontalDirection().getOpposite());
 		return state;
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

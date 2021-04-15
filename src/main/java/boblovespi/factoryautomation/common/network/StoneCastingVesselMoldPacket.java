@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -37,7 +38,7 @@ public class StoneCastingVesselMoldPacket
 	public static StoneCastingVesselMoldPacket FromBytes(ByteBuf buf)
 	{
 		StoneCastingVesselMoldPacket packet = new StoneCastingVesselMoldPacket();
-		packet.pos = BlockPos.fromLong(buf.readLong());
+		packet.pos = BlockPos.of(buf.readLong());
 		packet.switchTo = buf.readByte();
 		return packet;
 	}
@@ -47,7 +48,7 @@ public class StoneCastingVesselMoldPacket
 	 */
 	public void ToBytes(ByteBuf buf)
 	{
-		buf.writeLong(pos.toLong());
+		buf.writeLong(pos.asLong());
 		buf.writeByte(switchTo);
 	}
 
@@ -57,13 +58,13 @@ public class StoneCastingVesselMoldPacket
 		{
 			ctx.get().enqueueWork(() -> {
 				ServerPlayerEntity player = ctx.get().getSender();
-				ServerWorld world = player.getServerWorld();
-				if (world.isBlockLoaded(pos))
+				ServerWorld world = Objects.requireNonNull(player).getLevel();
+				if (world.hasChunkAt(pos))
 				{
-					TileEntity te = world.getTileEntity(pos);
+					TileEntity te = world.getBlockEntity(pos);
 					if (te instanceof TEStoneCastingVessel
-							&& player.openContainer instanceof ContainerStoneCastingVessel
-							&& ((ContainerStoneCastingVessel) player.openContainer).GetPos().equals(pos)
+							&& player.containerMenu instanceof ContainerStoneCastingVessel
+							&& ((ContainerStoneCastingVessel) player.containerMenu).GetPos().equals(pos)
 							&& ((TEStoneCastingVessel) te).HasSand())
 					{
 						((TEStoneCastingVessel) te)

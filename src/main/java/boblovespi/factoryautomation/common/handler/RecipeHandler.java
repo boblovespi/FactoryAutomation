@@ -14,7 +14,6 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -31,7 +30,7 @@ import static boblovespi.factoryautomation.common.item.ores.OreForms.*;
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RecipeHandler
 {
-	public static List<IRecipe> recipes;
+	public static List<IRecipe<?>> recipes;
 
 	//	private static NonNullList<ItemStack> bronzeCrucibleItems = NonNullList
 	//			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.COPPER), 7),
@@ -95,7 +94,7 @@ public class RecipeHandler
 		HammerRecipe rec = new HammerRecipe(new ResourceLocation(FactoryAutomation.MODID, "acid_powder"),
 				new ItemStack(FAItems.acidPowder.ToItem(), 8), "dgd", "ghg", "drd", 'd', "glycerin", 'g', "gunpowder",
 				'r', "gemGraphite", 'h', Ingredient
-				.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+				.of(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
 						new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
 		rec.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "acid_powder"));
 		recipes.add(rec);
@@ -105,7 +104,7 @@ public class RecipeHandler
 			HammerRecipe rec1 = new HammerRecipe(
 					new ResourceLocation(FactoryAutomation.MODID, "nugget_to_coin_" + metal.getName()),
 					new ItemStack(FAItems.coin.GetItem(metal), 1), "nh", 'n', "nugget" + Cleanup(metal.getName()), 'h',
-					Ingredient.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+					Ingredient.of(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
 							new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
 			rec1.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "nugget_to_coin_" + metal.getName()));
 			recipes.add(rec1);
@@ -121,20 +120,20 @@ public class RecipeHandler
 								 .findFirst().orElse(ItemStack.EMPTY)
 
 					, "nh", 'n', FAItems.coin.GetItem(metal), 'h', Ingredient
-					.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+					.of(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
 							new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
 			rec2.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "coin_to_nugget_" + metal.getName()));
 			recipes.add(rec2);
 		}
 		HammerRecipe rec1 = new HammerRecipe(new ResourceLocation(FactoryAutomation.MODID, "nugget_to_coin_diamond"),
 				new ItemStack(FAItems.diamondCoin.ToItem(), 1), "nh", 'n', "gemDiamond", 'h', Ingredient
-				.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+				.of(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
 						new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
 		rec1.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "nugget_to_coin_diamond"));
 		recipes.add(rec1);
 		HammerRecipe rec2 = new HammerRecipe(new ResourceLocation(FactoryAutomation.MODID, "coin_to_nugget_diamond"),
 				new ItemStack(Items.DIAMOND), "nh", 'n', FAItems.diamondCoin.ToItem(), 'h', Ingredient
-				.fromStacks(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
+				.of(new ItemStack(FAItems.ironHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE),
 						new ItemStack(FAItems.steelHammer.ToItem(), 1, OreDictionary.WILDCARD_VALUE)));
 		rec2.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, "coin_to_nugget_diamond"));
 		recipes.add(rec2);
@@ -169,10 +168,10 @@ public class RecipeHandler
 
 		SteelmakingRecipe.AddRecipe(
 				"pigiron-steel-nogases-noflux", new SteelmakingRecipe(
-						Arrays.asList(Ingredient.fromStacks(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
-								Ingredient.fromStacks(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
-								Ingredient.fromStacks(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
-								Ingredient.fromStacks(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)))), null,
+						Arrays.asList(Ingredient.of(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
+								Ingredient.of(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
+								Ingredient.of(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON))),
+								Ingredient.of(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)))), null,
 						Arrays.asList(new ItemStack(FAItems.ingot.GetItem(Metals.STEEL)),
 								new ItemStack(FAItems.ingot.GetItem(Metals.STEEL)),
 								new ItemStack(FAItems.ingot.GetItem(Metals.STEEL))), 1000, 1300));
@@ -182,26 +181,26 @@ public class RecipeHandler
 		//
 
 		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItems(Blocks.STONE), n -> new ItemStack(Blocks.COBBLESTONE), 0,
+				new JawCrusherRecipe(Ingredient.of(Blocks.STONE), n -> new ItemStack(Blocks.COBBLESTONE), 0,
 						"stone-to-cobblestone", 20, 10, 10));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItems(Blocks.DIAMOND_ORE),
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(Blocks.DIAMOND_ORE),
 				n -> new ItemStack(FAItems.diamondGravel.ToItem()), 0, "diamond-processing", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItems(FABlocks.magnetiteOre.GetBlock(POOR)),
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(POOR)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)), 0,
 				"magnetite-poor-ore-to-coarse", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItems(FABlocks.magnetiteOre.GetBlock(NORMAL)),
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(NORMAL)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)), 0,
 				"magnetite-normal-ore-to-coarse", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.fromItems(FABlocks.magnetiteOre.GetBlock(RICH)),
+		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(RICH)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)), 0,
 				"magnetite-rich-ore-to-coarse", 20, 10, 100));
 
 		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItems(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)),
+				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
 							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(POOR_GRAVEL)));
@@ -210,7 +209,7 @@ public class RecipeHandler
 						}}, 0, "magnetite-poor-coarse-to-gravel", 20, 10, 100));
 
 		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItems(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)),
+				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
 							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_GRAVEL)));
@@ -219,7 +218,7 @@ public class RecipeHandler
 						}}, 0, "magnetite-normal-coarse-to-gravel", 20, 10, 100));
 
 		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.fromItems(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)),
+				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
 							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(RICH_GRAVEL)));
@@ -229,7 +228,7 @@ public class RecipeHandler
 
 		// trip hammer recipes
 
-		new TripHammerRecipe("iron-block-to-sheets", Ingredient.fromTag(FATags.ForgeItemTag("storage_blocks/iron")),
+		new TripHammerRecipe("iron-block-to-sheets", Ingredient.of(FATags.ForgeItemTag("storage_blocks/iron")),
 				new ItemStack(FAItems.sheet.GetItem(Metals.IRON), 6), 100, 10);
 
 		// chopping block recipes
@@ -347,10 +346,10 @@ public class RecipeHandler
 		removeList.add(new OreIngredient("oreCopper"));
 		removeList.add(new OreIngredient("oreDiamond"));
 		removeList.add(new OreIngredient("oreTin"));
-		removeList.add(Ingredient.fromItems(Items.CLAY_BALL));
-		removeList.add(Ingredient.fromItems(Item.getItemFromBlock(Blocks.GOLD_ORE)));
-		removeList.add(Ingredient.fromItems(Item.getItemFromBlock(Blocks.IRON_ORE)));
-		removeList.add(Ingredient.fromItems(Item.getItemFromBlock(Blocks.DIAMOND_ORE)));
+		removeList.add(Ingredient.of(Items.CLAY_BALL));
+		removeList.add(Ingredient.of(Item.getItemFromBlock(Blocks.GOLD_ORE)));
+		removeList.add(Ingredient.of(Item.getItemFromBlock(Blocks.IRON_ORE)));
+		removeList.add(Ingredient.of(Item.getItemFromBlock(Blocks.DIAMOND_ORE)));
 		List<ItemStack> toRemoveList = new ArrayList<>();
 
 		for (Map.Entry<ItemStack, ItemStack> entry : FurnaceRecipes.instance().getSmeltingList().entrySet())

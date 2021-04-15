@@ -89,7 +89,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 		{
 			rotation = (rotation + speed) % 360;
 			return;
@@ -105,8 +105,8 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 			Direction negativeFacing = getFacingFromAxis(AxisDirection.NEGATIVE, axis);
 			Direction positiveFacing = getFacingFromAxis(AxisDirection.POSITIVE, axis);
 
-			TileEntity front = world.getTileEntity(pos.offset(positiveFacing));
-			TileEntity back = world.getTileEntity(pos.offset(negativeFacing));
+			TileEntity front = world.getBlockEntity(pos.offset(positiveFacing));
+			TileEntity back = world.getBlockEntity(pos.offset(negativeFacing));
 
 			speed = ((IsMechanicalFace(front, negativeFacing) ?
 					GetUser(front, negativeFacing).GetSpeedOnFace(negativeFacing) : 0) + (
@@ -121,7 +121,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 			markDirty();
 
 			/* IMPORTANT */
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+			world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 		}
 	}
 

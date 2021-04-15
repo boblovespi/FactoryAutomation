@@ -10,6 +10,6 @@ public class TallowPart extends MultiTypeItem<TallowForms>
 {
 	public TallowPart()
 	{
-		super("pig_tallow", TallowForms.class, "molds", new Properties().group(FAItemGroups.metallurgy));
+		super("pig_tallow", TallowForms.class, "molds", new Properties().tab(FAItemGroups.metallurgy));
 	}
 }

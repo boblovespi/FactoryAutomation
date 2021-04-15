@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.item;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -10,28 +11,33 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 /**
  * Created by Willi on 4/12/2017.
  * A class for foods that can give more than one potion effect
+ *
+ * Updated 15 April 2021 on 18:16 by Qboi123 (Conversion to 1.16.5)
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class FAFood extends Item implements FAItem
 {
 	private String unName;
 
-	private int amountOfFood;
-	private int saturationAmount;
-	private boolean isWolfFood;
-	private List<EffectInstance> potionEffects;
-	private List<Float> potionEffectChances;
-	private int itemUseTime;
-	private boolean alwaysEdible;
+	private final int amountOfFood;
+	private final int saturationAmount;
+	private final boolean isWolfFood;
+	private final List<EffectInstance> potionEffects;
+	private final List<Float> potionEffectChances;
+	private final int itemUseTime;
+	private final boolean alwaysEdible;
 
 	public FAFood(String unName, int amount, int saturation, int eatTime, boolean WolfFood, boolean canAlwaysEat,
 			List<EffectInstance> potionEffects, List<Float> potionChances)
 	{
-		super(new Properties().group(ItemGroup.FOOD));
+		super(new Properties().tab(ItemGroup.TAB_FOOD));
 
 		if (potionEffects.size() != potionChances.size())
 			throw new IndexOutOfBoundsException("the potionEffects and potionEffectChances sizes are not the same");
@@ -41,13 +47,13 @@ public class FAFood extends Item implements FAItem
 		setRegistryName(RegistryName());
 		//setHasSubtypes(true);
 
-		amountOfFood = amount;
-		saturationAmount = saturation;
-		itemUseTime = eatTime;
-		isWolfFood = WolfFood;
+		this.amountOfFood = amount;
+		this.saturationAmount = saturation;
+		this.itemUseTime = eatTime;
+		this.isWolfFood = WolfFood;
 		this.potionEffects = potionEffects;
-		potionEffectChances = potionChances;
-		alwaysEdible = canAlwaysEat;
+		this.potionEffectChances = potionChances;
+		this.alwaysEdible = canAlwaysEat;
 
 		FAItems.items.add(this);
 	}
@@ -72,29 +78,31 @@ public class FAFood extends Item implements FAItem
 
 	protected void applyPotionAffects(ItemStack stack, World worldIn, LivingEntity player)
 	{
-		if (!worldIn.isRemote)
+		if (!worldIn.isClientSide)
 		{
 			for (int i = 0; i < potionEffects.size(); ++i)
 			{
-				if (worldIn.rand.nextFloat() <= potionEffectChances.get(i))
-					player.addPotionEffect(new EffectInstance(potionEffects.get(i)));
+				if (worldIn.random.nextFloat() <= potionEffectChances.get(i))
+					player.addEffect(new EffectInstance(potionEffects.get(i)));
 			}
 		}
 	}
 
 	@Override
-	@Nullable
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving)
+	public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving)
 	{
 		stack.shrink(1);
 
 		if (entityLiving instanceof PlayerEntity)
 		{
 			PlayerEntity playerEntity = (PlayerEntity) entityLiving;
-			playerEntity.getFoodStats().addStats(amountOfFood, saturationAmount / (float) amountOfFood);
-			worldIn.playSound(null, playerEntity.getPosX(), playerEntity.getPosY(), playerEntity.getPosZ(),
-					SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
-					worldIn.rand.nextFloat() * 0.1F + 0.9F);
+			FoodStats foodData = playerEntity.getFoodData();
+			foodData.setFoodLevel(foodData.getFoodLevel() + amountOfFood);
+			foodData.setSaturation(foodData.getSaturationLevel() + saturationAmount / (float) amountOfFood);
+//			playerEntity.getFoodData().addStats(amountOfFood, saturationAmount / (float) amountOfFood);
+			worldIn.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
+					SoundEvents.PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
+					worldIn.random.nextFloat() * 0.1F + 0.9F);
 
 			// PlayerEntity.addStat(StatList.getObjectUseStats(this));
 		}
@@ -115,22 +123,22 @@ public class FAFood extends Item implements FAItem
 	//	}
 
 	@Override
-	public boolean isFood()
+	public boolean isEdible()
 	{
 		return true;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand)
+	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand hand)
 	{
-		ItemStack stack = playerIn.getHeldItem(hand);
+		ItemStack stack = playerIn.getItemInHand(hand);
 		if (playerIn.canEat(alwaysEdible))
 		{
-			playerIn.setActiveHand(hand);
-			return ActionResult.resultSuccess(stack);
+			playerIn.startUsingItem(hand);
+			return ActionResult.success(stack);
 		} else
 		{
-			return ActionResult.resultFail(stack);
+			return ActionResult.fail(stack);
 		}
 	}
 

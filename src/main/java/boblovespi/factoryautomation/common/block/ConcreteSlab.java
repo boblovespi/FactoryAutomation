@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.material.Material;
@@ -10,19 +11,26 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+/**
+ * Concrete slab block.
+ */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ConcreteSlab extends SlabBlock implements FABlock
 {
-	//TODO Finish
+	//Todo: Finish
 	public ConcreteSlab()
 	{
-		super(Properties.create(Material.ROCK).hardnessAndResistance(10, 1000));
-		//		super(Material.ROCK);
+		super(Properties.of(Material.STONE).strength(10, 1000));
+		//		super(Material.STONE);
 		//		isDouble = isDoubleSlab;
 		//		BlockState state = blockState.getBaseState();
 		//		if (!isDouble())
 		//			state = state.withProperty(HALF, EnumBlockHalf.BOTTOM);
 		//
-		//		setDefaultState(state.withProperty(VARIANT, Variant.DEFAULT));
+		//		registerDefaultState(state.withProperty(VARIANT, Variant.DEFAULT));
 		//
 		//		setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName());
@@ -46,11 +54,11 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 	}
 
 	@Override
-	public void onEntityWalk(World world, BlockPos pos, Entity entity)
+	public void stepOn(World world, BlockPos pos, Entity entity)
 	{
 		if (entity instanceof PlayerEntity)
 		{
-			((PlayerEntity) entity).addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
+			((PlayerEntity) entity).addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 10, 1));
 		}
 	}
 }

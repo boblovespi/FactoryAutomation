@@ -10,6 +10,7 @@ import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.tileentity.TEMachine;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,24 +25,29 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import java.util.BitSet;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 
 /**
  * Created by Willi on 2/17/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechanicalUser
 {
 	private static final int INPUT_SLOT = 0;
 	private static final int OUTPUT_SLOT = 1;
-	private static float processingScalar = 1; // how fast currentProcessingTime decreases
+	private static final float processingScalar = 1; // how fast currentProcessingTime decreases
 	private float speed = 0;
 	private float torque = 0;
-	private ItemStackHandler wearPlate;
-	private RestrictedSlotItemHandler inputWrapper;
-	private RestrictedSlotItemHandler outputWrapper;
+	private final ItemStackHandler wearPlate;
+	private final RestrictedSlotItemHandler inputWrapper;
+	private final RestrictedSlotItemHandler outputWrapper;
 
 	public TEJawCrusher()
 	{
@@ -101,8 +107,8 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	@Override
 	public void Update()
 	{
-		Direction facing = world.getBlockState(pos).get(JawCrusher.FACING).rotateYCCW();
-		TileEntity te = world.getTileEntity(pos.offset(facing));
+		Direction facing = Objects.requireNonNull(level).getBlockState(worldPosition).getValue(JawCrusher.FACING).getCounterClockWise();
+		TileEntity te = level.getBlockEntity(worldPosition.relative(facing));
 		if (TEHelper.IsMechanicalFace(te, facing))
 		{
 			speed = GetUser(te, facing).GetSpeedOnFace(facing);
@@ -136,7 +142,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	@Override
 	public boolean HasConnectionOnSide(Direction side)
 	{
-		return side == world.getBlockState(pos).get(JawCrusher.FACING).rotateYCCW();
+		return side == Objects.requireNonNull(level).getBlockState(worldPosition).getValue(JawCrusher.FACING).getCounterClockWise();
 	}
 
 	@Override
@@ -195,11 +201,11 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 
 	public void RemovePlate()
 	{
-		world.addEntity(new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 1.1, pos.getZ() + 0.5,
+		Objects.requireNonNull(level).addFreshEntity(new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.1, worldPosition.getZ() + 0.5,
 				this.wearPlate.extractItem(0, 1, false)));
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{

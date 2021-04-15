@@ -3,6 +3,8 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -12,8 +14,11 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.block.mechanical.HandCrank.INVERTED;
 import static boblovespi.factoryautomation.common.util.SetBlockStateFlags.FORCE_BLOCK_UPDATE;
@@ -22,12 +27,15 @@ import static boblovespi.factoryautomation.common.util.SetBlockStateFlags.SEND_T
 /**
  * Created by Willi on 9/3/2018.
  */
+@SuppressWarnings("unchecked")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TEHandCrank extends TileEntity implements ITickableTileEntity
 {
 
 	private static final float SPEED = 1;
 	public float rotation = 0;
-	private MechanicalUser mechanicalUser;
+	private final MechanicalUser mechanicalUser;
 	private boolean isRotating;
 	public boolean inverted = false;
 	private boolean firstTick = true;
@@ -35,52 +43,54 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	public TEHandCrank()
 	{
 		super(TileEntityHandler.teHandCrank);
-		mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
-		isRotating = false;
+		this.mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
+		this.isRotating = false;
 	}
 
 	public void FirstLoad()
 	{
-		inverted = getBlockState().get(INVERTED);
-		mechanicalUser.SetSides(EnumSet.of(inverted ? Direction.UP : Direction.DOWN));
-		firstTick = false;
+		this.inverted = getBlockState().getValue(
+				INVERTED);
+		this.mechanicalUser.SetSides(EnumSet.of(inverted ? Direction.UP : Direction.DOWN));
+		this.firstTick = false;
 	}
 
 	public void Rotate()
 	{
-		if (!isRotating)
+		if (!this.isRotating)
 		{
-			isRotating = true;
+			this.isRotating = true;
 
-			mechanicalUser.SetTorqueOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
-			mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
+			this.mechanicalUser.SetTorqueOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
+			this.mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
 
-			markDirty();
+			setChanged();
 
 			/* IMPORTANT */
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
+			Objects.requireNonNull(level).sendBlockUpdatedd(worldPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 		}
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.load(state, tag);
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 		rotation = tag.getFloat("rotation");
 		isRotating = tag.getBoolean("isRotating");
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
 		tag.putFloat("rotation", rotation);
 		tag.putBoolean("isRotating", isRotating);
-		return super.write(tag);
+		return super.save(tag);
 	}
 
-	@Nullable
+	// Todo: update to use non-null
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
@@ -109,10 +119,10 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 				mechanicalUser.SetTorqueOnFace(inverted ? Direction.UP : Direction.DOWN, 0);
 				mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, 0);
 
-				markDirty();
+				setChanged();
 
 				/* IMPORTANT */
-				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
+				Objects.requireNonNull(level).sendBlockUpdatedd(worldPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 			}
 		}
 	}
@@ -125,7 +135,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -133,7 +143,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		write(nbt);
-		return new SUpdateTileEntityPacket(pos, 0, nbt);
+		save(nbt);
+		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
 	}
 }

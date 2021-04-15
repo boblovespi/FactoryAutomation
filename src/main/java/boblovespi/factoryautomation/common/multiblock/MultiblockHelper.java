@@ -33,7 +33,7 @@ public class MultiblockHelper
 				for (int z = 0; z < pattern[x][y].length; z++)
 				{
 					BlockPos loc = AddWithRotation(lowerLeftFront, x, y, z, facing);
-					TileEntity te = world.getTileEntity(loc);
+					TileEntity te = world.getBlockEntity(loc);
 					TEMultiblockPart tePart;
 					MultiblockPart part = structure.GetPattern()[x][y][z];
 
@@ -54,7 +54,7 @@ public class MultiblockHelper
 							}
 						} else if (action == IterateAction.BREAK)
 						{
-							world.setBlockState(loc, tePart.GetBlockState());
+							world.setBlockAndUpdate(loc, tePart.GetBlockState());
 						}
 
 					} else
@@ -75,8 +75,8 @@ public class MultiblockHelper
 							if (part.AllowsAnyBlock() && state.getBlock().isAir(state, world, loc))
 								continue;
 
-							world.setBlockState(loc, FABlocks.multiblockPart.ToBlock().getDefaultState());
-							TEMultiblockPart newPart = (TEMultiblockPart) world.getTileEntity(loc);
+							world.setBlockAndUpdate(loc, FABlocks.multiblockPart.ToBlock().defaultBlockState());
+							TEMultiblockPart newPart = (TEMultiblockPart) world.getBlockEntity(loc);
 
 							newPart.SetMultiblockInformation(structureId, new BlockPos(x, y, z),
 									AddWithRotation(AddWithRotation(BlockPos.ZERO, x, y, z, facing), -offset[0],
@@ -110,15 +110,15 @@ public class MultiblockHelper
 		switch (dir)
 		{
 		case NORTH:
-			return pos.add(-z, y, x);
+			return pos.offset(-z, y, x);
 		case SOUTH:
-			return pos.add(z, y, -x);
+			return pos.offset(z, y, -x);
 		case WEST:
-			return pos.add(x, y, z);
+			return pos.offset(x, y, z);
 		case EAST:
-			return pos.add(-x, y, -z);
+			return pos.offset(-x, y, -z);
 		}
-		return pos.add(x, y, z);
+		return pos.offset(x, y, z);
 	}
 
 	private enum IterateAction

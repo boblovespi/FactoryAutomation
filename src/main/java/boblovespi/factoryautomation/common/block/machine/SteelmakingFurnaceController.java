@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -25,10 +26,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 12/23/2017.
  */
+@SuppressWarnings("deprecation")
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class SteelmakingFurnaceController extends FABaseBlock
 {
 	public static final EnumProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class, Axis.X, Axis.Z);
@@ -36,7 +41,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 
 	public SteelmakingFurnaceController()
 	{
-		super(Material.DRAGON_EGG, "steelmaking_furnace_controller", null);
+		super(Material.EGG, "steelmaking_furnace_controller", null);
 	}
 
 	public String GetPatternId()
@@ -54,20 +59,20 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	/**
 	 * Called when the block is right clicked by a player.
 	 *
-	 * @return
+	 * @return the block action use result.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit)
 	{
-		if (!worldIn.isRemote)
+		if (!worldIn.isClientSide)
 		{
 			if (MultiblockHelper.IsStructureComplete(worldIn, pos, GetPatternId(),
-					worldIn.getBlockState(pos).get(AXIS) == Axis.X ? Direction.WEST : Direction.NORTH) /*|| MultiblockHelper
+					worldIn.getBlockState(pos).getValue(AXIS) == Axis.X ? Direction.WEST : Direction.NORTH) /*|| MultiblockHelper
 					.IsStructureComplete(worldIn, pos, GetPatternId(),
 										 Direction.NORTH)*/)
 			{
-				TileEntity te = worldIn.getTileEntity(pos);
+				TileEntity te = worldIn.getBlockEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
 				{
 					((TESteelmakingFurnace) te).CreateStructure();
@@ -75,7 +80,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 				}
 			} else
 			{
-				TileEntity te = worldIn.getTileEntity(pos);
+				TileEntity te = worldIn.getBlockEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
 					((TESteelmakingFurnace) te).SetStructureInvalid();
 			}
@@ -86,11 +91,11 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState().with(AXIS, context.getPlacementHorizontalFacing().getAxis());
+		return this.defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getAxis());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(AXIS, MULTIBLOCK_COMPLETE);
 	}

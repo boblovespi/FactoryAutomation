@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEJawCrusher;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -24,19 +25,22 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 2/17/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class JawCrusher extends FABaseBlock
 {
 	public static DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
 	public JawCrusher()
 	{
-		super("jaw_crusher", false, Properties.create(Material.IRON).hardnessAndResistance(1.5f),
-				new Item.Properties().group(FAItemGroups.mechanical));
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
+		super("jaw_crusher", false, Properties.of(Material.METAL).strength(1.5f),
+				new Item.Properties().tab(FAItemGroups.mechanical));
+		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEJawCrusher.class);
 	}
 
@@ -52,17 +56,18 @@ public class JawCrusher extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
-	 * @return
+	 *
+	 * @return the result type of using this block.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand,
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand,
 			BlockRayTraceResult result)
 	{
-		if (worldIn.isRemote)
+		if (worldIn.isClientSide)
 			return ActionResultType.SUCCESS;
 
-		ItemStack held = playerIn.getHeldItem(hand);
-		TileEntity te = worldIn.getTileEntity(pos);
+		ItemStack held = playerIn.getItemInHand(hand);
+		TileEntity te = worldIn.getBlockEntity(pos);
 		if (held.isEmpty())
 		{
 			if (te instanceof TEJawCrusher)
@@ -79,11 +84,11 @@ public class JawCrusher extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}

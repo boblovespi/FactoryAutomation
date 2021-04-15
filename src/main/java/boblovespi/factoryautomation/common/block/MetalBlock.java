@@ -13,7 +13,7 @@ public class MetalBlock extends MultiTypeBlock<Metals>
 	public MetalBlock(String registeryName, Properties properties)
 	{
 		super(registeryName, Metals.class, "metals", properties.sound(SoundType.METAL),
-				new Item.Properties().group(ItemGroup.BUILDING_BLOCKS));
+				new Item.Properties().tab(ItemGroup.BUILDING_BLOCKS));
 	}
 
 	@Override

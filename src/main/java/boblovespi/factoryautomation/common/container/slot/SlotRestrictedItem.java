@@ -29,7 +29,7 @@ public class SlotRestrictedItem extends SlotItemHandler
 	 * Check if the stack is allowed to be placed in this slot, used for armor slots as well as furnace fuel.
 	 */
 	@Override
-	public boolean isItemValid(@Nullable ItemStack stack)
+	public boolean mayPlace(@Nullable ItemStack stack)
 	{
 		return stack == null || items.contains(stack.getItem());
 	}

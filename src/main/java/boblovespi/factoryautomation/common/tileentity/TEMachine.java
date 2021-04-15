@@ -80,7 +80,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 		{
 			UpdateClient();
 			return;
@@ -113,7 +113,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 
 		/* IMPORTANT */
 		markDirty();
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 	}
 
 	public void FirstLoad()

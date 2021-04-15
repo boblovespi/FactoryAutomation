@@ -24,10 +24,10 @@ public class TEPaperBellows extends TileEntity implements ITickableTileEntity, I
 
 	public void Blow()
 	{
-		if (!world.isRemote)
+		if (!world.isClientSide)
 		{
 			Direction facing = world.getBlockState(pos).get(PaperBellows.FACING);
-			TileEntity te = world.getTileEntity(pos.offset(facing));
+			TileEntity te = world.getBlockEntity(pos.offset(facing));
 			if (te == null)
 				return;
 			LazyOptional<IBellowsable> capability = te
@@ -58,7 +58,7 @@ public class TEPaperBellows extends TileEntity implements ITickableTileEntity, I
 	@Override
 	public void tick()
 	{
-		if (!world.isRemote)
+		if (!world.isClientSide)
 			return;
 		if (lerp > 0)
 		{

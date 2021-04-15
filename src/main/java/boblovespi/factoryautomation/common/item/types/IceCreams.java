@@ -12,12 +12,12 @@ import java.util.List;
 public enum IceCreams
 {
 	VANILLA(Collections.singletonList(new EffectInstance(Effects.REGENERATION, 100))),
-	COFFEE(Collections.singletonList(new EffectInstance(Effects.HASTE, 300))),
-	MINT(Collections.singletonList(new EffectInstance(Effects.SPEED, 300))),
+	COFFEE(Collections.singletonList(new EffectInstance(Effects.DIG_SPEED, 300))),
+	MINT(Collections.singletonList(new EffectInstance(Effects.MOVEMENT_SPEED, 300))),
 	CHOCOLATE(Collections.singletonList(new EffectInstance(Effects.SATURATION, 300))),
-	COOKIES_N_CREAM(Collections.singletonList(new EffectInstance(Effects.STRENGTH, 100, 2))),
-	SWEET_BERRY(Collections.singletonList(new EffectInstance(Effects.INSTANT_HEALTH, 1)));
-	private List<EffectInstance> potionEffects;
+	COOKIES_N_CREAM(Collections.singletonList(new EffectInstance(Effects.DAMAGE_RESISTANCE, 100, 2))),
+	SWEET_BERRY(Collections.singletonList(new EffectInstance(Effects.HEAL, 1)));
+	private final List<EffectInstance> potionEffects;
 
 	IceCreams(List<EffectInstance> potionEffects)
 	{

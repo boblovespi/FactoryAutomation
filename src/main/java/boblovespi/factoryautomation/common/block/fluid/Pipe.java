@@ -36,8 +36,8 @@ public class Pipe extends FABaseBlock
 
 	public Pipe(String name)
 	{
-		super(Material.IRON, name, ItemGroup.DECORATIONS);
-		setDefaultState(stateContainer.getBaseState().with(UP, Connection.NONE).with(DOWN, Connection.NONE)
+		super(Material.METAL, name, ItemGroup.DECORATIONS);
+		registerDefaultState(stateDefinition.any().with(UP, Connection.NONE).with(DOWN, Connection.NONE)
 									  .with(NORTH, Connection.NONE).with(SOUTH, Connection.NONE)
 									  .with(EAST, Connection.NONE).with(WEST, Connection.NONE));
 		TileEntityHandler.tiles.add(TEPipe.class);
@@ -55,7 +55,7 @@ public class Pipe extends FABaseBlock
 		if (world.getBlockState(pos).getBlock() instanceof Pipe || world.getBlockState(pos).getBlock() instanceof Pump)
 			return Connection.JOIN;
 
-		TileEntity te = world.getTileEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 		if (te != null && te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())
 							.isPresent())
 			return Connection.CONNECTOR;
@@ -72,7 +72,7 @@ public class Pipe extends FABaseBlock
 	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world,
 			BlockPos currentPos, BlockPos facingPos)
 	{
-		return state.with(CONNECTIONS[facing.getIndex()], GetConnectionFor(world, currentPos, facing));
+		return state.setValue(CONNECTIONS[facing.getIndex()], GetConnectionFor(world, currentPos, facing));
 	}
 
 	/**

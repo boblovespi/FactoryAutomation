@@ -12,7 +12,7 @@ public class MetalOre extends MultiTypeBlock<MetalOres>
 {
 	public MetalOre()
 	{
-		super("ore_metal", MetalOres.class, "ores", Properties.create(Material.ROCK).hardnessAndResistance(3, 2.7f),
-				new Item.Properties().group(ItemGroup.BUILDING_BLOCKS));
+		super("ore_metal", MetalOres.class, "ores", Properties.of(Material.STONE).strength(3, 2.7f),
+				new Item.Properties().tab(ItemGroup.BUILDING_BLOCKS));
 	}
 }

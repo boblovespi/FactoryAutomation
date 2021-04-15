@@ -25,12 +25,12 @@ import javax.annotation.Nullable;
  */
 public class ChoppingBlock extends FABaseBlock
 {
-	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 16, 8, 16);
+	private static final VoxelShape BOUNDING_BOX = Block.box(0, 0, 0, 16, 8, 16);
 	public final int maxUses;
 
 	public ChoppingBlock(String name, int maxUses, Properties properties)
 	{
-		super(name, false, properties, new Item.Properties().group(ItemGroup.DECORATIONS));
+		super(name, false, properties, new Item.Properties().tab(ItemGroup.DECORATIONS));
 		this.maxUses = maxUses;
 	}
 
@@ -62,21 +62,21 @@ public class ChoppingBlock extends FABaseBlock
 	@Override
 	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
-		TileEntity te = world.getTileEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 		if (te instanceof TEChoppingBlock)
-			((TEChoppingBlock) te).LeftClick(player.getHeldItemMainhand());
+			((TEChoppingBlock) te).LeftClick(player.getItemInHandMainhand());
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
-		ItemStack item = player.getHeldItem(hand);
-		TileEntity te = world.getTileEntity(pos);
+		ItemStack item = player.getItemInHand(hand);
+		TileEntity te = world.getBlockEntity(pos);
 		//		if (item.isEmpty())
 		//		{
 		//			if (te instanceof TEChoppingBlock)
@@ -104,7 +104,7 @@ public class ChoppingBlock extends FABaseBlock
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = worldIn.getTileEntity(pos);
+			TileEntity te = worldIn.getBlockEntity(pos);
 
 			if (te instanceof TEChoppingBlock)
 			{

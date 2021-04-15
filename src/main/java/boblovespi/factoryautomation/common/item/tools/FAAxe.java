@@ -14,7 +14,7 @@ public class FAAxe extends AxeItem implements FAItem
 
 	public FAAxe(ToolMaterial material, String name)
 	{
-		super(material, 6, -3.0F, new Item.Properties().group(ItemGroup.TOOLS));
+		super(material, 6, -3.0F, new Item.Properties().tab(ItemGroup.TAB_TOOLS));
 		unlocalizedName = name;
 		// this.setUnlocalizedName(name);
 		setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));

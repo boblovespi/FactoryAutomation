@@ -34,6 +34,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -224,7 +225,7 @@ public class TEStoneCrucible extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isRemote || !IsStructureValid())
+		if (world.isClientSide || !IsStructureValid())
 			return;
 		TEHelper.DissipateHeat(heatUser, 6);
 		ItemStack burnStack = inventory.getStackInSlot(0);
@@ -298,7 +299,7 @@ public class TEStoneCrucible extends TileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
@@ -329,7 +330,8 @@ public class TEStoneCrucible extends TileEntity
 		structureIsValid = false;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return LazyOptional.empty();
@@ -414,7 +416,7 @@ public class TEStoneCrucible extends TileEntity
 
 	public void PourInto(Direction facing)
 	{
-		TileEntity te1 = world.getTileEntity(pos.down().offset(facing));
+		TileEntity te1 = world.getBlockEntity(pos.down().offset(facing));
 		if (te1 instanceof ICastingVessel)
 		{
 			ICastingVessel te = (ICastingVessel) te1;

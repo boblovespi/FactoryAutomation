@@ -27,6 +27,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.BitSet;
 
@@ -143,7 +144,7 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 
 		if (!world.getBlockState(pos).get(BlastFurnaceController.MULTIBLOCK_COMPLETE))
@@ -221,7 +222,7 @@ public class TEBlastFurnaceController extends TileEntity
 		}
 		markDirty();
 		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.sendBlockUpdated(pos, state, state, 3);
 	}
 
 	@Nullable
@@ -322,7 +323,8 @@ public class TEBlastFurnaceController extends TileEntity
 	 * @param side       the side which is accessed
 	 * @return the capability implementation which to use
 	 */
-	@Override
+	@Nonnull
+    @Override
 	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == Direction.UP

@@ -38,7 +38,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 		if ("none".equals(recipe))
 			return;
@@ -53,14 +53,14 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 			recipe = "none";
 			timeLeft = -1;
 
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+			world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 		}
 		markDirty();
 	}
 
 	public void DropItems()
 	{
-		if (!world.isRemote && !slot.getStackInSlot(0).isEmpty())
+		if (!world.isClientSide && !slot.getStackInSlot(0).isEmpty())
 			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
 	}
 
@@ -83,7 +83,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 
@@ -95,7 +95,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 

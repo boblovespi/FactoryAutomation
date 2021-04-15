@@ -129,7 +129,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 		{
 			// do rendering calculations
 		} else
@@ -177,8 +177,8 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 			BlockPos pos2 = MultiblockHelper.AddWithRotation(pos, 5, 1, 0, facing);
 			Direction rotateY = facing.rotateY();
 			Direction rotateYCCW = facing.rotateYCCW();
-			TileEntity teCW = world.getTileEntity(pos2.offset(rotateY, 1));
-			TileEntity teCCW = world.getTileEntity(pos2.offset(rotateYCCW, 1));
+			TileEntity teCW = world.getBlockEntity(pos2.offset(rotateY, 1));
+			TileEntity teCCW = world.getBlockEntity(pos2.offset(rotateYCCW, 1));
 
 			if (TEHelper.IsMechanicalFace(teCW, rotateYCCW))
 			{

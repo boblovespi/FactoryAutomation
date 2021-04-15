@@ -19,7 +19,7 @@ public class ContainerStoneCastingVessel extends Container
 
 	public static final ContainerType<ContainerStoneCastingVessel> TYPE = IForgeContainerType
 			.create(ContainerStoneCastingVessel::new);
-	private BlockPos pos;
+	private final BlockPos pos;
 
 	// server-side constructor
 	public ContainerStoneCastingVessel(int id, PlayerInventory playerInv, BlockPos pos)
@@ -50,7 +50,7 @@ public class ContainerStoneCastingVessel extends Container
 	 * Determines whether supplied player can use this container
 	 */
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn)
+	public boolean stillValid(PlayerEntity playerIn)
 	{
 		return !playerIn.isSpectator();
 	}

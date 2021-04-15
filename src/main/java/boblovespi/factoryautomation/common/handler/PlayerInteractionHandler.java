@@ -33,15 +33,15 @@ public class PlayerInteractionHandler
 		Direction facing = event.getFace();
 		World world = event.getWorld();
 
-		if (item == Items.BUCKET && event.getEntityLiving().isSneaking())
+		if (item == Items.BUCKET && event.getEntityLiving().isCrouching())
 		{
 			event.setCanceled(true);
-			if (!world.isRemote)
+			if (!world.isClientSide)
 			{
 				if (facing != null)
 				{
 					stack.shrink(1);
-					world.setBlockState(pos.offset(facing), FABlocks.placedBucket.ToBlock().getDefaultState());
+					world.setBlockAndUpdate(pos.relative(facing), FABlocks.placedBucket.ToBlock().defaultBlockState());
 				}
 			}
 		}
@@ -50,7 +50,7 @@ public class PlayerInteractionHandler
 	@SubscribeEvent
 	public static void OnPlayerSpawnEvent(EntityJoinWorldEvent event)
 	{
-		if (!event.getWorld().isRemote)
+		if (!event.getWorld().isClientSide)
 		{
 			if (event.getEntity() instanceof PlayerEntity && !(event.getEntity() instanceof FakePlayer)) // is player
 			{
@@ -61,7 +61,7 @@ public class PlayerInteractionHandler
 				if (!player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG)
 						   .contains("faGuidebookReceived") && ModList.get().isLoaded("patchouli"))
 				{
-					player.addItemStackToInventory(ModCompatHandler.GetGuidebook());
+					player.addItem(ModCompatHandler.GetGuidebook());
 
 					player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG)
 						  .putBoolean("faGuidebookReceived", true);

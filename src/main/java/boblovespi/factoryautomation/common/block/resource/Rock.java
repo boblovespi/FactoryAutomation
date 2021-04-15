@@ -9,6 +9,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.SoundHandler;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
@@ -30,19 +31,24 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Created by Willi on 12/26/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("deprecation")
 public class Rock extends FABaseBlock
 {
 	public static final EnumProperty<Variants> VARIANTS = EnumProperty.create("variants", Variants.class);
-	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(3, 0, 3, 13, 5, 13);
+	private static final VoxelShape BOUNDING_BOX = Block.box(3, 0, 3, 13, 5, 13);
 
 	public Rock()
 	{
-		super("rock", true, Properties.create(Materials.ROCKS).sound(SoundHandler.rock), new Item.Properties());
+		super("rock", true, Properties.of(Materials.ROCKS).sound(SoundHandler.rock), new Item.Properties());
 		// super(Materials.ROCKS, "rock", FAItemGroups.resources, true);
-		setDefaultState(stateContainer.getBaseState().with(VARIANTS, Variants.COBBLESTONE));
+		registerDefaultState(stateDefinition.any().setValue(VARIANTS, Variants.COBBLESTONE));
 		item = new RockItem(this);
 		FAItems.items.add(item);
 		// setSoundType(SoundHandler.rock);
@@ -102,7 +108,7 @@ public class Rock extends FABaseBlock
 	 * Checks if this block can be placed exactly at the given position.
 	 */
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
+	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
 	{
 		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.down())
 																			  .isSolidSide(world, pos.down(),
@@ -128,7 +134,7 @@ public class Rock extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getSerializedName()
 		{
 			return name;
 		}
@@ -144,18 +150,18 @@ public class Rock extends FABaseBlock
 	{
 		public RockItem(FABlock base)
 		{
-			super(base, new Item.Properties().group(FAItemGroups.resources));
+			super(base, new Item.Properties().tab(FAItemGroups.resources));
 		}
 
 		@Override
-		public ActionResultType onItemUse(ItemUseContext context)
+		public ActionResultType useOn(ItemUseContext context)
 		{
 			World world = context.getWorld();
 			BlockPos pos = context.getPos();
 			Block block = world.getBlockState(pos).getBlock();
 			if (context.func_225518_g_() /*isPlayerSneaking*/ && BlockTags.LOGS.contains(block))
 			{
-				if (!world.isRemote)
+				if (!world.isClientSide)
 				{
 					world.destroyBlock(pos, false);
 					world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
@@ -164,7 +170,7 @@ public class Rock extends FABaseBlock
 				}
 				return ActionResultType.SUCCESS;
 			} else
-				return super.onItemUse(context);
+				return super.useOn(context);
 		}
 	}
 }

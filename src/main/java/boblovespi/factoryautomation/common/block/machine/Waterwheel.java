@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEWaterwheel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -29,12 +30,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static net.minecraft.util.Direction.AxisDirection.POSITIVE;
 
 /**
  * Created by Willi on 6/23/2019.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Waterwheel extends FABaseBlock
 {
 	public static final EnumProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class, Axis::isHorizontal);
@@ -43,13 +47,13 @@ public class Waterwheel extends FABaseBlock
 	public Waterwheel()
 	{
 		super("waterwheel", false,
-				Properties.create(Materials.WOOD_MACHINE).hardnessAndResistance(1, 10).harvestLevel(0)
-						  .harvestTool(ToolType.AXE), new Item.Properties().group(FAItemGroups.mechanical));
+				Properties.of(Materials.WOOD_MACHINE).strength(1, 10).harvestLevel(0)
+						  .harvestTool(ToolType.AXE), new Item.Properties().tab(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TEWaterwheel.class);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(AXIS, MULTIBLOCK_COMPLETE);
 	}
@@ -57,7 +61,7 @@ public class Waterwheel extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(AXIS, context.getPlacementHorizontalFacing().getAxis());
+		return defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getAxis());
 	}
 
 	@Override
@@ -75,19 +79,20 @@ public class Waterwheel extends FABaseBlock
 
 	/**
 	 * Called when the block is right clicked by a player.
-	 * @return
+	 *
+	 * @return the result type of using the block.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (!world.isRemote)
+		if (!world.isClientSide)
 		{
-			TileEntity te = world.getTileEntity(pos);
+			TileEntity te = world.getBlockEntity(pos);
 			if (te instanceof TEWaterwheel)
 			{
 				TEWaterwheel waterwheel = (TEWaterwheel) te;
-				Axis axis = state.get(AXIS);
+				Axis axis = state.getValue(AXIS);
 				if (IsComplete(world, pos, axis))
 					waterwheel.CreateStructure();
 				else
@@ -97,34 +102,35 @@ public class Waterwheel extends FABaseBlock
 		return ActionResultType.SUCCESS;
 	}
 
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	private boolean MatchesStair(BlockState state, Direction dir, Half half)
 	{
-		return state.getBlock() == Blocks.OAK_STAIRS && state.get(StairsBlock.FACING) == dir.getOpposite()
-				&& state.get(StairsBlock.HALF) == half;
+		return state.getBlock() == Blocks.OAK_STAIRS && state.getValue(StairsBlock.FACING) == dir.getOpposite()
+				&& state.getValue(StairsBlock.HALF) == half;
 	}
 
 	private boolean IsComplete(World world, BlockPos pos, Axis axis)
 	{
-		if (MultiblockHelper.IsStructureComplete(world, pos, "waterwheel", Direction.getFacingFromAxis(POSITIVE, axis)))
+		if (MultiblockHelper.IsStructureComplete(world, pos, "waterwheel", Direction.get(POSITIVE, axis)))
 		{
-			Direction back = Direction.getFacingFromAxis(POSITIVE, axis).rotateYCCW();
-			Direction front = Direction.getFacingFromAxis(POSITIVE, axis).rotateY();
+			Direction back = Direction.get(POSITIVE, axis).getCounterClockWise();
+			Direction front = Direction.get(POSITIVE, axis).getClockWise();
 
-			if (!MatchesStair(world.getBlockState(pos.offset(back).up(2)), back, Half.BOTTOM))
+			if (!MatchesStair(world.getBlockState(pos.relative(back).above(2)), back, Half.BOTTOM))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.offset(back, 2).up()), back, Half.BOTTOM))
+			if (!MatchesStair(world.getBlockState(pos.relative(back, 2).above()), back, Half.BOTTOM))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.offset(back).down(2)), back, Half.TOP))
+			if (!MatchesStair(world.getBlockState(pos.relative(back).below(2)), back, Half.TOP))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.offset(back, 2).down()), back, Half.TOP))
+			if (!MatchesStair(world.getBlockState(pos.relative(back, 2).below()), back, Half.TOP))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.offset(front).up(2)), front, Half.BOTTOM))
+			if (!MatchesStair(world.getBlockState(pos.relative(front).above(2)), front, Half.BOTTOM))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.offset(front, 2).up()), front, Half.BOTTOM))
+			if (!MatchesStair(world.getBlockState(pos.relative(front, 2).above()), front, Half.BOTTOM))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.offset(front).down(2)), front, Half.TOP))
+			if (!MatchesStair(world.getBlockState(pos.relative(front).below(2)), front, Half.TOP))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.offset(front, 2).down()), front, Half.TOP))
+			if (!MatchesStair(world.getBlockState(pos.relative(front, 2).below()), front, Half.TOP))
 				return false;
 			return true;
 		}

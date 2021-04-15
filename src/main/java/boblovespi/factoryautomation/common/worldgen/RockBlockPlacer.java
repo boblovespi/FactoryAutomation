@@ -36,13 +36,13 @@ public class RockBlockPlacer extends BlockPlacer
 		Biome biome = world.getBiome(pos);
 		if (biome.getCategory() == Biome.Category.DESERT)
 		{
-			world.setBlockState(pos, state.with(VARIANTS, Rock.Variants.SANDSTONE), 2);
+			world.setBlockState(pos, state.setValue(VARIANTS, Rock.Variants.SANDSTONE), 2);
 		} else if (biome.getCategory() == Biome.Category.SWAMP || biome.getCategory() == Biome.Category.TAIGA)
 		{
-			world.setBlockState(pos, state.with(VARIANTS, Rock.Variants.MOSSY_COBBLESTONE), 2);
+			world.setBlockState(pos, state.setValue(VARIANTS, Rock.Variants.MOSSY_COBBLESTONE), 2);
 		} else
 		{
-			world.setBlockState(pos, state.with(VARIANTS, Rock.Variants.values()[random.nextInt(5)]), 2);
+			world.setBlockState(pos, state.setValue(VARIANTS, Rock.Variants.values()[random.nextInt(5)]), 2);
 		}
 	}
 

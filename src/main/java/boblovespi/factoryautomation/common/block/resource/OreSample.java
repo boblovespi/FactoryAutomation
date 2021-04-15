@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 /**
  * Created by Willi on 12/25/2018.
  */
+@SuppressWarnings("deprecation")
 public class OreSample extends FABaseBlock
 {
 	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
@@ -28,7 +29,7 @@ public class OreSample extends FABaseBlock
 
 	public OreSample(String name, ItemStack[] possibleDrops)
 	{
-		super(name, false, Properties.create(Materials.ROCKS).hardnessAndResistance(0.1f), FAItems.Prop());
+		super(name, false, Properties.of(Materials.ROCKS).strength(0.1f), FAItems.Prop());
 		this.possibleDrops = possibleDrops;
 		// setLightOpacity(0);
 		// setHardness(0.1f);
@@ -85,7 +86,7 @@ public class OreSample extends FABaseBlock
 	 * Checks if this block can be placed exactly at the given position.
 	 */
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos)
+	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
 	{
 		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.down())
 																			  .isSolidSide(world, pos.down(),

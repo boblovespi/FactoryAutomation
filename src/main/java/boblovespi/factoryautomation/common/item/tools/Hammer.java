@@ -12,8 +12,7 @@ public class Hammer extends WorkbenchToolItem
 {
 	public Hammer(String name, float attackDamageIn, float attackSpeedIn, IItemTier materialIn)
 	{
-		super(
-				name, attackDamageIn, attackSpeedIn, materialIn, Collections.singleton(Blocks.STONE), new Properties(),
+		super(name, attackDamageIn, attackSpeedIn, materialIn, Collections.singleton(Blocks.STONE), new Properties(),
 				FAToolTypes.HAMMER);
 	}
 }

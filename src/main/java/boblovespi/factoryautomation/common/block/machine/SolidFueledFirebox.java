@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TESolidFueledFirebox;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,31 +22,35 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 10/28/2018.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class SolidFueledFirebox extends FABaseBlock
 {
 	public SolidFueledFirebox()
 	{
 		super("solid_fueled_firebox", false,
-				Properties.create(Material.ROCK).hardnessAndResistance(3).harvestTool(ToolType.PICKAXE).harvestLevel(0),
-				new Item.Properties().group(FAItemGroups.heat));
+				Properties.of(Material.STONE).strength(3).harvestTool(ToolType.PICKAXE).harvestLevel(0),
+				new Item.Properties().tab(FAItemGroups.heat));
 		TileEntityHandler.tiles.add(TESolidFueledFirebox.class);
 	}
 
 	/**
 	 * Called when the block is right clicked by a player.
 	 *
-	 * @return
+	 * @return the result type of using this block.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit)
 	{
-		if (!worldIn.isRemote)
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(worldIn.getTileEntity(pos)), pos);
+		if (!worldIn.isClientSide)
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(worldIn.getBlockEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 

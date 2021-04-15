@@ -24,23 +24,23 @@ import java.util.Random;
 public class RiceCrop extends BushBlock implements IGrowable, FABlock
 {
 	public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
-	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[] { Block.makeCuboidShape(0, 0, 0, 16, 1, 16),
-			Block.makeCuboidShape(0, 0, 0, 16, 3, 16), Block.makeCuboidShape(0, 0, 0, 16, 5, 16),
-			Block.makeCuboidShape(0, 0, 0, 16, 7, 16), Block.makeCuboidShape(0, 0, 0, 16, 9, 16),
-			Block.makeCuboidShape(0, 0, 0, 16, 11, 16), Block.makeCuboidShape(0, 0, 0, 16, 13, 16),
-			Block.makeCuboidShape(0, 0, 0, 16, 15, 16) };
+	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[] { Block.box(0, 0, 0, 16, 1, 16),
+			Block.box(0, 0, 0, 16, 3, 16), Block.box(0, 0, 0, 16, 5, 16),
+			Block.box(0, 0, 0, 16, 7, 16), Block.box(0, 0, 0, 16, 9, 16),
+			Block.box(0, 0, 0, 16, 11, 16), Block.box(0, 0, 0, 16, 13, 16),
+			Block.box(0, 0, 0, 16, 15, 16) };
 
 	public RiceCrop()
 	{
-		super(Properties.create(Material.PLANTS).hardnessAndResistance(0).tickRandomly().sound(SoundType.CROP).doesNotBlockMovement());
+		super(Properties.of(Material.PLANTS).strength(0).tickRandomly().sound(SoundType.CROP).doesNotBlockMovement());
 		setRegistryName(RegistryName());
-		setDefaultState(stateContainer.getBaseState().with(AGE, 0));
+		registerDefaultState(stateDefinition.any().with(AGE, 0));
 		FABlocks.blocks.add(this);
 	}
 
 	protected int getAge(BlockState state)
 	{
-		return state.get(AGE);
+		return state.getValue(AGE);
 	}
 
 	public BlockState WithAge(int age)
@@ -61,7 +61,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 
 	private boolean isMaxAge(BlockState state)
 	{
-		return state.get(AGE) == MaxAge();
+		return state.getValue(AGE) == MaxAge();
 	}
 
 	@Override
@@ -186,6 +186,6 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
-		return SHAPE_BY_AGE[state.get(AGE)];
+		return SHAPE_BY_AGE[state.getValue(AGE)];
 	}
 }

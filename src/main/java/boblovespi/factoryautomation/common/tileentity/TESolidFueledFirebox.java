@@ -131,7 +131,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 
 		// TODO: FIGURE OUT UPDATING TEs
 		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, DEFAULT | NO_RERENDER);
+		world.sendBlockUpdated(pos, state, state, DEFAULT | NO_RERENDER);
 	}
 
 	@Override

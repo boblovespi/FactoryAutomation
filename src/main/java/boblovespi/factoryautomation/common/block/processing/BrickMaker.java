@@ -34,13 +34,13 @@ import java.util.Random;
 public class BrickMaker extends FABaseBlock
 {
 	public static EnumProperty<Contents> CONTENTS = EnumProperty.create("contents", Contents.class);
-	public static VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 16, 6, 16);
+	public static VoxelShape BOUNDING_BOX = Block.box(0, 0, 0, 16, 6, 16);
 
 	public BrickMaker()
 	{
-		super("brick_maker_frame", false, Properties.create(Material.WOOD).hardnessAndResistance(2).harvestLevel(0).harvestTool(
-				ToolType.AXE), new Item.Properties().group(FAItemGroups.primitive));
-		setDefaultState(stateContainer.getBaseState().with(CONTENTS, Contents.EMPTY));
+		super("brick_maker_frame", false, Properties.of(Material.WOOD).strength(2).harvestLevel(0).harvestTool(
+				ToolType.AXE), new Item.Properties().tab(FAItemGroups.primitive));
+		registerDefaultState(stateDefinition.any().with(CONTENTS, Contents.EMPTY));
 	}
 
 	@Override
@@ -58,10 +58,10 @@ public class BrickMaker extends FABaseBlock
 	@Override
 	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
-		Contents value = state.get(CONTENTS);
+		Contents value = state.getValue(CONTENTS);
 		if (value.CanDry())
 		{
-			world.setBlockState(pos, state.with(CONTENTS, value.GetDried()));
+			world.setBlockState(pos, state.setValue(CONTENTS, value.GetDried()));
 			if (value.GetDried().CanDry())
 				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 		}
@@ -74,9 +74,9 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
-		if (state.get(CONTENTS).CanAddClay())
+		if (state.getValue(CONTENTS).CanAddClay())
 			return VoxelShapes.empty();
 		return BOUNDING_BOX;
 	}
@@ -86,28 +86,28 @@ public class BrickMaker extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 
-		Contents value = state.get(CONTENTS);
-		if (value.CanAddClay() && player.getHeldItem(hand).getItem() == FAItems.terraclay)
+		Contents value = state.getValue(CONTENTS);
+		if (value.CanAddClay() && player.getItemInHand(hand).getItem() == FAItems.terraclay)
 		{
-			world.setBlockState(pos, state.with(CONTENTS, value.AddClay()));
-			player.getHeldItem(hand).shrink(1);
+			world.setBlockState(pos, state.setValue(CONTENTS, value.AddClay()));
+			player.getItemInHand(hand).shrink(1);
 			world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 		} else if (value.CanRemove())
 		{
 			if (value.CanRemoveBrick())
 			{
-				world.setBlockState(pos, state.with(CONTENTS, value.RemoveClay()));
+				world.setBlockState(pos, state.setValue(CONTENTS, value.RemoveClay()));
 				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.ToItem()), world);
 
 			} else if (value.CanRemoveClay())
 			{
-				world.setBlockState(pos, state.with(CONTENTS, value.RemoveClay()));
+				world.setBlockState(pos, state.setValue(CONTENTS, value.RemoveClay()));
 				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), world);
 			}
 		}

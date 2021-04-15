@@ -45,7 +45,7 @@ public class EnergyConnection_
 
 		if (loc1 != null)
 		{
-			te1 = world.getTileEntity(loc1.getPos());
+			te1 = world.getBlockEntity(loc1.getPos());
 		}
 
 		if (te1 != null && te1 instanceof IProducesEnergy_)
@@ -62,7 +62,7 @@ public class EnergyConnection_
 
 		if (loc2 != null)
 		{
-			te2 = world.getTileEntity(loc2.getPos());
+			te2 = world.getBlockEntity(loc2.getPos());
 		}
 
 		if (te2 != null && te2 instanceof IRequiresEnergy_)

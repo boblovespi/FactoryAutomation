@@ -71,7 +71,7 @@ public class TEStoneCastingVessel extends TileEntity
 
 		/* IMPORTANT */
 		markDirty();
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class TEStoneCastingVessel extends TileEntity
 
 	public void DropItems()
 	{
-		if (!world.isRemote && !slot.getStackInSlot(0).isEmpty())
+		if (!world.isClientSide && !slot.getStackInSlot(0).isEmpty())
 			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
 	}
 
@@ -92,7 +92,7 @@ public class TEStoneCastingVessel extends TileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 
@@ -123,7 +123,7 @@ public class TEStoneCastingVessel extends TileEntity
 
 			markDirty();
 			/* IMPORTANT */
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
+			world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
 		}
 	}
 
@@ -179,7 +179,7 @@ public class TEStoneCastingVessel extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 		if (firstTick)
 			FirstLoad();
@@ -194,7 +194,7 @@ public class TEStoneCastingVessel extends TileEntity
 		if (counter < 0)
 		{
 			markDirty();
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 7);
+			world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
 			counter = 10;
 		}
 	}

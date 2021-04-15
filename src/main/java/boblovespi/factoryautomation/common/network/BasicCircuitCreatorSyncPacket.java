@@ -44,7 +44,7 @@ public class BasicCircuitCreatorSyncPacket
 	public static BasicCircuitCreatorSyncPacket FromBytes(ByteBuf buf)
 	{
 		BasicCircuitCreatorSyncPacket packet = new BasicCircuitCreatorSyncPacket();
-		packet.te = BlockPos.fromLong(buf.readLong());
+		packet.te = BlockPos.of(buf.readLong());
 		packet.mode = buf.readByte();
 		packet.gridX = buf.readByte();
 		packet.gridY = buf.readByte();
@@ -56,7 +56,7 @@ public class BasicCircuitCreatorSyncPacket
 	 */
 	public void ToBytes(ByteBuf buf)
 	{
-		buf.writeLong(te.toLong());
+		buf.writeLong(te.asLong());
 		buf.writeByte(mode);
 		buf.writeByte(gridX);
 		buf.writeByte(gridY);
@@ -73,14 +73,14 @@ public class BasicCircuitCreatorSyncPacket
 		ctx.get().enqueueWork(() ->
 		{
 			ServerPlayerEntity player = ctx.get().getSender();
-			ServerWorld world = player.getServerWorld();
+			ServerWorld world = player.getLevel();
 
-			if (world.isBlockLoaded(te))
+			if (world.hasChunkAt(te))
 			{
-				TileEntity te = world.getTileEntity(this.te);
+				TileEntity te = world.getBlockEntity(this.te);
 				if (te instanceof TEBasicCircuitCreator
-						&& player.openContainer instanceof ContainerBasicCircuitCreator
-						&& ((ContainerBasicCircuitCreator) player.openContainer).GetPos().equals(this.te))
+						&& player.containerMenu instanceof ContainerBasicCircuitCreator
+						&& ((ContainerBasicCircuitCreator) player.containerMenu).GetPos().equals(this.te))
 				{
 					TEBasicCircuitCreator teC = (TEBasicCircuitCreator) te;
 					int x = gridX;
@@ -98,12 +98,13 @@ public class BasicCircuitCreatorSyncPacket
 						break;
 					case 2:
 						IItemHandler inv = teC.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).orElse(null);
+						// Todo: remove null check, it shouldn't be null anyways.
 						if (inv != null)
 						{
 							ItemStack stack = inv.getStackInSlot(3).copy();
 							if (stack.getItem() == FAItems.basicChip)
 								teC.AddComponent(TEBasicCircuitCreator.Layout.Element.CHIP, x, y);
-							else if (false)
+							else if (false) // Todo: remove unnecessary if (false) statement.
 								;
 						}
 

@@ -26,11 +26,11 @@ import javax.annotation.Nullable;
 public class PlacedBucket extends FABaseBlock
 {
 	public static final VoxelShape AXIS_ALIGNED_BB = Block
-			.makeCuboidShape(4 / 16d, 0, 4 / 16d, 12 / 16d, 8 / 16d, 12 / 16d);
+			.box(4 / 16d, 0, 4 / 16d, 12 / 16d, 8 / 16d, 12 / 16d);
 
 	public PlacedBucket()
 	{
-		super("placed_bucket", true, Properties.create(Material.IRON).hardnessAndResistance(0.2f), null);
+		super("placed_bucket", true, Properties.of(Material.METAL).strength(0.2f), null);
 		TileEntityHandler.tiles.add(TEPlacedBucket.class);
 	}
 
@@ -58,7 +58,7 @@ public class PlacedBucket extends FABaseBlock
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = world.getTileEntity(pos);
+			TileEntity te = world.getBlockEntity(pos);
 			if (te != null)
 			{
 				if (te instanceof TEPlacedBucket)

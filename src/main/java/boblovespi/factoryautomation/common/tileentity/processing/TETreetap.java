@@ -36,14 +36,14 @@ public class TETreetap extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 		++counter;
 		counter %= AMOUNT_UNTIL_UPDATE;
 
 		if (counter == 0)
 		{
-			TileEntity te = world.getTileEntity(pos.down());
+			TileEntity te = world.getBlockEntity(pos.down());
 			if (te != null)
 			{
 				LazyOptional<IFluidHandler> handler = te
@@ -59,7 +59,7 @@ public class TETreetap extends TileEntity implements ITickableTileEntity
 							BlockState state = world.getBlockState(leafPos);
 							if (state.getBlock() != Blocks.JUNGLE_LOG && state.getBlock() != Blocks.JUNGLE_LEAVES)
 								return;
-							if (state.getBlock() == Blocks.JUNGLE_LEAVES && state.get(LeavesBlock.PERSISTENT))
+							if (state.getBlock() == Blocks.JUNGLE_LEAVES && state.getValue(LeavesBlock.PERSISTENT))
 								break;
 							leafPos = leafPos.up();
 						}

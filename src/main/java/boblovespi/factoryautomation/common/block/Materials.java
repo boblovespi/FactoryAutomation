@@ -8,9 +8,8 @@ import net.minecraft.block.material.MaterialColor;
  */
 public class Materials
 {
-	public static final Material SAP = new Material.Builder(MaterialColor.LIGHT_GRAY).doesNotBlockMovement().notSolid()
-																					 .replaceable().liquid().build();
+	public static final Material SAP = new Material.Builder(MaterialColor.COLOR_LIGHT_GRAY).noCollider().nonSolid().replaceable().liquid().build();
 	public static final Material ROCKS = new Material.Builder(MaterialColor.STONE).replaceable().build();
 	public static final Material WOOD_MACHINE = new Material.Builder(MaterialColor.WOOD).build();
-	public static final Material BLOOM = new Material.Builder(MaterialColor.IRON).requiresTool().build();
+	public static final Material BLOOM = new Material.Builder(MaterialColor.METAL).build();  // Note: requiresTool was moved to the uses with AbstractBlock.Properties.
 }

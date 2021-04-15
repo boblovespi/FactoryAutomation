@@ -14,6 +14,6 @@ public class MetalItem extends MultiTypeItem<Metals> implements FAItem
 
 	public MetalItem(String unlocalizedName)
 	{
-		super(unlocalizedName, Metals.class, "metals", new Properties().group(FAItemGroups.metallurgy));
+		super(unlocalizedName, Metals.class, "metals", new Properties().tab(FAItemGroups.metallurgy));
 	}
 }

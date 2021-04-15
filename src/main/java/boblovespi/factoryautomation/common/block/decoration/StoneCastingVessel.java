@@ -40,18 +40,18 @@ public class StoneCastingVessel extends FABaseBlock
 {
 	public static final EnumProperty<CastingVesselStates> MOLD = EnumProperty.create("mold", CastingVesselStates.class);
 	private static final VoxelShape BOUNDING_BOX_NO_SAND = VoxelShapes
-			.or(Block.makeCuboidShape(1, 0, 1, 15, 1, 15), Block.makeCuboidShape(0, 0, 1, 1, 8, 15),
-					Block.makeCuboidShape(15, 0, 1, 16, 8, 15), Block.makeCuboidShape(1, 0, 0, 15, 8, 1),
-					Block.makeCuboidShape(1, 0, 15, 15, 8, 16)).simplify();
+			.or(Block.box(1, 0, 1, 15, 1, 15), Block.box(0, 0, 1, 1, 8, 15),
+					Block.box(15, 0, 1, 16, 8, 15), Block.box(1, 0, 0, 15, 8, 1),
+					Block.box(1, 0, 15, 15, 8, 16)).optimize();
 	private static final VoxelShape BOUNDING_BOX_SAND = VoxelShapes
-			.or(BOUNDING_BOX_NO_SAND, Block.makeCuboidShape(1, 0, 1, 15, 7, 15));
+			.or(BOUNDING_BOX_NO_SAND, Block.box(1, 0, 1, 15, 7, 15));
 
 	public StoneCastingVessel()
 	{
 		super("stone_casting_vessel", false,
-				Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
-						  .harvestTool(ToolType.PICKAXE), new Item.Properties().group(FAItemGroups.primitive));
-		setDefaultState(stateContainer.getBaseState().with(MOLD, CastingVesselStates.EMPTY));
+				Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
+						  .harvestTool(ToolType.PICKAXE), new Item.Properties().tab(FAItemGroups.primitive));
+		registerDefaultState(stateDefinition.any().with(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
 	}
 
@@ -70,7 +70,7 @@ public class StoneCastingVessel extends FABaseBlock
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
-		if (state.get(MOLD) == CastingVesselStates.EMPTY)
+		if (state.getValue(MOLD) == CastingVesselStates.EMPTY)
 			return BOUNDING_BOX_NO_SAND;
 		return BOUNDING_BOX_SAND;
 	}
@@ -92,20 +92,20 @@ public class StoneCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isRemote)
+		if (!world.isClientSide)
 		{
-			TEStoneCastingVessel te = (TEStoneCastingVessel) world.getTileEntity(pos);
+			TEStoneCastingVessel te = (TEStoneCastingVessel) world.getBlockEntity(pos);
 
-			if (player.getHeldItem(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.HasSpace())
+			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.HasSpace())
 			{
-				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
+				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 			} else
 			{
 				if (te != null)
-					te.TakeOrPlace(player.getHeldItem(hand), player);
+					te.TakeOrPlace(player.getItemInHand(hand), player);
 			}
 		}
 		return ActionResultType.SUCCESS;

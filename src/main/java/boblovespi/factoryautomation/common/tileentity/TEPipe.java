@@ -38,7 +38,7 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 			{
 				markDirty();
 				BlockState state = world.getBlockState(pos);
-				world.notifyBlockUpdate(pos, state, state, 7);
+				world.sendBlockUpdated(pos, state, state, 7);
 			}
 
 			@Override
@@ -57,7 +57,7 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 
 		// only decrease if we have fluids to process
@@ -73,9 +73,9 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 
 				for (Direction side : Direction.values())
 				{
-					if (!state.get(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE))
+					if (!state.getValue(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE))
 					{
-						TileEntity te = world.getTileEntity(pos.offset(side));
+						TileEntity te = world.getBlockEntity(pos.offset(side));
 						if (te != null)
 						{
 							LazyOptional<IFluidHandler> fluidHandler = te

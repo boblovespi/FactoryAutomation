@@ -50,8 +50,8 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
-			Direction facing = state.get(BevelGear.FACING);
-			int layer = state.get(BevelGear.LAYER);
+			Direction facing = state.getValue(BevelGear.FACING);
+			int layer = state.getValue(BevelGear.LAYER);
 			int out = 1, in = 1;
 			switch (facing)
 			{

@@ -33,18 +33,18 @@ public class LogPile extends FABaseBlock
 {
 	public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 	private static final VoxelShape BOUNDING_BOX = VoxelShapes
-			.or(Block.makeCuboidShape(0, 0, 0, 4, 16, 4), Block.makeCuboidShape(6, 0, 0, 10, 16, 4),
-					Block.makeCuboidShape(12, 0, 0, 16, 16, 4), Block.makeCuboidShape(0, 0, 6, 4, 16, 10),
-					Block.makeCuboidShape(6, 0, 6, 10, 16, 10), Block.makeCuboidShape(12, 0, 6, 16, 16, 10),
-					Block.makeCuboidShape(0, 0, 12, 4, 16, 16), Block.makeCuboidShape(6, 0, 12, 10, 16, 16),
-					Block.makeCuboidShape(12, 0, 12, 16, 16, 16)).simplify();
+			.or(Block.box(0, 0, 0, 4, 16, 4), Block.box(6, 0, 0, 10, 16, 4),
+					Block.box(12, 0, 0, 16, 16, 4), Block.box(0, 0, 6, 4, 16, 10),
+					Block.box(6, 0, 6, 10, 16, 10), Block.box(12, 0, 6, 16, 16, 10),
+					Block.box(0, 0, 12, 4, 16, 16), Block.box(6, 0, 12, 10, 16, 16),
+					Block.box(12, 0, 12, 16, 16, 16)).optimize();
 
 	public LogPile()
 	{
 		super("log_pile", false,
-				Properties.create(Material.WOOD).hardnessAndResistance(1.2f).harvestLevel(0).harvestTool(ToolType.AXE),
-				new Item.Properties().group(FAItemGroups.primitive));
-		setDefaultState(stateContainer.getBaseState().with(ACTIVATED, false));
+				Properties.of(Material.WOOD).strength(1.2f).harvestLevel(0).harvestTool(ToolType.AXE),
+				new Item.Properties().tab(FAItemGroups.primitive));
+		registerDefaultState(stateDefinition.any().with(ACTIVATED, false));
 	}
 
 	@Override
@@ -62,13 +62,13 @@ public class LogPile extends FABaseBlock
 	@Override
 	public int getFireSpreadSpeed(BlockState state, IBlockReader world, BlockPos pos, Direction face)
 	{
-		return state.get(ACTIVATED) ? 20 : 8;
+		return state.getValue(ACTIVATED) ? 20 : 8;
 	}
 
 	@Override
 	public int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face)
 	{
-		return state.get(ACTIVATED) ? 120 : 20;
+		return state.getValue(ACTIVATED) ? 120 : 20;
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class LogPile extends FABaseBlock
 	@Override
 	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
-		boolean activated = state.get(ACTIVATED);
+		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
 		{
 			world.setBlockState(pos, FABlocks.charcoalPile.ToBlock().getDefaultState());
@@ -117,11 +117,11 @@ public class LogPile extends FABaseBlock
 			boolean isMoving)
 	{
 		BlockState block = world.getBlockState(fromPos);
-		if (!state.get(ACTIVATED))
+		if (!state.getValue(ACTIVATED))
 		{
 			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.get(ACTIVATED)))
 			{
-				world.setBlockState(pos, state.with(ACTIVATED, true), 7);
+				world.setBlockState(pos, state.setValue(ACTIVATED, true), 7);
 				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 			}
 
@@ -156,7 +156,7 @@ public class LogPile extends FABaseBlock
 	@Override
 	public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos)
 	{
-		return state.get(ACTIVATED);
+		return state.getValue(ACTIVATED);
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class LogPile extends FABaseBlock
 	@Override
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
-		if (!state.get(ACTIVATED))
+		if (!state.getValue(ACTIVATED))
 			return;
 		double x = pos.getX() + rand.nextDouble();
 		double y = pos.getY() + rand.nextDouble();

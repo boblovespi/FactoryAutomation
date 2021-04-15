@@ -44,7 +44,7 @@ public class VanillaTweakHandler
 	@SubscribeEvent
 	public static void CheckMiningLevel(PlayerEvent.HarvestCheck event)
 	{
-		ItemStack stack = event.getPlayer().getHeldItemMainhand();
+		ItemStack stack = event.getPlayer().getMainHandItem();
 		BlockState state = event.getTargetBlock();
 		ToolType tool = state.getHarvestTool();
 		int toolLevel = stack.getItem().getHarvestLevel(stack, tool, event.getPlayer(), state);

@@ -1,8 +1,10 @@
 package boblovespi.factoryautomation.common.item.ores;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.util.IStringSerializable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -12,6 +14,8 @@ import static boblovespi.factoryautomation.common.item.ores.OreForms.Stage.*;
 /**
  * Created by Willi on 8/12/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public enum OreForms implements IMultiTypeEnum, IStringSerializable
 {
 	POOR_COARSE_GRAVEL(POOR, COARSE_GRAVEL),
@@ -50,7 +54,7 @@ public enum OreForms implements IMultiTypeEnum, IStringSerializable
 	}
 
 	@Override
-	public String getName()
+	public String getSerializedName()
 	{
 		return name().toLowerCase();
 	}
@@ -58,7 +62,7 @@ public enum OreForms implements IMultiTypeEnum, IStringSerializable
 	@Override
 	public String toString()
 	{
-		return getName();
+		return getSerializedName();
 	}
 
 	public enum Grade

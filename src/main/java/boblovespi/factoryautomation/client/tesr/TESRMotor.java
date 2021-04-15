@@ -49,7 +49,7 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
-			Direction facing = state.get(Motor.FACING);
+			Direction facing = state.getValue(Motor.FACING);
 			int m = 0;
 			int n = 0;
 			switch (facing)

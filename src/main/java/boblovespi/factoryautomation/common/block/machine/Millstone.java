@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMillstone;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -25,25 +26,29 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 2/12/2019.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Millstone extends FABaseBlock
 {
 	public static final BooleanProperty IS_TOP = BooleanProperty.create("is_top");
 	public static final VoxelShape BOUNDING_BOX = VoxelShapes
-			.or(Block.makeCuboidShape(0, 0, 0, 16, 8, 16), Block.makeCuboidShape(2, 8, 2, 14, 12, 14),
-					Block.makeCuboidShape(7.5, 12, 7.5, 8.5, 16, 8.5)).simplify();
+			.or(Block.box(0, 0, 0, 16, 8, 16), Block.box(2, 8, 2, 14, 12, 14),
+					Block.box(7.5, 12, 7.5, 8.5, 16, 8.5)).optimize();
 
 	public Millstone()
 	{
 		super("millstone", false,
-				Properties.create(Material.ROCK).hardnessAndResistance(2.5f).harvestTool(ToolType.PICKAXE)
-						  .harvestLevel(0), new Item.Properties().group(FAItemGroups.mechanical));
+				Properties.of(Material.STONE).strength(2.5f).harvestTool(ToolType.PICKAXE)
+						  .harvestLevel(0), new Item.Properties().tab(FAItemGroups.mechanical));
 
 		TileEntityHandler.tiles.add(TEMillstone.class);
-		setDefaultState(stateContainer.getBaseState().with(IS_TOP, false));
+		registerDefaultState(stateDefinition.any().setValue(IS_TOP, false));
 	}
 
 	@Override
@@ -66,19 +71,19 @@ public class Millstone extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(IS_TOP);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult result)
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
-		ItemStack item = player.getHeldItem(hand);
-		TileEntity te = world.getTileEntity(pos);
+		ItemStack item = player.getItemInHand(hand);
+		TileEntity te = world.getBlockEntity(pos);
 
 		if (te instanceof TEMillstone)
 		{
@@ -109,7 +114,7 @@ public class Millstone extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

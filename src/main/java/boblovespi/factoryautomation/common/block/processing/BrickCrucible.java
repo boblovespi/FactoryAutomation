@@ -41,9 +41,9 @@ public class BrickCrucible extends FABaseBlock
 
 	public BrickCrucible()
 	{
-		super("brick_crucible", false, Properties.create(Material.ROCK).hardnessAndResistance(1.5f).harvestLevel(0)
+		super("brick_crucible", false, Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
 												 .harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(FAItemGroups.metallurgy));
+				new Item.Properties().tab(FAItemGroups.metallurgy));
 		TileEntityHandler.tiles.add(TEBrickCrucible.class);
 	}
 
@@ -78,28 +78,28 @@ public class BrickCrucible extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isRemote)
+		if (!world.isClientSide)
 		{
-			if (MultiblockHelper.IsStructureComplete(world, pos, TEBrickCrucible.MULTIBLOCK_ID, state.get(FACING)))
+			if (MultiblockHelper.IsStructureComplete(world, pos, TEBrickCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
 			{
-				TileEntity te = world.getTileEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEBrickCrucible)
 				{
 					TEBrickCrucible foundry = (TEBrickCrucible) te;
 					if (!foundry.IsStructureValid())
 						foundry.CreateStructure();
 
-					if (hit.getFace() == state.get(FACING).rotateYCCW())
+					if (hit.getFace() == state.getValue(FACING).rotateYCCW())
 						foundry.PourInto(hit.getFace());
 					else
 						NetworkHooks.openGui((ServerPlayerEntity) player, foundry, pos);
 				}
 			} else
 			{
-				TileEntity te = world.getTileEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEBrickCrucible)
 					((TEBrickCrucible) te).SetStructureInvalid();
 			}
@@ -113,6 +113,6 @@ public class BrickCrucible extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getPlacementHorizontalFacing().rotateYCCW());
+		return getDefaultState().with(FACING, context.getHorizontalDirection().rotateYCCW());
 	}
 }

@@ -2,15 +2,14 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
-import net.minecraft.resources.IPackFinder;
-import net.minecraft.resources.ResourcePack;
-import net.minecraft.resources.ResourcePackInfo;
-import net.minecraft.resources.ResourcePackType;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.resources.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,39 +18,39 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @Mod.EventBusSubscriber(modid = MODID)
 public class ResourcePackHandler
 {
 	@SubscribeEvent
 	public static void OnServerStart(FMLServerAboutToStartEvent event)
 	{
-		event.getServer().getResourcePacks().addPackFinder(new FAOverridePackFinder());
+		event.getServer().getPackRepository().addPackFinder(new FAOverridePackFinder());
 	}
 
 	public static class FAOverridePackFinder implements IPackFinder
 	{
 		@Override
-		public <T extends ResourcePackInfo> void addPackInfosToMap(Map<String, T> nameToPackMap,
-				ResourcePackInfo.IFactory<T> packInfoFactory)
-		{
+		public void loadPacks(Consumer<ResourcePackInfo> consumer, ResourcePackInfo.IFactory packInfoFactory) {
 			// Thanks Dark Roleplay for showing off how to add more datapacks for each mod
-			T pack = ResourcePackInfo
-					.createResourcePack("zfa_override_pack", false, () -> new FAOverridePack(Collections.singleton("minecraft")),
-							packInfoFactory, ResourcePackInfo.Priority.TOP);
+			ResourcePackInfo pack = ResourcePackInfo.create("zfa_override_pack", false, () -> new FAOverridePack(Collections.singleton("minecraft")),
+					packInfoFactory, ResourcePackInfo.Priority.TOP, IPackNameDecorator.DEFAULT);
 			if (pack != null)
-				nameToPackMap.put("zfa_override_pack", pack);
+				consumer.accept(pack);
 		}
 	}
 
 	public static class FAOverridePack extends ResourcePack
 	{
 		private final String root = "/data/factoryautomation/other_packs/zfa_override_pack/";
-		private Set<String> resourceNamespaces;
+		private final Set<String> resourceNamespaces;
 
 		public FAOverridePack(Set<String> resourceNamespaces)
 		{
@@ -60,19 +59,18 @@ public class ResourcePackHandler
 		}
 
 		@Override
-		protected InputStream getInputStream(String resourcePath) throws IOException
-		{
-			return FactoryAutomation.class.getResourceAsStream(root + resourcePath);
+		protected InputStream getResource(String resourcePath) {
+			return Objects.requireNonNull(FactoryAutomation.class.getResourceAsStream(root + resourcePath));
 		}
 
 		@Override
-		protected boolean resourceExists(String resourcePath)
+		protected boolean hasResource(String resourcePath)
 		{
 			return FactoryAutomation.class.getResource(root + resourcePath) != null;
 		}
 
 		@Override
-		public Collection<ResourceLocation> getAllResourceLocations(ResourcePackType type, String namespaceIn,
+		public Collection<ResourceLocation> getResources(ResourcePackType type, String namespaceIn,
 				String pathIn, int maxDepthIn, Predicate<String> filterIn)
 		{
 			if (type == ResourcePackType.CLIENT_RESOURCES)
@@ -83,7 +81,7 @@ public class ResourcePackHandler
 			URL url = FactoryAutomation.class.getResource(root + "pack.mcmeta");
 			try
 			{
-				URI uri = url.toURI();
+				URI uri = Objects.requireNonNull(url).toURI();
 				if ("jar".equals(uri.getScheme()))
 				{
 					FileSystem filesystem;
@@ -94,7 +92,7 @@ public class ResourcePackHandler
 					{
 						filesystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
 					}
-					Path path = filesystem.getPath("/" + type.getDirectoryName());
+					Path path = filesystem.getPath("/" + type.getDirectory());
 					collectResources(all, maxDepthIn, namespaceIn, path, pathIn, filterIn);
 				} else if ("file".equals(uri.getScheme()))
 				{
@@ -104,6 +102,7 @@ public class ResourcePackHandler
 				}
 			} catch (IOException | URISyntaxException exception)
 			{
+				//noinspection SpellCheckingInspection
 				Log.LogError("AAAAAAAAAAAAAAAAAAAAAAA EVERYTHING IS BROKEN");
 				Log.LogError(exception.getMessage());
 				exception.printStackTrace();
@@ -113,14 +112,13 @@ public class ResourcePackHandler
 		}
 
 		@Override
-		public Set<String> getResourceNamespaces(ResourcePackType type)
+		public Set<String> getNamespaces(ResourcePackType type)
 		{
 			return resourceNamespaces;
 		}
 
 		@Override
-		public void close() throws IOException
-		{
+		public void close() {
 
 		}
 

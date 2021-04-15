@@ -46,7 +46,7 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 			};
 		}
 
-		//		setDefaultState(blockState.getBaseState().withProperty(TYPE, blockTypes.getEnumConstants()[0]));
+		//		registerDefaultState(blockState.getBaseState().withProperty(TYPE, blockTypes.getEnumConstants()[0]));
 		//		setUnlocalizedName(UnlocalizedName());
 		//		setRegistryName(RegistryName());
 		//		FABlocks.blocks.add(this);

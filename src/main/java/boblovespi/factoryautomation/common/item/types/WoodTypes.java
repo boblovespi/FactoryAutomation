@@ -6,7 +6,6 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.IItemProvider;
 
 /**
  * Created by Willi on 11/29/2019.
@@ -14,14 +13,14 @@ import net.minecraft.util.IItemProvider;
 public enum WoodTypes
 {
 	OAK(0, "oak", MaterialColor.WOOD),
-	SPRUCE(1, "spruce", MaterialColor.OBSIDIAN),
+	SPRUCE(1, "spruce", MaterialColor.PODZOL),
 	BIRCH(2, "birch", MaterialColor.SAND),
 	JUNGLE(3, "jungle", MaterialColor.DIRT),
-	ACACIA(4, "acacia", MaterialColor.ADOBE),
-	DARK_OAK(5, "dark_oak", MaterialColor.BROWN);
+	ACACIA(4, "acacia", MaterialColor.COLOR_ORANGE),
+	DARK_OAK(5, "dark_oak", MaterialColor.COLOR_BROWN);
 
 	private final int i;
-	private String name;
+	private final String name;
 	private final MaterialColor color;
 
 	WoodTypes(int i, String name, MaterialColor color)

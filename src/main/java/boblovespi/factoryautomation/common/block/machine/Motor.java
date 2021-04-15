@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -22,20 +23,24 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 3/19/2018.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Motor extends FABaseBlock implements IEnergyBlock
 {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
 	public Motor()
 	{
-		super("motor", false, Properties.create(Material.IRON).hardnessAndResistance(3, 5).harvestLevel(0)
+		super("motor", false, Properties.of(Material.METAL).strength(3, 5).harvestLevel(0)
 										.harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(FAItemGroups.electrical));
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
+				new Item.Properties().tab(FAItemGroups.electrical));
+		registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEMotor.class);
 	}
 
@@ -64,23 +69,23 @@ public class Motor extends FABaseBlock implements IEnergyBlock
 	@Override
 	public boolean CanConnectCable(BlockState state, Direction side, IBlockReader world, BlockPos pos)
 	{
-		return side == state.get(FACING);
+		return side == state.getValue(FACING);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+		return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

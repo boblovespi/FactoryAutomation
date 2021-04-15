@@ -51,7 +51,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 		if (counter == 0)
 		{
-			TileEntity te = world.getTileEntity(pos.down());
+			TileEntity te = world.getBlockEntity(pos.down());
 			Direction facing = Direction.UP;
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
@@ -65,7 +65,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 			// markDirty();
 			// BlockState state = world.getBlockState(pos);
-			// world.notifyBlockUpdate(pos, state, state, 3);
+			// world.sendBlockUpdated(pos, state, state, 3);
 		}
 	}
 
@@ -170,7 +170,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 		markDirty();
 		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.sendBlockUpdated(pos, state, state, 3);
 	}
 
 	@Override

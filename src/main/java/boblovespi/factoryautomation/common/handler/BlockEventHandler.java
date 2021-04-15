@@ -140,7 +140,7 @@ public class BlockEventHandler
 					controllerTe.SetStructureInvalid();
 				}
 			}
-		} else if (world.getTileEntity(pos) instanceof IMultiblockControllerTE)
+		} else if (world.getBlockEntity(pos) instanceof IMultiblockControllerTE)
 		{
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
@@ -203,7 +203,7 @@ public class BlockEventHandler
 
 		if (BlockTags.LOGS.contains(state.getBlock()))
 		{
-			if (!FATags.FAItemTag("tools/axes").contains(player.getHeldItem(Hand.MAIN_HAND).getItem()))
+			if (!FATags.FAItemTag("tools/axes").contains(player.getItemInHand(Hand.MAIN_HAND).getItem()))
 			{
 				player.hurt(DamageSource.GENERIC, 1);
 				event.setUseBlock(Event.Result.DENY);

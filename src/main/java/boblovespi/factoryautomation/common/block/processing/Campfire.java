@@ -37,20 +37,20 @@ public class Campfire extends FABaseBlock
 {
 	public static final BooleanProperty LIT = BooleanProperty.create("lit");
 	private static final VoxelShape BOUNDING_BOX = Block
-			.makeCuboidShape(3, 0, 3, 13, 6, 13);
+			.box(3, 0, 3, 13, 6, 13);
 
 	public Campfire()
 	{
-		super("campfire", false, Properties.create(Materials.WOOD_MACHINE).hardnessAndResistance(4),
-				new Item.Properties().group(FAItemGroups.primitive));
-		setDefaultState(getDefaultState().with(LIT, false));
+		super("campfire", false, Properties.of(Materials.WOOD_MACHINE).strength(4),
+				new Item.Properties().tab(FAItemGroups.primitive));
+		registerDefaultState(getDefaultState().with(LIT, false));
 		TileEntityHandler.tiles.add(TECampfire.class);
 	}
 
 	@Override
 	public int getLightValue(BlockState state)
 	{
-		return state.get(LIT) ? 11 : 0;
+		return state.getValue(LIT) ? 11 : 0;
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class Campfire extends FABaseBlock
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = worldIn.getTileEntity(pos);
+			TileEntity te = worldIn.getBlockEntity(pos);
 			if (te instanceof TECampfire)
 			{
 				((TECampfire) te).DropItems();
@@ -103,24 +103,24 @@ public class Campfire extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (!world.isRemote)
+		if (!world.isClientSide)
 		{
-			boolean canLight = !state.get(LIT);
-			ItemStack stack = player.getHeldItem(hand);
+			boolean canLight = !state.getValue(LIT);
+			ItemStack stack = player.getItemInHand(hand);
 			Item item = stack.getItem();
 			if (canLight && (item == Items.TORCH || item == Items.FLINT_AND_STEEL
 					|| item == FAItems.advancedFlintAndSteel.ToItem()))
 			{
-				world.setBlockState(pos, state.with(LIT, true));
-				TileEntity te = world.getTileEntity(pos);
+				world.setBlockState(pos, state.setValue(LIT, true));
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TECampfire)
 					((TECampfire) te).SetLit(true);
 			} else
 			{
-				TileEntity te = world.getTileEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TECampfire)
 					((TECampfire) te).TakeOrPlace(stack, player);
 			}
@@ -131,7 +131,7 @@ public class Campfire extends FABaseBlock
 	@Override
 	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
-		if (!state.get(LIT))
+		if (!state.getValue(LIT))
 			return;
 		if (rand.nextDouble() < 0.1D)
 		{

@@ -1,10 +1,15 @@
 package boblovespi.factoryautomation.common.item.types;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.util.IStringSerializable;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 11/9/2017.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public enum Metals implements IStringSerializable, IMultiTypeEnum
 {
 	IRON(0, "iron", 1538, 0xFFEAEEF2),
@@ -36,7 +41,7 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 	}
 
 	@Override
-	public String getName()
+	public String getSerializedName()
 	{
 		return name;
 	}

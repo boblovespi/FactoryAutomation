@@ -10,13 +10,19 @@ import net.minecraftforge.items.SlotItemHandler;
 public class SlotOutputItem extends SlotItemHandler
 {
 	public SlotOutputItem(IItemHandler itemHandler, int index, int xPosition,
-			int yPosition)
+		    int yPosition)
 	{
 		super(itemHandler, index, xPosition, yPosition);
 	}
 
-	@Override public boolean isItemValid(
-			ItemStack stack) // since this is an output, you cannot put stuff in it
+	/**
+	 * since this is an output, you cannot put stuff in it
+	 *
+	 * @param stack item stack to check.
+	 * @return if it may place.
+	 */
+	@Override
+	public boolean mayPlace(ItemStack stack)
 	{
 		return false;
 	}

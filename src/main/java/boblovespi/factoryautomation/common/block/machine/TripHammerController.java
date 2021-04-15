@@ -1,11 +1,12 @@
 package boblovespi.factoryautomation.common.block.machine;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerController;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.ItemHelper;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -28,10 +29,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 8/13/2018.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TripHammerController extends FABaseBlock
 {
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -40,14 +45,14 @@ public class TripHammerController extends FABaseBlock
 
 	public TripHammerController()
 	{
-		super("trip_hammer", false, Properties.create(Material.IRON).hardnessAndResistance(3, 20).harvestLevel(0)
+		super("trip_hammer", false, Properties.of(Material.METAL).strength(3, 20).harvestLevel(0)
 											  .harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(FAItemGroups.metallurgy));
+				new Item.Properties().tab(FAItemGroups.metallurgy));
 		TileEntityHandler.tiles.add(TETripHammerController.class);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING, MULTIBLOCK_COMPLETE);
 	}
@@ -55,30 +60,31 @@ public class TripHammerController extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing())
-				   .with(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection())
+				   .setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE);
 	}
 
 	/**
 	 * Called when the block is right clicked by a player.
-	 * @return
+	 *
+	 * @return the result type of using the block.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
-		TileEntity te1 = world.getTileEntity(pos);
+		TileEntity te1 = world.getBlockEntity(pos);
 		if (te1 instanceof TETripHammerController)
 		{
 			TETripHammerController te = (TETripHammerController) te1;
 			if (MultiblockHelper.IsStructureComplete(world, pos, TETripHammerController.MULTIBLOCK_ID,
-					world.getBlockState(pos).get(FACING)))
+					world.getBlockState(pos).getValue(FACING)))
 			{
 				System.out.println("complete!");
 				te.CreateStructure();
-				ItemStack item = player.getHeldItem(hand);
+				ItemStack item = player.getItemInHand(hand);
 				if (item.isEmpty())
 				{
 					ItemStack item1 = te.TakeItem();
@@ -109,13 +115,12 @@ public class TripHammerController extends FABaseBlock
 		return new TETripHammerController();
 	}
 
-	public enum BlockstateEnum implements IStringSerializable
-	{
+	@SuppressWarnings("SpellCheckingInspection")
+	public enum BlockstateEnum implements IStringSerializable {
 		FALSE, TRUE, TESR;
 
 		@Override
-		public String getName()
-		{
+		public String getSerializedName() {
 			return name().toLowerCase();
 		}
 	}

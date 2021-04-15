@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -25,28 +26,32 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 9/3/2018.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class HandCrank extends FABaseBlock
 {
 	public static final BooleanProperty INVERTED = BooleanProperty.create("inverted");
-	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(2, 0, 2, 14, 14, 14);
-	private static final VoxelShape BOUNDING_BOX_I = Block.makeCuboidShape(2, 2, 2, 14, 1, 14);
+	private static final VoxelShape BOUNDING_BOX = Block.box(2, 0, 2, 14, 14, 14);
+	private static final VoxelShape BOUNDING_BOX_I = Block.box(2, 2, 2, 14, 1, 14);
 
 	public HandCrank()
 	{
-		super("hand_crank", false, Properties.create(Material.WOOD).hardnessAndResistance(1.3f),
-				new Item.Properties().group(FAItemGroups.mechanical));
+		super("hand_crank", false, Properties.of(Material.WOOD).strength(1.3f),
+				new Item.Properties().tab(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TEHandCrank.class);
-		setDefaultState(stateContainer.getBaseState().with(INVERTED, false));
+		registerDefaultState(stateDefinition.any().setValue(INVERTED, false));
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return context.getFace() == Direction.DOWN ? getDefaultState().with(INVERTED, true) : getDefaultState();
+		return context.getHorizontalDirection() == Direction.DOWN ? defaultBlockState().setValue(INVERTED, true) : defaultBlockState();
 	}
 
 	@Override
@@ -65,21 +70,21 @@ public class HandCrank extends FABaseBlock
 	/**
 	 * Called when the block is right clicked by a player.
 	 *
-	 * @return
+	 * @return the result type of using the block.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isRemote)
+		if (!world.isClientSide)
 		{
-			TileEntity tileEntity = world.getTileEntity(pos);
+			TileEntity tileEntity = world.getBlockEntity(pos);
 			if (tileEntity instanceof TEHandCrank)
 			{
 				TEHandCrank crank = (TEHandCrank) tileEntity;
 
 				crank.Rotate();
-				player.addExhaustion(0.8f);
+				player.causeFoodExhaustion(0.8f);
 			}
 		}
 
@@ -87,7 +92,7 @@ public class HandCrank extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(INVERTED);
 	}
@@ -95,13 +100,13 @@ public class HandCrank extends FABaseBlock
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
 	{
-		if (state.get(INVERTED))
+		if (state.getValue(INVERTED))
 			return BOUNDING_BOX_I;
 		return BOUNDING_BOX;
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

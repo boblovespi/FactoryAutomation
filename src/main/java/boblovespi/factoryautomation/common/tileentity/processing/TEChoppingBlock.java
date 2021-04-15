@@ -61,7 +61,7 @@ public class TEChoppingBlock extends TileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -72,7 +72,7 @@ public class TEChoppingBlock extends TileEntity
 		markDirty();
 
 		/* IMPORTANT */
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -130,7 +130,7 @@ public class TEChoppingBlock extends TileEntity
 				markDirty();
 
 				/* IMPORTANT */
-				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+				world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 			}
 			ItemHelper.DamageItem(tool);
 		}
@@ -162,7 +162,7 @@ public class TEChoppingBlock extends TileEntity
 
 	public void DropItems()
 	{
-		if (!world.isRemote && !slot.getStackInSlot(0).isEmpty())
+		if (!world.isClientSide && !slot.getStackInSlot(0).isEmpty())
 			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
 	}
 

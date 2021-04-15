@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.container.slot.SlotRestrictedItem;
 import boblovespi.factoryautomation.common.container.slot.SlotRestrictedPredicate;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FATags;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -19,6 +20,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
@@ -26,12 +28,14 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 /**
  * Created by Willi on 5/28/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class ContainerBasicCircuitCreator extends Container
 {
 	public static final ContainerType<ContainerBasicCircuitCreator> TYPE = IForgeContainerType
 			.create(ContainerBasicCircuitCreator::new);
 	private final IItemHandler inv;
-	private BlockPos pos;
+	private final BlockPos pos;
 
 	// server-side container
 	public ContainerBasicCircuitCreator(int id, PlayerInventory playerInv, IItemHandler inv, BlockPos pos)
@@ -41,8 +45,8 @@ public class ContainerBasicCircuitCreator extends Container
 		this.pos = pos;
 
 		addSlot(new SlotOutputItem(inv, 0, 5, 102));
-		addSlot(new SlotRestrictedPredicate(inv, 1, 8, 9, Ingredient.fromTag(FATags.ForgeItemTag("nuggets/tin"))));
-		addSlot(new SlotRestrictedPredicate(inv, 2, 8, 27, Ingredient.fromTag(FATags.ForgeItemTag("wires/copper"))));
+		addSlot(new SlotRestrictedPredicate(inv, 1, 8, 9, Ingredient.of(FATags.ForgeItemTag("nuggets/tin"))));
+		addSlot(new SlotRestrictedPredicate(inv, 2, 8, 27, Ingredient.of(FATags.ForgeItemTag("wires/copper"))));
 		addSlot(new SlotItemHandler(inv, 3, 8, 45));
 		addSlot(new SlotRestrictedItem(inv, 4, 8, 63, Collections.singletonList(FAItems.circuitFrame.ToItem())));
 		int x = 24;
@@ -69,39 +73,39 @@ public class ContainerBasicCircuitCreator extends Container
 	 * Determines whether supplied player can use this container
 	 */
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn)
+	public boolean stillValid(PlayerEntity playerIn)
 	{
 		return !playerIn.isSpectator();
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int fromSlot)
+	public ItemStack quickMoveStack(PlayerEntity playerIn, int fromSlot)
 	{
 		ItemStack previous = ItemStack.EMPTY;
-		Slot slot = this.inventorySlots.get(fromSlot);
+		Slot slot = this.slots.get(fromSlot);
 
-		if (slot != null && slot.getHasStack())
+		if (slot != null && slot.hasItem())
 		{
-			ItemStack current = slot.getStack();
+			ItemStack current = slot.getItem();
 			previous = current.copy();
 
 			if (fromSlot < this.inv.getSlots())
 			{
 				// From the block breaker inventory to player's inventory
-				if (!this.mergeItemStack(current, inv.getSlots(), inv.getSlots() + 36, true))
+				if (!this.moveItemStackTo(current, inv.getSlots(), inv.getSlots() + 36, true))
 					return ItemStack.EMPTY;
 			} else
 			{
 				// From the player's inventory to block breaker's inventory
-				if (!this.mergeItemStack(current, 1, inv.getSlots(), false))
+				if (!this.moveItemStackTo(current, 1, inv.getSlots(), false))
 					return ItemStack.EMPTY;
 			}
 
 			if (current.isEmpty()) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
-				slot.putStack(
+				slot.set(
 						ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
 			else
-				slot.onSlotChanged();
+				slot.setChanged();
 
 			if (current.getCount() == previous.getCount())
 				return ItemStack.EMPTY;
@@ -122,8 +126,8 @@ public class ContainerBasicCircuitCreator extends Container
 	}
 
 	@Override
-	public void updateProgressBar(int id, int data)
+	public void setData(int id, int data)
 	{
-		super.updateProgressBar(id, data);
+		super.setData(id, data);
 	}
 }

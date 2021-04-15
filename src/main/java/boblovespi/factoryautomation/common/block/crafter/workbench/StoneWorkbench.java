@@ -29,11 +29,11 @@ import javax.annotation.Nullable;
 public class StoneWorkbench extends Workbench implements ITileEntityProvider
 {
 	private static final VoxelShape BOUNDING_BOX = VoxelShapes
-			.or(Block.makeCuboidShape(1, 0, 1, 15, 13, 15), Block.makeCuboidShape(0, 13, 0, 16, 16, 16));
+			.or(Block.box(1, 0, 1, 15, 13, 15), Block.box(0, 13, 0, 16, 16, 16));
 
 	public StoneWorkbench()
 	{
-		super(Material.ROCK, "stone_workbench");
+		super(Material.STONE, "stone_workbench");
 		TileEntityHandler.tiles.add(TEStoneWorkbench.class);
 	}
 
@@ -51,13 +51,13 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isRemote && player instanceof ServerPlayerEntity)
+		if (!world.isClientSide && player instanceof ServerPlayerEntity)
 			// playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.WORKBENCH.id, worldIn, pos.getX(), pos.getY(),
 			// 		pos.getZ());
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 

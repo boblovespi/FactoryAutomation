@@ -20,9 +20,9 @@ public class PillarAlt extends FABaseBlock
 
 	public PillarAlt(String name, Metals metal)
 	{
-		super(name, false, Properties.create(Material.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1)
-									 .hardnessAndResistance(1, 10), new Item.Properties().group(ItemGroup.DECORATIONS));
-		setDefaultState(stateContainer.getBaseState().with(TOP, false).with(BOTTOM, false));
+		super(name, false, Properties.of(Material.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1)
+									 .strength(1, 10), new Item.Properties().tab(ItemGroup.DECORATIONS));
+		registerDefaultState(stateDefinition.any().with(TOP, false).with(BOTTOM, false));
 	}
 
 	/**
@@ -38,9 +38,9 @@ public class PillarAlt extends FABaseBlock
 		switch (facing)
 		{
 		case DOWN:
-			return state.with(BOTTOM, world.getBlockState(pos.down()).getBlock() == this);
+			return state.setValue(BOTTOM, world.getBlockState(pos.down()).getBlock() == this);
 		case UP:
-			return state.with(TOP, world.getBlockState(pos.up()).getBlock() == this);
+			return state.setValue(TOP, world.getBlockState(pos.up()).getBlock() == this);
 		default:
 			return state;
 		}

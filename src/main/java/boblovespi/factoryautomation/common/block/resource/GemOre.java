@@ -23,9 +23,9 @@ public class GemOre extends FABaseBlock
 
 	public GemOre(String name, OreData data)
 	{
-		super(name, false, Properties.create(Material.ROCK).hardnessAndResistance(data.hardness, data.resistance)
+		super(name, false, Properties.of(Material.STONE).strength(data.hardness, data.resistance)
 									 .harvestLevel(data.miningLevel).harvestTool(ToolType.PICKAXE),
-				new Item.Properties().group(ItemGroup.BUILDING_BLOCKS));
+				new Item.Properties().tab(ItemGroup.BUILDING_BLOCKS));
 		this.data = data;
 		random = new Random();
 	}
@@ -51,7 +51,7 @@ public class GemOre extends FABaseBlock
 	 */
 	public int quantityDroppedWithBonus(int fortune, Random random)
 	{
-		if (fortune > 0 && item != getItemDropped(stateContainer.getBaseState(), random, fortune))
+		if (fortune > 0 && item != getItemDropped(stateDefinition.any(), random, fortune))
 		{
 			int i = random.nextInt(fortune + 2) - 1;
 

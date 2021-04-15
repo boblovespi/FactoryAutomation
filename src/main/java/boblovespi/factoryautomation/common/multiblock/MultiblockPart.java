@@ -1,6 +1,5 @@
 package boblovespi.factoryautomation.common.multiblock;
 
-import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -15,10 +14,10 @@ public class MultiblockPart
 {
 	public static final MultiblockPart EMPTY = new MultiblockPart(Blocks.AIR, false);
 
-	private Block baseBlock;
-	private Predicate<CompoundNBT> blockTagPredicate;
-	private Predicate<BlockState> statePredicate;
-	private boolean mustBeAirBlock;
+	private final Block baseBlock;
+	private final Predicate<CompoundNBT> blockTagPredicate;
+	private final Predicate<BlockState> statePredicate;
+	private final boolean mustBeAirBlock;
 
 	public MultiblockPart(Block baseBlock, Predicate<CompoundNBT> blockTagPredicate,
 			Predicate<BlockState> statePredicate, boolean mustBeAirBlock)
@@ -31,12 +30,12 @@ public class MultiblockPart
 
 	public MultiblockPart(Block baseBlock, boolean mustBeAirBlock)
 	{
-		this(baseBlock, Predicates.alwaysTrue(), Predicates.alwaysTrue(), mustBeAirBlock);
+		this(baseBlock, compoundNBT -> true, blockState -> true, mustBeAirBlock);
 	}
 
 	public MultiblockPart(Block baseBlock)
 	{
-		this(baseBlock, Predicates.alwaysTrue(), Predicates.alwaysTrue(), true);
+		this(baseBlock, compoundNBT -> true, blockState -> true, true);
 	}
 
 	public static MultiblockPart[][][] FromBlocks(Block[][][] blocks)

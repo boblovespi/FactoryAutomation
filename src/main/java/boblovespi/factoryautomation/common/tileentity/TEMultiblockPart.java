@@ -38,7 +38,7 @@ public class TEMultiblockPart extends TileEntity
 	 */
 	public void InitController()
 	{
-		if (controller == null && !world.isRemote && structureId != null)
+		if (controller == null && !world.isClientSide && structureId != null)
 			controller = (IMultiblockControllerTE) world
 					.getTileEntity(pos.add(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
 	}
@@ -54,7 +54,7 @@ public class TEMultiblockPart extends TileEntity
 		structureOffset[1] = offY;
 		structureOffset[2] = offZ;
 		state = blockState;
-		controller = (IMultiblockControllerTE) world.getTileEntity(pos.add(-offX, -offY, -offZ));
+		controller = (IMultiblockControllerTE) world.getBlockEntity(pos.add(-offX, -offY, -offZ));
 	}
 
 	public void SetMultiblockInformation(String strucuture, BlockPos pos, BlockPos offset, BlockState blockState)

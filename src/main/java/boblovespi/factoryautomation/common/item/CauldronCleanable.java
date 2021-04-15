@@ -30,32 +30,32 @@ public class CauldronCleanable extends FABaseItem
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context)
+	public ActionResultType useOn(ItemUseContext context)
 	{
-		World world = context.getWorld();
-		BlockPos pos = context.getPos();
+		World world = context.getLevel();
+		BlockPos pos = context.getClickedPos();
 		PlayerEntity player = context.getPlayer();
 		BlockState state = world.getBlockState(pos);
-		ItemStack item = context.getItem();
+		ItemStack item = context.getItemInHand();
 
 		if (!(state.getBlock() instanceof CauldronBlock))
 			return ActionResultType.PASS;
 
-		int i = state.get(CauldronBlock.LEVEL);
+		int i = state.getValue(CauldronBlock.LEVEL);
 
 		if (i > 0)
 		{
-			if (!world.isRemote)
+			if (!world.isClientSide)
 			{
 				item.shrink(1);
 
-				if (player == null || !player.addItemStackToInventory(cleanedInto.copy()))
-					world.addEntity(
+				if (player == null || !player.addItem(cleanedInto.copy()))
+					world.addFreshEntity(
 							new ItemEntity(world, pos.getX(), pos.getY() + 0.5f, pos.getZ(), cleanedInto.copy()));
 
 				((CauldronBlock) Blocks.CAULDRON).setWaterLevel(world, pos, state, i - 1);
 				if (player != null)
-				player.addStat(Stats.USE_CAULDRON);
+				player.awardStat(Stats.USE_CAULDRON);
 			}
 
 			return ActionResultType.SUCCESS;

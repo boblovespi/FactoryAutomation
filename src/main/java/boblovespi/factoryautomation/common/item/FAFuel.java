@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
  */
 public class FAFuel extends FABaseItem
 {
-	private int burnTime;
+	private final int burnTime;
 
 	public FAFuel(String unlocalizedName, ItemGroup ct, int itemBurnTime)
 	{

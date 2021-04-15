@@ -1,10 +1,15 @@
 package boblovespi.factoryautomation.common.item.types;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.util.IStringSerializable;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 12/23/2017.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public enum MetalOres implements IMultiTypeEnum, IStringSerializable
 {
 	COPPER(0, "copper", 1),
@@ -22,7 +27,7 @@ public enum MetalOres implements IMultiTypeEnum, IStringSerializable
 	}
 
 	@Override
-	public String getName()
+	public String getSerializedName()
 	{
 		return name;
 	}

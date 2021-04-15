@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -10,14 +11,19 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 12/1/2017.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public class TileEntityCable extends TileEntity implements ICapabilityProvider
 {
-	private IEnergyStorage energyStorage;
+	private final IEnergyStorage energyStorage;
 
 	public TileEntityCable()
 	{
@@ -25,7 +31,7 @@ public class TileEntityCable extends TileEntity implements ICapabilityProvider
 		energyStorage = new EnergyStorage(128);
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{

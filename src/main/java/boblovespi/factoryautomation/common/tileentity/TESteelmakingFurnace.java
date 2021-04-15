@@ -26,6 +26,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +135,8 @@ public class TESteelmakingFurnace extends TileEntity
 		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, false));
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return LazyOptional.empty();
@@ -147,7 +149,7 @@ public class TESteelmakingFurnace extends TileEntity
 	public void tick()
 	{
 		// Log.LogInfo("heat", currentTemp);
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 		if (!isSmeltingItem)
 		{
@@ -244,7 +246,7 @@ public class TESteelmakingFurnace extends TileEntity
 
 		/* IMPORTANT */
 		BlockState state = world.getBlockState(pos);
-		world.notifyBlockUpdate(pos, state, state, 3);
+		world.sendBlockUpdated(pos, state, state, 3);
 	}
 
 	private boolean CanInsertOutputs(SteelmakingRecipe r)

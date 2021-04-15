@@ -47,7 +47,7 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getWorld().getBlockState(te.getPos());
-			Direction facing = state.get(HorizontalBlock.HORIZONTAL_FACING);
+			Direction facing = state.getValue(HorizontalBlock.HORIZONTAL_FACING);
 			switch (facing)
 			{
 			case NORTH:

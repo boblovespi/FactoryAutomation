@@ -12,7 +12,7 @@ public class FAHoe extends HoeItem implements FAItem
 
 	public FAHoe(ToolMaterial material, String name, float attackSpeed)
 	{
-		super(material, attackSpeed, new Item.Properties().group(ItemGroup.TOOLS));
+		super(material, (int) -(material.getAttackDamageBonus()), attackSpeed, new Item.Properties().tab(ItemGroup.TAB_TOOLS));
 		unlocalizedName = name;
 		// setUnlocalizedName(name);
 		setRegistryName(name);

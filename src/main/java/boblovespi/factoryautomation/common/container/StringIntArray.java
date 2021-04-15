@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 public class StringIntArray implements IIntArray
 {
 	private int actualLength;
-	private char[] string;
+	private final char[] string;
 	private Supplier<String> source;
 
 	public StringIntArray(int size)
@@ -41,7 +41,7 @@ public class StringIntArray implements IIntArray
 	}
 
 	@Override
-	public int size()
+	public int getCount()
 	{
 		return string.length / 4 + 1;
 	}

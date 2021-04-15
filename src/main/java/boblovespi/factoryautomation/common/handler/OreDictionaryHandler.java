@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.handler;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+@Deprecated
 public class OreDictionaryHandler
 {
 

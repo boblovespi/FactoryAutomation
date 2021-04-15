@@ -57,7 +57,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 			{
 				markDirty();
 
-				if (world.isRemote)
+				if (world.isClientSide)
 					return;
 
 				if (!isUpdatingChanges && slot == 0 && recipe != null && getStackInSlot(0).isEmpty() && !output
@@ -142,7 +142,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 				if (!isUpdatingChanges)
 					CheckForRecipe();
 
-				world.notifyBlockUpdate(pos, getBlockState(), getBlockState(),
+				world.sendBlockUpdated(pos, getBlockState(), getBlockState(),
 						SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 								| SetBlockStateFlags.PREVENT_RERENDER);
 			}

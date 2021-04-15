@@ -99,7 +99,8 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	 * @param side       the side which is accessed
 	 * @return the capability implementation which to use
 	 */
-	@Override
+	@Nonnull
+    @Override
 	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return LazyOptional.empty();

@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.container.workbench;
 
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -15,9 +16,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Created by Willi on 4/9/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public abstract class ContainerWorkbench extends Container
 {
 	public final boolean is3x3;
@@ -74,39 +79,38 @@ public abstract class ContainerWorkbench extends Container
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity playerIn)
+	public boolean stillValid(PlayerEntity playerIn)
 	{
 		return !playerIn.isSpectator();
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int fromSlot)
+	public ItemStack quickMoveStack(PlayerEntity playerIn, int fromSlot)
 	{
 		ItemStack previous = ItemStack.EMPTY;
-		Slot slot = this.inventorySlots.get(fromSlot);
+		Slot slot = this.slots.get(fromSlot);
 
-		if (slot != null && slot.getHasStack())
+		if (slot != null && slot.hasItem())
 		{
-			ItemStack current = slot.getStack();
+			ItemStack current = slot.getItem();
 			previous = current.copy();
 
 			if (fromSlot < this.inv.getSlots())
 			{
 				// From the block breaker inventory to player's inventory
-				if (!this.mergeItemStack(current, inv.getSlots(), inv.getSlots() + 36, true))
+				if (!this.moveItemStackTo(current, inv.getSlots(), inv.getSlots() + 36, true))
 					return ItemStack.EMPTY;
 			} else
 			{
 				// From the player's inventory to block breaker's inventory
-				if (!this.mergeItemStack(current, 1, inv.getSlots(), false))
+				if (!this.moveItemStackTo(current, 1, inv.getSlots(), false))
 					return ItemStack.EMPTY;
 			}
 
 			if (current.isEmpty()) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
-				slot.putStack(
-						ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
+				slot.set(ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
 			else
-				slot.onSlotChanged();
+				slot.setChanged();
 
 			if (current.getCount() == previous.getCount())
 				return ItemStack.EMPTY;
@@ -117,51 +121,51 @@ public abstract class ContainerWorkbench extends Container
 	}
 
 	@Override
-	public void detectAndSendChanges()
+	public void broadcastChanges()
 	{
 		boolean shouldResendOutput = false;
 		boolean hasResentOutput = false;
-		for (int i = 0; i < this.inventorySlots.size(); ++i)
+		for (int i = 0; i < this.slots.size(); ++i)
 		{
-			ItemStack itemstack = this.inventorySlots.get(i).getStack();
-			ItemStack itemstack1 = this.inventoryItemStacks.get(i);
-			if (!ItemStack.areItemStacksEqual(itemstack1, itemstack))
+			ItemStack itemstack = this.slots.get(i).getItem();
+			ItemStack itemstack1 = this.lastSlots.get(i);
+			if (!ItemStack.matches(itemstack1, itemstack))
 			{
 				boolean clientStackChanged = !itemstack1.equals(itemstack, true);
 				shouldResendOutput = shouldResendOutput || (clientStackChanged && i != 0);
 				hasResentOutput = hasResentOutput || (clientStackChanged && i == 0);
 				itemstack1 = itemstack.copy();
-				this.inventoryItemStacks.set(i, itemstack1);
+				this.lastSlots.set(i, itemstack1);
 
 				if (clientStackChanged)
-					for (IContainerListener listener : this.listeners)
+					for (IContainerListener listener : this.containerListeners)
 					{
 						if (listener instanceof ServerPlayerEntity)
 							((ServerPlayerEntity) listener).connection
-									.sendPacket(new SSetSlotPacket(windowId, i, itemstack1));
+									.send(new SSetSlotPacket(containerId, i, itemstack1));
 						else
-							listener.sendSlotContents(this, i, itemstack1);
+							listener.slotChanged(this, i, itemstack1);
 					}
 			}
 		}
 		if (shouldResendOutput && !hasResentOutput)
-			for (IContainerListener listener : this.listeners)
+			for (IContainerListener listener : this.containerListeners)
 			{
 				if (listener instanceof ServerPlayerEntity)
 					((ServerPlayerEntity) listener).connection
-							.sendPacket(new SSetSlotPacket(windowId, 0, inventorySlots.get(0).getStack()));
+							.send(new SSetSlotPacket(containerId, 0, slots.get(0).getItem()));
 				else
-					listener.sendSlotContents(this, 0, inventorySlots.get(0).getStack());
+					listener.slotChanged(this, 0, slots.get(0).getItem());
 			}
 
-		for (int j = 0; j < this.trackedIntReferences.size(); ++j)
+		for (int j = 0; j < this.dataSlots.size(); ++j)
 		{
-			IntReferenceHolder intreferenceholder = this.trackedIntReferences.get(j);
-			if (intreferenceholder.isDirty())
+			IntReferenceHolder intreferenceholder = this.dataSlots.get(j);
+			if (intreferenceholder.checkAndClearUpdateFlag())
 			{
-				for (IContainerListener containerListener : this.listeners)
+				for (IContainerListener containerListener : this.containerListeners)
 				{
-					containerListener.sendWindowProperty(this, j, intreferenceholder.get());
+					containerListener.setContainerData(this, j, intreferenceholder.get());
 				}
 			}
 		}

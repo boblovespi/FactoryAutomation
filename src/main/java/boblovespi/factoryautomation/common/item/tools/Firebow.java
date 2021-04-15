@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FABaseItem;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
@@ -17,14 +18,19 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
+
 /**
  * Created by Willi on 2/15/2019.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Firebow extends FABaseItem
 {
 	public Firebow()
 	{
-		super("firebow", new Properties().group(FAItemGroups.primitive).maxDamage(15));
+		super("firebow", new Properties().tab(FAItemGroups.primitive).durability(15));
 	}
 
 	@Override
@@ -37,9 +43,9 @@ public class Firebow extends FABaseItem
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context)
+	public ActionResultType useOn(ItemUseContext context)
 	{
-		context.getPlayer().setActiveHand(context.getHand());
+		Objects.requireNonNull(context.getPlayer()).startUsingItem(context.getHand());
 		return ActionResultType.PASS;
 	}
 
@@ -47,10 +53,10 @@ public class Firebow extends FABaseItem
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
+	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
 	{
-		player.setActiveHand(hand);
-		return ActionResult.resultPass(player.getHeldItem(hand));
+		player.startUsingItem(hand);
+		return ActionResult.pass(player.getItemInHand(hand));
 	}
 
 	/**
@@ -58,29 +64,30 @@ public class Firebow extends FABaseItem
 	 * the Item before the action is complete.
 	 */
 	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World world, LivingEntity living)
+	public ItemStack finishUsingItem(ItemStack stack, World world, LivingEntity living)
 	{
 		if (!(living instanceof PlayerEntity))
 			return stack;
 		PlayerEntity player = (PlayerEntity) living;
-		RayTraceResult rayTrace = rayTrace(world, player, RayTraceContext.FluidMode.NONE);
+		BlockRayTraceResult rayTrace = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE);
+
+		// Todo: remove rayTrace null check, it shouldn't be null anyways.
 		if (rayTrace == null || rayTrace.getType() != RayTraceResult.Type.BLOCK)
 			return stack;
-		BlockRayTraceResult blockRayTrace = (BlockRayTraceResult) rayTrace;
-		BlockPos pos = blockRayTrace.getPos();
-		Direction facing = blockRayTrace.getFace();
-		pos = pos.offset(facing);
+		BlockPos pos = rayTrace.getBlockPos();
+		Direction facing = rayTrace.getDirection();
+		pos = pos.relative(facing);
 
-		if (!player.canPlayerEdit(pos, facing, stack))
+		if (!player.mayUseItemAt(pos, facing, stack))
 		{
 			return stack;
 		} else
 		{
-			if (world.isAirBlock(pos))
+			if (world.isEmptyBlock(pos))
 			{
-				world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
+				world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
 						random.nextFloat() * 0.4F + 0.8F);
-				world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 11);
+				world.setBlock(pos, Blocks.FIRE.defaultBlockState(), 11);
 			}
 
 			if (player instanceof ServerPlayerEntity)
@@ -88,7 +95,7 @@ public class Firebow extends FABaseItem
 				CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) player, pos, stack);
 			}
 
-			stack.damageItem(1, player, n -> n.sendBreakAnimation(player.getActiveHand()));
+			stack.hurtAndBreak(1, player, n -> n.broadcastBreakEvent(player.getUsedItemHand()));
 			return stack;
 		}
 	}
@@ -106,7 +113,7 @@ public class Firebow extends FABaseItem
 	 * returns the action that specifies what animation to play when the items is being used
 	 */
 	@Override
-	public UseAction getUseAction(ItemStack stack)
+	public UseAction getUseAnimation(ItemStack stack)
 	{
 		return UseAction.BOW;
 	}

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.tileentity.TileEntity;
@@ -9,9 +10,13 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Created by Willi on 8/1/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class Wrench extends WorkbenchToolItem
 {
 	public Wrench(String name, float attackDamageIn, float attackSpeedIn, ToolMaterial materialIn)
@@ -23,17 +28,17 @@ public class Wrench extends WorkbenchToolItem
 	 * This is called when the item is used, before the block is activated.
 	 */
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context)
+	public ActionResultType useOn(ItemUseContext context)
 	{
-		World world = context.getWorld();
-		BlockPos pos = context.getPos();
+		World world = context.getLevel();
+		BlockPos pos = context.getClickedPos();
 		Block block = world.getBlockState(pos).getBlock();
 
 		if (block == FABlocks.gearbox)
 		{
-			if (!world.isRemote)
+			if (!world.isClientSide)
 			{
-				TileEntity te = world.getTileEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEGearbox)
 				{
 					((TEGearbox) te).SwitchGears();

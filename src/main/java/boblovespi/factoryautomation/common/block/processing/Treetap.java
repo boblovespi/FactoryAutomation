@@ -27,14 +27,14 @@ import javax.annotation.Nullable;
 public class Treetap extends FABaseBlock
 {
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 1, 1, 1);
+	private static final VoxelShape BOUNDING_BOX = Block.box(0, 0, 0, 1, 1, 1);
 
 	public Treetap()
 	{
-		super("treetap", false, Properties.create(Material.IRON).hardnessAndResistance(1), new Item.Properties().group(
+		super("treetap", false, Properties.of(Material.METAL).strength(1), new Item.Properties().tab(
 				FAItemGroups.resources));
 		TileEntityHandler.tiles.add(TETreetap.class);
-		setDefaultState(stateContainer.getBaseState().with(FACING, Direction.NORTH));
+		registerDefaultState(stateDefinition.any().with(FACING, Direction.NORTH));
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class Treetap extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+		return getDefaultState().with(FACING, context.getHorizontalDirection());
 	}
 
 	@Override

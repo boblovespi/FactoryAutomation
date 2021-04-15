@@ -127,7 +127,7 @@ public class TileEntitySolarPanel extends TileEntity
 
 	public void ForceUpdate()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 		if (hasTicked)
 			return;
@@ -146,7 +146,7 @@ public class TileEntitySolarPanel extends TileEntity
 
 		// energyConnections.forEach(EnergyConnection_::Update);
 		markDirty();
-		world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override

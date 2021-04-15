@@ -30,7 +30,7 @@ public class PollutionCapabilityProvider implements ICapabilityProvider
 
 		cap.SetPollutionCallback(n -> {
 			World world = chunk.getWorld();
-			if (world.isRemote)
+			if (world.isClientSide)
 				return;
 			int x = chunk.getPos().x;
 			int z = chunk.getPos().z;

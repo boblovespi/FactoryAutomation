@@ -36,22 +36,22 @@ public class PaperBellows extends FABaseBlock
 	public PaperBellows()
 	{
 		super("paper_bellows", false,
-				Properties.create(Material.WOOL).hardnessAndResistance(0.5f).sound(SoundType.CLOTH),
-				new Item.Properties().group(FAItemGroups.primitive));
+				Properties.of(Material.WOOL).strength(0.5f).sound(SoundType.WOOL),
+				new Item.Properties().tab(FAItemGroups.primitive));
 		TileEntityHandler.tiles.add(TEPaperBellows.class);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+		return this.getDefaultState().with(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		TileEntity te = world.getTileEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 		if (te instanceof TEPaperBellows)
 			((TEPaperBellows) te).Blow();
 		world.playSound(player, pos, SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
@@ -84,7 +84,7 @@ public class PaperBellows extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

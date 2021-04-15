@@ -51,7 +51,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 
 	public void Craft()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 
 		BasicCircuitRecipe recipe = BasicCircuitRecipe.FindRecipe(layout.grid);
@@ -68,7 +68,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 			layout = new Layout();
 
 			markDirty();
-			world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos),
+			world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos),
 					SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 							| SetBlockStateFlags.PREVENT_RERENDER);
 		}
@@ -76,7 +76,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 
 	public void AddComponent(Layout.Element e, int x, int y)
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 
 		if (layout.Get(x, y).equals(e))
@@ -103,7 +103,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 		}
 		layout.Set(e, x, y);
 		markDirty();
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos),
+		world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos),
 				SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 						| SetBlockStateFlags.PREVENT_RERENDER);
 	}
@@ -112,14 +112,14 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	{
 		RemoveComponentInternal(x, y);
 		markDirty();
-		world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos),
+		world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos),
 				SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 						| SetBlockStateFlags.PREVENT_RERENDER);
 	}
 
 	private void RemoveComponentInternal(int x, int y)
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 		Layout.Element e = layout.Get(x, y);
 		switch (e)

@@ -24,8 +24,8 @@ public abstract class Workbench extends FABaseBlock
 {
 	public Workbench(Material material, String name)
 	{
-		super(name, false, Properties.create(material).hardnessAndResistance(2),
-				new Item.Properties().group(FAItemGroups.crafting));
+		super(name, false, Properties.of(material).strength(2),
+				new Item.Properties().tab(FAItemGroups.crafting));
 	}
 
 	@Override
@@ -43,6 +43,6 @@ public abstract class Workbench extends FABaseBlock
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+		return getDefaultState().with(HORIZONTAL_FACING, context.getHorizontalDirection());
 	}
 }

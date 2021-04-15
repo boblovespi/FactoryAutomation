@@ -30,7 +30,7 @@ public class TEPlacedBucket extends TileEntity
 			{
 				markDirty();
 				BlockState state = world.getBlockState(pos);
-				world.notifyBlockUpdate(pos, state, state, 3);
+				world.sendBlockUpdated(pos, state, state, 3);
 			}
 		};
 	}

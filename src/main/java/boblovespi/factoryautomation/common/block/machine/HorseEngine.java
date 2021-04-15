@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHorseEngine;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
@@ -23,10 +24,14 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 7/3/2019.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class HorseEngine extends FABaseBlock
 {
 	public static EnumProperty<Part> PART = EnumProperty.create("part", Part.class);
@@ -34,14 +39,14 @@ public class HorseEngine extends FABaseBlock
 	public HorseEngine()
 	{
 		super(Materials.WOOD_MACHINE, "horse_engine", FAItemGroups.mechanical);
-		setDefaultState(getDefaultState().with(PART, Part.TOP));
+		registerDefaultState(defaultBlockState().setValue(PART, Part.TOP));
 		TileEntityHandler.tiles.add(TEHorseEngine.class);
 	}
 
 	@Override
 	public boolean hasTileEntity(BlockState state)
 	{
-		return state.get(PART) == Part.TOP;
+		return state.getValue(PART) == Part.TOP;
 	}
 
 	@Nullable
@@ -52,28 +57,28 @@ public class HorseEngine extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(PART);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (state.get(PART) != Part.TOP)
+		if (state.getValue(PART) != Part.TOP)
 			return ActionResultType.FAIL;
-		if (world.isRemote)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 
-		for (MobEntity horse : world.getEntitiesWithinAABB(MobEntity.class,
+		for (MobEntity horse : world.getEntitiesOfClass(MobEntity.class,
 				new AxisAlignedBB(pos.getX() - 7.0D, pos.getY() - 7.0D, pos.getZ() - 7.0D, pos.getX() + 7.0D,
 						pos.getY() + 7.0D, pos.getZ() + 7.0D)))
 		{
-			if (horse.getLeashed() && horse.getLeashHolder() == player && horse instanceof AbstractHorseEntity)
+			if (horse.isLeashed() && horse.getLeashHolder() == player && horse instanceof AbstractHorseEntity)
 			{
-				horse.clearLeashed(true, true);
-				TileEntity te = world.getTileEntity(pos);
+				horse.dropLeash(true, true);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEHorseEngine)
 					((TEHorseEngine) te).AttachHorse(horse);
 			}
@@ -92,7 +97,7 @@ public class HorseEngine extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getSerializedName()
 		{
 			return name;
 		}

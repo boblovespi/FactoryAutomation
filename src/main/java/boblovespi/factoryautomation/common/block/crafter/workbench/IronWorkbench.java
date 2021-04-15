@@ -27,11 +27,11 @@ import javax.annotation.Nullable;
  */
 public class IronWorkbench extends Workbench
 {
-	private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0, 0, 0, 16, 15, 16);
+	private static final VoxelShape BOUNDING_BOX = Block.box(0, 0, 0, 16, 15, 16);
 
 	public IronWorkbench()
 	{
-		super(Material.ROCK, "iron_workbench");
+		super(Material.STONE, "iron_workbench");
 		TileEntityHandler.tiles.add(TEIronWorkbench.class);
 	}
 
@@ -57,13 +57,13 @@ public class IronWorkbench extends Workbench
 	 * @return
 	 */
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isRemote && player instanceof ServerPlayerEntity)
+		if (!world.isClientSide && player instanceof ServerPlayerEntity)
 			// playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.WORKBENCH.id, worldIn, pos.getX(), pos.getY(),
 			// 		pos.getZ());
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 
@@ -74,7 +74,7 @@ public class IronWorkbench extends Workbench
 	}
 
 	@Override
-	public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

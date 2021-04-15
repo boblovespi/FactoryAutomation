@@ -42,7 +42,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isRemote)
+		if (world.isClientSide)
 			return;
 
 		if (firstTick)
@@ -52,8 +52,8 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		Direction dir = world.getBlockState(pos).get(FACING);
 		if (timer < 0)
 		{
-			TileEntity pushTo = world.getTileEntity(pos.offset(dir.getOpposite()));
-			TileEntity takeFrom = world.getTileEntity(pos.offset(dir));
+			TileEntity pushTo = world.getBlockEntity(pos.offset(dir.getOpposite()));
+			TileEntity takeFrom = world.getBlockEntity(pos.offset(dir));
 
 			if (pushTo != null && takeFrom != null)
 			{
@@ -82,7 +82,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		for (Direction facing : mechanicalUser.GetSides())
 		{
 			Direction opposite = facing.getOpposite();
-			TileEntity te = world.getTileEntity(pos.offset(facing));
+			TileEntity te = world.getBlockEntity(pos.offset(facing));
 			if (TEHelper.IsMechanicalFace(te, opposite))
 			{
 				hasConnection = true;
