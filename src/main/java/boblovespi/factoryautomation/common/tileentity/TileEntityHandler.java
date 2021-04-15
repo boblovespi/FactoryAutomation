@@ -111,7 +111,7 @@ public class TileEntityHandler
 
 	private static <T extends TileEntity> TileEntityType<T> BuildType(Supplier<T> supplier, FABlock block, String name)
 	{
-		TileEntityType<T> t = TileEntityType.Builder.create(supplier, block.ToBlock()).build(null);
+		TileEntityType<T> t = TileEntityType.Builder.of(supplier, block.ToBlock()).build(null);
 		t.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
 		tileTypes.add(t);
 		return t;
@@ -121,7 +121,7 @@ public class TileEntityHandler
 			String name)
 	{
 		TileEntityType<T> t = TileEntityType.Builder
-				.create(supplier, blocks.stream().map(FABlock::ToBlock).toArray(Block[]::new)).build(null);
+				.of(supplier, blocks.stream().map(FABlock::ToBlock).toArray(Block[]::new)).build(null);
 		t.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
 		tileTypes.add(t);
 		return t;

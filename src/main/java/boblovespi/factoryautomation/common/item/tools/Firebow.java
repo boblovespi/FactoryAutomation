@@ -53,7 +53,7 @@ public class Firebow extends FABaseItem
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
+	public ActionResult<ItemStack> use(World level, PlayerEntity player, Hand hand)
 	{
 		player.startUsingItem(hand);
 		return ActionResult.pass(player.getItemInHand(hand));
@@ -64,7 +64,7 @@ public class Firebow extends FABaseItem
 	 * the Item before the action is complete.
 	 */
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, World world, LivingEntity living)
+	public ItemStack finishUsingItem(ItemStack stack, World level, LivingEntity living)
 	{
 		if (!(living instanceof PlayerEntity))
 			return stack;

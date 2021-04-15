@@ -46,7 +46,7 @@ public class SolidFueledFirebox extends FABaseBlock
 	 * @return the result type of using this block.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World levelIn, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit)
 	{
 		if (!worldIn.isClientSide)
@@ -62,7 +62,7 @@ public class SolidFueledFirebox extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TESolidFueledFirebox();
 	}

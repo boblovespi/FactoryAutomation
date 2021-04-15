@@ -61,7 +61,7 @@ public class Rock extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		return BOUNDING_BOX;
 	}
@@ -77,12 +77,12 @@ public class Rock extends FABaseBlock
 	//	 * This gets a complete list of items dropped from this block.
 	//	 */
 	//	@Override
-	//	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, BlockState state, int fortune)
+	//	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess level, BlockPos pos, BlockState state, int fortune)
 	//	{
-	//		super.getDrops(drops, world, pos, state, fortune);
+	//		super.getDrops(drops, level, pos, state, fortune);
 	//		if (state.getValue(VARIANTS) == Variants.MOSSY_COBBLESTONE)
 	//		{
-	//			Random rand = world instanceof World ? ((World) world).rand : RANDOM;
+	//			Random rand = level instanceof World ? ((World) level).rand : RANDOM;
 	//			if (rand.nextFloat() < 0.4f)
 	//				drops.add(new ItemStack(FAItems.plantFiber.ToItem()));
 	//		}
@@ -94,12 +94,12 @@ public class Rock extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos,
+	public void neighborChanged(BlockState state, World level, BlockPos pos, Block blockIn, BlockPos fromPos,
 			boolean isMoving)
 	{
-		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.down(), Direction.UP)) // isSideSolid ?
+		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.below(), Direction.UP)) // isSideSolid ?
 		{
-			spawnDrops(state, world, pos);
+			spawnDrops(state, level, pos);
 			world.removeBlock(pos, isMoving);
 		}
 	}
@@ -108,12 +108,12 @@ public class Rock extends FABaseBlock
 	 * Checks if this block can be placed exactly at the given position.
 	 */
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
+	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos)
 	{
-		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.down())
-																			  .isSolidSide(world, pos.down(),
+		return level.getBlockState(pos).getMaterial().isReplaceable() && level.getBlockState(pos.down())
+																			  .isSolidSide(world, pos.below(),
 																					  Direction.UP)
-				&& world.getBlockState(pos).getBlock() != this;
+				&& level.getBlockState(pos).getBlock() != this;
 	}
 
 	public enum Variants implements IStringSerializable
@@ -156,9 +156,9 @@ public class Rock extends FABaseBlock
 		@Override
 		public ActionResultType useOn(ItemUseContext context)
 		{
-			World world = context.getWorld();
+			World level = context.getWorld();
 			BlockPos pos = context.getPos();
-			Block block = world.getBlockState(pos).getBlock();
+			Block block = level.getBlockState(pos).getBlock();
 			if (context.func_225518_g_() /*isPlayerSneaking*/ && BlockTags.LOGS.contains(block))
 			{
 				if (!world.isClientSide)

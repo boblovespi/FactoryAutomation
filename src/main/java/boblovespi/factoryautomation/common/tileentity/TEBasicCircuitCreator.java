@@ -6,6 +6,8 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.IGuiElement;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -19,21 +21,28 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Created by Willi on 5/28/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public class TEBasicCircuitCreator extends TileEntity implements INamedContainerProvider
 {
 	private Layout layout;
-	private ItemStackHandler inventory;
+	private final ItemStackHandler inventory;
 
 	public TEBasicCircuitCreator()
 	{
@@ -43,7 +52,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 			@Override
 			protected void onContentsChanged(int slot)
 			{
-				markDirty();
+				setChanged();
 			}
 		};
 		layout = new Layout();
@@ -51,7 +60,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 
 	public void Craft()
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 			return;
 
 		BasicCircuitRecipe recipe = BasicCircuitRecipe.FindRecipe(layout.grid);
@@ -67,8 +76,8 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 			inventory.insertItem(0, recipe.GetResult(), false);
 			layout = new Layout();
 
-			markDirty();
-			world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos),
+			setChanged();
+			level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition),
 					SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 							| SetBlockStateFlags.PREVENT_RERENDER);
 		}
@@ -76,7 +85,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 
 	public void AddComponent(Layout.Element e, int x, int y)
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 			return;
 
 		if (layout.Get(x, y).equals(e))
@@ -102,8 +111,8 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 			break;
 		}
 		layout.Set(e, x, y);
-		markDirty();
-		world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos),
+		setChanged();
+		level.sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition),
 				SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 						| SetBlockStateFlags.PREVENT_RERENDER);
 	}
@@ -111,15 +120,15 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	public void RemoveComponent(int x, int y)
 	{
 		RemoveComponentInternal(x, y);
-		markDirty();
-		world.sendBlockUpdated(pos, world.getBlockState(pos), world.getBlockState(pos),
+		setChanged();
+		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, level.getBlockState(worldPosition), level.getBlockState(worldPosition),
 				SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 						| SetBlockStateFlags.PREVENT_RERENDER);
 	}
 
 	private void RemoveComponentInternal(int x, int y)
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 			return;
 		Layout.Element e = layout.Get(x, y);
 		switch (e)
@@ -139,7 +148,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 		layout.Set(Layout.Element.EMPTY, x, y);
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
@@ -149,25 +158,25 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void load(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.load(state, compound);
 		inventory.deserializeNBT(compound.getCompound("items"));
 		layout.Deserialize(compound.getList("layout", 11));
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound)
+	public CompoundNBT save(CompoundNBT compound)
 	{
 		compound.put("items", inventory.serializeNBT());
 		compound.put("layout", layout.Serialize());
-		return super.write(compound);
+		return super.save(compound);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	//	@Override
@@ -191,9 +200,9 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		write(nbt);
+		save(nbt);
 
-		return new SUpdateTileEntityPacket(pos, 0, nbt);
+		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
 	}
 
 	public Layout.Element[][] GetComponents()
@@ -204,14 +213,14 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return null;
+		return new StringTextComponent("");
 	}
 
 	@Nullable
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerBasicCircuitCreator(id, playerInv, inventory, pos);
+		return new ContainerBasicCircuitCreator(id, playerInv, inventory, worldPosition);
 	}
 
 	public static class Layout
@@ -244,13 +253,11 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 		{
 			ListNBT list = new ListNBT();
 
-			for (int i = 0; i < grid.length; i++)
-			{
-				int[] arr = new int[grid[i].length];
+			for (Element[] elements : grid) {
+				int[] arr = new int[elements.length];
 
-				for (int j = 0; j < grid[i].length; j++)
-				{
-					arr[j] = grid[i][j].ordinal();
+				for (int j = 0; j < elements.length; j++) {
+					arr[j] = elements[j].ordinal();
 				}
 
 				list.add(new IntArrayNBT(arr));

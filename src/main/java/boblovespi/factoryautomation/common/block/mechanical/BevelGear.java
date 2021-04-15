@@ -64,7 +64,7 @@ public class BevelGear extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEBevelGear();
 	}
@@ -88,7 +88,7 @@ public class BevelGear extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

@@ -46,29 +46,29 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 	 *
 	 * @param state The state of the machine
 	 * @param side  The side power is being connected to
-	 * @param world The world access
+	 * @param level The level access
 	 * @param pos   The position of the block
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	@Override
-	public boolean CanConnectCable(BlockState state, Direction side, IBlockReader world, BlockPos pos)
+	public boolean CanConnectCable(BlockState state, Direction side, IBlockReader level, BlockPos pos)
 	{
 		return side != null && side.get2DDataValue() >= 0;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TileEntitySolarPanel();
 	}
 
 //	@Override
-//	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn,
+//	public ActionResultType use(BlockState state, World levelIn, BlockPos pos, PlayerEntity playerIn,
 //					   Hand hand, BlockRayTraceResult rayTraceResult)
 //	{
 //		TileEntity entity;
-//		if ((entity = worldIn.getBlockEntity(pos)) instanceof TileEntitySolarPanel)
+//		if ((entity = levelIn.getBlockEntity(pos)) instanceof TileEntitySolarPanel)
 //		{
 //			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
 //			entity1.ForceUpdate();
@@ -77,9 +77,9 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 //						ChatType.GAME_INFO, new StringTextComponent(
 //								"Power: " + entity1.AmountProduced() + " | Power generated - used: " + entity1
 //										.ActualAmountProduced()));
-//			Log.LogInfo("Can see sky", worldIn.canSeeSkyFromBelowWater(pos));
-//			Log.LogInfo("Sunlight factor", worldIn.getSunAngle(0));
-//			Log.LogInfo("Can block above see sky", worldIn.canSeeSkyFromBelowWater(pos.up()));
+//			Log.LogInfo("Can see sky", levelIn.canSeeSkyFromBelowWater(pos));
+//			Log.LogInfo("Sunlight factor", levelIn.getSunAngle(0));
+//			Log.LogInfo("Can block above see sky", levelIn.canSeeSkyFromBelowWater(pos.up()));
 //			Log.LogInfo("Power generated", entity1.AmountProduced());
 //			Log.LogInfo("Actual power generated", entity1.ActualAmountProduced());
 //		}

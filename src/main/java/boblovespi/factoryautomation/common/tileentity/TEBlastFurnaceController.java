@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,6 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -29,12 +31,17 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.BitSet;
+import java.util.Objects;
 
 /**
  * Created by Willi on 11/12/2017.
  * shamelessly copied over from my old mod
  */
+@SuppressWarnings("unchecked")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TEBlastFurnaceController extends TileEntity
 		implements ITickableTileEntity, IMultiblockControllerTE, INamedContainerProvider
 {
@@ -44,7 +51,7 @@ public class TEBlastFurnaceController extends TileEntity
 	public static final int OUTPUT_SLOT = 5;
 	public static final int SLAG_SLOT = 6;
 	public static final int TUYERE_SLOT = 0;
-	private ItemStackHandler itemHandler;
+	private final ItemStackHandler itemHandler;
 	private boolean isBurningFuel = false; // whether the blast furnace is burning fuel or not
 	private boolean isSmeltingItem = false; // whether the blast furnace is smelting or not
 
@@ -54,11 +61,11 @@ public class TEBlastFurnaceController extends TileEntity
 	private float smeltTime; // the remaining time for the ingot to smelt to pig iron
 	private float steelSmeltTime; // the amount of time it takes to smelt pig iron
 
-	private float burnScalar = 2; // the speed at which the coal coke burns
-	private float smeltScalar = 1; // the speed at which the pig iron smelts
+	private final float burnScalar = 2; // the speed at which the coal coke burns
+	private final float smeltScalar = 1; // the speed at which the pig iron smelts
 	private boolean isStructureValid = false;
-	private IItemHandler inputHopperWrapper;
-	private IIntArray containerInfo = new IIntArray()
+	private final IItemHandler inputHopperWrapper;
+	private final IIntArray containerInfo = new IIntArray()
 	{
 		@Override
 		public int get(int index)
@@ -84,7 +91,7 @@ public class TEBlastFurnaceController extends TileEntity
 		}
 
 		@Override
-		public int size()
+		public int getCount()
 		{
 			return 4;
 		}
@@ -103,7 +110,7 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void load(BlockState state, CompoundNBT compound)
 	{
 		burnTime = compound.getInt("burnTime");
 		fuelBurnTime = compound.getInt("fuelBurnTime");
@@ -115,7 +122,7 @@ public class TEBlastFurnaceController extends TileEntity
 
 		itemHandler.deserializeNBT(compound.getCompound("itemHandler"));
 
-		super.read(compound);
+		super.load(state, compound);
 
 		//		inputHopperWrapper = new RestrictedSlotItemHandler(new HashSet<Integer>()
 		//		{{
@@ -126,7 +133,7 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound)
+	public CompoundNBT save(CompoundNBT compound)
 	{
 		compound.putInt("burnTime", (int) burnTime);
 		compound.putInt("fuelBurnTime", (int) fuelBurnTime);
@@ -138,16 +145,16 @@ public class TEBlastFurnaceController extends TileEntity
 
 		compound.put("itemHandler", itemHandler.serializeNBT());
 
-		return super.write(compound);
+		return super.save(compound);
 	}
 
 	@Override
 	public void tick()
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 			return;
 
-		if (!world.getBlockState(pos).get(BlastFurnaceController.MULTIBLOCK_COMPLETE))
+		if (!level.getBlockState(worldPosition).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
 			return;
 
 		steelSmeltTime = 2000; // TODO: read from config
@@ -189,8 +196,7 @@ public class TEBlastFurnaceController extends TileEntity
 					isBurningFuel = true;
 				} else
 				{
-					smeltTime = smeltTime + 10 * smeltScalar > steelSmeltTime ? steelSmeltTime :
-							smeltTime + 10 * smeltScalar;
+					smeltTime = Math.min(smeltTime + 10 * smeltScalar, steelSmeltTime);
 				}
 			}
 		} else if (isBurningFuel)
@@ -220,9 +226,9 @@ public class TEBlastFurnaceController extends TileEntity
 				isSmeltingItem = true;
 			}
 		}
-		markDirty();
-		BlockState state = world.getBlockState(pos);
-		world.sendBlockUpdated(pos, state, state, 3);
+		setChanged();
+		BlockState state = level.getBlockState(worldPosition);
+		level.sendBlockUpdated(worldPosition, state, state, 3);
 	}
 
 	@Nullable
@@ -230,18 +236,19 @@ public class TEBlastFurnaceController extends TileEntity
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		write(nbt);
-		return new SUpdateTileEntityPacket(pos, 0, nbt);
+		save(nbt);
+		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.read(pkt.getNbtCompound());
+		this.load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
+	@Nonnull
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return LazyOptional.of(() -> (T) itemHandler);
@@ -282,10 +289,10 @@ public class TEBlastFurnaceController extends TileEntity
 	public void SetStructureValid(boolean isValid)
 	{
 		isStructureValid = isValid;
-		Block block = world.getBlockState(pos).getBlock();
+		Block block = Objects.requireNonNull(level).getBlockState(worldPosition).getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).SetStructureCompleted(world, pos, isValid);
+			((BlastFurnaceController) block).SetStructureCompleted(level, worldPosition, isValid);
 		}
 	}
 
@@ -298,10 +305,10 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public void CreateStructure()
 	{
-		Block block = world.getBlockState(pos).getBlock();
+		Block block = Objects.requireNonNull(level).getBlockState(worldPosition).getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).CreateStructure(world, pos);
+			((BlastFurnaceController) block).CreateStructure(level, worldPosition);
 		}
 	}
 
@@ -311,19 +318,21 @@ public class TEBlastFurnaceController extends TileEntity
 		Block block = getBlockState().getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).BreakStructure(world, pos);
+			((BlastFurnaceController) block).BreakStructure(level, worldPosition);
 		}
 	}
 
 	/**
 	 * Gets the capability, or null, of the block at offset for the given side
 	 *
+	 * Todo: this method should return a nonnull lazy-optional.
+	 *
 	 * @param capability the type of capability to get
 	 * @param offset     the offset of the multiblock part
 	 * @param side       the side which is accessed
 	 * @return the capability implementation which to use
 	 */
-	@Nonnull
+	@Nullable
     @Override
 	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
@@ -336,13 +345,13 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return null;
+		return new StringTextComponent("");
 	}
 
 	@Nullable
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerBlastFurnace(id, playerInv, itemHandler, containerInfo, pos);
+		return new ContainerBlastFurnace(id, playerInv, itemHandler, containerInfo, worldPosition);
 	}
 }

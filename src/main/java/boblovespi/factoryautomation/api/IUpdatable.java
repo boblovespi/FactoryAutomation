@@ -7,5 +7,5 @@ import net.minecraft.world.World;
  */
 public interface IUpdatable
 {
-	void Update(World world);
+	void Update(World level);
 }

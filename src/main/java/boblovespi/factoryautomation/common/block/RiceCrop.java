@@ -54,7 +54,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public boolean canGrow(IBlockReader world, BlockPos blockPos, BlockState state, boolean b)
+	public boolean canGrow(IBlockReader level, BlockPos blockPos, BlockState state, boolean b)
 	{
 		return !isMaxAge(state);
 	}
@@ -65,13 +65,13 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public boolean canUseBonemeal(World world, Random random, BlockPos blockPos, BlockState BlockState)
+	public boolean canUseBonemeal(World level, Random random, BlockPos blockPos, BlockState BlockState)
 	{
 		return true;
 	}
 
 	@Override
-	public void grow(ServerWorld world, Random random, BlockPos blockPos, BlockState BlockState)
+	public void grow(ServerWorld level, Random random, BlockPos blockPos, BlockState BlockState)
 	{
 		world.setBlockState(blockPos, WithAge(Math.min(getAge(BlockState) + 1, MaxAge())), 2);
 	}
@@ -83,7 +83,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos)
+	protected boolean isValidGround(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
 		return canSustainBush(state);
 	}
@@ -103,7 +103,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
 	{
 		if (!canSustainBush(world.getBlockState(pos.down())))
 		{
@@ -117,7 +117,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 
 			if (i < MaxAge())
 			{
-				float f = GrowthChance(this, world, pos);
+				float f = GrowthChance(this, level, pos);
 
 				if (ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0))
 				{
@@ -132,7 +132,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	{
 		float chance = 0;
 
-		BlockPos d = pos.down();
+		BlockPos d = pos.below();
 		if (canSustainBush(w.getBlockState(d)))
 			chance += 1;
 		else
@@ -158,7 +158,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state)
+	public ItemStack getItem(IBlockReader levelIn, BlockPos pos, BlockState state)
 	{
 		return new ItemStack(FAItems.riceGrain.ToItem());
 	}
@@ -170,7 +170,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	//	@Override public boolean canSustainPlant(BlockState state,
-	//			IBlockAccess world, BlockPos pos, Direction direction,
+	//			IBlockAccess level, BlockPos pos, Direction direction,
 	//			IPlantable plantable)
 	//	{
 	//		if(plantable.getPlant(world, pos) instanceof RiceGrain)
@@ -184,7 +184,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		return SHAPE_BY_AGE[state.getValue(AGE)];
 	}

@@ -10,6 +10,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.util.LazyOptional;
 
+import java.util.Objects;
+
 /**
  * Created by Willi on 5/5/2019.
  */
@@ -24,10 +26,10 @@ public class TEPaperBellows extends TileEntity implements ITickableTileEntity, I
 
 	public void Blow()
 	{
-		if (!world.isClientSide)
+		if (!Objects.requireNonNull(level).isClientSide)
 		{
-			Direction facing = world.getBlockState(pos).get(PaperBellows.FACING);
-			TileEntity te = world.getBlockEntity(pos.offset(facing));
+			Direction facing = level.getBlockState(worldPosition).getValue(PaperBellows.FACING);
+			TileEntity te = level.getBlockEntity(worldPosition.relative(facing));
 			if (te == null)
 				return;
 			LazyOptional<IBellowsable> capability = te
@@ -58,7 +60,7 @@ public class TEPaperBellows extends TileEntity implements ITickableTileEntity, I
 	@Override
 	public void tick()
 	{
-		if (!world.isClientSide)
+		if (!Objects.requireNonNull(level).isClientSide)
 			return;
 		if (lerp > 0)
 		{

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class MultiFluidTank implements IFluidHandler
 {
-	private List<FluidTank> tanks;
+	private final List<FluidTank> tanks;
 
 	public MultiFluidTank(int tankCount, int tankSize)
 	{

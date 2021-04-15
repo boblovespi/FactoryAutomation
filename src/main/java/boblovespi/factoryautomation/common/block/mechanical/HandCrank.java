@@ -62,7 +62,7 @@ public class HandCrank extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEHandCrank();
 	}
@@ -73,12 +73,12 @@ public class HandCrank extends FABaseBlock
 	 * @return the result type of using the block.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
 		{
-			TileEntity tileEntity = world.getBlockEntity(pos);
+			TileEntity tileEntity = level.getBlockEntity(pos);
 			if (tileEntity instanceof TEHandCrank)
 			{
 				TEHandCrank crank = (TEHandCrank) tileEntity;
@@ -98,7 +98,7 @@ public class HandCrank extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		if (state.getValue(INVERTED))
 			return BOUNDING_BOX_I;
@@ -106,7 +106,7 @@ public class HandCrank extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

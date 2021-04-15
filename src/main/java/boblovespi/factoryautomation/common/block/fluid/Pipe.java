@@ -49,13 +49,13 @@ public class Pipe extends FABaseBlock
 		builder.add(CONNECTIONS);
 	}
 
-	private Connection GetConnectionFor(IBlockReader world, BlockPos pos, Direction side)
+	private Connection GetConnectionFor(IBlockReader level, BlockPos pos, Direction side)
 	{
 		pos = pos.offset(side);
-		if (world.getBlockState(pos).getBlock() instanceof Pipe || world.getBlockState(pos).getBlock() instanceof Pump)
+		if (world.getBlockState(pos).getBlock() instanceof Pipe || level.getBlockState(pos).getBlock() instanceof Pump)
 			return Connection.JOIN;
 
-		TileEntity te = world.getBlockEntity(pos);
+		TileEntity te = level.getBlockEntity(pos);
 		if (te != null && te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())
 							.isPresent())
 			return Connection.CONNECTOR;
@@ -69,7 +69,7 @@ public class Pipe extends FABaseBlock
 	 * Note that this method should ideally consider only the specific face passed in.
 	 */
 	@Override
-	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world,
+	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld level,
 			BlockPos currentPos, BlockPos facingPos)
 	{
 		return state.setValue(CONNECTIONS[facing.getIndex()], GetConnectionFor(world, currentPos, facing));
@@ -80,7 +80,7 @@ public class Pipe extends FABaseBlock
 	 */
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEPipe();
 	}

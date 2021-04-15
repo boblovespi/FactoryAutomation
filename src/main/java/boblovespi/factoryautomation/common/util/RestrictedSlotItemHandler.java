@@ -13,8 +13,8 @@ import java.util.BitSet;
  */
 public class RestrictedSlotItemHandler implements IItemHandler
 {
-	private BitSet restrictedSlots;
-	private ItemStackHandler wrappingHandler;
+	private final BitSet restrictedSlots;
+	private final ItemStackHandler wrappingHandler;
 
 	public RestrictedSlotItemHandler(BitSet restrictedSlots, ItemStackHandler wrappingHandler)
 	{

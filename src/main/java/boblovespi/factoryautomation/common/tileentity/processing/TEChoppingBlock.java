@@ -5,6 +5,8 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
@@ -18,15 +20,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 /**
  * Created by Willi on 12/26/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TEChoppingBlock extends TileEntity
 {
-	private int maxClicks = 5;
+	private final int maxClicks = 5;
 	private int clicksLeft = -1;
-	private ItemStackHandler slot;
+	private final ItemStackHandler slot;
 	private int craftsBeforeBreak;
 	private int craftsDone = 0;
 	private String recipe = "none";
@@ -58,10 +64,10 @@ public class TEChoppingBlock extends TileEntity
 			recipe = "none";
 			clicksLeft = -1;
 		}
-		markDirty();
+		setChanged();
 
 		/* IMPORTANT */
-		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
+		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -69,10 +75,10 @@ public class TEChoppingBlock extends TileEntity
 	{
 		ItemStack stack = slot.extractItem(0, 64, false);
 		clicksLeft = -1;
-		markDirty();
+		setChanged();
 
 		/* IMPORTANT */
-		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
+		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -81,7 +87,7 @@ public class TEChoppingBlock extends TileEntity
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
 			ItemStack taken = TakeItem();
-			ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
+			ItemHelper.PutItemsInInventoryOrDrop(player, taken, level);
 		} else
 		{
 			ItemStack stack = PlaceItem(item.copy().split(1));
@@ -125,12 +131,12 @@ public class TEChoppingBlock extends TileEntity
 				if (craftsDone > craftsBeforeBreak)
 				{
 					DropItems();
-					world.destroyBlock(pos, false);
+					Objects.requireNonNull(level).destroyBlock(worldPosition, false);
 				}
-				markDirty();
+				setChanged();
 
 				/* IMPORTANT */
-				world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
+				Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 			}
 			ItemHelper.DamageItem(tool);
 		}
@@ -139,9 +145,9 @@ public class TEChoppingBlock extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.load(state, tag);
 		clicksLeft = tag.getInt("clicksLeft");
 		slot.deserializeNBT(tag.getCompound("slot"));
 		craftsBeforeBreak = tag.getInt("craftsBeforeBreak");
@@ -150,20 +156,20 @@ public class TEChoppingBlock extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.putInt("clicksLeft", clicksLeft);
 		tag.putInt("craftsBeforeBreak", craftsBeforeBreak);
 		tag.putInt("craftsDone", craftsDone);
 		tag.putString("recipe", recipe);
 		tag.put("slot", slot.serializeNBT());
-		return super.write(tag);
+		return super.save(tag);
 	}
 
 	public void DropItems()
 	{
-		if (!world.isClientSide && !slot.getStackInSlot(0).isEmpty())
-			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
+		if (!Objects.requireNonNull(level).isClientSide && !slot.getStackInSlot(0).isEmpty())
+			level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack GetRenderStack()
@@ -175,7 +181,7 @@ public class TEChoppingBlock extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -183,7 +189,7 @@ public class TEChoppingBlock extends TileEntity
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		write(nbt);
-		return new SUpdateTileEntityPacket(pos, 0, nbt);
+		save(nbt);
+		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
 	}
 }

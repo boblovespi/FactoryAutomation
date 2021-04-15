@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.block.mechanical.LeatherBellows.FACING;
 import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
@@ -31,6 +32,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 /**
  * Created by Willi on 5/11/2019.
  */
+@SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TELeatherBellows extends TileEntity implements ITickableTileEntity, IBellowsTE
@@ -49,21 +51,21 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 
 	public void FirstLoad()
 	{
-		Direction dir = getBlockState().get(FACING);
+		Direction dir = getBlockState().getValue(FACING);
 		mechanicalUser.SetSides(EnumSet.of(dir.getOpposite()));
 		firstTick = false;
 	}
 
 	public void Blow()
 	{
-		Direction facing = getBlockState().get(PaperBellows.FACING);
-		TileEntity te = level.getBlockEntity(worldPosition.offset(facing));
+		Direction facing = getBlockState().getValue(PaperBellows.FACING);
+		TileEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.relative(facing));
 		if (te == null)
 			return;
 		LazyOptional<IBellowsable> capability = te
 				.getCapability(CapabilityBellowsUser.BELLOWS_USER_CAPABILITY, facing.getOpposite());
 		capability.ifPresent(n -> n.Blow(MathHelper.clamp(mechanicalUser.GetTorque() / 30f, 0.5f, 1), 50));
-		level.playSound(null, worldPosition, SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
+		level.playSound(null, levelPosition, SoundEvents.ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
 	}
 
 	@Override
@@ -91,8 +93,8 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 		c2--;
 		if (c2 <= 0)
 		{
-			Direction facing = getBlockState().get(FACING);
-			TileEntity te = level.getBlockEntity(worldPosition.offset(facing.getOpposite()));
+			Direction facing = getBlockState().getValue(FACING);
+			TileEntity te = level.getBlockEntity(worldPosition.relative(facing.getOpposite()));
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
 				mechanicalUser.SetSpeedOnFace(facing.getOpposite(), GetUser(te, facing).GetSpeedOnFace(facing));
@@ -125,6 +127,7 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 		return super.save(tag);
 	}
 
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
 	{

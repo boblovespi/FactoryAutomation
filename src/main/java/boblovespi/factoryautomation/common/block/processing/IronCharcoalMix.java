@@ -47,13 +47,13 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public int tickRate(IWorldReader worldIn)
+	public int tickRate(IWorldReader levelIn)
 	{
 		return 6000;
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
 	{
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
@@ -73,10 +73,10 @@ public class IronCharcoalMix extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block1, BlockPos fromPos,
+	public void neighborChanged(BlockState state, World level, BlockPos pos, Block block1, BlockPos fromPos,
 			boolean isMoving)
 	{
-		BlockState block = world.getBlockState(fromPos);
+		BlockState block = level.getBlockState(fromPos);
 		boolean sidesOnFire = false;
 		boolean isSurrounded = true;
 		if (!state.getValue(ACTIVATED))
@@ -86,8 +86,8 @@ public class IronCharcoalMix extends FABaseBlock
 				for (Direction face : Direction.values())
 				{
 					BlockPos offset = pos.offset(face);
-					BlockState state1 = world.getBlockState(offset);
-					if (state1.getBlock().isAir(state1, world, offset))
+					BlockState state1 = level.getBlockState(offset);
+					if (state1.getBlock().isAir(state1, level, offset))
 					{
 						isSurrounded = false;
 						world.setBlockState(offset, ((FireBlock) Blocks.FIRE).getStateForPlacement(world, offset));
@@ -113,8 +113,8 @@ public class IronCharcoalMix extends FABaseBlock
 			for (Direction face : Direction.values())
 			{
 				BlockPos offset = pos.offset(face);
-				BlockState state1 = world.getBlockState(offset);
-				if (state1.getBlock().isAir(state1, world, offset))
+				BlockState state1 = level.getBlockState(offset);
+				if (state1.getBlock().isAir(state1, level, offset))
 				{
 					isSurrounded = false;
 					world.setBlockState(offset, Blocks.FIRE.getDefaultState());
@@ -134,7 +134,7 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos)
+	public boolean isBurning(BlockState state, IBlockReader level, BlockPos pos)
 	{
 		return state.getValue(ACTIVATED);
 	}
@@ -146,7 +146,7 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, World level, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(ACTIVATED))
 			return;
@@ -159,15 +159,15 @@ public class IronCharcoalMix extends FABaseBlock
 		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
-	private boolean isSurrounded(World world, BlockPos pos, @Nullable Predicate<BlockState> block)
+	private boolean isSurrounded(World level, BlockPos pos, @Nullable Predicate<BlockState> block)
 	{
 		for (Direction dir : Direction.values())
 		{
 			BlockPos offset = pos.offset(dir);
-			BlockState state = world.getBlockState(offset);
+			BlockState state = level.getBlockState(offset);
 			if (block == null)
 			{
-				if (!Block.hasSolidSide(state, world, offset, dir.getOpposite()) && state.getBlock() != this)
+				if (!Block.hasSolidSide(state, level, offset, dir.getOpposite()) && state.getBlock() != this)
 					return false;
 			} else
 			{

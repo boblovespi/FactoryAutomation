@@ -54,7 +54,7 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 	}
 
 	@Override
-	public void stepOn(World world, BlockPos pos, Entity entity)
+	public void stepOn(World level, BlockPos pos, Entity entity)
 	{
 		if (entity instanceof PlayerEntity)
 		{

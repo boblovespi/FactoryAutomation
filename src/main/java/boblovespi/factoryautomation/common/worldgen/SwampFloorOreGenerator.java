@@ -37,7 +37,7 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 	}
 
 	@Override
-	public boolean place(IWorld worldIn, ChunkGenerator generator, Random rand, BlockPos basePos,
+	public boolean place(IWorld levelIn, ChunkGenerator generator, Random rand, BlockPos basePos,
 			NoFeatureConfig config)
 	{
 		if (worldIn.getBiome(basePos).getCategory() != Biome.Category.SWAMP)
@@ -65,12 +65,12 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 					BlockPos pos = basePos.add(x, y, z);
 
 					//					System.out.println(
-					//							"worldIn = [" + worldIn + "], rand = [" + rand
+					//							"worldIn = [" + levelIn + "], rand = [" + rand
 					//									+ "], basePos = [" + basePos + "]");
 					//					System.out.println("pos = " + pos);
 
-					if (pos.distanceSq(basePos) <= radius * radius && worldIn.getFluidState(pos.up()).getFluid()
-																			 .isEquivalentTo(Fluids.WATER) && worldIn
+					if (pos.distanceSq(basePos) <= radius * radius && levelIn.getFluidState(pos.up()).getFluid()
+																			 .isEquivalentTo(Fluids.WATER) && levelIn
 							.getFluidState(pos).isEmpty())
 					{
 						if (rand.nextFloat() < spawnChance * (1 - pos.down(y).distanceSq(basePos) / (radius * radius)))

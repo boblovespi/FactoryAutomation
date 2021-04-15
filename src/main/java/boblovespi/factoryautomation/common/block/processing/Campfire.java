@@ -67,13 +67,13 @@ public class Campfire extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TECampfire();
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		return BOUNDING_BOX;
 	}
@@ -84,17 +84,17 @@ public class Campfire extends FABaseBlock
 		builder.add(LIT);
 	}
 
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
+	public void onReplaced(BlockState state, World levelIn, BlockPos pos, BlockState newState, boolean isMoving)
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = worldIn.getBlockEntity(pos);
+			TileEntity te = levelIn.getBlockEntity(pos);
 			if (te instanceof TECampfire)
 			{
 				((TECampfire) te).DropItems();
 			}
 
-			super.onReplaced(state, worldIn, pos, newState, isMoving);
+			super.onReplaced(state, levelIn, pos, newState, isMoving);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class Campfire extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
@@ -115,12 +115,12 @@ public class Campfire extends FABaseBlock
 					|| item == FAItems.advancedFlintAndSteel.ToItem()))
 			{
 				world.setBlockState(pos, state.setValue(LIT, true));
-				TileEntity te = world.getBlockEntity(pos);
+				TileEntity te = level.getBlockEntity(pos);
 				if (te instanceof TECampfire)
 					((TECampfire) te).SetLit(true);
 			} else
 			{
-				TileEntity te = world.getBlockEntity(pos);
+				TileEntity te = level.getBlockEntity(pos);
 				if (te instanceof TECampfire)
 					((TECampfire) te).TakeOrPlace(stack, player);
 			}
@@ -129,7 +129,7 @@ public class Campfire extends FABaseBlock
 	}
 
 	@Override
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, World level, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(LIT))
 			return;

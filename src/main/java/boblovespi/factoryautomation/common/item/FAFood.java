@@ -76,7 +76,7 @@ public class FAFood extends Item implements FAItem
 		return this;
 	}
 
-	protected void applyPotionAffects(ItemStack stack, World worldIn, LivingEntity player)
+	protected void applyPotionAffects(ItemStack stack, World levelIn, LivingEntity player)
 	{
 		if (!worldIn.isClientSide)
 		{
@@ -89,7 +89,7 @@ public class FAFood extends Item implements FAItem
 	}
 
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving)
+	public ItemStack finishUsingItem(ItemStack stack, World levelIn, LivingEntity entityLiving)
 	{
 		stack.shrink(1);
 
@@ -106,7 +106,7 @@ public class FAFood extends Item implements FAItem
 
 			// PlayerEntity.addStat(StatList.getObjectUseStats(this));
 		}
-		applyPotionAffects(stack, worldIn, entityLiving);
+		applyPotionAffects(stack, levelIn, entityLiving);
 		return stack;
 	}
 
@@ -129,7 +129,7 @@ public class FAFood extends Item implements FAItem
 	}
 
 	@Override
-	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand hand)
+	public ActionResult<ItemStack> use(World levelIn, PlayerEntity playerIn, Hand hand)
 	{
 		ItemStack stack = playerIn.getItemInHand(hand);
 		if (playerIn.canEat(alwaysEdible))

@@ -99,13 +99,13 @@ public class BlastFurnaceController extends Block
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEBlastFurnaceController();
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World levelIn, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit)
 	{
 		if (!worldIn.isClientSide)
@@ -115,7 +115,7 @@ public class BlastFurnaceController extends Block
 				if (!worldIn.getBlockState(pos).getValue(MULTIBLOCK_COMPLETE))
 				{
 					CreateStructure(worldIn, pos);
-					worldIn.setBlockAndUpdate(pos, worldIn.getBlockState(pos).setValue(MULTIBLOCK_COMPLETE, true));
+					worldIn.setBlockAndUpdate(pos, levelIn.getBlockState(pos).setValue(MULTIBLOCK_COMPLETE, true));
 				}
 
 				NetworkHooks
@@ -125,7 +125,7 @@ public class BlastFurnaceController extends Block
 				if (worldIn.getBlockState(pos).getValue(MULTIBLOCK_COMPLETE))
 				{
 					BreakStructure(worldIn, pos);
-					worldIn.setBlockAndUpdate(pos, worldIn.getBlockState(pos).setValue(MULTIBLOCK_COMPLETE, false));
+					worldIn.setBlockAndUpdate(pos, levelIn.getBlockState(pos).setValue(MULTIBLOCK_COMPLETE, false));
 				}
 			}
 		}
@@ -137,7 +137,7 @@ public class BlastFurnaceController extends Block
 		return structurePattern;
 	}
 
-	public boolean IsValidStructure(World world, BlockPos pos, BlockState state)
+	public boolean IsValidStructure(World level, BlockPos pos, BlockState state)
 	{
 		boolean isValid = true;
 		MultiblockPart[][][] pattern = MultiblockHandler.Get(structurePattern).GetPattern();
@@ -154,17 +154,17 @@ public class BlastFurnaceController extends Block
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
 						TEMultiblockPart te = null;
-						if (world.getBlockEntity(lowerLeftFront.offset(x, y, z)) != null && world
+						if (world.getBlockEntity(lowerLeftFront.offset(x, y, z)) != null && level
 								.getBlockEntity(lowerLeftFront.offset(x, y, z)) instanceof TEMultiblockPart)
-							te = (TEMultiblockPart) world.getBlockEntity(lowerLeftFront.offset(x, y, z));
+							te = (TEMultiblockPart) level.getBlockEntity(lowerLeftFront.offset(x, y, z));
 
-						if (pattern[x][y][z].GetBlock() != world.getBlockState(lowerLeftFront.offset(x, y, z)).getBlock()
+						if (pattern[x][y][z].GetBlock() != level.getBlockState(lowerLeftFront.offset(x, y, z)).getBlock()
 								&& !(te != null && te.GetStructureId().equals(structurePattern) && Arrays
 								.equals(te.GetPosition(), new int[] { x, y, z })))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world",
+						Log.LogInfo("block in level",
 								world.getBlockState(lowerLeftFront.offset(x, y, z)).getBlock().getDescriptionId());
 						Log.LogInfo("block in pattern", pattern[x][y][z].GetBlock().getDescriptionId());
 						Log.LogInfo("te position", te != null ? Arrays.toString(te.GetPosition()) : "no te found");
@@ -185,17 +185,17 @@ public class BlastFurnaceController extends Block
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
 						TEMultiblockPart te = null;
-						if (world.getBlockEntity(lowerLeftFront.offset(-x, y, -z)) != null && world
+						if (world.getBlockEntity(lowerLeftFront.offset(-x, y, -z)) != null && level
 								.getBlockEntity(lowerLeftFront.offset(-x, y, -z)) instanceof TEMultiblockPart)
-							te = (TEMultiblockPart) world.getBlockEntity(lowerLeftFront.offset(-x, y, -z));
+							te = (TEMultiblockPart) level.getBlockEntity(lowerLeftFront.offset(-x, y, -z));
 
-						if (pattern[x][y][z].GetBlock() != world.getBlockState(lowerLeftFront.offset(-x, y, -z)).getBlock()
+						if (pattern[x][y][z].GetBlock() != level.getBlockState(lowerLeftFront.offset(-x, y, -z)).getBlock()
 								&& !(te != null && te.GetStructureId().equals(structurePattern) && Arrays
 								.equals(te.GetPosition(), new int[] { x, y, z })))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world",
+						Log.LogInfo("block in level",
 								world.getBlockState(lowerLeftFront.offset(-x, y, -z)).getBlock().getDescriptionId());
 						Log.LogInfo("block in pattern", pattern[x][y][z].GetBlock().getDescriptionId());
 						Log.LogInfo("te position", te != null ? Arrays.toString(te.GetPosition()) : "no te found");
@@ -216,17 +216,17 @@ public class BlastFurnaceController extends Block
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
 						TEMultiblockPart te = null;
-						if (world.getBlockEntity(lowerLeftFront.offset(-z, y, x)) != null && world
+						if (world.getBlockEntity(lowerLeftFront.offset(-z, y, x)) != null && level
 								.getBlockEntity(lowerLeftFront.offset(-z, y, x)) instanceof TEMultiblockPart)
-							te = (TEMultiblockPart) world.getBlockEntity(lowerLeftFront.offset(-z, y, x));
+							te = (TEMultiblockPart) level.getBlockEntity(lowerLeftFront.offset(-z, y, x));
 
-						if (pattern[x][y][z].GetBlock() != world.getBlockState(lowerLeftFront.offset(-z, y, x)).getBlock()
+						if (pattern[x][y][z].GetBlock() != level.getBlockState(lowerLeftFront.offset(-z, y, x)).getBlock()
 								&& !(te != null && te.GetStructureId().equals(structurePattern) && Arrays
 								.equals(te.GetPosition(), new int[] { x, y, z })))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world",
+						Log.LogInfo("block in level",
 								world.getBlockState(lowerLeftFront.offset(-z, y, x)).getBlock().getDescriptionId());
 						Log.LogInfo("block in pattern", pattern[x][y][z].GetBlock().getDescriptionId());
 						Log.LogInfo("te position", te != null ? Arrays.toString(te.GetPosition()) : "no te found");
@@ -247,17 +247,17 @@ public class BlastFurnaceController extends Block
 					for (int z = 0; z < pattern[x][y].length; z++)
 					{
 						TEMultiblockPart te = null;
-						if (world.getBlockEntity(lowerLeftFront.offset(z, y, -x)) != null && world
+						if (world.getBlockEntity(lowerLeftFront.offset(z, y, -x)) != null && level
 								.getBlockEntity(lowerLeftFront.offset(z, y, -x)) instanceof TEMultiblockPart)
-							te = (TEMultiblockPart) world.getBlockEntity(lowerLeftFront.offset(z, y, -x));
+							te = (TEMultiblockPart) level.getBlockEntity(lowerLeftFront.offset(z, y, -x));
 
-						if (pattern[x][y][z].GetBlock() != world.getBlockState(lowerLeftFront.offset(z, y, -x)).getBlock()
+						if (pattern[x][y][z].GetBlock() != level.getBlockState(lowerLeftFront.offset(z, y, -x)).getBlock()
 								&& !(te != null && te.GetStructureId().equals(structurePattern) && Arrays
 								.equals(te.GetPosition(), new int[] { x, y, z })))
 						{
 							isValid = false;
 						}
-						Log.LogInfo("block in world",
+						Log.LogInfo("block in level",
 								world.getBlockState(lowerLeftFront.offset(z, y, -x)).getBlock().getDescriptionId());
 						Log.LogInfo("block in pattern", pattern[x][y][z].GetBlock().getDescriptionId());
 						Log.LogInfo("te position", te != null ? Arrays.toString(te.GetPosition()) : "no te found");
@@ -273,7 +273,7 @@ public class BlastFurnaceController extends Block
 		return isValid;
 	}
 
-	public void CreateStructure(World world, BlockPos pos)
+	public void CreateStructure(World level, BlockPos pos)
 	{
 		MultiblockPart[][][] pattern = MultiblockHandler.Get(structurePattern).GetPattern();
 
@@ -284,20 +284,20 @@ public class BlastFurnaceController extends Block
 				for (int x = 0; x < pattern.length; x++) {
 					for (int y = 0; y < pattern[x].length; y++) {
 						for (int z = 0; z < pattern[x][y].length; z++) {
-							BlockState st = world.getBlockState(lowerLeftFront.offset(x, y, z));
+							BlockState st = level.getBlockState(lowerLeftFront.offset(x, y, z));
 
 							if (world.isEmptyBlock(lowerLeftFront.offset(x, y, z))
-									|| world.getBlockState(lowerLeftFront.offset(x, y, z)).getBlock() == this)
+									|| level.getBlockState(lowerLeftFront.offset(x, y, z)).getBlock() == this)
 								continue;
 
 							world.setBlockAndUpdate(lowerLeftFront.offset(x, y, z),
 									FABlocks.multiblockPart.ToBlock().defaultBlockState());
-							TileEntity te = world.getBlockEntity(lowerLeftFront.offset(x, y, z));
+							TileEntity te = level.getBlockEntity(lowerLeftFront.offset(x, y, z));
 							assert te instanceof TEMultiblockPart;
 							TEMultiblockPart part = (TEMultiblockPart) te;
 							part.SetMultiblockInformation(structurePattern, x, y, z, x, y, z - 1, st);
 
-							Log.LogInfo("block in world",
+							Log.LogInfo("block in level",
 									world.getBlockState(lowerLeftFront.offset(x, y, z)).getBlock().getDescriptionId());
 						}
 					}
@@ -310,20 +310,20 @@ public class BlastFurnaceController extends Block
 				for (int x = 0; x < pattern.length; x++) {
 					for (int y = 0; y < pattern[x].length; y++) {
 						for (int z = 0; z < pattern[x][y].length; z++) {
-							BlockState st = world.getBlockState(lowerLeftFront.offset(-x, y, -z));
+							BlockState st = level.getBlockState(lowerLeftFront.offset(-x, y, -z));
 
 							if (world.isEmptyBlock(lowerLeftFront.offset(-x, y, -z))
-									|| world.getBlockState(lowerLeftFront.offset(-x, y, -z)).getBlock() == this)
+									|| level.getBlockState(lowerLeftFront.offset(-x, y, -z)).getBlock() == this)
 								continue;
 
 							world.setBlockAndUpdate(lowerLeftFront.offset(-x, y, -z),
 									FABlocks.multiblockPart.ToBlock().defaultBlockState());
-							TileEntity te = world.getBlockEntity(lowerLeftFront.offset(-x, y, -z));
+							TileEntity te = level.getBlockEntity(lowerLeftFront.offset(-x, y, -z));
 							assert te instanceof TEMultiblockPart;
 							TEMultiblockPart part = (TEMultiblockPart) te;
 							part.SetMultiblockInformation(structurePattern, x, y, z, -x, y, -z + 1, st);
 
-							Log.LogInfo("block in world",
+							Log.LogInfo("block in level",
 									world.getBlockState(lowerLeftFront.offset(-x, y, -z)).getBlock().getDescriptionId());
 						}
 					}
@@ -336,20 +336,20 @@ public class BlastFurnaceController extends Block
 				for (int x = 0; x < pattern.length; x++) {
 					for (int y = 0; y < pattern[x].length; y++) {
 						for (int z = 0; z < pattern[x][y].length; z++) {
-							BlockState st = world.getBlockState(lowerLeftFront.offset(-z, y, x));
+							BlockState st = level.getBlockState(lowerLeftFront.offset(-z, y, x));
 
 							if (world.isEmptyBlock(lowerLeftFront.offset(-z, y, x))
-									|| world.getBlockState(lowerLeftFront.offset(-z, y, x)).getBlock() == this)
+									|| level.getBlockState(lowerLeftFront.offset(-z, y, x)).getBlock() == this)
 								continue;
 
 							world.setBlockAndUpdate(lowerLeftFront.offset(-z, y, x),
 									FABlocks.multiblockPart.ToBlock().defaultBlockState());
-							TileEntity te = world.getBlockEntity(lowerLeftFront.offset(-z, y, x));
+							TileEntity te = level.getBlockEntity(lowerLeftFront.offset(-z, y, x));
 							assert te instanceof TEMultiblockPart;
 							TEMultiblockPart part = (TEMultiblockPart) te;
 							part.SetMultiblockInformation(structurePattern, x, y, z, 1 - z, y, x, st);
 
-							Log.LogInfo("block in world",
+							Log.LogInfo("block in level",
 									world.getBlockState(lowerLeftFront.offset(-z, y, x)).getBlock().getDescriptionId());
 						}
 					}
@@ -362,20 +362,20 @@ public class BlastFurnaceController extends Block
 				for (int x = 0; x < pattern.length; x++) {
 					for (int y = 0; y < pattern[x].length; y++) {
 						for (int z = 0; z < pattern[x][y].length; z++) {
-							BlockState st = world.getBlockState(lowerLeftFront.offset(z, y, -x));
+							BlockState st = level.getBlockState(lowerLeftFront.offset(z, y, -x));
 
 							if (world.isEmptyBlock(lowerLeftFront.offset(z, y, -x))
-									|| world.getBlockState(lowerLeftFront.offset(z, y, -x)).getBlock() == this)
+									|| level.getBlockState(lowerLeftFront.offset(z, y, -x)).getBlock() == this)
 								continue;
 
 							world.setBlockAndUpdate(lowerLeftFront.offset(z, y, -x),
 									FABlocks.multiblockPart.ToBlock().defaultBlockState());
-							TileEntity te = world.getBlockEntity(lowerLeftFront.offset(z, y, -x));
+							TileEntity te = level.getBlockEntity(lowerLeftFront.offset(z, y, -x));
 							assert te instanceof TEMultiblockPart;
 							TEMultiblockPart part = (TEMultiblockPart) te;
 							part.SetMultiblockInformation(structurePattern, x, y, z, z - 1, y, -x, st);
 
-							Log.LogInfo("block in world",
+							Log.LogInfo("block in level",
 									world.getBlockState(lowerLeftFront.offset(z, y, -x)).getBlock().getDescriptionId());
 						}
 					}
@@ -385,7 +385,7 @@ public class BlastFurnaceController extends Block
 		}
 	}
 
-	public void BreakStructure(World world, BlockPos pos)
+	public void BreakStructure(World level, BlockPos pos)
 	{
 		MultiblockPart[][][] pattern = MultiblockHandler.Get(structurePattern).GetPattern();
 
@@ -399,7 +399,7 @@ public class BlastFurnaceController extends Block
 							if (world.isEmptyBlock(lowerLeftFront.offset(x, y, z)))
 								continue;
 
-							TileEntity te = world.getBlockEntity(lowerLeftFront.offset(x, y, z));
+							TileEntity te = level.getBlockEntity(lowerLeftFront.offset(x, y, z));
 
 							// Todo: remove null check, it shouldn't be null anyways.
 							if (te == null || !(te instanceof TEMultiblockPart))
@@ -413,7 +413,7 @@ public class BlastFurnaceController extends Block
 									MultiblockHandler.Get(structurePattern).GetPattern()[x][y][z].GetBlock()
 																								 .defaultBlockState());
 
-							Log.LogInfo("block in world",
+							Log.LogInfo("block in level",
 									world.getBlockState(lowerLeftFront.offset(x, y, z)).getBlock().defaultBlockState());
 						}
 					}
@@ -433,7 +433,7 @@ public class BlastFurnaceController extends Block
 							if (world.isEmptyBlock(lowerLeftFront.offset(-x, y, -z)))
 								continue;
 
-							TileEntity te = world.getBlockEntity(lowerLeftFront.offset(-x, y, -z));
+							TileEntity te = level.getBlockEntity(lowerLeftFront.offset(-x, y, -z));
 
 							// Todo: remove null check, it shouldn't be null anyways.
 							if (te == null || !(te instanceof TEMultiblockPart))
@@ -447,7 +447,7 @@ public class BlastFurnaceController extends Block
 									MultiblockHandler.Get(structurePattern).GetPattern()[x][y][z].GetBlock()
 																								 .defaultBlockState());
 
-							Log.LogInfo("block in world",
+							Log.LogInfo("block in level",
 									world.getBlockState(lowerLeftFront.offset(-x, y, -z)).getBlock().getDescriptionId());
 						}
 					}
@@ -467,7 +467,7 @@ public class BlastFurnaceController extends Block
 							if (world.isEmptyBlock(lowerLeftFront.offset(-z, y, x)))
 								continue;
 
-							TileEntity te = world.getBlockEntity(lowerLeftFront.offset(-z, y, x));
+							TileEntity te = level.getBlockEntity(lowerLeftFront.offset(-z, y, x));
 
 							// Todo: remove null check, it shouldn't be null anyways.
 							if (te == null || !(te instanceof TEMultiblockPart))
@@ -480,7 +480,7 @@ public class BlastFurnaceController extends Block
 									MultiblockHandler.Get(structurePattern).GetPattern()[x][y][z].GetBlock()
 																								 .defaultBlockState());
 
-							Log.LogInfo("block in world",
+							Log.LogInfo("block in level",
 									world.getBlockState(lowerLeftFront.offset(-z, y, x)).getBlock().getDescriptionId());
 						}
 					}
@@ -496,7 +496,7 @@ public class BlastFurnaceController extends Block
 							if (world.isEmptyBlock(lowerLeftFront.offset(z, y, -x)))
 								continue;
 
-							TileEntity te = world.getBlockEntity(lowerLeftFront.offset(z, y, -x));
+							TileEntity te = level.getBlockEntity(lowerLeftFront.offset(z, y, -x));
 
 							// Todo: remove null check, it shouldn't be null anyways.
 							if (te == null || !(te instanceof TEMultiblockPart))
@@ -509,7 +509,7 @@ public class BlastFurnaceController extends Block
 									MultiblockHandler.Get(structurePattern).GetPattern()[x][y][z].GetBlock()
 																								 .defaultBlockState());
 
-							Log.LogInfo("block in world",
+							Log.LogInfo("block in level",
 									world.getBlockState(lowerLeftFront.offset(z, y, -x)).getBlock().getDescriptionId());
 						}
 					}
@@ -519,8 +519,8 @@ public class BlastFurnaceController extends Block
 		}
 	}
 
-	public void SetStructureCompleted(World world, BlockPos pos, boolean completed)
+	public void SetStructureCompleted(World level, BlockPos pos, boolean completed)
 	{
-		world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(MULTIBLOCK_COMPLETE, completed));
+		world.setBlockAndUpdate(pos, level.getBlockState(pos).setValue(MULTIBLOCK_COMPLETE, completed));
 	}
 }

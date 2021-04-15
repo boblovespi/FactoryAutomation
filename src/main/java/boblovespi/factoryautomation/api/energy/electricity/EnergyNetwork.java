@@ -41,13 +41,13 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		super(DATA_NAME);
 	}
 
-	public static EnergyNetwork GetFromWorld(ServerWorld world)
+	public static EnergyNetwork GetFromWorld(ServerWorld level)
 	{
 		System.out.println("Loading energy network!");
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		EnergyNetwork instance;
-		DimensionSavedDataManager storage = world.getSavedData();
+		DimensionSavedDataManager storage = level.getSavedData();
 		try
 		{
 			instance = (EnergyNetwork) storage.getOrCreate(EnergyNetwork::new, DATA_NAME);
@@ -71,7 +71,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		return instance;
 	}
 
-	private void Init(World world)
+	private void Init(World level)
 	{
 		if (isInit)
 			return;
@@ -91,7 +91,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public void Update(World world)
+	public void Update(World level)
 	{
 		if (!isInit)
 			Init(world);

@@ -62,12 +62,12 @@ public class Motor extends FABaseBlock implements IEnergyBlock
 	 *
 	 * @param state The state of the machine
 	 * @param side  The side power is being connected to
-	 * @param world The world access
+	 * @param level The level access
 	 * @param pos   The position of the block
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	@Override
-	public boolean CanConnectCable(BlockState state, Direction side, IBlockReader world, BlockPos pos)
+	public boolean CanConnectCable(BlockState state, Direction side, IBlockReader level, BlockPos pos)
 	{
 		return side == state.getValue(FACING);
 	}
@@ -85,7 +85,7 @@ public class Motor extends FABaseBlock implements IEnergyBlock
 	}
 
 	@Override
-	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

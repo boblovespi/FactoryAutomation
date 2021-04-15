@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
  */
 public class ItemInfo
 {
-	private Item item;
-	private int meta;
+	private final Item item;
+	private final int meta;
 
 	public ItemInfo(Item item, int meta)
 	{

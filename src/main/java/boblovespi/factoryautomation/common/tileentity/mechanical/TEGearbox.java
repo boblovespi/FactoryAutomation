@@ -242,7 +242,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			{
 				ItemStack stack = new ItemStack(FAItems.gear.GetItem(outputGear), 1);
 				stack.setDamageValue(outputGear.durability - outputDurability);
-				level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack));
+				level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), stack));
 			}
 
 			outputGear = null;
@@ -257,7 +257,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			{
 				ItemStack stack = new ItemStack(FAItems.gear.GetItem(inputGear), 1);
 				stack.setDamageValue(inputGear.durability - inputDurability);
-				level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack));
+				level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), stack));
 			}
 
 			inputGear = null;

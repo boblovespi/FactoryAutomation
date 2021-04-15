@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,6 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -28,14 +30,19 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.block.machine.SteelmakingFurnaceController.MULTIBLOCK_COMPLETE;
 
 /**
  * Created by Willi on 12/24/2017.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public class TESteelmakingFurnace extends TileEntity
 		implements ITickableTileEntity, IMultiblockControllerTE, INamedContainerProvider
 {
@@ -47,26 +54,26 @@ public class TESteelmakingFurnace extends TileEntity
 	public static final int AIR_INPUT_SLOT = 9;
 	public static final int FUEL_INPUT_SLOT = 10; // not to be confused with the furnace fuel input slot, this one is used for recipes
 
-	private ItemStackHandler itemHandler;
-	private MultiFluidTank fluidHandler;
+	private final ItemStackHandler itemHandler;
+	private final MultiFluidTank fluidHandler;
 	private boolean isValid;
 
 	private float currentSmeltTime = 1;
 	private float currentMaxSmeltTime = 1;
 	private float currentTemp = 0;
-	private float maxTemp = 1500;
+	private final float maxTemp = 1500;
 	private float currentBurnTime = 0;
 	private float currentMaxBurnTime = 1;
 
-	private float smeltScalar = 1;
-	private float burnScalar = 1;
-	private float tempSpeedScalar = 1;
+	private final float smeltScalar = 1;
+	private final float burnScalar = 1;
+	private final float tempSpeedScalar = 1;
 
 	private boolean isBurningFuel = false;
 	private boolean isSmeltingItem = false;
 
 	private SteelmakingRecipe currentRecipe = null;
-	private IIntArray containerInfo = new IIntArray()
+	private final IIntArray containerInfo = new IIntArray()
 	{
 		@Override
 		public int get(int index)
@@ -92,7 +99,7 @@ public class TESteelmakingFurnace extends TileEntity
 		}
 
 		@Override
-		public int size()
+		public int getCount()
 		{
 			return 4;
 		}
@@ -120,19 +127,19 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public void CreateStructure()
 	{
-		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID,
-				world.getBlockState(pos).get(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
+		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID,
+				Objects.requireNonNull(level).getBlockState(worldPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
 						Direction.NORTH);
-		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, true));
+		level.setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MULTIBLOCK_COMPLETE, true));
 	}
 
 	@Override
 	public void BreakStructure()
 	{
-		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID,
-				world.getBlockState(pos).get(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
+		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID,
+				Objects.requireNonNull(level).getBlockState(worldPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
 						Direction.NORTH);
-		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, false));
+		level.setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MULTIBLOCK_COMPLETE, false));
 	}
 
 	@Nonnull
@@ -149,7 +156,7 @@ public class TESteelmakingFurnace extends TileEntity
 	public void tick()
 	{
 		// Log.LogInfo("heat", currentTemp);
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 			return;
 		if (!isSmeltingItem)
 		{
@@ -221,7 +228,7 @@ public class TESteelmakingFurnace extends TileEntity
 
 			if (currentSmeltTime < 0) // we are done smelting
 			{
-				if (CanInsertOutputs(currentRecipe))
+				if (CanInsertOutputs(Objects.requireNonNull(currentRecipe)))
 				{
 					for (int i = 0; i < currentRecipe.GetItemInputs().size(); i++)
 					{
@@ -242,11 +249,11 @@ public class TESteelmakingFurnace extends TileEntity
 			}
 		}
 
-		markDirty();
+		setChanged();
 
 		/* IMPORTANT */
-		BlockState state = world.getBlockState(pos);
-		world.sendBlockUpdated(pos, state, state, 3);
+		BlockState state = level.getBlockState(worldPosition);
+		level.sendBlockUpdated(worldPosition, state, state, 3);
 	}
 
 	private boolean CanInsertOutputs(SteelmakingRecipe r)
@@ -264,7 +271,7 @@ public class TESteelmakingFurnace extends TileEntity
 		return true;
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
@@ -276,7 +283,7 @@ public class TESteelmakingFurnace extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(BlockState state, CompoundNBT tag)
 	{
 		currentSmeltTime = tag.getFloat("currentSmeltTime");
 		currentMaxSmeltTime = tag.getFloat("currentMaxSmeltTime");
@@ -291,11 +298,11 @@ public class TESteelmakingFurnace extends TileEntity
 
 		itemHandler.deserializeNBT(tag.getCompound("itemHandler"));
 
-		super.read(tag);
+		super.load(state, tag);
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.putFloat("currentSmeltTime", currentSmeltTime);
 		tag.putFloat("currentMaxSmeltTime", currentMaxSmeltTime);
@@ -310,9 +317,10 @@ public class TESteelmakingFurnace extends TileEntity
 
 		tag.put("itemHandler", itemHandler.serializeNBT());
 
-		return super.write(tag);
+		return super.save(tag);
 	}
 
+	@Nullable
 	private SteelmakingRecipe GetRecipe()
 	{
 		List<ItemStack> items = new ArrayList<>(4);
@@ -329,7 +337,7 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -337,8 +345,8 @@ public class TESteelmakingFurnace extends TileEntity
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		write(nbt);
-		return new SUpdateTileEntityPacket(pos, 0, nbt);
+		save(nbt);
+		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
 	}
 
 	public float GetTempPercent()
@@ -364,13 +372,13 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return null;
+		return new StringTextComponent("");
 	}
 
 	@Nullable
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerSteelmakingFurnace(id, playerInv, itemHandler, containerInfo, pos);
+		return new ContainerSteelmakingFurnace(id, playerInv, itemHandler, containerInfo, worldPosition);
 	}
 }

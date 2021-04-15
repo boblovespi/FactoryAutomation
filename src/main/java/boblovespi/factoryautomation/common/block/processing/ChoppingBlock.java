@@ -48,41 +48,41 @@ public class ChoppingBlock extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEChoppingBlock(maxUses);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		return BOUNDING_BOX;
 	}
 
 	@Override
-	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
+	public void onBlockClicked(BlockState state, World level, BlockPos pos, PlayerEntity player)
 	{
 		if (world.isClientSide)
 			return;
-		TileEntity te = world.getBlockEntity(pos);
+		TileEntity te = level.getBlockEntity(pos);
 		if (te instanceof TEChoppingBlock)
 			((TEChoppingBlock) te).LeftClick(player.getItemInHandMainhand());
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 		ItemStack item = player.getItemInHand(hand);
-		TileEntity te = world.getBlockEntity(pos);
+		TileEntity te = level.getBlockEntity(pos);
 		//		if (item.isEmpty())
 		//		{
 		//			if (te instanceof TEChoppingBlock)
 		//			{
 		//				ItemStack taken = ((TEChoppingBlock) te).TakeItem();
-		//				ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
+		//				ItemHelper.PutItemsInInventoryOrDrop(player, taken, level);
 		//			}
 		//		} else
 		//		{
@@ -100,18 +100,18 @@ public class ChoppingBlock extends FABaseBlock
 		return ActionResultType.SUCCESS;
 	}
 
-	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving)
+	public void onReplaced(BlockState state, World levelIn, BlockPos pos, BlockState newState, boolean isMoving)
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = worldIn.getBlockEntity(pos);
+			TileEntity te = levelIn.getBlockEntity(pos);
 
 			if (te instanceof TEChoppingBlock)
 			{
 				((TEChoppingBlock) te).DropItems();
 			}
 
-			super.onReplaced(state, worldIn, pos, newState, isMoving);
+			super.onReplaced(state, levelIn, pos, newState, isMoving);
 		}
 	}
 }

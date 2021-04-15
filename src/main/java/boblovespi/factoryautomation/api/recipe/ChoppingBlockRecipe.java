@@ -47,7 +47,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		if (STRING_MAP.containsKey(name))
 			return;
 		ChoppingBlockRecipe recipe = new ChoppingBlockRecipe(
-				name, Ingredient.fromTag(ItemTags.getCollection().getOrCreate(oreName)), output);
+				name, Ingredient.fromTag(ItemTags.getAllTags().getOrCreate(oreName)), output);
 		STRING_MAP.putIfAbsent(name, recipe);
 		OREDICT_MAP.put(oreName.toString(), recipe);
 	}

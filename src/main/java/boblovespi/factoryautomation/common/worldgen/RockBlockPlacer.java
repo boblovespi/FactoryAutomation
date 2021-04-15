@@ -2,8 +2,9 @@ package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.resource.Rock;
 import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
+import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.DynamicOps;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -12,17 +13,23 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.blockplacer.BlockPlacer;
 import net.minecraft.world.gen.blockplacer.BlockPlacerType;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 import static boblovespi.factoryautomation.common.block.resource.Rock.VARIANTS;
 
+/**
+ * Todo: transform to 1.16.5
+ */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class RockBlockPlacer extends BlockPlacer
 {
 	public static final BlockPlacerType<?> TYPE = BlockPlacerType.register("rock_block_placer", RockBlockPlacer::new);
 
 	public RockBlockPlacer()
 	{
-		super(TYPE);
+		super();
 	}
 
 	public RockBlockPlacer(Dynamic<?> unused)
@@ -31,18 +38,18 @@ public class RockBlockPlacer extends BlockPlacer
 	}
 
 	@Override
-	public void func_225567_a_(IWorld world, BlockPos pos, BlockState state, Random random)
+	public void place(IWorld level, BlockPos pos, BlockState state, Random random)
 	{
-		Biome biome = world.getBiome(pos);
-		if (biome.getCategory() == Biome.Category.DESERT)
+		Biome biome = level.getBiome(pos);
+		if (biome.getBiomeCategory() == Biome.Category.DESERT)
 		{
-			world.setBlockState(pos, state.setValue(VARIANTS, Rock.Variants.SANDSTONE), 2);
-		} else if (biome.getCategory() == Biome.Category.SWAMP || biome.getCategory() == Biome.Category.TAIGA)
+			level.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.SANDSTONE), 2);
+		} else if (biome.getBiomeCategory() == Biome.Category.SWAMP || biome.getBiomeCategory() == Biome.Category.TAIGA)
 		{
-			world.setBlockState(pos, state.setValue(VARIANTS, Rock.Variants.MOSSY_COBBLESTONE), 2);
+			level.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.MOSSY_COBBLESTONE), 2);
 		} else
 		{
-			world.setBlockState(pos, state.setValue(VARIANTS, Rock.Variants.values()[random.nextInt(5)]), 2);
+			level.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.values()[random.nextInt(5)]), 2);
 		}
 	}
 
@@ -53,5 +60,10 @@ public class RockBlockPlacer extends BlockPlacer
 				dynamicOps.createString("type"),
 				dynamicOps.createString(Registry.BLOCK_PLACER_TYPE.getKey(this.field_227258_a_).toString())))))
 				.getValue();
+	}
+
+	@Override
+	protected BlockPlacerType<?> type() {
+		return TYPE;
 	}
 }

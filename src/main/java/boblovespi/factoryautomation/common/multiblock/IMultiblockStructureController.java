@@ -15,20 +15,20 @@ public interface IMultiblockStructureController
 {
 	String GetPatternId();
 
-	default boolean IsValidStructure(World world, BlockPos pos, BlockState state)
+	default boolean IsValidStructure(World level, BlockPos pos, BlockState state)
 	{
 		return false;
 	}
 
-	default void CreateStructure(World world, BlockPos pos)
+	default void CreateStructure(World level, BlockPos pos)
 	{
 	}
 
-	default void BreakStructure(World world, BlockPos pos)
+	default void BreakStructure(World level, BlockPos pos)
 	{
 	}
 
-	default void SetStructureCompleted(World world, BlockPos pos, boolean completed)
+	default void SetStructureCompleted(World level, BlockPos pos, boolean completed)
 	{
 	}
 }

@@ -14,6 +14,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import java.util.Objects;
+
 import static boblovespi.factoryautomation.common.block.processing.Treetap.FACING;
 
 /**
@@ -36,32 +38,33 @@ public class TETreetap extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide) {
 			return;
+		}
 		++counter;
 		counter %= AMOUNT_UNTIL_UPDATE;
 
 		if (counter == 0)
 		{
-			TileEntity te = world.getBlockEntity(pos.down());
+			TileEntity te = level.getBlockEntity(worldPosition.below());
 			if (te != null)
 			{
 				LazyOptional<IFluidHandler> handler = te
 						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP);
 				handler.ifPresent(n -> {
-					BlockPos offset = pos.offset(world.getBlockState(pos).get(FACING).getOpposite());
-					BlockState block = world.getBlockState(offset);
+					BlockPos offset = worldPosition.relative(level.getBlockState(worldPosition).getValue(FACING).getOpposite());
+					BlockState block = level.getBlockState(offset);
 					BlockPos leafPos = offset;
 					if (block.getBlock() == Blocks.JUNGLE_LOG)
 					{
 						while (true)
 						{
-							BlockState state = world.getBlockState(leafPos);
+							BlockState state = level.getBlockState(leafPos);
 							if (state.getBlock() != Blocks.JUNGLE_LOG && state.getBlock() != Blocks.JUNGLE_LEAVES)
 								return;
 							if (state.getBlock() == Blocks.JUNGLE_LEAVES && state.getValue(LeavesBlock.PERSISTENT))
 								break;
-							leafPos = leafPos.up();
+							leafPos = leafPos.above();
 						}
 						n.fill(new FluidStack(Fluids.rubberSap.still.get(), AMOUNT_PER_UPDATE), IFluidHandler.FluidAction.EXECUTE);
 					}

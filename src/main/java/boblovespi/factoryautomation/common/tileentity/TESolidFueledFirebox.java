@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,11 +19,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser.HEAT_USER_CAPABILITY;
 import static boblovespi.factoryautomation.common.tileentity.TileEntityHandler.teSolidFueledFirebox;
@@ -33,15 +39,18 @@ import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABI
 /**
  * Created by Willi on 10/28/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public class TESolidFueledFirebox extends TileEntity implements ITickableTileEntity, INamedContainerProvider
 {
-	private HeatUser heatUser;
-	private ItemStackHandler inventory;
+	private final HeatUser heatUser;
+	private final ItemStackHandler inventory;
 	private int burnTime = 0;
 	private int maxBurnTime = 1;
 	private FuelRegistry.FuelInfo fuelInfo = FuelRegistry.NULL;
 	private boolean isBurningFuel = false;
-	private IIntArray containerInfo = new IIntArray()
+	private final IIntArray containerInfo = new IIntArray()
 	{
 		@Override
 		public int get(int index)
@@ -65,7 +74,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		}
 
 		@Override
-		public int size()
+		public int getCount()
 		{
 			return 3;
 		}
@@ -127,15 +136,16 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 			}
 		}
 
-		markDirty();
+		setChanged();
 
 		// TODO: FIGURE OUT UPDATING TEs
-		BlockState state = world.getBlockState(pos);
-		world.sendBlockUpdated(pos, state, state, DEFAULT | NO_RERENDER);
+		BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
+		level.sendBlockUpdated(worldPosition, state, state, DEFAULT | NO_RERENDER);
 	}
 
+	@Nonnull
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
+	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == HEAT_USER_CAPABILITY && facing == Direction.UP)
 			return LazyOptional.of(() -> (T) heatUser);
@@ -160,7 +170,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(BlockState state, CompoundNBT tag)
 	{
 		burnTime = tag.getInt("burnTime");
 		maxBurnTime = tag.getInt("maxBurnTime");
@@ -169,11 +179,11 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		inventory.deserializeNBT(tag.getCompound("inventory"));
 		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
 
-		super.read(tag);
+		super.load(state, tag);
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.putInt("burnTime", burnTime);
 		tag.putInt("maxBurnTime", maxBurnTime);
@@ -182,13 +192,13 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		tag.put("inventory", inventory.serializeNBT());
 		tag.put("heatUser", heatUser.WriteToNBT());
 
-		return super.write(tag);
+		return super.save(tag);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -196,21 +206,21 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		write(nbt);
+		save(nbt);
 
-		return new SUpdateTileEntityPacket(pos, 0, nbt);
+		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
 	}
 
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return null;
+		return new StringTextComponent("");
 	}
 
 	@Nullable
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerSolidFueledFirebox(id, playerInv, inventory, containerInfo, pos);
+		return new ContainerSolidFueledFirebox(id, playerInv, inventory, containerInfo, worldPosition);
 	}
 }

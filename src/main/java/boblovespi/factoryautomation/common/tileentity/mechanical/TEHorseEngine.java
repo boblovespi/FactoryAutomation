@@ -79,9 +79,9 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 			angle--;
 			angle = angle % 8;
 			horse.getNavigation()
-				 .moveTo(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), worldPosition.getY() - 2,
-						 worldPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)), 1);
-			//			horse.setPosition(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), worldPosition.getY() - 2,
+				 .moveTo(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
+						 levelPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)), 1);
+			//			horse.setPosition(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
 			//					worldPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)));
 		}
 	}

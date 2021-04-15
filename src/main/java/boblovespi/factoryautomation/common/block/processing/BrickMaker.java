@@ -50,13 +50,13 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	public int tickRate(IWorldReader worldIn)
+	public int tickRate(IWorldReader levelIn)
 	{
 		return 3000;
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
 	{
 		Contents value = state.getValue(CONTENTS);
 		if (value.CanDry())
@@ -68,13 +68,13 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		return BOUNDING_BOX;
 	}
 
 	@Override
-	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
 		if (state.getValue(CONTENTS).CanAddClay())
 			return VoxelShapes.empty();
@@ -86,7 +86,7 @@ public class BrickMaker extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (world.isClientSide)
@@ -103,12 +103,12 @@ public class BrickMaker extends FABaseBlock
 			if (value.CanRemoveBrick())
 			{
 				world.setBlockState(pos, state.setValue(CONTENTS, value.RemoveClay()));
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.ToItem()), world);
+				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.ToItem()), level);
 
 			} else if (value.CanRemoveClay())
 			{
 				world.setBlockState(pos, state.setValue(CONTENTS, value.RemoveClay()));
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), world);
+				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), level);
 			}
 		}
 		return ActionResultType.SUCCESS;

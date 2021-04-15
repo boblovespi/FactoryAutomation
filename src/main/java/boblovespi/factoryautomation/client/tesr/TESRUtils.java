@@ -125,7 +125,7 @@ public class TESRUtils
 	public static void RenderBakedModel(IBakedModel model, VertexFormat fmt, int color)
 	{
 		/*Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder worldRenderer = tessellator.getBuffer();
+		BufferBuilder levelRenderer = tessellator.getBuffer();
 		worldRenderer.begin(GL11.GL_QUADS, fmt);
 		for (BakedQuad bakedquad : model.getQuads(null, null, 0))
 		{

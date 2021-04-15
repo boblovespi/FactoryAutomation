@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.nbt.CompoundNBT;
@@ -11,14 +12,20 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 /**
  * Created by Willi on 6/27/2018.
  */
+@SuppressWarnings("unchecked")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TEPlacedBucket extends TileEntity
 {
-	private FluidTank handler;
+	private final FluidTank handler;
 
 	public TEPlacedBucket()
 	{
@@ -28,28 +35,28 @@ public class TEPlacedBucket extends TileEntity
 			@Override
 			protected void onContentsChanged()
 			{
-				markDirty();
-				BlockState state = world.getBlockState(pos);
-				world.sendBlockUpdated(pos, state, state, 3);
+				setChanged();
+				BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
+				level.sendBlockUpdated(worldPosition, state, state, 3);
 			}
 		};
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound)
+	public CompoundNBT save(CompoundNBT compound)
 	{
 		handler.writeToNBT(compound);
-		return super.write(compound);
+		return super.save(compound);
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void load(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.load(state, compound);
 		handler.readFromNBT(compound);
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
@@ -58,6 +65,7 @@ public class TEPlacedBucket extends TileEntity
 		return super.getCapability(capability, facing);
 	}
 
+	@Nullable
 	public Fluid GetFluid()
 	{
 		if (handler.getFluidAmount() == handler.getCapacity())
@@ -74,6 +82,8 @@ public class TEPlacedBucket extends TileEntity
 	/**
 	 * If the TileEntitySpecialRenderer associated with this TileEntity can be batched in with another renderers, and won't access the GL state.
 	 * If TileEntity returns true, then TESR should have the same functionality as (and probably extend) the FastTESR class.
+	 *
+	 * Todo: translate to 1.16.5
 	 */
 	@Override
 	public boolean hasFastRenderer()

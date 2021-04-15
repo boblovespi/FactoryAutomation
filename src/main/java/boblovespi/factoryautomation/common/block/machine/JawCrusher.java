@@ -49,7 +49,7 @@ public class JawCrusher extends FABaseBlock
 	 */
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState meta, IBlockReader worldIn)
+	public TileEntity createTileEntity(BlockState meta, IBlockReader levelIn)
 	{
 		return new TEJawCrusher();
 	}
@@ -60,14 +60,14 @@ public class JawCrusher extends FABaseBlock
 	 * @return the result type of using this block.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand,
+	public ActionResultType use(BlockState state, World levelIn, BlockPos pos, PlayerEntity playerIn, Hand hand,
 			BlockRayTraceResult result)
 	{
 		if (worldIn.isClientSide)
 			return ActionResultType.SUCCESS;
 
 		ItemStack held = playerIn.getItemInHand(hand);
-		TileEntity te = worldIn.getBlockEntity(pos);
+		TileEntity te = levelIn.getBlockEntity(pos);
 		if (held.isEmpty())
 		{
 			if (te instanceof TEJawCrusher)

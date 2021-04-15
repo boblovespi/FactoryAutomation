@@ -7,6 +7,8 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -18,18 +20,23 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.block.machine.TripHammerController.*;
 
 /**
  * Created by Willi on 8/13/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public class TETripHammerController extends TileEntity implements IMultiblockControllerTE, ITickableTileEntity
 {
 	public static final String MULTIBLOCK_ID = "trip_hammer";
-	private ItemStackHandler itemHandler;
-	private MechanicalUser mechanicalUser;
+	private final ItemStackHandler itemHandler;
+	private final MechanicalUser mechanicalUser;
 	private boolean isValid;
 	private TripHammerRecipe currentRecipe = null;
 	private String currentRecipeString = "none";
@@ -44,7 +51,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 			@Override
 			protected void onContentsChanged(int slot)
 			{
-				markDirty();
+				setChanged();
 			}
 		};
 		mechanicalUser = new MechanicalUser();
@@ -52,8 +59,8 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 
 	public void FirstLoad()
 	{
-		Direction dir = getBlockState().get(FACING);
-		mechanicalUser.SetSides(EnumSet.of(dir.rotateY(), dir.rotateYCCW()));
+		Direction dir = getBlockState().getValue(FACING);
+		mechanicalUser.SetSides(EnumSet.of(dir.getClockWise(), dir.getCounterClockWise()));
 		firstTick = false;
 	}
 
@@ -73,24 +80,23 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	public void CreateStructure()
 	{
 		SetStructureValid();
-		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(FACING));
-		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
+		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
+		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
 	}
 
 	@Override
 	public void BreakStructure()
 	{
 		SetStructureInvalid();
-		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(FACING));
-		world.setBlockState(pos, getBlockState().with(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
+		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
+		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
 	}
 
 	public boolean PutItem(ItemStack item)
 	{
 		if (itemHandler.getStackInSlot(1).isEmpty() && itemHandler.getStackInSlot(0).isEmpty())
 		{
-			if (itemHandler.insertItem(0, item.split(1), false).isEmpty())
-				return true;
+			return itemHandler.insertItem(0, item.split(1), false).isEmpty();
 		}
 		return false;
 	}
@@ -116,8 +122,8 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	@Override
 	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
-		if (offset[0] == 5 && offset[1] == 1 && offset[2] == 0 && side.getAxis() == getBlockState().get(FACING)
-																								   .rotateY().getAxis()
+		if (offset[0] == 5 && offset[1] == 1 && offset[2] == 0 && side.getAxis() == getBlockState().getValue(FACING)
+																								   .getClockWise().getAxis()
 				&& capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> (T) mechanicalUser);
 		return LazyOptional.empty();
@@ -129,7 +135,8 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	@Override
 	public void tick()
 	{
-		if (world.isClientSide)
+		// Todo: clean up empty if statement.
+		if (Objects.requireNonNull(level).isClientSide)
 		{
 			// do rendering calculations
 		} else
@@ -149,7 +156,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 					if (recipe != null)
 					{
 						currentRecipeString = recipe.name;
-						markDirty();
+						setChanged();
 						timeLeftInRecipe = recipe.time;
 					}
 				} else
@@ -170,32 +177,32 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 					currentRecipeString = "none";
 
 				}
-				markDirty();
+				setChanged();
 			}
-			Direction facing = getBlockState().get(FACING);
+			Direction facing = getBlockState().getValue(FACING);
 
-			BlockPos pos2 = MultiblockHelper.AddWithRotation(pos, 5, 1, 0, facing);
-			Direction rotateY = facing.rotateY();
-			Direction rotateYCCW = facing.rotateYCCW();
-			TileEntity teCW = world.getBlockEntity(pos2.offset(rotateY, 1));
-			TileEntity teCCW = world.getBlockEntity(pos2.offset(rotateYCCW, 1));
+			BlockPos pos2 = MultiblockHelper.AddWithRotation(worldPosition, 5, 1, 0, facing);
+			Direction clockWise = facing.getClockWise();
+			Direction counterClockWise = facing.getCounterClockWise();
+			TileEntity teCW = level.getBlockEntity(pos2.relative(clockWise, 1));
+			TileEntity teCCW = level.getBlockEntity(pos2.relative(counterClockWise, 1));
 
-			if (TEHelper.IsMechanicalFace(teCW, rotateYCCW))
+			if (TEHelper.IsMechanicalFace(teCW, counterClockWise))
 			{
-				mechanicalUser.SetSpeedOnFace(rotateY, TEHelper.GetUser(teCW, rotateYCCW).GetSpeedOnFace(rotateYCCW));
-				mechanicalUser.SetTorqueOnFace(rotateY, TEHelper.GetUser(teCW, rotateYCCW).GetTorqueOnFace(rotateYCCW));
-			} else if (TEHelper.IsMechanicalFace(teCCW, rotateY))
+				mechanicalUser.SetSpeedOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).GetSpeedOnFace(counterClockWise));
+				mechanicalUser.SetTorqueOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).GetTorqueOnFace(counterClockWise));
+			} else if (TEHelper.IsMechanicalFace(teCCW, clockWise))
 			{
-				mechanicalUser.SetSpeedOnFace(rotateYCCW, TEHelper.GetUser(teCCW, rotateY).GetSpeedOnFace(rotateY));
-				mechanicalUser.SetTorqueOnFace(rotateYCCW, TEHelper.GetUser(teCCW, rotateY).GetTorqueOnFace(rotateY));
+				mechanicalUser.SetSpeedOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).GetSpeedOnFace(clockWise));
+				mechanicalUser.SetTorqueOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).GetTorqueOnFace(clockWise));
 			}
 		}
 	}
 
 	@Override
-	public void read(CompoundNBT nbt)
+	public void load(BlockState state, CompoundNBT nbt)
 	{
-		super.read(nbt);
+		super.load(state, nbt);
 
 		itemHandler.deserializeNBT(nbt.getCompound("inventory"));
 		mechanicalUser.ReadFromNBT(nbt.getCompound("mechanicalUser"));
@@ -204,13 +211,13 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT nbt)
+	public CompoundNBT save(CompoundNBT nbt)
 	{
 		nbt.put("inventory", itemHandler.serializeNBT());
 		nbt.put("mechanicalUser", mechanicalUser.WriteToNBT());
 		nbt.putString("recipe", currentRecipeString);
 		nbt.putFloat("timeLeftInRecipe", timeLeftInRecipe);
 
-		return super.write(nbt);
+		return super.save(nbt);
 	}
 }

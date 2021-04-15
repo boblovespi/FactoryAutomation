@@ -31,7 +31,7 @@ import static net.minecraft.world.gen.placement.Placement.COUNT_HEIGHTMAP_DOUBLE
 
 /**
  * Created by Willi on 12/28/2017.
- * world generator class
+ * level generator class
  */
 public class WorldGenHandler
 {
@@ -62,8 +62,8 @@ public class WorldGenHandler
 	{
 		for (Biome biome : ForgeRegistries.BIOMES.getValues())
 		{
-			if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND
-					&& biome.getCategory() != Biome.Category.NONE)
+			if (biome.getBiomeCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND
+					&& biome.getBiomeCategory() != Biome.Category.NONE)
 			{
 				AddOre(biome,
 						new OreFeatureConfig(NATURAL_STONE, FABlocks.metalOres.GetBlock(COPPER).getDefaultState(), 10),
@@ -111,21 +111,21 @@ public class WorldGenHandler
 	}
 
 	//	@Override
-	//	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
+	//	public void generate(Random random, int chunkX, int chunkZ, World level, IChunkGenerator chunkGenerator,
 	//			IChunkProvider chunkProvider)
 	//	{
 	//		switch (world.provider.getDimensionType())
 	//		{
 	//		case OVERWORLD:
-	//			RunGenerator(copperGen, world, random, chunkX, chunkZ, 9, 0, 64);
-	//			RunGenerator(tinGen, world, random, chunkX, chunkZ, 15, 0, 64);
+	//			RunGenerator(copperGen, level, random, chunkX, chunkZ, 9, 0, 64);
+	//			RunGenerator(tinGen, level, random, chunkX, chunkZ, 15, 0, 64);
 	//			if (random.nextFloat() < 0.2)
-	//				WaterFeatureGenerator(limoniteGen, world, random, chunkX, chunkZ, 1);
-	//			RunGenerator(rockGenerator, world, random, chunkX, chunkZ, 2, 50, 100);
-	//			RunGenerator(flintGenerator, world, random, chunkX, chunkZ, 1, 50, 100);
+	//				WaterFeatureGenerator(limoniteGen, level, random, chunkX, chunkZ, 1);
+	//			RunGenerator(rockGenerator, level, random, chunkX, chunkZ, 2, 50, 100);
+	//			RunGenerator(flintGenerator, level, random, chunkX, chunkZ, 1, 50, 100);
 	//			break;
 	//		case Biomes.THE_END:
-	//			RunGenerator(siliconQuartzGen, world, random, chunkX, chunkZ, 2, 0, 255);
+	//			RunGenerator(siliconQuartzGen, level, random, chunkX, chunkZ, 2, 0, 255);
 	//		default:
 	//			break;
 	//		}

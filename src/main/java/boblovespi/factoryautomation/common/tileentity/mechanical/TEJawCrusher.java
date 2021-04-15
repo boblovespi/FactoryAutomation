@@ -201,7 +201,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 
 	public void RemovePlate()
 	{
-		Objects.requireNonNull(level).addFreshEntity(new ItemEntity(level, worldPosition.getX() + 0.5, worldPosition.getY() + 1.1, worldPosition.getZ() + 0.5,
+		Objects.requireNonNull(level).addFreshEntity(new ItemEntity(level, levelPosition.getX() + 0.5, levelPosition.getY() + 1.1, levelPosition.getZ() + 0.5,
 				this.wearPlate.extractItem(0, 1, false)));
 	}
 

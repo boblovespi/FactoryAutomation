@@ -136,7 +136,7 @@ public class NBTHelper
 	{
 		Map<K, V> map = new HashMap<>();
 		CompoundNBT tag = compound.getCompound(key);
-		for (String k : tag.keySet())
+		for (String k : tag.getAllKeys())
 		{
 			map.put(keyDeserializer.apply(k), valueDeserializer.apply(tag.get(k)));
 		}

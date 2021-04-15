@@ -116,13 +116,13 @@ public class BlockEventHandler
 	public static void OnBlockBrokenEvent(BlockEvent.BreakEvent event)
 	{
 		BlockPos pos = event.getPos();
-		IWorld world = event.getWorld();
+		IWorld level = event.getWorld();
 		if (FABlocks.multiblockPart == event.getState().getBlock())
 		{
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
 
-			TEMultiblockPart part = (TEMultiblockPart) world.getBlockEntity(pos);
+			TEMultiblockPart part = (TEMultiblockPart) level.getBlockEntity(pos);
 
 			Log.LogInfo("part is null", part == null);
 
@@ -132,7 +132,7 @@ public class BlockEventHandler
 				int[] offset = part.GetOffset();
 
 				BlockPos controllerLoc = pos.add(-offset[0], -offset[1], -offset[2]);
-				TileEntity te = world.getBlockEntity(controllerLoc);
+				TileEntity te = level.getBlockEntity(controllerLoc);
 				if (te instanceof IMultiblockControllerTE)
 				{
 					IMultiblockControllerTE controllerTe = (IMultiblockControllerTE) te;
@@ -145,7 +145,7 @@ public class BlockEventHandler
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
 
-			IMultiblockControllerTE part = (IMultiblockControllerTE) world.getBlockEntity(pos);
+			IMultiblockControllerTE part = (IMultiblockControllerTE) level.getBlockEntity(pos);
 
 			part.BreakStructure();
 			part.SetStructureInvalid();
@@ -165,7 +165,7 @@ public class BlockEventHandler
 	{
 		BlockState state = event.getState();
 		BlockPos pos = event.getPos().immutable();
-		IWorld world = event.getWorld();
+		IWorld level = event.getWorld();
 		if (state.getBlock() == Blocks.FIRE)
 		{
 			if (!ashFires.containsKey(pos))
@@ -186,7 +186,7 @@ public class BlockEventHandler
 				for (Direction facing : ashFires.get(pos))
 				{
 					BlockPos oldWoodPos = pos.offset(facing.getNormal());
-					CheckAndSpawnAsh(world, world.getBlockState(oldWoodPos), oldWoodPos);
+					CheckAndSpawnAsh(world, level.getBlockState(oldWoodPos), oldWoodPos);
 				}
 				ashFires.remove(pos);
 			}
@@ -198,7 +198,7 @@ public class BlockEventHandler
 	{
 		BlockState state = event.getWorld().getBlockState(event.getPos());
 		BlockPos pos = event.getPos().immutable();
-		World world = event.getWorld();
+		World level = event.getWorld();
 		PlayerEntity player = event.getPlayer();
 
 		if (BlockTags.LOGS.contains(state.getBlock()))
@@ -212,12 +212,12 @@ public class BlockEventHandler
 		}
 	}
 
-	private static void CheckAndSpawnAsh(IWorld world, BlockState state, BlockPos pos)
+	private static void CheckAndSpawnAsh(IWorld level, BlockState state, BlockPos pos)
 	{
 		if (state.getBlock() == Blocks.FIRE || state.getBlock() == Blocks.AIR)
 		{
-			ItemEntity item = new ItemEntity((World) world, pos.getX(), pos.getY(), pos.getZ(),
-					new ItemStack(FAItems.ash.ToItem(), world.getRandom().nextInt(2) + 1));
+			ItemEntity item = new ItemEntity((World) level, pos.getX(), pos.getY(), pos.getZ(),
+					new ItemStack(FAItems.ash.ToItem(), level.getRandom().nextInt(2) + 1));
 			item.setInvulnerable(true);
 			world.addFreshEntity(item);
 		}

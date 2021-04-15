@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -14,19 +15,25 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Willi on 10/7/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public class TEPipe extends TileEntity implements ITickableTileEntity
 {
 	protected static int transferTime = 16;
 	protected static int transferAmount = 1500;
 	private int timer = -1;
-	private FluidTank tank;
+	private final FluidTank tank;
 
 	public TEPipe()
 	{
@@ -36,9 +43,9 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 			@Override
 			protected void onContentsChanged()
 			{
-				markDirty();
-				BlockState state = world.getBlockState(pos);
-				world.sendBlockUpdated(pos, state, state, 7);
+				setChanged();
+				BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
+				level.sendBlockUpdated(worldPosition, state, state, 7);
 			}
 
 			@Override
@@ -57,7 +64,7 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 			return;
 
 		// only decrease if we have fluids to process
@@ -68,14 +75,14 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 			{
 				// we *should* have no more fluids to process after this
 				timer = -1;
-				BlockState state = world.getBlockState(pos);
+				BlockState state = level.getBlockState(worldPosition);
 				List<IFluidHandler> outputs = new ArrayList<>(6);
 
 				for (Direction side : Direction.values())
 				{
-					if (!state.getValue(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE))
+					if (!(state.getValue(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE)))
 					{
-						TileEntity te = world.getBlockEntity(pos.offset(side));
+						TileEntity te = level.getBlockEntity(worldPosition.relative(side));
 						if (te != null)
 						{
 							LazyOptional<IFluidHandler> fluidHandler = te
@@ -110,22 +117,22 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.load(state, tag);
 		timer = tag.getInt("timer");
 		tank.readFromNBT(tag.getCompound("tank"));
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.putInt("timer", timer);
 		tag.put("tank", tank.writeToNBT(new CompoundNBT()));
-		return super.write(tag);
+		return super.save(tag);
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{

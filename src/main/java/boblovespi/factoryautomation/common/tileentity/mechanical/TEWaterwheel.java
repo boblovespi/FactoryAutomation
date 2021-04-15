@@ -33,7 +33,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 {
 	public static final String MULTIBLOCK_ID = "waterwheel";
 	private boolean structureIsValid = false;
-	private MechanicalUser user;
+	private final MechanicalUser user;
 	private int counter = -1;
 	private Direction out;
 	private ArrayList<BlockPos> waterLoc;

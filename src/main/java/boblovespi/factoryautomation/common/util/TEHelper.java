@@ -20,6 +20,7 @@ public class TEHelper
 		return te != null && te.getCapability(MECHANICAL_USER_CAPABILITY, face).isPresent();
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public static IMechanicalUser GetUser(TileEntity te, Direction face)
 	{
 		return te.getCapability(MECHANICAL_USER_CAPABILITY, face).orElse(null);

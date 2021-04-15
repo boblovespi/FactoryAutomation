@@ -72,7 +72,7 @@ public class Waterwheel extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEWaterwheel();
 	}
@@ -83,12 +83,12 @@ public class Waterwheel extends FABaseBlock
 	 * @return the result type of using the block.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
 		{
-			TileEntity te = world.getBlockEntity(pos);
+			TileEntity te = level.getBlockEntity(pos);
 			if (te instanceof TEWaterwheel)
 			{
 				TEWaterwheel waterwheel = (TEWaterwheel) te;
@@ -109,7 +109,7 @@ public class Waterwheel extends FABaseBlock
 				&& state.getValue(StairsBlock.HALF) == half;
 	}
 
-	private boolean IsComplete(World world, BlockPos pos, Axis axis)
+	private boolean IsComplete(World level, BlockPos pos, Axis axis)
 	{
 		if (MultiblockHelper.IsStructureComplete(world, pos, "waterwheel", Direction.get(POSITIVE, axis)))
 		{

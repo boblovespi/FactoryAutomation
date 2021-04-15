@@ -45,17 +45,17 @@ public class Pillar extends FABaseBlock
 	 * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
+	public void neighborChanged(BlockState state, World level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
 	{
 		int height = state.getValue(HEIGHT);
 
 		BlockPos down1 = pos.below();
 		BlockPos down2 = pos.below(2);
-		BlockState dState2 = world.getBlockState(down2);
+		BlockState dState2 = level.getBlockState(down2);
 		BlockPos up1 = pos.above();
 		BlockPos up2 = pos.above(2);
-		BlockState uState1 = world.getBlockState(up1);
-		BlockState uState2 = world.getBlockState(up2);
+		BlockState uState1 = level.getBlockState(up1);
+		BlockState uState2 = level.getBlockState(up2);
 		// EffectivelyPlace(world, pos);
 		UpdateState(world, pos, state);
 	}
@@ -75,17 +75,17 @@ public class Pillar extends FABaseBlock
 		return defaultBlockState().setValue(HEIGHT, 1);
 	}
 
-	private void UpdateState(World world, BlockPos pos, BlockState state)
+	private void UpdateState(World level, BlockPos pos, BlockState state)
 	{
 		int height = state.getValue(HEIGHT);
 		BlockPos down1 = pos.below();
 		BlockPos down2 = pos.below(2);
-		BlockState dState1 = world.getBlockState(down1);
-		BlockState dState2 = world.getBlockState(down2);
+		BlockState dState1 = level.getBlockState(down1);
+		BlockState dState2 = level.getBlockState(down2);
 		BlockPos up1 = pos.above();
 		BlockPos up2 = pos.above(2);
-		BlockState uState1 = world.getBlockState(up1);
-		BlockState uState2 = world.getBlockState(up2);
+		BlockState uState1 = level.getBlockState(up1);
+		BlockState uState2 = level.getBlockState(up2);
 
 		if (height == 0)
 		{
@@ -143,7 +143,7 @@ public class Pillar extends FABaseBlock
 	 * Called after the block is set in the Chunk data, but before the Tile Entity is set
 	 */
 	@Override
-	public void onPlace(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving)
+	public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
 		// EffectivelyPlace(world, pos);
 		UpdateState(world, pos, state);
@@ -153,16 +153,16 @@ public class Pillar extends FABaseBlock
 	 * Called serverside after this block is replaced with another in Chunk, but before the Tile Entity is updated
 	 */
 	@Override
-	public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving)
+	public void onRemove(BlockState state, World level, BlockPos pos, BlockState newState, boolean isMoving)
 	{
 		BlockPos down1 = pos.below();
 		BlockPos down2 = pos.below(2);
-		BlockState dState1 = world.getBlockState(down1);
-		BlockState dState2 = world.getBlockState(down2);
+		BlockState dState1 = level.getBlockState(down1);
+		BlockState dState2 = level.getBlockState(down2);
 		BlockPos up1 = pos.above();
 		BlockPos up2 = pos.above(2);
-		BlockState uState1 = world.getBlockState(up1);
-		BlockState uState2 = world.getBlockState(up2);
+		BlockState uState1 = level.getBlockState(up1);
+		BlockState uState2 = level.getBlockState(up2);
 		if (state.getValue(HEIGHT) == 0)
 		{
 			if (dState1.getBlock() == this)

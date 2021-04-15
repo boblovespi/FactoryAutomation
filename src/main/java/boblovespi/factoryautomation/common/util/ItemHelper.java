@@ -12,10 +12,10 @@ import net.minecraft.world.World;
  */
 public class ItemHelper
 {
-	public static void PutItemsInInventoryOrDrop(PlayerEntity player, ItemStack stack, World world)
+	public static void PutItemsInInventoryOrDrop(PlayerEntity player, ItemStack stack, World level)
 	{
-		if (!player.addItemStackToInventory(stack.copy()))
-			world.addEntity(new ItemEntity(world, player.getPosX(), player.getPosY(), player.getPosZ(), stack.copy()));
+		if (!player.addItem(stack.copy()))
+			level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), stack.copy()));
 	}
 
 	public static void DamageItem(ItemStack stack)
@@ -30,7 +30,7 @@ public class ItemHelper
 
 	public static void DamageItem(ItemStack stack, int amount, ServerPlayerEntity damager)
 	{
-		boolean b = stack.attemptDamageItem(1, damager == null ? Randoms.MAIN.r : damager.getRNG(), damager);
+		boolean b = stack.hurt(1, damager == null ? Randoms.MAIN.r : damager.getRandom(), damager);
 		if (b)
 			stack.shrink(amount);
 	}

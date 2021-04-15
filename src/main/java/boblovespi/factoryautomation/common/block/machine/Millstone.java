@@ -65,7 +65,7 @@ public class Millstone extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEMillstone();
 	}
@@ -77,13 +77,13 @@ public class Millstone extends FABaseBlock
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult result)
 	{
 		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 		ItemStack item = player.getItemInHand(hand);
-		TileEntity te = world.getBlockEntity(pos);
+		TileEntity te = level.getBlockEntity(pos);
 
 		if (te instanceof TEMillstone)
 		{
@@ -108,13 +108,13 @@ public class Millstone extends FABaseBlock
 	//	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		return BOUNDING_BOX;
 	}
 
 	@Override
-	public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public VoxelShape getOcclusionShape(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
 		return VoxelShapes.empty();
 	}

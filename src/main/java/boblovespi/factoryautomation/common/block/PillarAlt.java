@@ -32,15 +32,15 @@ public class PillarAlt extends FABaseBlock
 	 * Note that this method should ideally consider only the specific face passed in.
 	 */
 	@Override
-	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world,
+	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld level,
 			BlockPos pos, BlockPos facingPos)
 	{
 		switch (facing)
 		{
 		case DOWN:
-			return state.setValue(BOTTOM, world.getBlockState(pos.down()).getBlock() == this);
+			return state.setValue(BOTTOM, level.getBlockState(pos.down()).getBlock() == this);
 		case UP:
-			return state.setValue(TOP, world.getBlockState(pos.up()).getBlock() == this);
+			return state.setValue(TOP, level.getBlockState(pos.up()).getBlock() == this);
 		default:
 			return state;
 		}

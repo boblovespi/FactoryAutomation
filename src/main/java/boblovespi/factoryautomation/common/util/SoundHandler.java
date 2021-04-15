@@ -10,13 +10,14 @@ import net.minecraftforge.fml.common.Mod;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
+@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SoundHandler
 {
 	// Rock
 	public static SoundEvent breakRock = CreateEvent("break_rock");
-	public static SoundType rock = new SoundType(1f, 1f, breakRock, SoundEvents.BLOCK_STONE_STEP,
-			SoundEvents.BLOCK_STONE_PLACE, SoundEvents.BLOCK_STONE_HIT, SoundEvents.BLOCK_STONE_FALL);
+	public static SoundType rock = new SoundType(1f, 1f, breakRock, SoundEvents.STONE_STEP,
+			SoundEvents.STONE_PLACE, SoundEvents.STONE_HIT, SoundEvents.STONE_FALL);
 
 	@SubscribeEvent
 	public static void RegisterSounds(RegistryEvent.Register<SoundEvent> event)

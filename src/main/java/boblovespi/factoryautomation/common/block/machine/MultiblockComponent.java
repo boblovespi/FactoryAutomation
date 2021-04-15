@@ -38,7 +38,7 @@ public class MultiblockComponent extends FABaseBlock
 	}
 
 	// Todo: translate this to 1.16.5 with mojmaps.
-	public static boolean isRedstoneConductor(BlockState state, IBlockReader worldIn, BlockPos pos)
+	public static boolean isRedstoneConductor(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
 		return false;
 	}
@@ -50,12 +50,12 @@ public class MultiblockComponent extends FABaseBlock
 	 * or faces which do not span the full size of the block should return false.
 	 */
 	//	@Override
-	//	public boolean isSideInvisible(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction face)
+	//	public boolean isSideInvisible(BlockState state, IEnviromentBlockReader level, BlockPos pos, Direction face)
 	//	{
 	//		return false;
 	//	}
 	@Override
-	public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos,
+	public boolean canCreatureSpawn(BlockState state, IBlockReader level, BlockPos pos,
 			EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType)
 	{
 		return false;
@@ -63,7 +63,7 @@ public class MultiblockComponent extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEMultiblockPart();
 	}
@@ -74,10 +74,10 @@ public class MultiblockComponent extends FABaseBlock
 		return true;
 	}
 
-	//	public void getDrops(NonNullList<ItemStack> drops, ServerWorld world, BlockPos pos, BlockState state, int fortune)
+	//	public void getDrops(NonNullList<ItemStack> drops, ServerWorld level, BlockPos pos, BlockState state, int fortune)
 	//	{
-	//		Random rand = world != null ? world.rand : RANDOM;
-	//		TileEntity te = world.getBlockEntity(pos);
+	//		Random rand = level != null ? level.random : RANDOM;
+	//		TileEntity te = level.getBlockEntity(pos);
 	//
 	//		assert te != null && te instanceof TEMultiblockPart;
 	//
@@ -91,12 +91,12 @@ public class MultiblockComponent extends FABaseBlock
 	//	}
 
 	@Override
-	public void playerWillDestroy(World world, BlockPos pos, BlockState state, PlayerEntity player)
+	public void playerWillDestroy(World level, BlockPos pos, BlockState state, PlayerEntity player)
 	{
 		//		Log.LogInfo("something broke!");
 		//		Log.LogInfo("blockPos", pos);
 		//
-		//		TEMultiblockPart part = (TEMultiblockPart) world.getBlockEntity(pos);
+		//		TEMultiblockPart part = (TEMultiblockPart) level.getBlockEntity(pos);
 		//
 		//		Log.LogInfo("part is null", part == null);
 		//
@@ -109,7 +109,7 @@ public class MultiblockComponent extends FABaseBlock
 		//
 		//			Log.LogInfo("offset", Arrays.toString(offset));
 		//
-		//			Block controller = world.getBlockState(controllerLoc).getBlock();
+		//			Block controller = level.getBlockState(controllerLoc).getBlock();
 		//			Log.LogInfo("is controller", controller instanceof IMultiblockStructureController);
 		//
 		//			if (controller instanceof IMultiblockStructureController)

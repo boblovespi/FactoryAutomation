@@ -33,7 +33,7 @@ public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>,
 	ItemStack GetResultItem();
 
 	@Override
-	default boolean matches(IInventory inv, World worldIn)
+	default boolean matches(IInventory inv, World levelIn)
 	{
 		return false;
 	}

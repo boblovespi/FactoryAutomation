@@ -35,7 +35,7 @@ public class PlacedBucket extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		return AXIS_ALIGNED_BB;
 	}
@@ -48,17 +48,17 @@ public class PlacedBucket extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEPlacedBucket();
 	}
 
 	@Override
-	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving)
+	public void onReplaced(BlockState state, World level, BlockPos pos, BlockState newState, boolean isMoving)
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = world.getBlockEntity(pos);
+			TileEntity te = level.getBlockEntity(pos);
 			if (te != null)
 			{
 				if (te instanceof TEPlacedBucket)
@@ -68,14 +68,14 @@ public class PlacedBucket extends FABaseBlock
 					{
 						InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(),
 								FluidUtil.getFilledBucket(new FluidStack(fluid, 1000)));
-						super.onReplaced(state, world, pos, newState, isMoving);
+						super.onReplaced(state, level, pos, newState, isMoving);
 						return;
 					}
 				}
 			}
 			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BUCKET));
 		}
-		super.onReplaced(state, world, pos, newState, isMoving);
+		super.onReplaced(state, level, pos, newState, isMoving);
 	}
 
 }

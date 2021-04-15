@@ -5,6 +5,8 @@ import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.C
 import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -24,18 +26,23 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.MOLD;
 
 /**
  * Created by Willi on 12/29/2018.
  */
+@SuppressWarnings("deprecation")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TEStoneCastingVessel extends TileEntity
 		implements ITickableTileEntity, ICastingVessel, INamedContainerProvider
 {
 	private boolean hasSand;
 	private TEStoneCrucible.MetalForms form;
-	private ItemStackHandler slot;
+	private final ItemStackHandler slot;
 	private float temp = 20f;
 	private int counter = 0;
 	private boolean firstTick = true;
@@ -48,12 +55,12 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	/**
-	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
+	 * Called when this is first added to the level (by {@link World#addBlockEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	public void FirstLoad()
 	{
-		form = getBlockState().get(MOLD).metalForm;
+		form = getBlockState().getValue(MOLD).metalForm;
 		firstTick = false;
 	}
 
@@ -70,8 +77,8 @@ public class TEStoneCastingVessel extends TileEntity
 		this.temp = temp;
 
 		/* IMPORTANT */
-		markDirty();
-		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
+		setChanged();
+		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 7);
 	}
 
 	@Override
@@ -80,19 +87,20 @@ public class TEStoneCastingVessel extends TileEntity
 		return 1.5f;
 	}
 
+	// Todo: remove if not used, looks like it's unused. - Qboi123
 	public void DropItems()
 	{
-		if (!world.isClientSide && !slot.getStackInSlot(0).isEmpty())
-			world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), slot.getStackInSlot(0)));
+		if (!Objects.requireNonNull(level).isClientSide && !slot.getStackInSlot(0).isEmpty())
+			level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack TakeItem()
 	{
 		ItemStack stack = slot.extractItem(0, 64, false);
-		markDirty();
+		setChanged();
 
 		/* IMPORTANT */
-		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
+		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 
@@ -103,37 +111,38 @@ public class TEStoneCastingVessel extends TileEntity
 			if (temp < 40f)
 			{
 				ItemStack taken = TakeItem();
-				ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
+				ItemHelper.PutItemsInInventoryOrDrop(player, taken, level);
 				if (hasSand)
 				{
-					ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.ToBlock()), world);
+					ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.ToBlock()), level);
 					SetForm(CastingVesselStates.EMPTY);
 				}
 			} else
 			{
-				player.attackEntityFrom(DamageSource.GENERIC, (temp - 40f) / (temp + 100f) * 20f);
-				player.sendStatusMessage(
+				player.hurt(DamageSource.GENERIC, (temp - 40f) / (temp + 100f) * 20f);
+				player.displayClientMessage(
 						new StringTextComponent("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
 			}
-		} else if (item.getItem() == Item.getItemFromBlock(FABlocks.greenSand.ToBlock())
-				&& getBlockState().get(MOLD) == CastingVesselStates.EMPTY)
+		} else if (item.getItem() == Item.byBlock(FABlocks.greenSand.ToBlock())
+				&& getBlockState().getValue(MOLD) == CastingVesselStates.EMPTY)
 		{
 			item.shrink(1);
 			SetForm(CastingVesselStates.SAND);
 
-			markDirty();
+			setChanged();
 			/* IMPORTANT */
-			world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
+			Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 7);
 		}
 	}
 
 	public void SetForm(CastingVesselStates state)
 	{
+		// Todo: optimize if statement.
 		if (state == CastingVesselStates.EMPTY)
 			hasSand = false;
 		else
 			hasSand = true;
-		world.setBlockState(pos, world.getBlockState(pos).with(MOLD, state));
+		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MOLD, state));
 		form = state.metalForm;
 	}
 
@@ -144,9 +153,9 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.load(state, tag);
 		slot.deserializeNBT(tag.getCompound("slot"));
 		hasSand = tag.getBoolean("hasSand");
 		temp = tag.getFloat("temp");
@@ -154,13 +163,13 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.put("slot", slot.serializeNBT());
 		tag.putBoolean("hasSand", hasSand);
 		tag.putFloat("temp", temp);
 		tag.putInt("form", form.ordinal());
-		return super.write(tag);
+		return super.save(tag);
 	}
 
 	public boolean HasSand()
@@ -179,13 +188,13 @@ public class TEStoneCastingVessel extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 			return;
 		if (firstTick)
 			FirstLoad();
 		if (temp > 20f)
 		{
-			if (world.isRaining())
+			if (level.isRaining())
 				temp *= 0.9938f;
 			else
 				temp *= 0.9972f;
@@ -193,8 +202,8 @@ public class TEStoneCastingVessel extends TileEntity
 		counter--;
 		if (counter < 0)
 		{
-			markDirty();
-			world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 7);
+			setChanged();
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 7);
 			counter = 10;
 		}
 	}
@@ -207,20 +216,20 @@ public class TEStoneCastingVessel extends TileEntity
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return null;
+		return new StringTextComponent("");
 	}
 
 	@Nullable
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerStoneCastingVessel(id, playerInv, pos);
+		return new ContainerStoneCastingVessel(id, playerInv, worldPosition);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		read(pkt.getNbtCompound());
+		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -228,7 +237,7 @@ public class TEStoneCastingVessel extends TileEntity
 	public SUpdateTileEntityPacket getUpdatePacket()
 	{
 		CompoundNBT nbt = new CompoundNBT();
-		write(nbt);
-		return new SUpdateTileEntityPacket(pos, 0, nbt);
+		save(nbt);
+		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
 	}
 }

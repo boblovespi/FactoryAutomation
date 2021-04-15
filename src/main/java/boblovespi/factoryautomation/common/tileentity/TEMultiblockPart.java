@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.NBTHelper;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
@@ -13,17 +14,22 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.tileentity.TileEntityHandler.teMultiblockPart;
 
 /**
  * Created by Willi on 11/26/2017.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TEMultiblockPart extends TileEntity
 {
 	private int[] structurePosition = new int[3]; // the position of the block in the structure measured by {+x, +y, +z}
 	private String structureId = null; // the id of the multiblock structure
-	private int[] structureOffset = new int[3]; // the offset from the controller, in world coordinates
+	private int[] structureOffset = new int[3]; // the offset from the controller, in level coordinates
 	private BlockState state;
 	private IMultiblockControllerTE controller;
 
@@ -33,14 +39,14 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	/**
-	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
+	 * Called when this is first added to the level (by {@link World#addBlockEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	public void InitController()
 	{
-		if (controller == null && !world.isClientSide && structureId != null)
-			controller = (IMultiblockControllerTE) world
-					.getTileEntity(pos.add(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
+		if (controller == null && !Objects.requireNonNull(level).isClientSide && structureId != null)
+			controller = (IMultiblockControllerTE) level
+					.getBlockEntity(worldPosition.offset(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
 	}
 
 	public void SetMultiblockInformation(String structure, int posX, int posY, int posZ, int offX, int offY, int offZ,
@@ -54,19 +60,19 @@ public class TEMultiblockPart extends TileEntity
 		structureOffset[1] = offY;
 		structureOffset[2] = offZ;
 		state = blockState;
-		controller = (IMultiblockControllerTE) world.getBlockEntity(pos.add(-offX, -offY, -offZ));
+		controller = (IMultiblockControllerTE) Objects.requireNonNull(level).getBlockEntity(worldPosition.offset(-offX, -offY, -offZ));
 	}
 
-	public void SetMultiblockInformation(String strucuture, BlockPos pos, BlockPos offset, BlockState blockState)
+	public void SetMultiblockInformation(String structure, BlockPos worldPosition, BlockPos offset, BlockState blockState)
 	{
-		SetMultiblockInformation(strucuture, pos.getX(), pos.getY(), pos.getZ(), offset.getX(), offset.getY(),
+		SetMultiblockInformation(structure, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), offset.getX(), offset.getY(),
 				offset.getZ(), blockState);
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void load(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.load(state, compound);
 		structurePosition = compound.getIntArray("structurePosition");
 		structureId = compound.getString("structure");
 		structureOffset = compound.getIntArray("structureOffset");
@@ -74,13 +80,13 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound)
+	public CompoundNBT save(CompoundNBT compound)
 	{
 		compound.putIntArray("structurePosition", structurePosition);
 		compound.putString("structure", structureId);
 		compound.putIntArray("structureOffset", structureOffset);
 		NBTHelper.SetBlockState(compound, state, "blockState");
-		return super.write(compound);
+		return super.save(compound);
 	}
 
 	public String GetStructureId()

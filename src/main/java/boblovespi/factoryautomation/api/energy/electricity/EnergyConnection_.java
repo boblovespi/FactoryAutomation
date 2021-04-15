@@ -35,7 +35,7 @@ public class EnergyConnection_
 	}
 
 	@Nullable
-	public static EnergyConnection_ FromNBT(CompoundNBT tag, World world)
+	public static EnergyConnection_ FromNBT(CompoundNBT tag, World level)
 	{
 		EnergyConnection_ en = new EnergyConnection_();
 		DimLocation loc1 = NBTHelper.GetLocationTag(tag, "sourceLoc");
@@ -45,7 +45,7 @@ public class EnergyConnection_
 
 		if (loc1 != null)
 		{
-			te1 = world.getBlockEntity(loc1.getPos());
+			te1 = level.getBlockEntity(loc1.getPos());
 		}
 
 		if (te1 != null && te1 instanceof IProducesEnergy_)
@@ -62,7 +62,7 @@ public class EnergyConnection_
 
 		if (loc2 != null)
 		{
-			te2 = world.getBlockEntity(loc2.getPos());
+			te2 = level.getBlockEntity(loc2.getPos());
 		}
 
 		if (te2 != null && te2 instanceof IRequiresEnergy_)

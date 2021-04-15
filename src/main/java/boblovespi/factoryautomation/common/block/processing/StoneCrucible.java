@@ -50,7 +50,7 @@ public class StoneCrucible extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		return BOUNDING_BOX;
 	}
@@ -63,7 +63,7 @@ public class StoneCrucible extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEStoneCrucible();
 	}
@@ -80,14 +80,14 @@ public class StoneCrucible extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
 		{
 			if (MultiblockHelper.IsStructureComplete(world, pos, TEStoneCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
 			{
-				TileEntity te = world.getBlockEntity(pos);
+				TileEntity te = level.getBlockEntity(pos);
 				if (te instanceof TEStoneCrucible)
 				{
 					TEStoneCrucible foundry = (TEStoneCrucible) te;
@@ -101,7 +101,7 @@ public class StoneCrucible extends FABaseBlock
 				}
 			} else
 			{
-				TileEntity te = world.getBlockEntity(pos);
+				TileEntity te = level.getBlockEntity(pos);
 				if (te instanceof TEStoneCrucible)
 					((TEStoneCrucible) te).SetStructureInvalid();
 			}

@@ -1,21 +1,20 @@
 package boblovespi.factoryautomation.common.tileentity.workbench;
 
-import boblovespi.factoryautomation.api.recipe.*;
+import boblovespi.factoryautomation.api.recipe.IWorkbenchRecipe;
+import boblovespi.factoryautomation.api.recipe.WorkbenchPart;
+import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
+import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.FakePlayerFactory;
@@ -23,14 +22,20 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
  * Created by Willi on 4/8/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public abstract class TEWorkbench extends TileEntity implements INamedContainerProvider
 {
 	protected final int size;
@@ -55,9 +60,9 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 			@Override
 			protected void onContentsChanged(int slot)
 			{
-				markDirty();
+				setChanged();
 
-				if (world.isClientSide)
+				if (Objects.requireNonNull(level).isClientSide)
 					return;
 
 				if (!isUpdatingChanges && slot == 0 && recipe != null && getStackInSlot(0).isEmpty() && !output
@@ -78,11 +83,12 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 							WorkbenchTool.Instance tool = WorkbenchTool.Instance
 									.FromToolStack(getStackInSlot(i + firstToolIndex));
 
-							if (toolInfo.getKey().IsSameTool(tool) && toolInfo.getKey().tier <= tool.tier)
+							if (toolInfo.getKey().IsSameTool(tool) && toolInfo.getKey().tier <= Objects.requireNonNull(tool).tier)
 							{
-								getStackInSlot(i + firstToolIndex).damageItem(toolInfo.getValue(),
-										FakePlayerFactory.get((ServerWorld) world, new GameProfile(null, "fakePlayer")),
+								getStackInSlot(i + firstToolIndex).hurtAndBreak(toolInfo.getValue(),
+										FakePlayerFactory.get((ServerWorld) level, new GameProfile(null, "fakePlayer")),
 										n -> {
+
 										});
 								break;
 							}
@@ -113,7 +119,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 							WorkbenchPart.Instance part = WorkbenchPart.Instance
 									.FromPartStack(getStackInSlot(i + firstPartIndex));
 
-							if (partInfo.getKey().IsSamePart(part) && partInfo.getKey().tier <= part.tier)
+							if (partInfo.getKey().IsSamePart(part) && partInfo.getKey().tier <= Objects.requireNonNull(part).tier)
 							{
 								getStackInSlot(i + firstPartIndex).shrink(partInfo.getValue());
 								break;
@@ -142,7 +148,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 				if (!isUpdatingChanges)
 					CheckForRecipe();
 
-				world.sendBlockUpdated(pos, getBlockState(), getBlockState(),
+				level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(),
 						SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 								| SetBlockStateFlags.PREVENT_RERENDER);
 			}
@@ -150,7 +156,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 
 	}
 
-	@Nullable
+	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
@@ -160,24 +166,24 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void load(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.load(state, compound);
 		inventory.deserializeNBT(compound.getCompound("items"));
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound)
+	public CompoundNBT save(CompoundNBT compound)
 	{
 		compound.put("items", inventory.serializeNBT());
-		return super.write(compound);
+		return super.save(compound);
 	}
 
 	public void CheckForRecipe()
 	{
-		Optional<IWorkbenchRecipe> recipeOptional = world.getRecipeManager()
-														 .getRecipes(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE)
-														 .values().stream().map(n -> (IWorkbenchRecipe) n)
+		Optional<IWorkbenchRecipe> recipeOptional = Objects.requireNonNull(level).getRecipeManager()
+														 .getAllRecipesFor(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE)
+														 .stream().map(n -> (IWorkbenchRecipe) n)
 														 .filter(n -> n.CanFitTier(size, size, tier)).filter(n -> n
 						.Matches(inventory, size <= 3, firstToolIndex, firstPartIndex, firstCraftingIndex)).findFirst();
 		recipe = recipeOptional.orElse(null);
@@ -194,7 +200,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 	}
 
 	/**
-	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
+	 * Called when this is first added to the level (by {@link World#addTileEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	@Override

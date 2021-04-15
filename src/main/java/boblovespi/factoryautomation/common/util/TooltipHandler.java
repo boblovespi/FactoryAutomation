@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -43,7 +43,7 @@ public class TooltipHandler
 		tooltips = new HashMap<>();
 		String path = "/assets/factoryautomation/data/tooltips.txt";
 		try (BufferedReader r = new BufferedReader(
-				new InputStreamReader(FactoryAutomation.class.getResourceAsStream(path))))
+				new InputStreamReader(Objects.requireNonNull(FactoryAutomation.class.getResourceAsStream(path)))))
 		{
 			String s;
 			int split;
@@ -62,7 +62,7 @@ public class TooltipHandler
 
 				for (String key : keys)
 				{
-					Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryCreate(key));
+					Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(key));
 					tooltips.putIfAbsent(item, new StringTextComponent("\u00A77" + info));
 				}
 			}

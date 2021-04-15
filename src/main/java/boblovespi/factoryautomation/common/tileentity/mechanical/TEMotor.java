@@ -6,6 +6,8 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -16,10 +18,15 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 /**
  * Created by Willi on 3/19/2018.
  */
+@SuppressWarnings("unchecked")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEnergy_, ITickableTileEntity
 {
 	public float rotation = 0;
@@ -37,7 +44,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	@Override
 	public boolean HasConnectionOnSide(Direction side)
 	{
-		return side == getBlockState().get(Motor.FACING);
+		return side == getBlockState().getValue(Motor.FACING);
 	}
 
 	@Override
@@ -146,7 +153,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	@Override
 	public void tick()
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 		{
 			rotation = (rotation + speed) % 360;
 			return;
@@ -159,7 +166,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 
 	private void ForceUpdate(boolean changeEnergy)
 	{
-		if (world.isClientSide)
+		if (Objects.requireNonNull(level).isClientSide)
 			return;
 		if (hasTicked)
 			return;
@@ -170,8 +177,8 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 
 		UpdateMotor();
 
-		markDirty();
-		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	private void UpdateMotor()
@@ -181,18 +188,18 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void load(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.load(state, compound);
 		energyProvided = compound.getFloat("energyProvided");
 		speed = compound.getFloat("speed");
 		torque = compound.getFloat("torque");
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound)
+	public CompoundNBT save(CompoundNBT compound)
 	{
-		super.write(compound);
+		super.save(compound);
 		compound.putFloat("energyProvided", energyProvided);
 		compound.putFloat("speed", speed);
 		compound.putFloat("torque", torque);

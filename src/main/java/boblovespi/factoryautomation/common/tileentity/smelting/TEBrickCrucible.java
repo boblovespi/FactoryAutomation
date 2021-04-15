@@ -15,6 +15,8 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
+import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -28,6 +30,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
@@ -35,30 +38,35 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.block.processing.StoneCrucible.MULTIBLOCK_COMPLETE;
 
 /**
  * Created by Willi on 12/28/2018.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+@SuppressWarnings("unchecked")
 public class TEBrickCrucible extends TileEntity
 		implements IMultiblockControllerTE, ITickableTileEntity, INamedContainerProvider
 {
 	public static final String MULTIBLOCK_ID = "brick_foundry";
-	private MultiMetalHelper metals;
-	private ItemStackHandler inventory;
-	private HeatUser heatUser;
+	private final MultiMetalHelper metals;
+	private final ItemStackHandler inventory;
+	private final HeatUser heatUser;
 	private int burnTime = 0;
 	private int maxBurnTime = 1;
 	private int meltTime = 0;
-	private int maxMeltTime = 200;
+	private final int maxMeltTime = 200;
 	private FuelRegistry.FuelInfo fuelInfo = FuelRegistry.NULL;
 	private boolean isBurningFuel = false;
 	private boolean structureIsValid = false;
-	private BellowsUser bellowsUser;
-	private IIntArray containerInfo = new IIntArray()
+	private final BellowsUser bellowsUser;
+	private final IIntArray containerInfo = new IIntArray()
 	{
 		@Override
 		public int get(int index)
@@ -94,12 +102,12 @@ public class TEBrickCrucible extends TileEntity
 		}
 
 		@Override
-		public int size()
+		public int getCount()
 		{
 			return 9;
 		}
 	};
-	private StringIntArray metalName;
+	private final StringIntArray metalName;
 
 	public TEBrickCrucible()
 	{
@@ -118,7 +126,7 @@ public class TEBrickCrucible extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (world.isClientSide || !IsStructureValid())
+		if (Objects.requireNonNull(level).isClientSide || !IsStructureValid())
 			return;
 		bellowsUser.Tick();
 		TEHelper.DissipateHeat(heatUser, 6);
@@ -192,10 +200,10 @@ public class TEBrickCrucible extends TileEntity
 		if (heatUser.GetTemperature() > 2300)
 			heatUser.SetTemperature(2300);
 
-		markDirty();
+		setChanged();
 
 		/* IMPORTANT */
-		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
@@ -213,16 +221,16 @@ public class TEBrickCrucible extends TileEntity
 	@Override
 	public void CreateStructure()
 	{
-		MultiblockHelper.CreateStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
-		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, true));
+		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
+		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MULTIBLOCK_COMPLETE, true));
 		structureIsValid = true;
 	}
 
 	@Override
 	public void BreakStructure()
 	{
-		MultiblockHelper.BreakStructure(world, pos, MULTIBLOCK_ID, getBlockState().get(StoneCrucible.FACING));
-		world.setBlockState(pos, world.getBlockState(pos).with(MULTIBLOCK_COMPLETE, false));
+		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
+		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MULTIBLOCK_COMPLETE, false));
 		structureIsValid = false;
 	}
 
@@ -237,9 +245,9 @@ public class TEBrickCrucible extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(BlockState state, CompoundNBT tag)
 	{
-		super.read(tag);
+		super.load(state, tag);
 		metals.ReadFromNBT(tag.getCompound("metals"));
 		inventory.deserializeNBT(tag.getCompound("inventory"));
 		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
@@ -252,7 +260,7 @@ public class TEBrickCrucible extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.put("metals", metals.WriteToNBT());
 		tag.put("inventory", inventory.serializeNBT());
@@ -263,7 +271,7 @@ public class TEBrickCrucible extends TileEntity
 		tag.putInt("meltTime", meltTime);
 		tag.putBoolean("isBurningFuel", isBurningFuel);
 		tag.put("bellowsUser", bellowsUser.WriteToNBT());
-		return super.write(tag);
+		return super.save(tag);
 	}
 
 	public IItemHandler GetInventory()
@@ -319,7 +327,7 @@ public class TEBrickCrucible extends TileEntity
 
 	public void PourInto(Direction facing)
 	{
-		TileEntity te1 = world.getBlockEntity(pos.down().offset(facing));
+		TileEntity te1 = Objects.requireNonNull(level).getBlockEntity(worldPosition.below().relative(facing));
 		if (te1 instanceof ICastingVessel)
 		{
 			ICastingVessel te = (ICastingVessel) te1;
@@ -346,14 +354,14 @@ public class TEBrickCrucible extends TileEntity
 	@Override
 	public ITextComponent getDisplayName()
 	{
-		return null;
+		return new StringTextComponent("");
 	}
 
 	@Nullable
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerBrickFoundry(id, playerInv, inventory, containerInfo, metalName, pos);
+		return new ContainerBrickFoundry(id, playerInv, inventory, containerInfo, metalName, worldPosition);
 	}
 
 	private class MultiMetalHelper
@@ -383,10 +391,10 @@ public class TEBrickCrucible extends TileEntity
 			// bronze:
 			if (metals.size() == 2)
 			{
-				if (metals.containsKey(Metals.COPPER.getName()) && metals.containsKey(Metals.TIN.getName()))
+				if (metals.containsKey(Metals.COPPER.getSerializedName()) && metals.containsKey(Metals.TIN.getSerializedName()))
 				{
-					if (metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) >= 7
-							&& metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) <= 9
+					if (metals.get(Metals.COPPER.getSerializedName()) / metals.get(Metals.TIN.getSerializedName()) >= 7
+							&& metals.get(Metals.COPPER.getSerializedName()) / metals.get(Metals.TIN.getSerializedName()) <= 9
 							&& heatUser.GetTemperature() > 2000)
 					{
 						metal = "bronze";
@@ -397,11 +405,11 @@ public class TEBrickCrucible extends TileEntity
 			// bronze (again):
 			if (metals.size() == 3)
 			{
-				if (metals.containsKey(Metals.COPPER.getName()) && metals.containsKey(Metals.TIN.getName()) && metals
-						.containsKey(Metals.BRONZE.getName()))
+				if (metals.containsKey(Metals.COPPER.getSerializedName()) && metals.containsKey(Metals.TIN.getSerializedName()) && metals
+						.containsKey(Metals.BRONZE.getSerializedName()))
 				{
-					if (metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) >= 7
-							&& metals.get(Metals.COPPER.getName()) / metals.get(Metals.TIN.getName()) <= 9
+					if (metals.get(Metals.COPPER.getSerializedName()) / metals.get(Metals.TIN.getSerializedName()) >= 7
+							&& metals.get(Metals.COPPER.getSerializedName()) / metals.get(Metals.TIN.getSerializedName()) <= 9
 							&& heatUser.GetTemperature() > 2000)
 					{
 						metal = "bronze";
@@ -429,7 +437,7 @@ public class TEBrickCrucible extends TileEntity
 		{
 			metal = tag.getString("metal");
 			amount = tag.getShort("amount");
-			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((FloatNBT) t).getFloat());
+			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((FloatNBT) t).getAsFloat());
 		}
 
 		public CompoundNBT WriteToNBT()

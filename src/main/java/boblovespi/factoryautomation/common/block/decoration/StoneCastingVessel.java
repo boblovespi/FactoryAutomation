@@ -68,7 +68,7 @@ public class StoneCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
 	{
 		if (state.getValue(MOLD) == CastingVesselStates.EMPTY)
 			return BOUNDING_BOX_NO_SAND;
@@ -83,7 +83,7 @@ public class StoneCastingVessel extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEStoneCastingVessel();
 	}
@@ -92,12 +92,12 @@ public class StoneCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
 		{
-			TEStoneCastingVessel te = (TEStoneCastingVessel) world.getBlockEntity(pos);
+			TEStoneCastingVessel te = (TEStoneCastingVessel) level.getBlockEntity(pos);
 
 			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.HasSpace())
 			{

@@ -31,7 +31,7 @@ public class PlayerInteractionHandler
 		Item item = stack.getItem();
 		BlockPos pos = event.getPos();
 		Direction facing = event.getFace();
-		World world = event.getWorld();
+		World level = event.getWorld();
 
 		if (item == Items.BUCKET && event.getEntityLiving().isCrouching())
 		{

@@ -170,7 +170,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 	}
 
 	@Override
-	public boolean matches(IInventory inv, World worldIn)
+	public boolean matches(IInventory inv, World levelIn)
 	{
 		return false;
 	}
