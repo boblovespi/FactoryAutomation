@@ -82,7 +82,7 @@ public class StoneCastingVessel extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEStoneCastingVessel();
 	}
@@ -91,16 +91,16 @@ public class StoneCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!level.isClientSide)
+		if (!world.isClientSide)
 		{
-			TEStoneCastingVessel te = (TEStoneCastingVessel) level.getBlockEntity(pos);
+			TEStoneCastingVessel te = (TEStoneCastingVessel) world.getTileEntity(pos);
 
 			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.hasSpace())
 			{
-				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(level.getBlockEntity(pos)), pos);
+				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
 			} else
 			{
 				if (te != null)

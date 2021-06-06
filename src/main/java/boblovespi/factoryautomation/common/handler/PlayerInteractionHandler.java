@@ -31,17 +31,17 @@ public class PlayerInteractionHandler
 		Item item = stack.getItem();
 		BlockPos pos = event.getPos();
 		Direction facing = event.getFace();
-		World level = event.getWorld();
+		World world = event.getWorld();
 
 		if (item == Items.BUCKET && event.getEntityLiving().isCrouching())
 		{
 			event.setCanceled(true);
-			if (!level.isClientSide)
+			if (!world.isClientSide)
 			{
 				if (facing != null)
 				{
 					stack.shrink(1);
-					level.setBlockAndUpdate(pos.relative(facing), FABlocks.placedBucket.toBlock().defaultBlockState());
+					world.setBlockAndUpdate(pos.relative(facing), FABlocks.placedBucket.toBlock().defaultBlockState());
 				}
 			}
 		}

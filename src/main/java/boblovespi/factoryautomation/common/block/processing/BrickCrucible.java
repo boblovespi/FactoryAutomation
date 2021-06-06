@@ -61,7 +61,7 @@ public class BrickCrucible extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEBrickCrucible();
 	}
@@ -78,14 +78,14 @@ public class BrickCrucible extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!level.isClientSide)
+		if (!world.isClientSide)
 		{
-			if (MultiblockHelper.IsStructureComplete(level, pos, TEBrickCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
+			if (MultiblockHelper.IsStructureComplete(world, pos, TEBrickCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
 			{
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TEBrickCrucible)
 				{
 					TEBrickCrucible foundry = (TEBrickCrucible) te;
@@ -99,7 +99,7 @@ public class BrickCrucible extends FABaseBlock
 				}
 			} else
 			{
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TEBrickCrucible)
 					((TEBrickCrucible) te).setStructureInvalid();
 			}

@@ -67,7 +67,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 			setChanged();
 
 			/* IMPORTANT */
-			Objects.requireNonNull(level).sendBlockUpdatedd(levelPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
+			Objects.requireNonNull(world).sendBlockUpdatedd(levelPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 				setChanged();
 
 				/* IMPORTANT */
-				Objects.requireNonNull(level).sendBlockUpdatedd(levelPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
+				Objects.requireNonNull(world).sendBlockUpdatedd(levelPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 			}
 		}
 	}
@@ -135,7 +135,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

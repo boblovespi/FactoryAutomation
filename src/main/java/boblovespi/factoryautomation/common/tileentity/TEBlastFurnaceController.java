@@ -151,10 +151,10 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 
-		if (!level.getBlockState(levelPosition).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
+		if (!world.getBlockState(levelPosition).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
 			return;
 
 		steelSmeltTime = 2000; // TODO: read from config
@@ -227,8 +227,8 @@ public class TEBlastFurnaceController extends TileEntity
 			}
 		}
 		setChanged();
-		BlockState state = level.getBlockState(levelPosition);
-		level.sendBlockUpdated(levelPosition, state, state, 3);
+		BlockState state = world.getBlockState(levelPosition);
+		world.sendBlockUpdated(levelPosition, state, state, 3);
 	}
 
 	@Nullable
@@ -243,7 +243,7 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		this.load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nonnull
@@ -289,10 +289,10 @@ public class TEBlastFurnaceController extends TileEntity
 	public void setStructureValid(boolean isValid)
 	{
 		isStructureValid = isValid;
-		Block block = Objects.requireNonNull(level).getBlockState(levelPosition).getBlock();
+		Block block = Objects.requireNonNull(world).getBlockState(levelPosition).getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).setStructureCompleted(level, levelPosition, isValid);
+			((BlastFurnaceController) block).setStructureCompleted(world, levelPosition, isValid);
 		}
 	}
 
@@ -305,10 +305,10 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public void createStructure()
 	{
-		Block block = Objects.requireNonNull(level).getBlockState(levelPosition).getBlock();
+		Block block = Objects.requireNonNull(world).getBlockState(levelPosition).getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).createStructure(level, levelPosition);
+			((BlastFurnaceController) block).createStructure(world, levelPosition);
 		}
 	}
 
@@ -318,7 +318,7 @@ public class TEBlastFurnaceController extends TileEntity
 		Block block = getBlockState().getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).breakStructure(level, levelPosition);
+			((BlastFurnaceController) block).breakStructure(world, levelPosition);
 		}
 	}
 

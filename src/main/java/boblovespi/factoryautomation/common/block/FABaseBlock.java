@@ -41,7 +41,7 @@ public class FABaseBlock extends Block implements FABlock
 
 	public FABaseBlock(Material materialIn, String unlocalizedName, ItemGroup tab, boolean hasCustomItem)
 	{
-		this(unlocalizedName, hasCustomItem, Properties.of(materialIn), new Item.Properties().tab(tab));
+		this(unlocalizedName, hasCustomItem, Properties.generate(materialIn), new Item.Properties().group(tab));
 	}
 
 	public FABaseBlock(Material materialIn, MaterialColor blockMapColorIn, String unlocalizedName, ItemGroup tab)

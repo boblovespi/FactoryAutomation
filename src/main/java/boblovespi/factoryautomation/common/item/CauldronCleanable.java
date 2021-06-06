@@ -32,10 +32,10 @@ public class CauldronCleanable extends FABaseItem
 	@Override
 	public ActionResultType useOn(ItemUseContext context)
 	{
-		World level = context.getLevel();
+		World world = context.getLevel();
 		BlockPos pos = context.getClickedPos();
 		PlayerEntity player = context.getPlayer();
-		BlockState state = level.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		ItemStack item = context.getItemInHand();
 
 		if (!(state.getBlock() instanceof CauldronBlock))
@@ -45,15 +45,15 @@ public class CauldronCleanable extends FABaseItem
 
 		if (i > 0)
 		{
-			if (!level.isClientSide)
+			if (!world.isClientSide)
 			{
 				item.shrink(1);
 
 				if (player == null || !player.addItem(cleanedInto.copy()))
-					level.addFreshEntity(
-							new ItemEntity(level, pos.getX(), pos.getY() + 0.5f, pos.getZ(), cleanedInto.copy()));
+					world.addFreshEntity(
+							new ItemEntity(world, pos.getX(), pos.getY() + 0.5f, pos.getZ(), cleanedInto.copy()));
 
-				((CauldronBlock) Blocks.CAULDRON).setWaterLevel(level, pos, state, i - 1);
+				((CauldronBlock) Blocks.CAULDRON).setWaterLevel(world, pos, state, i - 1);
 				if (player != null)
 				player.awardStat(Stats.USE_CAULDRON);
 			}

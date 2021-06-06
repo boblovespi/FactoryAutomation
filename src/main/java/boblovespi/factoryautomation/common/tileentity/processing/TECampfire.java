@@ -44,7 +44,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 		if ("none".equals(recipe))
 			return;
@@ -59,15 +59,15 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 			recipe = "none";
 			timeLeft = -1;
 
-			level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
+			world.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 		}
 		setChanged();
 	}
 
 	public void DropItems()
 	{
-		if (!Objects.requireNonNull(level).isClientSide && !slot.getStackInSlot(0).isEmpty())
-			level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), slot.getStackInSlot(0)));
+		if (!Objects.requireNonNull(world).isClientSide && !slot.getStackInSlot(0).isEmpty())
+			world.addFreshEntity(new ItemEntity(world, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack PlaceItem(ItemStack items)
@@ -80,7 +80,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 		{
 			recipe = getRecipe.getName();
 			timeLeft = getRecipe.getTime();
-			isLit = Objects.requireNonNull(level).getBlockState(levelPosition).getValue(Campfire.LIT);
+			isLit = Objects.requireNonNull(world).getBlockState(levelPosition).getValue(Campfire.LIT);
 		} else
 		{
 			recipe = "none";
@@ -89,7 +89,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
+		Objects.requireNonNull(world).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 
@@ -101,7 +101,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
+		Objects.requireNonNull(world).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 
@@ -110,7 +110,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
 			ItemStack taken = TakeItem();
-			ItemHelper.putItemsInInventoryOrDrop(player, taken, level);
+			ItemHelper.putItemsInInventoryOrDrop(player, taken, world);
 		} else
 		{
 			ItemStack stack = PlaceItem(item.copy().split(1));

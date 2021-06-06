@@ -51,7 +51,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TESteelmakingFurnace();
 	}
@@ -72,7 +72,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 					.IsStructureComplete(levelIn, pos, GetPatternId(),
 										 Direction.NORTH)*/)
 			{
-				TileEntity te = levelIn.getBlockEntity(pos);
+				TileEntity te = levelIn.getTileEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
 				{
 					((TESteelmakingFurnace) te).createStructure();
@@ -80,7 +80,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 				}
 			} else
 			{
-				TileEntity te = levelIn.getBlockEntity(pos);
+				TileEntity te = levelIn.getTileEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
 					((TESteelmakingFurnace) te).setStructureInvalid();
 			}

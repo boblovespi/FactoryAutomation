@@ -46,7 +46,7 @@ public class IronWorkbench extends Workbench
 	 */
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEIronWorkbench();
 	}
@@ -57,13 +57,13 @@ public class IronWorkbench extends Workbench
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!level.isClientSide && player instanceof ServerPlayerEntity)
+		if (!world.isClientSide && player instanceof ServerPlayerEntity)
 			// playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.WORKBENCH.id, levelIn, pos.getX(), pos.getY(),
 			// 		pos.getZ());
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(level.getBlockEntity(pos)), pos);
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 

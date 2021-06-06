@@ -40,7 +40,7 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 
 	public void FirstLoad()
 	{
-		BlockState state = level.getBlockState(levelPosition);
+		BlockState state = world.getBlockState(levelPosition);
 		Direction negativeFacing = BevelGear.getNegative(state);
 		Direction positiveFacing = state.getValue(BevelGear.FACING);
 		user.setSides(EnumSet.of(negativeFacing, positiveFacing));
@@ -67,7 +67,7 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (level.isClientSide)
+		if (world.isClientSide)
 		{
 			rotation += user.getSpeed();
 			rotation %= 360;
@@ -81,13 +81,13 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 
 		if (counter == 0)
 		{
-			BlockState state = level.getBlockState(levelPosition);
+			BlockState state = world.getBlockState(levelPosition);
 
 			Direction negativeFacing = BevelGear.getNegative(state);
 			Direction positiveFacing = state.getValue(BevelGear.FACING);
 
-			TileEntity front = level.getBlockEntity(levelPosition.relative(positiveFacing));
-			TileEntity back = level.getBlockEntity(levelPosition.relative(negativeFacing));
+			TileEntity front = world.getTileEntity(levelPosition.relative(positiveFacing));
+			TileEntity back = world.getTileEntity(levelPosition.relative(negativeFacing));
 
 			user.setSpeedOnFace(negativeFacing, ((IsMechanicalFace(front, positiveFacing.getOpposite()) ?
 					GetUser(front, positiveFacing.getOpposite()).getSpeedOnFace(positiveFacing.getOpposite()) : 0) + (
@@ -104,8 +104,8 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 			setChanged();
 
 			/* IMPORTANT */
-			BlockState state2 = level.getBlockState(levelPosition);
-			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+			BlockState state2 = world.getBlockState(levelPosition);
+			world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 
 		}
 	}

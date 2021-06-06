@@ -96,7 +96,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 		{
 			rotation = (rotation + speed) % 360;
 			return;
@@ -112,8 +112,8 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 			Direction negativeFacing = get(AxisDirection.NEGATIVE, axis);
 			Direction positiveFacing = get(AxisDirection.POSITIVE, axis);
 
-			TileEntity front = Objects.requireNonNull(level).getBlockEntity(levelPosition.relative(positiveFacing));
-			TileEntity back = level.getBlockEntity(levelPosition.relative(negativeFacing));
+			TileEntity front = Objects.requireNonNull(world).getTileEntity(levelPosition.relative(positiveFacing));
+			TileEntity back = world.getTileEntity(levelPosition.relative(negativeFacing));
 
 			speed = ((IsMechanicalFace(front, negativeFacing) ?
 					GetUser(front, negativeFacing).getSpeedOnFace(negativeFacing) : 0) + (
@@ -128,7 +128,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 			setChanged();
 
 			/* IMPORTANT */
-			level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
+			world.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 		}
 	}
 
@@ -149,7 +149,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

@@ -31,7 +31,7 @@ public abstract class Crucible extends FABaseItem
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> use(World level, PlayerEntity playerIn, Hand handIn)
+	public ActionResult<ItemStack> use(World world, PlayerEntity playerIn, Hand handIn)
 	{
 		ItemStack stack = playerIn.getItemInHand(handIn);
 
@@ -43,9 +43,9 @@ public abstract class Crucible extends FABaseItem
 			{
 				if (!playerIn.addItem(inv.getStackInSlot(i)))
 				{
-					if (!level.isClientSide)
-						level.addFreshEntity(
-								new ItemEntity(level, playerIn.getX(), playerIn.getY(), playerIn.getZ(),
+					if (!world.isClientSide)
+						world.addFreshEntity(
+								new ItemEntity(world, playerIn.getX(), playerIn.getY(), playerIn.getZ(),
 										inv.getStackInSlot(i)));
 				}
 			}

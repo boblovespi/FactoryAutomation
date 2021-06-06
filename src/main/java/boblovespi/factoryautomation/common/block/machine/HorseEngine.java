@@ -51,7 +51,7 @@ public class HorseEngine extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return hasTileEntity(state) ? new TEHorseEngine() : null;
 	}
@@ -63,22 +63,22 @@ public class HorseEngine extends FABaseBlock
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (state.getValue(PART) != Part.TOP)
 			return ActionResultType.FAIL;
-		if (level.isClientSide)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 
-		for (MobEntity horse : level.getEntitiesOfClass(MobEntity.class,
+		for (MobEntity horse : world.getEntitiesOfClass(MobEntity.class,
 				new AxisAlignedBB(pos.getX() - 7.0D, pos.getY() - 7.0D, pos.getZ() - 7.0D, pos.getX() + 7.0D,
 						pos.getY() + 7.0D, pos.getZ() + 7.0D)))
 		{
 			if (horse.isLeashed() && horse.getLeashHolder() == player && horse instanceof AbstractHorseEntity)
 			{
 				horse.dropLeash(true, true);
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TEHorseEngine)
 					((TEHorseEngine) te).AttachHorse(horse);
 			}

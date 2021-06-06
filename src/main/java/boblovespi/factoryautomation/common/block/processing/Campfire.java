@@ -67,7 +67,7 @@ public class Campfire extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TECampfire();
 	}
@@ -88,7 +88,7 @@ public class Campfire extends FABaseBlock
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = levelIn.getBlockEntity(pos);
+			TileEntity te = levelIn.getTileEntity(pos);
 			if (te instanceof TECampfire)
 			{
 				((TECampfire) te).DropItems();
@@ -103,10 +103,10 @@ public class Campfire extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (!level.isClientSide)
+		if (!world.isClientSide)
 		{
 			boolean canLight = !state.getValue(LIT);
 			ItemStack stack = player.getItemInHand(hand);
@@ -114,13 +114,13 @@ public class Campfire extends FABaseBlock
 			if (canLight && (item == Items.TORCH || item == Items.FLINT_AND_STEEL
 					|| item == FAItems.advancedFlintAndSteel.toItem()))
 			{
-				level.setBlockState(pos, state.setValue(LIT, true));
-				TileEntity te = level.getBlockEntity(pos);
+				world.setBlockState(pos, state.setValue(LIT, true));
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TECampfire)
 					((TECampfire) te).SetLit(true);
 			} else
 			{
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TECampfire)
 					((TECampfire) te).TakeOrPlace(stack, player);
 			}
@@ -129,22 +129,22 @@ public class Campfire extends FABaseBlock
 	}
 
 	@Override
-	public void animateTick(BlockState state, World level, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(LIT))
 			return;
 		if (rand.nextDouble() < 0.1D)
 		{
-			level.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D,
+			world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D,
 					SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 		}
 		double x = pos.getX() + 0.5;
 		double y = pos.getY() + 0.2;
 		double z = pos.getZ() + 0.5;
-		level.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0.02, 0);
-		level.addParticle(ParticleTypes.SMOKE, x, y, z, rand.nextDouble() / 20d, 0.15, rand.nextDouble() / 20d);
+		world.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0.02, 0);
+		world.addParticle(ParticleTypes.SMOKE, x, y, z, rand.nextDouble() / 20d, 0.15, rand.nextDouble() / 20d);
 		if (rand.nextDouble() < 0.5D)
-			level.addParticle(
+			world.addParticle(
 					ParticleTypes.CAMPFIRE_COSY_SMOKE, x, y, z, rand.nextDouble() / 40d, 0.08, rand.nextDouble() / 40d);
 	}
 }

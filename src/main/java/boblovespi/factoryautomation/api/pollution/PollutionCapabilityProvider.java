@@ -29,17 +29,17 @@ public class PollutionCapabilityProvider implements ICapabilityProvider
 		this.cap = new PollutedChunk();
 
 		cap.SetPollutionCallback(n -> {
-			World level = chunk.getWorld();
-			if (level.isClientSide)
+			World world = chunk.getWorld();
+			if (world.isClientSide)
 				return;
 			int x = chunk.getPos().x;
 			int z = chunk.getPos().z;
-			LazyOptional<IPollutedChunk> north = level.getChunk(x + 1, z)
+			LazyOptional<IPollutedChunk> north = world.getChunk(x + 1, z)
 													  .getCapability(POLLUTED_CHUNK_CAPABILITY, null);
-			LazyOptional<IPollutedChunk> south = level.getChunk(x - 1, z)
+			LazyOptional<IPollutedChunk> south = world.getChunk(x - 1, z)
 													  .getCapability(POLLUTED_CHUNK_CAPABILITY, null);
-			LazyOptional<IPollutedChunk> east = level.getChunk(x, z + 1).getCapability(POLLUTED_CHUNK_CAPABILITY, null);
-			LazyOptional<IPollutedChunk> west = level.getChunk(x, z - 1).getCapability(POLLUTED_CHUNK_CAPABILITY, null);
+			LazyOptional<IPollutedChunk> east = world.getChunk(x, z + 1).getCapability(POLLUTED_CHUNK_CAPABILITY, null);
+			LazyOptional<IPollutedChunk> west = world.getChunk(x, z - 1).getCapability(POLLUTED_CHUNK_CAPABILITY, null);
 			double v = n.GetPollution() - ConfigFields.pollutionCat.spillover;
 
 			north.ifPresent(o -> {

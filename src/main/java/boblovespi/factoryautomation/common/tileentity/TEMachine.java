@@ -85,7 +85,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 		{
 			UpdateClient();
 			return;
@@ -118,7 +118,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 
 		/* IMPORTANT */
 		setChanged();
-		level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	public void FirstLoad()
@@ -163,7 +163,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		this.load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

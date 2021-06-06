@@ -46,19 +46,19 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 	 *
 	 * @param state The state of the machine
 	 * @param side  The side power is being connected to
-	 * @param level The level access
+	 * @param world The world access
 	 * @param pos   The position of the block
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	@Override
-	public boolean canConnectCable(BlockState state, Direction side, IBlockReader level, BlockPos pos)
+	public boolean canConnectCable(BlockState state, Direction side, IBlockReader world, BlockPos pos)
 	{
 		return side != null && side.get2DDataValue() >= 0;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileEntitySolarPanel();
 	}
@@ -68,7 +68,7 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 //					   Hand hand, BlockRayTraceResult rayTraceResult)
 //	{
 //		TileEntity entity;
-//		if ((entity = levelIn.getBlockEntity(pos)) instanceof TileEntitySolarPanel)
+//		if ((entity = levelIn.getTileEntity(pos)) instanceof TileEntitySolarPanel)
 //		{
 //			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
 //			entity1.ForceUpdate();

@@ -42,7 +42,7 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 	 */
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader level)
+	public TileEntity createNewTileEntity(IBlockReader world)
 	{
 		return new TEStoneWorkbench();
 	}
@@ -51,13 +51,13 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!level.isClientSide && player instanceof ServerPlayerEntity)
+		if (!world.isClientSide && player instanceof ServerPlayerEntity)
 			// playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.WORKBENCH.id, levelIn, pos.getX(), pos.getY(),
 			// 		pos.getZ());
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(level.getBlockEntity(pos)), pos);
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 

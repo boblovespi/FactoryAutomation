@@ -68,7 +68,7 @@ public class TileEntitySolarPanel extends TileEntity
 	public void AddConnection(EnergyConnection_ connection)
 	{
 		energyConnections.add(connection);
-		// EnergyNetwork_.GetFromWorld(level).AddConnection(connection);
+		// EnergyNetwork_.GetFromWorld(world).AddConnection(connection);
 	}
 
 	/**
@@ -127,14 +127,14 @@ public class TileEntitySolarPanel extends TileEntity
 
 	public void ForceUpdate()
 	{
-		if (level.isClientSide)
+		if (world.isClientSide)
 			return;
 		if (hasTicked)
 			return;
 		hasTicked = true;
-		if (level.canBlockSeeSky(pos.up()))
+		if (world.canBlockSeeSky(pos.up()))
 		{
-			energyProduction = productionScalar * (level.isDaytime() ? 1 : 0.1f);
+			energyProduction = productionScalar * (world.isDaytime() ? 1 : 0.1f);
 		} else
 		{
 			energyProduction = 0;
@@ -146,7 +146,7 @@ public class TileEntitySolarPanel extends TileEntity
 
 		// energyConnections.forEach(EnergyConnection_::Update);
 		markDirty();
-		level.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override

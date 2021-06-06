@@ -19,11 +19,11 @@ import java.util.List;
 public class ConfigFields
 {
 	// @Name("tool mining levels")
-	// @Comment("Category containing all configurations for tool mining level tweaks")
+	// @Comment("Category containing all configurations for tool mining world tweaks")
 	// @LangKey("config.tool_mining_level")
 	public static ToolMiningLevel toolMiningLevelCat = new ToolMiningLevel();
 	// @Name("block mining levels")
-	// @Comment("Category containing all configurations for block mining level tweaks")
+	// @Comment("Category containing all configurations for block mining world tweaks")
 	// @LangKey("config.block_mining_level")
 	public static BlockMiningLevel blockMiningLevelCat = new BlockMiningLevel();
 	public static PollutionCat pollutionCat = new PollutionCat();

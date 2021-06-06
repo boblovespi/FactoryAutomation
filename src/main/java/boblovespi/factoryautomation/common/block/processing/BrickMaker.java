@@ -56,14 +56,14 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
 		Contents value = state.getValue(CONTENTS);
 		if (value.canDry())
 		{
-			level.setBlockState(pos, state.setValue(CONTENTS, value.getDried()));
+			world.setBlockState(pos, state.setValue(CONTENTS, value.getDried()));
 			if (value.getDried().canDry())
-				level.getPendingBlockTicks().scheduleTick(pos, this, tickRate(level));
+				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 		}
 	}
 
@@ -86,29 +86,29 @@ public class BrickMaker extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (level.isClientSide)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 
 		Contents value = state.getValue(CONTENTS);
 		if (value.canAddClay() && player.getItemInHand(hand).getItem() == FAItems.terraclay)
 		{
-			level.setBlockState(pos, state.setValue(CONTENTS, value.addClay()));
+			world.setBlockState(pos, state.setValue(CONTENTS, value.addClay()));
 			player.getItemInHand(hand).shrink(1);
-			level.getPendingBlockTicks().scheduleTick(pos, this, tickRate(level));
+			world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 		} else if (value.canRemove())
 		{
 			if (value.canRemoveBrick())
 			{
-				level.setBlockState(pos, state.setValue(CONTENTS, value.removeClay()));
-				ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.toItem()), level);
+				world.setBlockState(pos, state.setValue(CONTENTS, value.removeClay()));
+				ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.toItem()), world);
 
 			} else if (value.canRemoveClay())
 			{
-				level.setBlockState(pos, state.setValue(CONTENTS, value.removeClay()));
-				ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.toItem()), level);
+				world.setBlockState(pos, state.setValue(CONTENTS, value.removeClay()));
+				ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.toItem()), world);
 			}
 		}
 		return ActionResultType.SUCCESS;

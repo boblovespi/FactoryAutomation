@@ -80,15 +80,15 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	@Override
 	public void createStructure()
 	{
-		MultiblockHelper.CreateStructure(level, levelPosition, MULTIBLOCK_ID, out);
-		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
+		MultiblockHelper.CreateStructure(world, levelPosition, MULTIBLOCK_ID, out);
+		Objects.requireNonNull(world).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
 	}
 
 	@Override
 	public void breakStructure()
 	{
-		MultiblockHelper.BreakStructure(level, levelPosition, MULTIBLOCK_ID, out);
-		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
+		MultiblockHelper.BreakStructure(world, levelPosition, MULTIBLOCK_ID, out);
+		Objects.requireNonNull(world).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 		{
 			return;
 		}
@@ -124,7 +124,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 
 		if (counter == 0)
 		{
-			if (level.getBiome(levelPosition).getRegistryName() == Biomes.RIVER.location())
+			if (world.getBiome(levelPosition).getRegistryName() == Biomes.RIVER.location())
 			{
 				user.setSpeedOnFace(out, 10);
 				user.setTorqueOnFace(out, 25);
@@ -134,12 +134,12 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 				for (int i = 0; i < waterLoc.size(); i++)
 				{
 					BlockPos waterPos = waterLoc.get(i);
-					BlockState state = level.getBlockState(waterPos);
+					BlockState state = world.getBlockState(waterPos);
 					if (state.getMaterial() == Material.WATER)
 					{
 						if (state.getBlock() instanceof FlowingFluidBlock)
 						{
-							Vector3d acc = state.getFluidState().getFlow(level, waterPos);
+							Vector3d acc = state.getFluidState().getFlow(world, waterPos);
 							if (out.getAxis() == Direction.Axis.X) // water flowing along z axis
 							{
 								if (i < 3 || i > 6)

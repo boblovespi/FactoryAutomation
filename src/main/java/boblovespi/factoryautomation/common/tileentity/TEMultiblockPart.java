@@ -29,7 +29,7 @@ public class TEMultiblockPart extends TileEntity
 {
 	private int[] structurePosition = new int[3]; // the position of the block in the structure measured by {+x, +y, +z}
 	private String structureId = null; // the id of the multiblock structure
-	private int[] structureOffset = new int[3]; // the offset from the controller, in level coordinates
+	private int[] structureOffset = new int[3]; // the offset from the controller, in world coordinates
 	private BlockState state;
 	private IMultiblockControllerTE controller;
 
@@ -39,14 +39,14 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	/**
-	 * Called when this is first added to the level (by {@link World#addBlockEntity(TileEntity)}).
+	 * Called when this is first added to the world (by {@link World#addBlockEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	public void InitController()
 	{
-		if (controller == null && !Objects.requireNonNull(level).isClientSide && structureId != null)
-			controller = (IMultiblockControllerTE) level
-					.getBlockEntity(levelPosition.offset(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
+		if (controller == null && !Objects.requireNonNull(world).isClientSide && structureId != null)
+			controller = (IMultiblockControllerTE) world
+					.getTileEntity(levelPosition.offset(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
 	}
 
 	public void SetMultiblockInformation(String structure, int posX, int posY, int posZ, int offX, int offY, int offZ,
@@ -60,7 +60,7 @@ public class TEMultiblockPart extends TileEntity
 		structureOffset[1] = offY;
 		structureOffset[2] = offZ;
 		state = blockState;
-		controller = (IMultiblockControllerTE) Objects.requireNonNull(level).getBlockEntity(levelPosition.offset(-offX, -offY, -offZ));
+		controller = (IMultiblockControllerTE) Objects.requireNonNull(world).getTileEntity(levelPosition.offset(-offX, -offY, -offZ));
 	}
 
 	public void SetMultiblockInformation(String structure, BlockPos levelPosition, BlockPos offset, BlockState blockState)

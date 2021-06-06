@@ -60,13 +60,13 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public int getFireSpreadSpeed(BlockState state, IBlockReader level, BlockPos pos, Direction face)
+	public int getFireSpreadSpeed(BlockState state, IBlockReader world, BlockPos pos, Direction face)
 	{
 		return state.getValue(ACTIVATED) ? 20 : 8;
 	}
 
 	@Override
-	public int getFlammability(BlockState state, IBlockReader level, BlockPos pos, Direction face)
+	public int getFlammability(BlockState state, IBlockReader world, BlockPos pos, Direction face)
 	{
 		return state.getValue(ACTIVATED) ? 120 : 20;
 	}
@@ -78,27 +78,27 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
 		{
-			level.setBlockState(pos, FABlocks.charcoalPile.toBlock().getDefaultState());
+			world.setBlockState(pos, FABlocks.charcoalPile.toBlock().getDefaultState());
 			for (Direction dir : Direction.values())
 			{
 				BlockPos offset = pos.offset(dir);
-				BlockState state1 = level.getBlockState(offset);
+				BlockState state1 = world.getBlockState(offset);
 				if (state1.getBlock() == FABlocks.terraclayBrickBlock)
 				{
 					boolean foundPile = false;
 					for (int i = 4; i >= 0; i--)
 					{
 						BlockPos pos1 = offset.offset(dir, i);
-						BlockState state2 = level.getBlockState(pos1);
+						BlockState state2 = world.getBlockState(pos1);
 						if (foundPile)
 						{
-							if (state2.getBlock() == FABlocks.terraclayBrickBlock && isSurrounded(level, pos1, null))
-								level.setBlockState(pos1, Blocks.BRICKS.getDefaultState());
+							if (state2.getBlock() == FABlocks.terraclayBrickBlock && isSurrounded(world, pos1, null))
+								world.setBlockState(pos1, Blocks.BRICKS.getDefaultState());
 						} else if (state2.getBlock() == this && state2.get(ACTIVATED))
 							foundPile = true;
 					}
@@ -113,16 +113,16 @@ public class LogPile extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World level, BlockPos pos, Block block1, BlockPos fromPos,
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block1, BlockPos fromPos,
 			boolean isMoving)
 	{
-		BlockState block = level.getBlockState(fromPos);
+		BlockState block = world.getBlockState(fromPos);
 		if (!state.getValue(ACTIVATED))
 		{
 			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.get(ACTIVATED)))
 			{
-				level.setBlockState(pos, state.setValue(ACTIVATED, true), 7);
-				level.getPendingBlockTicks().scheduleTick(pos, this, tickRate(level));
+				world.setBlockState(pos, state.setValue(ACTIVATED, true), 7);
+				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
 			}
 
 		} else
@@ -132,29 +132,29 @@ public class LogPile extends FABaseBlock
 			for (Direction face : Direction.values())
 			{
 				BlockPos offset = pos.offset(face);
-				BlockState state1 = level.getBlockState(offset);
-				if (state1.getBlock().isAir(state1, level, offset))
+				BlockState state1 = world.getBlockState(offset);
+				if (state1.getBlock().isAir(state1, world, offset))
 				{
-					level.setBlockState(offset, Blocks.FIRE.getDefaultState());
+					world.setBlockState(offset, Blocks.FIRE.getDefaultState());
 					sidesOnFire = true;
 				} else if (state1.getBlock() == Blocks.FIRE)
 				{
 					// do something later?
 					sidesOnFire = true;
-				} else if (!Block.hasSolidSide(state1, level, offset, face.getOpposite()) && state1.getBlock() != this)
+				} else if (!Block.hasSolidSide(state1, world, offset, face.getOpposite()) && state1.getBlock() != this)
 				{
-					// if (level.rand.nextFloat() < 0.2f)
-					// 	level.setBlockState(pos, Blocks.FIRE.getDefaultState());
+					// if (world.rand.nextFloat() < 0.2f)
+					// 	world.setBlockState(pos, Blocks.FIRE.getDefaultState());
 					isSurrounded = false;
 				}
 			}
 			if (!sidesOnFire && !isSurrounded)
-				level.setBlockState(pos, Blocks.FIRE.getDefaultState());
+				world.setBlockState(pos, Blocks.FIRE.getDefaultState());
 		}
 	}
 
 	@Override
-	public boolean isBurning(BlockState state, IBlockReader level, BlockPos pos)
+	public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos)
 	{
 		return state.getValue(ACTIVATED);
 	}
@@ -166,28 +166,28 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public void animateTick(BlockState state, World level, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(ACTIVATED))
 			return;
 		double x = pos.getX() + rand.nextDouble();
 		double y = pos.getY() + rand.nextDouble();
 		double z = pos.getZ() + rand.nextDouble();
-		level.addParticle(ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
+		world.addParticle(ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
 				rand.nextDouble() / 20d);
-		level.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
-		level.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
-	private boolean isSurrounded(World level, BlockPos pos, @Nullable Predicate<BlockState> block)
+	private boolean isSurrounded(World world, BlockPos pos, @Nullable Predicate<BlockState> block)
 	{
 		for (Direction dir : Direction.values())
 		{
 			BlockPos offset = pos.offset(dir);
-			BlockState state = level.getBlockState(offset);
+			BlockState state = world.getBlockState(offset);
 			if (block == null)
 			{
-				if (!Block.hasSolidSide(state, level, offset, dir.getOpposite()) && state.getBlock() != this)
+				if (!Block.hasSolidSide(state, world, offset, dir.getOpposite()) && state.getBlock() != this)
 					return false;
 			} else
 			{

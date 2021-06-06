@@ -50,7 +50,7 @@ public class SolidFueledFirebox extends FABaseBlock
 			Hand handIn, BlockRayTraceResult hit)
 	{
 		if (!levelIn.isClientSide)
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(levelIn.getBlockEntity(pos)), pos);
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(levelIn.getTileEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 
@@ -62,7 +62,7 @@ public class SolidFueledFirebox extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TESolidFueledFirebox();
 	}

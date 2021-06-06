@@ -47,8 +47,8 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 
 	public void FirstLoad()
 	{
-		if (!Objects.requireNonNull(level).isClientSide && hasHorse)
-			horse = (MobEntity) ((ServerWorld) level).getEntity(horseId);
+		if (!Objects.requireNonNull(world).isClientSide && hasHorse)
+			horse = (MobEntity) ((ServerWorld) world).getEntity(horseId);
 		firstTick = false;
 	}
 
@@ -58,7 +58,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide || !hasHorse)
+		if (Objects.requireNonNull(world).isClientSide || !hasHorse)
 			return;
 		if (firstTick)
 			FirstLoad();
@@ -70,7 +70,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 				hasHorse = false;
 				return;
 			}
-			horse = (MobEntity) ((ServerWorld) level).getEntity(horseId);
+			horse = (MobEntity) ((ServerWorld) world).getEntity(horseId);
 		}
 		if (Objects.requireNonNull(horse).getNavigation().isDone())
 		{
@@ -169,8 +169,8 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 		user.setTorqueOnFace(Direction.UP, 10);
 		user.setSpeedOnFace(Direction.UP, 0);
 		setChanged();
-		BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
-		level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+		BlockState state2 = Objects.requireNonNull(world).getBlockState(levelPosition);
+		world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 		return true;
 	}
 
@@ -184,7 +184,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 		user.setTorqueOnFace(Direction.UP, 0);
 		user.setSpeedOnFace(Direction.UP, 0);
 		setChanged();
-		BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
-		level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+		BlockState state2 = Objects.requireNonNull(world).getBlockState(levelPosition);
+		world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 	}
 }

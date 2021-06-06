@@ -48,17 +48,17 @@ public class PlacedBucket extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEPlacedBucket();
 	}
 
 	@Override
-	public void onReplaced(BlockState state, World level, BlockPos pos, BlockState newState, boolean isMoving)
+	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving)
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = level.getBlockEntity(pos);
+			TileEntity te = world.getTileEntity(pos);
 			if (te != null)
 			{
 				if (te instanceof TEPlacedBucket)
@@ -66,16 +66,16 @@ public class PlacedBucket extends FABaseBlock
 					Fluid fluid = ((TEPlacedBucket) te).GetFluid();
 					if (fluid != null)
 					{
-						InventoryHelper.spawnItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
+						InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(),
 								FluidUtil.getFilledBucket(new FluidStack(fluid, 1000)));
-						super.onReplaced(state, level, pos, newState, isMoving);
+						super.onReplaced(state, world, pos, newState, isMoving);
 						return;
 					}
 				}
 			}
-			InventoryHelper.spawnItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BUCKET));
+			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BUCKET));
 		}
-		super.onReplaced(state, level, pos, newState, isMoving);
+		super.onReplaced(state, world, pos, newState, isMoving);
 	}
 
 }

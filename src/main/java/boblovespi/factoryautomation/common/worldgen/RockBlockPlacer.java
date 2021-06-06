@@ -38,18 +38,18 @@ import static boblovespi.factoryautomation.common.block.resource.Rock.VARIANTS;
 //	}
 //
 //	@Override
-//	public void place(IWorld level, BlockPos pos, BlockState state, Random random)
+//	public void place(IWorld world, BlockPos pos, BlockState state, Random random)
 //	{
-//		Biome biome = level.getBiome(pos);
+//		Biome biome = world.getBiome(pos);
 //		if (biome.getBiomeCategory() == Biome.Category.DESERT)
 //		{
-//			level.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.SANDSTONE), 2);
+//			world.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.SANDSTONE), 2);
 //		} else if (biome.getBiomeCategory() == Biome.Category.SWAMP || biome.getBiomeCategory() == Biome.Category.TAIGA)
 //		{
-//			level.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.MOSSY_COBBLESTONE), 2);
+//			world.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.MOSSY_COBBLESTONE), 2);
 //		} else
 //		{
-//			level.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.values()[random.nextInt(5)]), 2);
+//			world.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.values()[random.nextInt(5)]), 2);
 //		}
 //	}
 //

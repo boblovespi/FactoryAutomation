@@ -46,13 +46,13 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		super(DATA_NAME);
 	}
 
-	public static EnergyNetwork getFromWorld(ServerWorld level)
+	public static EnergyNetwork getFromWorld(ServerWorld world)
 	{
 		System.out.println("Loading energy network!");
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		EnergyNetwork instance;
-		DimensionSavedDataManager storage = level.getSavedData();
+		DimensionSavedDataManager storage = world.getSavedData();
 		try
 		{
 			instance = (EnergyNetwork) storage.getOrCreate(EnergyNetwork::new, DATA_NAME);
@@ -72,11 +72,11 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 			isLoaded = true;
 		}
 		if (!instance.isInit)
-			instance.init(level);
+			instance.init(world);
 		return instance;
 	}
 
-	private void init(World level)
+	private void init(World world)
 	{
 		if (isInit)
 			return;
@@ -89,17 +89,17 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		while (iterator.hasNext())
 		{
 			CompoundNBT next = (CompoundNBT) iterator.next();
-			EnergyConnection e = readConnectionFromTag(level, next);
+			EnergyConnection e = readConnectionFromTag(world, next);
 			addConnection(e);
 		}
 
 	}
 
 	@Override
-	public void update(World level)
+	public void update(World world)
 	{
 		if (!isInit)
-			init(level);
+			init(world);
 
 		for (Map.Entry<IProducesEnergy, List<EnergyConnection>> entry : connections.entrySet())
 		{
@@ -204,8 +204,8 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		int wireType = tag1.getInt("wireType");
 		double wireLength = tag1.getDouble("wireLength");
 
-		TileEntity pTE = w.getBlockEntity(pPos);
-		TileEntity cTE = w.getBlockEntity(cPos);
+		TileEntity pTE = w.getTileEntity(pPos);
+		TileEntity cTE = w.getTileEntity(cPos);
 
 		if (pTE instanceof IProducesEnergy)
 		{

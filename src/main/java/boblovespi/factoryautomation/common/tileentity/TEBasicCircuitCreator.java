@@ -60,7 +60,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 
 	public void Craft()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 
 		BasicCircuitRecipe recipe = BasicCircuitRecipe.findRecipe(layout.grid);
@@ -77,7 +77,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 			layout = new Layout();
 
 			setChanged();
-			level.sendBlockUpdated(levelPosition, level.getBlockState(levelPosition), level.getBlockState(levelPosition),
+			world.sendBlockUpdated(levelPosition, world.getBlockState(levelPosition), world.getBlockState(levelPosition),
 					SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 							| SetBlockStateFlags.PREVENT_RERENDER);
 		}
@@ -85,7 +85,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 
 	public void AddComponent(Layout.Element e, int x, int y)
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 
 		if (layout.Get(x, y).equals(e))
@@ -112,7 +112,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 		}
 		layout.Set(e, x, y);
 		setChanged();
-		level.sendBlockUpdated(levelPosition, level.getBlockState(levelPosition), level.getBlockState(levelPosition),
+		world.sendBlockUpdated(levelPosition, world.getBlockState(levelPosition), world.getBlockState(levelPosition),
 				SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 						| SetBlockStateFlags.PREVENT_RERENDER);
 	}
@@ -121,14 +121,14 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	{
 		RemoveComponentInternal(x, y);
 		setChanged();
-		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, level.getBlockState(levelPosition), level.getBlockState(levelPosition),
+		Objects.requireNonNull(world).sendBlockUpdated(levelPosition, world.getBlockState(levelPosition), world.getBlockState(levelPosition),
 				SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 						| SetBlockStateFlags.PREVENT_RERENDER);
 	}
 
 	private void RemoveComponentInternal(int x, int y)
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 		Layout.Element e = layout.Get(x, y);
 		switch (e)
@@ -176,7 +176,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	//	@Override

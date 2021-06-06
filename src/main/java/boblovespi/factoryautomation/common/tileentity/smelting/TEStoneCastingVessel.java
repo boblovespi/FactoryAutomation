@@ -55,7 +55,7 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	/**
-	 * Called when this is first added to the level (by {@link World#addBlockEntity(TileEntity)}).
+	 * Called when this is first added to the world (by {@link World#addBlockEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	public void FirstLoad()
@@ -78,7 +78,7 @@ public class TEStoneCastingVessel extends TileEntity
 
 		/* IMPORTANT */
 		setChanged();
-		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
+		Objects.requireNonNull(world).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 	}
 
 	@Override
@@ -90,8 +90,8 @@ public class TEStoneCastingVessel extends TileEntity
 	// Todo: remove if not used, looks like it's unused. - Qboi123
 	public void DropItems()
 	{
-		if (!Objects.requireNonNull(level).isClientSide && !slot.getStackInSlot(0).isEmpty())
-			level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), slot.getStackInSlot(0)));
+		if (!Objects.requireNonNull(world).isClientSide && !slot.getStackInSlot(0).isEmpty())
+			world.addFreshEntity(new ItemEntity(world, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack TakeItem()
@@ -100,7 +100,7 @@ public class TEStoneCastingVessel extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
+		Objects.requireNonNull(world).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 
@@ -111,10 +111,10 @@ public class TEStoneCastingVessel extends TileEntity
 			if (temp < 40f)
 			{
 				ItemStack taken = TakeItem();
-				ItemHelper.putItemsInInventoryOrDrop(player, taken, level);
+				ItemHelper.putItemsInInventoryOrDrop(player, taken, world);
 				if (hasSand)
 				{
-					ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.toBlock()), level);
+					ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.toBlock()), world);
 					SetForm(CastingVesselStates.EMPTY);
 				}
 			} else
@@ -131,7 +131,7 @@ public class TEStoneCastingVessel extends TileEntity
 
 			setChanged();
 			/* IMPORTANT */
-			Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
+			Objects.requireNonNull(world).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 		}
 	}
 
@@ -142,7 +142,7 @@ public class TEStoneCastingVessel extends TileEntity
 			hasSand = false;
 		else
 			hasSand = true;
-		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, level.getBlockState(levelPosition).setValue(MOLD, state));
+		Objects.requireNonNull(world).setBlockAndUpdate(levelPosition, world.getBlockState(levelPosition).setValue(MOLD, state));
 		form = state.metalForm;
 	}
 
@@ -188,13 +188,13 @@ public class TEStoneCastingVessel extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 		if (firstTick)
 			FirstLoad();
 		if (temp > 20f)
 		{
-			if (level.isRaining())
+			if (world.isRaining())
 				temp *= 0.9938f;
 			else
 				temp *= 0.9972f;
@@ -203,7 +203,7 @@ public class TEStoneCastingVessel extends TileEntity
 		if (counter < 0)
 		{
 			setChanged();
-			level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
+			world.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 			counter = 10;
 		}
 	}
@@ -229,7 +229,7 @@ public class TEStoneCastingVessel extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

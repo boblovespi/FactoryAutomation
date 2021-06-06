@@ -45,19 +45,19 @@ public class Pillar extends FABaseBlock
 	 * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
 	{
 		int height = state.getValue(HEIGHT);
 
 		BlockPos down1 = pos.below();
 		BlockPos down2 = pos.below(2);
-		BlockState dState2 = level.getBlockState(down2);
+		BlockState dState2 = world.getBlockState(down2);
 		BlockPos up1 = pos.above();
 		BlockPos up2 = pos.above(2);
-		BlockState uState1 = level.getBlockState(up1);
-		BlockState uState2 = level.getBlockState(up2);
-		// EffectivelyPlace(level, pos);
-		UpdateState(level, pos, state);
+		BlockState uState1 = world.getBlockState(up1);
+		BlockState uState2 = world.getBlockState(up2);
+		// EffectivelyPlace(world, pos);
+		UpdateState(world, pos, state);
 	}
 
 	@Override
@@ -75,27 +75,27 @@ public class Pillar extends FABaseBlock
 		return defaultBlockState().setValue(HEIGHT, 1);
 	}
 
-	private void UpdateState(World level, BlockPos pos, BlockState state)
+	private void UpdateState(World world, BlockPos pos, BlockState state)
 	{
 		int height = state.getValue(HEIGHT);
 		BlockPos down1 = pos.below();
 		BlockPos down2 = pos.below(2);
-		BlockState dState1 = level.getBlockState(down1);
-		BlockState dState2 = level.getBlockState(down2);
+		BlockState dState1 = world.getBlockState(down1);
+		BlockState dState2 = world.getBlockState(down2);
 		BlockPos up1 = pos.above();
 		BlockPos up2 = pos.above(2);
-		BlockState uState1 = level.getBlockState(up1);
-		BlockState uState2 = level.getBlockState(up2);
+		BlockState uState1 = world.getBlockState(up1);
+		BlockState uState2 = world.getBlockState(up2);
 
 		if (height == 0)
 		{
 			if (dState1.getBlock() == this)
 			{
-				UpdateState(level, down1, dState1);
+				UpdateState(world, down1, dState1);
 			}
 			if (dState2.getBlock() == this)
 			{
-				UpdateState(level, down2, dState2);
+				UpdateState(world, down2, dState2);
 			}
 		} else if (uState1.getBlock() == this)
 		{
@@ -103,39 +103,39 @@ public class Pillar extends FABaseBlock
 			{
 				if (uState2.getBlock() == this && uState2.getValue(HEIGHT) < 2)
 				{
-					level.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
-					level.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
-					level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
+					world.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
+					world.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
+					world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
 				} else
 				{
-					level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 2));
-					level.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 0));
+					world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 2));
+					world.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 0));
 				}
 			} else if (uState1.getValue(HEIGHT) == 1)
 			{
 				if (uState2.getBlock() == this && uState2.getValue(HEIGHT) == 1)
 				{
-					level.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
-					level.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
-					level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
+					world.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
+					world.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
+					world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
 				} else
 				{
-					level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 2));
-					level.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 0));
+					world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 2));
+					world.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 0));
 				}
 			} else if (uState1.getValue(HEIGHT) == 2 && uState2.getBlock() == this && uState2.getValue(HEIGHT) == 0)
 			{
-				level.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
-				level.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
-				level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
+				world.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
+				world.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
+				world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
 			}
 		} else
 		{
 			if (height == 3 && uState2.getBlock() == this && uState2.getValue(HEIGHT) == 0)
 			{
-				UpdateState(level, up2, uState2.setValue(HEIGHT, 1));
+				UpdateState(world, up2, uState2.setValue(HEIGHT, 1));
 			}
-			level.setBlockAndUpdate(pos, state.setValue(HEIGHT, 1));
+			world.setBlockAndUpdate(pos, state.setValue(HEIGHT, 1));
 		}
 	}
 
@@ -143,47 +143,47 @@ public class Pillar extends FABaseBlock
 	 * Called after the block is set in the Chunk data, but before the Tile Entity is set
 	 */
 	@Override
-	public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean isMoving)
+	public void onPlace(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
-		// EffectivelyPlace(level, pos);
-		UpdateState(level, pos, state);
+		// EffectivelyPlace(world, pos);
+		UpdateState(world, pos, state);
 	}
 
 	/**
 	 * Called serverside after this block is replaced with another in Chunk, but before the Tile Entity is updated
 	 */
 	@Override
-	public void onRemove(BlockState state, World level, BlockPos pos, BlockState newState, boolean isMoving)
+	public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving)
 	{
 		BlockPos down1 = pos.below();
 		BlockPos down2 = pos.below(2);
-		BlockState dState1 = level.getBlockState(down1);
-		BlockState dState2 = level.getBlockState(down2);
+		BlockState dState1 = world.getBlockState(down1);
+		BlockState dState2 = world.getBlockState(down2);
 		BlockPos up1 = pos.above();
 		BlockPos up2 = pos.above(2);
-		BlockState uState1 = level.getBlockState(up1);
-		BlockState uState2 = level.getBlockState(up2);
+		BlockState uState1 = world.getBlockState(up1);
+		BlockState uState2 = world.getBlockState(up2);
 		if (state.getValue(HEIGHT) == 0)
 		{
 			if (dState1.getBlock() == this)
 			{
-				UpdateState(level, down1, dState1);
+				UpdateState(world, down1, dState1);
 			}
 			if (dState2.getBlock() == this)
 			{
-				UpdateState(level, down2, dState2);
+				UpdateState(world, down2, dState2);
 			}
 		} else if (state.getValue(HEIGHT) > 1)
 		{
 			if (uState1.getBlock() == this)
 			{
-				level.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 1));
-				UpdateState(level, up1, uState1.setValue(HEIGHT, 1));
+				world.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 1));
+				UpdateState(world, up1, uState1.setValue(HEIGHT, 1));
 			}
 			if (uState2.getBlock() == this)
 			{
-				level.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 1));
-				UpdateState(level, up2, uState2.setValue(HEIGHT, 1));
+				world.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 1));
+				UpdateState(world, up2, uState2.setValue(HEIGHT, 1));
 			}
 		}
 	}

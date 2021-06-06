@@ -27,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -116,13 +116,13 @@ public class BlockEventHandler
 	public static void onBlockBrokenEvent(BlockEvent.BreakEvent event)
 	{
 		BlockPos pos = event.getPos();
-		IWorld level = event.getWorld();
+		IWorld world = event.getWorld();
 		if (FABlocks.multiblockPart == event.getState().getBlock())
 		{
 			Log.logInfo("something broke!");
 			Log.logInfo("blockPos", pos);
 
-			TEMultiblockPart part = (TEMultiblockPart) level.getBlockEntity(pos);
+			TEMultiblockPart part = (TEMultiblockPart) world.getTileEntity(pos);
 
 			Log.logInfo("part is null", part == null);
 
@@ -132,7 +132,7 @@ public class BlockEventHandler
 				int[] offset = part.GetOffset();
 
 				BlockPos controllerLoc = pos.add(-offset[0], -offset[1], -offset[2]);
-				TileEntity te = level.getBlockEntity(controllerLoc);
+				TileEntity te = world.getTileEntity(controllerLoc);
 				if (te instanceof IMultiblockControllerTE)
 				{
 					IMultiblockControllerTE controllerTe = (IMultiblockControllerTE) te;
@@ -140,12 +140,12 @@ public class BlockEventHandler
 					controllerTe.setStructureInvalid();
 				}
 			}
-		} else if (level.getBlockEntity(pos) instanceof IMultiblockControllerTE)
+		} else if (world.getTileEntity(pos) instanceof IMultiblockControllerTE)
 		{
 			Log.logInfo("something broke!");
 			Log.logInfo("blockPos", pos);
 
-			IMultiblockControllerTE part = (IMultiblockControllerTE) level.getBlockEntity(pos);
+			IMultiblockControllerTE part = (IMultiblockControllerTE) world.getTileEntity(pos);
 
 			part.breakStructure();
 			part.setStructureInvalid();
@@ -165,7 +165,7 @@ public class BlockEventHandler
 	{
 		BlockState state = event.getState();
 		BlockPos pos = event.getPos().immutable();
-		IWorld level = event.getWorld();
+		IWorld world = event.getWorld();
 		if (state.getBlock() == Blocks.FIRE)
 		{
 			if (!ashFires.containsKey(pos))
@@ -173,7 +173,7 @@ public class BlockEventHandler
 				ashFires.put(pos, new HashSet<>(6));
 				for (Direction offset : Direction.values())
 				{
-					if (FATags.FABlockTag("gives_ash").contains(level.getBlockState(pos.offset(offset.getNormal())).getBlock()))
+					if (FATags.FABlockTag("gives_ash").contains(world.getBlockState(pos.offset(offset.getNormal())).getBlock()))
 						ashFires.get(pos).add(offset);
 					else
 						ashFires.get(pos).remove(offset);
@@ -186,7 +186,7 @@ public class BlockEventHandler
 				for (Direction facing : ashFires.get(pos))
 				{
 					BlockPos oldWoodPos = pos.offset(facing.getNormal());
-					checkAndSpawnAsh(level, level.getBlockState(oldWoodPos), oldWoodPos);
+					checkAndSpawnAsh(world, world.getBlockState(oldWoodPos), oldWoodPos);
 				}
 				ashFires.remove(pos);
 			}
@@ -198,7 +198,7 @@ public class BlockEventHandler
 	{
 		BlockState state = event.getWorld().getBlockState(event.getPos());
 		BlockPos pos = event.getPos().immutable();
-		World level = event.getWorld();
+		World world = event.getWorld();
 		PlayerEntity player = event.getPlayer();
 
 		if (BlockTags.LOGS.contains(state.getBlock()))
@@ -212,14 +212,14 @@ public class BlockEventHandler
 		}
 	}
 
-	private static void checkAndSpawnAsh(IWorld level, BlockState state, BlockPos pos)
+	private static void checkAndSpawnAsh(IWorld world, BlockState state, BlockPos pos)
 	{
 		if (state.getBlock() == Blocks.FIRE || state.getBlock() == Blocks.AIR)
 		{
-			ItemEntity item = new ItemEntity((World) level, pos.getX(), pos.getY(), pos.getZ(),
-					new ItemStack(FAItems.ash.toItem(), level.getRandom().nextInt(2) + 1));
+			ItemEntity item = new ItemEntity((World) world, pos.getX(), pos.getY(), pos.getZ(),
+					new ItemStack(FAItems.ash.toItem(), world.getRandom().nextInt(2) + 1));
 			item.setInvulnerable(true);
-			level.addFreshEntity(item);
+			world.addFreshEntity(item);
 		}
 	}
 }

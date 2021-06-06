@@ -153,7 +153,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 		{
 			rotation = (rotation + speed) % 360;
 			return;
@@ -166,7 +166,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 
 	private void ForceUpdate(boolean changeEnergy)
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 		if (hasTicked)
 			return;
@@ -178,7 +178,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 		UpdateMotor();
 
 		setChanged();
-		level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	private void UpdateMotor()

@@ -48,7 +48,7 @@ public class ChoppingBlock extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEChoppingBlock(maxUses);
 	}
@@ -60,29 +60,29 @@ public class ChoppingBlock extends FABaseBlock
 	}
 
 	@Override
-	public void onBlockClicked(BlockState state, World level, BlockPos pos, PlayerEntity player)
+	public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
-		if (level.isClientSide)
+		if (world.isClientSide)
 			return;
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TEChoppingBlock)
 			((TEChoppingBlock) te).LeftClick(player.getItemInHandMainhand());
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (level.isClientSide)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 		ItemStack item = player.getItemInHand(hand);
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getTileEntity(pos);
 		//		if (item.isEmpty())
 		//		{
 		//			if (te instanceof TEChoppingBlock)
 		//			{
 		//				ItemStack taken = ((TEChoppingBlock) te).TakeItem();
-		//				ItemHelper.PutItemsInInventoryOrDrop(player, taken, level);
+		//				ItemHelper.PutItemsInInventoryOrDrop(player, taken, world);
 		//			}
 		//		} else
 		//		{
@@ -104,7 +104,7 @@ public class ChoppingBlock extends FABaseBlock
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
-			TileEntity te = levelIn.getBlockEntity(pos);
+			TileEntity te = levelIn.getTileEntity(pos);
 
 			if (te instanceof TEChoppingBlock)
 			{

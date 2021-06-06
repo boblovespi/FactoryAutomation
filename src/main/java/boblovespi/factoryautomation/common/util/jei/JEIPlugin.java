@@ -61,7 +61,7 @@ public class JEIPlugin implements IModPlugin
 	public void registerRecipes(IRecipeRegistration registry)
 	{
 		registry.addRecipes(Collections.singletonList(new BlastFurnaceRecipeWrapper()), BlastFurnaceRecipeCategory.ID);
-		registry.addRecipes(Minecraft.getInstance().level.getRecipeManager()
+		registry.addRecipes(Minecraft.getInstance().world.getRecipeManager()
 														 .getRecipes(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE)
 														 .values(), WorkbenchRecipeCategory.ID);
 		registry.addRecipes(SteelmakingRecipe.GetRecipes(), SteelmakingRecipeCategory.ID);

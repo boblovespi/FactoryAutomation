@@ -107,8 +107,8 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	@Override
 	public void Update()
 	{
-		Direction facing = Objects.requireNonNull(level).getBlockState(levelPosition).getValue(JawCrusher.FACING).getCounterClockWise();
-		TileEntity te = level.getBlockEntity(levelPosition.relative(facing));
+		Direction facing = Objects.requireNonNull(world).getBlockState(levelPosition).getValue(JawCrusher.FACING).getCounterClockWise();
+		TileEntity te = world.getTileEntity(levelPosition.relative(facing));
 		if (TEHelper.IsMechanicalFace(te, facing))
 		{
 			speed = GetUser(te, facing).getSpeedOnFace(facing);
@@ -142,7 +142,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	@Override
 	public boolean hasConnectionOnSide(Direction side)
 	{
-		return side == Objects.requireNonNull(level).getBlockState(levelPosition).getValue(JawCrusher.FACING).getCounterClockWise();
+		return side == Objects.requireNonNull(world).getBlockState(levelPosition).getValue(JawCrusher.FACING).getCounterClockWise();
 	}
 
 	@Override
@@ -201,7 +201,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 
 	public void RemovePlate()
 	{
-		Objects.requireNonNull(level).addFreshEntity(new ItemEntity(level, levelPosition.getX() + 0.5, levelPosition.getY() + 1.1, levelPosition.getZ() + 0.5,
+		Objects.requireNonNull(world).addFreshEntity(new ItemEntity(world, levelPosition.getX() + 0.5, levelPosition.getY() + 1.1, levelPosition.getZ() + 0.5,
 				this.wearPlate.extractItem(0, 1, false)));
 	}
 

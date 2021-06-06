@@ -32,7 +32,7 @@ import java.util.Random;
 //	}
 //
 //	@Override
-//	public boolean place(IWorld level, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config)
+//	public boolean place(IWorld world, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config)
 //	{
 //		return false;
 //	}

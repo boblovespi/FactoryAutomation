@@ -67,7 +67,7 @@ public class JawCrusher extends FABaseBlock
 			return ActionResultType.SUCCESS;
 
 		ItemStack held = playerIn.getItemInHand(hand);
-		TileEntity te = levelIn.getBlockEntity(pos);
+		TileEntity te = levelIn.getTileEntity(pos);
 		if (held.isEmpty())
 		{
 			if (te instanceof TEJawCrusher)

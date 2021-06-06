@@ -11,10 +11,10 @@ import net.minecraft.world.World;
  */
 public class ItemHelper
 {
-	public static void putItemsInInventoryOrDrop(PlayerEntity player, ItemStack stack, World level)
+	public static void putItemsInInventoryOrDrop(PlayerEntity player, ItemStack stack, World world)
 	{
 		if (!player.addItem(stack.copy()))
-			level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), stack.copy()));
+			world.addFreshEntity(new ItemEntity(world, player.getX(), player.getY(), player.getZ(), stack.copy()));
 	}
 
 	public static void damageItem(ItemStack stack)

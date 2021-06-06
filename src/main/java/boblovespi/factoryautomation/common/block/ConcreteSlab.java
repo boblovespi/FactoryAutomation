@@ -23,7 +23,7 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 	//Todo: Finish
 	public ConcreteSlab()
 	{
-		super(Properties.of(Material.STONE).strength(10, 1000));
+		super(Properties.generate(Material.ROCK).strength(10, 1000));
 		//		super(Material.STONE);
 		//		isDouble = isDoubleSlab;
 		//		BlockState state = blockState.getBaseState();
@@ -54,11 +54,9 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 	}
 
 	@Override
-	public void stepOn(World level, BlockPos pos, Entity entity)
-	{
-		if (entity instanceof PlayerEntity)
-		{
-			((PlayerEntity) entity).addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 10, 1));
+	public void onEntityWalk(World dimensionIn, BlockPos pos, Entity entityIn) {
+		if (entityIn instanceof PlayerEntity) {
+			((PlayerEntity) entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
 		}
 	}
 }

@@ -126,7 +126,7 @@ public class TEBrickCrucible extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide || !isStructureValid())
+		if (Objects.requireNonNull(world).isClientSide || !isStructureValid())
 			return;
 		bellowsUser.tick();
 		TEHelper.DissipateHeat(heatUser, 6);
@@ -203,7 +203,7 @@ public class TEBrickCrucible extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
+		world.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
@@ -221,16 +221,16 @@ public class TEBrickCrucible extends TileEntity
 	@Override
 	public void createStructure()
 	{
-		MultiblockHelper.CreateStructure(level, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
-		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, level.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, true));
+		MultiblockHelper.CreateStructure(world, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
+		Objects.requireNonNull(world).setBlockAndUpdate(levelPosition, world.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, true));
 		structureIsValid = true;
 	}
 
 	@Override
 	public void breakStructure()
 	{
-		MultiblockHelper.BreakStructure(level, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
-		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, level.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, false));
+		MultiblockHelper.BreakStructure(world, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
+		Objects.requireNonNull(world).setBlockAndUpdate(levelPosition, world.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, false));
 		structureIsValid = false;
 	}
 
@@ -327,7 +327,7 @@ public class TEBrickCrucible extends TileEntity
 
 	public void PourInto(Direction facing)
 	{
-		TileEntity te1 = Objects.requireNonNull(level).getBlockEntity(levelPosition.below().relative(facing));
+		TileEntity te1 = Objects.requireNonNull(world).getTileEntity(levelPosition.below().relative(facing));
 		if (te1 instanceof ICastingVessel)
 		{
 			ICastingVessel te = (ICastingVessel) te1;

@@ -36,20 +36,20 @@ public class OreSample extends FABaseBlock
 	}
 
 	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader level, BlockPos pos)
+	public boolean isNormalCube(BlockState state, IBlockReader world, BlockPos pos)
 	{
 		return false;
 	}
 
 	// TODO: Use loot tables!!!
 	//	@Override
-	//	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess level, BlockPos pos, BlockState state, int fortune)
+	//	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, BlockState state, int fortune)
 	//	{
 	//		drops.add(possibleDrops[(int) (Math.random() * possibleDrops.length)].copy());
 	//	}
 
 	//	@Override
-	//	public boolean canSilkHarvest(World level, BlockPos pos, BlockState state, PlayerEntity player)
+	//	public boolean canSilkHarvest(World world, BlockPos pos, BlockState state, PlayerEntity player)
 	//	{
 	//		return false;
 	//	}
@@ -72,13 +72,13 @@ public class OreSample extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World level, BlockPos pos, Block blockIn, BlockPos fromPos,
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos,
 			boolean isMoving)
 	{
-		if (!level.getBlockState(pos.down()).isSolidSide(level, pos.below(), Direction.UP)) // isSideSolid ?
+		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.below(), Direction.UP)) // isSideSolid ?
 		{
-			spawnDrops(state, level, pos);
-			level.removeBlock(pos, isMoving);
+			spawnDrops(state, world, pos);
+			world.removeBlock(pos, isMoving);
 		}
 	}
 
@@ -86,11 +86,11 @@ public class OreSample extends FABaseBlock
 	 * Checks if this block can be placed exactly at the given position.
 	 */
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos)
+	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
 	{
-		return level.getBlockState(pos).getMaterial().isReplaceable() && level.getBlockState(pos.down())
-																			  .isSolidSide(level, pos.below(),
+		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.down())
+																			  .isSolidSide(world, pos.below(),
 																					  Direction.UP)
-				&& level.getBlockState(pos).getBlock() != this;
+				&& world.getBlockState(pos).getBlock() != this;
 	}
 }

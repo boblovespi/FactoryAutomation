@@ -44,8 +44,8 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 			protected void onContentsChanged()
 			{
 				setChanged();
-				BlockState state = Objects.requireNonNull(level).getBlockState(levelPosition);
-				level.sendBlockUpdated(levelPosition, state, state, 7);
+				BlockState state = Objects.requireNonNull(world).getBlockState(levelPosition);
+				world.sendBlockUpdated(levelPosition, state, state, 7);
 			}
 
 			@Override
@@ -64,7 +64,7 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 
 		// only decrease if we have fluids to process
@@ -75,14 +75,14 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 			{
 				// we *should* have no more fluids to process after this
 				timer = -1;
-				BlockState state = level.getBlockState(levelPosition);
+				BlockState state = world.getBlockState(levelPosition);
 				List<IFluidHandler> outputs = new ArrayList<>(6);
 
 				for (Direction side : Direction.values())
 				{
 					if (!(state.getValue(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE)))
 					{
-						TileEntity te = level.getBlockEntity(levelPosition.relative(side));
+						TileEntity te = world.getTileEntity(levelPosition.relative(side));
 						if (te != null)
 						{
 							LazyOptional<IFluidHandler> fluidHandler = te

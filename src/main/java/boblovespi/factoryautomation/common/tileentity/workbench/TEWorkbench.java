@@ -62,7 +62,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 			{
 				setChanged();
 
-				if (Objects.requireNonNull(level).isClientSide)
+				if (Objects.requireNonNull(world).isClientSide)
 					return;
 
 				if (!isUpdatingChanges && slot == 0 && recipe != null && getStackInSlot(0).isEmpty() && !output
@@ -86,7 +86,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 							if (toolInfo.getKey().IsSameTool(tool) && toolInfo.getKey().tier <= Objects.requireNonNull(tool).tier)
 							{
 								getStackInSlot(i + firstToolIndex).hurtAndBreak(toolInfo.getValue(),
-										FakePlayerFactory.get((ServerWorld) level, new GameProfile(null, "fakePlayer")),
+										FakePlayerFactory.get((ServerWorld) world, new GameProfile(null, "fakePlayer")),
 										n -> {
 
 										});
@@ -148,7 +148,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 				if (!isUpdatingChanges)
 					CheckForRecipe();
 
-				level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(),
+				world.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(),
 						SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 								| SetBlockStateFlags.PREVENT_RERENDER);
 			}
@@ -181,7 +181,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 
 	public void CheckForRecipe()
 	{
-		Optional<IWorkbenchRecipe> recipeOptional = Objects.requireNonNull(level).getRecipeManager()
+		Optional<IWorkbenchRecipe> recipeOptional = Objects.requireNonNull(world).getRecipeManager()
 														 .getAllRecipesFor(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE)
 														 .stream().map(n -> (IWorkbenchRecipe) n)
 														 .filter(n -> n.CanFitTier(size, size, tier)).filter(n -> n
@@ -200,7 +200,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 	}
 
 	/**
-	 * Called when this is first added to the level (by {@link World#addTileEntity(TileEntity)}).
+	 * Called when this is first added to the world (by {@link World#addTileEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	@Override

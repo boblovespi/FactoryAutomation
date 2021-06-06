@@ -48,7 +48,7 @@ import static net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType.B
 
 /**
  * Created by Willi on 12/28/2017.
- * level generator class
+ * world generator class
  *
  * @author Willi
  */
@@ -187,21 +187,21 @@ public class WorldGenHandler
 	}
 
 	//	@Override
-	//	public void generate(Random random, int chunkX, int chunkZ, World level, IChunkGenerator chunkGenerator,
+	//	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
 	//			IChunkProvider chunkProvider)
 	//	{
-	//		switch (level.provider.getDimensionType())
+	//		switch (world.provider.getDimensionType())
 	//		{
 	//		case OVERWORLD:
-	//			RunGenerator(copperGen, level, random, chunkX, chunkZ, 9, 0, 64);
-	//			RunGenerator(tinGen, level, random, chunkX, chunkZ, 15, 0, 64);
+	//			RunGenerator(copperGen, world, random, chunkX, chunkZ, 9, 0, 64);
+	//			RunGenerator(tinGen, world, random, chunkX, chunkZ, 15, 0, 64);
 	//			if (random.nextFloat() < 0.2)
-	//				WaterFeatureGenerator(limoniteGen, level, random, chunkX, chunkZ, 1);
-	//			RunGenerator(rockGenerator, level, random, chunkX, chunkZ, 2, 50, 100);
-	//			RunGenerator(flintGenerator, level, random, chunkX, chunkZ, 1, 50, 100);
+	//				WaterFeatureGenerator(limoniteGen, world, random, chunkX, chunkZ, 1);
+	//			RunGenerator(rockGenerator, world, random, chunkX, chunkZ, 2, 50, 100);
+	//			RunGenerator(flintGenerator, world, random, chunkX, chunkZ, 1, 50, 100);
 	//			break;
 	//		case Biomes.THE_END:
-	//			RunGenerator(siliconQuartzGen, level, random, chunkX, chunkZ, 2, 0, 255);
+	//			RunGenerator(siliconQuartzGen, world, random, chunkX, chunkZ, 2, 0, 255);
 	//		default:
 	//			break;
 	//		}

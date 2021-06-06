@@ -50,18 +50,18 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (level.isClientSide)
+		if (world.isClientSide)
 			return;
 
 		if (firstTick)
 			FirstLoad();
 
 		timer -= transferSpeed * mechanicalUser.getSpeed() / 10f;
-		Direction dir = Objects.requireNonNull(level).getBlockState(levelPosition).getValue(FACING);
+		Direction dir = Objects.requireNonNull(world).getBlockState(levelPosition).getValue(FACING);
 		if (timer < 0)
 		{
-			TileEntity pushTo = level.getBlockEntity(levelPosition.relative(dir.getOpposite()));
-			TileEntity takeFrom = level.getBlockEntity(levelPosition.relative(dir));
+			TileEntity pushTo = world.getTileEntity(levelPosition.relative(dir.getOpposite()));
+			TileEntity takeFrom = world.getTileEntity(levelPosition.relative(dir));
 
 			if (pushTo != null && takeFrom != null)
 			{
@@ -91,7 +91,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		for (Direction facing : mechanicalUser.GetSides())
 		{
 			Direction opposite = facing.getOpposite();
-			TileEntity te = level.getBlockEntity(levelPosition.relative(facing));
+			TileEntity te = world.getTileEntity(levelPosition.relative(facing));
 			if (TEHelper.IsMechanicalFace(te, opposite))
 			{
 				hasConnection = true;
@@ -110,7 +110,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 
 	public void FirstLoad()
 	{
-		Direction dir = Objects.requireNonNull(level).getBlockState(levelPosition).getValue(FACING);
+		Direction dir = Objects.requireNonNull(world).getBlockState(levelPosition).getValue(FACING);
 		mechanicalUser.setSides(EnumSet.complementOf(EnumSet.of(dir, dir.getOpposite())));
 		firstTick = false;
 	}

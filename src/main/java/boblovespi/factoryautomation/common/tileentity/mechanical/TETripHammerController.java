@@ -80,16 +80,16 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	public void createStructure()
 	{
 		setStructureValid();
-		MultiblockHelper.CreateStructure(level, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
-		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
+		MultiblockHelper.CreateStructure(world, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
+		Objects.requireNonNull(world).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
 	}
 
 	@Override
 	public void breakStructure()
 	{
 		setStructureInvalid();
-		MultiblockHelper.BreakStructure(level, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
-		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
+		MultiblockHelper.BreakStructure(world, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
+		Objects.requireNonNull(world).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
 	}
 
 	public boolean PutItem(ItemStack item)
@@ -136,7 +136,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	public void tick()
 	{
 		// Todo: clean up empty if statement.
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 		{
 			// do rendering calculations
 		} else
@@ -184,8 +184,8 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 			BlockPos pos2 = MultiblockHelper.AddWithRotation(levelPosition, 5, 1, 0, facing);
 			Direction clockWise = facing.getClockWise();
 			Direction counterClockWise = facing.getCounterClockWise();
-			TileEntity teCW = level.getBlockEntity(pos2.relative(clockWise, 1));
-			TileEntity teCCW = level.getBlockEntity(pos2.relative(counterClockWise, 1));
+			TileEntity teCW = world.getTileEntity(pos2.relative(clockWise, 1));
+			TileEntity teCCW = world.getTileEntity(pos2.relative(counterClockWise, 1));
 
 			if (TEHelper.IsMechanicalFace(teCW, counterClockWise))
 			{

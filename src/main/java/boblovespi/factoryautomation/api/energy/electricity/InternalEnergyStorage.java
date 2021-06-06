@@ -44,7 +44,7 @@ public class InternalEnergyStorage extends EnergyStorage
 	{
 		for (Direction dir : Direction.values())
 		{
-			TileEntity te1 = Objects.requireNonNull(te.getLevel()).getBlockEntity(te.getBlockPos().relative(dir));
+			TileEntity te1 = Objects.requireNonNull(te.getLevel()).getTileEntity(te.getBlockPos().relative(dir));
 			if (te1 != null && (!(te1 instanceof IUsesEnergy_ || te1 instanceof IUsesEnergy) || allowPushToIUsesEnergy))
 			{
 				LazyOptional<IEnergyStorage> energy = te1.getCapability(CapabilityEnergy.ENERGY, dir.getOpposite());

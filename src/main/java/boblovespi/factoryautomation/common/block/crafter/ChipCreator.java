@@ -48,11 +48,11 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (!level.isClientSide && player instanceof ServerPlayerEntity)
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(level.getBlockEntity(pos)), pos);
+		if (!world.isClientSide && player instanceof ServerPlayerEntity)
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getTileEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 }

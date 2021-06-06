@@ -27,7 +27,7 @@ repositories {
 
 minecraft {
 //    mappings channel: 'snapshot', version: '20210309-1.16.5'
-    mappings channel: 'stable', version: 'qtech-1.16.5-19'
+    mappings channel: 'stable', version: 'qtech-1.16.5-24'
 
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
@@ -42,8 +42,8 @@ minecraft {
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            // Recommended logging world for the console
+            property 'forge.logging.console.world', 'debug'
 
             mods {
                 factoryautomation {
@@ -58,8 +58,8 @@ minecraft {
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            // Recommended logging world for the console
+            property 'forge.logging.console.world', 'debug'
 
             mods {
                 factoryautomation {
@@ -74,8 +74,8 @@ minecraft {
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            // Recommended logging world for the console
+            property 'forge.logging.console.world', 'debug'
 
             args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
 

@@ -42,7 +42,7 @@ public class Concrete extends Block implements FABlock
 	}
 
 	@Override
-	public void onEntityWalk(World level, BlockPos pos, Entity entity)
+	public void onEntityWalk(World world, BlockPos pos, Entity entity)
 	{
 		if (entity instanceof PlayerEntity)
 		{

@@ -140,7 +140,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 		{
 			ProcessVisualChanges();
 			return;
@@ -157,7 +157,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 	public void ForceUpdate(boolean damageGears)
 	{
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 		{
 			ProcessVisualChanges();
 			return;
@@ -166,7 +166,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 		BlockState state = getBlockState();
 		Direction facing = state.getValue(Gearbox.FACING);
 
-		TileEntity te = level.getBlockEntity(levelPosition.relative(facing.getOpposite()));
+		TileEntity te = world.getTileEntity(levelPosition.relative(facing.getOpposite()));
 
 		if (IsMechanicalFace(te, facing))
 		{
@@ -198,8 +198,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			setChanged();
 
 			/* IMPORTANT */
-			BlockState state2 = level.getBlockState(levelPosition);
-			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+			BlockState state2 = world.getBlockState(levelPosition);
+			world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 		}
 	}
 
@@ -217,8 +217,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			inputDurability = durability;
 
 			setChanged();
-			BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
-			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+			BlockState state2 = Objects.requireNonNull(world).getBlockState(levelPosition);
+			world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 			return true;
 
 		} else if (outputGear == null)
@@ -227,8 +227,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			outputDurability = durability;
 
 			setChanged();
-			BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
-			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+			BlockState state2 = Objects.requireNonNull(world).getBlockState(levelPosition);
+			world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 			return true;
 		}
 		return false;
@@ -238,34 +238,34 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	{
 		if (outputGear != null)
 		{
-			if (!Objects.requireNonNull(level).isClientSide)
+			if (!Objects.requireNonNull(world).isClientSide)
 			{
 				ItemStack stack = new ItemStack(FAItems.gear.GetItem(outputGear), 1);
 				stack.setDamageValue(outputGear.durability - outputDurability);
-				level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), stack));
+				world.addFreshEntity(new ItemEntity(world, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), stack));
 			}
 
 			outputGear = null;
 			outputDurability = -1;
 
 			setChanged();
-			BlockState state2 = level.getBlockState(levelPosition);
-			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+			BlockState state2 = world.getBlockState(levelPosition);
+			world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 		} else if (inputGear != null)
 		{
-			if (!Objects.requireNonNull(level).isClientSide)
+			if (!Objects.requireNonNull(world).isClientSide)
 			{
 				ItemStack stack = new ItemStack(FAItems.gear.GetItem(inputGear), 1);
 				stack.setDamageValue(inputGear.durability - inputDurability);
-				level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), stack));
+				world.addFreshEntity(new ItemEntity(world, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), stack));
 			}
 
 			inputGear = null;
 			inputDurability = -1;
 
 			setChanged();
-			BlockState state2 = level.getBlockState(levelPosition);
-			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+			BlockState state2 = world.getBlockState(levelPosition);
+			world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 		}
 	}
 
@@ -314,8 +314,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 		outputDurability = tempDur;
 
 		setChanged();
-		BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
-		level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
+		BlockState state2 = Objects.requireNonNull(world).getBlockState(levelPosition);
+		world.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 	}
 
 	// Todo: update to use non-null.
@@ -331,7 +331,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

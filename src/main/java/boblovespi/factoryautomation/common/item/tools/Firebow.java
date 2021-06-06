@@ -53,7 +53,7 @@ public class Firebow extends FABaseItem
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> use(World level, PlayerEntity player, Hand hand)
+	public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
 	{
 		player.startUsingItem(hand);
 		return ActionResult.pass(player.getItemInHand(hand));
@@ -64,12 +64,12 @@ public class Firebow extends FABaseItem
 	 * the Item before the action is complete.
 	 */
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, World level, LivingEntity living)
+	public ItemStack finishUsingItem(ItemStack stack, World world, LivingEntity living)
 	{
 		if (!(living instanceof PlayerEntity))
 			return stack;
 		PlayerEntity player = (PlayerEntity) living;
-		BlockRayTraceResult rayTrace = getPlayerPOVHitResult(level, player, RayTraceContext.FluidMode.NONE);
+		BlockRayTraceResult rayTrace = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE);
 
 		// Todo: remove rayTrace null check, it shouldn't be null anyways.
 		if (rayTrace == null || rayTrace.getType() != RayTraceResult.Type.BLOCK)
@@ -83,11 +83,11 @@ public class Firebow extends FABaseItem
 			return stack;
 		} else
 		{
-			if (level.isEmptyBlock(pos))
+			if (world.isEmptyBlock(pos))
 			{
-				level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
+				world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
 						random.nextFloat() * 0.4F + 0.8F);
-				level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 11);
+				world.setBlock(pos, Blocks.FIRE.defaultBlockState(), 11);
 			}
 
 			if (player instanceof ServerPlayerEntity)

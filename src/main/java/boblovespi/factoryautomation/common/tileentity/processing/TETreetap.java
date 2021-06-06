@@ -38,7 +38,7 @@ public class TETreetap extends TileEntity implements ITickableTileEntity
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide) {
+		if (Objects.requireNonNull(world).isClientSide) {
 			return;
 		}
 		++counter;
@@ -46,20 +46,20 @@ public class TETreetap extends TileEntity implements ITickableTileEntity
 
 		if (counter == 0)
 		{
-			TileEntity te = level.getBlockEntity(levelPosition.below());
+			TileEntity te = world.getTileEntity(levelPosition.below());
 			if (te != null)
 			{
 				LazyOptional<IFluidHandler> handler = te
 						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP);
 				handler.ifPresent(n -> {
-					BlockPos offset = levelPosition.relative(level.getBlockState(levelPosition).getValue(FACING).getOpposite());
-					BlockState block = level.getBlockState(offset);
+					BlockPos offset = levelPosition.relative(world.getBlockState(levelPosition).getValue(FACING).getOpposite());
+					BlockState block = world.getBlockState(offset);
 					BlockPos leafPos = offset;
 					if (block.getBlock() == Blocks.JUNGLE_LOG)
 					{
 						while (true)
 						{
-							BlockState state = level.getBlockState(leafPos);
+							BlockState state = world.getBlockState(leafPos);
 							if (state.getBlock() != Blocks.JUNGLE_LOG && state.getBlock() != Blocks.JUNGLE_LEAVES)
 								return;
 							if (state.getBlock() == Blocks.JUNGLE_LEAVES && state.getValue(LeavesBlock.PERSISTENT))

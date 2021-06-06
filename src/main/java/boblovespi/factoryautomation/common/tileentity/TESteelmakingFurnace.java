@@ -127,19 +127,19 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public void createStructure()
 	{
-		MultiblockHelper.CreateStructure(level, levelPosition, MULTIBLOCK_ID,
-				Objects.requireNonNull(level).getBlockState(levelPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
+		MultiblockHelper.CreateStructure(world, levelPosition, MULTIBLOCK_ID,
+				Objects.requireNonNull(world).getBlockState(levelPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
 						Direction.NORTH);
-		level.setBlockAndUpdate(levelPosition, level.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, true));
+		world.setBlockAndUpdate(levelPosition, world.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, true));
 	}
 
 	@Override
 	public void breakStructure()
 	{
-		MultiblockHelper.BreakStructure(level, levelPosition, MULTIBLOCK_ID,
-				Objects.requireNonNull(level).getBlockState(levelPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
+		MultiblockHelper.BreakStructure(world, levelPosition, MULTIBLOCK_ID,
+				Objects.requireNonNull(world).getBlockState(levelPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
 						Direction.NORTH);
-		level.setBlockAndUpdate(levelPosition, level.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, false));
+		world.setBlockAndUpdate(levelPosition, world.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, false));
 	}
 
 	@Nonnull
@@ -156,7 +156,7 @@ public class TESteelmakingFurnace extends TileEntity
 	public void tick()
 	{
 		// Log.LogInfo("heat", currentTemp);
-		if (Objects.requireNonNull(level).isClientSide)
+		if (Objects.requireNonNull(world).isClientSide)
 			return;
 		if (!isSmeltingItem)
 		{
@@ -252,8 +252,8 @@ public class TESteelmakingFurnace extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		BlockState state = level.getBlockState(levelPosition);
-		level.sendBlockUpdated(levelPosition, state, state, 3);
+		BlockState state = world.getBlockState(levelPosition);
+		world.sendBlockUpdated(levelPosition, state, state, 3);
 	}
 
 	private boolean CanInsertOutputs(SteelmakingRecipe r)
@@ -337,7 +337,7 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

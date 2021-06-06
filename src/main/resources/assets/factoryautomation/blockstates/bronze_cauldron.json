@@ -1,15 +1,15 @@
 {
   "variants": {
-    "level=0": {
+    "world=0": {
       "model": "factoryautomation:block/decoration/bronze_cauldron_empty"
     },
-    "level=1": {
+    "world=1": {
       "model": "factoryautomation:block/decoration/bronze_cauldron_level_1"
     },
-    "level=2": {
+    "world=2": {
       "model": "factoryautomation:block/decoration/bronze_cauldron_level_2"
     },
-    "level=3": {
+    "world=3": {
       "model": "factoryautomation:block/decoration/bronze_cauldron_level_3"
     }
   }

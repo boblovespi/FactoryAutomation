@@ -2233,7 +2233,7 @@ Build 1.10.2-12.18.1.2011:
 
 Build 1.10.2-12.18.0.2010:
 	bernhard.bonigl:
-		Add an event that allows to modify the looting level based on damage
+		Add an event that allows to modify the looting world based on damage
 		source
 
 Build 1.10.2-12.18.0.2009:
@@ -2256,7 +2256,7 @@ Build 1.10.2-12.18.0.2005-1.10.0:
 
 Build 1.10.2-12.18.0.2004-1.10.0:
 	LexManos:
-		Fix villages generating to high when using a cusom sea level. Closes
+		Fix villages generating to high when using a cusom sea world. Closes
 		#3050
 
 Build 1.10.2-12.18.0.2003-1.10.0:
@@ -2616,7 +2616,7 @@ Build 1.9.4-12.17.0.1937:
 	LexManos:
 		Capture interfaces when scanning classes and preload implementations of
 		ICrashReportDetail.
-	LexManos: Set Enchantment table's harvest level. Closes #1349
+	LexManos: Set Enchantment table's harvest world. Closes #1349
 	LexManos:
 		More uniformly apply Configuration.caseSensitiveCustomCategories. Closes
 		#1353
@@ -2719,7 +2719,7 @@ Build 1.9.4-12.17.0.1927-1.9.4:
 	LexManos: Add ServerHangWatchdog to TerminalTransformer whitelist. Closes #2203
 
 Build 1.9.4-12.17.0.1926-1.9.4:
-	LexManos: Set Enchantment table's harvest level. Closes #1349
+	LexManos: Set Enchantment table's harvest world. Closes #1349
 	LexManos: More uniformly apply Configuration.caseSensitiveCustomCategories. Closes #1353
 	LexManos: Close player's inventory to prevent potential dupe issues on some modded items. Closes #1431
 	LexManos: Move getArmorModel hook up two lines so that the attributes and animation information is set. Closes #1939
@@ -2791,7 +2791,7 @@ Build 1.9-12.16.1.1906:
 	LexManos: Lets just simply this. Fixes last commit.
 
 Build 1.9-12.16.1.1905:
-	LexManos: Add modder facing API for Villager Career level trades. Ref: #2854
+	LexManos: Add modder facing API for Villager Career world trades. Ref: #2854
 
 Build 1.9-12.16.1.1904:
 	cpw: Fix up release jsons to clean up extraneous netty references
@@ -5403,7 +5403,7 @@ Build 1.7.10-10.13.3.1422-1.7.10:
 
 Build 1.8-11.14.2.1421:
 	cpw:
-		MinecraftForge/FML@12ccf9cf49b76140841cdc5a459422ae4781de1a Rather than try to fall back to the backup level.dat in case of weirdness in the ID map, just fail hard. There is probably a serious modder derp in this case and there's nothing FML can do to recover the situation except avoid making it worse.
+		MinecraftForge/FML@12ccf9cf49b76140841cdc5a459422ae4781de1a Rather than try to fall back to the backup world.dat in case of weirdness in the ID map, just fail hard. There is probably a serious modder derp in this case and there's nothing FML can do to recover the situation except avoid making it worse.
 		MinecraftForge/FML@e8cd368da30661ed2898fff232e2db787edcbdcc It's an IllegalState not an IllegalArgument *sigh*
 		MinecraftForge/FML@2be9c743424c92f8799a6af1d59d60edd65e6bf0 And fix itemblocks being removed, leaving behind a residual block. This is a legitimate action - use the missing mapping event to let the mod tell us about it
 		MinecraftForge/FML@7d8804cf656081d1570068f52e9bfc7140b21a65 You can't setAction to BLOCKONLY
@@ -5697,7 +5697,7 @@ Build 1.7.10-10.13.3.1399-1.7.10:
 	cpw: MinecraftForge/FML@2ed00c4da0ee76eb15e28eb8ee2c07a3096155c2 Splash progress screen will not load in the presence of optifine anymore.
 
 Build 1.8-11.14.1.1398:
-	Zaggy1024: Fixed a bug which caused the light level not to update when a block implements Block.getLightValue(IBlockAccess, BlockPos) to change the light value for different block states.
+	Zaggy1024: Fixed a bug which caused the light world not to update when a block implements Block.getLightValue(IBlockAccess, BlockPos) to change the light value for different block states.
 
 Build 1.8-11.14.1.1397:
 	Parker Young: Fixes MC-52974: Host's skin doesn't load in LAN
@@ -5935,7 +5935,7 @@ Build 1.7.10-10.13.2.1352-1.7.10:
 
 Build 1.7.10-10.13.2.1351-1.7.10:
 	cpw:
-		MinecraftForge/FML@12ccf9cf49b76140841cdc5a459422ae4781de1a Rather than try to fall back to the backup level.dat in case of weirdness in the ID map, just fail hard. There is probably a serious modder derp in this case and there's nothing FML can do to recover the situation except avoid making it worse.
+		MinecraftForge/FML@12ccf9cf49b76140841cdc5a459422ae4781de1a Rather than try to fall back to the backup world.dat in case of weirdness in the ID map, just fail hard. There is probably a serious modder derp in this case and there's nothing FML can do to recover the situation except avoid making it worse.
 		MinecraftForge/FML@e8cd368da30661ed2898fff232e2db787edcbdcc It's an IllegalState not an IllegalArgument *sigh*
 		MinecraftForge/FML@2be9c743424c92f8799a6af1d59d60edd65e6bf0 And fix itemblocks being removed, leaving behind a residual block. This is a legitimate action - use the missing mapping event to let the mod tell us about it
 		MinecraftForge/FML@7d8804cf656081d1570068f52e9bfc7140b21a65 You can't setAction to BLOCKONLY
@@ -5978,7 +5978,7 @@ Build 1.8-11.14.1.1350:
 		MinecraftForge/FML@6f6cec96be73b4c94999cf60dc00741f3f3c2cc2 Substitutions need to be activated when they're registered, otherwise they won't appear in world, ever.
 		MinecraftForge/FML@13ac015f0c36b8e2091ae332c556be315429f4c8 Change iterator behaviour for the registry - include substitutions in the standard iterator, so that vanilla MC methods visit them (so they can get textures etc). The fml special one only visits the absolute set, used mostly for sanity checking and serialization.
 		MinecraftForge/FML@24cb4a42c4e4bddde95c0e49d1f8b8bcc20c626d Enhance output of common FML errors in crash reports and server GUI.
-		MinecraftForge/FML@12ccf9cf49b76140841cdc5a459422ae4781de1a Rather than try to fall back to the backup level.dat in case of weirdness in the ID map, just fail hard. There is probably a serious modder derp in this case and there's nothing FML can do to recover the situation except avoid making it worse.
+		MinecraftForge/FML@12ccf9cf49b76140841cdc5a459422ae4781de1a Rather than try to fall back to the backup world.dat in case of weirdness in the ID map, just fail hard. There is probably a serious modder derp in this case and there's nothing FML can do to recover the situation except avoid making it worse.
 		MinecraftForge/FML@e8cd368da30661ed2898fff232e2db787edcbdcc It's an IllegalState not an IllegalArgument *sigh*
 		MinecraftForge/FML@2be9c743424c92f8799a6af1d59d60edd65e6bf0 And fix itemblocks being removed, leaving behind a residual block. This is a legitimate action - use the missing mapping event to let the mod tell us about it
 		MinecraftForge/FML@7d8804cf656081d1570068f52e9bfc7140b21a65 You can't setAction to BLOCKONLY
@@ -7522,7 +7522,7 @@ Build 1.7.2-10.12.0.1056:
 		MinecraftForge/FML@49c623f59c440ba177adf2d76332ecee25e12236 initial attempt at a better way to ask the user in case of startup issues
 		MinecraftForge/FML@9be92dcfcb1c737025397c92b18ed027a6c7f4fa Registry: Complain about bogus registrations
 		MinecraftForge/FML@fd6d55afcc4f4c650c143ad43e09fbdc2cb9d850 Registry: Allow ignoring missing mods from the GUI, with confirm+backup
-		  Registry: Add confirm+backup for automated corrupted id table fixup Require the user to confirm loading from a backup level.dat
+		  Registry: Add confirm+backup for automated corrupted id table fixup Require the user to confirm loading from a backup world.dat
 		MinecraftForge/FML@c47fc3b382434d435050b4ee02a02550b81f5717 Enable custom gui rendering only as required
 		MinecraftForge/FML@f77632df35dbf53fb31420fa86e6792f13257020 Remove unneeded entity spawn debug logging.
 		MinecraftForge/FML@c7adb42199a0684d8748451d39deb8326c0a2194 Registry: Repair mismatched ItemBlocks as well Fix a few misc issues
@@ -7716,7 +7716,7 @@ Build 1.7.2-10.12.0.1012:
 		MinecraftForge/FML@b6d95d704b65dd8232ec8ddd333de378db8fe161 Name the log files properly. fml-junk is an early startup annoyance I can't kill because log4j2.
 		MinecraftForge/FML@8692ca17d13eda036b5ef996ec8e8706e7707d80 Log4j2 logging context for things. This should help add context when things go wrong in mods.
 		MinecraftForge/FML@a7ca131a337b5f0d4fc6f438626ac2d5b7771b3c And don't spam NONE everywhere
-		MinecraftForge/FML@741e172ffe163f0dd3018e1474af46ef0696396a Log4j2 doesn't need debug level logging for itself anymore
+		MinecraftForge/FML@741e172ffe163f0dd3018e1474af46ef0696396a Log4j2 doesn't need debug world logging for itself anymore
 
 Build 1.7.2-10.12.0.1011:
 	Christian: MinecraftForge/FML@458b0620b43116c943549a0f060c7e8830c2d77a Log the bad packet in a prettier way. Also, don't show the authlib debug data in the log file.
@@ -7735,7 +7735,7 @@ Build 1.7.2-10.12.0.1008:
 	Christian:
 		MinecraftForge/FML@4aa2416ce5dcd8e77761703c018d1e7d08464025 Propagate Optional method removal to trait implementation classes
 		MinecraftForge/FML@fc025a7b73d9b3f46ecf2257227657592f5506b5 Logging Changes
-		MinecraftForge/FML@f0132a6f3b47e746a1a7df3ef84f4be989f140dd changed fml log level to all
+		MinecraftForge/FML@f0132a6f3b47e746a1a7df3ef84f4be989f140dd changed fml log world to all
 		MinecraftForge/FML@f23eba4352c38fd21e04e81f3db72c6cafe65a36 put max number of FML log files to 3
 		MinecraftForge/FML@449ac98b77025eba38a75d0242113fffe26a8cf9 SSP Worlds updating from 1.6 will now pop a warning message before loading, and will capture a timestamped zip file in the minecraft dir before starting to load. Allows for people to test updates.
 		MinecraftForge/FML@3557fe31c92ea8d76c90052f9b8b6da963300c4f Throw an exception when discriminator is not found
@@ -10139,7 +10139,7 @@ Build 1.5-7.7.0.559:
 		aa822e3 Fix logical error in comment text
 		a14ab91 Update license text to make clear that FML is not a way to sidestep MCP licensing.
 		0165742 Fix mcp conf md5 signatures for the snapshot
-		26a5b31 FMLLogFormatter: dynamic log level name
+		26a5b31 FMLLogFormatter: dynamic log world name
 	LexManos:
 		Merge commit '695b080197bd577cc34fe6dbc72b74f4a74b2d5c' into snapshot15
 		Testing cherry picking.
@@ -10586,7 +10586,7 @@ Build 13w02b-7.7.0.508-snapshot15:
 		a99c488 Merge branch 'patch-1' of https://github.com/bspkrs/FML into gh-updates
 		94282c5 Merge branch 'FMLLogFormatter' of https://github.com/donington/FML into gh-updates
 		aa822e3 Fix logical error in comment text
-		26a5b31 FMLLogFormatter: dynamic log level name
+		26a5b31 FMLLogFormatter: dynamic log world name
 	Christian: Merge part of PR #375 related to ChunkEvent.Load for the client side
 	Christian:
 		Update FML: 5ce4e31
@@ -10624,7 +10624,7 @@ Build 13w02b-7.7.0.508-snapshot15:
 		aa822e3 Fix logical error in comment text
 		a14ab91 Update license text to make clear that FML is not a way to sidestep MCP licensing.
 		0165742 Fix mcp conf md5 signatures for the snapshot
-		26a5b31 FMLLogFormatter: dynamic log level name
+		26a5b31 FMLLogFormatter: dynamic log world name
 
 Build 1.4.7-6.6.0.507:
 	Christian:
@@ -10665,7 +10665,7 @@ Build 1.4.7-6.6.0.502:
 		a99c488 Merge branch 'patch-1' of https://github.com/bspkrs/FML into gh-updates
 		94282c5 Merge branch 'FMLLogFormatter' of https://github.com/donington/FML into gh-updates
 		aa822e3 Fix logical error in comment text
-		26a5b31 FMLLogFormatter: dynamic log level name
+		26a5b31 FMLLogFormatter: dynamic log world name
 
 Build 1.4.7-6.6.0.501:
 	Christian:
@@ -11854,7 +11854,7 @@ Build 4.0.0.250:
 		1c1716d Remove debug cruft
 		d567f79 To properly align with packet9respawn, make packet1login's dimension an int as well
 		ecd4e46 Attempt to build some protocol negotiation, and fix packet1login so that the dimension is a short, matching packet9respawn
-		16fe495 Compatibility level is now passed from server to client - and the client tracks it. This means certain packet changes can be made without b
+		16fe495 Compatibility world is now passed from server to client - and the client tracks it. This means certain packet changes can be made without b
 		4f70d23 Fix dependency checking: you can depend on specific versions of FML
 
 Build 4.0.0.249:
@@ -12718,7 +12718,7 @@ Build 1.4.0.53:
 
 Build 1.4.0.52:
 	LexManos: Fixed forgotten type identifier in clean_src
-	LexManos: New EntityInteract hook for handeling player vs entity interaction on the global level vs the item level.
+	LexManos: New EntityInteract hook for handeling player vs entity interaction on the global world vs the item world.
 	LexManos: Fixed sides of grass not getting biome colors
 	LexManos: Fixed type on patch conversion messing up tile entities
 	LexManos: Proper fix for SDK's invalid bit shifts of parameters for chunk population

@@ -57,7 +57,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 		if (counter == 0)
 		{
-			TileEntity te = Objects.requireNonNull(level).getBlockEntity(levelPosition.below());
+			TileEntity te = Objects.requireNonNull(world).getTileEntity(levelPosition.below());
 			Direction facing = Direction.UP;
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
@@ -70,8 +70,8 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 			}
 
 			// markDirty();
-			// BlockState state = level.getBlockState(levelPosition);
-			// level.sendBlockUpdated(levelPosition, state, state, 3);
+			// BlockState state = world.getBlockState(levelPosition);
+			// world.sendBlockUpdated(levelPosition, state, state, 3);
 		}
 	}
 
@@ -115,11 +115,11 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	{
 		for (ItemStack stack : millstoneRecipe.getOutputs())
 		{
-			ItemEntity item = new ItemEntity(Objects.requireNonNull(level), levelPosition.getX() - 0.5 + Objects.requireNonNull(level).random.nextInt(3), levelPosition.getY() - 0.1,
-					levelPosition.getZ() - 0.5 + level.random.nextInt(3), stack.copy());
-			item.push(level.random.nextDouble() - 0.5, 0, level.random.nextDouble() - 0.5);
+			ItemEntity item = new ItemEntity(Objects.requireNonNull(world), levelPosition.getX() - 0.5 + Objects.requireNonNull(world).random.nextInt(3), levelPosition.getY() - 0.1,
+					levelPosition.getZ() - 0.5 + world.random.nextInt(3), stack.copy());
+			item.push(world.random.nextDouble() - 0.5, 0, world.random.nextDouble() - 0.5);
 			item.hurtMarked = true;
-			level.addFreshEntity(item);
+			world.addFreshEntity(item);
 		}
 		processingInv.extractItem(0, 1, false);
 	}
@@ -167,7 +167,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		if (!processingInv.getStackInSlot(0).isEmpty())
 		{
 			ItemStack taken = processingInv.extractItem(0, 64, false);
-			ItemHelper.putItemsInInventoryOrDrop(player, taken, level);
+			ItemHelper.putItemsInInventoryOrDrop(player, taken, world);
 		} else
 		{
 			ItemStack stack = processingInv.insertItem(0, item.copy(), false);
@@ -175,14 +175,14 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		}
 
 		setChanged();
-		BlockState state = Objects.requireNonNull(level).getBlockState(levelPosition);
-		level.sendBlockUpdated(levelPosition, state, state, 3);
+		BlockState state = Objects.requireNonNull(world).getBlockState(levelPosition);
+		world.sendBlockUpdated(levelPosition, state, state, 3);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

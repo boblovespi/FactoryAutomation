@@ -67,7 +67,7 @@ public class TEChoppingBlock extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
+		Objects.requireNonNull(world).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -78,7 +78,7 @@ public class TEChoppingBlock extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
+		Objects.requireNonNull(world).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -87,7 +87,7 @@ public class TEChoppingBlock extends TileEntity
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
 			ItemStack taken = TakeItem();
-			ItemHelper.putItemsInInventoryOrDrop(player, taken, level);
+			ItemHelper.putItemsInInventoryOrDrop(player, taken, world);
 		} else
 		{
 			ItemStack stack = PlaceItem(item.copy().split(1));
@@ -131,12 +131,12 @@ public class TEChoppingBlock extends TileEntity
 				if (craftsDone > craftsBeforeBreak)
 				{
 					DropItems();
-					Objects.requireNonNull(level).destroyBlock(levelPosition, false);
+					Objects.requireNonNull(world).destroyBlock(levelPosition, false);
 				}
 				setChanged();
 
 				/* IMPORTANT */
-				Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
+				Objects.requireNonNull(world).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 			}
 			ItemHelper.damageItem(tool);
 		}
@@ -168,8 +168,8 @@ public class TEChoppingBlock extends TileEntity
 
 	public void DropItems()
 	{
-		if (!Objects.requireNonNull(level).isClientSide && !slot.getStackInSlot(0).isEmpty())
-			level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), slot.getStackInSlot(0)));
+		if (!Objects.requireNonNull(world).isClientSide && !slot.getStackInSlot(0).isEmpty())
+			world.addFreshEntity(new ItemEntity(world, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack GetRenderStack()
@@ -181,7 +181,7 @@ public class TEChoppingBlock extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

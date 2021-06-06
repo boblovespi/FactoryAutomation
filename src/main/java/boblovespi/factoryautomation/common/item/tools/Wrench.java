@@ -30,15 +30,15 @@ public class Wrench extends WorkbenchToolItem
 	@Override
 	public ActionResultType useOn(ItemUseContext context)
 	{
-		World level = context.getLevel();
+		World world = context.getLevel();
 		BlockPos pos = context.getClickedPos();
-		Block block = level.getBlockState(pos).getBlock();
+		Block block = world.getBlockState(pos).getBlock();
 
 		if (block == FABlocks.gearbox)
 		{
-			if (!level.isClientSide)
+			if (!world.isClientSide)
 			{
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getTileEntity(pos);
 				if (te instanceof TEGearbox)
 				{
 					((TEGearbox) te).SwitchGears();

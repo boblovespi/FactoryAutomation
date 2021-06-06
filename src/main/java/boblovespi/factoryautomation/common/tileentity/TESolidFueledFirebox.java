@@ -139,8 +139,8 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		setChanged();
 
 		// TODO: FIGURE OUT UPDATING TEs
-		BlockState state = Objects.requireNonNull(level).getBlockState(levelPosition);
-		level.sendBlockUpdated(levelPosition, state, state, DEFAULT | NO_RERENDER);
+		BlockState state = Objects.requireNonNull(world).getBlockState(levelPosition);
+		world.sendBlockUpdated(levelPosition, state, state, DEFAULT | NO_RERENDER);
 	}
 
 	@Nonnull
@@ -198,7 +198,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
+		load(Objects.requireNonNull(world).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable

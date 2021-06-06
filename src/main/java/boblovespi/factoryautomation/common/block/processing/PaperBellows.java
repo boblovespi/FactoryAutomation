@@ -48,13 +48,13 @@ public class PaperBellows extends FABaseBlock
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TEPaperBellows)
 			((TEPaperBellows) te).Blow();
-		level.playSound(player, pos, SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
+		world.playSound(player, pos, SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
 		return ActionResultType.SUCCESS;
 	}
 
@@ -78,7 +78,7 @@ public class PaperBellows extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEPaperBellows();
 	}

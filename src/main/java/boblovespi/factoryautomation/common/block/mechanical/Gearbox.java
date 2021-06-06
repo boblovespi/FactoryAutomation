@@ -58,7 +58,7 @@ public class Gearbox extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TEGearbox();
 	}
@@ -81,7 +81,7 @@ public class Gearbox extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		ItemStack stack = player.getItemInHand(hand);
@@ -89,10 +89,10 @@ public class Gearbox extends FABaseBlock
 		if (stack.getItem() instanceof Wrench)
 			return ActionResultType.PASS;
 
-		if (level.isClientSide)
+		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 
-		TileEntity tileEntity = level.getBlockEntity(pos);
+		TileEntity tileEntity = world.getTileEntity(pos);
 		Item item = stack.getItem();
 		GearType gear = getGear(item);
 
