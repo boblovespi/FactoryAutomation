@@ -211,11 +211,11 @@ public class FABlocks
 				of(Material.METAL).strength(1, 40).harvestTool(ToolType.PICKAXE).harvestLevel(3),
 				Building());
 
-		blocks.remove(metalBlock.GetBlock(Metals.IRON).toBlock());
-		blocks.remove(metalBlock.GetBlock(Metals.GOLD).toBlock());
+		blocks.remove(metalBlock.getBlock(Metals.IRON).toBlock());
+		blocks.remove(metalBlock.getBlock(Metals.GOLD).toBlock());
 
-		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).getItem().toItem());
-		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).getItem().toItem());
+		FAItems.items.remove(metalBlock.getBlock(Metals.IRON).getItem().toItem());
+		FAItems.items.remove(metalBlock.getBlock(Metals.GOLD).getItem().toItem());
 
 		factorySign = new FABaseBlock("factory_sign_block", false,
 				of(Material.METAL).strength(1, 10).harvestTool(ToolType.PICKAXE).harvestLevel(1),

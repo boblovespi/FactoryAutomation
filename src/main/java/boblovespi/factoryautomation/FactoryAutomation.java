@@ -29,7 +29,7 @@ import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
-import boblovespi.factoryautomation.common.levelgen.WorldGenHandler;
+import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import boblovespi.factoryautomation.datagen.loottable.FALootTableProvider;
 import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
 import boblovespi.factoryautomation.datagen.tags.FABlockTagProvider;
@@ -77,7 +77,7 @@ public class FactoryAutomation
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
 		Fluids.FLUID_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WorldGenHandler.DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// ResourcePackHandler p; // lol
 	}
 
@@ -118,8 +118,17 @@ public class FactoryAutomation
 		// TODO: RenderTypeLookup.setRenderLayer();
 		proxy.registerRenders();
 		GuiHandler.registerGuis();
+
+		///////////////////////////
+		//     Render layers     //
+		///////////////////////////
+
+		// Cutout Mipped
 		RenderTypeLookup.setRenderLayer(FABlocks.riceCrop.toBlock(), RenderType.getCutoutMipped());
 		RenderTypeLookup.setRenderLayer(FABlocks.ironWorkbench.toBlock(), RenderType.getCutoutMipped());
+
+		// Translucent.
+		RenderTypeLookup.setRenderLayer(FABlocks.slagGlass.toBlock(), RenderType.getTranslucent());
 	}
 
 	@SubscribeEvent
@@ -146,8 +155,6 @@ public class FactoryAutomation
 		// TileEntityHandler.RegisterTileEntities();
 
 		Log.getLogger().info("Initialization end");
-
-		WorldGenHandler.AddFeaturesToBiomes();
 
 		MultiblockHandler.Register(
 				"blast_furnace",

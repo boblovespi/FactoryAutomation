@@ -140,8 +140,9 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	 * reads in data from the CompoundNBT into this MapDataBase
 	 */
 	@Override
-	public void load(CompoundNBT tag)
+	public void read(CompoundNBT tag)
 	{
+		super.read(tag);
 		isInit = false;
 		uninitData = tag;
 	}

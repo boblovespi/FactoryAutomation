@@ -26,11 +26,11 @@ public class FABlockTagProvider extends BlockTagsProvider
 		for (int i = 2; i < Metals.values().length; ++i)
 		{
 			getBuilder(FATags.ForgeBlockTag("storage_blocks/" + Metals.values()[i].getName()))
-					.add(FABlocks.metalBlock.GetBlock(Metals.values()[i]));
+					.add(FABlocks.metalBlock.getBlock(Metals.values()[i]));
 		}
 		for (MetalOres ore : MetalOres.values())
 		{
-			getBuilder(FATags.ForgeBlockTag("ores/" + ore.getName())).add(FABlocks.metalOres.GetBlock(ore));
+			getBuilder(FATags.ForgeBlockTag("ores/" + ore.getName())).add(FABlocks.metalOres.getBlock(ore));
 		}
 		getBuilder(FATags.FABlockTag("storage_blocks/t5")).add(FATags.ForgeBlockTag("storage_blocks/steel"));
 		getBuilder(FATags.FABlockTag("storage_blocks/t4"))

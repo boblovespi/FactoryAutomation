@@ -56,8 +56,8 @@ public class FABlockLootTables extends BlockLootTables
 		for (Metals metal : Metals.values())
 		{
 			if (metal != Metals.IRON && metal != Metals.GOLD)
-				dropSelf(FABlocks.metalBlock.GetBlock(metal));
-			dropSelf(FABlocks.metalPlateBlock.GetBlock(metal));
+				dropSelf(FABlocks.metalBlock.getBlock(metal));
+			dropSelf(FABlocks.metalPlateBlock.getBlock(metal));
 		}
 		dropSelf(FABlocks.ironPatternedPlateBlock.toBlock());
 		dropSelf(FABlocks.pillarBronze.toBlock());
@@ -78,12 +78,12 @@ public class FABlockLootTables extends BlockLootTables
 		// ores
 		for (MetalOres ore : MetalOres.values())
 		{
-			dropSelf(FABlocks.metalOres.GetBlock(ore));
+			dropSelf(FABlocks.metalOres.getBlock(ore));
 		}
 		for (Ore.Grade grade : Ore.Grade.values())
 		{
-			dropSelf(FABlocks.limoniteOre.GetBlock(grade));
-			dropSelf(FABlocks.magnetiteOre.GetBlock(grade));
+			dropSelf(FABlocks.limoniteOre.getBlock(grade));
+			dropSelf(FABlocks.magnetiteOre.getBlock(grade));
 		}
 		add(FABlocks.siliconQuartzOre.toBlock(), LootTable.lootTable().withPool(
 				LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.siliconQuartz))

@@ -82,7 +82,7 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 		return this;
 	}
 
-	public FABaseBlock GetBlock(T type)
+	public FABaseBlock getBlock(T type)
 	{
 		return blocks[type.getId()];
 	}

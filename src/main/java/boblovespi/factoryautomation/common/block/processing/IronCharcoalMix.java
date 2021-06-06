@@ -59,7 +59,7 @@ public class IronCharcoalMix extends FABaseBlock
 		if (activated)
 		{
 			if (isSurrounded(
-					level, pos, n -> n.getBlock() == FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
+					level, pos, n -> n.getBlock() == FABlocks.metalPlateBlock.getBlock(Metals.COPPER)
 							|| n.getBlock() == FABlocks.ironBloom || (n.getBlock() == this && n.get(ACTIVATED))))
 				level.setBlockState(pos, FABlocks.ironBloom.toBlock().getDefaultState());
 			else
@@ -95,7 +95,7 @@ public class IronCharcoalMix extends FABaseBlock
 					} else if (state1.getBlock() == Blocks.FIRE)
 					{
 						sidesOnFire = true;
-					} else if (state1.getBlock() != FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
+					} else if (state1.getBlock() != FABlocks.metalPlateBlock.getBlock(Metals.COPPER)
 							&& state1.getBlock() != this && state1.getBlock() != FABlocks.ironBloom)
 					{
 						isSurrounded = false;
@@ -122,7 +122,7 @@ public class IronCharcoalMix extends FABaseBlock
 				} else if (state1.getBlock() == Blocks.FIRE)
 				{
 					sidesOnFire = true;
-				} else if (state1.getBlock() != FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
+				} else if (state1.getBlock() != FABlocks.metalPlateBlock.getBlock(Metals.COPPER)
 						&& state1.getBlock() != this && state1.getBlock() != FABlocks.ironBloom)
 				{
 					isSurrounded = false;

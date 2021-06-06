@@ -187,15 +187,15 @@ public class RecipeHandler
 		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(Blocks.DIAMOND_ORE),
 				n -> new ItemStack(FAItems.diamondGravel.toItem()), 0, "diamond-processing", 20, 10, 100));
 
-		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(POOR)),
+		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.getBlock(POOR)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)), 0,
 				"magnetite-poor-ore-to-coarse", 20, 10, 100));
 
-		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(NORMAL)),
+		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.getBlock(NORMAL)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)), 0,
 				"magnetite-normal-ore-to-coarse", 20, 10, 100));
 
-		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(RICH)),
+		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.getBlock(RICH)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)), 0,
 				"magnetite-rich-ore-to-coarse", 20, 10, 100));
 

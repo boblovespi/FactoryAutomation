@@ -54,7 +54,7 @@ public class FARecipeProvider extends RecipeProvider
 								  .save(consumer, new ResourceLocation(MODID,
 										  "block_to_ingot_" + Metals.values()[i].getSerializedName()));
 
-			ShapedRecipeBuilder.shaped(FABlocks.metalBlock.GetBlock(Metals.values()[i])).pattern("III")
+			ShapedRecipeBuilder.shaped(FABlocks.metalBlock.getBlock(Metals.values()[i])).pattern("III")
 							   .pattern("III").pattern("III")
 							   .define('I', FATags.ForgeItemTag("ingots/" + Metals.values()[i].getSerializedName()))
 							   .group(Metals.values()[i].getSerializedName() + "_block")

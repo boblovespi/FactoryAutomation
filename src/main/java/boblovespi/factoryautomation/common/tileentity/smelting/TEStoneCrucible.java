@@ -157,19 +157,19 @@ public class TEStoneCrucible extends TileEntity
 			{
 				if (item == FAItems.ingot.GetItem(metal) || item == FAItems.nugget.GetItem(metal)
 						|| item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal)
-						|| item == FABlocks.metalBlock.GetBlock(metal).getItem())
+						|| item == FABlocks.metalBlock.getBlock(metal).getItem())
 					return metal.getSerializedName();
 			} else if (item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal)
-					|| item == FABlocks.metalBlock.GetBlock(metal).getItem())
+					|| item == FABlocks.metalBlock.getBlock(metal).getItem())
 				return metal.getSerializedName();
 		}
 
 		// ores and other raw forms
 		if (item == Items.GOLD_ORE)
 			return "gold";
-		if (item == Item.byBlock(FABlocks.metalOres.GetBlock(MetalOres.COPPER)))
+		if (item == Item.byBlock(FABlocks.metalOres.getBlock(MetalOres.COPPER)))
 			return "copper";
-		if (item == Item.byBlock(FABlocks.metalOres.GetBlock(MetalOres.TIN)))
+		if (item == Item.byBlock(FABlocks.metalOres.getBlock(MetalOres.TIN)))
 			return "tin";
 
 		// iron shards
@@ -201,7 +201,7 @@ public class TEStoneCrucible extends TileEntity
 			return mult * 18;
 		for (int i = 2; i < Metals.values().length; i++)
 		{
-			if (item == Item.byBlock(FABlocks.metalBlock.GetBlock(Metals.values()[i])))
+			if (item == Item.byBlock(FABlocks.metalBlock.getBlock(Metals.values()[i])))
 				return mult * 18 * 9;
 		}
 
@@ -210,7 +210,7 @@ public class TEStoneCrucible extends TileEntity
 			return mult * 18;
 		for (MetalOres ore : MetalOres.values())
 		{
-			if (item == Item.byBlock(FABlocks.metalOres.GetBlock(ore)))
+			if (item == Item.byBlock(FABlocks.metalOres.getBlock(ore)))
 				return mult * 18;
 		}
 
