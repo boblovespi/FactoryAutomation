@@ -30,17 +30,17 @@ public class GuiGridElement
 		this.element = element;
 	}
 
-	public void SetElement(IGuiElement element)
+	public void setElement(IGuiElement element)
 	{
 		this.element = element;
 	}
 
-	public void Draw(ContainerScreen<?> gui)
+	public void draw(ContainerScreen<?> gui)
 	{
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();
 
-		gui.blit(guiLeft + x, guiTop + y, offsetX + element.GetX() * w, offsetY + element.GetY() * h,
-				w * element.GetU(), h * element.GetV());
+		gui.blit(guiLeft + x, guiTop + y, offsetX + element.getX() * w, offsetY + element.getY() * h,
+				w * element.getU(), h * element.getV());
 	}
 }

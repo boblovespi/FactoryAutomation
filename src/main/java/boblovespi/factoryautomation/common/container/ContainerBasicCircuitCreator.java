@@ -23,8 +23,6 @@ import net.minecraftforge.items.SlotItemHandler;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 
-import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-
 /**
  * Created by Willi on 5/28/2018.
  */
@@ -48,7 +46,7 @@ public class ContainerBasicCircuitCreator extends Container
 		addSlot(new SlotRestrictedPredicate(inv, 1, 8, 9, Ingredient.of(FATags.ForgeItemTag("nuggets/tin"))));
 		addSlot(new SlotRestrictedPredicate(inv, 2, 8, 27, Ingredient.of(FATags.ForgeItemTag("wires/copper"))));
 		addSlot(new SlotItemHandler(inv, 3, 8, 45));
-		addSlot(new SlotRestrictedItem(inv, 4, 8, 63, Collections.singletonList(FAItems.circuitFrame.ToItem())));
+		addSlot(new SlotRestrictedItem(inv, 4, 8, 63, Collections.singletonList(FAItems.circuitFrame.toItem())));
 		int x = 24;
 		int y = 84;
 
@@ -115,12 +113,12 @@ public class ContainerBasicCircuitCreator extends Container
 		return previous;
 	}
 
-	public boolean HasFrame()
+	public boolean hasFrame()
 	{
 		return !inv.getStackInSlot(4).isEmpty();
 	}
 
-	public BlockPos GetPos()
+	public BlockPos getPos()
 	{
 		return pos;
 	}

@@ -7,13 +7,13 @@ import net.minecraft.util.Direction;
  */
 public interface IMechanicalUser
 {
-	boolean HasConnectionOnSide(Direction side);
+	boolean hasConnectionOnSide(Direction side);
 
-	float GetSpeedOnFace(Direction side);
+	float getSpeedOnFace(Direction side);
 
-	float GetTorqueOnFace(Direction side);
+	float getTorqueOnFace(Direction side);
 
-	void SetSpeedOnFace(Direction side, float speed);
+	void setSpeedOnFace(Direction side, float speed);
 
-	void SetTorqueOnFace(Direction side, float torque);
+	void setTorqueOnFace(Direction side, float torque);
 }

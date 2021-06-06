@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import org.lwjgl.opengl.GL11;
 
@@ -34,7 +33,7 @@ public class TESRMillstone extends TileEntityRenderer<TEMillstone>
 	{
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
 		if (state == null)
-			state = FABlocks.millstone.ToBlock().getDefaultState().with(Millstone.IS_TOP, true);
+			state = FABlocks.millstone.toBlock().getDefaultState().with(Millstone.IS_TOP, true);
 		matrix.push();
 		{
 			RenderHelper.disableStandardItemLighting();

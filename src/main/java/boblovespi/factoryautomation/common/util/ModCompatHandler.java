@@ -9,23 +9,23 @@ import net.minecraftforge.fml.ModList;
  */
 public class ModCompatHandler
 {
-	public static void PreInit()
+	public static void preInit()
 	{
 
 	}
 
-	public static void Init()
+	public static void init()
 	{
 		if (ModList.get().isLoaded("patchouli"))
 			PatchouliHelper.RegisterMultiblocks();
 	}
 
-	public static void PostInit()
+	public static void postInit()
 	{
 
 	}
 
-	public static ItemStack GetGuidebook()
+	public static ItemStack getGuidebook()
 	{
 		if (ModList.get().isLoaded("patchouli"))
 			return PatchouliHelper.GetGuidebook();

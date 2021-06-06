@@ -180,26 +180,26 @@ public class RecipeHandler
 		// jaw crusher
 		//
 
-		JawCrusherRecipe.AddRecipe(
+		JawCrusherRecipe.addRecipe(
 				new JawCrusherRecipe(Ingredient.of(Blocks.STONE), n -> new ItemStack(Blocks.COBBLESTONE), 0,
 						"stone-to-cobblestone", 20, 10, 10));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(Blocks.DIAMOND_ORE),
-				n -> new ItemStack(FAItems.diamondGravel.ToItem()), 0, "diamond-processing", 20, 10, 100));
+		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(Blocks.DIAMOND_ORE),
+				n -> new ItemStack(FAItems.diamondGravel.toItem()), 0, "diamond-processing", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(POOR)),
+		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(POOR)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)), 0,
 				"magnetite-poor-ore-to-coarse", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(NORMAL)),
+		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(NORMAL)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)), 0,
 				"magnetite-normal-ore-to-coarse", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(RICH)),
+		JawCrusherRecipe.addRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(RICH)),
 				n -> new ItemStack(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)), 0,
 				"magnetite-rich-ore-to-coarse", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(
+		JawCrusherRecipe.addRecipe(
 				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
@@ -208,7 +208,7 @@ public class RecipeHandler
 							put(0.08f, new ItemStack(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)));
 						}}, 0, "magnetite-poor-coarse-to-gravel", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(
+		JawCrusherRecipe.addRecipe(
 				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
@@ -217,7 +217,7 @@ public class RecipeHandler
 							put(0.08f, new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)));
 						}}, 0, "magnetite-normal-coarse-to-gravel", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(
+		JawCrusherRecipe.addRecipe(
 				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)),
 						new HashMap<Float, ItemStack>()
 						{{
@@ -234,32 +234,32 @@ public class RecipeHandler
 		// chopping block recipes
 		for (WoodTypes type : WoodTypes.values())
 		{
-			ChoppingBlockRecipe.AddRecipe(type.GetName() + "_log_to_plank", type.GetLog().asItem(),
+			ChoppingBlockRecipe.addRecipe(type.GetName() + "_log_to_plank", type.GetLog().asItem(),
 					new ItemStack(type.GetPlanks(), 4));
 		}
 
-		ChoppingBlockRecipe.AddRecipe("plank_to_stick", new ResourceLocation("minecraft:planks"), new ItemStack(Items.STICK, 4));
+		ChoppingBlockRecipe.addRecipe("plank_to_stick", new ResourceLocation("minecraft:planks"), new ItemStack(Items.STICK, 4));
 		ChoppingBlockRecipe
-				.AddRecipe("grass_to_fiber", Blocks.GRASS.asItem(), new ItemStack(FAItems.plantFiber.ToItem(), 2));
+				.addRecipe("grass_to_fiber", Blocks.GRASS.asItem(), new ItemStack(FAItems.plantFiber.toItem(), 2));
 
 		// campfire recipes
-		CampfireRecipe.AddRecipe("cooked_pork", Items.PORKCHOP, new ItemStack(Items.COOKED_PORKCHOP), 20 * 60 * 4);
-		CampfireRecipe.AddRecipe("steak", Items.BEEF, new ItemStack(Items.COOKED_BEEF), 20 * 60 * 2);
-		CampfireRecipe.AddRecipe("cooked_rabbit", Items.RABBIT, new ItemStack(Items.COOKED_RABBIT), 20 * 60 * 5);
-		CampfireRecipe.AddRecipe("cooked_chicken", Items.CHICKEN, new ItemStack(Items.COOKED_CHICKEN), 20 * 60 * 5);
-		CampfireRecipe.AddRecipe("mutton", Items.MUTTON, new ItemStack(Items.COOKED_MUTTON), 20 * 60 * 3);
-		CampfireRecipe.AddRecipe("chorus_popcorn", Items.CHORUS_FRUIT, new ItemStack(Items.POPPED_CHORUS_FRUIT), 600);
-		CampfireRecipe.AddRecipe("baked_potato", Items.POTATO, new ItemStack(Items.BAKED_POTATO), 600);
-		CampfireRecipe.AddRecipe("toasted_bread", Items.BREAD, new ItemStack(FAItems.toastedBread.ToItem()), 300);
+		CampfireRecipe.addRecipe("cooked_pork", Items.PORKCHOP, new ItemStack(Items.COOKED_PORKCHOP), 20 * 60 * 4);
+		CampfireRecipe.addRecipe("steak", Items.BEEF, new ItemStack(Items.COOKED_BEEF), 20 * 60 * 2);
+		CampfireRecipe.addRecipe("cooked_rabbit", Items.RABBIT, new ItemStack(Items.COOKED_RABBIT), 20 * 60 * 5);
+		CampfireRecipe.addRecipe("cooked_chicken", Items.CHICKEN, new ItemStack(Items.COOKED_CHICKEN), 20 * 60 * 5);
+		CampfireRecipe.addRecipe("mutton", Items.MUTTON, new ItemStack(Items.COOKED_MUTTON), 20 * 60 * 3);
+		CampfireRecipe.addRecipe("chorus_popcorn", Items.CHORUS_FRUIT, new ItemStack(Items.POPPED_CHORUS_FRUIT), 600);
+		CampfireRecipe.addRecipe("baked_potato", Items.POTATO, new ItemStack(Items.BAKED_POTATO), 600);
+		CampfireRecipe.addRecipe("toasted_bread", Items.BREAD, new ItemStack(FAItems.toastedBread.toItem()), 300);
 		//CampfireRecipe.AddRecipe("flatbread", Items.CHORUS_FRUIT, 0, new ItemStack(Items.CHORUS_FRUIT_POPPED),
 		//		20 * 60 * 3); // TODO: add basic bread
 		// fish
-		CampfireRecipe.AddRecipe("salmon", Items.SALMON, new ItemStack(Items.COOKED_SALMON, 1), 20 * 60 * 3);
-		CampfireRecipe.AddRecipe("cod", Items.COD, new ItemStack(Items.COOKED_COD, 1), 20 * 60 * 3);
+		CampfireRecipe.addRecipe("salmon", Items.SALMON, new ItemStack(Items.COOKED_SALMON, 1), 20 * 60 * 3);
+		CampfireRecipe.addRecipe("cod", Items.COD, new ItemStack(Items.COOKED_COD, 1), 20 * 60 * 3);
 
 		// millstone recipes
-		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 50, 5, new ItemStack(FAItems.wheatFlour.ToItem()));
-		MillstoneRecipe.AddRecipe("bone_meal", Items.BONE, 30, 5, new ItemStack(Items.BONE_MEAL, 4));
+		MillstoneRecipe.addRecipe("wheat_flour", Items.WHEAT, 50, 5, new ItemStack(FAItems.wheatFlour.toItem()));
+		MillstoneRecipe.addRecipe("bone_meal", Items.BONE, 30, 5, new ItemStack(Items.BONE_MEAL, 4));
 
 		//
 

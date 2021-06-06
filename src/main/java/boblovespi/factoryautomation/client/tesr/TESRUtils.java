@@ -126,10 +126,10 @@ public class TESRUtils
 	{
 		/*Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder levelRenderer = tessellator.getBuffer();
-		worldRenderer.begin(GL11.GL_QUADS, fmt);
+		levelRenderer.begin(GL11.GL_QUADS, fmt);
 		for (BakedQuad bakedquad : model.getQuads(null, null, 0))
 		{
-			LightUtil.renderQuadColor(worldRenderer, bakedquad, color);
+			LightUtil.renderQuadColor(levelRenderer, bakedquad, color);
 		}
 		tessellator.draw();*/
 	}

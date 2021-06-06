@@ -61,9 +61,9 @@ public class OreSample extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "resources/" + RegistryName();
+		return "resources/" + registryName();
 	}
 
 	/**
@@ -75,10 +75,10 @@ public class OreSample extends FABaseBlock
 	public void neighborChanged(BlockState state, World level, BlockPos pos, Block blockIn, BlockPos fromPos,
 			boolean isMoving)
 	{
-		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.below(), Direction.UP)) // isSideSolid ?
+		if (!level.getBlockState(pos.down()).isSolidSide(level, pos.below(), Direction.UP)) // isSideSolid ?
 		{
 			spawnDrops(state, level, pos);
-			world.removeBlock(pos, isMoving);
+			level.removeBlock(pos, isMoving);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class OreSample extends FABaseBlock
 	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos)
 	{
 		return level.getBlockState(pos).getMaterial().isReplaceable() && level.getBlockState(pos.down())
-																			  .isSolidSide(world, pos.below(),
+																			  .isSolidSide(level, pos.below(),
 																					  Direction.UP)
 				&& level.getBlockState(pos).getBlock() != this;
 	}

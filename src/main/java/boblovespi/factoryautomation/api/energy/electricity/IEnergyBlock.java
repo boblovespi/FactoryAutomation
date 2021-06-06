@@ -19,6 +19,6 @@ public interface IEnergyBlock
 	 * @param pos   The position of the block
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
-	boolean CanConnectCable(BlockState state, Direction side,
-			IBlockReader level, BlockPos pos);
+	boolean canConnectCable(BlockState state, Direction side,
+							IBlockReader level, BlockPos pos);
 }

@@ -12,7 +12,7 @@ import net.minecraft.client.gui.ScreenManager;
 // TODO: move to proper location
 public class GuiHandler
 {
-	public static void RegisterGuis()
+	public static void registerGuis()
 	{
 		ScreenManager.registerFactory(ContainerBasicCircuitCreator.TYPE, GuiBasicCircuitCreator::new);
 		ScreenManager.registerFactory(ContainerBlastFurnace.TYPE, GuiBlastFurnace::new);

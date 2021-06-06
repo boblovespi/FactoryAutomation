@@ -56,12 +56,12 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		if (firstTick)
 			FirstLoad();
 
-		timer -= transferSpeed * mechanicalUser.GetSpeed() / 10f;
-		Direction dir = Objects.requireNonNull(level).getBlockState(worldPosition).getValue(FACING);
+		timer -= transferSpeed * mechanicalUser.getSpeed() / 10f;
+		Direction dir = Objects.requireNonNull(level).getBlockState(levelPosition).getValue(FACING);
 		if (timer < 0)
 		{
-			TileEntity pushTo = level.getBlockEntity(worldPosition.relative(dir.getOpposite()));
-			TileEntity takeFrom = level.getBlockEntity(worldPosition.relative(dir));
+			TileEntity pushTo = level.getBlockEntity(levelPosition.relative(dir.getOpposite()));
+			TileEntity takeFrom = level.getBlockEntity(levelPosition.relative(dir));
 
 			if (pushTo != null && takeFrom != null)
 			{
@@ -75,7 +75,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 					FluidStack drain;
 					//noinspection ConstantConditions
 					drain = takeFromCapability.orElse(null).drain(
-							(int) (transferAmount * transferAmountScalar * mechanicalUser.GetTorque() / 10f),
+							(int) (transferAmount * transferAmountScalar * mechanicalUser.getTorque() / 10f),
 							IFluidHandler.FluidAction.EXECUTE);
 
 					pushToCapability.ifPresent(n -> takeFromCapability.ifPresent(m -> m.drain(
@@ -91,27 +91,27 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		for (Direction facing : mechanicalUser.GetSides())
 		{
 			Direction opposite = facing.getOpposite();
-			TileEntity te = level.getBlockEntity(worldPosition.relative(facing));
+			TileEntity te = level.getBlockEntity(levelPosition.relative(facing));
 			if (TEHelper.IsMechanicalFace(te, opposite))
 			{
 				hasConnection = true;
 				IMechanicalUser user = TEHelper.GetUser(te, opposite);
-				mechanicalUser.SetSpeedOnFace(facing, user.GetSpeedOnFace(opposite));
-				mechanicalUser.SetTorqueOnFace(facing, user.GetTorqueOnFace(opposite));
+				mechanicalUser.setSpeedOnFace(facing, user.getSpeedOnFace(opposite));
+				mechanicalUser.setTorqueOnFace(facing, user.getTorqueOnFace(opposite));
 			}
 		}
 		if (!hasConnection)
 		{
-			mechanicalUser.SetTorqueOnFace(Direction.from3DDataValue((dir.get3DDataValue() + 2) % 6), 0);
-			mechanicalUser.SetSpeedOnFace(Direction.from3DDataValue((dir.get3DDataValue() + 2) % 6), 0);
+			mechanicalUser.setTorqueOnFace(Direction.from3DDataValue((dir.get3DDataValue() + 2) % 6), 0);
+			mechanicalUser.setSpeedOnFace(Direction.from3DDataValue((dir.get3DDataValue() + 2) % 6), 0);
 		}
 		setChanged();
 	}
 
 	public void FirstLoad()
 	{
-		Direction dir = Objects.requireNonNull(level).getBlockState(worldPosition).getValue(FACING);
-		mechanicalUser.SetSides(EnumSet.complementOf(EnumSet.of(dir, dir.getOpposite())));
+		Direction dir = Objects.requireNonNull(level).getBlockState(levelPosition).getValue(FACING);
+		mechanicalUser.setSides(EnumSet.complementOf(EnumSet.of(dir, dir.getOpposite())));
 		firstTick = false;
 	}
 
@@ -130,14 +130,14 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	{
 		super.load(state, tag);
 		timer = tag.getFloat("timer");
-		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
+		mechanicalUser.loadFromNBT(tag.getCompound("mechanicalUser"));
 	}
 
 	@Override
 	public CompoundNBT save(CompoundNBT tag)
 	{
 		tag.putFloat("timer", timer);
-		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
+		tag.put("mechanicalUser", mechanicalUser.saveToNBT());
 		return super.save(tag);
 	}
 }

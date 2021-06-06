@@ -26,12 +26,12 @@ public class HeatUser implements IHeatUser
 		this.conductivity = conductivity;
 	}
 
-	public void SetTemperature(float temperature)
+	public void setTemperature(float temperature)
 	{
 		this.temperature = temperature;
 	}
 
-	public void SetSubstanceAmount(float mass)
+	public void setSubstanceAmount(float mass)
 	{
 		this.substanceAmount = mass;
 	}
@@ -40,32 +40,32 @@ public class HeatUser implements IHeatUser
 	 * @return the temperature in Celsius
 	 */
 	@Override
-	public float GetTemperature()
+	public float getTemperature()
 	{
 		return temperature;
 	}
 
 	@Override
-	public float GetSubstanceAmount()
+	public float getSubstanceAmount()
 	{
 		return substanceAmount;
 	}
 
 	@Override
-	public void TransferEnergy(float energyAmount)
+	public void transferEnergy(float energyAmount)
 	{
-		temperature += (energyAmount / EnergyConstants.GAS_CONSTANT / GetSubstanceAmount());
+		temperature += (energyAmount / EnergyConstants.GAS_CONSTANT / getSubstanceAmount());
 		if (temperature < 0)
 			temperature = 0;
 	}
 
 	@Override
-	public float GetConductivity()
+	public float getConductivity()
 	{
 		return conductivity;
 	}
 
-	public CompoundNBT WriteToNBT()
+	public CompoundNBT saveToNBT()
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		nbt.putFloat("temperature", temperature);
@@ -74,14 +74,14 @@ public class HeatUser implements IHeatUser
 		return nbt;
 	}
 
-	public void ReadFromNBT(CompoundNBT tag)
+	public void loadFromNBT(CompoundNBT tag)
 	{
 		temperature = tag.getFloat("temperature");
 		substanceAmount = tag.getFloat("substanceAmount");
 		conductivity = tag.getFloat("conductivity");
 	}
 
-	public void SetConductivity(float conductivity)
+	public void setConductivity(float conductivity)
 	{
 		this.conductivity = conductivity;
 	}

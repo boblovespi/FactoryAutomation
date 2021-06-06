@@ -49,8 +49,8 @@ public class SolidFueledFirebox extends FABaseBlock
 	public ActionResultType use(BlockState state, World levelIn, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit)
 	{
-		if (!worldIn.isClientSide)
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(worldIn.getBlockEntity(pos)), pos);
+		if (!levelIn.isClientSide)
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(levelIn.getBlockEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 

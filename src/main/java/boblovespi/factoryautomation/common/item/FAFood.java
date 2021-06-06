@@ -10,7 +10,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class FAFood extends Item implements FAItem
 
 		this.unName = unName;
 		// setUnlocalizedName(UnlocalizedName()); TODO: localization!!!
-		setRegistryName(RegistryName());
+		setRegistryName(registryName());
 		//setHasSubtypes(true);
 
 		this.amountOfFood = amount;
@@ -59,30 +58,30 @@ public class FAFood extends Item implements FAItem
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return unName;
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
 		return "foods/" + unName;
 	}
 
 	@Override
-	public Item ToItem()
+	public Item toItem()
 	{
 		return this;
 	}
 
 	protected void applyPotionAffects(ItemStack stack, World levelIn, LivingEntity player)
 	{
-		if (!worldIn.isClientSide)
+		if (!levelIn.isClientSide)
 		{
 			for (int i = 0; i < potionEffects.size(); ++i)
 			{
-				if (worldIn.random.nextFloat() <= potionEffectChances.get(i))
+				if (levelIn.random.nextFloat() <= potionEffectChances.get(i))
 					player.addEffect(new EffectInstance(potionEffects.get(i)));
 			}
 		}
@@ -100,9 +99,9 @@ public class FAFood extends Item implements FAItem
 			foodData.setFoodLevel(foodData.getFoodLevel() + amountOfFood);
 			foodData.setSaturation(foodData.getSaturationLevel() + saturationAmount / (float) amountOfFood);
 //			playerEntity.getFoodData().addStats(amountOfFood, saturationAmount / (float) amountOfFood);
-			worldIn.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
+			levelIn.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
 					SoundEvents.PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
-					worldIn.random.nextFloat() * 0.1F + 0.9F);
+					levelIn.random.nextFloat() * 0.1F + 0.9F);
 
 			// PlayerEntity.addStat(StatList.getObjectUseStats(this));
 		}

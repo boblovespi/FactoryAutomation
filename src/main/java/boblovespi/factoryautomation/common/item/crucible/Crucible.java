@@ -43,9 +43,9 @@ public abstract class Crucible extends FABaseItem
 			{
 				if (!playerIn.addItem(inv.getStackInSlot(i)))
 				{
-					if (!world.isClientSide)
-						world.addFreshEntity(
-								new ItemEntity(world, playerIn.getX(), playerIn.getY(), playerIn.getZ(),
+					if (!level.isClientSide)
+						level.addFreshEntity(
+								new ItemEntity(level, playerIn.getX(), playerIn.getY(), playerIn.getZ(),
 										inv.getStackInSlot(i)));
 				}
 			}

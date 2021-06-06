@@ -122,7 +122,7 @@ public class ElectricEngine2 extends Model
 		modelRenderer.rotateAngleZ = z;
 	}
 
-	public void Rotate(float rot)
+	public void rotate(float rot)
 	{
 		setRotateAngle(axle, 0, 0, rot);
 	}

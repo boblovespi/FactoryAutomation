@@ -12,26 +12,26 @@ import java.util.function.Consumer;
  */
 public interface FAItem extends IItemProvider
 {
-	String UnlocalizedName();
+	String unlocalizedName();
 
-	default String RegistryName()
+	default String registryName()
 	{
-		return UnlocalizedName();
+		return unlocalizedName();
 	}
 
-	String GetMetaFilePath(int meta);
+	String getMetaFilePath(int meta);
 
-	Item ToItem();
+	Item toItem();
 
-	default FAItem Init(Consumer<Item> apply)
+	default FAItem init(Consumer<Item> apply)
 	{
-		apply.accept(this.ToItem());
+		apply.accept(this.toItem());
 		return this;
 	}
 
 	@Override
 	@Nonnull
 	default Item asItem(){
-		return ToItem();
+		return toItem();
 	}
 }

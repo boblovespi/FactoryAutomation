@@ -12,7 +12,7 @@ import net.minecraftforge.common.ToolType;
  */
 public class SlagGlass extends FABaseBlock
 {
-	public SlagGlass()
+save)
 	{
 		super("slag_glass", false,
 				Properties.of(Material.GLASS).sound(SoundType.GLASS).strength(1.2f).harvestLevel(0)

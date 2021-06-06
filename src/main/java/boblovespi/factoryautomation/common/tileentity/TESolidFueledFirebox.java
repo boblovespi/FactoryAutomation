@@ -93,17 +93,17 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 	@Override
 	public void tick()
 	{
-		float K_d = heatUser.GetTemperature() - 20f;
+		float K_d = heatUser.getTemperature() - 20f;
 		float gamma = CapabilityHeatUser.AIR_CONDUCTIVITY;
 		float transfer = K_d * gamma * 0.05f;
-		heatUser.TransferEnergy(-transfer);
+		heatUser.transferEnergy(-transfer);
 		ItemStack stack = inventory.getStackInSlot(0);
 		if (isBurningFuel)
 		{
 			burnTime--;
 			if (fuelInfo == FuelRegistry.NULL)
 			{
-				fuelInfo = FuelRegistry.GetInfo(stack.getItem());
+				fuelInfo = FuelRegistry.getInfo(stack.getItem());
 				if (fuelInfo == FuelRegistry.NULL)
 				{
 					burnTime = 0;
@@ -111,9 +111,9 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 					isBurningFuel = false;
 				}
 			}
-			if (fuelInfo != FuelRegistry.NULL && heatUser.GetTemperature() <= fuelInfo.GetBurnTemp())
+			if (fuelInfo != FuelRegistry.NULL && heatUser.getTemperature() <= fuelInfo.getBurnTemp())
 			{
-				heatUser.TransferEnergy(fuelInfo.GetTotalEnergy() / (float) fuelInfo.GetBurnTime());
+				heatUser.transferEnergy(fuelInfo.getTotalEnergy() / (float) fuelInfo.getBurnTime());
 			}
 			if (burnTime <= 0)
 			{
@@ -125,11 +125,11 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		{
 			if (!stack.isEmpty())
 			{
-				fuelInfo = FuelRegistry.GetInfo(stack.getItem());
+				fuelInfo = FuelRegistry.getInfo(stack.getItem());
 				if (fuelInfo != FuelRegistry.NULL)
 				{
-					burnTime = fuelInfo.GetBurnTime();
-					maxBurnTime = fuelInfo.GetBurnTime();
+					burnTime = fuelInfo.getBurnTime();
+					maxBurnTime = fuelInfo.getBurnTime();
 					isBurningFuel = true;
 					inventory.extractItem(0, 1, false);
 				}
@@ -139,8 +139,8 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		setChanged();
 
 		// TODO: FIGURE OUT UPDATING TEs
-		BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdated(worldPosition, state, state, DEFAULT | NO_RERENDER);
+		BlockState state = Objects.requireNonNull(level).getBlockState(levelPosition);
+		level.sendBlockUpdated(levelPosition, state, state, DEFAULT | NO_RERENDER);
 	}
 
 	@Nonnull
@@ -156,7 +156,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 
 	public float GetTemp()
 	{
-		return heatUser.GetTemperature();
+		return heatUser.getTemperature();
 	}
 
 	public float GetBurnPercent()
@@ -166,7 +166,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 
 	public float GetTempPercent()
 	{
-		return heatUser.GetTemperature() / 2500f;
+		return heatUser.getTemperature() / 2500f;
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		isBurningFuel = tag.getBoolean("isBurningFuel");
 
 		inventory.deserializeNBT(tag.getCompound("inventory"));
-		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
+		heatUser.loadFromNBT(tag.getCompound("heatUser"));
 
 		super.load(state, tag);
 	}
@@ -190,7 +190,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		tag.putBoolean("isBurningFuel", isBurningFuel);
 
 		tag.put("inventory", inventory.serializeNBT());
-		tag.put("heatUser", heatUser.WriteToNBT());
+		tag.put("heatUser", heatUser.saveToNBT());
 
 		return super.save(tag);
 	}
@@ -198,7 +198,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -208,7 +208,7 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
 
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 
 	@Override
@@ -221,6 +221,6 @@ public class TESolidFueledFirebox extends TileEntity implements ITickableTileEnt
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerSolidFueledFirebox(id, playerInv, inventory, containerInfo, worldPosition);
+		return new ContainerSolidFueledFirebox(id, playerInv, inventory, containerInfo, levelPosition);
 	}
 }

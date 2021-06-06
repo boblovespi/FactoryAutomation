@@ -22,11 +22,9 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -67,9 +65,9 @@ public class Rock extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "resources/" + RegistryName();
+		return "resources/" + registryName();
 	}
 
 	// TODO: loot tables
@@ -97,10 +95,10 @@ public class Rock extends FABaseBlock
 	public void neighborChanged(BlockState state, World level, BlockPos pos, Block blockIn, BlockPos fromPos,
 			boolean isMoving)
 	{
-		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.below(), Direction.UP)) // isSideSolid ?
+		if (!level.getBlockState(pos.down()).isSolidSide(level, pos.below(), Direction.UP)) // isSideSolid ?
 		{
 			spawnDrops(state, level, pos);
-			world.removeBlock(pos, isMoving);
+			level.removeBlock(pos, isMoving);
 		}
 	}
 
@@ -111,7 +109,7 @@ public class Rock extends FABaseBlock
 	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos)
 	{
 		return level.getBlockState(pos).getMaterial().isReplaceable() && level.getBlockState(pos.down())
-																			  .isSolidSide(world, pos.below(),
+																			  .isSolidSide(level, pos.below(),
 																					  Direction.UP)
 				&& level.getBlockState(pos).getBlock() != this;
 	}
@@ -161,11 +159,11 @@ public class Rock extends FABaseBlock
 			Block block = level.getBlockState(pos).getBlock();
 			if (context.func_225518_g_() /*isPlayerSneaking*/ && BlockTags.LOGS.contains(block))
 			{
-				if (!world.isClientSide)
+				if (!level.isClientSide)
 				{
-					world.destroyBlock(pos, false);
-					world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
-							new ItemStack(FABlocks.woodChoppingBlocks.get(WoodTypes.FromLog(block).Index()).ToBlock(),
+					level.destroyBlock(pos, false);
+					level.addEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(),
+							new ItemStack(FABlocks.woodChoppingBlocks.get(WoodTypes.FromLog(block).Index()).toBlock(),
 									2)));
 				}
 				return ActionResultType.SUCCESS;

@@ -54,10 +54,10 @@ public class TEChoppingBlock extends TileEntity
 		if (!slot.getStackInSlot(0).isEmpty())
 			return items;
 		ItemStack stack = slot.insertItem(0, items, false);
-		ChoppingBlockRecipe getRecipe = ChoppingBlockRecipe.FindRecipe(slot.getStackInSlot(0));
+		ChoppingBlockRecipe getRecipe = ChoppingBlockRecipe.findRecipe(slot.getStackInSlot(0));
 		if (getRecipe != null)
 		{
-			recipe = getRecipe.GetName();
+			recipe = getRecipe.getName();
 			clicksLeft = maxClicks;
 		} else
 		{
@@ -67,7 +67,7 @@ public class TEChoppingBlock extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -78,7 +78,7 @@ public class TEChoppingBlock extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 		return stack;
 	}
 
@@ -87,7 +87,7 @@ public class TEChoppingBlock extends TileEntity
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
 			ItemStack taken = TakeItem();
-			ItemHelper.PutItemsInInventoryOrDrop(player, taken, level);
+			ItemHelper.putItemsInInventoryOrDrop(player, taken, level);
 		} else
 		{
 			ItemStack stack = PlaceItem(item.copy().split(1));
@@ -111,18 +111,18 @@ public class TEChoppingBlock extends TileEntity
 			clicksLeft--;
 			if (clicksLeft <= 0)
 			{
-				ChoppingBlockRecipe getRecipe = ChoppingBlockRecipe.GetRecipe(recipe);
+				ChoppingBlockRecipe getRecipe = ChoppingBlockRecipe.getRecipe(recipe);
 				recipe = "none";
 				int count = slot.getStackInSlot(0).getCount();
 				if (item == FAItems.choppingBlade || item == Items.WOODEN_AXE || item == Items.STONE_AXE)
 				{
-					ItemStack output = getRecipe.GetOutput();
+					ItemStack output = getRecipe.getOutput();
 					ItemStack copy = output.copy();
 					copy.setCount(count * output.getCount() / 2);
 					slot.setStackInSlot(0, copy);
 				} else
 				{
-					ItemStack output = getRecipe.GetOutput();
+					ItemStack output = getRecipe.getOutput();
 					ItemStack copy = output.copy();
 					copy.setCount(count * output.getCount());
 					slot.setStackInSlot(0, copy);
@@ -131,14 +131,14 @@ public class TEChoppingBlock extends TileEntity
 				if (craftsDone > craftsBeforeBreak)
 				{
 					DropItems();
-					Objects.requireNonNull(level).destroyBlock(worldPosition, false);
+					Objects.requireNonNull(level).destroyBlock(levelPosition, false);
 				}
 				setChanged();
 
 				/* IMPORTANT */
-				Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+				Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 			}
-			ItemHelper.DamageItem(tool);
+			ItemHelper.damageItem(tool);
 		}
 
 		return true;
@@ -169,7 +169,7 @@ public class TEChoppingBlock extends TileEntity
 	public void DropItems()
 	{
 		if (!Objects.requireNonNull(level).isClientSide && !slot.getStackInSlot(0).isEmpty())
-			level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), slot.getStackInSlot(0)));
+			level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack GetRenderStack()
@@ -181,7 +181,7 @@ public class TEChoppingBlock extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -190,6 +190,6 @@ public class TEChoppingBlock extends TileEntity
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 }

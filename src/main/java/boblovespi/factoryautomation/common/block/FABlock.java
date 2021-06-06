@@ -1,45 +1,49 @@
 package boblovespi.factoryautomation.common.block;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
 
 /**
  * Created by Willi on 4/12/2017.
  * the default interface for all factory automation blocks.  every block MUST implement this
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public interface FABlock extends IItemProvider
 {
-	String UnlocalizedName();
+	String unlocalizedName();
 
-	default String RegistryName()
+	default String registryName()
 	{
-		return UnlocalizedName();
+		return unlocalizedName();
 	}
 
-	default String GetMetaFilePath(int meta)
+	default String getMetaFilePath(int meta)
 	{
-		return RegistryName();
+		return registryName();
 	}
 
-	Block ToBlock();
+	Block toBlock();
 
-	default boolean IsItemBlock()
+	default boolean isItemBlock()
 	{
 		return true;
 	}
 
-	default FABlock Init(Consumer<Block> apply)
+	default FABlock init(Consumer<Block> apply)
 	{
-		apply.accept(this.ToBlock());
+		apply.accept(this.toBlock());
 		return this;
 	}
 
 	@Override
 	default Item asItem()
 	{
-		return ToBlock().asItem();
+		return toBlock().asItem();
 	}
 }

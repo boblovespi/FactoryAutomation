@@ -29,7 +29,7 @@ public class GuiBar
 		this.direction = direction;
 	}
 
-	public void Draw(ContainerScreen<?> gui, float percentage)
+	public void draw(ContainerScreen<?> gui, float percentage)
 	{
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();

@@ -154,7 +154,7 @@ public class TEBlastFurnaceController extends TileEntity
 		if (Objects.requireNonNull(level).isClientSide)
 			return;
 
-		if (!level.getBlockState(worldPosition).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
+		if (!level.getBlockState(levelPosition).getValue(BlastFurnaceController.MULTIBLOCK_COMPLETE))
 			return;
 
 		steelSmeltTime = 2000; // TODO: read from config
@@ -174,7 +174,7 @@ public class TEBlastFurnaceController extends TileEntity
 					itemHandler.extractItem(IRON_SLOT, 1, false);
 					itemHandler.extractItem(FLUX_SLOT, 1, false);
 					itemHandler.insertItem(OUTPUT_SLOT, new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)), false);
-					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag.ToItem(), 1), false);
+					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag.toItem(), 1), false);
 				}
 			} else
 			{
@@ -227,8 +227,8 @@ public class TEBlastFurnaceController extends TileEntity
 			}
 		}
 		setChanged();
-		BlockState state = level.getBlockState(worldPosition);
-		level.sendBlockUpdated(worldPosition, state, state, 3);
+		BlockState state = level.getBlockState(levelPosition);
+		level.sendBlockUpdated(levelPosition, state, state, 3);
 	}
 
 	@Nullable
@@ -237,13 +237,13 @@ public class TEBlastFurnaceController extends TileEntity
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		this.load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nonnull
@@ -286,39 +286,39 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public void SetStructureValid(boolean isValid)
+	public void setStructureValid(boolean isValid)
 	{
 		isStructureValid = isValid;
-		Block block = Objects.requireNonNull(level).getBlockState(worldPosition).getBlock();
+		Block block = Objects.requireNonNull(level).getBlockState(levelPosition).getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).SetStructureCompleted(level, worldPosition, isValid);
+			((BlastFurnaceController) block).setStructureCompleted(level, levelPosition, isValid);
 		}
 	}
 
 	@Override
-	public boolean IsStructureValid()
+	public boolean isStructureValid()
 	{
 		return isStructureValid;
 	}
 
 	@Override
-	public void CreateStructure()
+	public void createStructure()
 	{
-		Block block = Objects.requireNonNull(level).getBlockState(worldPosition).getBlock();
+		Block block = Objects.requireNonNull(level).getBlockState(levelPosition).getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).CreateStructure(level, worldPosition);
+			((BlastFurnaceController) block).createStructure(level, levelPosition);
 		}
 	}
 
 	@Override
-	public void BreakStructure()
+	public void breakStructure()
 	{
 		Block block = getBlockState().getBlock();
 		if (block instanceof BlastFurnaceController)
 		{
-			((BlastFurnaceController) block).BreakStructure(level, worldPosition);
+			((BlastFurnaceController) block).breakStructure(level, levelPosition);
 		}
 	}
 
@@ -334,7 +334,7 @@ public class TEBlastFurnaceController extends TileEntity
 	 */
 	@Nullable
     @Override
-	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == Direction.UP
 				&& capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
@@ -352,6 +352,6 @@ public class TEBlastFurnaceController extends TileEntity
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerBlastFurnace(id, playerInv, itemHandler, containerInfo, worldPosition);
+		return new ContainerBlastFurnace(id, playerInv, itemHandler, containerInfo, levelPosition);
 	}
 }

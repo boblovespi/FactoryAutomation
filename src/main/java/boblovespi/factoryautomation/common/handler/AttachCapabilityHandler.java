@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 public class AttachCapabilityHandler
 {
 	@SubscribeEvent
-	public static void AttachChunkCapabilities(AttachCapabilitiesEvent<Chunk> event)
+	public static void attachChunkCapabilities(AttachCapabilitiesEvent<Chunk> event)
 	{
 		event.addCapability(
 				new ResourceLocation(FactoryAutomation.MODID, "pollution"),

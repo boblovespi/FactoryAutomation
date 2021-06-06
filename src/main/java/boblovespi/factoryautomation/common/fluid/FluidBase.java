@@ -11,17 +11,17 @@ public class FluidBase
 	public RegistryObject<FlowingFluid> flowing;
 	public RegistryObject<FlowingFluid> still;
 
-	public FlowingFluid Flowing()
+	public FlowingFluid flowing()
 	{
 		return flowing.get();
 	}
 
-	public FlowingFluid Still()
+	public FlowingFluid still()
 	{
 		return still.get();
 	}
 
-	public void Update(FluidBase other)
+	public void update(FluidBase other)
 	{
 		this.flowing = other.flowing;
 		this.still = other.still;

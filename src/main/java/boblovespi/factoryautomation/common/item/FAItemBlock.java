@@ -17,28 +17,28 @@ public class FAItemBlock extends BlockItem implements FAItem
 
 	public FAItemBlock(FABlock base, Properties properties)
 	{
-		super(base.ToBlock(), properties);
-		this.block = base.ToBlock();
+		super(base.toBlock(), properties);
+		this.block = base.toBlock();
 		this.faBlock = base;
 		// setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
+		setRegistryName(registryName());
 		// FAItems.items.add(this);
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
-		return faBlock.UnlocalizedName();
+		return faBlock.unlocalizedName();
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return faBlock.GetMetaFilePath(meta);
+		return faBlock.getMetaFilePath(meta);
 	}
 
 	@Override
-	public Item ToItem()
+	public Item toItem()
 	{
 		return this;
 	}

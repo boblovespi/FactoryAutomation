@@ -5,5 +5,5 @@ package boblovespi.factoryautomation.api.misc;
  */
 public interface IBellowsable
 {
-	void Blow(float efficiency, int time);
+	void blow(float efficiency, int time);
 }

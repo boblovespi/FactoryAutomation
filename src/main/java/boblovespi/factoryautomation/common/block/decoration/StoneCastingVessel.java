@@ -20,7 +20,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -56,9 +55,9 @@ public class StoneCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "processing/" + RegistryName();
+		return "processing/" + registryName();
 	}
 
 	@Override
@@ -95,13 +94,13 @@ public class StoneCastingVessel extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isClientSide)
+		if (!level.isClientSide)
 		{
 			TEStoneCastingVessel te = (TEStoneCastingVessel) level.getBlockEntity(pos);
 
-			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.HasSpace())
+			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.hasSpace())
 			{
-				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(level.getBlockEntity(pos)), pos);
 			} else
 			{
 				if (te != null)

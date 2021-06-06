@@ -6,7 +6,6 @@ import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Direction;
 
 import static boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 
@@ -28,19 +27,19 @@ public class TEHelper
 
 	public static void TransferHeat(IHeatUser from, IHeatUser to)
 	{
-		float K_d = from.GetTemperature() - to.GetTemperature();
-		float gamma = from.GetConductivity();
+		float K_d = from.getTemperature() - to.getTemperature();
+		float gamma = from.getConductivity();
 		float transfer = K_d * gamma * 0.05f;
-		from.TransferEnergy(-transfer);
-		to.TransferEnergy(transfer);
+		from.transferEnergy(-transfer);
+		to.transferEnergy(transfer);
 	}
 
 	public static void DissipateHeat(IHeatUser heatUser, int numOfSides)
 	{
-		float K_d = heatUser.GetTemperature() - 20f;
+		float K_d = heatUser.getTemperature() - 20f;
 		float gamma = CapabilityHeatUser.AIR_CONDUCTIVITY;
 		float transfer = K_d * gamma * 0.05f * numOfSides;
-		heatUser.TransferEnergy(-transfer);
+		heatUser.transferEnergy(-transfer);
 	}
 
 	public static INamedContainerProvider GetContainer(TileEntity te)

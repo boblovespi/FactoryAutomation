@@ -89,12 +89,12 @@ public class Gearbox extends FABaseBlock
 		if (stack.getItem() instanceof Wrench)
 			return ActionResultType.PASS;
 
-		if (world.isClientSide)
+		if (level.isClientSide)
 			return ActionResultType.SUCCESS;
 
 		TileEntity tileEntity = level.getBlockEntity(pos);
 		Item item = stack.getItem();
-		GearType gear = GetGear(item);
+		GearType gear = getGear(item);
 
 		if (gear != null)
 		{
@@ -115,7 +115,7 @@ public class Gearbox extends FABaseBlock
 		return ActionResultType.SUCCESS;
 	}
 
-	private boolean IsGear(Item item)
+	private boolean isGear(Item item)
 	{
 		for (GearType gearType : GearType.values())
 		{
@@ -126,7 +126,7 @@ public class Gearbox extends FABaseBlock
 	}
 
 	@Nullable
-	private GearType GetGear(Item item)
+	private GearType getGear(Item item)
 	{
 		for (GearType gearType : GearType.values())
 		{
@@ -137,9 +137,9 @@ public class Gearbox extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "mechanical/" + RegistryName();
+		return "mechanical/" + registryName();
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class Gearbox extends FABaseBlock
 		}
 
 		@Override
-		public int GetId()
+		public int getId()
 		{
 			return ordinal();
 		}

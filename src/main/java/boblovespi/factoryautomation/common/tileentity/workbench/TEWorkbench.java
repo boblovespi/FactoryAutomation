@@ -148,7 +148,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 				if (!isUpdatingChanges)
 					CheckForRecipe();
 
-				level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(),
+				level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(),
 						SetBlockStateFlags.SEND_TO_CLIENT | SetBlockStateFlags.FORCE_BLOCK_UPDATE
 								| SetBlockStateFlags.PREVENT_RERENDER);
 			}

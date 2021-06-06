@@ -86,17 +86,17 @@ public class Waterwheel extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (!world.isClientSide)
+		if (!level.isClientSide)
 		{
 			TileEntity te = level.getBlockEntity(pos);
 			if (te instanceof TEWaterwheel)
 			{
 				TEWaterwheel waterwheel = (TEWaterwheel) te;
 				Axis axis = state.getValue(AXIS);
-				if (IsComplete(world, pos, axis))
-					waterwheel.CreateStructure();
+				if (IsComplete(level, pos, axis))
+					waterwheel.createStructure();
 				else
-					waterwheel.BreakStructure();
+					waterwheel.breakStructure();
 			}
 		}
 		return ActionResultType.SUCCESS;
@@ -111,26 +111,26 @@ public class Waterwheel extends FABaseBlock
 
 	private boolean IsComplete(World level, BlockPos pos, Axis axis)
 	{
-		if (MultiblockHelper.IsStructureComplete(world, pos, "waterwheel", Direction.get(POSITIVE, axis)))
+		if (MultiblockHelper.IsStructureComplete(level, pos, "waterwheel", Direction.get(POSITIVE, axis)))
 		{
 			Direction back = Direction.get(POSITIVE, axis).getCounterClockWise();
 			Direction front = Direction.get(POSITIVE, axis).getClockWise();
 
-			if (!MatchesStair(world.getBlockState(pos.relative(back).above(2)), back, Half.BOTTOM))
+			if (!MatchesStair(level.getBlockState(pos.relative(back).above(2)), back, Half.BOTTOM))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.relative(back, 2).above()), back, Half.BOTTOM))
+			if (!MatchesStair(level.getBlockState(pos.relative(back, 2).above()), back, Half.BOTTOM))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.relative(back).below(2)), back, Half.TOP))
+			if (!MatchesStair(level.getBlockState(pos.relative(back).below(2)), back, Half.TOP))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.relative(back, 2).below()), back, Half.TOP))
+			if (!MatchesStair(level.getBlockState(pos.relative(back, 2).below()), back, Half.TOP))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.relative(front).above(2)), front, Half.BOTTOM))
+			if (!MatchesStair(level.getBlockState(pos.relative(front).above(2)), front, Half.BOTTOM))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.relative(front, 2).above()), front, Half.BOTTOM))
+			if (!MatchesStair(level.getBlockState(pos.relative(front, 2).above()), front, Half.BOTTOM))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.relative(front).below(2)), front, Half.TOP))
+			if (!MatchesStair(level.getBlockState(pos.relative(front).below(2)), front, Half.TOP))
 				return false;
-			if (!MatchesStair(world.getBlockState(pos.relative(front, 2).below()), front, Half.TOP))
+			if (!MatchesStair(level.getBlockState(pos.relative(front, 2).below()), front, Half.TOP))
 				return false;
 			return true;
 		}

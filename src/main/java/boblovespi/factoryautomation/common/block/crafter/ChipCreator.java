@@ -32,9 +32,9 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "workbench/" + RegistryName();
+		return "workbench/" + registryName();
 	}
 
 	/**
@@ -51,8 +51,8 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (!world.isClientSide && player instanceof ServerPlayerEntity)
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+		if (!level.isClientSide && player instanceof ServerPlayerEntity)
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(level.getBlockEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 }

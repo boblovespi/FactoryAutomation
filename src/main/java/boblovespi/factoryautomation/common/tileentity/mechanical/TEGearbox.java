@@ -65,27 +65,27 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(Direction side)
+	public boolean hasConnectionOnSide(Direction side)
 	{
 		return side.getAxis() == getBlockState().getValue(Gearbox.FACING).getAxis();
 	}
 
 	@Override
-	public float GetSpeedOnFace(Direction side)
+	public float getSpeedOnFace(Direction side)
 	{
 		ForceUpdate(false);
 		return SideIsOutput(side) ? speedOut : SideIsInput(side) ? speedIn : 0;
 	}
 
 	@Override
-	public float GetTorqueOnFace(Direction side)
+	public float getTorqueOnFace(Direction side)
 	{
 		ForceUpdate(false);
 		return SideIsOutput(side) ? torqueOut : SideIsInput(side) ? torqueIn : 0;
 	}
 
 	@Override
-	public void SetSpeedOnFace(Direction side, float speed)
+	public void setSpeedOnFace(Direction side, float speed)
 	{
 		if (SideIsInput(side))
 			this.speedIn = speed;
@@ -93,7 +93,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	}
 
 	@Override
-	public void SetTorqueOnFace(Direction side, float torque)
+	public void setTorqueOnFace(Direction side, float torque)
 	{
 		if (SideIsInput(side))
 			this.torqueIn = torque;
@@ -166,13 +166,13 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 		BlockState state = getBlockState();
 		Direction facing = state.getValue(Gearbox.FACING);
 
-		TileEntity te = level.getBlockEntity(worldPosition.relative(facing.getOpposite()));
+		TileEntity te = level.getBlockEntity(levelPosition.relative(facing.getOpposite()));
 
 		if (IsMechanicalFace(te, facing))
 		{
 			IMechanicalUser input = GetUser(te, facing);
-			torqueIn = input.GetTorqueOnFace(facing);
-			speedIn = input.GetSpeedOnFace(facing);
+			torqueIn = input.getTorqueOnFace(facing);
+			speedIn = input.getSpeedOnFace(facing);
 
 			if (inputGear == null || outputGear == null)
 			{
@@ -198,8 +198,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			setChanged();
 
 			/* IMPORTANT */
-			BlockState state2 = level.getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			BlockState state2 = level.getBlockState(levelPosition);
+			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 		}
 	}
 
@@ -217,8 +217,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			inputDurability = durability;
 
 			setChanged();
-			BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
+			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 			return true;
 
 		} else if (outputGear == null)
@@ -227,8 +227,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			outputDurability = durability;
 
 			setChanged();
-			BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
+			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 			return true;
 		}
 		return false;
@@ -249,8 +249,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			outputDurability = -1;
 
 			setChanged();
-			BlockState state2 = level.getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			BlockState state2 = level.getBlockState(levelPosition);
+			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 		} else if (inputGear != null)
 		{
 			if (!Objects.requireNonNull(level).isClientSide)
@@ -264,8 +264,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			inputDurability = -1;
 
 			setChanged();
-			BlockState state2 = level.getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			BlockState state2 = level.getBlockState(levelPosition);
+			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 		}
 	}
 
@@ -314,8 +314,8 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 		outputDurability = tempDur;
 
 		setChanged();
-		BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+		BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
+		level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 	}
 
 	// Todo: update to use non-null.
@@ -331,7 +331,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -340,6 +340,6 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 }

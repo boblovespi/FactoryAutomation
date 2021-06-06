@@ -10,8 +10,8 @@ public class BreadboardConnection
 	private int toInputPort;
 	private int toOutputPort;
 
-	public void Update()
+	public void update()
 	{
-		toInput.SetInput(toOutput.GetOutput(toOutputPort), toInputPort);
+		toInput.setInput(toOutput.getOutput(toOutputPort), toInputPort);
 	}
 }

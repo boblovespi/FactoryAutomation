@@ -67,7 +67,7 @@ public class Motor extends FABaseBlock implements IEnergyBlock
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	@Override
-	public boolean CanConnectCable(BlockState state, Direction side, IBlockReader level, BlockPos pos)
+	public boolean canConnectCable(BlockState state, Direction side, IBlockReader level, BlockPos pos)
 	{
 		return side == state.getValue(FACING);
 	}

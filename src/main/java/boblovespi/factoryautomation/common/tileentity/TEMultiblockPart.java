@@ -46,7 +46,7 @@ public class TEMultiblockPart extends TileEntity
 	{
 		if (controller == null && !Objects.requireNonNull(level).isClientSide && structureId != null)
 			controller = (IMultiblockControllerTE) level
-					.getBlockEntity(worldPosition.offset(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
+					.getBlockEntity(levelPosition.offset(-structureOffset[0], -structureOffset[1], -structureOffset[2]));
 	}
 
 	public void SetMultiblockInformation(String structure, int posX, int posY, int posZ, int offX, int offY, int offZ,
@@ -60,12 +60,12 @@ public class TEMultiblockPart extends TileEntity
 		structureOffset[1] = offY;
 		structureOffset[2] = offZ;
 		state = blockState;
-		controller = (IMultiblockControllerTE) Objects.requireNonNull(level).getBlockEntity(worldPosition.offset(-offX, -offY, -offZ));
+		controller = (IMultiblockControllerTE) Objects.requireNonNull(level).getBlockEntity(levelPosition.offset(-offX, -offY, -offZ));
 	}
 
-	public void SetMultiblockInformation(String structure, BlockPos worldPosition, BlockPos offset, BlockState blockState)
+	public void SetMultiblockInformation(String structure, BlockPos levelPosition, BlockPos offset, BlockState blockState)
 	{
-		SetMultiblockInformation(structure, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), offset.getX(), offset.getY(),
+		SetMultiblockInformation(structure, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), offset.getX(), offset.getY(),
 				offset.getZ(), blockState);
 	}
 
@@ -118,6 +118,6 @@ public class TEMultiblockPart extends TileEntity
 			InitController();
 			return LazyOptional.empty();
 		}
-		return controller.GetCapability(capability, structurePosition, facing);
+		return controller.getCapability(capability, structurePosition, facing);
 	}
 }

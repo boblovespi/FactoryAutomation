@@ -18,22 +18,32 @@ public class Log
 		return logger;
 	}
 
-	public static void LogInfo(String s, Object o)
+	public static void logDebug(String s, Object o)
+	{
+		logger.debug(s + ": " + o.toString());
+	}
+
+	public static void logDebug(String s)
+	{
+		logger.debug(s);
+	}
+
+	public static void logInfo(String s, Object o)
 	{
 		logger.info(s + ": " + o.toString());
 	}
 
-	public static void LogInfo(String s)
+	public static void logInfo(String s)
 	{
 		logger.info(s);
 	}
 
-	public static void LogWarning(String s)
+	public static void logWarning(String s)
 	{
 		logger.warn(s);
 	}
 
-	public static void LogError(String s)
+	public static void logError(String s)
 	{
 		logger.error(s);
 	}

@@ -35,9 +35,9 @@ public class Pillar extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "metals/" + RegistryName();
+		return "metals/" + registryName();
 	}
 
 	/**
@@ -56,8 +56,8 @@ public class Pillar extends FABaseBlock
 		BlockPos up2 = pos.above(2);
 		BlockState uState1 = level.getBlockState(up1);
 		BlockState uState2 = level.getBlockState(up2);
-		// EffectivelyPlace(world, pos);
-		UpdateState(world, pos, state);
+		// EffectivelyPlace(level, pos);
+		UpdateState(level, pos, state);
 	}
 
 	@Override
@@ -91,11 +91,11 @@ public class Pillar extends FABaseBlock
 		{
 			if (dState1.getBlock() == this)
 			{
-				UpdateState(world, down1, dState1);
+				UpdateState(level, down1, dState1);
 			}
 			if (dState2.getBlock() == this)
 			{
-				UpdateState(world, down2, dState2);
+				UpdateState(level, down2, dState2);
 			}
 		} else if (uState1.getBlock() == this)
 		{
@@ -103,39 +103,39 @@ public class Pillar extends FABaseBlock
 			{
 				if (uState2.getBlock() == this && uState2.getValue(HEIGHT) < 2)
 				{
-					world.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
-					world.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
-					world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
+					level.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
+					level.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
+					level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
 				} else
 				{
-					world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 2));
-					world.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 0));
+					level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 2));
+					level.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 0));
 				}
 			} else if (uState1.getValue(HEIGHT) == 1)
 			{
 				if (uState2.getBlock() == this && uState2.getValue(HEIGHT) == 1)
 				{
-					world.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
-					world.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
-					world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
+					level.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
+					level.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
+					level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
 				} else
 				{
-					world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 2));
-					world.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 0));
+					level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 2));
+					level.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 0));
 				}
 			} else if (uState1.getValue(HEIGHT) == 2 && uState2.getBlock() == this && uState2.getValue(HEIGHT) == 0)
 			{
-				world.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
-				world.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
-				world.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
+				level.setBlockAndUpdate(up1, uState2.setValue(HEIGHT, 0));
+				level.setBlockAndUpdate(up2, uState1.setValue(HEIGHT, 0));
+				level.setBlockAndUpdate(pos, defaultBlockState().setValue(HEIGHT, 3));
 			}
 		} else
 		{
 			if (height == 3 && uState2.getBlock() == this && uState2.getValue(HEIGHT) == 0)
 			{
-				UpdateState(world, up2, uState2.setValue(HEIGHT, 1));
+				UpdateState(level, up2, uState2.setValue(HEIGHT, 1));
 			}
-			world.setBlockAndUpdate(pos, state.setValue(HEIGHT, 1));
+			level.setBlockAndUpdate(pos, state.setValue(HEIGHT, 1));
 		}
 	}
 
@@ -145,8 +145,8 @@ public class Pillar extends FABaseBlock
 	@Override
 	public void onPlace(BlockState state, World level, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
-		// EffectivelyPlace(world, pos);
-		UpdateState(world, pos, state);
+		// EffectivelyPlace(level, pos);
+		UpdateState(level, pos, state);
 	}
 
 	/**
@@ -167,23 +167,23 @@ public class Pillar extends FABaseBlock
 		{
 			if (dState1.getBlock() == this)
 			{
-				UpdateState(world, down1, dState1);
+				UpdateState(level, down1, dState1);
 			}
 			if (dState2.getBlock() == this)
 			{
-				UpdateState(world, down2, dState2);
+				UpdateState(level, down2, dState2);
 			}
 		} else if (state.getValue(HEIGHT) > 1)
 		{
 			if (uState1.getBlock() == this)
 			{
-				world.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 1));
-				UpdateState(world, up1, uState1.setValue(HEIGHT, 1));
+				level.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 1));
+				UpdateState(level, up1, uState1.setValue(HEIGHT, 1));
 			}
 			if (uState2.getBlock() == this)
 			{
-				world.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 1));
-				UpdateState(world, up2, uState2.setValue(HEIGHT, 1));
+				level.setBlockAndUpdate(up1, uState1.setValue(HEIGHT, 1));
+				UpdateState(level, up2, uState2.setValue(HEIGHT, 1));
 			}
 		}
 	}

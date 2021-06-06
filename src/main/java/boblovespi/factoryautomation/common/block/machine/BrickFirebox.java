@@ -18,8 +18,8 @@ public class BrickFirebox extends FABaseBlock /*implements ITileEntityProvider*/
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "processing/" + RegistryName();
+		return "processing/" + registryName();
 	}
 }

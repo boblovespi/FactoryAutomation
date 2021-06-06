@@ -44,9 +44,9 @@ public class BrickMaker extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "processing/" + RegistryName();
+		return "processing/" + registryName();
 	}
 
 	@Override
@@ -59,11 +59,11 @@ public class BrickMaker extends FABaseBlock
 	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
 	{
 		Contents value = state.getValue(CONTENTS);
-		if (value.CanDry())
+		if (value.canDry())
 		{
-			world.setBlockState(pos, state.setValue(CONTENTS, value.GetDried()));
-			if (value.GetDried().CanDry())
-				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
+			level.setBlockState(pos, state.setValue(CONTENTS, value.getDried()));
+			if (value.getDried().canDry())
+				level.getPendingBlockTicks().scheduleTick(pos, this, tickRate(level));
 		}
 	}
 
@@ -76,7 +76,7 @@ public class BrickMaker extends FABaseBlock
 	@Override
 	public VoxelShape getOcclusionShape(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
-		if (state.getValue(CONTENTS).CanAddClay())
+		if (state.getValue(CONTENTS).canAddClay())
 			return VoxelShapes.empty();
 		return BOUNDING_BOX;
 	}
@@ -89,26 +89,26 @@ public class BrickMaker extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (world.isClientSide)
+		if (level.isClientSide)
 			return ActionResultType.SUCCESS;
 
 		Contents value = state.getValue(CONTENTS);
-		if (value.CanAddClay() && player.getItemInHand(hand).getItem() == FAItems.terraclay)
+		if (value.canAddClay() && player.getItemInHand(hand).getItem() == FAItems.terraclay)
 		{
-			world.setBlockState(pos, state.setValue(CONTENTS, value.AddClay()));
+			level.setBlockState(pos, state.setValue(CONTENTS, value.addClay()));
 			player.getItemInHand(hand).shrink(1);
-			world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
-		} else if (value.CanRemove())
+			level.getPendingBlockTicks().scheduleTick(pos, this, tickRate(level));
+		} else if (value.canRemove())
 		{
-			if (value.CanRemoveBrick())
+			if (value.canRemoveBrick())
 			{
-				world.setBlockState(pos, state.setValue(CONTENTS, value.RemoveClay()));
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.ToItem()), level);
+				level.setBlockState(pos, state.setValue(CONTENTS, value.removeClay()));
+				ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.toItem()), level);
 
-			} else if (value.CanRemoveClay())
+			} else if (value.canRemoveClay())
 			{
-				world.setBlockState(pos, state.setValue(CONTENTS, value.RemoveClay()));
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), level);
+				level.setBlockState(pos, state.setValue(CONTENTS, value.removeClay()));
+				ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.toItem()), level);
 			}
 		}
 		return ActionResultType.SUCCESS;
@@ -142,7 +142,7 @@ public class BrickMaker extends FABaseBlock
 			return name;
 		}
 
-		public Contents GetDried()
+		public Contents getDried()
 		{
 			switch (this)
 			{
@@ -163,7 +163,7 @@ public class BrickMaker extends FABaseBlock
 			}
 		}
 
-		public Contents AddClay()
+		public Contents addClay()
 		{
 			switch (this)
 			{
@@ -184,32 +184,32 @@ public class BrickMaker extends FABaseBlock
 			}
 		}
 
-		public boolean CanDry()
+		public boolean canDry()
 		{
 			return this != EMPTY && this != HALF_DRIED && this != FULL_DRIED;
 		}
 
-		public boolean CanAddClay()
+		public boolean canAddClay()
 		{
 			return this == EMPTY || this == HALF_DRIED || this == HALF;
 		}
 
-		public boolean CanRemoveClay()
+		public boolean canRemoveClay()
 		{
-			return CanRemove() && this == HALF || this == FULL;
+			return canRemove() && this == HALF || this == FULL;
 		}
 
-		public boolean CanRemoveBrick()
+		public boolean canRemoveBrick()
 		{
-			return CanRemove() && !CanRemoveClay();
+			return canRemove() && !canRemoveClay();
 		}
 
-		public boolean CanRemove()
+		public boolean canRemove()
 		{
 			return this != EMPTY;
 		}
 
-		public Contents RemoveClay()
+		public Contents removeClay()
 		{
 			switch (this)
 			{

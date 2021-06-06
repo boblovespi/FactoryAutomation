@@ -31,8 +31,8 @@ public class PacketHandler
 	private static void RegisterMessages()
 	{
 		// Register messages which are sent from the client to the server here:
-		INSTANCE.registerMessage(NextId(), BasicCircuitCreatorSyncPacket.class, BasicCircuitCreatorSyncPacket::ToBytes,
-				BasicCircuitCreatorSyncPacket::FromBytes, BasicCircuitCreatorSyncPacket::OnMessage,
+		INSTANCE.registerMessage(NextId(), BasicCircuitCreatorSyncPacket.class, BasicCircuitCreatorSyncPacket::toBytes,
+				BasicCircuitCreatorSyncPacket::fromBytes, BasicCircuitCreatorSyncPacket::onMessage,
 				Optional.of(NetworkDirection.PLAY_TO_SERVER));
 		INSTANCE.registerMessage(NextId(), StoneCastingVesselMoldPacket.class, StoneCastingVesselMoldPacket::ToBytes,
 				StoneCastingVesselMoldPacket::FromBytes, StoneCastingVesselMoldPacket::OnMessage,

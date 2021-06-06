@@ -29,14 +29,14 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 		for (int i = 0; i < items.length; i++)
 		{
 			items[i] = new FABaseItem(
-					RegistryName() + "_" + itemTypes.getEnumConstants()[i].getSerializedName(),
+					registryName() + "_" + itemTypes.getEnumConstants()[i].getSerializedName(),
 					properties.apply(itemTypes.getEnumConstants()[i]))
 			{
 				@Override
-				public String GetMetaFilePath(int meta)
+				public String getMetaFilePath(int meta)
 				{
 					String folder = (resourceFolder == null || resourceFolder.isEmpty()) ? "" : resourceFolder + "/";
-					return folder + RegistryName();
+					return folder + registryName();
 				}
 			};
 		}
@@ -48,13 +48,13 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return name;
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
 		String folder = (resourceFolder == null || resourceFolder.isEmpty()) ? "" : resourceFolder + "/";
 
@@ -62,20 +62,20 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 
 		for (int i = 0; i < types.length; i++)
 			if (meta == i)
-				return folder + UnlocalizedName() + "_" + types[i].getSerializedName();
+				return folder + unlocalizedName() + "_" + types[i].getSerializedName();
 
-		return folder + UnlocalizedName() + "_" + types[0].getSerializedName();
+		return folder + unlocalizedName() + "_" + types[0].getSerializedName();
 	}
 
 	@Override
-	public Item ToItem() throws UnsupportedOperationException
+	public Item toItem() throws UnsupportedOperationException
 	{
 		throw new UnsupportedOperationException("MultiTypeItem is not meant to be an actual item class");
 	}
 
 	public FABaseItem GetItem(T type)
 	{
-		return items[type.GetId()];
+		return items[type.getId()];
 	}
 
 	public boolean Contains(Item item)
@@ -89,11 +89,11 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 	}
 
 	@Override
-	public FAItem Init(Consumer<Item> apply)
+	public FAItem init(Consumer<Item> apply)
 	{
 		for (FABaseItem item : items)
 		{
-			item.Init(apply);
+			item.init(apply);
 		}
 		return this;
 	}

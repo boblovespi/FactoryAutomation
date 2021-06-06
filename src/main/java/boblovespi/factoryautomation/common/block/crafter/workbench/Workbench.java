@@ -8,9 +8,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.AttachFace;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
 
 import javax.annotation.Nullable;
 
@@ -29,9 +26,9 @@ public abstract class Workbench extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "workbench/" + RegistryName();
+		return "workbench/" + registryName();
 	}
 
 	@Override

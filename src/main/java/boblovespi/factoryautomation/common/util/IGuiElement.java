@@ -6,8 +6,8 @@ package boblovespi.factoryautomation.common.util;
  */
 public interface IGuiElement
 {
-	int GetX();
-	int GetY();
-	int GetU();
-	int GetV();
+	int getX();
+	int getY();
+	int getU();
+	int getV();
 }

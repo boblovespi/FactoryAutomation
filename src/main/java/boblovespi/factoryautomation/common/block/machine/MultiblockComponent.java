@@ -114,8 +114,8 @@ public class MultiblockComponent extends FABaseBlock
 		//
 		//			if (controller instanceof IMultiblockStructureController)
 		//			{
-		//				((IMultiblockStructureController) controller).BreakStructure(world, controllerLoc);
-		//				((IMultiblockStructureController) controller).SetStructureCompleted(world, controllerLoc, false);
+		//				((IMultiblockStructureController) controller).BreakStructure(level, controllerLoc);
+		//				((IMultiblockStructureController) controller).SetStructureCompleted(level, controllerLoc, false);
 		//			}
 		//		}
 	}

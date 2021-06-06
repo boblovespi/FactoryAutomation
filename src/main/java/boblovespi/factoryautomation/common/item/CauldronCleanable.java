@@ -45,15 +45,15 @@ public class CauldronCleanable extends FABaseItem
 
 		if (i > 0)
 		{
-			if (!world.isClientSide)
+			if (!level.isClientSide)
 			{
 				item.shrink(1);
 
 				if (player == null || !player.addItem(cleanedInto.copy()))
-					world.addFreshEntity(
-							new ItemEntity(world, pos.getX(), pos.getY() + 0.5f, pos.getZ(), cleanedInto.copy()));
+					level.addFreshEntity(
+							new ItemEntity(level, pos.getX(), pos.getY() + 0.5f, pos.getZ(), cleanedInto.copy()));
 
-				((CauldronBlock) Blocks.CAULDRON).setWaterLevel(world, pos, state, i - 1);
+				((CauldronBlock) Blocks.CAULDRON).setWaterLevel(level, pos, state, i - 1);
 				if (player != null)
 				player.awardStat(Stats.USE_CAULDRON);
 			}

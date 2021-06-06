@@ -36,7 +36,7 @@ public class Wrench extends WorkbenchToolItem
 
 		if (block == FABlocks.gearbox)
 		{
-			if (!world.isClientSide)
+			if (!level.isClientSide)
 			{
 				TileEntity te = level.getBlockEntity(pos);
 				if (te instanceof TEGearbox)

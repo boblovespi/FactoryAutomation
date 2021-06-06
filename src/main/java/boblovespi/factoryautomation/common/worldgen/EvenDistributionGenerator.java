@@ -1,4 +1,4 @@
-package boblovespi.factoryautomation.common.worldgen;
+package boblovespi.factoryautomation.common.levelgen;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.util.SharedSeedRandom;
@@ -17,23 +17,23 @@ import java.util.Random;
 /**
  * Created by Willi on 7/5/2018.
  */
-public class EvenDistributionGenerator extends Feature<OreFeatureConfig>
-{
-	private final SharedSeedRandom r;
-	private final PerlinNoiseGenerator xOff;
-	private final PerlinNoiseGenerator yOff;
-
-	public EvenDistributionGenerator(long seed, int spacing, int levels, Codec<OreFeatureConfig> codec)
-	{
-		super(codec);
-		this.r = new SharedSeedRandom(seed);
-		this.xOff = new PerlinNoiseGenerator(r, Arrays.asList(levels, spacing));
-		this.yOff = new PerlinNoiseGenerator(r, Arrays.asList(levels, spacing));
-	}
-
-	@Override
-	public boolean place(IWorld level, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config)
-	{
-		return false;
-	}
-}
+//public class EvenDistributionGenerator extends Feature<OreFeatureConfig>
+//{
+//	private final SharedSeedRandom r;
+//	private final PerlinNoiseGenerator xOff;
+//	private final PerlinNoiseGenerator yOff;
+//
+//	public EvenDistributionGenerator(long seed, int spacing, int levels, Codec<OreFeatureConfig> codec)
+//	{
+//		super(codec);
+//		this.r = new SharedSeedRandom(seed);
+//		this.xOff = new PerlinNoiseGenerator(r, Arrays.asList(levels, spacing));
+//		this.yOff = new PerlinNoiseGenerator(r, Arrays.asList(levels, spacing));
+//	}
+//
+//	@Override
+//	public boolean place(IWorld level, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config)
+//	{
+//		return false;
+//	}
+//}

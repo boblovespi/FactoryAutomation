@@ -14,24 +14,24 @@ public class AdvancedFlintAndSteel extends FlintAndSteelItem implements FAItem
 	public AdvancedFlintAndSteel()
 	{
 		super(new Properties().tab(FAItemGroups.tools).durability(500));
-		setRegistryName(RegistryName());
+		setRegistryName(registryName());
 		FAItems.items.add(this);
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return "advanced_flint_and_steel";
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "tools/" + RegistryName();
+		return "tools/" + registryName();
 	}
 
 	@Override
-	public Item ToItem()
+	public Item toItem()
 	{
 		return this;
 	}

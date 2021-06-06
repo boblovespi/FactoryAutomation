@@ -69,7 +69,7 @@ public class TooltipHandler
 
 		} catch (Exception e)
 		{
-			Log.LogError("Tooltip file is malformed! " + e.getLocalizedMessage());
+			Log.logError("Tooltip file is malformed! " + e.getLocalizedMessage());
 			e.printStackTrace();
 		}
 	}

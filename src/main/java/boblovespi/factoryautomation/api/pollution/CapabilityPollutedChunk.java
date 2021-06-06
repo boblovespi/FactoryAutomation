@@ -18,7 +18,7 @@ public class CapabilityPollutedChunk
 	@CapabilityInject(IPollutedChunk.class)
 	public static Capability<IPollutedChunk> POLLUTED_CHUNK_CAPABILITY = null;
 
-	public static void Register()
+	public static void register()
 	{
 		CapabilityManager.INSTANCE.register(IPollutedChunk.class, new Capability.IStorage<IPollutedChunk>()
 		{

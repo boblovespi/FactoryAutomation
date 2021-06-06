@@ -1,24 +1,28 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.util.IStringSerializable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.function.Consumer;
 
 /**
  * Created by Willi on 12/23/2017.
  */
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends Block implements FABlock
 {
 	protected final Class<T> blockTypes;
 	private final String registeryName;
 
 	public /*final*/ EnumProperty<T> TYPE;
-	private String resourceFolder;
-	private FABaseBlock[] blocks;
+	private final String resourceFolder;
+	private final FABaseBlock[] blocks;
 
 	public MultiTypeBlock(String registeryName, Class<T> types, String resourceFolder, Properties properties,
 			Item.Properties itemProperties)
@@ -34,14 +38,14 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 
 		for (int i = 0; i < blocks.length; i++)
 		{
-			blocks[i] = new FABaseBlock(registeryName + "_" + blockTypes.getEnumConstants()[i].getName(), false,
+			blocks[i] = new FABaseBlock(registeryName + "_" + blockTypes.getEnumConstants()[i].getSerializedName(), false,
 					properties, itemProperties)
 			{
 				@Override
-				public String GetMetaFilePath(int meta)
+				public String getMetaFilePath(int meta)
 				{
 					String folder = (resourceFolder == null || resourceFolder.isEmpty()) ? "" : resourceFolder + "/";
-					return folder + RegistryName();
+					return folder + registryName();
 				}
 			};
 		}
@@ -53,13 +57,13 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return registeryName;
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
 		String folder = (resourceFolder == null || resourceFolder.isEmpty()) ? "" : resourceFolder + "/";
 
@@ -67,23 +71,23 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 
 		for (int i = 0; i < types.length; i++)
 			if (meta == i)
-				return folder + UnlocalizedName() + "_" + types[i].getName();
+				return folder + unlocalizedName() + "_" + types[i].getSerializedName();
 
-		return folder + UnlocalizedName() + "_" + types[0].getName();
+		return folder + unlocalizedName() + "_" + types[0].getSerializedName();
 	}
 
 	@Override
-	public Block ToBlock() throws UnsupportedOperationException
+	public Block toBlock() throws UnsupportedOperationException
 	{
 		return this;
 	}
 
 	public FABaseBlock GetBlock(T type)
 	{
-		return blocks[type.GetId()];
+		return blocks[type.getId()];
 	}
 
-	public MultiTypeBlock<T> Init(Consumer<Block> apply)
+	public MultiTypeBlock<T> init(Consumer<Block> apply)
 	{
 		for (Block block : blocks)
 		{

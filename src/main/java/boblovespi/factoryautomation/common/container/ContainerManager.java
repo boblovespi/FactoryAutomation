@@ -13,7 +13,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class ContainerManager
 {
 	@SubscribeEvent
-	public static void RegisterTypes(RegistryEvent.Register<ContainerType<?>> event)
+	public static void registerTypes(RegistryEvent.Register<ContainerType<?>> event)
 	{
 		event.getRegistry().register(ContainerBasicCircuitCreator.TYPE.setRegistryName(MODID, "basic_circuit_creator"));
 		event.getRegistry().register(ContainerBlastFurnace.TYPE.setRegistryName(MODID, "blast_furnace"));

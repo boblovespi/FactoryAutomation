@@ -32,31 +32,31 @@ public class TECreativeMechanicalSource extends TileEntity implements IMechanica
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(Direction side)
+	public boolean hasConnectionOnSide(Direction side)
 	{
 		return true;
 	}
 
 	@Override
-	public float GetSpeedOnFace(Direction side)
+	public float getSpeedOnFace(Direction side)
 	{
 		return speed;
 	}
 
 	@Override
-	public float GetTorqueOnFace(Direction side)
+	public float getTorqueOnFace(Direction side)
 	{
 		return torque;
 	}
 
 	@Override
-	public void SetSpeedOnFace(Direction side, float speed)
+	public void setSpeedOnFace(Direction side, float speed)
 	{
 
 	}
 
 	@Override
-	public void SetTorqueOnFace(Direction side, float torque)
+	public void setTorqueOnFace(Direction side, float torque)
 	{
 
 	}

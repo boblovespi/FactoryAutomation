@@ -13,14 +13,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 8/9/2019.
@@ -166,7 +164,7 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 			{
 				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
-			model.Rotate(te.rotation + te.GetSpeed() * partialTicks, out, in);
+			model.rotate(te.rotation + te.GetSpeed() * partialTicks, out, in);
 			model.render(matrix, buffer.getBuffer(model.getRenderType(new ResourceLocation(FactoryAutomation.MODID,
 					"textures/blocks/machines/bevel_gearbox.png"))), combinedLight, combinedOverlay, 1, 1, 1, 1);
 

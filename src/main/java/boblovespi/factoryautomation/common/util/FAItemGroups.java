@@ -22,7 +22,7 @@ public class FAItemGroups
 		@Override
 		public ItemStack makeIcon()
 		{
-			return new ItemStack(FAItems.clayCrucible.ToItem());
+			return new ItemStack(FAItems.clayCrucible.toItem());
 		}
 
 	};
@@ -31,7 +31,7 @@ public class FAItemGroups
 		@Override
 		public ItemStack makeIcon()
 		{
-			return new ItemStack(FAItems.diamondGravel.ToItem());
+			return new ItemStack(FAItems.diamondGravel.toItem());
 		}
 	};
 	public static ItemGroup tools = new ItemGroup("tabs.tools.name")
@@ -39,7 +39,7 @@ public class FAItemGroups
 		@Override
 		public ItemStack makeIcon()
 		{
-			return new ItemStack(FAItems.ironHammer.ToItem());
+			return new ItemStack(FAItems.ironHammer.toItem());
 		}
 	};
 	public static ItemGroup mechanical = new ItemGroup("tabs.mechanical.name")
@@ -55,7 +55,7 @@ public class FAItemGroups
 		@Override
 		public ItemStack makeIcon()
 		{
-			return new ItemStack(FAItems.glassLens.ToItem());
+			return new ItemStack(FAItems.glassLens.toItem());
 		}
 	};
 	public static ItemGroup electrical = new ItemGroup("tabs.electrical.name")
@@ -63,7 +63,7 @@ public class FAItemGroups
 		@Override
 		public ItemStack makeIcon()
 		{
-			return new ItemStack(FAItems.copperWire.ToItem());
+			return new ItemStack(FAItems.copperWire.toItem());
 		}
 	};
 	public static ItemGroup heat = new ItemGroup("tabs.heat.name")
@@ -79,7 +79,7 @@ public class FAItemGroups
 		@Override
 		public ItemStack makeIcon()
 		{
-			return new ItemStack(FABlocks.campfire.ToBlock());
+			return new ItemStack(FABlocks.campfire.toBlock());
 		}
 	};
 }

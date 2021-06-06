@@ -54,7 +54,7 @@ public class PaperBellows extends FABaseBlock
 		TileEntity te = level.getBlockEntity(pos);
 		if (te instanceof TEPaperBellows)
 			((TEPaperBellows) te).Blow();
-		world.playSound(player, pos, SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
+		level.playSound(player, pos, SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
 		return ActionResultType.SUCCESS;
 	}
 

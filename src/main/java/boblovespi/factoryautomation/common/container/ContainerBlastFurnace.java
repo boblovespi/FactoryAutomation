@@ -1,7 +1,6 @@
 package boblovespi.factoryautomation.common.container;
 
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
-import boblovespi.factoryautomation.common.container.slot.SlotRestrictedItem;
 import boblovespi.factoryautomation.common.container.slot.SlotRestrictedPredicate;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
@@ -19,15 +18,11 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collections;
-
-import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 /**
  * Created by Willi on 11/12/2017.
@@ -58,9 +53,9 @@ public class ContainerBlastFurnace extends Container
 		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.FLUX_SLOT, 65, 17,
 				Ingredient.of(Items.REDSTONE)));
 		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
-				Ingredient.of(FAItems.coalCoke.ToItem())));
+				Ingredient.of(FAItems.coalCoke.toItem())));
 		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
-				Ingredient.of(FAItems.coalCoke.ToItem())));
+				Ingredient.of(FAItems.coalCoke.toItem())));
 		addSlot(new SlotOutputItem(handler, TEBlastFurnaceController.OUTPUT_SLOT, 116, 35));
 		addSlot(new SlotOutputItem(handler, TEBlastFurnaceController.SLAG_SLOT, 142, 35));
 
@@ -127,7 +122,7 @@ public class ContainerBlastFurnace extends Container
 		return previous;
 	}
 
-	public IIntArray GetProgressBars()
+	public IIntArray getProgressBars()
 	{
 		return progressBars;
 	}

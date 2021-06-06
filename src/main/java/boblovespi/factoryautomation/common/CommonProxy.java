@@ -10,11 +10,11 @@ import net.minecraft.util.text.TextComponent;
  */
 public interface CommonProxy
 {
-	void RegisterRenders();
+	void registerRenders();
 
-	void PreInit();
+	void preInit();
 
-	void Init();
+	void init();
 
-	void AddChatMessage(ChatType type, ITextComponent string);
+	void addChatMessage(ChatType type, ITextComponent string);
 }

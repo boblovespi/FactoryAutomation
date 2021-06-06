@@ -34,9 +34,9 @@ public class Firebow extends FABaseItem
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "tools/" + RegistryName();
+		return "tools/" + registryName();
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class Firebow extends FABaseItem
 		if (!(living instanceof PlayerEntity))
 			return stack;
 		PlayerEntity player = (PlayerEntity) living;
-		BlockRayTraceResult rayTrace = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE);
+		BlockRayTraceResult rayTrace = getPlayerPOVHitResult(level, player, RayTraceContext.FluidMode.NONE);
 
 		// Todo: remove rayTrace null check, it shouldn't be null anyways.
 		if (rayTrace == null || rayTrace.getType() != RayTraceResult.Type.BLOCK)
@@ -83,11 +83,11 @@ public class Firebow extends FABaseItem
 			return stack;
 		} else
 		{
-			if (world.isEmptyBlock(pos))
+			if (level.isEmptyBlock(pos))
 			{
-				world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
+				level.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
 						random.nextFloat() * 0.4F + 0.8F);
-				world.setBlock(pos, Blocks.FIRE.defaultBlockState(), 11);
+				level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 11);
 			}
 
 			if (player instanceof ServerPlayerEntity)

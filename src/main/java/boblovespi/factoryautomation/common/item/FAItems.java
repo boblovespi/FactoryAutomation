@@ -161,7 +161,7 @@ public class FAItems
 
 	// public static FAItem guidebook;
 
-	public static void Init()
+	public static void init()
 	{
 		if (!isInit.compareAndSet(false, true))
 			return;
@@ -303,11 +303,11 @@ public class FAItems
 		return Prop().tab(ItemGroup.TAB_BUILDING_BLOCKS);
 	}
 
-	public static void RegisterItemRenders()
+	public static void registerItemRenders()
 	{
 		for (Item item : items)
 		{
-			Log.LogInfo("new item!", Objects.requireNonNull(item.getRegistryName()));
+			Log.logInfo("new item!", Objects.requireNonNull(item.getRegistryName()));
 			// Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
 			// Log.LogInfo("item resource path", item.getRegistryName().getResourcePath());
 			if (item instanceof FAItem)
@@ -315,38 +315,38 @@ public class FAItems
 				if (item instanceof FAItemBlock)
 				{
 					if (((FAItemBlock) item).faBlock instanceof IFluidBlock)
-						RegisterFluidBlock((FAItemBlock) item);
+						registerFluidBlock((FAItemBlock) item);
 					else
-						RegisterItemBlock((BlockItem) item);
+						registerItemBlock((BlockItem) item);
 
 				} else if (item instanceof MultiTypeItem)
 				{
 					MultiTypeItem<?> variantItem = (MultiTypeItem<?>) item;
-					RegisterRenders(variantItem);
+					registerRenders(variantItem);
 				} /*else if (item instanceof MultiStateItemBlock)
 				{
 					MultiStateItemBlock variantItem = (MultiStateItemBlock) item;
 					RegisterRenders(variantItem);
 				}*/ else
 				{
-					RegisterRender((FAItem) item, 0);
+					registerRender((FAItem) item, 0);
 				}
 			} else if (item instanceof BlockItem)
 			{
-				RegisterItemBlock((BlockItem) item);
+				registerItemBlock((BlockItem) item);
 			} else
 			{
 				// is a vanilla item, so we need to use a vanilla item method
-				RegisterVanillaRender(item);
+				registerVanillaRender(item);
 			}
 		}
 	}
 
 	@SuppressWarnings("MethodCallSideOnly")
-	private static void RegisterFluidBlock(FAItemBlock item)
+	private static void registerFluidBlock(FAItemBlock item)
 	{
 		final ModelResourceLocation loc = new ModelResourceLocation(
-				new ResourceLocation(FactoryAutomation.MODID, item.GetMetaFilePath(0)), "inventory");
+				new ResourceLocation(FactoryAutomation.MODID, item.getMetaFilePath(0)), "inventory");
 		//		ModelBakery.registerItemVariants(item.ToItem(), loc);
 		//		ModelLoader.setCustomModelResourceLocation(item.ToItem(), 0, loc);
 		//		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
@@ -363,12 +363,12 @@ public class FAItems
 
 	/*@SideOnly(Side.CLIENT)*/
 	@SuppressWarnings("MethodCallSideOnly")
-	private static void RegisterRender(FAItem item, int meta)
+	private static void registerRender(FAItem item, int meta)
 	{
 		// Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + item.GetMetaFilePath(meta));
 
 		final ModelResourceLocation loc = new ModelResourceLocation(
-				new ResourceLocation(FactoryAutomation.MODID, item.GetMetaFilePath(meta)), "inventory");
+				new ResourceLocation(FactoryAutomation.MODID, item.getMetaFilePath(meta)), "inventory");
 
 		// Log.LogInfo("The other model resource location", loc);
 
@@ -377,11 +377,11 @@ public class FAItems
 		//		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
 	}
 
-	private static void RegisterRenders(MultiTypeItem<?> item)
+	private static void registerRenders(MultiTypeItem<?> item)
 	{
 		for (int meta = 0; meta < item.itemTypes.getEnumConstants().length; meta++)
 		{
-			RegisterRender(item, meta);
+			registerRender(item, meta);
 		}
 	}
 
@@ -394,7 +394,7 @@ public class FAItems
 	//	}
 
 	@SuppressWarnings("MethodCallSideOnly")
-	private static void RegisterVanillaRender(Item item)
+	private static void registerVanillaRender(Item item)
 	{
 		// Log.LogInfo("Registering a vanilla Item class");
 		final ModelResourceLocation loc = new ModelResourceLocation(item.getRegistryName(), "inventory");
@@ -405,7 +405,7 @@ public class FAItems
 	}
 
 	@SuppressWarnings("MethodCallSideOnly")
-	private static void RegisterItemBlock(BlockItem item)
+	private static void registerItemBlock(BlockItem item)
 	{
 		if (item.getBlock() instanceof FABlock)
 		{
@@ -413,7 +413,7 @@ public class FAItems
 			// Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + block.GetMetaFilePath(0));
 
 			final ModelResourceLocation loc = new ModelResourceLocation(
-					new ResourceLocation(FactoryAutomation.MODID, block.GetMetaFilePath(0)), "inventory");
+					new ResourceLocation(FactoryAutomation.MODID, block.getMetaFilePath(0)), "inventory");
 
 			// Log.LogInfo("The other model resource location", loc);
 
@@ -422,14 +422,14 @@ public class FAItems
 			//			ModelLoader.setCustomMeshDefinition(item, stack -> loc);
 		} else
 		{
-			RegisterVanillaRender(item);
+			registerVanillaRender(item);
 		}
 	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
-		Init();
+		init();
 
 		items.forEach(event.getRegistry()::register);
 

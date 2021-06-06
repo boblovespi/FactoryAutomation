@@ -40,10 +40,10 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 
 	public void FirstLoad()
 	{
-		BlockState state = level.getBlockState(worldPosition);
-		Direction negativeFacing = BevelGear.GetNegative(state);
+		BlockState state = level.getBlockState(levelPosition);
+		Direction negativeFacing = BevelGear.getNegative(state);
 		Direction positiveFacing = state.getValue(BevelGear.FACING);
-		user.SetSides(EnumSet.of(negativeFacing, positiveFacing));
+		user.setSides(EnumSet.of(negativeFacing, positiveFacing));
 		firstTick = false;
 	}
 	
@@ -51,13 +51,13 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 	public void load(BlockState state, CompoundNBT tag)
 	{
 		super.load(state, tag);
-		user.ReadFromNBT(tag.getCompound("user"));
+		user.loadFromNBT(tag.getCompound("user"));
 	}
 
 	@Override
 	public CompoundNBT save(CompoundNBT tag)
 	{
-		tag.put("user", user.WriteToNBT());
+		tag.put("user", user.saveToNBT());
 		return super.save(tag);
 	}
 
@@ -69,7 +69,7 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 	{
 		if (level.isClientSide)
 		{
-			rotation += user.GetSpeed();
+			rotation += user.getSpeed();
 			rotation %= 360;
 			return;
 		}
@@ -81,38 +81,38 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 
 		if (counter == 0)
 		{
-			BlockState state = level.getBlockState(worldPosition);
+			BlockState state = level.getBlockState(levelPosition);
 
-			Direction negativeFacing = BevelGear.GetNegative(state);
+			Direction negativeFacing = BevelGear.getNegative(state);
 			Direction positiveFacing = state.getValue(BevelGear.FACING);
 
-			TileEntity front = level.getBlockEntity(worldPosition.relative(positiveFacing));
-			TileEntity back = level.getBlockEntity(worldPosition.relative(negativeFacing));
+			TileEntity front = level.getBlockEntity(levelPosition.relative(positiveFacing));
+			TileEntity back = level.getBlockEntity(levelPosition.relative(negativeFacing));
 
-			user.SetSpeedOnFace(negativeFacing, ((IsMechanicalFace(front, positiveFacing.getOpposite()) ?
-					GetUser(front, positiveFacing.getOpposite()).GetSpeedOnFace(positiveFacing.getOpposite()) : 0) + (
+			user.setSpeedOnFace(negativeFacing, ((IsMechanicalFace(front, positiveFacing.getOpposite()) ?
+					GetUser(front, positiveFacing.getOpposite()).getSpeedOnFace(positiveFacing.getOpposite()) : 0) + (
 					IsMechanicalFace(back, negativeFacing.getOpposite()) ?
-							GetUser(back, negativeFacing.getOpposite()).GetSpeedOnFace(negativeFacing.getOpposite()) :
+							GetUser(back, negativeFacing.getOpposite()).getSpeedOnFace(negativeFacing.getOpposite()) :
 							0)) / 2f);
 
-			user.SetTorqueOnFace(negativeFacing, ((IsMechanicalFace(front, positiveFacing.getOpposite()) ?
-					GetUser(front, positiveFacing.getOpposite()).GetTorqueOnFace(positiveFacing.getOpposite()) : 0) + (
+			user.setTorqueOnFace(negativeFacing, ((IsMechanicalFace(front, positiveFacing.getOpposite()) ?
+					GetUser(front, positiveFacing.getOpposite()).getTorqueOnFace(positiveFacing.getOpposite()) : 0) + (
 					IsMechanicalFace(back, negativeFacing.getOpposite()) ?
-							GetUser(back, negativeFacing.getOpposite()).GetTorqueOnFace(negativeFacing.getOpposite()) :
+							GetUser(back, negativeFacing.getOpposite()).getTorqueOnFace(negativeFacing.getOpposite()) :
 							0)) / 2f);
 
 			setChanged();
 
 			/* IMPORTANT */
-			BlockState state2 = level.getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			BlockState state2 = level.getBlockState(levelPosition);
+			level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 
 		}
 	}
 
 	public float GetSpeed()
 	{
-		return user.GetSpeed();
+		return user.getSpeed();
 	}
 
 	@Nullable

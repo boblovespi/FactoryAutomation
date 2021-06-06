@@ -3,17 +3,18 @@ package boblovespi.factoryautomation.api.energy.electricity;
 /**
  * Created by Willi on 7/9/2018.
  */
+@SuppressWarnings("UnusedReturnValue")
 public interface IConsumesEnergy extends IUsesEnergy
 {
-	double VoltageRequired();
+	double voltageRequired();
 
-	double AmperageRequired();
+	double amperageRequired();
 
-	double SetVoltageRecieved(double voltage);
+	double setVoltageRecieved(double voltage);
 
-	double SetAmperageRecieved(double amperage);
+	double setAmperageRecieved(double amperage);
 
-	double Resistance();
+	double resistance();
 
-	double PowerRequired();
+	double powerRequired();
 }

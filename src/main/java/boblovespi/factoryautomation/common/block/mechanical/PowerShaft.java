@@ -98,8 +98,8 @@ public class PowerShaft extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "mechanical/" + RegistryName();
+		return "mechanical/" + registryName();
 	}
 }

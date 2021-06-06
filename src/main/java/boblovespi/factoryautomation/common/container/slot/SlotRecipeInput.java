@@ -27,6 +27,6 @@ public class SlotRecipeInput extends SlotItemHandler
 	@Override
 	public boolean mayPlace(@Nonnull ItemStack stack)
 	{
-		return recipeHandler.IsInputValid(stack);
+		return recipeHandler.isInputValid(stack);
 	}
 }

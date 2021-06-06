@@ -54,14 +54,14 @@ public class MultiblockHelper
 							}
 						} else if (action == IterateAction.BREAK)
 						{
-							world.setBlockAndUpdate(loc, tePart.GetBlockState());
+							level.setBlockAndUpdate(loc, tePart.GetBlockState());
 						}
 
 					} else
 					{
 						if (action == IterateAction.CHECK_VALID)
 						{
-							if (!pattern[x][y][z].MatchesBlockstate(world.getBlockState(loc)))
+							if (!pattern[x][y][z].MatchesBlockstate(level.getBlockState(loc)))
 							{
 								return false;
 							}
@@ -75,7 +75,7 @@ public class MultiblockHelper
 							if (part.AllowsAnyBlock() && state.getBlock().isAir(state, level, loc))
 								continue;
 
-							world.setBlockAndUpdate(loc, FABlocks.multiblockPart.ToBlock().defaultBlockState());
+							level.setBlockAndUpdate(loc, FABlocks.multiblockPart.toBlock().defaultBlockState());
 							TEMultiblockPart newPart = (TEMultiblockPart) level.getBlockEntity(loc);
 
 							newPart.SetMultiblockInformation(structureId, new BlockPos(x, y, z),
@@ -92,17 +92,17 @@ public class MultiblockHelper
 
 	public static boolean IsStructureComplete(World level, BlockPos pos, String id, Direction facing)
 	{
-		return IterateOverMultiblock(world, pos, id, facing, IterateAction.CHECK_VALID);
+		return IterateOverMultiblock(level, pos, id, facing, IterateAction.CHECK_VALID);
 	}
 
 	public static void CreateStructure(World level, BlockPos pos, String id, Direction facing)
 	{
-		IterateOverMultiblock(world, pos, id, facing, IterateAction.CREATE);
+		IterateOverMultiblock(level, pos, id, facing, IterateAction.CREATE);
 	}
 
 	public static void BreakStructure(World level, BlockPos pos, String id, Direction facing)
 	{
-		IterateOverMultiblock(world, pos, id, facing, IterateAction.BREAK);
+		IterateOverMultiblock(level, pos, id, facing, IterateAction.BREAK);
 	}
 
 	public static BlockPos AddWithRotation(BlockPos pos, int x, int y, int z, Direction dir)

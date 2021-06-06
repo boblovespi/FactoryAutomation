@@ -5,17 +5,13 @@ import boblovespi.factoryautomation.client.model.ElectricEngine2;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 5/26/2018.
@@ -88,7 +84,7 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
-			engineModel.Rotate((float) Math.toRadians(te.rotation + partialTicks * te.GetSpeedOnFace(facing)));
+			engineModel.rotate((float) Math.toRadians(te.rotation + partialTicks * te.getSpeedOnFace(facing)));
 
 			engineModel.render(matrix, buffer.getBuffer(engineModel.getRenderType(
 					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"))),

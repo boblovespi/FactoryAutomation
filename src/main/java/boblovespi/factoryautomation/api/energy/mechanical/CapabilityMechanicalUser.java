@@ -18,7 +18,7 @@ public class CapabilityMechanicalUser
 	@CapabilityInject(IMechanicalUser.class)
 	public static Capability<IMechanicalUser> MECHANICAL_USER_CAPABILITY = null;
 
-	public static void Register()
+	public static void register()
 	{
 		CapabilityManager.INSTANCE.register(IMechanicalUser.class, new Capability.IStorage<IMechanicalUser>()
 		{
@@ -42,8 +42,8 @@ public class CapabilityMechanicalUser
 					float speed = compound.getFloat("speed");
 					float torque = compound.getFloat("torque");
 
-					instance.SetSpeedOnFace(facing, speed);
-					instance.SetTorqueOnFace(facing, torque);
+					instance.setSpeedOnFace(facing, speed);
+					instance.setTorqueOnFace(facing, torque);
 
 				} else
 				{

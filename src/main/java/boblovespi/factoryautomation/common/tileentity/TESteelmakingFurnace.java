@@ -113,38 +113,38 @@ public class TESteelmakingFurnace extends TileEntity
 	}
 
 	@Override
-	public void SetStructureValid(boolean isValid)
+	public void setStructureValid(boolean isValid)
 	{
 		this.isValid = isValid;
 	}
 
 	@Override
-	public boolean IsStructureValid()
+	public boolean isStructureValid()
 	{
 		return isValid;
 	}
 
 	@Override
-	public void CreateStructure()
+	public void createStructure()
 	{
-		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID,
-				Objects.requireNonNull(level).getBlockState(worldPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
+		MultiblockHelper.CreateStructure(level, levelPosition, MULTIBLOCK_ID,
+				Objects.requireNonNull(level).getBlockState(levelPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
 						Direction.NORTH);
-		level.setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MULTIBLOCK_COMPLETE, true));
+		level.setBlockAndUpdate(levelPosition, level.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, true));
 	}
 
 	@Override
-	public void BreakStructure()
+	public void breakStructure()
 	{
-		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID,
-				Objects.requireNonNull(level).getBlockState(worldPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
+		MultiblockHelper.BreakStructure(level, levelPosition, MULTIBLOCK_ID,
+				Objects.requireNonNull(level).getBlockState(levelPosition).getValue(SteelmakingFurnaceController.AXIS) == Direction.Axis.X ? Direction.WEST :
 						Direction.NORTH);
-		level.setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MULTIBLOCK_COMPLETE, false));
+		level.setBlockAndUpdate(levelPosition, level.getBlockState(levelPosition).setValue(MULTIBLOCK_COMPLETE, false));
 	}
 
 	@Nonnull
     @Override
-	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return LazyOptional.empty();
 	}
@@ -252,8 +252,8 @@ public class TESteelmakingFurnace extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		BlockState state = level.getBlockState(worldPosition);
-		level.sendBlockUpdated(worldPosition, state, state, 3);
+		BlockState state = level.getBlockState(levelPosition);
+		level.sendBlockUpdated(levelPosition, state, state, 3);
 	}
 
 	private boolean CanInsertOutputs(SteelmakingRecipe r)
@@ -337,7 +337,7 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -346,7 +346,7 @@ public class TESteelmakingFurnace extends TileEntity
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 
 	public float GetTempPercent()
@@ -379,6 +379,6 @@ public class TESteelmakingFurnace extends TileEntity
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerSteelmakingFurnace(id, playerInv, itemHandler, containerInfo, worldPosition);
+		return new ContainerSteelmakingFurnace(id, playerInv, itemHandler, containerInfo, levelPosition);
 	}
 }

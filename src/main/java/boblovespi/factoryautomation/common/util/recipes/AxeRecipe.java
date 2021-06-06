@@ -60,14 +60,14 @@ public class AxeRecipe extends ShapedRecipe
 		@Override
 		public AxeRecipe read(ResourceLocation recipeId, JsonObject json)
 		{
-			return AxeRecipe.From(IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, json));
+			return AxeRecipe.from(IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, json));
 		}
 
 		@Nullable
 		@Override
 		public AxeRecipe read(ResourceLocation recipeId, PacketBuffer buffer)
 		{
-			return AxeRecipe.From(IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, buffer));
+			return AxeRecipe.from(IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, buffer));
 		}
 
 		@Override
@@ -77,7 +77,7 @@ public class AxeRecipe extends ShapedRecipe
 		}
 	}
 
-	private static AxeRecipe From(ShapedRecipe read)
+	private static AxeRecipe from(ShapedRecipe read)
 	{
 		return new AxeRecipe(
 				read.getId(), read.getGroup(), read.getRecipeWidth(), read.getRecipeHeight(), read.getIngredients(),

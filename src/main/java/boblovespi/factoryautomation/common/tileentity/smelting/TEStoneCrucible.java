@@ -40,7 +40,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.annotation.PropertyKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -158,10 +157,10 @@ public class TEStoneCrucible extends TileEntity
 			{
 				if (item == FAItems.ingot.GetItem(metal) || item == FAItems.nugget.GetItem(metal)
 						|| item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal)
-						|| item == FABlocks.metalBlock.GetBlock(metal).GetItem())
+						|| item == FABlocks.metalBlock.GetBlock(metal).getItem())
 					return metal.getSerializedName();
 			} else if (item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal)
-					|| item == FABlocks.metalBlock.GetBlock(metal).GetItem())
+					|| item == FABlocks.metalBlock.GetBlock(metal).getItem())
 				return metal.getSerializedName();
 		}
 
@@ -234,7 +233,7 @@ public class TEStoneCrucible extends TileEntity
 	@Override
 	public void tick()
 	{
-		if (Objects.requireNonNull(level).isClientSide || !IsStructureValid())
+		if (Objects.requireNonNull(level).isClientSide || !isStructureValid())
 			return;
 		TEHelper.DissipateHeat(heatUser, 6);
 		ItemStack burnStack = inventory.getStackInSlot(0);
@@ -244,7 +243,7 @@ public class TEStoneCrucible extends TileEntity
 			burnTime--;
 			if (fuelInfo == FuelRegistry.NULL)
 			{
-				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem());
+				fuelInfo = FuelRegistry.getInfo(burnStack.getItem());
 				if (fuelInfo == FuelRegistry.NULL)
 				{
 					burnTime = 0;
@@ -252,9 +251,9 @@ public class TEStoneCrucible extends TileEntity
 					isBurningFuel = false;
 				}
 			}
-			if (fuelInfo != FuelRegistry.NULL && heatUser.GetTemperature() <= fuelInfo.GetBurnTemp())
+			if (fuelInfo != FuelRegistry.NULL && heatUser.getTemperature() <= fuelInfo.getBurnTemp())
 			{
-				heatUser.TransferEnergy(fuelInfo.GetTotalEnergy() / (float) fuelInfo.GetBurnTime());
+				heatUser.transferEnergy(fuelInfo.getTotalEnergy() / (float) fuelInfo.getBurnTime());
 			}
 			if (burnTime <= 0)
 			{
@@ -266,11 +265,11 @@ public class TEStoneCrucible extends TileEntity
 		{
 			if (!burnStack.isEmpty())
 			{
-				fuelInfo = FuelRegistry.GetInfo(burnStack.getItem());
+				fuelInfo = FuelRegistry.getInfo(burnStack.getItem());
 				if (fuelInfo != FuelRegistry.NULL)
 				{
-					burnTime = fuelInfo.GetBurnTime();
-					maxBurnTime = fuelInfo.GetBurnTime();
+					burnTime = fuelInfo.getBurnTime();
+					maxBurnTime = fuelInfo.getBurnTime();
 					isBurningFuel = true;
 					inventory.extractItem(0, 1, false);
 				}
@@ -278,7 +277,7 @@ public class TEStoneCrucible extends TileEntity
 		}
 		if (!meltStack.isEmpty())
 		{
-			float temp = heatUser.GetTemperature();
+			float temp = heatUser.getTemperature();
 			String metal = GetMetalFromStack(meltStack);
 			int amount = GetAmountFromStack(meltStack);
 			if (metal.equals("none"))
@@ -286,7 +285,7 @@ public class TEStoneCrucible extends TileEntity
 				meltTime = 0;
 			} else if (metal.equals(metals.metal) || metals.metal.equals("none"))
 			{
-				int meltTemp = Metals.GetFromName(metal).meltTemp;
+				int meltTemp = Metals.fromName(metal).meltTemp;
 				if (temp >= meltTemp)
 					meltTime++;
 				else
@@ -302,46 +301,46 @@ public class TEStoneCrucible extends TileEntity
 			meltTime = 0;
 		if (meltTime < 0)
 			meltTime = 0;
-		if (heatUser.GetTemperature() > 1800)
-			heatUser.SetTemperature(1800);
+		if (heatUser.getTemperature() > 1800)
+			heatUser.setTemperature(1800);
 
 		setChanged();
 
 		/* IMPORTANT */
-		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+		level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
-	public void SetStructureValid(boolean isValid)
+	public void setStructureValid(boolean isValid)
 	{
 		structureIsValid = isValid;
 	}
 
 	@Override
-	public boolean IsStructureValid()
+	public boolean isStructureValid()
 	{
 		return structureIsValid;
 	}
 
 	@Override
-	public void CreateStructure()
+	public void createStructure()
 	{
-		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
+		MultiblockHelper.CreateStructure(level, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
+		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
 		structureIsValid = true;
 	}
 
 	@Override
-	public void BreakStructure()
+	public void breakStructure()
 	{
-		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
+		MultiblockHelper.BreakStructure(level, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
+		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
 		structureIsValid = false;
 	}
 
 	@Nonnull
     @Override
-	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return LazyOptional.empty();
 	}
@@ -352,7 +351,7 @@ public class TEStoneCrucible extends TileEntity
 		super.load(state, tag);
 		metals.ReadFromNBT(tag.getCompound("metals"));
 		inventory.deserializeNBT(tag.getCompound("inventory"));
-		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
+		heatUser.loadFromNBT(tag.getCompound("heatUser"));
 		structureIsValid = tag.getBoolean("structureIsValid");
 		burnTime = tag.getInt("burnTime");
 		maxBurnTime = tag.getInt("maxBurnTime");
@@ -365,7 +364,7 @@ public class TEStoneCrucible extends TileEntity
 	{
 		tag.put("metals", metals.WriteToNBT());
 		tag.put("inventory", inventory.serializeNBT());
-		tag.put("heatUser", heatUser.WriteToNBT());
+		tag.put("heatUser", heatUser.saveToNBT());
 		tag.putBoolean("structureIsValid", structureIsValid);
 		tag.putInt("burnTime", burnTime);
 		tag.putInt("maxBurnTime", maxBurnTime);
@@ -386,12 +385,12 @@ public class TEStoneCrucible extends TileEntity
 
 	public float GetTempPercent()
 	{
-		return heatUser.GetTemperature() / 1800f;
+		return heatUser.getTemperature() / 1800f;
 	}
 
 	public float GetTemp()
 	{
-		return heatUser.GetTemperature();
+		return heatUser.getTemperature();
 	}
 
 	public float GetMeltPercent()
@@ -403,7 +402,7 @@ public class TEStoneCrucible extends TileEntity
 	{
 		if (metals.metal.equals("none"))
 			return 0;
-		return Metals.GetFromName(metals.metal).color;
+		return Metals.fromName(metals.metal).color;
 	}
 
 	public float GetCapacityPercent()
@@ -425,15 +424,15 @@ public class TEStoneCrucible extends TileEntity
 
 	public void PourInto(Direction facing)
 	{
-		TileEntity te1 = Objects.requireNonNull(level).getBlockEntity(worldPosition.below().relative(facing));
+		TileEntity te1 = Objects.requireNonNull(level).getBlockEntity(levelPosition.below().relative(facing));
 		if (te1 instanceof ICastingVessel)
 		{
 			ICastingVessel te = (ICastingVessel) te1;
-			MetalForms form = te.GetForm();
-			if (!(form == MetalForms.NONE) && te.HasSpace())
+			MetalForms form = te.getForm();
+			if (!(form == MetalForms.NONE) && te.hasSpace())
 			{
 				StringBuilder metalOut = new StringBuilder();
-				te.CastInto(metals.CastItem(form, metalOut), Metals.GetFromName(metalOut.toString()).meltTemp);
+				te.castInto(metals.CastItem(form, metalOut), Metals.fromName(metalOut.toString()).meltTemp);
 			}
 		}
 	}
@@ -448,7 +447,7 @@ public class TEStoneCrucible extends TileEntity
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerStoneFoundry(id, playerInv, inventory, containerInfo, metalName, worldPosition);
+		return new ContainerStoneFoundry(id, playerInv, inventory, containerInfo, metalName, levelPosition);
 	}
 
 	public enum MetalForms
@@ -495,23 +494,23 @@ public class TEStoneCrucible extends TileEntity
 						return new ItemStack(Items.IRON_INGOT);
 					else if (drainMetal.equals("gold"))
 						return new ItemStack(Items.GOLD_INGOT);
-					return new ItemStack(FAItems.ingot.GetItem(Metals.GetFromName(drainMetal)));
+					return new ItemStack(FAItems.ingot.GetItem(Metals.fromName(drainMetal)));
 				case NUGGET:
 					if (drainMetal.equals("iron"))
 						return new ItemStack(Items.IRON_NUGGET);
 					else if (drainMetal.equals("gold"))
 						return new ItemStack(Items.GOLD_NUGGET);
-					return new ItemStack(FAItems.nugget.GetItem(Metals.GetFromName(drainMetal)));
+					return new ItemStack(FAItems.nugget.GetItem(Metals.fromName(drainMetal)));
 				case SHEET:
-					return new ItemStack(FAItems.sheet.GetItem(Metals.GetFromName(drainMetal)));
+					return new ItemStack(FAItems.sheet.GetItem(Metals.fromName(drainMetal)));
 				case ROD:
-					return new ItemStack(FAItems.rod.GetItem(Metals.GetFromName(drainMetal)));
+					return new ItemStack(FAItems.rod.GetItem(Metals.fromName(drainMetal)));
 				case GEAR:
 					if (drainMetal.equals("pig_iron") || drainMetal.equals("lead") || drainMetal.equals("silver"))
 						return ItemStack.EMPTY;
 					return new ItemStack(FAItems.gear.GetItem(Gearbox.GearType.valueOf(drainMetal.toUpperCase())));
 				case COIN:
-					return new ItemStack(FAItems.coin.GetItem(Metals.GetFromName(drainMetal)));
+					return new ItemStack(FAItems.coin.GetItem(Metals.fromName(drainMetal)));
 				}
 			return ItemStack.EMPTY;
 		}

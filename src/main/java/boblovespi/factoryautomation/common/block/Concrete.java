@@ -20,7 +20,7 @@ public class Concrete extends Block implements FABlock
 	{
 		super(Properties.of(Material.STONE).strength(10, 1000));
 		// setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
+		setRegistryName(registryName());
 		// setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		// setHardness(10);
 		// setResistance(10000);
@@ -30,13 +30,13 @@ public class Concrete extends Block implements FABlock
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return "concrete";
 	}
 
 	@Override
-	public Block ToBlock()
+	public Block toBlock()
 	{
 		return this;
 	}

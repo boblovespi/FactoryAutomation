@@ -19,7 +19,7 @@ public class BronzeFence extends FenceBlock implements FABlock
 	{
 		super(Properties.of(Material.METAL).strength(2.5f));
 		// setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
+		setRegistryName(registryName());
 		// setResistance(10000);
 		FABlocks.blocks.add(this);
 		FAItemBlock item = new FAItemBlock(this, new Item.Properties().tab(ItemGroup.DECORATIONS));
@@ -27,20 +27,20 @@ public class BronzeFence extends FenceBlock implements FABlock
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return "bronze_fence";
 	}
 
 	@Override
-	public Block ToBlock()
+	public Block toBlock()
 	{
 		return this;
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "decoration/" + RegistryName();
+		return "decoration/" + registryName();
 	}
 }

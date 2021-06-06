@@ -32,7 +32,7 @@ public class CampfireRecipe extends ChancelessMachineRecipe
 		this.time = time;
 	}
 
-	public static void AddRecipe(String name, String oreName, ItemStack output, int time)
+	public static void addRecipe(String name, String oreName, ItemStack output, int time)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
@@ -42,7 +42,7 @@ public class CampfireRecipe extends ChancelessMachineRecipe
 		OREDICT_MAP.put("forge:" + oreName, recipe);
 	}
 
-	public static void AddRecipe(String name, Item item, ItemStack output, int time)
+	public static void addRecipe(String name, Item item, ItemStack output, int time)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
@@ -51,7 +51,7 @@ public class CampfireRecipe extends ChancelessMachineRecipe
 		ITEM_MAP.put(item, recipe);
 	}
 
-	public static CampfireRecipe FindRecipe(ItemStack input)
+	public static CampfireRecipe findRecipe(ItemStack input)
 	{
 		if (input.isEmpty())
 			return null;
@@ -70,27 +70,27 @@ public class CampfireRecipe extends ChancelessMachineRecipe
 		}
 	}
 
-	public static CampfireRecipe GetRecipe(String name)
+	public static CampfireRecipe getRecipe(String name)
 	{
 		return STRING_MAP.getOrDefault(name, null);
 	}
 
-	public ItemStack GetOutput()
+	public ItemStack getOutput()
 	{
 		return output;
 	}
 
-	public Ingredient GetInput()
+	public Ingredient getInput()
 	{
 		return input;
 	}
 
-	public String GetName()
+	public String getName()
 	{
 		return name;
 	}
 
-	public int GetTime()
+	public int getTime()
 	{
 		return time;
 	}

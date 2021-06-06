@@ -63,7 +63,7 @@ public class JawCrusher extends FABaseBlock
 	public ActionResultType use(BlockState state, World levelIn, BlockPos pos, PlayerEntity playerIn, Hand hand,
 			BlockRayTraceResult result)
 	{
-		if (worldIn.isClientSide)
+		if (levelIn.isClientSide)
 			return ActionResultType.SUCCESS;
 
 		ItemStack held = playerIn.getItemInHand(hand);

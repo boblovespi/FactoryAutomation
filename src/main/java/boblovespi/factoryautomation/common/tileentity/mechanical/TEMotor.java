@@ -42,34 +42,34 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(Direction side)
+	public boolean hasConnectionOnSide(Direction side)
 	{
 		return side == getBlockState().getValue(Motor.FACING);
 	}
 
 	@Override
-	public float GetSpeedOnFace(Direction side)
+	public float getSpeedOnFace(Direction side)
 	{
-		return HasConnectionOnSide(side) ? speed : 0;
+		return hasConnectionOnSide(side) ? speed : 0;
 	}
 
 	@Override
-	public float GetTorqueOnFace(Direction side)
+	public float getTorqueOnFace(Direction side)
 	{
-		return HasConnectionOnSide(side) ? torque : 0;
+		return hasConnectionOnSide(side) ? torque : 0;
 	}
 
 	@Override
-	public void SetSpeedOnFace(Direction side, float speed)
+	public void setSpeedOnFace(Direction side, float speed)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			this.speed = speed;
 	}
 
 	@Override
-	public void SetTorqueOnFace(Direction side, float torque)
+	public void setTorqueOnFace(Direction side, float torque)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			this.torque = torque;
 	}
 
@@ -178,7 +178,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 		UpdateMotor();
 
 		setChanged();
-		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+		level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	private void UpdateMotor()

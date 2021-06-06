@@ -117,7 +117,7 @@ public class NBTHelper
 		if (gear == null)
 			compound.putInt(key, -1);
 		else
-			compound.putInt(key, gear.GetId());
+			compound.putInt(key, gear.getId());
 	}
 
 	public static <K, V> void SetMap(CompoundNBT compound, String key, Map<K, V> map,

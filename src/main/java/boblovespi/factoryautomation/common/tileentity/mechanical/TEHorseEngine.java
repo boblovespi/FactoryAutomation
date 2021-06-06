@@ -74,15 +74,15 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 		}
 		if (Objects.requireNonNull(horse).getNavigation().isDone())
 		{
-			user.SetSpeedOnFace(Direction.UP, 45f / moveTimer);
+			user.setSpeedOnFace(Direction.UP, 45f / moveTimer);
 			moveTimer = 0;
 			angle--;
 			angle = angle % 8;
 			horse.getNavigation()
-				 .moveTo(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
+				 .moveTo(levelPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
 						 levelPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)), 1);
-			//			horse.setPosition(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
-			//					worldPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)));
+			//			horse.setPosition(levelPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
+			//					levelPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)));
 		}
 	}
 
@@ -90,7 +90,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	public void load(BlockState state, CompoundNBT tag)
 	{
 		super.load(state, tag);
-		user.ReadFromNBT(tag.getCompound("user"));
+		user.loadFromNBT(tag.getCompound("user"));
 		hasHorse = tag.getBoolean("hasHorse");
 		if (hasHorse)
 			horseId = tag.getUUID("horseId");
@@ -101,7 +101,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	@Override
 	public CompoundNBT save(CompoundNBT tag)
 	{
-		tag.put("user", user.WriteToNBT());
+		tag.put("user", user.saveToNBT());
 		if (hasHorse)
 			tag.putUUID("horseId", horseId);
 		tag.putBoolean("hasHorse", hasHorse);
@@ -117,7 +117,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	//		CompoundNBT nbt = new CompoundNBT();
 	//		writeToNBT(nbt);
 	//		int meta = getBlockMetadata();
-	//		return new SPacketUpdateTileEntity(worldPosition, meta, nbt);
+	//		return new SPacketUpdateTileEntity(levelPosition, meta, nbt);
 	//	}
 	//
 	//	@SuppressWarnings("MethodCallSideOnly")
@@ -166,11 +166,11 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 		hasHorse = true;
 		this.horse = horse;
 		horseId = horse.getUUID();
-		user.SetTorqueOnFace(Direction.UP, 10);
-		user.SetSpeedOnFace(Direction.UP, 0);
+		user.setTorqueOnFace(Direction.UP, 10);
+		user.setSpeedOnFace(Direction.UP, 0);
 		setChanged();
-		BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+		BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
+		level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 		return true;
 	}
 
@@ -181,10 +181,10 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 		hasHorse = false;
 		horse = null;
 		horseId = null;
-		user.SetTorqueOnFace(Direction.UP, 0);
-		user.SetSpeedOnFace(Direction.UP, 0);
+		user.setTorqueOnFace(Direction.UP, 0);
+		user.setSpeedOnFace(Direction.UP, 0);
 		setChanged();
-		BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+		BlockState state2 = Objects.requireNonNull(level).getBlockState(levelPosition);
+		level.sendBlockUpdatedd(levelPosition, state2, state2, 3);
 	}
 }

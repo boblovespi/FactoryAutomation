@@ -79,7 +79,7 @@ public class EnergyConnection_
 		return en;
 	}
 
-	public CompoundNBT ToNBT()
+	public CompoundNBT toNBT()
 	{
 		CompoundNBT tag = new CompoundNBT();
 		NBTHelper.SetLocationTag(tag, "sourceLoc",
@@ -99,7 +99,7 @@ public class EnergyConnection_
 		return tag;
 	}
 
-	public void Update()
+	public void update()
 	{
 		float amountNeededToTransfer = consumer.ActualAmountNeeded() / (distance
 				* distanceEnergyDecay);

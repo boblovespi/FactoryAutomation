@@ -75,12 +75,12 @@ public class JawCrusherRecipe implements IMachineRecipe
 		this.time = time;
 	}
 
-	public static void AddRecipe(JawCrusherRecipe recipe)
+	public static void addRecipe(JawCrusherRecipe recipe)
 	{
 		recipeMap.put(recipe.name, recipe);
 	}
 
-	public static JawCrusherRecipe FindRecipe(ItemStack input, int tier)
+	public static JawCrusherRecipe findRecipe(ItemStack input, int tier)
 	{
 		for (JawCrusherRecipe recipe : recipeMap.values())
 		{
@@ -92,12 +92,12 @@ public class JawCrusherRecipe implements IMachineRecipe
 		return null;
 	}
 
-	public static JawCrusherRecipe GetRecipe(String key)
+	public static JawCrusherRecipe getRecipe(String key)
 	{
 		return recipeMap.get(key);
 	}
 
-	public static Collection<JawCrusherRecipe> GetRecipes()
+	public static Collection<JawCrusherRecipe> getRecipes()
 	{
 		return recipeMap.values();
 	}
@@ -159,11 +159,11 @@ public class JawCrusherRecipe implements IMachineRecipe
 	}
 
 	@Override
-	public void WriteToNBT(CompoundNBT tag)
+	public void writeToNBT(CompoundNBT tag)
 	{
 	}
 
-	public ItemStack GetOutput(float n)
+	public ItemStack getOutput(float n)
 	{
 		return output.apply(n);
 	}

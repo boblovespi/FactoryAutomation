@@ -55,7 +55,7 @@ public class ContainerStoneCastingVessel extends Container
 		return !playerIn.isSpectator();
 	}
 
-	public BlockPos GetPos()
+	public BlockPos getPos()
 	{
 		return pos;
 	}

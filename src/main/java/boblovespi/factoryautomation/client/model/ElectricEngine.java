@@ -208,7 +208,7 @@ public class ElectricEngine // extends ModelBase
 		modelRenderer.rotateAngleZ = z;
 	}
 
-	public void RenderTESR(float scale)
+	public void renderTESR(float scale)
 	{
 		this.energy_port_1.render(scale);
 		this.energy_wire_1.render(scale);
@@ -247,17 +247,17 @@ public class ElectricEngine // extends ModelBase
 		this.frame_14.render(scale);
 	}
 
-	public void Rotate(float deg)
+	public void rotate(float deg)
 	{
-		SetRot(axis, 0, 0, deg);
-		SetRot(jack, 0, 0, deg);
-		SetRot(jack_1, 0, 0, deg);
-		SetRot(jack_2, 0, 0, deg);
-		SetRot(jack_3, 0, 0, deg);
-		SetRot(jack_plate, 0, 0, deg);
+		setRot(axis, 0, 0, deg);
+		setRot(jack, 0, 0, deg);
+		setRot(jack_1, 0, 0, deg);
+		setRot(jack_2, 0, 0, deg);
+		setRot(jack_3, 0, 0, deg);
+		setRot(jack_plate, 0, 0, deg);
 	}
 
-	private void SetRot(ModelRenderer r, float x, float y, float z)
+	private void setRot(ModelRenderer r, float x, float y, float z)
 	{
 		setRotateAngle(r, x, y, z);
 	}*/

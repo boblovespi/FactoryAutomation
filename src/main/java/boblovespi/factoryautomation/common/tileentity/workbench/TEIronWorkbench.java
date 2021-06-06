@@ -22,6 +22,6 @@ public class TEIronWorkbench extends TEWorkbench
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerIronWorkbench(id, playerInv, inventory, worldPosition);
+		return new ContainerIronWorkbench(id, playerInv, inventory, levelPosition);
 	}
 }

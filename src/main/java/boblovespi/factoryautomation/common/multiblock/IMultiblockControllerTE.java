@@ -1,34 +1,39 @@
 package boblovespi.factoryautomation.common.multiblock;
 
+import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Created by Willi on 11/19/2017.
  * interface for multiblock controller tile entities
  */
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public interface IMultiblockControllerTE
 {
-	default void SetStructureValid()
+	default void setStructureValid()
 	{
-		SetStructureValid(true);
+		setStructureValid(true);
 	}
 
-	void SetStructureValid(boolean isValid);
+	void setStructureValid(boolean isValid);
 
-	default void SetStructureInvalid()
+	default void setStructureInvalid()
 	{
-		SetStructureValid(false);
+		setStructureValid(false);
 	}
 
-	boolean IsStructureValid();
+	boolean isStructureValid();
 
-	void CreateStructure();
+	void createStructure();
 
-	void BreakStructure();
+	void breakStructure();
 
 	/**
 	 * Gets the capability, or null, of the block at offset for the given side
@@ -37,6 +42,5 @@ public interface IMultiblockControllerTE
 	 * @param side the side which is accessed
 	 * @return the capability implementation which to use
 	 */
-	@Nonnull
-	<T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side);
+	<T> LazyOptional<T> getCapability(Capability<T> capability, int[] offset, Direction side);
 }

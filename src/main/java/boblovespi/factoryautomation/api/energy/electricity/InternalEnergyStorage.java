@@ -8,6 +8,8 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
+import java.util.Objects;
+
 /**
  * Created by Willi on 3/18/2018.
  */
@@ -33,16 +35,16 @@ public class InternalEnergyStorage extends EnergyStorage
 		super(capacity, maxReceive, maxExtract, energy);
 	}
 
-	public void SetEnergy(int amount)
+	public void setEnergy(int amount)
 	{
 		energy = MathHelper.clamp(amount, 0, capacity);
 	}
 
-	public void PushEnergy(TileEntity te, float maxPush, boolean allowPushToIUsesEnergy)
+	public void pushEnergy(TileEntity te, float maxPush, boolean allowPushToIUsesEnergy)
 	{
 		for (Direction dir : Direction.values())
 		{
-			TileEntity te1 = te.getWorld().getTileEntity(te.getPos().offset(dir));
+			TileEntity te1 = Objects.requireNonNull(te.getLevel()).getBlockEntity(te.getBlockPos().relative(dir));
 			if (te1 != null && (!(te1 instanceof IUsesEnergy_ || te1 instanceof IUsesEnergy) || allowPushToIUsesEnergy))
 			{
 				LazyOptional<IEnergyStorage> energy = te1.getCapability(CapabilityEnergy.ENERGY, dir.getOpposite());

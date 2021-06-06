@@ -41,9 +41,9 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "processing/" + RegistryName();
+		return "processing/" + registryName();
 	}
 
 	@Override
@@ -59,11 +59,11 @@ public class IronCharcoalMix extends FABaseBlock
 		if (activated)
 		{
 			if (isSurrounded(
-					world, pos, n -> n.getBlock() == FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
+					level, pos, n -> n.getBlock() == FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
 							|| n.getBlock() == FABlocks.ironBloom || (n.getBlock() == this && n.get(ACTIVATED))))
-				world.setBlockState(pos, FABlocks.ironBloom.ToBlock().getDefaultState());
+				level.setBlockState(pos, FABlocks.ironBloom.toBlock().getDefaultState());
 			else
-				world.setBlockState(pos, state.setValue(ACTIVATED, false));
+				level.setBlockState(pos, state.setValue(ACTIVATED, false));
 		}
 	}
 
@@ -90,7 +90,7 @@ public class IronCharcoalMix extends FABaseBlock
 					if (state1.getBlock().isAir(state1, level, offset))
 					{
 						isSurrounded = false;
-						world.setBlockState(offset, ((FireBlock) Blocks.FIRE).getStateForPlacement(world, offset));
+						level.setBlockState(offset, ((FireBlock) Blocks.FIRE).getStateForPlacement(level, offset));
 						sidesOnFire = true;
 					} else if (state1.getBlock() == Blocks.FIRE)
 					{
@@ -103,8 +103,8 @@ public class IronCharcoalMix extends FABaseBlock
 				}
 				if (isSurrounded)
 				{
-					world.setBlockState(pos, state.setValue(ACTIVATED, true), 7);
-					world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
+					level.setBlockState(pos, state.setValue(ACTIVATED, true), 7);
+					level.getPendingBlockTicks().scheduleTick(pos, this, tickRate(level));
 				}
 			}
 
@@ -117,7 +117,7 @@ public class IronCharcoalMix extends FABaseBlock
 				if (state1.getBlock().isAir(state1, level, offset))
 				{
 					isSurrounded = false;
-					world.setBlockState(offset, Blocks.FIRE.getDefaultState());
+					level.setBlockState(offset, Blocks.FIRE.getDefaultState());
 					sidesOnFire = true;
 				} else if (state1.getBlock() == Blocks.FIRE)
 				{
@@ -129,7 +129,7 @@ public class IronCharcoalMix extends FABaseBlock
 				}
 			}
 			if (!sidesOnFire && !isSurrounded)
-				world.setBlockState(pos, state.setValue(ACTIVATED, false));
+				level.setBlockState(pos, state.setValue(ACTIVATED, false));
 		}
 	}
 
@@ -153,10 +153,10 @@ public class IronCharcoalMix extends FABaseBlock
 		double x = pos.getX() + rand.nextDouble();
 		double y = pos.getY() + rand.nextDouble();
 		double z = pos.getZ() + rand.nextDouble();
-		world.addParticle(ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
+		level.addParticle(ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
 				rand.nextDouble() / 20d);
-		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
-		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		level.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		level.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
 	private boolean isSurrounded(World level, BlockPos pos, @Nullable Predicate<BlockState> block)

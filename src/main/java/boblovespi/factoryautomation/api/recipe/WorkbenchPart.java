@@ -16,7 +16,7 @@ public class WorkbenchPart
 	public static final WorkbenchPart SCREW = new WorkbenchPart(
 			new ResourceLocation("factoryautomation", "screw"), new HashMap<Item, Integer>()
 	{{
-		put(FAItems.screw.ToItem(), 1);
+		put(FAItems.screw.toItem(), 1);
 	}});
 
 	private HashMap<Item, Integer> items;

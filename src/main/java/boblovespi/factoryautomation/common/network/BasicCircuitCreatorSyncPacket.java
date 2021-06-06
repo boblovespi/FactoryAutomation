@@ -13,11 +13,13 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
  * Created by Willi on 6/9/2018.
  */
+@SuppressWarnings("deprecation")
 public class BasicCircuitCreatorSyncPacket
 {
 	private BlockPos te;
@@ -41,7 +43,7 @@ public class BasicCircuitCreatorSyncPacket
 	/**
 	 * Convert from the supplied buffer into your specific message type
 	 */
-	public static BasicCircuitCreatorSyncPacket FromBytes(ByteBuf buf)
+	public static BasicCircuitCreatorSyncPacket fromBytes(ByteBuf buf)
 	{
 		BasicCircuitCreatorSyncPacket packet = new BasicCircuitCreatorSyncPacket();
 		packet.te = BlockPos.of(buf.readLong());
@@ -54,7 +56,7 @@ public class BasicCircuitCreatorSyncPacket
 	/**
 	 * Deconstruct your message into the supplied byte buffer
 	 */
-	public void ToBytes(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
 		buf.writeLong(te.asLong());
 		buf.writeByte(mode);
@@ -62,7 +64,7 @@ public class BasicCircuitCreatorSyncPacket
 		buf.writeByte(gridY);
 	}
 
-	public void OnMessage(Supplier<NetworkEvent.Context> ctx)
+	public void onMessage(Supplier<NetworkEvent.Context> ctx)
 	{
 		System.out.println("message received!");
 		System.out.println("message.te = " + te);
@@ -73,14 +75,14 @@ public class BasicCircuitCreatorSyncPacket
 		ctx.get().enqueueWork(() ->
 		{
 			ServerPlayerEntity player = ctx.get().getSender();
-			ServerWorld level = player.getLevel();
+			ServerWorld level = Objects.requireNonNull(player).getLevel();
 
-			if (world.hasChunkAt(te))
+			if (level.hasChunkAt(te))
 			{
 				TileEntity te = level.getBlockEntity(this.te);
 				if (te instanceof TEBasicCircuitCreator
 						&& player.containerMenu instanceof ContainerBasicCircuitCreator
-						&& ((ContainerBasicCircuitCreator) player.containerMenu).GetPos().equals(this.te))
+						&& ((ContainerBasicCircuitCreator) player.containerMenu).getPos().equals(this.te))
 				{
 					TEBasicCircuitCreator teC = (TEBasicCircuitCreator) te;
 					int x = gridX;

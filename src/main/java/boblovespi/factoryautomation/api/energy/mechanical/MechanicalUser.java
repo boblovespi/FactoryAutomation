@@ -35,52 +35,52 @@ public class MechanicalUser implements IMechanicalUser
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(Direction side)
+	public boolean hasConnectionOnSide(Direction side)
 	{
 		return GetSides().contains(side);
 	}
 
 	@Override
-	public float GetSpeedOnFace(Direction side)
+	public float getSpeedOnFace(Direction side)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			return speed;
 		return 0;
 	}
 
 	@Override
-	public float GetTorqueOnFace(Direction side)
+	public float getTorqueOnFace(Direction side)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			return torque;
 		return 0;
 	}
 
 	@Override
-	public void SetSpeedOnFace(Direction side, float speed)
+	public void setSpeedOnFace(Direction side, float speed)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			this.speed = speed;
 	}
 
 	@Override
-	public void SetTorqueOnFace(Direction side, float torque)
+	public void setTorqueOnFace(Direction side, float torque)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			this.torque = torque;
 	}
 
-	public float GetSpeed()
+	public float getSpeed()
 	{
 		return speed;
 	}
 
-	public float GetTorque()
+	public float getTorque()
 	{
 		return torque;
 	}
 
-	public CompoundNBT WriteToNBT()
+	public CompoundNBT saveToNBT()
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		nbt.putFloat("speed", speed);
@@ -88,13 +88,13 @@ public class MechanicalUser implements IMechanicalUser
 		return nbt;
 	}
 
-	public void ReadFromNBT(CompoundNBT tag)
+	public void loadFromNBT(CompoundNBT tag)
 	{
 		this.speed = tag.getFloat("speed");
 		this.torque = tag.getFloat("torque");
 	}
 
-	public void SetSides(EnumSet<Direction> sides)
+	public void setSides(EnumSet<Direction> sides)
 	{
 		this.sides = sides;
 	}

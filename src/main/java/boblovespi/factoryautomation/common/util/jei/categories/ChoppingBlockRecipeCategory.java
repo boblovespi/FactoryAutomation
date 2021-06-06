@@ -94,7 +94,7 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 	public void setIngredients(ChoppingBlockRecipe recipe, IIngredients ingredients)
 	{
 		ingredients.setInputLists(VanillaTypes.ITEM,
-				Collections.singletonList(Arrays.asList(recipe.GetInput().getMatchingStacks())));
-		ingredients.setOutput(VanillaTypes.ITEM, recipe.GetOutput());
+				Collections.singletonList(Arrays.asList(recipe.getInput().getMatchingStacks())));
+		ingredients.setOutput(VanillaTypes.ITEM, recipe.getOutput());
 	}
 }

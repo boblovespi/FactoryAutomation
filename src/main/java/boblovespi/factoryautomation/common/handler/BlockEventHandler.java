@@ -27,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -51,7 +51,7 @@ public class BlockEventHandler
 	//	}};
 
 	@SubscribeEvent
-	public static void OnBlockHarvestedEvent(BlockEvent.HarvestDropsEvent event)
+	public static void onBlockHarvestedEvent(BlockEvent.HarvestDropsEvent event)
 	{
 		if (Blocks.DIAMOND_ORE == event.getState().getBlock())
 		{
@@ -82,7 +82,7 @@ public class BlockEventHandler
 
 			event.setDropChance(1f);
 			event.getDrops().clear();
-			event.getDrops().add(new ItemStack(FAItems.stoneDust.ToItem(), 2 * (i + 1)));
+			event.getDrops().add(new ItemStack(FAItems.stoneDust.toItem(), 2 * (i + 1)));
 		} else if (FABlocks.rock == event.getState().getBlock())
 		{
 			if (event.isSilkTouching())
@@ -94,7 +94,7 @@ public class BlockEventHandler
 
 			event.setDropChance(1f);
 			event.getDrops().clear();
-			event.getDrops().add(new ItemStack(FAItems.stoneDust.ToItem(), 1));
+			event.getDrops().add(new ItemStack(FAItems.stoneDust.toItem(), 1));
 		} else if (Blocks.GRASS == event.getState().getBlock())
 		{
 			if (event.isSilkTouching())
@@ -108,23 +108,23 @@ public class BlockEventHandler
 			event.setDropChance(1f);
 			event.getDrops().clear();
 			event.getDrops().add(new ItemStack(Blocks.GRASS, 1));
-			ItemHelper.DamageItem(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()), 1);
+			ItemHelper.damageItem(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()), 1);
 		}
 	}
 
 	@SubscribeEvent
-	public static void OnBlockBrokenEvent(BlockEvent.BreakEvent event)
+	public static void onBlockBrokenEvent(BlockEvent.BreakEvent event)
 	{
 		BlockPos pos = event.getPos();
 		IWorld level = event.getWorld();
 		if (FABlocks.multiblockPart == event.getState().getBlock())
 		{
-			Log.LogInfo("something broke!");
-			Log.LogInfo("blockPos", pos);
+			Log.logInfo("something broke!");
+			Log.logInfo("blockPos", pos);
 
 			TEMultiblockPart part = (TEMultiblockPart) level.getBlockEntity(pos);
 
-			Log.LogInfo("part is null", part == null);
+			Log.logInfo("part is null", part == null);
 
 			if (part != null)
 			{
@@ -136,19 +136,19 @@ public class BlockEventHandler
 				if (te instanceof IMultiblockControllerTE)
 				{
 					IMultiblockControllerTE controllerTe = (IMultiblockControllerTE) te;
-					controllerTe.BreakStructure();
-					controllerTe.SetStructureInvalid();
+					controllerTe.breakStructure();
+					controllerTe.setStructureInvalid();
 				}
 			}
-		} else if (world.getBlockEntity(pos) instanceof IMultiblockControllerTE)
+		} else if (level.getBlockEntity(pos) instanceof IMultiblockControllerTE)
 		{
-			Log.LogInfo("something broke!");
-			Log.LogInfo("blockPos", pos);
+			Log.logInfo("something broke!");
+			Log.logInfo("blockPos", pos);
 
 			IMultiblockControllerTE part = (IMultiblockControllerTE) level.getBlockEntity(pos);
 
-			part.BreakStructure();
-			part.SetStructureInvalid();
+			part.breakStructure();
+			part.setStructureInvalid();
 
 		} else if (Blocks.DIAMOND_ORE == event.getState().getBlock())
 		{
@@ -161,7 +161,7 @@ public class BlockEventHandler
 	}
 
 	@SubscribeEvent
-	public static void OnNeighborNotifyEvent(BlockEvent.NeighborNotifyEvent event)
+	public static void onNeighborNotifyEvent(BlockEvent.NeighborNotifyEvent event)
 	{
 		BlockState state = event.getState();
 		BlockPos pos = event.getPos().immutable();
@@ -173,7 +173,7 @@ public class BlockEventHandler
 				ashFires.put(pos, new HashSet<>(6));
 				for (Direction offset : Direction.values())
 				{
-					if (FATags.FABlockTag("gives_ash").contains(world.getBlockState(pos.offset(offset.getNormal())).getBlock()))
+					if (FATags.FABlockTag("gives_ash").contains(level.getBlockState(pos.offset(offset.getNormal())).getBlock()))
 						ashFires.get(pos).add(offset);
 					else
 						ashFires.get(pos).remove(offset);
@@ -186,7 +186,7 @@ public class BlockEventHandler
 				for (Direction facing : ashFires.get(pos))
 				{
 					BlockPos oldWoodPos = pos.offset(facing.getNormal());
-					CheckAndSpawnAsh(world, level.getBlockState(oldWoodPos), oldWoodPos);
+					checkAndSpawnAsh(level, level.getBlockState(oldWoodPos), oldWoodPos);
 				}
 				ashFires.remove(pos);
 			}
@@ -194,7 +194,7 @@ public class BlockEventHandler
 	}
 
 	@SubscribeEvent
-	public static void OnLeftClickBLockEvent(PlayerInteractEvent.LeftClickBlock event)
+	public static void onLeftClickBLockEvent(PlayerInteractEvent.LeftClickBlock event)
 	{
 		BlockState state = event.getWorld().getBlockState(event.getPos());
 		BlockPos pos = event.getPos().immutable();
@@ -212,14 +212,14 @@ public class BlockEventHandler
 		}
 	}
 
-	private static void CheckAndSpawnAsh(IWorld level, BlockState state, BlockPos pos)
+	private static void checkAndSpawnAsh(IWorld level, BlockState state, BlockPos pos)
 	{
 		if (state.getBlock() == Blocks.FIRE || state.getBlock() == Blocks.AIR)
 		{
 			ItemEntity item = new ItemEntity((World) level, pos.getX(), pos.getY(), pos.getZ(),
-					new ItemStack(FAItems.ash.ToItem(), level.getRandom().nextInt(2) + 1));
+					new ItemStack(FAItems.ash.toItem(), level.getRandom().nextInt(2) + 1));
 			item.setInvulnerable(true);
-			world.addFreshEntity(item);
+			level.addFreshEntity(item);
 		}
 	}
 }

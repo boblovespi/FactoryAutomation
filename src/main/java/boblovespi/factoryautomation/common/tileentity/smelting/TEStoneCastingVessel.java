@@ -65,24 +65,24 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	@Override
-	public TEStoneCrucible.MetalForms GetForm()
+	public TEStoneCrucible.MetalForms getForm()
 	{
 		return form;
 	}
 
 	@Override
-	public void CastInto(ItemStack stack, int temp)
+	public void castInto(ItemStack stack, int temp)
 	{
 		slot.setStackInSlot(0, stack.copy());
 		this.temp = temp;
 
 		/* IMPORTANT */
 		setChanged();
-		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 7);
+		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 	}
 
 	@Override
-	public float GetLoss()
+	public float getLoss()
 	{
 		return 1.5f;
 	}
@@ -91,7 +91,7 @@ public class TEStoneCastingVessel extends TileEntity
 	public void DropItems()
 	{
 		if (!Objects.requireNonNull(level).isClientSide && !slot.getStackInSlot(0).isEmpty())
-			level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), slot.getStackInSlot(0)));
+			level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), slot.getStackInSlot(0)));
 	}
 
 	public ItemStack TakeItem()
@@ -100,7 +100,7 @@ public class TEStoneCastingVessel extends TileEntity
 		setChanged();
 
 		/* IMPORTANT */
-		Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 7);
+		Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 		return stack;
 	}
 
@@ -111,10 +111,10 @@ public class TEStoneCastingVessel extends TileEntity
 			if (temp < 40f)
 			{
 				ItemStack taken = TakeItem();
-				ItemHelper.PutItemsInInventoryOrDrop(player, taken, level);
+				ItemHelper.putItemsInInventoryOrDrop(player, taken, level);
 				if (hasSand)
 				{
-					ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.ToBlock()), level);
+					ItemHelper.putItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.toBlock()), level);
 					SetForm(CastingVesselStates.EMPTY);
 				}
 			} else
@@ -123,7 +123,7 @@ public class TEStoneCastingVessel extends TileEntity
 				player.displayClientMessage(
 						new StringTextComponent("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
 			}
-		} else if (item.getItem() == Item.byBlock(FABlocks.greenSand.ToBlock())
+		} else if (item.getItem() == Item.byBlock(FABlocks.greenSand.toBlock())
 				&& getBlockState().getValue(MOLD) == CastingVesselStates.EMPTY)
 		{
 			item.shrink(1);
@@ -131,7 +131,7 @@ public class TEStoneCastingVessel extends TileEntity
 
 			setChanged();
 			/* IMPORTANT */
-			Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 7);
+			Objects.requireNonNull(level).sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 		}
 	}
 
@@ -142,12 +142,12 @@ public class TEStoneCastingVessel extends TileEntity
 			hasSand = false;
 		else
 			hasSand = true;
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MOLD, state));
+		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, level.getBlockState(levelPosition).setValue(MOLD, state));
 		form = state.metalForm;
 	}
 
 	@Override
-	public boolean HasSpace()
+	public boolean hasSpace()
 	{
 		return slot.getStackInSlot(0).isEmpty();
 	}
@@ -203,7 +203,7 @@ public class TEStoneCastingVessel extends TileEntity
 		if (counter < 0)
 		{
 			setChanged();
-			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 7);
+			level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 7);
 			counter = 10;
 		}
 	}
@@ -223,13 +223,13 @@ public class TEStoneCastingVessel extends TileEntity
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerStoneCastingVessel(id, playerInv, worldPosition);
+		return new ContainerStoneCastingVessel(id, playerInv, levelPosition);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -238,6 +238,6 @@ public class TEStoneCastingVessel extends TileEntity
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 }

@@ -26,7 +26,7 @@ public class WorkbenchToolItem extends ToolItem implements FAItem
 				properties.addToolType(toolType, material.getLevel()).tab(FAItemGroups.tools));
 		this.name = name;
 		// setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName() == null ? UnlocalizedName() : RegistryName());
+		setRegistryName(registryName() == null ? unlocalizedName() : registryName());
 		// setCreativeTab(FAItemGroups.tools);
 		FAItems.items.add(this);
 	}
@@ -38,19 +38,19 @@ public class WorkbenchToolItem extends ToolItem implements FAItem
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return name;
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "tools/" + UnlocalizedName();
+		return "tools/" + unlocalizedName();
 	}
 
 	@Override
-	public Item ToItem()
+	public Item toItem()
 	{
 		return this;
 	}

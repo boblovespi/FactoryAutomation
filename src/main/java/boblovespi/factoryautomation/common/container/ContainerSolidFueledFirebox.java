@@ -109,7 +109,7 @@ public class ContainerSolidFueledFirebox extends Container
 		return previous;
 	}
 
-	public int GetBar(int id)
+	public int getBar(int id)
 	{
 		return containerInfo.get(id);
 	}

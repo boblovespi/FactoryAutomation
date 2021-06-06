@@ -68,7 +68,7 @@ public class HorseEngine extends FABaseBlock
 	{
 		if (state.getValue(PART) != Part.TOP)
 			return ActionResultType.FAIL;
-		if (world.isClientSide)
+		if (level.isClientSide)
 			return ActionResultType.SUCCESS;
 
 		for (MobEntity horse : level.getEntitiesOfClass(MobEntity.class,

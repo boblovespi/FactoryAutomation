@@ -11,7 +11,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -26,32 +25,32 @@ public class Fluids
 	// public static Fluid sodiumChloride = new FluidBase("sodium_chloride", null, null);
 
 	public static FluidBase steam = new FluidBase();
-	public static Properties steamProperties = new Properties(Fluids.steam::Still, Fluids.steam::Flowing,
-			FluidAttributes.builder(GetFluidPath("steam_still"), GetFluidPath("steam_flow")).density(0).temperature(373)
+	public static Properties steamProperties = new Properties(Fluids.steam::still, Fluids.steam::flowing,
+			FluidAttributes.builder(getFluidPath("steam_still"), getFluidPath("steam_flow")).density(0).temperature(373)
 						   .gaseous().viscosity(8000));
 
 	public static FluidBase air = new FluidBase();
-	public static Properties airProperties = new Properties(Fluids.air::Still, Fluids.air::Flowing,
-			FluidAttributes.builder(GetFluidPath("air_still"), GetFluidPath("air_still")).density(0).temperature(300)
+	public static Properties airProperties = new Properties(Fluids.air::still, Fluids.air::flowing,
+			FluidAttributes.builder(getFluidPath("air_still"), getFluidPath("air_still")).density(0).temperature(300)
 						   .gaseous().viscosity(15000));
 
 	public static FluidBase rubberSap = new FluidBase();
-	public static Properties rubberSapProperties = new Properties(Fluids.rubberSap::Still, Fluids.rubberSap::Flowing,
-			FluidAttributes.builder(GetFluidPath("rubber_sap"), GetFluidPath("rubber_sap")).density(1200)
+	public static Properties rubberSapProperties = new Properties(Fluids.rubberSap::still, Fluids.rubberSap::flowing,
+			FluidAttributes.builder(getFluidPath("rubber_sap"), getFluidPath("rubber_sap")).density(1200)
 						   .temperature(300).gaseous().viscosity(40000));
 
 	public static FluidBase moltenNetherMetal = new FluidBase();
-	public static Properties moltenNetherMetalProperties = new Properties(Fluids.moltenNetherMetal::Still,
-			Fluids.moltenNetherMetal::Flowing,
-			FluidAttributes.builder(GetFluidPath("molten_nether_metal"), GetFluidPath("molten_nether_metal"))
+	public static Properties moltenNetherMetalProperties = new Properties(Fluids.moltenNetherMetal::still,
+			Fluids.moltenNetherMetal::flowing,
+			FluidAttributes.builder(getFluidPath("molten_nether_metal"), getFluidPath("molten_nether_metal"))
 						   .density(5000).temperature(550).viscosity(88000));
 
 	static
 	{
-		steam.Update(MakeAndRegister("fa_steam", Fluids.steamProperties));
-		air.Update(MakeAndRegister("fa_air", Fluids.airProperties));
-		rubberSap.Update(MakeAndRegister("rubber_sap", Fluids.rubberSapProperties));
-		moltenNetherMetal.Update(MakeAndRegister("molten_nether_metal", Fluids.moltenNetherMetalProperties));
+		steam.update(makeAndRegister("fa_steam", Fluids.steamProperties));
+		air.update(makeAndRegister("fa_air", Fluids.airProperties));
+		rubberSap.update(makeAndRegister("rubber_sap", Fluids.rubberSapProperties));
+		moltenNetherMetal.update(makeAndRegister("molten_nether_metal", Fluids.moltenNetherMetalProperties));
 	}
 	private static final List<Fluid> fluids = new ArrayList<>();
 
@@ -60,12 +59,12 @@ public class Fluids
 	//		steam.setBlock(new FluidFinite(steam, Material.WATER, "steam"));
 	//	}
 
-	private static ResourceLocation GetFluidPath(String location)
+	private static ResourceLocation getFluidPath(String location)
 	{
 		return new ResourceLocation(MODID, "fluids/" + location);
 	}
 
-	private static FluidBase MakeAndRegister(String name, Properties properties)
+	private static FluidBase makeAndRegister(String name, Properties properties)
 	{
 		FluidBase base = new FluidBase();
 		base.flowing = FLUID_REGISTER.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(properties));

@@ -24,7 +24,7 @@ public enum MachineTiers implements IMultiTypeEnum, IStringSerializable
 	}
 
 	@Override
-	public int GetId()
+	public int getId()
 	{
 		return id;
 	}

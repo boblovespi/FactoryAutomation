@@ -52,19 +52,19 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	public void FirstLoad()
 	{
 		Direction dir = getBlockState().getValue(FACING);
-		mechanicalUser.SetSides(EnumSet.of(dir.getOpposite()));
+		mechanicalUser.setSides(EnumSet.of(dir.getOpposite()));
 		firstTick = false;
 	}
 
 	public void Blow()
 	{
 		Direction facing = getBlockState().getValue(PaperBellows.FACING);
-		TileEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.relative(facing));
+		TileEntity te = Objects.requireNonNull(level).getBlockEntity(levelPosition.relative(facing));
 		if (te == null)
 			return;
 		LazyOptional<IBellowsable> capability = te
 				.getCapability(CapabilityBellowsUser.BELLOWS_USER_CAPABILITY, facing.getOpposite());
-		capability.ifPresent(n -> n.Blow(MathHelper.clamp(mechanicalUser.GetTorque() / 30f, 0.5f, 1), 50));
+		capability.ifPresent(n -> n.blow(MathHelper.clamp(mechanicalUser.getTorque() / 30f, 0.5f, 1), 50));
 		level.playSound(null, levelPosition, SoundEvents.ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
 	}
 
@@ -73,7 +73,7 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	{
 		if (level.isClientSide)
 		{
-			counter -= mechanicalUser.GetSpeed() / 10f;
+			counter -= mechanicalUser.getSpeed() / 10f;
 			if (counter <= 0)
 			{
 				counter = 100;
@@ -84,7 +84,7 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 		if (firstTick)
 			FirstLoad();
 
-		counter -= mechanicalUser.GetSpeed() / 10f;
+		counter -= mechanicalUser.getSpeed() / 10f;
 		if (counter <= 0)
 		{
 			counter = 100;
@@ -94,19 +94,19 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 		if (c2 <= 0)
 		{
 			Direction facing = getBlockState().getValue(FACING);
-			TileEntity te = level.getBlockEntity(worldPosition.relative(facing.getOpposite()));
+			TileEntity te = level.getBlockEntity(levelPosition.relative(facing.getOpposite()));
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
-				mechanicalUser.SetSpeedOnFace(facing.getOpposite(), GetUser(te, facing).GetSpeedOnFace(facing));
-				mechanicalUser.SetTorqueOnFace(facing.getOpposite(), GetUser(te, facing).GetTorqueOnFace(facing));
+				mechanicalUser.setSpeedOnFace(facing.getOpposite(), GetUser(te, facing).getSpeedOnFace(facing));
+				mechanicalUser.setTorqueOnFace(facing.getOpposite(), GetUser(te, facing).getTorqueOnFace(facing));
 			} else
 			{
-				mechanicalUser.SetSpeedOnFace(facing.getOpposite(), 0);
-				mechanicalUser.SetTorqueOnFace(facing.getOpposite(), 0);
+				mechanicalUser.setSpeedOnFace(facing.getOpposite(), 0);
+				mechanicalUser.setTorqueOnFace(facing.getOpposite(), 0);
 			}
 
 			setChanged();
-			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+			level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 			c2 = 4;
 		}
 	}
@@ -115,14 +115,14 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	public void load(BlockState state, CompoundNBT tag)
 	{
 		super.load(state, tag);
-		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
+		mechanicalUser.loadFromNBT(tag.getCompound("mechanicalUser"));
 		counter = tag.getFloat("counter");
 	}
 
 	@Override
 	public CompoundNBT save(CompoundNBT tag)
 	{
-		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
+		tag.put("mechanicalUser", mechanicalUser.saveToNBT());
 		tag.putFloat("counter", counter);
 		return super.save(tag);
 	}
@@ -137,14 +137,14 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	}
 
 	@Override
-	public float GetLerp()
+	public float getLerp()
 	{
 		return lerp;
 	}
 
 	@Override
-	public float GetLerpSpeed()
+	public float getLerpSpeed()
 	{
-		return (counter > 50 ? -1 : 1) * mechanicalUser.GetSpeed() / 400f;
+		return (counter > 50 ? -1 : 1) * mechanicalUser.getSpeed() / 400f;
 	}
 }

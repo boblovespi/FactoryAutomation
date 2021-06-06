@@ -24,7 +24,7 @@ public class MultiblockStructures
 
 	public static final Block[][][] blastFurnace = new Block[][][] {
 			new Block[][] {
-					new Block[] { Blocks.NETHER_BRICKS, FABlocks.blastFurnaceController.ToBlock(), Blocks.NETHER_BRICKS },
+					new Block[] { Blocks.NETHER_BRICKS, FABlocks.blastFurnaceController.toBlock(), Blocks.NETHER_BRICKS },
 					new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 					new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
 					new Block[] { Blocks.AIR, Blocks.IRON_BLOCK, Blocks.AIR },
@@ -51,7 +51,7 @@ public class MultiblockStructures
 			},
 			new MultiblockPart[][] {
 					new MultiblockPart[] { IRON_BLOCK, EMPTY, EMPTY, EMPTY, IRON_BLOCK },
-					new MultiblockPart[] { IRON_BLOCK, EMPTY, new MultiblockPart(FABlocks.steelmakingFurnaceController.ToBlock()), EMPTY, IRON_BLOCK },
+					new MultiblockPart[] { IRON_BLOCK, EMPTY, new MultiblockPart(FABlocks.steelmakingFurnaceController.toBlock()), EMPTY, IRON_BLOCK },
 					new MultiblockPart[] { IRON_BLOCK, NETHER_BRICK, EMPTY, NETHER_BRICK, IRON_BLOCK },
 					new MultiblockPart[] { IRON_BLOCK, NETHER_BRICK, EMPTY, NETHER_BRICK, IRON_BLOCK }
 			},
@@ -71,7 +71,7 @@ public class MultiblockStructures
 
 	public static final MultiblockPart[][][] tripHammer = new MultiblockPart[][][] {
 			new MultiblockPart[][]{
-					new MultiblockPart[] { new MultiblockPart(FABlocks.tripHammerController.ToBlock()) },
+					new MultiblockPart[] { new MultiblockPart(FABlocks.tripHammerController.toBlock()) },
 					new MultiblockPart[] { IRON_BLOCK }
 			},
 			new MultiblockPart[][]{
@@ -99,14 +99,14 @@ public class MultiblockStructures
 	public static final MultiblockPart[][][] stoneFoundry = new MultiblockPart[][][] {
 			new MultiblockPart[][]{
 					new MultiblockPart[] { new MultiblockPart(Blocks.FURNACE) },
-					new MultiblockPart[] { new MultiblockPart(FABlocks.stoneCrucible.ToBlock()) }
+					new MultiblockPart[] { new MultiblockPart(FABlocks.stoneCrucible.toBlock()) }
 			}
 	};
 
 	public static final MultiblockPart[][][] brickFoundry = new MultiblockPart[][][] {
 			new MultiblockPart[][]{
-					new MultiblockPart[] { new MultiblockPart(FABlocks.brickFirebox.ToBlock()) },
-					new MultiblockPart[] { new MultiblockPart(FABlocks.brickCrucible.ToBlock()) }
+					new MultiblockPart[] { new MultiblockPart(FABlocks.brickFirebox.toBlock()) },
+					new MultiblockPart[] { new MultiblockPart(FABlocks.brickCrucible.toBlock()) }
 			}
 	};
 
@@ -132,7 +132,7 @@ public class MultiblockStructures
 			new MultiblockPart[][] {
 					new MultiblockPart[] { EMPTY    , OAK_STAIR, OAK_PLANK, OAK_STAIR, EMPTY },
 					new MultiblockPart[] { OAK_STAIR, AIR      , OAK_FENCE, AIR      , OAK_STAIR },
-					new MultiblockPart[] { OAK_PLANK, OAK_FENCE, new MultiblockPart(FABlocks.waterwheel.ToBlock()), OAK_FENCE, OAK_PLANK },
+					new MultiblockPart[] { OAK_PLANK, OAK_FENCE, new MultiblockPart(FABlocks.waterwheel.toBlock()), OAK_FENCE, OAK_PLANK },
 					new MultiblockPart[] { OAK_STAIR, AIR      , OAK_FENCE, AIR      , OAK_STAIR },
 					new MultiblockPart[] { EMPTY    , OAK_STAIR, OAK_PLANK, OAK_STAIR, EMPTY }
 			}

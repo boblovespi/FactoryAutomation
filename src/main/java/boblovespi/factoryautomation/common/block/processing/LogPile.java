@@ -48,9 +48,9 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "processing/" + RegistryName();
+		return "processing/" + registryName();
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class LogPile extends FABaseBlock
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
 		{
-			world.setBlockState(pos, FABlocks.charcoalPile.ToBlock().getDefaultState());
+			level.setBlockState(pos, FABlocks.charcoalPile.toBlock().getDefaultState());
 			for (Direction dir : Direction.values())
 			{
 				BlockPos offset = pos.offset(dir);
@@ -97,8 +97,8 @@ public class LogPile extends FABaseBlock
 						BlockState state2 = level.getBlockState(pos1);
 						if (foundPile)
 						{
-							if (state2.getBlock() == FABlocks.terraclayBrickBlock && isSurrounded(world, pos1, null))
-								world.setBlockState(pos1, Blocks.BRICKS.getDefaultState());
+							if (state2.getBlock() == FABlocks.terraclayBrickBlock && isSurrounded(level, pos1, null))
+								level.setBlockState(pos1, Blocks.BRICKS.getDefaultState());
 						} else if (state2.getBlock() == this && state2.get(ACTIVATED))
 							foundPile = true;
 					}
@@ -121,8 +121,8 @@ public class LogPile extends FABaseBlock
 		{
 			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.get(ACTIVATED)))
 			{
-				world.setBlockState(pos, state.setValue(ACTIVATED, true), 7);
-				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
+				level.setBlockState(pos, state.setValue(ACTIVATED, true), 7);
+				level.getPendingBlockTicks().scheduleTick(pos, this, tickRate(level));
 			}
 
 		} else
@@ -135,7 +135,7 @@ public class LogPile extends FABaseBlock
 				BlockState state1 = level.getBlockState(offset);
 				if (state1.getBlock().isAir(state1, level, offset))
 				{
-					world.setBlockState(offset, Blocks.FIRE.getDefaultState());
+					level.setBlockState(offset, Blocks.FIRE.getDefaultState());
 					sidesOnFire = true;
 				} else if (state1.getBlock() == Blocks.FIRE)
 				{
@@ -143,13 +143,13 @@ public class LogPile extends FABaseBlock
 					sidesOnFire = true;
 				} else if (!Block.hasSolidSide(state1, level, offset, face.getOpposite()) && state1.getBlock() != this)
 				{
-					// if (world.rand.nextFloat() < 0.2f)
-					// 	world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+					// if (level.rand.nextFloat() < 0.2f)
+					// 	level.setBlockState(pos, Blocks.FIRE.getDefaultState());
 					isSurrounded = false;
 				}
 			}
 			if (!sidesOnFire && !isSurrounded)
-				world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+				level.setBlockState(pos, Blocks.FIRE.getDefaultState());
 		}
 	}
 
@@ -173,10 +173,10 @@ public class LogPile extends FABaseBlock
 		double x = pos.getX() + rand.nextDouble();
 		double y = pos.getY() + rand.nextDouble();
 		double z = pos.getZ() + rand.nextDouble();
-		world.addParticle(ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
+		level.addParticle(ParticleTypes.LAVA, x, y, z, rand.nextDouble() / 20d, rand.nextDouble() / 20d,
 				rand.nextDouble() / 20d);
-		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
-		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		level.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
+		level.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
 	private boolean isSurrounded(World level, BlockPos pos, @Nullable Predicate<BlockState> block)

@@ -118,7 +118,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 
 		/* IMPORTANT */
 		setChanged();
-		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+		level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	public void FirstLoad()
@@ -163,7 +163,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		this.load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		this.load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -173,6 +173,6 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
 
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 }

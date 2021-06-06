@@ -30,7 +30,7 @@ public class ConfigFields
 	// @Ignore
 	private static List<Pair<Method, SyncOnConfigChange.Priority>> methods = new ArrayList<>(10);
 
-	public static void AddClass(Class c)
+	public static void addClass(Class c)
 	{
 		for (Method method : c.getMethods())
 		{

@@ -18,7 +18,7 @@ public class FABlockTagProvider extends BlockTagsProvider
 	@Override
 	protected void registerTags()
 	{
-		getBuilder(FATags.ForgeBlockTag("concrete")).add(FABlocks.concrete.ToBlock());
+		getBuilder(FATags.ForgeBlockTag("concrete")).add(FABlocks.concrete.toBlock());
 		getBuilder(FATags.ForgeBlockTag("clay")).add(Blocks.CLAY);
 		getBuilder(FATags.ForgeBlockTag("slabs/cobblestone"))
 				.add(Blocks.COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE_SLAB);
@@ -42,6 +42,6 @@ public class FABlockTagProvider extends BlockTagsProvider
 		getBuilder(FATags.FABlockTag("storage_blocks/t1"))
 				.add(FATags.ForgeBlockTag("storage_blocks/copper"), FATags.FABlockTag("storage_blocks/t2"));
 
-		getBuilder(FATags.FABlockTag("campfire")).add(FABlocks.campfire.ToBlock(), Blocks.CAMPFIRE);
+		getBuilder(FATags.FABlockTag("campfire")).add(FABlocks.campfire.toBlock(), Blocks.CAMPFIRE);
 	}
 }

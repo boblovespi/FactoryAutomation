@@ -35,7 +35,7 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 		this.output = output;
 	}
 
-	public static void AddRecipe(String name, String oreName, int time, float torque, ItemStack output)
+	public static void addRecipe(String name, String oreName, int time, float torque, ItemStack output)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
@@ -44,7 +44,7 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 		OREDICT_MAP.put("forge:" + oreName, recipe);
 	}
 
-	public static void AddRecipe(String name, Item item, int time, float torque, ItemStack output)
+	public static void addRecipe(String name, Item item, int time, float torque, ItemStack output)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
@@ -54,7 +54,7 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 		ITEM_MAP.put(item, recipe);
 	}
 
-	public static MillstoneRecipe FindRecipe(ItemStack input)
+	public static MillstoneRecipe findRecipe(ItemStack input)
 	{
 		if (input.isEmpty())
 			return null;
@@ -72,32 +72,32 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 		}
 	}
 
-	public static MillstoneRecipe GetRecipe(String name)
+	public static MillstoneRecipe getRecipe(String name)
 	{
 		return STRING_MAP.getOrDefault(name, null);
 	}
 
-	public ItemStack[] GetOutputs()
+	public ItemStack[] getOutputs()
 	{
 		return output;
 	}
 
-	public Ingredient GetInput()
+	public Ingredient getInput()
 	{
 		return input;
 	}
 
-	public String GetName()
+	public String getName()
 	{
 		return name;
 	}
 
-	public int GetTime()
+	public int getTime()
 	{
 		return time;
 	}
 
-	public float GetTorque()
+	public float getTorque()
 	{
 		return torque;
 	}

@@ -11,25 +11,25 @@ import net.minecraft.util.text.TextComponent;
 public class ServerProxy implements CommonProxy
 {
 	@Override
-	public void RegisterRenders()
+	public void registerRenders()
 	{
 
 	}
 
 	@Override
-	public void PreInit()
+	public void preInit()
 	{
 
 	}
 
 	@Override
-	public void Init()
+	public void init()
 	{
 
 	}
 
 	@Override
-	public void AddChatMessage(ChatType type, ITextComponent string)
+	public void addChatMessage(ChatType type, ITextComponent string)
 	{
 
 	}

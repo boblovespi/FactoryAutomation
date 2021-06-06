@@ -60,36 +60,36 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	public void FirstLoad()
 	{
 		Direction dir = getBlockState().getValue(FACING);
-		mechanicalUser.SetSides(EnumSet.of(dir.getClockWise(), dir.getCounterClockWise()));
+		mechanicalUser.setSides(EnumSet.of(dir.getClockWise(), dir.getCounterClockWise()));
 		firstTick = false;
 	}
 
 	@Override
-	public void SetStructureValid(boolean isValid)
+	public void setStructureValid(boolean isValid)
 	{
 		this.isValid = isValid;
 	}
 
 	@Override
-	public boolean IsStructureValid()
+	public boolean isStructureValid()
 	{
 		return isValid;
 	}
 
 	@Override
-	public void CreateStructure()
+	public void createStructure()
 	{
-		SetStructureValid();
-		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
+		setStructureValid();
+		MultiblockHelper.CreateStructure(level, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
+		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.TRUE));
 	}
 
 	@Override
-	public void BreakStructure()
+	public void breakStructure()
 	{
-		SetStructureInvalid();
-		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
+		setStructureInvalid();
+		MultiblockHelper.BreakStructure(level, levelPosition, MULTIBLOCK_ID, getBlockState().getValue(FACING));
+		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, BlockstateEnum.FALSE));
 	}
 
 	public boolean PutItem(ItemStack item)
@@ -120,7 +120,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	 */
 	@Nonnull
 	@Override
-	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		if (offset[0] == 5 && offset[1] == 1 && offset[2] == 0 && side.getAxis() == getBlockState().getValue(FACING)
 																								   .getClockWise().getAxis()
@@ -165,7 +165,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 				}
 			} else
 			{
-				if (mechanicalUser.GetTorque() >= currentRecipe.torque)
+				if (mechanicalUser.getTorque() >= currentRecipe.torque)
 				{
 					timeLeftInRecipe -= 1; // TODO: calculate actual time changing scale
 				}
@@ -181,7 +181,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 			}
 			Direction facing = getBlockState().getValue(FACING);
 
-			BlockPos pos2 = MultiblockHelper.AddWithRotation(worldPosition, 5, 1, 0, facing);
+			BlockPos pos2 = MultiblockHelper.AddWithRotation(levelPosition, 5, 1, 0, facing);
 			Direction clockWise = facing.getClockWise();
 			Direction counterClockWise = facing.getCounterClockWise();
 			TileEntity teCW = level.getBlockEntity(pos2.relative(clockWise, 1));
@@ -189,12 +189,12 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 
 			if (TEHelper.IsMechanicalFace(teCW, counterClockWise))
 			{
-				mechanicalUser.SetSpeedOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).GetSpeedOnFace(counterClockWise));
-				mechanicalUser.SetTorqueOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).GetTorqueOnFace(counterClockWise));
+				mechanicalUser.setSpeedOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).getSpeedOnFace(counterClockWise));
+				mechanicalUser.setTorqueOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).getTorqueOnFace(counterClockWise));
 			} else if (TEHelper.IsMechanicalFace(teCCW, clockWise))
 			{
-				mechanicalUser.SetSpeedOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).GetSpeedOnFace(clockWise));
-				mechanicalUser.SetTorqueOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).GetTorqueOnFace(clockWise));
+				mechanicalUser.setSpeedOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).getSpeedOnFace(clockWise));
+				mechanicalUser.setTorqueOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).getTorqueOnFace(clockWise));
 			}
 		}
 	}
@@ -205,7 +205,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 		super.load(state, nbt);
 
 		itemHandler.deserializeNBT(nbt.getCompound("inventory"));
-		mechanicalUser.ReadFromNBT(nbt.getCompound("mechanicalUser"));
+		mechanicalUser.loadFromNBT(nbt.getCompound("mechanicalUser"));
 		currentRecipeString = nbt.getString("recipe");
 		timeLeftInRecipe = nbt.getFloat("timeLeftInRecipe");
 	}
@@ -214,7 +214,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	public CompoundNBT save(CompoundNBT nbt)
 	{
 		nbt.put("inventory", itemHandler.serializeNBT());
-		nbt.put("mechanicalUser", mechanicalUser.WriteToNBT());
+		nbt.put("mechanicalUser", mechanicalUser.saveToNBT());
 		nbt.putString("recipe", currentRecipeString);
 		nbt.putFloat("timeLeftInRecipe", timeLeftInRecipe);
 

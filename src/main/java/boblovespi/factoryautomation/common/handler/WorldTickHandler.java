@@ -35,8 +35,8 @@ public class WorldTickHandler
 	public void OnWorldTick(TickEvent.WorldTickEvent tickEvent)
 	{
 		if (tickEvent.phase == TickEvent.Phase.START
-				|| tickEvent.world.isClientSide)
+				|| tickEvent.level.isClientSide)
 			return;
-		handlers.forEach(n -> n.Update(tickEvent.world));
+		handlers.forEach(n -> n.update(tickEvent.level));
 	}
 }

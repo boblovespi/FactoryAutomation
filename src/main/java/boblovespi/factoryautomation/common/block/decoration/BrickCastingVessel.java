@@ -44,9 +44,9 @@ public class BrickCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "processing/" + RegistryName();
+		return "processing/" + registryName();
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class BrickCastingVessel extends FABaseBlock
 			Hand hand, BlockRayTraceResult hit)
 	{
 		TileEntity te = level.getBlockEntity(pos);
-		if (te instanceof TEStoneCastingVessel && !world.isClientSide)
+		if (te instanceof TEStoneCastingVessel && !level.isClientSide)
 		{
 			TEStoneCastingVessel vessel = (TEStoneCastingVessel) te;
 			if (player.getItemInHand(hand).getItem() == Items.STICK)

@@ -11,13 +11,13 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = FactoryAutomation.MODID)
 public class LootTableHandler
 {
-	public static void RegisterTables()
+	public static void registerTables()
 	{
 		// LootTableList.register(new ResourceLocation(MODID, "entities/pig"));
 	}
 
 	@SubscribeEvent
-	public static void OnLootTableLoad(LootTableLoadEvent event)
+	public static void onLootTableLoad(LootTableLoadEvent event)
 	{
 		//		if (event.getName().toString().equals("minecraft:entities/pig"))
 		//		{

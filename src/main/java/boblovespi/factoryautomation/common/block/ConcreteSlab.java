@@ -33,7 +33,7 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 		//		registerDefaultState(state.withProperty(VARIANT, Variant.DEFAULT));
 		//
 		//		setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
+		setRegistryName(registryName());
 		//		setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		//		setHardness(10);
 		//		setResistance(10000);
@@ -42,13 +42,13 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return "concrete_slab";
 	}
 
 	@Override
-	public Block ToBlock()
+	public Block toBlock()
 	{
 		return this;
 	}

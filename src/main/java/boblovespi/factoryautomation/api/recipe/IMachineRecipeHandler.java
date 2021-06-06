@@ -7,5 +7,5 @@ import net.minecraft.item.ItemStack;
  */
 public interface IMachineRecipeHandler
 {
-	boolean IsInputValid(ItemStack stack);
+	boolean isInputValid(ItemStack stack);
 }

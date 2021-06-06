@@ -5,11 +5,11 @@ package boblovespi.breadboard.component;
  */
 public interface ILogicUnit
 {
-	int InputSize();
+	int inputSize();
 
-	int OutputSize();
+	int outputSize();
 
-	void SetInput(VoltageLevel v, int input);
+	void setInput(VoltageLevel v, int input);
 
-	VoltageLevel GetOutput(int output);
+	VoltageLevel getOutput(int output);
 }

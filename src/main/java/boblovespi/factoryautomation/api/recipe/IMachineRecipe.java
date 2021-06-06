@@ -46,5 +46,5 @@ public interface IMachineRecipe
 	@Nullable
 	Map<FluidStack, Float> GetSecondaryFluidOutputs();
 
-	void WriteToNBT(CompoundNBT tag);
+	void writeToNBT(CompoundNBT tag);
 }

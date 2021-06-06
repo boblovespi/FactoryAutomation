@@ -4,15 +4,10 @@ import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
 
 /**
  * Created by Willi on 12/21/2017.
@@ -27,7 +22,7 @@ public class FABaseBlock extends Block implements FABlock
 		super(properties);
 		this.unlocalizedName = name;
 		// setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
+		setRegistryName(registryName());
 		// setResistance(10000);
 		// setCreativeTab(tab);
 
@@ -55,18 +50,18 @@ public class FABaseBlock extends Block implements FABlock
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return unlocalizedName;
 	}
 
 	@Override
-	public Block ToBlock()
+	public Block toBlock()
 	{
 		return this;
 	}
 
-	public FAItem GetItem()
+	public FAItem getItem()
 	{
 		return item;
 	}

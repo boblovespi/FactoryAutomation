@@ -8,17 +8,11 @@ import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.items.IItemHandler;
-
-import java.io.IOException;
 
 /**
  * Created by Willi on 5/28/2018.
@@ -40,7 +34,7 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	public GuiBasicCircuitCreator(ContainerBasicCircuitCreator container, PlayerInventory playerInv, ITextComponent unused)
 	{
 		super(container, playerInv, new TranslationTextComponent("gui.basic_circuit_creator"));
-		this.te = (TEBasicCircuitCreator) playerInv.player.world.getBlockEntity(container.GetPos());
+		this.te = (TEBasicCircuitCreator) playerInv.player.level.getBlockEntity(container.getPos());
 
 		xSize = 206;
 		ySize = 166;
@@ -97,8 +91,8 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 		{
 			for (int y = 7; y >= 0; y--)
 			{
-				elements[x][y].SetElement(components[y][x]);
-				elements[x][y].Draw(this);
+				elements[x][y].setElement(components[y][x]);
+				elements[x][y].draw(this);
 			}
 		}
 

@@ -51,7 +51,7 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	@Override
-	public boolean CanConnectCable(BlockState state, Direction side, IBlockReader level, BlockPos pos)
+	public boolean canConnectCable(BlockState state, Direction side, IBlockReader level, BlockPos pos)
 	{
 		return side != null && side.get2DDataValue() >= 0;
 	}
@@ -72,7 +72,7 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 //		{
 //			TileEntitySolarPanel entity1 = (TileEntitySolarPanel) (entity);
 //			entity1.ForceUpdate();
-//			if (!worldIn.isClientSide)
+//			if (!levelIn.isClientSide)
 //				FactoryAutomation.proxy.AddChatMessage(
 //						ChatType.GAME_INFO, new StringTextComponent(
 //								"Power: " + entity1.AmountProduced() + " | Power generated - used: " + entity1

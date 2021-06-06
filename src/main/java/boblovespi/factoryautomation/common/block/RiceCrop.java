@@ -7,7 +7,6 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -33,7 +32,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	public RiceCrop()
 	{
 		super(Properties.of(Material.PLANTS).strength(0).tickRandomly().sound(SoundType.CROP).doesNotBlockMovement());
-		setRegistryName(RegistryName());
+		setRegistryName(registryName());
 		registerDefaultState(stateDefinition.any().with(AGE, 0));
 		FABlocks.blocks.add(this);
 	}
@@ -73,7 +72,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	@Override
 	public void grow(ServerWorld level, Random random, BlockPos blockPos, BlockState BlockState)
 	{
-		world.setBlockState(blockPos, WithAge(Math.min(getAge(BlockState) + 1, MaxAge())), 2);
+		level.setBlockState(blockPos, WithAge(Math.min(getAge(BlockState) + 1, MaxAge())), 2);
 	}
 
 	protected boolean canSustainBush(BlockState state)
@@ -97,7 +96,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	// TODO: LOOT TABLES!
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return "rice_crop";
 	}
@@ -105,13 +104,13 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	@Override
 	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
 	{
-		if (!canSustainBush(world.getBlockState(pos.down())))
+		if (!canSustainBush(level.getBlockState(pos.down())))
 		{
-			world.destroyBlock(pos, true);
+			level.destroyBlock(pos, true);
 			return;
 		}
 
-		if (world.getLight(pos.up()) >= 9)
+		if (level.getLight(pos.up()) >= 9)
 		{
 			int i = getAge(state);
 
@@ -119,10 +118,10 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 			{
 				float f = GrowthChance(this, level, pos);
 
-				if (ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0))
+				if (ForgeHooks.onCropsGrowPre(level, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0))
 				{
-					world.setBlockState(pos, WithAge(i + 1), 2);
-					ForgeHooks.onCropsGrowPost(world, pos, state);
+					level.setBlockState(pos, WithAge(i + 1), 2);
+					ForgeHooks.onCropsGrowPost(level, pos, state);
 				}
 			}
 		}
@@ -160,11 +159,11 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	@Override
 	public ItemStack getItem(IBlockReader levelIn, BlockPos pos, BlockState state)
 	{
-		return new ItemStack(FAItems.riceGrain.ToItem());
+		return new ItemStack(FAItems.riceGrain.toItem());
 	}
 
 	@Override
-	public Block ToBlock()
+	public Block toBlock()
 	{
 		return this;
 	}
@@ -173,12 +172,12 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	//			IBlockAccess level, BlockPos pos, Direction direction,
 	//			IPlantable plantable)
 	//	{
-	//		if(plantable.getPlant(world, pos) instanceof RiceGrain)
+	//		if(plantable.getPlant(level, pos) instanceof RiceGrain)
 	//			return this
 	//	}
 
 	@Override
-	public boolean IsItemBlock()
+	public boolean isItemBlock()
 	{
 		return false;
 	}

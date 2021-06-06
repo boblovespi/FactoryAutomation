@@ -17,7 +17,7 @@ public class CapabilityBellowsUser
 	@CapabilityInject(IBellowsable.class)
 	public static Capability<IBellowsable> BELLOWS_USER_CAPABILITY = null;
 
-	public static void Register()
+	public static void register()
 	{
 		CapabilityManager.INSTANCE.register(IBellowsable.class, new Capability.IStorage<IBellowsable>()
 		{
@@ -34,7 +34,7 @@ public class CapabilityBellowsUser
 			{
 
 			}
-		}, () -> new BellowsUser(0.5f));
+		}, () -> new bellowsUser(0.5f));
 
 	}
 }

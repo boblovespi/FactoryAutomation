@@ -21,6 +21,6 @@ public class BlastFurnaceRecipeWrapper
 				Arrays.asList(new ItemStack(Items.IRON_INGOT), new ItemStack(Items.REDSTONE)));
 		ingredients.setOutputs(
 				VanillaTypes.ITEM, Arrays.asList(new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)),
-						new ItemStack(FAItems.slag.ToItem())));
+						new ItemStack(FAItems.slag.toItem())));
 	}
 }

@@ -36,8 +36,8 @@ public class TEPlacedBucket extends TileEntity
 			protected void onContentsChanged()
 			{
 				setChanged();
-				BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 3);
+				BlockState state = Objects.requireNonNull(level).getBlockState(levelPosition);
+				level.sendBlockUpdated(levelPosition, state, state, 3);
 			}
 		};
 	}

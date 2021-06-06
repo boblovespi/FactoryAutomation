@@ -8,13 +8,13 @@ public interface IStoresEnergy extends IConsumesEnergy, IProducesEnergy
 	/**
 	 * Returns whether the battery is charging
 	 */
-	boolean IsCharging();
+	boolean isCharging();
 
 	/**
 	 * Returns whether the battery is discharging
 	 */
-	default boolean IsDischarging()
+	default boolean isDischarging()
 	{
-		return !IsCharging();
+		return !isCharging();
 	}
 }

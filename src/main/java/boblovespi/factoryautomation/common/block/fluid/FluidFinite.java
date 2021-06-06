@@ -25,19 +25,19 @@ public class FluidFinite extends FlowingFluidBlock implements FABlock
 		super(fluid, Properties.of(material).noDrops().doesNotBlockMovement());
 		this.name = name;
 		// setUnlocalizedName(UnlocalizedName());
-		setRegistryName(FactoryAutomation.MODID, RegistryName());
+		setRegistryName(FactoryAutomation.MODID, registryName());
 		FABlocks.blocks.add(this);
 		FAItems.items.add(new FAItemBlock(this, new Item.Properties()));
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return name;
 	}
 
 	@Override
-	public Block ToBlock()
+	public Block toBlock()
 	{
 		return this;
 	}

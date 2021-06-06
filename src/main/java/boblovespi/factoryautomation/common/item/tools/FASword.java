@@ -21,19 +21,19 @@ public class FASword extends SwordItem implements FAItem
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return unlocalizedName;
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "tools/" + UnlocalizedName();
+		return "tools/" + unlocalizedName();
 	}
 
 	@Override
-	public Item ToItem()
+	public Item toItem()
 	{
 		return this;
 	}

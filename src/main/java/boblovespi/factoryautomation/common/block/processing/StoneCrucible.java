@@ -83,16 +83,16 @@ public class StoneCrucible extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isClientSide)
+		if (!level.isClientSide)
 		{
-			if (MultiblockHelper.IsStructureComplete(world, pos, TEStoneCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
+			if (MultiblockHelper.IsStructureComplete(level, pos, TEStoneCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
 			{
 				TileEntity te = level.getBlockEntity(pos);
 				if (te instanceof TEStoneCrucible)
 				{
 					TEStoneCrucible foundry = (TEStoneCrucible) te;
-					if (!foundry.IsStructureValid())
-						foundry.CreateStructure();
+					if (!foundry.isStructureValid())
+						foundry.createStructure();
 
 					if (hit.getFace() == state.getValue(FACING).rotateYCCW())
 						foundry.PourInto(hit.getFace());
@@ -103,7 +103,7 @@ public class StoneCrucible extends FABaseBlock
 			{
 				TileEntity te = level.getBlockEntity(pos);
 				if (te instanceof TEStoneCrucible)
-					((TEStoneCrucible) te).SetStructureInvalid();
+					((TEStoneCrucible) te).setStructureInvalid();
 			}
 		}
 		return ActionResultType.SUCCESS;

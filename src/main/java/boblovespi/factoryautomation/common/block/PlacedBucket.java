@@ -66,14 +66,14 @@ public class PlacedBucket extends FABaseBlock
 					Fluid fluid = ((TEPlacedBucket) te).GetFluid();
 					if (fluid != null)
 					{
-						InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(),
+						InventoryHelper.spawnItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
 								FluidUtil.getFilledBucket(new FluidStack(fluid, 1000)));
 						super.onReplaced(state, level, pos, newState, isMoving);
 						return;
 					}
 				}
 			}
-			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BUCKET));
+			InventoryHelper.spawnItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.BUCKET));
 		}
 		super.onReplaced(state, level, pos, newState, isMoving);
 	}

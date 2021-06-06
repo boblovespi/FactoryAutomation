@@ -13,8 +13,8 @@ public class WorkbenchPartItem extends FABaseItem
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "parts/" + super.GetMetaFilePath(meta);
+		return "parts/" + super.getMetaFilePath(meta);
 	}
 }

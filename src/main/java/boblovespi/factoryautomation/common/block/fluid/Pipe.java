@@ -52,7 +52,7 @@ public class Pipe extends FABaseBlock
 	private Connection GetConnectionFor(IBlockReader level, BlockPos pos, Direction side)
 	{
 		pos = pos.offset(side);
-		if (world.getBlockState(pos).getBlock() instanceof Pipe || level.getBlockState(pos).getBlock() instanceof Pump)
+		if (level.getBlockState(pos).getBlock() instanceof Pipe || level.getBlockState(pos).getBlock() instanceof Pump)
 			return Connection.JOIN;
 
 		TileEntity te = level.getBlockEntity(pos);
@@ -72,7 +72,7 @@ public class Pipe extends FABaseBlock
 	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld level,
 			BlockPos currentPos, BlockPos facingPos)
 	{
-		return state.setValue(CONNECTIONS[facing.getIndex()], GetConnectionFor(world, currentPos, facing));
+		return state.setValue(CONNECTIONS[facing.getIndex()], GetConnectionFor(level, currentPos, facing));
 	}
 
 	/**

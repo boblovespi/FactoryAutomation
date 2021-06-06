@@ -57,35 +57,35 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 		if (counter == 0)
 		{
-			TileEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.below());
+			TileEntity te = Objects.requireNonNull(level).getBlockEntity(levelPosition.below());
 			Direction facing = Direction.UP;
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
-				mechanicalUser.SetSpeedOnFace(Direction.DOWN, GetUser(te, facing).GetSpeedOnFace(facing));
-				mechanicalUser.SetTorqueOnFace(Direction.DOWN, GetUser(te, facing).GetTorqueOnFace(facing));
+				mechanicalUser.setSpeedOnFace(Direction.DOWN, GetUser(te, facing).getSpeedOnFace(facing));
+				mechanicalUser.setTorqueOnFace(Direction.DOWN, GetUser(te, facing).getTorqueOnFace(facing));
 			} else
 			{
-				mechanicalUser.SetSpeedOnFace(Direction.DOWN, 0);
-				mechanicalUser.SetTorqueOnFace(Direction.DOWN, 0);
+				mechanicalUser.setSpeedOnFace(Direction.DOWN, 0);
+				mechanicalUser.setTorqueOnFace(Direction.DOWN, 0);
 			}
 
 			// markDirty();
-			// BlockState state = level.getBlockState(worldPosition);
-			// level.sendBlockUpdated(worldPosition, state, state, 3);
+			// BlockState state = level.getBlockState(levelPosition);
+			// level.sendBlockUpdated(levelPosition, state, state, 3);
 		}
 	}
 
 	@Override
 	protected void UpdateClient()
 	{
-		rotation = (rotation + mechanicalUser.GetSpeed()) % 360;
+		rotation = (rotation + mechanicalUser.getSpeed()) % 360;
 	}
 
 	@Nonnull
 	@Override
 	protected String FindRecipeName()
 	{
-		MillstoneRecipe recipe1 = MillstoneRecipe.FindRecipe(processingInv.getStackInSlot(0));
+		MillstoneRecipe recipe1 = MillstoneRecipe.findRecipe(processingInv.getStackInSlot(0));
 		if (recipe1 == null)
 		{
 			millstoneRecipe = null;
@@ -93,7 +93,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		} else
 		{
 			millstoneRecipe = recipe1;
-			return recipe1.GetName();
+			return recipe1.getName();
 		}
 	}
 
@@ -101,22 +101,22 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	@Override
 	protected MillstoneRecipe FindRecipe(String recipeName)
 	{
-		return MillstoneRecipe.GetRecipe(recipeName);
+		return MillstoneRecipe.getRecipe(recipeName);
 	}
 
 	@Override
 	protected int GetMaxProgress()
 	{
-		return millstoneRecipe.GetTime();
+		return millstoneRecipe.getTime();
 	}
 
 	@Override
 	protected void OnRecipeComplete(String recipe)
 	{
-		for (ItemStack stack : millstoneRecipe.GetOutputs())
+		for (ItemStack stack : millstoneRecipe.getOutputs())
 		{
-			ItemEntity item = new ItemEntity(Objects.requireNonNull(level), worldPosition.getX() - 0.5 + Objects.requireNonNull(level).random.nextInt(3), worldPosition.getY() - 0.1,
-					worldPosition.getZ() - 0.5 + level.random.nextInt(3), stack.copy());
+			ItemEntity item = new ItemEntity(Objects.requireNonNull(level), levelPosition.getX() - 0.5 + Objects.requireNonNull(level).random.nextInt(3), levelPosition.getY() - 0.1,
+					levelPosition.getZ() - 0.5 + level.random.nextInt(3), stack.copy());
 			item.push(level.random.nextDouble() - 0.5, 0, level.random.nextDouble() - 0.5);
 			item.hurtMarked = true;
 			level.addFreshEntity(item);
@@ -127,8 +127,8 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	@Override
 	protected float GetProgressScalar()
 	{
-		if (mechanicalUser.GetTorque() >= millstoneRecipe.GetTorque())
-			return MathHelper.clamp(mechanicalUser.GetSpeed() / 10f, 0, 10);
+		if (mechanicalUser.getTorque() >= millstoneRecipe.getTorque())
+			return MathHelper.clamp(mechanicalUser.getSpeed() / 10f, 0, 10);
 		else
 			return 0;
 	}
@@ -136,14 +136,14 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	@Override
 	protected void ReadCustomNBT(CompoundNBT tag)
 	{
-		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
-		millstoneRecipe = MillstoneRecipe.GetRecipe(recipeName);
+		mechanicalUser.loadFromNBT(tag.getCompound("mechanicalUser"));
+		millstoneRecipe = MillstoneRecipe.getRecipe(recipeName);
 	}
 
 	@Override
 	protected void WriteCustomNBT(CompoundNBT tag)
 	{
-		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
+		tag.put("mechanicalUser", mechanicalUser.saveToNBT());
 	}
 
 	@Nonnull
@@ -159,7 +159,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 	public float GetSpeed()
 	{
-		return mechanicalUser.GetSpeed();
+		return mechanicalUser.getSpeed();
 	}
 
 	public void TakeOrPlace(ItemStack item, PlayerEntity player)
@@ -167,7 +167,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		if (!processingInv.getStackInSlot(0).isEmpty())
 		{
 			ItemStack taken = processingInv.extractItem(0, 64, false);
-			ItemHelper.PutItemsInInventoryOrDrop(player, taken, level);
+			ItemHelper.putItemsInInventoryOrDrop(player, taken, level);
 		} else
 		{
 			ItemStack stack = processingInv.insertItem(0, item.copy(), false);
@@ -175,14 +175,14 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		}
 
 		setChanged();
-		BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdated(worldPosition, state, state, 3);
+		BlockState state = Objects.requireNonNull(level).getBlockState(levelPosition);
+		level.sendBlockUpdated(levelPosition, state, state, 3);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -191,6 +191,6 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 }

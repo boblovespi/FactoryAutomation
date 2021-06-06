@@ -25,23 +25,23 @@ public class EnergyConnection
 		this.wireLength = wireLength;
 	}
 
-	public IProducesEnergy GetProducer()
+	public IProducesEnergy getProducer()
 	{
 		return producer;
 	}
 
-	public IConsumesEnergy GetConsumer()
+	public IConsumesEnergy getConsumer()
 	{
 		return consumer;
 	}
 
-	public void UpdateConnection(double volts, double power)
+	public void updateConnection(double volts, double power)
 	{
 		double W, v_g, i, p, R_w, v_w, c, v_m, R_m;
 
 		W = power;
 		R_w = wire.resistance * wireLength;
-		R_m = consumer.Resistance();
+		R_m = consumer.resistance();
 		if (volts < 0)
 		{
 			i = Math.sqrt(W / (R_w + R_m));
@@ -56,16 +56,16 @@ public class EnergyConnection
 			v_w = R_m * i;
 		}
 
-		consumer.SetAmperageRecieved(i);
-		consumer.SetVoltageRecieved(v_m);
+		consumer.setAmperageRecieved(i);
+		consumer.setVoltageRecieved(v_m);
 	}
 
-	public double SimulateUpdateConnection(double volts)
+	public double simulateUpdateConnection(double volts)
 	{
 		double W, v_g, i, p, R_w, v_w, c, v_m, R_m;
 
 		R_w = wire.resistance * wireLength;
-		R_m = consumer.Resistance();
+		R_m = consumer.resistance();
 
 		v_g = volts;
 		v_m = 0;

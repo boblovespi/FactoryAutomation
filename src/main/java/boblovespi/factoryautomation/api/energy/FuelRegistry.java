@@ -20,24 +20,24 @@ public class FuelRegistry
 	 * metadata officially deprecated, ItemInfo class useless
 	 */
 	@Deprecated
-	public static FuelInfo GetInfo(Item item, int meta)
+	public static FuelInfo getInfo(Item item, int meta)
 	{
 		return fuels.getOrDefault(item, NULL);
 	}
 
-	public static FuelInfo GetInfo(Item item)
+	public static FuelInfo getInfo(Item item)
 	{
 		return fuels.getOrDefault(item, NULL);
 	}
 
-	public static void PutInfo(Item item, int meta, float burnTemp, int burnTime, int totalEnergy)
+	public static void putInfo(Item item, int meta, float burnTemp, int burnTime, int totalEnergy)
 	{
 		fuels.put(item, new FuelInfo(burnTemp, burnTime, totalEnergy));
 	}
 
-	public static void PutInfo(Item item, float burnTemp, int burnTime, int totalEnergy)
+	public static void putInfo(Item item, float burnTemp, int burnTime, int totalEnergy)
 	{
-		PutInfo(item, 0, burnTemp, burnTime, totalEnergy);
+		putInfo(item, 0, burnTemp, burnTime, totalEnergy);
 	}
 
 	public static class FuelInfo
@@ -53,17 +53,17 @@ public class FuelRegistry
 			this.totalEnergy = totalEnergy;
 		}
 
-		public float GetBurnTemp()
+		public float getBurnTemp()
 		{
 			return burnTemp;
 		}
 
-		public int GetBurnTime()
+		public int getBurnTime()
 		{
 			return burnTime;
 		}
 
-		public int GetTotalEnergy()
+		public int getTotalEnergy()
 		{
 			return totalEnergy;
 		}

@@ -16,11 +16,11 @@ public class Ingot extends MetalItem
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
 		if (meta > 1 && meta < itemTypes.getEnumConstants().length)
-			return super.GetMetaFilePath(meta);
+			return super.getMetaFilePath(meta);
 		else
-			return super.GetMetaFilePath(2);
+			return super.getMetaFilePath(2);
 	}
 }

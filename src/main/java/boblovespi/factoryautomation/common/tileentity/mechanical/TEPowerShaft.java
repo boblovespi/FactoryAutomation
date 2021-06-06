@@ -44,34 +44,34 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(Direction side)
+	public boolean hasConnectionOnSide(Direction side)
 	{
 		return side.getAxis() == getBlockState().getValue(PowerShaft.AXIS);
 	}
 
 	@Override
-	public float GetSpeedOnFace(Direction side)
+	public float getSpeedOnFace(Direction side)
 	{
-		return HasConnectionOnSide(side) ? speed : 0;
+		return hasConnectionOnSide(side) ? speed : 0;
 	}
 
 	@Override
-	public float GetTorqueOnFace(Direction side)
+	public float getTorqueOnFace(Direction side)
 	{
-		return HasConnectionOnSide(side) ? torque : 0;
+		return hasConnectionOnSide(side) ? torque : 0;
 	}
 
 	@Override
-	public void SetSpeedOnFace(Direction side, float speed)
+	public void setSpeedOnFace(Direction side, float speed)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			this.speed = speed;
 	}
 
 	@Override
-	public void SetTorqueOnFace(Direction side, float torque)
+	public void setTorqueOnFace(Direction side, float torque)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			this.torque = torque;
 	}
 
@@ -112,23 +112,23 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 			Direction negativeFacing = get(AxisDirection.NEGATIVE, axis);
 			Direction positiveFacing = get(AxisDirection.POSITIVE, axis);
 
-			TileEntity front = Objects.requireNonNull(level).getBlockEntity(worldPosition.relative(positiveFacing));
-			TileEntity back = level.getBlockEntity(worldPosition.relative(negativeFacing));
+			TileEntity front = Objects.requireNonNull(level).getBlockEntity(levelPosition.relative(positiveFacing));
+			TileEntity back = level.getBlockEntity(levelPosition.relative(negativeFacing));
 
 			speed = ((IsMechanicalFace(front, negativeFacing) ?
-					GetUser(front, negativeFacing).GetSpeedOnFace(negativeFacing) : 0) + (
+					GetUser(front, negativeFacing).getSpeedOnFace(negativeFacing) : 0) + (
 					IsMechanicalFace(back, positiveFacing) ?
-							GetUser(back, positiveFacing).GetSpeedOnFace(positiveFacing) : 0)) / 2f;
+							GetUser(back, positiveFacing).getSpeedOnFace(positiveFacing) : 0)) / 2f;
 
 			torque = ((IsMechanicalFace(front, negativeFacing) ?
-					GetUser(front, negativeFacing).GetTorqueOnFace(negativeFacing) : 0) + (
+					GetUser(front, negativeFacing).getTorqueOnFace(negativeFacing) : 0) + (
 					IsMechanicalFace(back, positiveFacing) ?
-							GetUser(back, positiveFacing).GetTorqueOnFace(positiveFacing) : 0)) / 2f;
+							GetUser(back, positiveFacing).getTorqueOnFace(positiveFacing) : 0)) / 2f;
 
 			setChanged();
 
 			/* IMPORTANT */
-			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+			level.sendBlockUpdated(levelPosition, getBlockState(), getBlockState(), 3);
 		}
 	}
 
@@ -149,7 +149,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		load(Objects.requireNonNull(level).getBlockState(levelPosition), pkt.getTag());
 	}
 
 	@Nullable
@@ -158,6 +158,6 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new SUpdateTileEntityPacket(levelPosition, 0, nbt);
 	}
 }

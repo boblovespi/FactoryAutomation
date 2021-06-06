@@ -129,7 +129,7 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 	private void RenderAxle(TEGearbox te, Vector3d pos, Vector3d rotVec, float length, float rotation, Direction facing,
 			MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay)
 	{
-		BlockState state = FABlocks.powerShaft.ToBlock().defaultBlockState().setValue(PowerShaft.AXIS, Direction.Axis.Z)
+		BlockState state = FABlocks.powerShaft.toBlock().defaultBlockState().setValue(PowerShaft.AXIS, Direction.Axis.Z)
 											  .setValue(PowerShaft.IS_TESR, true);
 
 		matrix.pushPose();

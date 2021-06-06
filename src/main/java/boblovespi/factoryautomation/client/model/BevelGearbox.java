@@ -77,7 +77,7 @@ public class BevelGearbox extends Model
 		modelRenderer.rotateAngleZ = z;
 	}
 
-	public void Rotate(float rotation, int dir1, int dir2)
+	public void rotate(float rotation, int dir1, int dir2)
 	{
 		setRotateAngle(axle_in, 0, 0, (float) (dir1 * Math.toRadians(rotation)));
 		setRotateAngle(axle_out, (float) (dir2 * Math.toRadians(rotation)), 0, 0);

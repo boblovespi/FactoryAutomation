@@ -5,5 +5,5 @@ package boblovespi.factoryautomation.common.item.types;
  */
 public interface IMultiTypeEnum
 {
-	int GetId();
+	int getId();
 }

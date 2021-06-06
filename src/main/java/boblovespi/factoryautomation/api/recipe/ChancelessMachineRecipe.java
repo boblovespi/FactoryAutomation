@@ -86,7 +86,7 @@ public abstract class ChancelessMachineRecipe implements IMachineRecipe
 	}
 
 	@Override
-	public void WriteToNBT(CompoundNBT tag)
+	public void writeToNBT(CompoundNBT tag)
 	{
 		// itemInputs.stream().forEach(n -> n.w);
 

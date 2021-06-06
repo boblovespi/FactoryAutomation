@@ -36,12 +36,12 @@ public class PlayerInteractionHandler
 		if (item == Items.BUCKET && event.getEntityLiving().isCrouching())
 		{
 			event.setCanceled(true);
-			if (!world.isClientSide)
+			if (!level.isClientSide)
 			{
 				if (facing != null)
 				{
 					stack.shrink(1);
-					world.setBlockAndUpdate(pos.relative(facing), FABlocks.placedBucket.ToBlock().defaultBlockState());
+					level.setBlockAndUpdate(pos.relative(facing), FABlocks.placedBucket.toBlock().defaultBlockState());
 				}
 			}
 		}
@@ -61,7 +61,7 @@ public class PlayerInteractionHandler
 				if (!player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG)
 						   .contains("faGuidebookReceived") && ModList.get().isLoaded("patchouli"))
 				{
-					player.addItem(ModCompatHandler.GetGuidebook());
+					player.addItem(ModCompatHandler.getGuidebook());
 
 					player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG)
 						  .putBoolean("faGuidebookReceived", true);

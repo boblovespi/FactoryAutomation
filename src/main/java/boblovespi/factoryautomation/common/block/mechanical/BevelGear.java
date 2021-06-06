@@ -40,7 +40,7 @@ public class BevelGear extends FABaseBlock
 		TileEntityHandler.tiles.add(TEBevelGear.class);
 	}
 
-	public static Direction GetNegative(BlockState state)
+	public static Direction getNegative(BlockState state)
 	{
 		if (state.getValue(LAYER) == 1)
 			return state.getValue(FACING).getClockWise();

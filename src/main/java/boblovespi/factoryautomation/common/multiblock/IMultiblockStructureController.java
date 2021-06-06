@@ -13,22 +13,22 @@ import net.minecraft.world.World;
 @Deprecated
 public interface IMultiblockStructureController
 {
-	String GetPatternId();
+	String getPatternId();
 
-	default boolean IsValidStructure(World level, BlockPos pos, BlockState state)
+	default boolean isValidStructure(World level, BlockPos pos, BlockState state)
 	{
 		return false;
 	}
 
-	default void CreateStructure(World level, BlockPos pos)
+	default void createStructure(World level, BlockPos pos)
 	{
 	}
 
-	default void BreakStructure(World level, BlockPos pos)
+	default void breakStructure(World level, BlockPos pos)
 	{
 	}
 
-	default void SetStructureCompleted(World level, BlockPos pos, boolean completed)
+	default void setStructureCompleted(World level, BlockPos pos, boolean completed)
 	{
 	}
 }

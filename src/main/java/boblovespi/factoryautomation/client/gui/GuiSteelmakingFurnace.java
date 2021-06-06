@@ -2,14 +2,11 @@ package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiBar;
-import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
-import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -54,11 +51,11 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/steelmaking_furnace.png"));
 		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		flameBar.Draw(this, container.GetBar(0) / 100f);
-		airTankBar.Draw(this, 1);
-		fuelTankBar.Draw(this, 1);
-		tempBar.Draw(this, container.GetBar(1) / 100f);
-		progressBar.Draw(this, container.GetBar(2) / 100f);
+		flameBar.draw(this, container.GetBar(0) / 100f);
+		airTankBar.draw(this, 1);
+		fuelTankBar.draw(this, 1);
+		tempBar.draw(this, container.GetBar(1) / 100f);
+		progressBar.draw(this, container.GetBar(2) / 100f);
 
 		// Log.LogInfo("tileentity nbt data", te.getTileData().toString());
 	}

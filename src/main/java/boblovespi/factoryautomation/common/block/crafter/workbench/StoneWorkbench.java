@@ -54,10 +54,10 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isClientSide && player instanceof ServerPlayerEntity)
+		if (!level.isClientSide && player instanceof ServerPlayerEntity)
 			// playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.WORKBENCH.id, levelIn, pos.getX(), pos.getY(),
 			// 		pos.getZ());
-			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+			NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(level.getBlockEntity(pos)), pos);
 		return ActionResultType.SUCCESS;
 	}
 

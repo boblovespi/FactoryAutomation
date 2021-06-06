@@ -75,8 +75,8 @@ public class GemOre extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "ores/" + RegistryName();
+		return "ores/" + registryName();
 	}
 }

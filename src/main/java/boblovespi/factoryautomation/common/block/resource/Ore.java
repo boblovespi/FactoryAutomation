@@ -53,7 +53,7 @@ public class Ore extends MultiTypeBlock<Ore.Grade>
 		}
 
 		@Override
-		public int GetId()
+		public int getId()
 		{
 			return id;
 		}

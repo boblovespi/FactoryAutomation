@@ -23,24 +23,24 @@ public class FABaseItem extends Item implements FAItem
 		this.unlocalizedName = unlocalizedName;
 		// setUnlocalizedName(UnlocalizedName()); TODO: figure out if we need to override translation key
 		setRegistryName(
-				RegistryName() == null ? UnlocalizedName() : RegistryName());
+				registryName() == null ? unlocalizedName() : registryName());
 		FAItems.items.add(this);
 	}
 
 	@Override
-	public String UnlocalizedName()
+	public String unlocalizedName()
 	{
 		return unlocalizedName;
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return UnlocalizedName();
+		return unlocalizedName();
 	}
 
 	@Override
-	public Item ToItem()
+	public Item toItem()
 	{
 		return this;
 	}

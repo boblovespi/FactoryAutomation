@@ -28,14 +28,14 @@ public class TEPaperBellows extends TileEntity implements ITickableTileEntity, I
 	{
 		if (!Objects.requireNonNull(level).isClientSide)
 		{
-			Direction facing = level.getBlockState(worldPosition).getValue(PaperBellows.FACING);
-			TileEntity te = level.getBlockEntity(worldPosition.relative(facing));
+			Direction facing = level.getBlockState(levelPosition).getValue(PaperBellows.FACING);
+			TileEntity te = level.getBlockEntity(levelPosition.relative(facing));
 			if (te == null)
 				return;
 			LazyOptional<IBellowsable> capability = te
 					.getCapability(CapabilityBellowsUser.BELLOWS_USER_CAPABILITY, facing.getOpposite());
 
-			capability.ifPresent(n -> n.Blow(0.75f, 400));
+			capability.ifPresent(n -> n.blow(0.75f, 400));
 		} else
 		{
 			lerp = 1;
@@ -43,13 +43,13 @@ public class TEPaperBellows extends TileEntity implements ITickableTileEntity, I
 	}
 
 	@Override
-	public float GetLerp()
+	public float getLerp()
 	{
 		return Math.abs(2 * lerp - 1);
 	}
 
 	@Override
-	public float GetLerpSpeed()
+	public float getLerpSpeed()
 	{
 		return (lerp > 0.5f ? -1 : 1) / 80f;
 	}

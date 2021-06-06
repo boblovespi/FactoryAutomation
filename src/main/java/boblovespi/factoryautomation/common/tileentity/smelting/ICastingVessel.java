@@ -7,11 +7,11 @@ import net.minecraft.item.ItemStack;
  */
 public interface ICastingVessel
 {
-	void CastInto(ItemStack stack, int temp);
+	void castInto(ItemStack stack, int temp);
 
-	float GetLoss();
+	float getLoss();
 
-	boolean HasSpace();
+	boolean hasSpace();
 
-	TEStoneCrucible.MetalForms GetForm();
+	TEStoneCrucible.MetalForms getForm();
 }

@@ -1,6 +1,5 @@
 package boblovespi.factoryautomation.api.recipe;
 
-import boblovespi.factoryautomation.common.block.crafter.workbench.Workbench;
 import boblovespi.factoryautomation.common.util.Log;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
@@ -16,7 +15,6 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.lwjgl.system.CallbackI;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -237,7 +235,7 @@ public class WorkbenchRecipeHandler
 			WorkbenchTool tool = WorkbenchTool.tools.get(new ResourceLocation(entry.getKey()));
 			if (tool == null)
 			{
-				Log.LogWarning(entry.getKey() + " is not a registered tool, but is used in a recipe!");
+				Log.logWarning(entry.getKey() + " is not a registered tool, but is used in a recipe!");
 			} else
 			{
 				JsonObject toolInfo = JSONUtils.getJsonObject(entry.getValue(), entry.getKey());
@@ -259,7 +257,7 @@ public class WorkbenchRecipeHandler
 			WorkbenchPart part = WorkbenchPart.parts.get(new ResourceLocation(entry.getKey()));
 			if (part == null)
 			{
-				Log.LogWarning(entry.getKey() + " is not a registered part, but is used in a recipe!");
+				Log.logWarning(entry.getKey() + " is not a registered part, but is used in a recipe!");
 			} else
 			{
 				JsonObject partInfo = JSONUtils.getJsonObject(entry.getValue(), entry.getKey());
@@ -283,7 +281,7 @@ public class WorkbenchRecipeHandler
 			WorkbenchTool tool = WorkbenchTool.tools.get(toolId);
 			if (tool == null)
 			{
-				Log.LogWarning(toolId + " is not a registered tool, but is used in a recipe!");
+				Log.logWarning(toolId + " is not a registered tool, but is used in a recipe!");
 				buffer.readByte();
 				buffer.readByte();
 			} else
@@ -306,7 +304,7 @@ public class WorkbenchRecipeHandler
 			WorkbenchPart tool = WorkbenchPart.parts.get(toolId);
 			if (tool == null)
 			{
-				Log.LogWarning(toolId + " is not a registered tool, but is used in a recipe!");
+				Log.logWarning(toolId + " is not a registered tool, but is used in a recipe!");
 				buffer.readByte();
 				buffer.readByte();
 			} else

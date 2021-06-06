@@ -43,7 +43,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 		}
 	}
 
-	public static void AddRecipe(ResourceLocation id, BasicCircuitRecipe recipe)
+	public static void addRecipe(ResourceLocation id, BasicCircuitRecipe recipe)
 	{
 		recipes.put(id, recipe);
 	}
@@ -122,7 +122,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 	//		}
 	//	}
 
-	private static BasicCircuitRecipe DeserializeFromJson(ResourceLocation id, JsonObject json)
+	private static BasicCircuitRecipe deserializeFromJson(ResourceLocation id, JsonObject json)
 	{
 		JsonArray pattern = JSONUtils.getJsonArray(json, "pattern");
 		Element[][] recPattern = new Element[8][8];
@@ -137,21 +137,21 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 			}
 		}
 
-		ItemStack result = CraftingHelper.getItemStack(JSONUtils.getJsonObject(json, "result"), true);
+		ItemStack result = CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(json, "result"), true);
 		return new BasicCircuitRecipe(id, result, recPattern);
 	}
 
-	public static BasicCircuitRecipe FindRecipe(Element[][] grid)
+	public static BasicCircuitRecipe findRecipe(Element[][] grid)
 	{
 		for (BasicCircuitRecipe rec : recipes.values())
 		{
-			if (rec.Matches(grid))
+			if (rec.matches(grid))
 				return rec;
 		}
 		return null;
 	}
 
-	public boolean Matches(Element[][] grid)
+	public boolean matches(Element[][] grid)
 	{
 		for (int i = 0; i < 8; i++)
 		{
@@ -164,7 +164,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 		return true;
 	}
 
-	public ItemStack GetResult()
+	public ItemStack getResult()
 	{
 		return result.copy();
 	}
@@ -220,7 +220,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 		@Override
 		public BasicCircuitRecipe read(ResourceLocation recipeId, JsonObject json)
 		{
-			return DeserializeFromJson(recipeId, json);
+			return deserializeFromJson(recipeId, json);
 		}
 
 		@Nullable

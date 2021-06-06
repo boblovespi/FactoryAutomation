@@ -69,8 +69,8 @@ public class GuiSolidFueledFirebox extends ContainerScreen<ContainerSolidFueledF
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/solid_fueled_firebox.png"));
 		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		flameBar.Draw(this, container.GetBar(1) / 100f);
-		tempBar.Draw(this, container.GetBar(2) / 100f);
+		flameBar.draw(this, container.GetBar(1) / 100f);
+		tempBar.draw(this, container.GetBar(2) / 100f);
 
 		// Log.LogInfo("tileentity nbt data", te.getTileData().toString());
 	}

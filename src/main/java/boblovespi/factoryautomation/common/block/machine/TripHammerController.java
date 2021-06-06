@@ -73,22 +73,22 @@ public class TripHammerController extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (world.isClientSide)
+		if (level.isClientSide)
 			return ActionResultType.SUCCESS;
 		TileEntity te1 = level.getBlockEntity(pos);
 		if (te1 instanceof TETripHammerController)
 		{
 			TETripHammerController te = (TETripHammerController) te1;
-			if (MultiblockHelper.IsStructureComplete(world, pos, TETripHammerController.MULTIBLOCK_ID,
-					world.getBlockState(pos).getValue(FACING)))
+			if (MultiblockHelper.IsStructureComplete(level, pos, TETripHammerController.MULTIBLOCK_ID,
+					level.getBlockState(pos).getValue(FACING)))
 			{
 				System.out.println("complete!");
-				te.CreateStructure();
+				te.createStructure();
 				ItemStack item = player.getItemInHand(hand);
 				if (item.isEmpty())
 				{
 					ItemStack item1 = te.TakeItem();
-					ItemHelper.PutItemsInInventoryOrDrop(player, item1, level);
+					ItemHelper.putItemsInInventoryOrDrop(player, item1, level);
 				} else
 				{
 					if (te.PutItem(item.copy().split(1)))

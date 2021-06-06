@@ -52,9 +52,9 @@ public class Millstone extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "mechanical/" + RegistryName();
+		return "mechanical/" + registryName();
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class Millstone extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult result)
 	{
-		if (world.isClientSide)
+		if (level.isClientSide)
 			return ActionResultType.SUCCESS;
 		ItemStack item = player.getItemInHand(hand);
 		TileEntity te = level.getBlockEntity(pos);

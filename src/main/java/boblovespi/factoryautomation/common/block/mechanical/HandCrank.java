@@ -76,7 +76,7 @@ public class HandCrank extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		if (!world.isClientSide)
+		if (!level.isClientSide)
 		{
 			TileEntity tileEntity = level.getBlockEntity(pos);
 			if (tileEntity instanceof TEHandCrank)

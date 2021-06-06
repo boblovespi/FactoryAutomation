@@ -28,12 +28,12 @@ public class ClientProxy implements CommonProxy
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event)
 	{
-		FAItems.RegisterItemRenders();
-		FABlocks.RegisterRenders();
+		FAItems.registerItemRenders();
+		FABlocks.registerRenders();
 	}
 
 	@Override
-	public void RegisterRenders()
+	public void registerRenders()
 	{
 		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.tePowerShaft, TESRPowerShaft::new);
 		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teGearbox, TESRGearbox::new);
@@ -49,22 +49,24 @@ public class ClientProxy implements CommonProxy
 		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teBevelGear, TESRBevelGear::new);
 	}
 
+	@Deprecated
 	@Override
-	public void PreInit()
+	public void preInit()
 	{
 		// ModelLoaderRegistry.registerLoader(new ObjModelLoader());
 		// OBJLoader.INSTANCE.addDomain("factoryautomation");
 		// FAConfig.ClientPreInit();
 	}
 
+	@Deprecated
 	@Override
-	public void Init()
+	public void init()
 	{
 		// NetworkRegistry.INSTANCE.registerGuiHandler(FactoryAutomation.instance, new GuiHandler());
 	}
 
 	@Override
-	public void AddChatMessage(ChatType type, ITextComponent string)
+	public void addChatMessage(ChatType type, ITextComponent string)
 	{
 		Minecraft.getInstance().ingameGUI.addChatMessage(type, string);
 	}

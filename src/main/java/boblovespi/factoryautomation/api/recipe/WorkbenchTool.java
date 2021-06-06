@@ -16,24 +16,24 @@ public class WorkbenchTool
 	public static final WorkbenchTool HAMMER = new WorkbenchTool(new ResourceLocation("factoryautomation", "hammer"),
 			new HashMap<Item, Integer>()
 			{{
-				put(FAItems.copperHammer.ToItem(), 1);
-				put(FAItems.ironHammer.ToItem(), 1);
-				put(FAItems.steelHammer.ToItem(), 2);
+				put(FAItems.copperHammer.toItem(), 1);
+				put(FAItems.ironHammer.toItem(), 1);
+				put(FAItems.steelHammer.toItem(), 2);
 			}});
 	public static final WorkbenchTool WRENCH = new WorkbenchTool(new ResourceLocation("factoryautomation", "wrench"),
 			new HashMap<Item, Integer>()
 			{{
-				put(FAItems.steelWrench.ToItem(), 2);
+				put(FAItems.steelWrench.toItem(), 2);
 			}});
 	public static final WorkbenchTool PINCHERS = new WorkbenchTool(
 			new ResourceLocation("factoryautomation", "pinchers"), new HashMap<Item, Integer>()
 	{{
-		put(FAItems.steelPinchers.ToItem(), 2);
+		put(FAItems.steelPinchers.toItem(), 2);
 	}});
 	public static final WorkbenchTool SANDPAPER = new WorkbenchTool(
 			new ResourceLocation("factoryautomation", "sandpaper"), new HashMap<Item, Integer>()
 	{{
-		put(FAItems.sandpaper.ToItem(), 1);
+		put(FAItems.sandpaper.toItem(), 1);
 	}});
 
 	private ResourceLocation id;

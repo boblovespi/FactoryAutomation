@@ -10,16 +10,16 @@ public interface IHeatUser
 	/**
 	 * @return the temperature in Celsius
 	 */
-	float GetTemperature();
+	float getTemperature();
 
-	float GetSubstanceAmount();
+	float getSubstanceAmount();
 
-	default float GetEnergy()
+	default float getEnergy()
 	{
-		return GetSubstanceAmount() * (GetTemperature() + 273) * EnergyConstants.GAS_CONSTANT;
+		return getSubstanceAmount() * (getTemperature() + 273) * EnergyConstants.GAS_CONSTANT;
 	}
 
-	void TransferEnergy(float energyAmount);
+	void transferEnergy(float energyAmount);
 
-	float GetConductivity();
+	float getConductivity();
 }

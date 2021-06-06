@@ -17,11 +17,11 @@ public class MetalBlock extends MultiTypeBlock<Metals>
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
 		if (meta > 1 && meta < blockTypes.getEnumConstants().length)
-			return super.GetMetaFilePath(meta);
+			return super.getMetaFilePath(meta);
 		else
-			return super.GetMetaFilePath(2);
+			return super.getMetaFilePath(2);
 	}
 }

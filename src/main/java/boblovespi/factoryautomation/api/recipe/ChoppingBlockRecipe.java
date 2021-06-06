@@ -32,7 +32,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		this.output = output;
 	}
 
-	public static void AddRecipe(String name, String oreName, ItemStack output)
+	public static void addRecipe(String name, String oreName, ItemStack output)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
@@ -42,7 +42,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		OREDICT_MAP.put("forge:" + oreName, recipe);
 	}
 
-	public static void AddRecipe(String name, ResourceLocation oreName, ItemStack output)
+	public static void addRecipe(String name, ResourceLocation oreName, ItemStack output)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
@@ -52,7 +52,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		OREDICT_MAP.put(oreName.toString(), recipe);
 	}
 
-	public static void AddRecipe(String name, Item item, ItemStack output)
+	public static void addRecipe(String name, Item item, ItemStack output)
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
@@ -62,7 +62,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		ITEM_MAP.put(item, recipe);
 	}
 
-	public static ChoppingBlockRecipe FindRecipe(ItemStack input)
+	public static ChoppingBlockRecipe findRecipe(ItemStack input)
 	{
 		if (input.isEmpty())
 			return null;
@@ -81,22 +81,22 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		}
 	}
 
-	public static ChoppingBlockRecipe GetRecipe(String name)
+	public static ChoppingBlockRecipe getRecipe(String name)
 	{
 		return STRING_MAP.getOrDefault(name, null);
 	}
 
-	public ItemStack GetOutput()
+	public ItemStack getOutput()
 	{
 		return output;
 	}
 
-	public Ingredient GetInput()
+	public Ingredient getInput()
 	{
 		return input;
 	}
 
-	public String GetName()
+	public String getName()
 	{
 		return name;
 	}

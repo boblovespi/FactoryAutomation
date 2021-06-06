@@ -158,12 +158,12 @@ public class FABlocks
 	public static FABlock terraclayBlock;
 	public static FABlock ironBloom;
 
-	public static void Init()
+	public static void init()
 	{
 		if (!isInit.compareAndSet(false, true))
 			return;
 
-		FAItems.Init();
+		FAItems.init();
 
 		blocks = new ArrayList<>(100);
 
@@ -211,11 +211,11 @@ public class FABlocks
 				of(Material.METAL).strength(1, 40).harvestTool(ToolType.PICKAXE).harvestLevel(3),
 				Building());
 
-		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
-		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
+		blocks.remove(metalBlock.GetBlock(Metals.IRON).toBlock());
+		blocks.remove(metalBlock.GetBlock(Metals.GOLD).toBlock());
 
-		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).GetItem().ToItem());
-		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
+		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).getItem().toItem());
+		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).getItem().toItem());
 
 		factorySign = new FABaseBlock("factory_sign_block", false,
 				of(Material.METAL).strength(1, 10).harvestTool(ToolType.PICKAXE).harvestLevel(1),
@@ -265,7 +265,7 @@ public class FABlocks
 				of(Material.STONE).strength(3f, 16), Building());
 		// .Init(n -> n.setHardness(3f).setResistance(16));
 		siliconQuartzOre = new GemOre("ore_silicon_quartz",
-				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
+				new OreData(FAItems.siliconQuartz.toItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
 														   .SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
 
 		rock = new Rock();
@@ -326,19 +326,19 @@ public class FABlocks
 		ironBloom = new IronBloom();
 	}
 
-	public static void RegisterRenders()
+	public static void registerRenders()
 	{
-		RegisterRender(concrete, 0);
+		registerRender(concrete, 0);
 	}
 
-	private static void RegisterRender(FABlock block, int meta)
+	private static void registerRender(FABlock block, int meta)
 	{
-		Log.LogInfo("The other file path", FactoryAutomation.MODID + ":" + block.GetMetaFilePath(meta));
+		Log.logInfo("The other file path", FactoryAutomation.MODID + ":" + block.getMetaFilePath(meta));
 
 		ModelResourceLocation loc = new ModelResourceLocation(
-				new ResourceLocation(FactoryAutomation.MODID, block.GetMetaFilePath(meta)), "inventory");
+				new ResourceLocation(FactoryAutomation.MODID, block.getMetaFilePath(meta)), "inventory");
 
-		Log.LogInfo("The other model resource location", loc.toString());
+		Log.logInfo("The other model resource location", loc.toString());
 		//
 		//		if (block.IsItemBlock())
 		//		{
@@ -353,12 +353,12 @@ public class FABlocks
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
-		Init();
+		init();
 
 		if (blocks == null)
-			Log.LogWarning("Blocks is null!");
+			Log.logWarning("Blocks is null!");
 		if (event == null || event.getRegistry() == null)
-			Log.LogWarning("Event is null!");
+			Log.logWarning("Event is null!");
 		assert event != null;
 		// blocks.forEach(n -> System.out.println(n.getRegistryName()));
 		blocks.forEach(event.getRegistry()::register);

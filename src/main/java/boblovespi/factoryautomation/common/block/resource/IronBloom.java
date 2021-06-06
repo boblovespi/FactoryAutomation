@@ -19,9 +19,9 @@ public class IronBloom extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "resources/" + RegistryName();
+		return "resources/" + registryName();
 	}
 	// TODO: loot tables
 	//	/**

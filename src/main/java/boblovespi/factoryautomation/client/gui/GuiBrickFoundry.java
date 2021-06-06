@@ -3,18 +3,14 @@ package boblovespi.factoryautomation.client.gui;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiBar;
 import boblovespi.factoryautomation.common.container.ContainerBrickFoundry;
-import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -88,10 +84,10 @@ public class GuiBrickFoundry extends ContainerScreen<ContainerBrickFoundry>
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/brick_foundry.png"));
 		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		flameBar.Draw(this, container.GetBar(0) / 100f);
-		tempBar.Draw(this, container.GetBar(1) / 100f);
-		progressBar.Draw(this, container.GetBar(2) / 100f);
-		bellowsBar.Draw(this, container.GetBar(3) / 100f);
+		flameBar.draw(this, container.GetBar(0) / 100f);
+		tempBar.draw(this, container.GetBar(1) / 100f);
+		progressBar.draw(this, container.GetBar(2) / 100f);
+		bellowsBar.draw(this, container.GetBar(3) / 100f);
 		fill(guiLeft + 107, guiTop + (int) (76 - 59 * container.GetBar(4) / 100f), guiLeft + 123, guiTop + 76,
 				container.GetBar(5));
 

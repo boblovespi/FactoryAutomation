@@ -1,22 +1,19 @@
 package boblovespi.factoryautomation.datagen.loottable;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.block.RiceCrop;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Items;
-import net.minecraft.world.storage.loot.ItemLootEntry;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTable;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.BlockStateProperty;
-import net.minecraft.world.storage.loot.functions.ApplyBonus;
-import net.minecraft.world.storage.loot.functions.SetCount;
+import net.minecraft.loot.ItemLootEntry;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.RandomValueRange;
+import net.minecraft.loot.functions.ApplyBonus;
+import net.minecraft.loot.functions.SetCount;
 
 public class FABlockLootTables extends BlockLootTables
 {
@@ -25,126 +22,125 @@ public class FABlockLootTables extends BlockLootTables
 	{
 		super.addTables();
 		// multiblock controllers
-		registerDropSelfLootTable(FABlocks.steelmakingFurnaceController.ToBlock());
-		registerDropSelfLootTable(FABlocks.blastFurnaceController.ToBlock());
-		registerDropSelfLootTable(FABlocks.tripHammerController.ToBlock());
-		registerDropSelfLootTable(FABlocks.waterwheel.ToBlock());
+		dropSelf(FABlocks.steelmakingFurnaceController.toBlock());
+		dropSelf(FABlocks.blastFurnaceController.toBlock());
+		dropSelf(FABlocks.tripHammerController.toBlock());
+		dropSelf(FABlocks.waterwheel.toBlock());
 
 		// misc
-		registerDropSelfLootTable(FABlocks.concrete.ToBlock());
-		registerLootTable(FABlocks.riceCrop.ToBlock(), withExplosionDecay(
-				FABlocks.riceCrop,
-				LootTable.builder().addLootPool(LootPool.builder().addEntry(ItemLootEntry.builder(FAItems.riceGrain)))
-						 .addLootPool(LootPool.builder().acceptCondition(
-								 BlockStateProperty.builder(FABlocks.riceCrop.ToBlock()).fromProperties(
-										 StatePropertiesPredicate.Builder.newBuilder().withIntProp(RiceCrop.AGE, 7)))
-											  .addEntry(ItemLootEntry.builder(FAItems.riceGrain))
-											  .acceptFunction(SetCount.builder(RandomValueRange.of(0, 3)))
-											  .acceptFunction(ApplyBonus.uniformBonusCount(Enchantments.FORTUNE)))));
-		registerLootTable(FABlocks.concreteSlab, BlockLootTables::droppingSlab);
+		dropSelf(FABlocks.concrete.toBlock());
+//		add(FABlocks.riceCrop.ToBlock(), withExplosionDecay(
+//				FABlocks.riceCrop,
+//				LootTable.builder().addLootPool(LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.riceGrain)))
+//						 .addLootPool(LootPool.lootPool().apply(BlockStateProperty.hasBlockStateProperties(FABlocks.riceCrop.ToBlock()).setProperties(
+//							 StatePropertiesPredicate.ANY))
+//								  .add(ItemLootEntry.lootTableItem(FAItems.riceGrain))
+//								  .apply(SetCount.setCount(RandomValueRange.between(0, 3)))
+//								  .apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE)))));
+		add(FABlocks.concreteSlab, BlockLootTables::createSlabItemTable);
 		// handle multiblock part separately
-		registerLootTable(FABlocks.multiblockPart.ToBlock(), func_218482_a());
-		registerDropSelfLootTable(FABlocks.cable.ToBlock());
-		registerDropSelfLootTable(FABlocks.solarPanel.ToBlock());
-		registerDropSelfLootTable(FABlocks.treetap.ToBlock());
+		add(FABlocks.multiblockPart.toBlock(), noDrop());
+		dropSelf(FABlocks.cable.toBlock());
+		dropSelf(FABlocks.solarPanel.toBlock());
+		dropSelf(FABlocks.treetap.toBlock());
 		// handle bucket separately
-		registerLootTable(FABlocks.placedBucket.ToBlock(), func_218482_a());
-		registerDropSelfLootTable(FABlocks.factorySign.ToBlock());
-		registerDropSelfLootTable(FABlocks.solidfueledfirebox.ToBlock());
-		FABlocks.woodChoppingBlocks.forEach(n -> registerDropSelfLootTable(n.ToBlock()));
-		registerDropSelfLootTable(FABlocks.campfire.ToBlock());
-		registerDropSelfLootTable(FABlocks.brickMakerFrame.ToBlock());
-		registerDropSelfLootTable(FABlocks.ironCharcoalMix.ToBlock());
+		add(FABlocks.placedBucket.toBlock(), noDrop());
+		dropSelf(FABlocks.factorySign.toBlock());
+		dropSelf(FABlocks.solidfueledfirebox.toBlock());
+		FABlocks.woodChoppingBlocks.forEach(n -> dropSelf(n.toBlock()));
+		dropSelf(FABlocks.campfire.toBlock());
+		dropSelf(FABlocks.brickMakerFrame.toBlock());
+		dropSelf(FABlocks.ironCharcoalMix.toBlock());
 
 		// metal blocks
 		for (Metals metal : Metals.values())
 		{
 			if (metal != Metals.IRON && metal != Metals.GOLD)
-				registerDropSelfLootTable(FABlocks.metalBlock.GetBlock(metal));
-			registerDropSelfLootTable(FABlocks.metalPlateBlock.GetBlock(metal));
+				dropSelf(FABlocks.metalBlock.GetBlock(metal));
+			dropSelf(FABlocks.metalPlateBlock.GetBlock(metal));
 		}
-		registerDropSelfLootTable(FABlocks.ironPatternedPlateBlock.ToBlock());
-		registerDropSelfLootTable(FABlocks.pillarBronze.ToBlock());
-		registerDropSelfLootTable(FABlocks.pillarCopper.ToBlock());
-		registerDropSelfLootTable(FABlocks.pillarIron.ToBlock());
-		registerDropSelfLootTable(FABlocks.pillarMagmaticBrass.ToBlock());
-		registerDropSelfLootTable(FABlocks.pillarPigIron.ToBlock());
-		registerDropSelfLootTable(FABlocks.pillarSteel.ToBlock());
-		registerDropSelfLootTable(FABlocks.pillarTin.ToBlock());
-		registerDropSelfLootTable(FABlocks.altpillarBronze.ToBlock());
-		registerDropSelfLootTable(FABlocks.altpillarCopper.ToBlock());
-		registerDropSelfLootTable(FABlocks.altpillarIron.ToBlock());
-		registerDropSelfLootTable(FABlocks.altpillarMagmaticBrass.ToBlock());
-		registerDropSelfLootTable(FABlocks.altpillarPigIron.ToBlock());
-		registerDropSelfLootTable(FABlocks.altpillarSteel.ToBlock());
-		registerDropSelfLootTable(FABlocks.altpillarTin.ToBlock());
+		dropSelf(FABlocks.ironPatternedPlateBlock.toBlock());
+		dropSelf(FABlocks.pillarBronze.toBlock());
+		dropSelf(FABlocks.pillarCopper.toBlock());
+		dropSelf(FABlocks.pillarIron.toBlock());
+		dropSelf(FABlocks.pillarMagmaticBrass.toBlock());
+		dropSelf(FABlocks.pillarPigIron.toBlock());
+		dropSelf(FABlocks.pillarSteel.toBlock());
+		dropSelf(FABlocks.pillarTin.toBlock());
+		dropSelf(FABlocks.altpillarBronze.toBlock());
+		dropSelf(FABlocks.altpillarCopper.toBlock());
+		dropSelf(FABlocks.altpillarIron.toBlock());
+		dropSelf(FABlocks.altpillarMagmaticBrass.toBlock());
+		dropSelf(FABlocks.altpillarPigIron.toBlock());
+		dropSelf(FABlocks.altpillarSteel.toBlock());
+		dropSelf(FABlocks.altpillarTin.toBlock());
 
 		// ores
 		for (MetalOres ore : MetalOres.values())
 		{
-			registerDropSelfLootTable(FABlocks.metalOres.GetBlock(ore));
+			dropSelf(FABlocks.metalOres.GetBlock(ore));
 		}
 		for (Ore.Grade grade : Ore.Grade.values())
 		{
-			registerDropSelfLootTable(FABlocks.limoniteOre.GetBlock(grade));
-			registerDropSelfLootTable(FABlocks.magnetiteOre.GetBlock(grade));
+			dropSelf(FABlocks.limoniteOre.GetBlock(grade));
+			dropSelf(FABlocks.magnetiteOre.GetBlock(grade));
 		}
-		registerLootTable(FABlocks.siliconQuartzOre.ToBlock(), LootTable.builder().addLootPool(
-				LootPool.builder().addEntry(ItemLootEntry.builder(FAItems.siliconQuartz))
-						.acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE))));
-		registerDropSelfLootTable(FABlocks.rock.ToBlock());
-		registerDropping(FABlocks.flintRock.ToBlock(), Items.FLINT);
+		add(FABlocks.siliconQuartzOre.toBlock(), LootTable.lootTable().withPool(
+				LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.siliconQuartz))
+						.apply(ApplyBonus.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+		dropSelf(FABlocks.rock.toBlock());
+		dropOther(FABlocks.flintRock.toBlock(), Items.FLINT);
 
 		// workbenches
-		registerDropSelfLootTable(FABlocks.stoneWorkbench.ToBlock());
-		registerDropSelfLootTable(FABlocks.ironWorkbench.ToBlock());
-		registerDropSelfLootTable(FABlocks.chipCreator.ToBlock());
+		dropSelf(FABlocks.stoneWorkbench.toBlock());
+		dropSelf(FABlocks.ironWorkbench.toBlock());
+		dropSelf(FABlocks.chipCreator.toBlock());
 
 		// no fluids
 
 		// decoration blocks
-		registerDropSelfLootTable(FABlocks.bronzeCauldron.ToBlock());
-		registerDropSelfLootTable(FABlocks.bronzeFence.ToBlock());
-		registerSilkTouch(FABlocks.slagGlass.ToBlock());
+		dropSelf(FABlocks.bronzeCauldron.toBlock());
+		dropSelf(FABlocks.bronzeFence.toBlock());
+		dropWhenSilkTouch(FABlocks.slagGlass.toBlock());
 
 		// smelting
-		registerDropSelfLootTable(FABlocks.stoneCrucible.ToBlock());
-		registerDropSelfLootTable(FABlocks.stoneCastingVessel.ToBlock());
-		registerDropSelfLootTable(FABlocks.brickCrucible.ToBlock());
-		registerDropSelfLootTable(FABlocks.brickCastingVessel.ToBlock());
-		registerDropSelfLootTable(FABlocks.brickFirebox.ToBlock());
-		registerDropSelfLootTable(FABlocks.paperBellows.ToBlock());
-		registerDropSelfLootTable(FABlocks.leatherBellows.ToBlock());
+		dropSelf(FABlocks.stoneCrucible.toBlock());
+		dropSelf(FABlocks.stoneCastingVessel.toBlock());
+		dropSelf(FABlocks.brickCrucible.toBlock());
+		dropSelf(FABlocks.brickCastingVessel.toBlock());
+		dropSelf(FABlocks.brickFirebox.toBlock());
+		dropSelf(FABlocks.paperBellows.toBlock());
+		dropSelf(FABlocks.leatherBellows.toBlock());
 
 		// mechanical
-		registerDropSelfLootTable(FABlocks.powerShaft.ToBlock());
-		registerDropSelfLootTable(FABlocks.gearbox.ToBlock());
-		registerDropSelfLootTable(FABlocks.bevelGear.ToBlock());
-		registerDropSelfLootTable(FABlocks.jawCrusher.ToBlock());
-		registerDropSelfLootTable(FABlocks.creativeMechanicalSource.ToBlock());
-		registerDropSelfLootTable(FABlocks.motor.ToBlock());
-		registerDropSelfLootTable(FABlocks.handCrank.ToBlock());
-		registerDropSelfLootTable(FABlocks.millstone.ToBlock());
-		registerDropSelfLootTable(FABlocks.horseEngine.ToBlock());
+		dropSelf(FABlocks.powerShaft.toBlock());
+		dropSelf(FABlocks.gearbox.toBlock());
+		dropSelf(FABlocks.bevelGear.toBlock());
+		dropSelf(FABlocks.jawCrusher.toBlock());
+		dropSelf(FABlocks.creativeMechanicalSource.toBlock());
+		dropSelf(FABlocks.motor.toBlock());
+		dropSelf(FABlocks.handCrank.toBlock());
+		dropSelf(FABlocks.millstone.toBlock());
+		dropSelf(FABlocks.horseEngine.toBlock());
 
 		// transfer
-		registerDropSelfLootTable(FABlocks.pipe.ToBlock());
-		registerDropSelfLootTable(FABlocks.pump.ToBlock());
+		dropSelf(FABlocks.pipe.toBlock());
+		dropSelf(FABlocks.pump.toBlock());
 
 		// resource blocks
-		registerDropSelfLootTable(FABlocks.greenSand.ToBlock());
-		registerLootTable(FABlocks.charcoalPile.ToBlock(), LootTable.builder().addLootPool(
-				LootPool.builder().addEntry(ItemLootEntry.builder(Items.CHARCOAL))
-						.acceptFunction(SetCount.builder(RandomValueRange.of(7, 10)))
-						.acceptFunction(ApplyBonus.uniformBonusCount(Enchantments.FORTUNE))));
-		registerDropSelfLootTable(FABlocks.logPile.ToBlock());
-		registerDropSelfLootTable(FABlocks.terraclayBrickBlock.ToBlock());
-		registerDropSelfLootTable(FABlocks.terraclayBlock.ToBlock());
-		registerLootTable(FABlocks.ironBloom.ToBlock(), LootTable.builder().addLootPool(
-				LootPool.builder().addEntry(ItemLootEntry.builder(FAItems.ironShard))
-						.acceptFunction(SetCount.builder(RandomValueRange.of(2, 4)))
-						.acceptFunction(ApplyBonus.uniformBonusCount(Enchantments.FORTUNE))).addLootPool(
-				LootPool.builder().addEntry(ItemLootEntry.builder(FAItems.slag))
-						.acceptFunction(ApplyBonus.uniformBonusCount(Enchantments.FORTUNE))));
+		dropSelf(FABlocks.greenSand.toBlock());
+		add(FABlocks.charcoalPile.toBlock(), LootTable.lootTable().withPool(
+				LootPool.lootPool().add(ItemLootEntry.lootTableItem(Items.CHARCOAL))
+						.apply(SetCount.setCount(RandomValueRange.between(7, 10)))
+						.apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
+		dropSelf(FABlocks.logPile.toBlock());
+		dropSelf(FABlocks.terraclayBrickBlock.toBlock());
+		dropSelf(FABlocks.terraclayBlock.toBlock());
+		add(FABlocks.ironBloom.toBlock(), LootTable.lootTable().withPool(
+				LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.ironShard))
+						.apply(SetCount.setCount(RandomValueRange.between(2, 4)))
+						.apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))).withPool(
+				LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.slag))
+						.apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 	}
 }

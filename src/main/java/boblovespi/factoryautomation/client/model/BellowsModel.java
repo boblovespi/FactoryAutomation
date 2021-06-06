@@ -84,12 +84,12 @@ public class BellowsModel extends Model
 		modelRenderer.rotateAngleZ = z;
 	}
 
-	public void RenderTESR(float scale)
+	public void renderTESR(float scale)
 	{
 		// render(null, 0, 0, 0, 0, 0, scale);
 	}
 
-	public void Rotate(float lerp)
+	public void rotate(float lerp)
 	{
 		setRotateAngle(bellowpart_1, (float) MathHelper.clampedLerp(0, 0, lerp), 0, 0);
 		setRotateAngle(bellowpart_2, (float) MathHelper.clampedLerp(0, 0.136659280431156F, lerp), 0, 0);

@@ -35,9 +35,9 @@ public class ChoppingBlock extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "processing/" + RegistryName();
+		return "processing/" + registryName();
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class ChoppingBlock extends FABaseBlock
 	@Override
 	public void onBlockClicked(BlockState state, World level, BlockPos pos, PlayerEntity player)
 	{
-		if (world.isClientSide)
+		if (level.isClientSide)
 			return;
 		TileEntity te = level.getBlockEntity(pos);
 		if (te instanceof TEChoppingBlock)
@@ -73,7 +73,7 @@ public class ChoppingBlock extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (world.isClientSide)
+		if (level.isClientSide)
 			return ActionResultType.SUCCESS;
 		ItemStack item = player.getItemInHand(hand);
 		TileEntity te = level.getBlockEntity(pos);

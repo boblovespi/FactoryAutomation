@@ -54,9 +54,9 @@ public class Campfire extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
+	public String getMetaFilePath(int meta)
 	{
-		return "processing/" + RegistryName();
+		return "processing/" + registryName();
 	}
 
 	@Override
@@ -106,15 +106,15 @@ public class Campfire extends FABaseBlock
 	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
-		if (!world.isClientSide)
+		if (!level.isClientSide)
 		{
 			boolean canLight = !state.getValue(LIT);
 			ItemStack stack = player.getItemInHand(hand);
 			Item item = stack.getItem();
 			if (canLight && (item == Items.TORCH || item == Items.FLINT_AND_STEEL
-					|| item == FAItems.advancedFlintAndSteel.ToItem()))
+					|| item == FAItems.advancedFlintAndSteel.toItem()))
 			{
-				world.setBlockState(pos, state.setValue(LIT, true));
+				level.setBlockState(pos, state.setValue(LIT, true));
 				TileEntity te = level.getBlockEntity(pos);
 				if (te instanceof TECampfire)
 					((TECampfire) te).SetLit(true);
@@ -135,16 +135,16 @@ public class Campfire extends FABaseBlock
 			return;
 		if (rand.nextDouble() < 0.1D)
 		{
-			world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D,
+			level.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D,
 					SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 		}
 		double x = pos.getX() + 0.5;
 		double y = pos.getY() + 0.2;
 		double z = pos.getZ() + 0.5;
-		world.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0.02, 0);
-		world.addParticle(ParticleTypes.SMOKE, x, y, z, rand.nextDouble() / 20d, 0.15, rand.nextDouble() / 20d);
+		level.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0.02, 0);
+		level.addParticle(ParticleTypes.SMOKE, x, y, z, rand.nextDouble() / 20d, 0.15, rand.nextDouble() / 20d);
 		if (rand.nextDouble() < 0.5D)
-			world.addParticle(
+			level.addParticle(
 					ParticleTypes.CAMPFIRE_COSY_SMOKE, x, y, z, rand.nextDouble() / 40d, 0.08, rand.nextDouble() / 40d);
 	}
 }

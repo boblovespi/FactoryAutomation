@@ -113,12 +113,12 @@ public class ContainerBrickFoundry extends Container
 		return previous;
 	}
 
-	public int GetBar(int id)
+	public int getBar(int id)
 	{
 		return containerInfo.get(id);
 	}
 
-	public String GetMetalName()
+	public String getMetalName()
 	{
 		return metalName.GetString();
 	}

@@ -48,47 +48,47 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	public void FirstLoad()
 	{
 		out = Direction.get(Direction.AxisDirection.POSITIVE, getBlockState().getValue(Waterwheel.AXIS));
-		user.SetSides(EnumSet.of(out));
+		user.setSides(EnumSet.of(out));
 		waterLoc = new ArrayList<>(11);
 		Direction front = out.getClockWise();
-		waterLoc.add(worldPosition.relative(front, -1).above(3));
-		waterLoc.add(worldPosition.above(3));
-		waterLoc.add(worldPosition.relative(front).above(3));
-		waterLoc.add(worldPosition.relative(front, 2).above(2));
-		waterLoc.add(worldPosition.relative(front, 3).above());
-		waterLoc.add(worldPosition.relative(front, 3));
-		waterLoc.add(worldPosition.relative(front, 3).above(-1));
-		waterLoc.add(worldPosition.relative(front, 2).above(-2));
-		waterLoc.add(worldPosition.relative(front, 1).above(-3));
-		waterLoc.add(worldPosition.above(-3));
-		waterLoc.add(worldPosition.relative(front, -1).above(-3));
+		waterLoc.add(levelPosition.relative(front, -1).above(3));
+		waterLoc.add(levelPosition.above(3));
+		waterLoc.add(levelPosition.relative(front).above(3));
+		waterLoc.add(levelPosition.relative(front, 2).above(2));
+		waterLoc.add(levelPosition.relative(front, 3).above());
+		waterLoc.add(levelPosition.relative(front, 3));
+		waterLoc.add(levelPosition.relative(front, 3).above(-1));
+		waterLoc.add(levelPosition.relative(front, 2).above(-2));
+		waterLoc.add(levelPosition.relative(front, 1).above(-3));
+		waterLoc.add(levelPosition.above(-3));
+		waterLoc.add(levelPosition.relative(front, -1).above(-3));
 		firstTick = false;
 	}
 
 	@Override
-	public void SetStructureValid(boolean isValid)
+	public void setStructureValid(boolean isValid)
 	{
 		structureIsValid = isValid;
 	}
 
 	@Override
-	public boolean IsStructureValid()
+	public boolean isStructureValid()
 	{
 		return structureIsValid;
 	}
 
 	@Override
-	public void CreateStructure()
+	public void createStructure()
 	{
-		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, out);
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
+		MultiblockHelper.CreateStructure(level, levelPosition, MULTIBLOCK_ID, out);
+		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
 	}
 
 	@Override
-	public void BreakStructure()
+	public void breakStructure()
 	{
-		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, out);
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
+		MultiblockHelper.BreakStructure(level, levelPosition, MULTIBLOCK_ID, out);
+		Objects.requireNonNull(level).setBlockAndUpdate(levelPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 	 */
 	@Nonnull
     @Override
-	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
+	public <T> LazyOptional<T> getCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		return LazyOptional.empty();
 	}
@@ -124,10 +124,10 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 
 		if (counter == 0)
 		{
-			if (level.getBiome(worldPosition).getRegistryName() == Biomes.RIVER.location())
+			if (level.getBiome(levelPosition).getRegistryName() == Biomes.RIVER.location())
 			{
-				user.SetSpeedOnFace(out, 10);
-				user.SetTorqueOnFace(out, 25);
+				user.setSpeedOnFace(out, 10);
+				user.setTorqueOnFace(out, 25);
 			} else
 			{
 				float torque = 0;
@@ -156,8 +156,8 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 						}
 					}
 				}
-				user.SetSpeedOnFace(out, torque < 1 ? 0 : 10);
-				user.SetTorqueOnFace(out, torque);
+				user.setSpeedOnFace(out, torque < 1 ? 0 : 10);
+				user.setTorqueOnFace(out, torque);
 			}
 		}
 	}

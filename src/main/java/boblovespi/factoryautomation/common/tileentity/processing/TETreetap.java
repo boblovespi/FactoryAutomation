@@ -46,13 +46,13 @@ public class TETreetap extends TileEntity implements ITickableTileEntity
 
 		if (counter == 0)
 		{
-			TileEntity te = level.getBlockEntity(worldPosition.below());
+			TileEntity te = level.getBlockEntity(levelPosition.below());
 			if (te != null)
 			{
 				LazyOptional<IFluidHandler> handler = te
 						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, Direction.UP);
 				handler.ifPresent(n -> {
-					BlockPos offset = worldPosition.relative(level.getBlockState(worldPosition).getValue(FACING).getOpposite());
+					BlockPos offset = levelPosition.relative(level.getBlockState(levelPosition).getValue(FACING).getOpposite());
 					BlockState block = level.getBlockState(offset);
 					BlockPos leafPos = offset;
 					if (block.getBlock() == Blocks.JUNGLE_LOG)

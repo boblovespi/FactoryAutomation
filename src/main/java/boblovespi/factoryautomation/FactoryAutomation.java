@@ -29,7 +29,7 @@ import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
-import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
+import boblovespi.factoryautomation.common.levelgen.WorldGenHandler;
 import boblovespi.factoryautomation.datagen.loottable.FALootTableProvider;
 import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
 import boblovespi.factoryautomation.datagen.tags.FABlockTagProvider;
@@ -82,48 +82,48 @@ public class FactoryAutomation
 	}
 
 	@SubscribeEvent
-	public static void Setup(FMLCommonSetupEvent event)
+	public static void setup(FMLCommonSetupEvent event)
 	{
 		Log.getLogger().info("Preinitialization");
 
-		ConfigFields.AddClass(VanillaTweakHandler.class);
-		ConfigFields.AddClass(ToolMaterial.class);
+		ConfigFields.addClass(VanillaTweakHandler.class);
+		ConfigFields.addClass(ToolMaterial.class);
 
 		// ConfigManager.sync(MODID, Config.Type.INSTANCE);
 
-		CapabilityPollutedChunk.Register();
-		CapabilityMechanicalUser.Register();
-		CapabilityHeatUser.Register();
-		CapabilityBellowsUser.Register();
+		CapabilityPollutedChunk.register();
+		CapabilityMechanicalUser.register();
+		CapabilityHeatUser.register();
+		CapabilityBellowsUser.register();
 
 		// FAConfig.PreInit();
 		PacketHandler.CreateChannel(MODID);
-		proxy.PreInit();
+		proxy.preInit();
 
-		FAItems.Init();
-		FABlocks.Init();
+		FAItems.init();
+		FABlocks.init();
 
 		// proxy.RegisterRenders();
 
 		Log.getLogger().info("Preinitialization end");
 
-		Init();
+		init();
 
-		PostInit();
+		postInit();
 	}
 
 	@SubscribeEvent
-	public static void ClientSetup(FMLClientSetupEvent event)
+	public static void clientSetup(FMLClientSetupEvent event)
 	{
 		// TODO: RenderTypeLookup.setRenderLayer();
-		proxy.RegisterRenders();
-		GuiHandler.RegisterGuis();
-		RenderTypeLookup.setRenderLayer(FABlocks.riceCrop.ToBlock(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(FABlocks.ironWorkbench.ToBlock(), RenderType.getCutoutMipped());
+		proxy.registerRenders();
+		GuiHandler.registerGuis();
+		RenderTypeLookup.setRenderLayer(FABlocks.riceCrop.toBlock(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(FABlocks.ironWorkbench.toBlock(), RenderType.getCutoutMipped());
 	}
 
 	@SubscribeEvent
-	public static void DataSetup(GatherDataEvent event)
+	public static void dataSetup(GatherDataEvent event)
 	{
 		DataGenerator generator = event.getGenerator();
 		generator.addProvider(new FARecipeProvider(generator));
@@ -134,12 +134,12 @@ public class FactoryAutomation
 
 	@SuppressWarnings("unused")
 	// @Mod.EventHandler
-	public static void Init()
+	public static void init()
 	{
 		Log.getLogger().info("Initialization");
-		proxy.Init();
+		proxy.init();
 		// GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
-		FuelHandler.RegisterFuels();
+		FuelHandler.registerFuels();
 		RecipeHandler.registerIRecipes();
 		// OreDictionaryHandler.registerOreDictionary();
 		// Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
@@ -174,13 +174,13 @@ public class FactoryAutomation
 				new MultiblockStructurePattern(MultiblockStructures.waterwheel, new int[] { 0, 2, 2 }));
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
-		LootTableHandler.RegisterTables();
-		ModCompatHandler.Init();
+		LootTableHandler.registerTables();
+		ModCompatHandler.init();
 	}
 
 	@SuppressWarnings("unused")
 	// @Mod.EventHandler
-	public static void PostInit(/*FMLPostInitializationEvent Event*/)
+	public static void postInit(/*FMLPostInitializationEvent Event*/)
 	{
 		Log.getLogger().info("Postinitialization");
 

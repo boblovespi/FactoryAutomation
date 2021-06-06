@@ -68,7 +68,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	protected String FindRecipeName()
 	{
 		JawCrusherRecipe tRecipe = JawCrusherRecipe
-				.FindRecipe(processingInv.getStackInSlot(INPUT_SLOT), GetMachineTier());
+				.findRecipe(processingInv.getStackInSlot(INPUT_SLOT), GetMachineTier());
 		if (tRecipe == null)
 			return "none";
 		return tRecipe.name;
@@ -78,7 +78,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	@Override
 	protected JawCrusherRecipe FindRecipe(String recipeName)
 	{
-		return JawCrusherRecipe.GetRecipe(recipeName);
+		return JawCrusherRecipe.getRecipe(recipeName);
 	}
 
 	@Override
@@ -107,12 +107,12 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	@Override
 	public void Update()
 	{
-		Direction facing = Objects.requireNonNull(level).getBlockState(worldPosition).getValue(JawCrusher.FACING).getCounterClockWise();
-		TileEntity te = level.getBlockEntity(worldPosition.relative(facing));
+		Direction facing = Objects.requireNonNull(level).getBlockState(levelPosition).getValue(JawCrusher.FACING).getCounterClockWise();
+		TileEntity te = level.getBlockEntity(levelPosition.relative(facing));
 		if (TEHelper.IsMechanicalFace(te, facing))
 		{
-			speed = GetUser(te, facing).GetSpeedOnFace(facing);
-			torque = GetUser(te, facing).GetTorqueOnFace(facing);
+			speed = GetUser(te, facing).getSpeedOnFace(facing);
+			torque = GetUser(te, facing).getTorqueOnFace(facing);
 		} else
 		{
 			speed = 0;
@@ -140,34 +140,34 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	}
 
 	@Override
-	public boolean HasConnectionOnSide(Direction side)
+	public boolean hasConnectionOnSide(Direction side)
 	{
-		return side == Objects.requireNonNull(level).getBlockState(worldPosition).getValue(JawCrusher.FACING).getCounterClockWise();
+		return side == Objects.requireNonNull(level).getBlockState(levelPosition).getValue(JawCrusher.FACING).getCounterClockWise();
 	}
 
 	@Override
-	public float GetSpeedOnFace(Direction side)
+	public float getSpeedOnFace(Direction side)
 	{
-		return HasConnectionOnSide(side) ? speed : 0;
+		return hasConnectionOnSide(side) ? speed : 0;
 	}
 
 	@Override
-	public float GetTorqueOnFace(Direction side)
+	public float getTorqueOnFace(Direction side)
 	{
-		return HasConnectionOnSide(side) ? torque : 0;
+		return hasConnectionOnSide(side) ? torque : 0;
 	}
 
 	@Override
-	public void SetSpeedOnFace(Direction side, float speed)
+	public void setSpeedOnFace(Direction side, float speed)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			this.speed = speed;
 	}
 
 	@Override
-	public void SetTorqueOnFace(Direction side, float torque)
+	public void setTorqueOnFace(Direction side, float torque)
 	{
-		if (HasConnectionOnSide(side))
+		if (hasConnectionOnSide(side))
 			this.torque = torque;
 	}
 

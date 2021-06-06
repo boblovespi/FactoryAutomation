@@ -35,7 +35,7 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 		this.color = color;
 	}
 
-	public static Metals GetFromName(String name)
+	public static Metals fromName(String name)
 	{
 		return Metals.valueOf(name.toUpperCase());
 	}
@@ -53,7 +53,7 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 	}
 
 	@Override
-	public int GetId()
+	public int getId()
 	{
 		return id;
 	}

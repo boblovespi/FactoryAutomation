@@ -3,7 +3,6 @@ package boblovespi.factoryautomation.common.tileentity;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.tileentity.*;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntityCable;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
@@ -111,7 +110,7 @@ public class TileEntityHandler
 
 	private static <T extends TileEntity> TileEntityType<T> BuildType(Supplier<T> supplier, FABlock block, String name)
 	{
-		TileEntityType<T> t = TileEntityType.Builder.of(supplier, block.ToBlock()).build(null);
+		TileEntityType<T> t = TileEntityType.Builder.of(supplier, block.toBlock()).build(null);
 		t.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
 		tileTypes.add(t);
 		return t;
@@ -121,7 +120,7 @@ public class TileEntityHandler
 			String name)
 	{
 		TileEntityType<T> t = TileEntityType.Builder
-				.of(supplier, blocks.stream().map(FABlock::ToBlock).toArray(Block[]::new)).build(null);
+				.of(supplier, blocks.stream().map(FABlock::toBlock).toArray(Block[]::new)).build(null);
 		t.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
 		tileTypes.add(t);
 		return t;

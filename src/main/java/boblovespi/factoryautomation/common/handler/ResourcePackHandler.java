@@ -103,8 +103,8 @@ public class ResourcePackHandler
 			} catch (IOException | URISyntaxException exception)
 			{
 				//noinspection SpellCheckingInspection
-				Log.LogError("AAAAAAAAAAAAAAAAAAAAAAA EVERYTHING IS BROKEN");
-				Log.LogError(exception.getMessage());
+				Log.logError("AAAAAAAAAAAAAAAAAAAAAAA EVERYTHING IS BROKEN");
+				Log.logError(exception.getMessage());
 				exception.printStackTrace();
 				return Collections.emptyList();
 			}

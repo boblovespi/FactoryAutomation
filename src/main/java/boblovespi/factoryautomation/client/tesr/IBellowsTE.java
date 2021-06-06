@@ -5,7 +5,7 @@ package boblovespi.factoryautomation.client.tesr;
  */
 public interface IBellowsTE
 {
-	float GetLerp();
+	float getLerp();
 
-	float GetLerpSpeed();
+	float getLerpSpeed();
 }

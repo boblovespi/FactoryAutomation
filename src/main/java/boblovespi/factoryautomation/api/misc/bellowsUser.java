@@ -5,14 +5,14 @@ import net.minecraft.nbt.CompoundNBT;
 /**
  * Created by Willi on 4/27/2019.
  */
-public class BellowsUser implements IBellowsable
+public class bellowsUser implements IBellowsable
 {
 	private final float baseEfficiency;
 	private float efficiency;
 	private int time;
 	private int maxTime;
 
-	public BellowsUser(float baseEfficiency)
+	public bellowsUser(float baseEfficiency)
 	{
 		this.baseEfficiency = baseEfficiency;
 		efficiency = baseEfficiency;
@@ -20,24 +20,24 @@ public class BellowsUser implements IBellowsable
 	}
 
 	@Override
-	public void Blow(float efficiency, int time)
+	public void blow(float efficiency, int time)
 	{
 		this.efficiency = efficiency;
 		this.time = time;
 		maxTime = time;
 	}
 
-	public float GetEfficiency()
+	public float getEfficiency()
 	{
 		return efficiency;
 	}
 
-	public int GetTime()
+	public int getTime()
 	{
 		return time;
 	}
 
-	public void Tick()
+	public void tick()
 	{
 		if (time > 0)
 		{
@@ -51,7 +51,7 @@ public class BellowsUser implements IBellowsable
 		}
 	}
 
-	public CompoundNBT WriteToNBT()
+	public CompoundNBT writeToNBT()
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		nbt.putFloat("efficiency", efficiency);
@@ -60,14 +60,14 @@ public class BellowsUser implements IBellowsable
 		return nbt;
 	}
 
-	public void ReadFromNBT(CompoundNBT tag)
+	public void readFromNBT(CompoundNBT tag)
 	{
 		efficiency = tag.getFloat("efficiency");
 		time = tag.getInt("time");
 		maxTime = tag.getInt("maxTime");
 	}
 
-	public int GetMaxTime()
+	public int getMaxTime()
 	{
 		return maxTime;
 	}
