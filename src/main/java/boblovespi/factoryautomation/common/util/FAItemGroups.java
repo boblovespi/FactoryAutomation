@@ -20,7 +20,7 @@ public class FAItemGroups
 	public static ItemGroup metallurgy = new ItemGroup("tabs.metallurgy.name")
 	{
 		@Override
-		public ItemStack makeIcon()
+		public ItemStack getIcon()
 		{
 			return new ItemStack(FAItems.clayCrucible.toItem());
 		}
@@ -29,7 +29,7 @@ public class FAItemGroups
 	public static ItemGroup resources = new ItemGroup("tabs.resources.name")
 	{
 		@Override
-		public ItemStack makeIcon()
+		public ItemStack getIcon()
 		{
 			return new ItemStack(FAItems.diamondGravel.toItem());
 		}
@@ -37,7 +37,7 @@ public class FAItemGroups
 	public static ItemGroup tools = new ItemGroup("tabs.tools.name")
 	{
 		@Override
-		public ItemStack makeIcon()
+		public ItemStack getIcon()
 		{
 			return new ItemStack(FAItems.ironHammer.toItem());
 		}
@@ -45,7 +45,7 @@ public class FAItemGroups
 	public static ItemGroup mechanical = new ItemGroup("tabs.mechanical.name")
 	{
 		@Override
-		public ItemStack makeIcon()
+		public ItemStack getIcon()
 		{
 			return new ItemStack(FAItems.gear.GetItem(Gearbox.GearType.STEEL));
 		}
@@ -53,7 +53,7 @@ public class FAItemGroups
 	public static ItemGroup crafting = new ItemGroup("tabs.crafting.name")
 	{
 		@Override
-		public ItemStack makeIcon()
+		public ItemStack getIcon()
 		{
 			return new ItemStack(FAItems.glassLens.toItem());
 		}
@@ -61,7 +61,7 @@ public class FAItemGroups
 	public static ItemGroup electrical = new ItemGroup("tabs.electrical.name")
 	{
 		@Override
-		public ItemStack makeIcon()
+		public ItemStack getIcon()
 		{
 			return new ItemStack(FAItems.copperWire.toItem());
 		}
@@ -69,7 +69,7 @@ public class FAItemGroups
 	public static ItemGroup heat = new ItemGroup("tabs.heat.name")
 	{
 		@Override
-		public ItemStack makeIcon()
+		public ItemStack getIcon()
 		{
 			return new ItemStack(Blocks.FURNACE);
 		}
@@ -77,7 +77,7 @@ public class FAItemGroups
 	public static ItemGroup primitive = new ItemGroup("tabs.primitive.name")
 	{
 		@Override
-		public ItemStack makeIcon()
+		public ItemStack getIcon()
 		{
 			return new ItemStack(FABlocks.campfire.toBlock());
 		}
