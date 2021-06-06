@@ -27,7 +27,7 @@ repositories {
 
 minecraft {
 //    mappings channel: 'snapshot', version: '20210309-1.16.5'
-    mappings channel: 'stable', version: 'qtech-1.16.5-27'
+    mappings channel: 'stable', version: 'qtech-1.16.5-28'
 
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
