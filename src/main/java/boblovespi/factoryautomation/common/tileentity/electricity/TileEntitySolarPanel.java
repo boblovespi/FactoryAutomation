@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.api.energy.electricity.EnergyNetwork_;
 import boblovespi.factoryautomation.api.energy.electricity.IProducesEnergy_;
 import boblovespi.factoryautomation.api.energy.electricity.InternalEnergyStorage;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -127,14 +128,14 @@ public class TileEntitySolarPanel extends TileEntity
 
 	public void ForceUpdate()
 	{
-		if (world.isClientSide)
+		if (level.isClientSide)
 			return;
 		if (hasTicked)
 			return;
 		hasTicked = true;
-		if (world.canBlockSeeSky(pos.up()))
+		if (level.canSeeSky(getBlockPos().above()))
 		{
-			energyProduction = productionScalar * (world.isDaytime() ? 1 : 0.1f);
+			energyProduction = productionScalar * (level.isDay() ? 1 : 0.1f);
 		} else
 		{
 			energyProduction = 0;
@@ -145,14 +146,14 @@ public class TileEntitySolarPanel extends TileEntity
 		energyStorage.SetEnergy((int) energyProduction);
 
 		// energyConnections.forEach(EnergyConnection_::Update);
-		markDirty();
-		world.sendBlockUpdated(pos, getBlockState(), getBlockState(), 3);
+		setChanged();
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void load(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.load(state, compound);
 		energyProduction = compound.getFloat("energyProduction");
 		energyUsed = compound.getFloat("energyUsed");
 		//		CompoundNBT nbt = compound.getCompoundTag("connections");
@@ -164,9 +165,9 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound)
+	public CompoundNBT save(CompoundNBT compound)
 	{
-		super.write(compound);
+		super.save(compound);
 		compound.putFloat("energyProduction", energyProduction);
 		compound.putFloat("energyUsed", energyUsed);
 		//		CompoundNBT nbt = new CompoundNBT();

@@ -58,10 +58,10 @@ public class StoneCastingVesselMoldPacket
 		{
 			ctx.get().enqueueWork(() -> {
 				ServerPlayerEntity player = ctx.get().getSender();
-				ServerWorld level = Objects.requireNonNull(player).getLevel();
+				ServerWorld world = Objects.requireNonNull(player).getLevel();
 				if (world.hasChunkAt(pos))
 				{
-					TileEntity te = level.getBlockEntity(pos);
+					TileEntity te = world.getBlockEntity(pos);
 					if (te instanceof TEStoneCastingVessel
 							&& player.containerMenu instanceof ContainerStoneCastingVessel
 							&& ((ContainerStoneCastingVessel) player.containerMenu).GetPos().equals(pos)

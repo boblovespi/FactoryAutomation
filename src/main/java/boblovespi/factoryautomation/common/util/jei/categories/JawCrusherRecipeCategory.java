@@ -60,7 +60,7 @@ public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecip
 	public String getTitle()
 	{
 		//noinspection MethodCallSideOnly
-		return I18n.format("gui.steelmaking_furnace.name");
+		return I18n.get("tile.jaw_crusher.name");
 	}
 
 	@Nonnull
@@ -81,7 +81,7 @@ public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecip
 	public void setIngredients(JawCrusherRecipe recipe, IIngredients ingredients)
 	{
 		ingredients.setInputLists(VanillaTypes.ITEM,
-				Collections.singletonList(Arrays.asList(recipe.GetItemInputs().get(0).getMatchingStacks())));
+				Collections.singletonList(Arrays.asList(recipe.GetItemInputs().get(0).getItems())));
 		ingredients.setOutputs(VanillaTypes.ITEM, recipe.GetPrimaryItemOutputs());
 	}
 

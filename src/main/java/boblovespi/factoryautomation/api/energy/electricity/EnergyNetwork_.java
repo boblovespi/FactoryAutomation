@@ -33,16 +33,16 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 		connections = new ArrayList<>(maxGridSize);
 	}
 
-	public static EnergyNetwork_ GetFromWorld(ServerWorld level)
+	public static EnergyNetwork_ GetFromWorld(ServerWorld world)
 	{
 		System.out.println("Loading energy network!");
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		EnergyNetwork_ instance;
-		DimensionSavedDataManager storage = level.getSavedData();
+		DimensionSavedDataManager storage = world.getDataStorage();
 		try
 		{
-			instance = storage.getOrCreate(EnergyNetwork_::new, DATA_NAME);
+			instance = storage.get(EnergyNetwork_::new, DATA_NAME);
 		} catch (Exception e)
 		{
 			instance = null;
@@ -64,7 +64,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public void read(CompoundNBT nbt)
+	public void load(CompoundNBT nbt)
 	{
 		//		for (int i = 0; i < nbt.getSize(); i++)
 		//		{
@@ -76,7 +76,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT nbt)
+	public CompoundNBT save(CompoundNBT nbt)
 	{
 		for (int i = 0; i < connections.size(); i++)
 		{
@@ -88,11 +88,11 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 	public void Update(World level)
 	{
 		if (!isInit)
-			Init(world);
+			Init(level);
 
 		connections.forEach(EnergyConnection_::Update);
 		// System.out.println("updating!");
-		markDirty();
+		setDirty();
 	}
 
 	private void Init(World level)
@@ -114,7 +114,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 			connections.add(connection);
 			connection.consumer.AddConnection(connection);
 			connection.source.AddConnection(connection);
-			markDirty();
+			setDirty();
 		}
 	}
 }

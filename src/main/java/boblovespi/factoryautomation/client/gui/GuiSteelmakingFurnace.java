@@ -2,16 +2,15 @@ package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiBar;
-import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
-import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.ArrayList;
@@ -29,12 +28,12 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 	private GuiBar progressBar;
 
 	public GuiSteelmakingFurnace(ContainerSteelmakingFurnace container, PlayerInventory playerInv,
-			ITextComponent unused)
+								 ITextComponent unused)
 	{
 		super(container, playerInv, new TranslationTextComponent("gui.steelmaking_furnace"));
 
-		this.xSize = 176;
-		this.ySize = 180;
+		this.imageWidth = 176;
+		this.imageHeight = 180;
 
 		flameBar = new GuiBar(59, 57, 176, 0, 14, 14, GuiBar.ProgressDirection.UP);
 		airTankBar = new GuiBar(8, 8, 182, 32, 16, 59, GuiBar.ProgressDirection.UP);
@@ -47,47 +46,46 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 	 * Draws the background layer of this container (behind the items).
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(MatrixStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
-		GlStateManager.blendColor(1, 1, 1, 1);
-		minecraft.getTextureManager().bindTexture(
+		GlStateManager._blendColor(1, 1, 1, 1);
+		minecraft.getTextureManager().bind(
 				new ResourceLocation(FactoryAutomation.MODID, "textures/gui/container/steelmaking_furnace.png"));
-		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
+		blit(matrix, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 
-		flameBar.Draw(this, container.GetBar(0) / 100f);
-		airTankBar.Draw(this, 1);
-		fuelTankBar.Draw(this, 1);
-		tempBar.Draw(this, container.GetBar(1) / 100f);
-		progressBar.Draw(this, container.GetBar(2) / 100f);
+		flameBar.Draw(this, matrix, menu.GetBar(0) / 100f);
+		airTankBar.Draw(this, matrix, 1);
+		fuelTankBar.Draw(this, matrix, 1);
+		tempBar.Draw(this, matrix, menu.GetBar(1) / 100f);
+		progressBar.Draw(this, matrix, menu.GetBar(2) / 100f);
 
 		// Log.LogInfo("tileentity nbt data", te.getTileData().toString());
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+	protected void renderLabels(MatrixStack matrix, int mouseX, int mouseY)
 	{
-		drawCenteredString(minecraft.fontRenderer, "Steelmaking Furnace", 112, 6, 180 + 100 * 256 + 100 * 256 * 256);
-		font.drawString(playerInventory.getDisplayName().getFormattedText(), 100, this.ySize - 96 + 2, 4210752);
+		drawCenteredString(matrix, minecraft.font, "Steelmaking Furnace", 112, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		font.draw(matrix, inventory.getDisplayName(), 100, this.imageHeight - 96 + 2, 4210752);
 
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground();
-		super.render(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+		renderBackground(matrix);
+		super.render(matrix, mouseX, mouseY, partialTicks);
+		renderTooltip(matrix, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderHoveredToolTip(int mouseX, int mouseY)
+	protected void renderTooltip(MatrixStack matrix, int mouseX, int mouseY)
 	{
-		super.renderHoveredToolTip(mouseX, mouseY);
-		if (isPointInRegion(48, 7, 6, 61, mouseX, mouseY))
+		super.renderTooltip(matrix, mouseX, mouseY);
+		if (isHovering(48, 7, 6, 61, mouseX, mouseY))
 		{
-			List<String> text = new ArrayList<>(1);
-			text.add(I18n.format("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", container.GetBar(3) / 10f));
-			renderTooltip(text, mouseX, mouseY);
+			ITextComponent text = new StringTextComponent(I18n.get("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", menu.GetBar(3) / 10f));
+			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 	}
 }

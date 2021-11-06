@@ -69,7 +69,7 @@ public class Cable extends FABaseBlock
 				Properties.of(Material.METAL).strength(0.2f).sound(SoundType.WOOL),
 				new Item.Properties().tab(FAItemGroups.electrical));
 		registerDefaultState(stateDefinition.any().setValue(WEST, AttachPos.NONE).setValue(EAST, AttachPos.NONE)
-									  .with(NORTH, AttachPos.NONE).with(SOUTH, AttachPos.NONE));
+									  .setValue(NORTH, AttachPos.NONE).setValue(SOUTH, AttachPos.NONE));
 		for (int i = 0; i < 16; i++)
 		{
 			CABLE_VOXEL[i] = VoxelShapes.create(CABLE_AABB[i]);
@@ -119,33 +119,33 @@ public class Cable extends FABaseBlock
 		return i;
 	}
 
-	public BlockState GetActualState(BlockState state, IBlockReader levelIn, BlockPos pos)
+	public BlockState GetActualState(BlockState state, IBlockReader world, BlockPos pos)
 	{
-		state = state.setValue(WEST, GetAttachPosition(worldIn, pos, Direction.WEST));
-		state = state.setValue(EAST, GetAttachPosition(worldIn, pos, Direction.EAST));
-		state = state.setValue(NORTH, GetAttachPosition(worldIn, pos, Direction.NORTH));
-		state = state.setValue(SOUTH, GetAttachPosition(worldIn, pos, Direction.SOUTH));
+		state = state.setValue(WEST, GetAttachPosition(world, pos, Direction.WEST));
+		state = state.setValue(EAST, GetAttachPosition(world, pos, Direction.EAST));
+		state = state.setValue(NORTH, GetAttachPosition(world, pos, Direction.NORTH));
+		state = state.setValue(SOUTH, GetAttachPosition(world, pos, Direction.SOUTH));
 		return state;
 	}
 
-	private AttachPos GetAttachPosition(IBlockReader level, BlockPos pos, Direction facing)
+	private AttachPos GetAttachPosition(IBlockReader world, BlockPos pos, Direction facing)
 	{
 		BlockPos offset = pos.relative(facing);
-		BlockState blockState = level.getBlockState(offset);
+		BlockState blockState = world.getBlockState(offset);
 
-		if (!CanConnectTo(world.getBlockState(offset), facing, level, offset) && (blockState.isNormalCube(world, offset)
+		if (!CanConnectTo(world.getBlockState(offset), facing, world, offset) && (blockState.hasLargeCollisionShape() // TODO: figure out what to actually use
 				|| !CanConnectUpwardsTo(world, offset.below())))
 		{
-			BlockState stateUp = level.getBlockState(pos.above());
+			BlockState stateUp = world.getBlockState(pos.above());
 
 			if (!stateUp.isRedstoneConductor(world, offset.above()))
 			{
-				boolean flag = Block.hasSolidSide(world.getBlockState(offset), level, offset, Direction.UP)
-						|| level.getBlockState(offset).getBlock() == Blocks.GLOWSTONE;
+				boolean flag = Block.isFaceFull(world.getBlockState(offset).getBlockSupportShape(world, offset), Direction.UP)
+						|| world.getBlockState(offset).getBlock() == Blocks.GLOWSTONE;
 
-				if (flag && CanConnectUpwardsTo(world, offset.up()))
+				if (flag && CanConnectUpwardsTo(world, offset.above()))
 				{
-					if (blockState.isNormalCube(world, offset))
+					if (blockState.isCollisionShapeFullBlock(world, offset))
 					{
 						return AttachPos.UP;
 					}
@@ -161,16 +161,16 @@ public class Cable extends FABaseBlock
 		}
 	}
 
-	private boolean CanConnectUpwardsTo(IBlockReader levelIn, BlockPos pos)
+	private boolean CanConnectUpwardsTo(IBlockReader world, BlockPos pos)
 	{
-		return CanConnectTo(worldIn.getBlockState(pos), null, levelIn, pos);
+		return CanConnectTo(world.getBlockState(pos), null, world, pos);
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos)
+	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
 	{
-		return Block.hasSolidSide(world.getBlockState(pos.down()), level, pos.below(), Direction.UP)
-				|| level.getBlockState(pos.down()).getBlock() == Blocks.GLOWSTONE;
+		return Block.isFaceFull(world.getBlockState(pos.below()).getBlockSupportShape(world, pos.below()), Direction.UP)
+				|| world.getBlockState(pos.below()).getBlock() == Blocks.GLOWSTONE;
 	}
 
 	@Override
@@ -189,18 +189,18 @@ public class Cable extends FABaseBlock
 	 * Called after the block is set in the Chunk data, but before the Tile Entity is set
 	 */
 	@Override
-	public void onBlockAdded(BlockState state, World levelIn, BlockPos pos, BlockState oldState, boolean isMoving)
+	public void onPlace(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
 		// NotifyNeighborCableOfStateChange(worldIn, pos);
 
-		BlockState actualState = GetActualState(state, levelIn, pos);
+		BlockState actualState = GetActualState(state, world, pos);
 
 		System.out.println("cable placed, checking the power connections!");
 
 		int stop = 20;
 
 		List<Pair<IUsesEnergy_, Integer>> machines = GetEnergyMachines(
-				worldIn, pos, actualState, stop, new ArrayList<>(100));
+				world, pos, actualState, stop, new ArrayList<>(100));
 
 		machines.forEach(n -> System.out.println(n.getKey().GetTe().getTileData().toString()));
 
@@ -217,7 +217,7 @@ public class Cable extends FABaseBlock
 					{
 						System.out.println("consumer = " + consumer.getKey().GetTe().getTileData().toString());
 						System.out.println("producer = " + machine.getKey().GetTe().getTileData().toString());
-						EnergyNetwork_.GetFromWorld((ServerWorld) levelIn).AddConnection(
+						EnergyNetwork_.GetFromWorld((ServerWorld) world).AddConnection(
 								new EnergyConnection_((IProducesEnergy_) machine.getKey(),
 										(IRequiresEnergy_) consumer.getKey(),
 										(stop - machine.getValue()) + stop - consumer.getValue(), 0.99f, 100));
@@ -228,10 +228,10 @@ public class Cable extends FABaseBlock
 
 	}
 
-	private List<Pair<IUsesEnergy_, Integer>> GetEnergyMachines(World level, BlockPos pos, BlockState state, int stop,
+	private List<Pair<IUsesEnergy_, Integer>> GetEnergyMachines(World world, BlockPos pos, BlockState state, int stop,
 			List<BlockPos> prevCableLocs)
 	{
-		System.out.println("world = [" + level + "], pos = [" + pos + "], state = [" + state + "], stop = [" + stop
+		System.out.println("world = [" + world + "], pos = [" + pos + "], state = [" + state + "], stop = [" + stop
 				+ "], prevCableLocs = [" + prevCableLocs + "]");
 
 		if (stop <= 0)
@@ -250,109 +250,109 @@ public class Cable extends FABaseBlock
 		if (north == AttachPos.UP)
 		{
 			BlockPos bp = pos.north().above();
-			if (!prevCableLocs.contains(bp) && level.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(GetEnergyMachines(world, bp, level.getBlockState(bp), stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 
 			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) level.getBlockEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 
 		} else if (north == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.north();
-			if (!prevCableLocs.contains(bp) && level.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(GetEnergyMachines(world, bp, level.getBlockState(bp), stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) level.getBlockEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 		}
 
 		if (west == AttachPos.UP)
 		{
 			BlockPos bp = pos.west().above();
-			if (!prevCableLocs.contains(bp) && level.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(GetEnergyMachines(world, bp, level.getBlockState(bp), stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) level.getBlockEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 
 		} else if (west == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.west();
-			if (!prevCableLocs.contains(bp) && level.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(GetEnergyMachines(world, bp, level.getBlockState(bp), stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) level.getBlockEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 		}
 
 		if (south == AttachPos.UP)
 		{
 			BlockPos bp = pos.south().above();
-			if (!prevCableLocs.contains(bp) && level.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(GetEnergyMachines(world, bp, level.getBlockState(bp), stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) level.getBlockEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 
 		} else if (south == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.south();
-			if (!prevCableLocs.contains(bp) && level.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(GetEnergyMachines(world, bp, level.getBlockState(bp), stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) level.getBlockEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 		}
 
 		if (east == AttachPos.UP)
 		{
 			BlockPos bp = pos.east().above();
-			if (!prevCableLocs.contains(bp) && level.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(GetEnergyMachines(world, bp, level.getBlockState(bp), stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) level.getBlockEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 
 		} else if (east == AttachPos.SIDE)
 		{
 			BlockPos bp = pos.east();
-			if (!prevCableLocs.contains(bp) && level.getBlockState(bp).getBlock() == FABlocks.cable)
+			if (!prevCableLocs.contains(bp) && world.getBlockState(bp).getBlock() == FABlocks.cable)
 			{
 
-				users.addAll(GetEnergyMachines(world, bp, level.getBlockState(bp), stop, prevCableLocs));
+				users.addAll(GetEnergyMachines(world, bp, world.getBlockState(bp), stop, prevCableLocs));
 			}
 			if (world.getBlockEntity(bp) instanceof IUsesEnergy_)
 			{
-				users.add(new Pair<>((IUsesEnergy_) level.getBlockEntity(bp), stop));
+				users.add(new Pair<>((IUsesEnergy_) world.getBlockEntity(bp), stop));
 			}
 		}
 
@@ -371,7 +371,7 @@ public class Cable extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getSerializedName()
 		{
 			return name;
 		}

@@ -22,7 +22,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Fluids
 {
-	public static final DeferredRegister<Fluid> FLUID_REGISTER = new DeferredRegister<>(ForgeRegistries.FLUIDS, MODID);
+	public static final DeferredRegister<Fluid> FLUID_REGISTER = DeferredRegister.create(ForgeRegistries.FLUIDS, MODID);
 	// public static Fluid sodiumChloride = new FluidBase("sodium_chloride", null, null);
 
 	public static FluidBase steam = new FluidBase();

@@ -22,11 +22,9 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -55,7 +53,7 @@ public class Rock extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(VARIANTS);
 	}
@@ -94,12 +92,12 @@ public class Rock extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World level, BlockPos pos, Block blockIn, BlockPos fromPos,
-			boolean isMoving)
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos,
+								boolean isMoving)
 	{
-		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.below(), Direction.UP)) // isSideSolid ?
+		if (!world.getBlockState(pos.below()).isFaceSturdy(world, pos.below(), Direction.UP)) // isSideSolid ?
 		{
-			spawnDrops(state, level, pos);
+			dropResources(state, world, pos);
 			world.removeBlock(pos, isMoving);
 		}
 	}
@@ -108,12 +106,12 @@ public class Rock extends FABaseBlock
 	 * Checks if this block can be placed exactly at the given position.
 	 */
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos)
+	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
 	{
-		return level.getBlockState(pos).getMaterial().isReplaceable() && level.getBlockState(pos.down())
-																			  .isSolidSide(world, pos.below(),
-																					  Direction.UP)
-				&& level.getBlockState(pos).getBlock() != this;
+		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.below())
+																				 .isFaceSturdy(world, pos.below(),
+																						 Direction.UP)
+					   && world.getBlockState(pos).getBlock() != this;
 	}
 
 	public enum Variants implements IStringSerializable
@@ -156,15 +154,15 @@ public class Rock extends FABaseBlock
 		@Override
 		public ActionResultType useOn(ItemUseContext context)
 		{
-			World level = context.getWorld();
-			BlockPos pos = context.getPos();
-			Block block = level.getBlockState(pos).getBlock();
-			if (context.func_225518_g_() /*isPlayerSneaking*/ && BlockTags.LOGS.contains(block))
+			World world = context.getLevel();
+			BlockPos pos = context.getClickedPos();
+			Block block = world.getBlockState(pos).getBlock();
+			if (context.isSecondaryUseActive() /*isPlayerSneaking*/ && BlockTags.LOGS.contains(block))
 			{
 				if (!world.isClientSide)
 				{
 					world.destroyBlock(pos, false);
-					world.addEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
+					world.addFreshEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
 							new ItemStack(FABlocks.woodChoppingBlocks.get(WoodTypes.FromLog(block).Index()).ToBlock(),
 									2)));
 				}

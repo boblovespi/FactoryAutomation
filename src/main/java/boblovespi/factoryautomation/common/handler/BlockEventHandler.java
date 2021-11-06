@@ -50,6 +50,7 @@ public class BlockEventHandler
 	//		// TODO: add the rest of the blocks (also migrate to tags)
 	//	}};
 
+	/*
 	@SubscribeEvent
 	public static void OnBlockHarvestedEvent(BlockEvent.HarvestDropsEvent event)
 	{
@@ -111,6 +112,7 @@ public class BlockEventHandler
 			ItemHelper.DamageItem(event.getHarvester().getHeldItem(event.getHarvester().getActiveHand()), 1);
 		}
 	}
+	 */
 
 	@SubscribeEvent
 	public static void OnBlockBrokenEvent(BlockEvent.BreakEvent event)
@@ -131,7 +133,7 @@ public class BlockEventHandler
 				MultiblockStructurePattern structure = MultiblockHandler.Get(part.GetStructureId());
 				int[] offset = part.GetOffset();
 
-				BlockPos controllerLoc = pos.add(-offset[0], -offset[1], -offset[2]);
+				BlockPos controllerLoc = pos.offset(-offset[0], -offset[1], -offset[2]);
 				TileEntity te = level.getBlockEntity(controllerLoc);
 				if (te instanceof IMultiblockControllerTE)
 				{
@@ -140,7 +142,7 @@ public class BlockEventHandler
 					controllerTe.SetStructureInvalid();
 				}
 			}
-		} else if (world.getBlockEntity(pos) instanceof IMultiblockControllerTE)
+		} else if (level.getBlockEntity(pos) instanceof IMultiblockControllerTE)
 		{
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
@@ -173,7 +175,7 @@ public class BlockEventHandler
 				ashFires.put(pos, new HashSet<>(6));
 				for (Direction offset : Direction.values())
 				{
-					if (FATags.FABlockTag("gives_ash").contains(world.getBlockState(pos.offset(offset.getNormal())).getBlock()))
+					if (FATags.FABlockTag("gives_ash").contains(level.getBlockState(pos.offset(offset.getNormal())).getBlock()))
 						ashFires.get(pos).add(offset);
 					else
 						ashFires.get(pos).remove(offset);
@@ -186,7 +188,7 @@ public class BlockEventHandler
 				for (Direction facing : ashFires.get(pos))
 				{
 					BlockPos oldWoodPos = pos.offset(facing.getNormal());
-					CheckAndSpawnAsh(world, level.getBlockState(oldWoodPos), oldWoodPos);
+					CheckAndSpawnAsh(level, level.getBlockState(oldWoodPos), oldWoodPos);
 				}
 				ashFires.remove(pos);
 			}
@@ -219,7 +221,7 @@ public class BlockEventHandler
 			ItemEntity item = new ItemEntity((World) level, pos.getX(), pos.getY(), pos.getZ(),
 					new ItemStack(FAItems.ash.ToItem(), level.getRandom().nextInt(2) + 1));
 			item.setInvulnerable(true);
-			world.addFreshEntity(item);
+			level.addFreshEntity(item);
 		}
 	}
 }

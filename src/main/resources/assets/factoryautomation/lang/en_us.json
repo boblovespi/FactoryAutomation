@@ -407,5 +407,6 @@
   "factoryautomation.subtitle.break_rock": "Rock broken",
   
   "_comment": "jei description",
-  "factoryautomation.jei.logs": "To obtain logs, first craft a chopping blade"
+  "factoryautomation.jei.logs": "To obtain logs, first craft a chopping blade",
+  "gui.steelmaking_furnace.name": "Steelmaking Furnace"
 }

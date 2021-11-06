@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FireBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
@@ -37,7 +38,7 @@ public class IronCharcoalMix extends FABaseBlock
 		super("iron_charcoal_mix", false, Properties.of(Material.STONE).strength(3.5f).harvestLevel(0)
 													.harvestTool(ToolType.SHOVEL),
 				new Item.Properties().tab(FAItemGroups.metallurgy));
-		registerDefaultState(stateDefinition.any().with(ACTIVATED, false));
+		registerDefaultState(stateDefinition.any().setValue(ACTIVATED, false));
 	}
 
 	@Override
@@ -46,24 +47,23 @@ public class IronCharcoalMix extends FABaseBlock
 		return "processing/" + RegistryName();
 	}
 
-	@Override
 	public int tickRate(IWorldReader levelIn)
 	{
 		return 6000;
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
 		{
 			if (isSurrounded(
 					world, pos, n -> n.getBlock() == FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
-							|| n.getBlock() == FABlocks.ironBloom || (n.getBlock() == this && n.get(ACTIVATED))))
-				world.setBlockState(pos, FABlocks.ironBloom.ToBlock().getDefaultState());
+							|| n.getBlock() == FABlocks.ironBloom || (n.getBlock() == this && n.getValue(ACTIVATED))))
+				world.setBlockAndUpdate(pos, FABlocks.ironBloom.ToBlock().defaultBlockState());
 			else
-				world.setBlockState(pos, state.setValue(ACTIVATED, false));
+				world.setBlockAndUpdate(pos, state.setValue(ACTIVATED, false));
 		}
 	}
 
@@ -73,24 +73,24 @@ public class IronCharcoalMix extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World level, BlockPos pos, Block block1, BlockPos fromPos,
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block1, BlockPos fromPos,
 			boolean isMoving)
 	{
-		BlockState block = level.getBlockState(fromPos);
+		BlockState block = world.getBlockState(fromPos);
 		boolean sidesOnFire = false;
 		boolean isSurrounded = true;
 		if (!state.getValue(ACTIVATED))
 		{
-			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.get(ACTIVATED)))
+			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.getValue(ACTIVATED)))
 			{
 				for (Direction face : Direction.values())
 				{
-					BlockPos offset = pos.offset(face);
-					BlockState state1 = level.getBlockState(offset);
-					if (state1.getBlock().isAir(state1, level, offset))
+					BlockPos offset = pos.relative(face);
+					BlockState state1 = world.getBlockState(offset);
+					if (state1.getBlock().isAir(state1, world, offset))
 					{
 						isSurrounded = false;
-						world.setBlockState(offset, ((FireBlock) Blocks.FIRE).getStateForPlacement(world, offset));
+						world.setBlockAndUpdate(offset, FireBlock.getState(world, offset));
 						sidesOnFire = true;
 					} else if (state1.getBlock() == Blocks.FIRE)
 					{
@@ -103,8 +103,8 @@ public class IronCharcoalMix extends FABaseBlock
 				}
 				if (isSurrounded)
 				{
-					world.setBlockState(pos, state.setValue(ACTIVATED, true), 7);
-					world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
+					world.setBlock(pos, state.setValue(ACTIVATED, true), 7);
+					world.getBlockTicks().scheduleTick(pos, this, tickRate(world));
 				}
 			}
 
@@ -112,12 +112,12 @@ public class IronCharcoalMix extends FABaseBlock
 		{
 			for (Direction face : Direction.values())
 			{
-				BlockPos offset = pos.offset(face);
-				BlockState state1 = level.getBlockState(offset);
-				if (state1.getBlock().isAir(state1, level, offset))
+				BlockPos offset = pos.relative(face);
+				BlockState state1 = world.getBlockState(offset);
+				if (state1.getBlock().isAir(state1, world, offset))
 				{
 					isSurrounded = false;
-					world.setBlockState(offset, Blocks.FIRE.getDefaultState());
+					world.setBlockAndUpdate(offset, Blocks.FIRE.defaultBlockState());
 					sidesOnFire = true;
 				} else if (state1.getBlock() == Blocks.FIRE)
 				{
@@ -129,7 +129,7 @@ public class IronCharcoalMix extends FABaseBlock
 				}
 			}
 			if (!sidesOnFire && !isSurrounded)
-				world.setBlockState(pos, state.setValue(ACTIVATED, false));
+				world.setBlockAndUpdate(pos, state.setValue(ACTIVATED, false));
 		}
 	}
 
@@ -140,13 +140,13 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(ACTIVATED);
 	}
 
 	@Override
-	public void animateTick(BlockState state, World level, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(ACTIVATED))
 			return;
@@ -163,11 +163,11 @@ public class IronCharcoalMix extends FABaseBlock
 	{
 		for (Direction dir : Direction.values())
 		{
-			BlockPos offset = pos.offset(dir);
+			BlockPos offset = pos.relative(dir);
 			BlockState state = level.getBlockState(offset);
 			if (block == null)
 			{
-				if (!Block.hasSolidSide(state, level, offset, dir.getOpposite()) && state.getBlock() != this)
+				if (!Block.isFaceFull(state.getShape(level, offset), dir.getOpposite()) && state.getBlock() != this)
 					return false;
 			} else
 			{

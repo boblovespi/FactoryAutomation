@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 5/28/2018.
  */
-public class ChipCreator extends FABaseBlock implements ITileEntityProvider
+public class ChipCreator extends FABaseBlock
 {
 	public ChipCreator()
 	{
@@ -42,13 +42,19 @@ public class ChipCreator extends FABaseBlock implements ITileEntityProvider
 	 */
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader unused)
+	public TileEntity createTileEntity(BlockState state, IBlockReader unused)
 	{
 		return new TEBasicCircuitCreator();
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
+	}
+
+	@Override
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide && player instanceof ServerPlayerEntity)

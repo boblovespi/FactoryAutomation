@@ -73,12 +73,12 @@ public class HandCrank extends FABaseBlock
 	 * @return the result type of using the block.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
 		{
-			TileEntity tileEntity = level.getBlockEntity(pos);
+			TileEntity tileEntity = world.getBlockEntity(pos);
 			if (tileEntity instanceof TEHandCrank)
 			{
 				TEHandCrank crank = (TEHandCrank) tileEntity;

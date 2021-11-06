@@ -18,8 +18,8 @@ public class StringIntArrayTest
 		List<IntReferenceHolder> clientHolders = new ArrayList<>();
 		for (int i = 0; i < 10; i++)
 		{
-			serverHolders.add(IntReferenceHolder.create(server, i));
-			clientHolders.add(IntReferenceHolder.create(client, i));
+			serverHolders.add(IntReferenceHolder.forContainer(server, i));
+			clientHolders.add(IntReferenceHolder.forContainer(client, i));
 		}
 
 		for (int j = 0; j < 100; j++)
@@ -28,7 +28,7 @@ public class StringIntArrayTest
 			System.out.println(server.GetString());
 			for (int i = 0; i < 10; i++)
 			{
-				if (serverHolders.get(i).isDirty())
+				if (serverHolders.get(i).checkAndClearUpdateFlag())
 					SendToClient(clientHolders, i, serverHolders.get(i).get());
 			}
 			System.out.println(client.GetString());

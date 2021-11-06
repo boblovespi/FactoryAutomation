@@ -30,7 +30,7 @@ public class ChoppingBlock extends FABaseBlock
 
 	public ChoppingBlock(String name, int maxUses, Properties properties)
 	{
-		super(name, false, properties, new Item.Properties().tab(ItemGroup.DECORATIONS));
+		super(name, false, properties, new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
 		this.maxUses = maxUses;
 	}
 
@@ -59,24 +59,26 @@ public class ChoppingBlock extends FABaseBlock
 		return BOUNDING_BOX;
 	}
 
+	/* TODO: move to event handler
 	@Override
-	public void onBlockClicked(BlockState state, World level, BlockPos pos, PlayerEntity player)
+	public void triggerEvent(BlockState state, World world, BlockPos pos, PlayerEntity player)
 	{
 		if (world.isClientSide)
 			return;
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 		if (te instanceof TEChoppingBlock)
 			((TEChoppingBlock) te).LeftClick(player.getItemInHandMainhand());
 	}
+	*/
 
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 		ItemStack item = player.getItemInHand(hand);
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 		//		if (item.isEmpty())
 		//		{
 		//			if (te instanceof TEChoppingBlock)
@@ -100,7 +102,8 @@ public class ChoppingBlock extends FABaseBlock
 		return ActionResultType.SUCCESS;
 	}
 
-	public void onReplaced(BlockState state, World levelIn, BlockPos pos, BlockState newState, boolean isMoving)
+	@Override
+	public void onRemove(BlockState state, World levelIn, BlockPos pos, BlockState newState, boolean isMoving)
 	{
 		if (state.getBlock() != newState.getBlock())
 		{
@@ -111,7 +114,7 @@ public class ChoppingBlock extends FABaseBlock
 				((TEChoppingBlock) te).DropItems();
 			}
 
-			super.onReplaced(state, levelIn, pos, newState, isMoving);
+			super.onRemove(state, levelIn, pos, newState, isMoving);
 		}
 	}
 }

@@ -1,21 +1,23 @@
 package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.resource.Rock;
-import com.google.common.collect.ImmutableMap;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
-import com.mojang.serialization.DynamicOps;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.blockplacer.BlockPlacer;
 import net.minecraft.world.gen.blockplacer.BlockPlacerType;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 import static boblovespi.factoryautomation.common.block.resource.Rock.VARIANTS;
 
 /**
@@ -25,7 +27,18 @@ import static boblovespi.factoryautomation.common.block.resource.Rock.VARIANTS;
 @MethodsReturnNonnullByDefault
 public class RockBlockPlacer extends BlockPlacer
 {
-	public static final BlockPlacerType<?> TYPE = BlockPlacerType.register("rock_block_placer", RockBlockPlacer::new);
+	public static final BlockPlacer INSTANCE = new RockBlockPlacer();
+	public static final Codec<BlockPlacer> CODEC = Codec.unit(() -> INSTANCE);
+	public static final DeferredRegister<BlockPlacerType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCK_PLACER_TYPES, MODID);
+	public static final RegistryObject<BlockPlacerType<BlockPlacer>> TYPE = REGISTRY.register("rock_block_placer", () -> new BlockPlacerType<>(CODEC));
+/*	@Override
+	public <T> T serialize(DynamicOps<T> dynamicOps)
+	{
+		return (new Dynamic<>(dynamicOps, dynamicOps.createMap(ImmutableMap.of(
+				dynamicOps.createString("type"),
+				dynamicOps.createString(Registry.BLOCK_PLACER_TYPE_REGISTRY.getKey(this.field_227258_a_).toString())))))
+				.getValue();
+	}*/
 
 	public RockBlockPlacer()
 	{
@@ -54,16 +67,8 @@ public class RockBlockPlacer extends BlockPlacer
 	}
 
 	@Override
-	public <T> T serialize(DynamicOps<T> dynamicOps)
+	protected BlockPlacerType<?> type()
 	{
-		return (new Dynamic<>(dynamicOps, dynamicOps.createMap(ImmutableMap.of(
-				dynamicOps.createString("type"),
-				dynamicOps.createString(Registry.BLOCK_PLACER_TYPE.getKey(this.field_227258_a_).toString())))))
-				.getValue();
-	}
-
-	@Override
-	protected BlockPlacerType<?> type() {
-		return TYPE;
+		return TYPE.get();
 	}
 }

@@ -41,38 +41,38 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 		// renderDispatcher.textureManager.bindTexture(
 		//		new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"));
 
-		matrix.push();
+		matrix.pushPose();
 		{
 			// RenderSystem.enableLighting();
 			// RenderSystem.enableDepthTest();
 			// RenderHelper.enableStandardItemLighting();
 			// RenderSystem.enableRescaleNormal();
 
-			BlockState state = te.getWorld().getBlockState(te.getPos());
+			BlockState state = te.getBlockState();
 			Direction facing = state.getValue(Motor.FACING);
 			int m = 0;
 			int n = 0;
 			switch (facing)
 			{
 			case NORTH:
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
 				matrix.translate(-0.5, -1.5, 0.5);
 				break;
 			case SOUTH:
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 1, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 1, 0));
 				matrix.translate(0.5, -1.5, -0.5);
 				m = 1;
 				n = -1;
 				break;
 			case WEST:
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
 				matrix.translate(0.5, -1.5, 0.5);
 				break;
 			case EAST:
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
 				matrix.translate(-0.5, -1.5, -0.5);
 				m = 1;
 				n = -1;
@@ -80,7 +80,7 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 			}
 
 			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
-			if (Minecraft.isAmbientOcclusionEnabled())
+			if (Minecraft.useAmbientOcclusion())
 			{
 				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
@@ -90,11 +90,11 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 
 			engineModel.Rotate((float) Math.toRadians(te.rotation + partialTicks * te.GetSpeedOnFace(facing)));
 
-			engineModel.render(matrix, buffer.getBuffer(engineModel.getRenderType(
+			engineModel.renderToBuffer(matrix, buffer.getBuffer(engineModel.renderType(
 					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"))),
 					combinedLight, combinedOverlay, 1, 1, 1, 1);
 
 		}
-		matrix.pop();
+		matrix.popPose();
 	}
 }

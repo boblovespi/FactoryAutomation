@@ -45,7 +45,7 @@ public class StoneCrucible extends FABaseBlock
 		super("stone_crucible", false, Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
 												 .harvestTool(ToolType.PICKAXE),
 				new Item.Properties().tab(FAItemGroups.metallurgy));
-		registerDefaultState(stateDefinition.any().with(MULTIBLOCK_COMPLETE, false).with(FACING, Direction.NORTH));
+		registerDefaultState(stateDefinition.any().setValue(MULTIBLOCK_COMPLETE, false).setValue(FACING, Direction.NORTH));
 		TileEntityHandler.tiles.add(TEStoneCrucible.class);
 	}
 
@@ -69,7 +69,7 @@ public class StoneCrucible extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(MULTIBLOCK_COMPLETE, FACING);
 	}
@@ -80,28 +80,28 @@ public class StoneCrucible extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
 		{
 			if (MultiblockHelper.IsStructureComplete(world, pos, TEStoneCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
 			{
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEStoneCrucible)
 				{
 					TEStoneCrucible foundry = (TEStoneCrucible) te;
 					if (!foundry.IsStructureValid())
 						foundry.CreateStructure();
 
-					if (hit.getFace() == state.getValue(FACING).rotateYCCW())
-						foundry.PourInto(hit.getFace());
+					if (hit.getDirection() == state.getValue(FACING).getCounterClockWise())
+						foundry.PourInto(hit.getDirection());
 					else
 						NetworkHooks.openGui((ServerPlayerEntity) player, foundry, pos);
 				}
 			} else
 			{
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEStoneCrucible)
 					((TEStoneCrucible) te).SetStructureInvalid();
 			}
@@ -115,6 +115,6 @@ public class StoneCrucible extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getHorizontalDirection().rotateYCCW());
+		return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getCounterClockWise());
 	}
 }

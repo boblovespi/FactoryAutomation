@@ -41,16 +41,16 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		super(DATA_NAME);
 	}
 
-	public static EnergyNetwork GetFromWorld(ServerWorld level)
+	public static EnergyNetwork GetFromWorld(ServerWorld world)
 	{
 		System.out.println("Loading energy network!");
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		EnergyNetwork instance;
-		DimensionSavedDataManager storage = level.getSavedData();
+		DimensionSavedDataManager storage = world.getDataStorage();
 		try
 		{
-			instance = (EnergyNetwork) storage.getOrCreate(EnergyNetwork::new, DATA_NAME);
+			instance = (EnergyNetwork) storage.get(EnergyNetwork::new, DATA_NAME);
 		} catch (Exception e)
 		{
 			instance = null;
@@ -71,7 +71,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		return instance;
 	}
 
-	private void Init(World level)
+	private void Init(World world)
 	{
 		if (isInit)
 			return;
@@ -91,7 +91,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public void Update(World level)
+	public void Update(World world)
 	{
 		if (!isInit)
 			Init(world);
@@ -135,14 +135,14 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	 * reads in data from the CompoundNBT into this MapDataBase
 	 */
 	@Override
-	public void read(CompoundNBT tag)
+	public void load(CompoundNBT tag)
 	{
 		isInit = false;
 		uninitData = tag;
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag)
+	public CompoundNBT save(CompoundNBT tag)
 	{
 		ListNBT list = new ListNBT();
 
@@ -165,17 +165,17 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 			connections.put(e.GetProducer(), new ArrayList<>(8));
 			connections.get(e.GetProducer()).add(e);
 		}
-		markDirty();
+		setDirty();
 	}
 
 	private CompoundNBT WriteConnectionToTag(IProducesEnergy p, EnergyConnection e)
 	{
 		CompoundNBT tag = new CompoundNBT();
 
-		tag.put("producerPos", NBTUtil.writeBlockPos(p.GetTe().getPos()));
+		tag.put("producerPos", NBTUtil.writeBlockPos(p.GetTe().getBlockPos()));
 		CompoundNBT eTag = new CompoundNBT();
 
-		eTag.put("consumerPos", NBTUtil.writeBlockPos(e.GetConsumer().GetTe().getPos()));
+		eTag.put("consumerPos", NBTUtil.writeBlockPos(e.GetConsumer().GetTe().getBlockPos()));
 		eTag.putDouble("maxVoltage", e.maxVoltage);
 		eTag.putDouble("maxAmperage", e.maxAmperage);
 		eTag.putInt("wireType", e.wire.ordinal());
@@ -197,8 +197,8 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		int wireType = tag1.getInt("wireType");
 		double wireLength = tag1.getDouble("wireLength");
 
-		TileEntity pTE = w.getTileEntity(pPos);
-		TileEntity cTE = w.getTileEntity(cPos);
+		TileEntity pTE = w.getBlockEntity(pPos);
+		TileEntity cTE = w.getBlockEntity(cPos);
 
 		if (pTE instanceof IProducesEnergy)
 		{

@@ -76,20 +76,20 @@ public class FAFood extends Item implements FAItem
 		return this;
 	}
 
-	protected void applyPotionAffects(ItemStack stack, World levelIn, LivingEntity player)
+	protected void applyPotionAffects(ItemStack stack, World world, LivingEntity player)
 	{
-		if (!worldIn.isClientSide)
+		if (!world.isClientSide)
 		{
 			for (int i = 0; i < potionEffects.size(); ++i)
 			{
-				if (worldIn.random.nextFloat() <= potionEffectChances.get(i))
+				if (world.random.nextFloat() <= potionEffectChances.get(i))
 					player.addEffect(new EffectInstance(potionEffects.get(i)));
 			}
 		}
 	}
 
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, World levelIn, LivingEntity entityLiving)
+	public ItemStack finishUsingItem(ItemStack stack, World world, LivingEntity entityLiving)
 	{
 		stack.shrink(1);
 
@@ -100,13 +100,13 @@ public class FAFood extends Item implements FAItem
 			foodData.setFoodLevel(foodData.getFoodLevel() + amountOfFood);
 			foodData.setSaturation(foodData.getSaturationLevel() + saturationAmount / (float) amountOfFood);
 //			playerEntity.getFoodData().addStats(amountOfFood, saturationAmount / (float) amountOfFood);
-			worldIn.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
+			world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
 					SoundEvents.PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
-					worldIn.random.nextFloat() * 0.1F + 0.9F);
+					world.random.nextFloat() * 0.1F + 0.9F);
 
 			// PlayerEntity.addStat(StatList.getObjectUseStats(this));
 		}
-		applyPotionAffects(stack, levelIn, entityLiving);
+		applyPotionAffects(stack, world, entityLiving);
 		return stack;
 	}
 

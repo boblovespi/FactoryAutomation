@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.worldgen;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -32,7 +33,7 @@ public class EvenDistributionGenerator extends Feature<OreFeatureConfig>
 	}
 
 	@Override
-	public boolean place(IWorld level, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config)
+	public boolean place(ISeedReader level, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config)
 	{
 		return false;
 	}

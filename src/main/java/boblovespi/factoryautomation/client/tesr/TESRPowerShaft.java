@@ -32,11 +32,11 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 	public void render(TEPowerShaft te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
 			int combinedLight, int combinedOverlay)
 	{
-		if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.powerShaft)
+		if (!te.hasLevel() || te.getBlockState().getBlock() != FABlocks.powerShaft)
 			return;
 
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
-		BlockState state = te.getWorld().getBlockState(te.getPos()).with(PowerShaft.IS_TESR, true);
+		BlockState state = te.getBlockState().setValue(PowerShaft.IS_TESR, true);
 		Direction.Axis axis = state.getValue(PowerShaft.AXIS);
 		float xD = 0, yD = 0, zD = 0;
 		switch (axis)
@@ -55,19 +55,19 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 			break;
 		}
 
-		matrix.push();
+		matrix.pushPose();
 		{
-			RenderHelper.disableStandardItemLighting();
+			RenderHelper.setupForFlatItems();
 			RenderSystem.disableLighting();
 			RenderSystem.disableRescaleNormal();
 			matrix.translate(0.5, 0.5, 0.5);
 			matrix.translate(-xD / 2d, -yD / 2d, -zD / 2d);
-			matrix.rotate(TESRUtils.QuatFromAngleAxis(toRotate, xD, yD, zD));
+			matrix.mulPose(TESRUtils.QuatFromAngleAxis(toRotate, xD, yD, zD));
 			// matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 
 			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-			if (Minecraft.isAmbientOcclusionEnabled())
+			if (Minecraft.useAmbientOcclusion())
 			{
 				RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
@@ -79,13 +79,13 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 			// BufferBuilder bufferBuilder = tessellator.getBuffer();
 
 			// bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
+			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 
 			dispatcher.renderBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
-			RenderHelper.enableStandardItemLighting();
+			RenderHelper.setupFor3DItems();
 			RenderSystem.enableLighting();
 		}
-		matrix.pop();
+		matrix.popPose();
 	}
 }

@@ -32,18 +32,18 @@ public class TESRStoneCastingVessel extends TileEntityRenderer<TEStoneCastingVes
 
 		if (!item.isEmpty())
 		{
-			if (!item.isItemEqual(itemCache)) // update the cache if outdated
+			if (!item.sameItem(itemCache)) // update the cache if outdated
 			{
 				modelCache = Minecraft.getInstance().getItemRenderer()
-									  .getItemModelWithOverrides(item.copy().split(1), null, null);
+									  .getModel(item.copy().split(1), null, null);
 				itemCache = item;
 			}
-			matrix.push();
+			matrix.pushPose();
 			{
 				// matrix.translate(0.5, 0.5, 0.5);
 				matrix.translate(0, -1.4 / 16d, 1);
 				matrix.scale(0.99f, 1, 0.99f);
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(-90, 1, 0, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(-90, 1, 0, 0));
 				float v = te.GetTemp();
 				RenderSystem.color3f(GetRed(v), GetGreen(v), GetBlue(v));
 				// TESRUtils.RenderBakedModel(modelCache, DefaultVertexFormats.ITEM,
@@ -55,7 +55,7 @@ public class TESRStoneCastingVessel extends TileEntityRenderer<TEStoneCastingVes
 						combinedLight, combinedOverlay, modelCache,
 						TESRUtils.RGBAToHex(GetRed(v), GetGreen(v), GetBlue(v), 1));
 			}
-			matrix.pop();
+			matrix.popPose();
 		}
 	}
 

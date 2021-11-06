@@ -36,10 +36,10 @@ public class AxeRecipe extends ShapedRecipe
 		NonNullList<ItemStack> list = super.getRemainingItems(inv);
 		for (int i = 0; i < list.size(); i++)
 		{
-			ItemStack stack = inv.getStackInSlot(i).copy();
+			ItemStack stack = inv.getItem(i).copy();
 			if (stack.getItem() instanceof AxeItem)
 			{
-				boolean b = stack.attemptDamageItem(1, Randoms.MAIN.r, null);
+				boolean b = stack.hurt(1, Randoms.MAIN.r, null);
 				if (b)
 					stack.shrink(1);
 				list.set(i, stack);
@@ -58,22 +58,22 @@ public class AxeRecipe extends ShapedRecipe
 			implements IRecipeSerializer<AxeRecipe>
 	{
 		@Override
-		public AxeRecipe read(ResourceLocation recipeId, JsonObject json)
+		public AxeRecipe fromJson(ResourceLocation recipeId, JsonObject json)
 		{
-			return AxeRecipe.From(IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, json));
+			return AxeRecipe.From(IRecipeSerializer.SHAPED_RECIPE.fromJson(recipeId, json));
 		}
 
 		@Nullable
 		@Override
-		public AxeRecipe read(ResourceLocation recipeId, PacketBuffer buffer)
+		public AxeRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
 		{
-			return AxeRecipe.From(IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, buffer));
+			return AxeRecipe.From(IRecipeSerializer.SHAPED_RECIPE.fromNetwork(recipeId, buffer));
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, AxeRecipe recipe)
+		public void toNetwork(PacketBuffer buffer, AxeRecipe recipe)
 		{
-			IRecipeSerializer.CRAFTING_SHAPED.write(buffer, recipe);
+			IRecipeSerializer.SHAPED_RECIPE.toNetwork(buffer, recipe);
 		}
 	}
 
@@ -81,6 +81,6 @@ public class AxeRecipe extends ShapedRecipe
 	{
 		return new AxeRecipe(
 				read.getId(), read.getGroup(), read.getRecipeWidth(), read.getRecipeHeight(), read.getIngredients(),
-				read.getRecipeOutput());
+				read.getResultItem());
 	}
 }

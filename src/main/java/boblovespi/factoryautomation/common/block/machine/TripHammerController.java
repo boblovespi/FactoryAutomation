@@ -70,12 +70,12 @@ public class TripHammerController extends FABaseBlock
 	 * @return the result type of using the block.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
-		TileEntity te1 = level.getBlockEntity(pos);
+		TileEntity te1 = world.getBlockEntity(pos);
 		if (te1 instanceof TETripHammerController)
 		{
 			TETripHammerController te = (TETripHammerController) te1;
@@ -88,7 +88,7 @@ public class TripHammerController extends FABaseBlock
 				if (item.isEmpty())
 				{
 					ItemStack item1 = te.TakeItem();
-					ItemHelper.PutItemsInInventoryOrDrop(player, item1, level);
+					ItemHelper.PutItemsInInventoryOrDrop(player, item1, world);
 				} else
 				{
 					if (te.PutItem(item.copy().split(1)))

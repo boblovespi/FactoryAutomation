@@ -22,7 +22,7 @@ public class FluidIngredient extends Ingredient
 		this.fluid = fluid;
 	}
 
-	@Override
+	/*@Override
 	public ItemStack[] getMatchingStacks()
 	{
 		return new ItemStack[] { FluidUtil.getFilledBucket(fluid) };
@@ -38,5 +38,5 @@ public class FluidIngredient extends Ingredient
 				return true;
 		}
 		return false;
-	}
+	}*/
 }

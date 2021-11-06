@@ -37,7 +37,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		if (STRING_MAP.containsKey(name))
 			return;
 		ChoppingBlockRecipe recipe = new ChoppingBlockRecipe(
-				name, Ingredient.fromTag(FATags.ForgeItemTag(oreName)), output);
+				name, Ingredient.of(FATags.ForgeItemTag(oreName)), output);
 		STRING_MAP.putIfAbsent(name, recipe);
 		OREDICT_MAP.put("forge:" + oreName, recipe);
 	}
@@ -47,7 +47,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		if (STRING_MAP.containsKey(name))
 			return;
 		ChoppingBlockRecipe recipe = new ChoppingBlockRecipe(
-				name, Ingredient.fromTag(ItemTags.getAllTags().getOrCreate(oreName)), output);
+				name, Ingredient.of(ItemTags.getAllTags().getTagOrEmpty(oreName)), output);
 		STRING_MAP.putIfAbsent(name, recipe);
 		OREDICT_MAP.put(oreName.toString(), recipe);
 	}
@@ -57,7 +57,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		if (STRING_MAP.containsKey(name))
 			return;
 		ChoppingBlockRecipe recipe = new ChoppingBlockRecipe(
-				name, Ingredient.fromStacks(new ItemStack(item, 1)), output);
+				name, Ingredient.of(new ItemStack(item, 1)), output);
 		STRING_MAP.putIfAbsent(name, recipe);
 		ITEM_MAP.put(item, recipe);
 	}

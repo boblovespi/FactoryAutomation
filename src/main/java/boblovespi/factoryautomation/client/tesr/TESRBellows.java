@@ -39,40 +39,40 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 	{
 		// renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, texture));
 
-		matrix.push();
+		matrix.pushPose();
 		{
 			// RenderSystem.enableLighting();
 			// RenderSystem.enableDepthTest();
 			// RenderHelper.enableStandardItemLighting();
 			// RenderSystem.enableRescaleNormal();
 
-			BlockState state = te.getWorld().getBlockState(te.getPos());
-			Direction facing = state.getValue(HorizontalBlock.HORIZONTAL_FACING);
+			BlockState state = te.getBlockState();
+			Direction facing = state.getValue(HorizontalBlock.FACING);
 			switch (facing)
 			{
 			case NORTH:
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
 				matrix.translate(-0.5, -1.5, 0.5);
 				break;
 			case SOUTH:
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 1, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 1, 0));
 				matrix.translate(0.5, -1.5, -0.5);
 				break;
 			case WEST:
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(270, 0, 1, 0));
 				matrix.translate(0.5, -1.5, 0.5);
 				break;
 			case EAST:
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
 				matrix.translate(-0.5, -1.5, -0.5);
 				break;
 			}
 
 			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
-			if (Minecraft.isAmbientOcclusionEnabled())
+			if (Minecraft.useAmbientOcclusion())
 			{
 				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
@@ -82,11 +82,11 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 
 			model.Rotate(te.GetLerp() + te.GetLerpSpeed() * partialTicks);
 
-			model.render(matrix,
-					buffer.getBuffer(model.getRenderType(new ResourceLocation(FactoryAutomation.MODID, texture))),
+			model.renderToBuffer(matrix,
+					buffer.getBuffer(model.renderType(new ResourceLocation(FactoryAutomation.MODID, texture))),
 					combinedLight, combinedOverlay, 1, 1, 1, 1);
 		}
-		matrix.pop();
+		matrix.popPose();
 	}
 
 	public static class Leather extends TESRBellows<TELeatherBellows>

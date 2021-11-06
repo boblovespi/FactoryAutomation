@@ -3,12 +3,15 @@ package boblovespi.factoryautomation.common.block;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -21,7 +24,7 @@ import java.util.Random;
 /**
  * Created by Willi on 4/11/2017.
  */
-public class RiceCrop extends BushBlock implements IGrowable, FABlock
+public class RiceCrop extends CropsBlock implements FABlock
 {
 	public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
 	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[] { Block.box(0, 0, 0, 16, 1, 16),
@@ -32,64 +35,43 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 
 	public RiceCrop()
 	{
-		super(Properties.of(Material.PLANTS).strength(0).tickRandomly().sound(SoundType.CROP).doesNotBlockMovement());
+		super(Properties.of(Material.PLANT).strength(0).randomTicks().sound(SoundType.CROP).noCollission());
 		setRegistryName(RegistryName());
-		registerDefaultState(stateDefinition.any().with(AGE, 0));
+		registerDefaultState(stateDefinition.any().setValue(AGE, 0));
 		FABlocks.blocks.add(this);
 	}
 
-	protected int getAge(BlockState state)
+	@Override
+	protected IItemProvider getBaseSeedId()
 	{
-		return state.getValue(AGE);
+		return FAItems.riceGrain;
 	}
 
 	public BlockState WithAge(int age)
 	{
-		return getDefaultState().with(AGE, age);
-	}
-
-	public int MaxAge()
-	{
-		return 7;
+		return defaultBlockState().setValue(AGE, age);
 	}
 
 	@Override
-	public boolean canGrow(IBlockReader level, BlockPos blockPos, BlockState state, boolean b)
+	public void growCrops(World world, BlockPos blockPos, BlockState BlockState)
 	{
-		return !isMaxAge(state);
-	}
-
-	private boolean isMaxAge(BlockState state)
-	{
-		return state.getValue(AGE) == MaxAge();
-	}
-
-	@Override
-	public boolean canUseBonemeal(World level, Random random, BlockPos blockPos, BlockState BlockState)
-	{
-		return true;
-	}
-
-	@Override
-	public void grow(ServerWorld level, Random random, BlockPos blockPos, BlockState BlockState)
-	{
-		world.setBlockState(blockPos, WithAge(Math.min(getAge(BlockState) + 1, MaxAge())), 2);
+		world.setBlock(blockPos, WithAge(Math.min(getAge(BlockState) + 1, getMaxAge())), 2);
 	}
 
 	protected boolean canSustainBush(BlockState state)
 	{
-		return state.getFluidState().getFluid() == Fluids.WATER
-				|| state.getFluidState().getFluid() == Fluids.FLOWING_WATER;
+		return state.getFluidState().getType() == Fluids.WATER
+				|| state.getFluidState().getType() == Fluids.FLOWING_WATER;
 	}
 
 	@Override
-	protected boolean isValidGround(BlockState state, IBlockReader levelIn, BlockPos pos)
+	protected boolean mayPlaceOn(BlockState state, IBlockReader levelIn, BlockPos pos)
 	{
 		return canSustainBush(state);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(AGE);
 	}
@@ -103,25 +85,25 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
+	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
-		if (!canSustainBush(world.getBlockState(pos.down())))
+		if (!canSustainBush(world.getBlockState(pos.below())))
 		{
 			world.destroyBlock(pos, true);
 			return;
 		}
 
-		if (world.getLight(pos.up()) >= 9)
+		if (world.getLightEmission(pos.above()) >= 9)
 		{
 			int i = getAge(state);
 
-			if (i < MaxAge())
+			if (i < getMaxAge())
 			{
-				float f = GrowthChance(this, level, pos);
+				float f = GrowthChance(this, world, pos);
 
 				if (ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt((int) (25.0F / f) + 1) == 0))
 				{
-					world.setBlockState(pos, WithAge(i + 1), 2);
+					world.setBlock(pos, WithAge(i + 1), 2);
 					ForgeHooks.onCropsGrowPost(world, pos, state);
 				}
 			}
@@ -142,14 +124,14 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 		{
 			for (int y = -2; y < 3; ++y)
 			{
-				if (w.getBlockState(d.add(x, 0, y)).getFluidState().getFluid() == Fluids.WATER)
+				if (w.getBlockState(d.offset(x, 0, y)).getFluidState().getType() == Fluids.WATER)
 					chance += 0.5;
-				if (w.getBlockState(d.add(x, 0, y)).getFluidState().getFluid() == Fluids.FLOWING_WATER)
+				if (w.getBlockState(d.offset(x, 0, y)).getFluidState().getType() == Fluids.FLOWING_WATER)
 					chance += 0.3;
 
-				if (w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.DIRT
-						|| w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.SAND
-						|| w.getBlockState(d.add(x, -1, y)).getBlock() == Blocks.GRAVEL)
+				if (w.getBlockState(d.offset(x, -1, y)).getBlock() == Blocks.DIRT
+						|| w.getBlockState(d.offset(x, -1, y)).getBlock() == Blocks.SAND
+						|| w.getBlockState(d.offset(x, -1, y)).getBlock() == Blocks.GRAVEL)
 					chance += 0.2;
 			}
 		}
@@ -158,7 +140,7 @@ public class RiceCrop extends BushBlock implements IGrowable, FABlock
 	}
 
 	@Override
-	public ItemStack getItem(IBlockReader levelIn, BlockPos pos, BlockState state)
+	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player)
 	{
 		return new ItemStack(FAItems.riceGrain.ToItem());
 	}

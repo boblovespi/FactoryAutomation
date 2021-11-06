@@ -42,11 +42,11 @@ public class Concrete extends Block implements FABlock
 	}
 
 	@Override
-	public void onEntityWalk(World level, BlockPos pos, Entity entity)
+	public void stepOn(World level, BlockPos pos, Entity entity)
 	{
 		if (entity instanceof PlayerEntity)
 		{
-			((PlayerEntity) entity).addPotionEffect(new EffectInstance(Effects.SPEED, 10, 1));
+			((PlayerEntity) entity).addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 10, 1));
 		}
 	}
 }

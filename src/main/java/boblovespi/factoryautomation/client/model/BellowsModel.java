@@ -27,42 +27,42 @@ public class BellowsModel extends Model
 
 	public BellowsModel()
 	{
-		super(RenderType::getEntityCutoutNoCull);
-		this.textureWidth = 128;
-		this.textureHeight = 128;
+		super(RenderType::entityCutoutNoCull);
+		this.texWidth = 128;
+		this.texHeight = 128;
 		this.bellowpart_4 = new ModelRenderer(this, 2, 22);
-		this.bellowpart_4.setRotationPoint(0.0F, 21.0F, -8.0F);
+		this.bellowpart_4.setPos(0.0F, 21.0F, -8.0F);
 		this.bellowpart_4.addBox(-7.0F, -2.0F, 0.0F, 14, 2, 15, 0.0F);
 		this.setRotateAngle(bellowpart_4, 0.40997784129346804F, 0.0F, 0.0F);
 		this.bellowpart_2 = new ModelRenderer(this, 2, 22);
-		this.bellowpart_2.setRotationPoint(0.0F, 21.0F, -8.0F);
+		this.bellowpart_2.setPos(0.0F, 21.0F, -8.0F);
 		this.bellowpart_2.addBox(-7.0F, -2.0F, 0.0F, 14, 2, 15, 0.0F);
 		this.setRotateAngle(bellowpart_2, 0.136659280431156F, 0.0F, 0.0F);
 		this.bellowpart_3 = new ModelRenderer(this, 2, 22);
-		this.bellowpart_3.setRotationPoint(0.0F, 21.0F, -8.0F);
+		this.bellowpart_3.setPos(0.0F, 21.0F, -8.0F);
 		this.bellowpart_3.addBox(-7.0F, -2.0F, 0.0F, 14, 2, 15, 0.0F);
 		this.setRotateAngle(bellowpart_3, 0.273318560862312F, 0.0F, 0.0F);
 		this.pipe = new ModelRenderer(this, 7, 43);
-		this.pipe.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.pipe.setPos(0.0F, 23.0F, 0.0F);
 		this.pipe.addBox(-1.5F, -1.5F, -12.0F, 3, 2, 5, 0.0F);
 		this.top = new ModelRenderer(this, 0, 0);
-		this.top.setRotationPoint(0.0F, 21.0F, -8.0F);
+		this.top.setPos(0.0F, 21.0F, -8.0F);
 		this.top.addBox(-8.0F, -3.0F, 0.0F, 16, 3, 16, 0.0F);
 		this.setRotateAngle(top, 0.6373942428283291F, 0.0F, 0.0F);
 		this.base = new ModelRenderer(this, 0, 0);
-		this.base.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.base.setPos(0.0F, 23.0F, 0.0F);
 		this.base.addBox(-8.0F, -2.0F, -8.0F, 16, 3, 16, 0.0F);
 		this.bellowpart_1 = new ModelRenderer(this, 2, 22);
-		this.bellowpart_1.setRotationPoint(0.0F, 21.0F, -8.0F);
+		this.bellowpart_1.setPos(0.0F, 21.0F, -8.0F);
 		this.bellowpart_1.addBox(-7.0F, -2.0F, 0.0F, 14, 2, 15, 0.0F);
 		this.bellowpart_5 = new ModelRenderer(this, 2, 22);
-		this.bellowpart_5.setRotationPoint(0.0F, 21.0F, -8.0F);
+		this.bellowpart_5.setPos(0.0F, 21.0F, -8.0F);
 		this.bellowpart_5.addBox(-7.0F, -2.0F, 0.0F, 14, 2, 15, 0.0F);
 		this.setRotateAngle(bellowpart_5, 0.546637121724624F, 0.0F, 0.0F);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha)
+	public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha)
 	{
 		this.bellowpart_4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 		this.bellowpart_2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -79,9 +79,9 @@ public class BellowsModel extends Model
 	 */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
 	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		modelRenderer.xRot = x;
+		modelRenderer.yRot = y;
+		modelRenderer.zRot = z;
 	}
 
 	public void RenderTESR(float scale)

@@ -17,7 +17,7 @@ public class CreativeMechanicalSource extends FABaseBlock
 {
 	public CreativeMechanicalSource()
 	{
-		super(Material.MISCELLANEOUS, "creative_mechanical_source", null);
+		super(Material.METAL, "creative_mechanical_source", null);
 		TileEntityHandler.tiles.add(TECreativeMechanicalSource.class);
 	}
 

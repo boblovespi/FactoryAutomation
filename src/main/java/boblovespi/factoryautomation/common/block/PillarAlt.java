@@ -21,8 +21,8 @@ public class PillarAlt extends FABaseBlock
 	public PillarAlt(String name, Metals metal)
 	{
 		super(name, false, Properties.of(Material.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1)
-									 .strength(1, 10), new Item.Properties().tab(ItemGroup.DECORATIONS));
-		registerDefaultState(stateDefinition.any().with(TOP, false).with(BOTTOM, false));
+									 .strength(1, 10), new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
+		registerDefaultState(stateDefinition.any().setValue(TOP, false).setValue(BOTTOM, false));
 	}
 
 	/**
@@ -32,22 +32,22 @@ public class PillarAlt extends FABaseBlock
 	 * Note that this method should ideally consider only the specific face passed in.
 	 */
 	@Override
-	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld level,
+	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, IWorld level,
 			BlockPos pos, BlockPos facingPos)
 	{
 		switch (facing)
 		{
 		case DOWN:
-			return state.setValue(BOTTOM, level.getBlockState(pos.down()).getBlock() == this);
+			return state.setValue(BOTTOM, level.getBlockState(pos.below()).getBlock() == this);
 		case UP:
-			return state.setValue(TOP, level.getBlockState(pos.up()).getBlock() == this);
+			return state.setValue(TOP, level.getBlockState(pos.above()).getBlock() == this);
 		default:
 			return state;
 		}
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(TOP, BOTTOM);
 	}

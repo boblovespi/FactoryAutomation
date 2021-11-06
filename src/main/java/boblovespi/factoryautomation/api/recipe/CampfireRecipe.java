@@ -37,7 +37,7 @@ public class CampfireRecipe extends ChancelessMachineRecipe
 		if (STRING_MAP.containsKey(name))
 			return;
 		CampfireRecipe recipe = new CampfireRecipe(
-				name, Ingredient.fromTag(FATags.ForgeItemTag(oreName)), output, time);
+				name, Ingredient.of(FATags.ForgeItemTag(oreName)), output, time);
 		STRING_MAP.putIfAbsent(name, recipe);
 		OREDICT_MAP.put("forge:" + oreName, recipe);
 	}
@@ -46,7 +46,7 @@ public class CampfireRecipe extends ChancelessMachineRecipe
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
-		CampfireRecipe recipe = new CampfireRecipe(name, Ingredient.fromStacks(new ItemStack(item, 1)), output, time);
+		CampfireRecipe recipe = new CampfireRecipe(name, Ingredient.of(new ItemStack(item, 1)), output, time);
 		STRING_MAP.putIfAbsent(name, recipe);
 		ITEM_MAP.put(item, recipe);
 	}

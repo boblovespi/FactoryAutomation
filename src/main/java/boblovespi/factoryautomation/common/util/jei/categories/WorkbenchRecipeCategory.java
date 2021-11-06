@@ -61,7 +61,7 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 	public String getTitle()
 	{
 		//noinspection MethodCallSideOnly
-		return I18n.format("gui.workbench.name");
+		return I18n.get("gui.workbench.name");
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 	public void setIngredients(IWorkbenchRecipe recipe, IIngredients ingredients)
 	{
 		ingredients.setInputLists(VanillaTypes.ITEM,
-				recipe.GetJeiRecipe().stream().map(n -> Arrays.asList(n.getMatchingStacks()))
+				recipe.GetJeiRecipe().stream().map(n -> Arrays.asList(n.getItems()))
 					  .collect(Collectors.toList()));
 		ingredients.setOutput(VanillaTypes.ITEM, recipe.GetResultItem());
 	}
@@ -105,8 +105,8 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 		{
 			for (int y = 0; y < 5; y++)
 			{
-				if (inputs.get(x + y * 5).getMatchingStacks().length > 0)
-					gui.set(y + x * 5 + 2 + 10, Arrays.asList(inputs.get(x + y * 5).getMatchingStacks()));
+				if (inputs.get(x + y * 5).getItems().length > 0)
+					gui.set(y + x * 5 + 2 + 10, Arrays.asList(inputs.get(x + y * 5).getItems()));
 			}
 		}
 
@@ -118,7 +118,7 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 			Map.Entry<WorkbenchTool.Instance, Integer> next = tools.next();
 			gui.set(y, next.getKey().GetTool().GetItems().keySet().stream().map(n -> {
 				ItemStack itemStack = new ItemStack(n, 1);
-				itemStack.setDamage(next.getValue());
+				itemStack.setDamageValue(next.getValue());
 				return itemStack;
 			}).collect(Collectors.toList()));
 			y++;

@@ -6,19 +6,14 @@ import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreato
 import boblovespi.factoryautomation.common.network.BasicCircuitCreatorSyncPacket;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.items.IItemHandler;
-
-import java.io.IOException;
 
 /**
  * Created by Willi on 5/28/2018.
@@ -40,10 +35,10 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	public GuiBasicCircuitCreator(ContainerBasicCircuitCreator container, PlayerInventory playerInv, ITextComponent unused)
 	{
 		super(container, playerInv, new TranslationTextComponent("gui.basic_circuit_creator"));
-		this.te = (TEBasicCircuitCreator) playerInv.player.world.getBlockEntity(container.GetPos());
+		this.te = (TEBasicCircuitCreator) playerInv.player.level.getBlockEntity(container.GetPos());
 
-		xSize = 206;
-		ySize = 166;
+		imageWidth = 206;
+		imageHeight = 166;
 
 		elements = new GuiGridElement[8][8];
 
@@ -65,15 +60,15 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	public void init()
 	{
 		super.init();
-		solderMode = new ImageButton(guiLeft + 106, guiTop + 12, 20, 18, 1, 167, 19, loc, unused -> mode = 0);
+		solderMode = new ImageButton(leftPos + 106, topPos + 12, 20, 18, 1, 167, 19, loc, unused -> mode = 0);
 		addButton(solderMode);
-		wireMode = new ImageButton(guiLeft + 106, guiTop + 32, 20, 18, 22, 167, 19, loc, unused -> mode = 1);
+		wireMode = new ImageButton(leftPos + 106, topPos + 32, 20, 18, 22, 167, 19, loc, unused -> mode = 1);
 		addButton(wireMode);
-		addThirdMode = new ImageButton(guiLeft + 106, guiTop + 52, 20, 18, 43, 167, 19, loc, unused -> mode = 2);
+		addThirdMode = new ImageButton(leftPos + 106, topPos + 52, 20, 18, 43, 167, 19, loc, unused -> mode = 2);
 		addButton(addThirdMode);
 		craft = new ImageButton(
-				guiLeft + 106, guiTop + 72, 20, 18, 64, 167, 19, loc, unused -> PacketHandler.INSTANCE
-				.sendToServer(new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) 4, (byte) 0, (byte) 0)));
+				leftPos + 106, topPos + 72, 20, 18, 64, 167, 19, loc, unused -> PacketHandler.INSTANCE
+				.sendToServer(new BasicCircuitCreatorSyncPacket(te.getBlockPos(), (byte) 4, (byte) 0, (byte) 0)));
 		addButton(craft);
 	}
 
@@ -81,15 +76,15 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	 * Draws the background layer of this container (behind the items).
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(MatrixStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
-		GlStateManager.blendColor(1, 1, 1, 1);
-		minecraft.getTextureManager().bindTexture(loc);
-		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
+		GlStateManager._blendColor(1, 1, 1, 1);
+		minecraft.getTextureManager().bind(loc);
+		blit(matrix, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 
-		// drawTexturedModalRect(guiLeft + 106, guiTop, 1, 167, 20, 18);
+		// drawTexturedModalRect(leftPos + 106, topPos, 1, 167, 20, 18);
 
-		solderMode.renderButton(mouseX, mouseY, partialTicks);
+		solderMode.renderButton(matrix, mouseX, mouseY, partialTicks);
 
 		TEBasicCircuitCreator.Layout.Element[][] components = te.GetComponents();
 
@@ -98,25 +93,26 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 			for (int y = 7; y >= 0; y--)
 			{
 				elements[x][y].SetElement(components[y][x]);
-				elements[x][y].Draw(this);
+				elements[x][y].Draw(this, matrix);
 			}
 		}
 
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+	protected void renderLabels(MatrixStack matrix, int mouseX, int mouseY)
 	{
-		drawCenteredString(minecraft.fontRenderer, "Circuit Creator", 104, 6, 180 + 100 * 256 + 100 * 256 * 256);
-		// fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+		super.renderLabels(matrix, mouseX, mouseY);
+		drawCenteredString(matrix, minecraft.font, "Circuit Creator", 104, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		// fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, this.imageHeight - 96 + 2, 4210752);
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground();
-		super.render(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+		renderBackground(matrix);
+		super.render(matrix, mouseX, mouseY, partialTicks);
+		// renderLabels(matrix, mouseX, mouseY);
 	}
 
 	/**
@@ -128,22 +124,22 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		System.out.println("mousePos: ( " + mouseX + " , " + mouseY + " )\nmouseButton: " + mouseButton);
 
-		if (container.HasFrame())
+		if (menu.HasFrame())
 		{
-			int x = (int) ((mouseX - 36 - guiLeft) / 8);
-			int y = (int) ((mouseY - 14 - guiTop) / 8);
+			int x = (int) ((mouseX - 36 - leftPos) / 8);
+			int y = (int) ((mouseY - 14 - topPos) / 8);
 
 			if (x >= 0 && x < 8 && y >= 0 && y < 8)
 			{
 				System.out.println(
-						"\n\n --- sending packet! --- \npacket info:\n   pos: " + te.getPos().toString() + "\n   mode: "
+						"\n\n --- sending packet! --- \npacket info:\n   pos: " + te.getBlockPos().toString() + "\n   mode: "
 								+ mode + "\n   x, y: ( " + x + " , " + y + " )\n");
 				if (mouseButton == 0)
 					PacketHandler.INSTANCE.sendToServer(
-							new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) mode, (byte) x, (byte) y));
+							new BasicCircuitCreatorSyncPacket(te.getBlockPos(), (byte) mode, (byte) x, (byte) y));
 				else if (mouseButton == 1)
 					PacketHandler.INSTANCE
-							.sendToServer(new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) 3, (byte) x, (byte) y));
+							.sendToServer(new BasicCircuitCreatorSyncPacket(te.getBlockPos(), (byte) 3, (byte) x, (byte) y));
 			}
 		}
 		return true;
@@ -159,22 +155,22 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	{
 		super.mouseDragged(mouseX, mouseY, clickedMouseButton, something, somethingElse);
 
-		if (container.HasFrame())
+		if (menu.HasFrame())
 		{
-			int x = (int) ((mouseX - 36 - guiLeft) / 8);
-			int y = (int) ((mouseY - 14 - guiTop) / 8);
+			int x = (int) ((mouseX - 36 - leftPos) / 8);
+			int y = (int) ((mouseY - 14 - topPos) / 8);
 
 			if (x >= 0 && x < 8 && y >= 0 && y < 8)
 			{
 				System.out.println(
-						"\n\n --- sending packet! --- \npacket info:\n   pos: " + te.getPos().toString() + "\n   mode: "
+						"\n\n --- sending packet! --- \npacket info:\n   pos: " + te.getBlockPos().toString() + "\n   mode: "
 								+ mode + "\n   x, y: ( " + x + " , " + y + " )\n");
 				if (clickedMouseButton == 0)
 					PacketHandler.INSTANCE.sendToServer(
-							new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) mode, (byte) x, (byte) y));
+							new BasicCircuitCreatorSyncPacket(te.getBlockPos(), (byte) mode, (byte) x, (byte) y));
 				else if (clickedMouseButton == 1)
 					PacketHandler.INSTANCE
-							.sendToServer(new BasicCircuitCreatorSyncPacket(te.getPos(), (byte) 3, (byte) x, (byte) y));
+							.sendToServer(new BasicCircuitCreatorSyncPacket(te.getBlockPos(), (byte) 3, (byte) x, (byte) y));
 			}
 		}
 		return true;

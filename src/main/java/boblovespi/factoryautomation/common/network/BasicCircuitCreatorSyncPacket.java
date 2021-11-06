@@ -73,11 +73,11 @@ public class BasicCircuitCreatorSyncPacket
 		ctx.get().enqueueWork(() ->
 		{
 			ServerPlayerEntity player = ctx.get().getSender();
-			ServerWorld level = player.getLevel();
+			ServerWorld world = player.getLevel();
 
 			if (world.hasChunkAt(te))
 			{
-				TileEntity te = level.getBlockEntity(this.te);
+				TileEntity te = world.getBlockEntity(this.te);
 				if (te instanceof TEBasicCircuitCreator
 						&& player.containerMenu instanceof ContainerBasicCircuitCreator
 						&& ((ContainerBasicCircuitCreator) player.containerMenu).GetPos().equals(this.te))

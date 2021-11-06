@@ -57,7 +57,7 @@ public class IronWorkbench extends Workbench
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide && player instanceof ServerPlayerEntity)

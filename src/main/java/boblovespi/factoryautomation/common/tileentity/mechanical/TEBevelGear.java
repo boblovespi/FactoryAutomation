@@ -105,7 +105,7 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 
 			/* IMPORTANT */
 			BlockState state2 = level.getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			level.sendBlockUpdated(worldPosition, state2, state2, 3);
 
 		}
 	}

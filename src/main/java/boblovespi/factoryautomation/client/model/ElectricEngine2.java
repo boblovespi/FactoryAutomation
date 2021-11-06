@@ -35,56 +35,56 @@ public class ElectricEngine2 extends Model
 
 	public ElectricEngine2()
 	{
-		super(RenderType::getEntityCutoutNoCull);
-		this.textureWidth = 128;
-		this.textureHeight = 128;
+		super(RenderType::entityCutoutNoCull);
+		this.texWidth = 128;
+		this.texHeight = 128;
 		this.bottom = new ModelRenderer(this, -16, 0);
-		this.bottom.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.bottom.setPos(0.0F, 23.0F, 0.0F);
 		this.bottom.addBox(-8.0F, 0.98F, -8.0F, 16, 0, 16, 0.0F);
 		this.right = new ModelRenderer(this, 0, 32);
-		this.right.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.right.setPos(0.0F, 23.0F, 0.0F);
 		this.right.addBox(8.0F, -15.0F, -8.0F, 0, 16, 16, 0.0F);
 		this.axle = new ModelRenderer(this, 32, 39);
-		this.axle.setRotationPoint(0.0F, 16.0F, 0.0F);
+		this.axle.setPos(0.0F, 16.0F, 0.0F);
 		this.axle.addBox(-0.95F, -1.0F, -8.5F, 2, 2, 17, 0.0F);
 		this.back = new ModelRenderer(this, 0, 64);
-		this.back.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.back.setPos(0.0F, 23.0F, 0.0F);
 		this.back.addBox(-8.0F, -15.0F, 8.0F, 16, 16, 0, 0.0F);
 		this.front = new ModelRenderer(this, 0, 16);
-		this.front.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.front.setPos(0.0F, 23.0F, 0.0F);
 		this.front.addBox(-8.0F, -15.0F, -8.0F, 16, 16, 0, 0.0F);
 		this.coil = new ModelRenderer(this, 32, 18);
-		this.coil.setRotationPoint(0.0F, 16.0F, 0.0F);
+		this.coil.setPos(0.0F, 16.0F, 0.0F);
 		this.coil.addBox(-3.85F, -4.0F, -6.39F, 8, 8, 13, 0.0F);
 		this.left = new ModelRenderer(this, 0, 16);
-		this.left.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.left.setPos(0.0F, 23.0F, 0.0F);
 		this.left.addBox(-8.0F, -15.0F, -8.0F, 0, 16, 16, 0.0F);
 		this.top = new ModelRenderer(this, -16, 80);
-		this.top.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.top.setPos(0.0F, 23.0F, 0.0F);
 		this.top.addBox(-8.0F, -15.0F, -8.0F, 16, 0, 16, 0.0F);
 
 		this.bottom2 = new ModelRenderer(this, -16, 80);
-		this.bottom2.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.bottom2.setPos(0.0F, 23.0F, 0.0F);
 		this.bottom2.addBox(-8.0F, 0.98F, -8.0F, 16, 0, 16, 0.0F);
 		this.right2 = new ModelRenderer(this, 0, 16);
-		this.right2.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.right2.setPos(0.0F, 23.0F, 0.0F);
 		this.right2.addBox(8.0F, -15.0F, -8.0F, 0, 16, 16, 0.0F);
 		this.back2 = new ModelRenderer(this, 0, 16);
-		this.back2.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.back2.setPos(0.0F, 23.0F, 0.0F);
 		this.back2.addBox(-8.0F, -15.0F, 8.0F, 16, 16, 0, 0.0F);
 		this.front2 = new ModelRenderer(this, 0, 64);
-		this.front2.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.front2.setPos(0.0F, 23.0F, 0.0F);
 		this.front2.addBox(-8.0F, -15.0F, -8.0F, 16, 16, 0, 0.0F);
 		this.left2 = new ModelRenderer(this, 0, 32);
-		this.left2.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.left2.setPos(0.0F, 23.0F, 0.0F);
 		this.left2.addBox(-8.0F, -15.0F, -8.0F, 0, 16, 16, 0.0F);
 		this.top2 = new ModelRenderer(this, -16, 0);
-		this.top2.setRotationPoint(0.0F, 23.0F, 0.0F);
+		this.top2.setPos(0.0F, 23.0F, 0.0F);
 		this.top2.addBox(-8.0F, -15.0F, -8.0F, 16, 0, 16, 0.0F);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
+	public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
 			float red, float green, float blue, float alpha)
 	{
 		this.bottom.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -117,9 +117,9 @@ public class ElectricEngine2 extends Model
 	 */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
 	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		modelRenderer.xRot = x;
+		modelRenderer.yRot = y;
+		modelRenderer.zRot = z;
 	}
 
 	public void Rotate(float rot)

@@ -64,9 +64,8 @@ public class JEIPlugin implements IModPlugin
 	public void registerRecipes(IRecipeRegistration registry)
 	{
 		registry.addRecipes(Collections.singletonList(new BlastFurnaceRecipeWrapper()), BlastFurnaceRecipeCategory.ID);
-		registry.addRecipes(Minecraft.getInstance().world.getRecipeManager()
-														 .getRecipes(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE)
-														 .values(), WorkbenchRecipeCategory.ID);
+		registry.addRecipes(Minecraft.getInstance().level.getRecipeManager()
+														 .getAllRecipesFor(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE), WorkbenchRecipeCategory.ID);
 		registry.addRecipes(SteelmakingRecipe.GetRecipes(), SteelmakingRecipeCategory.ID);
 		registry.addRecipes(JawCrusherRecipe.GetRecipes(), JawCrusherRecipeCategory.ID);
 		registry.addRecipes(ChoppingBlockRecipe.GetRecipes(), ChoppingBlockRecipeCategory.ID);
@@ -76,7 +75,7 @@ public class JEIPlugin implements IModPlugin
 	private void RegisterDescriptions(IRecipeRegistration registry)
 	{
 		registry.addIngredientInfo(
-				ItemTags.LOGS.getAllElements().stream().map(ItemStack::new).collect(Collectors.toList()),
+				ItemTags.LOGS.getValues().stream().map(ItemStack::new).collect(Collectors.toList()),
 				VanillaTypes.ITEM, "factoryautomation.jei.logs");
 	}
 

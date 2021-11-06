@@ -32,26 +32,26 @@ public class TESRHandCrank extends TileEntityRenderer<TEHandCrank>
 	{
 		// renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"));
 
-		matrix.push();
+		matrix.pushPose();
 		{
 			// RenderSystem.enableLighting();
 			// RenderSystem.enableDepthTest();
 			// RenderHelper.enableStandardItemLighting();
 			// RenderSystem.enableRescaleNormal();
 
-			matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
+			matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
 			if (te.inverted)
 			{
-				matrix.rotate(TESRUtils.QuatFromAngleAxis(180, 1, 0, 0));
+				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 1, 0, 0));
 				matrix.translate(0, 1, -1);
 			}
 			matrix.translate(-0.5, -1.5, 0.5);
 			if (te.IsRotating())
-				matrix.rotate(
+				matrix.mulPose(
 						TESRUtils.QuatFromAngleAxis((te.inverted ? -1 : 1) * (te.rotation + partialTicks), 0, -1, 0));
 
 			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
-			if (Minecraft.isAmbientOcclusionEnabled())
+			if (Minecraft.useAmbientOcclusion())
 			{
 				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
@@ -59,11 +59,11 @@ public class TESRHandCrank extends TileEntityRenderer<TEHandCrank>
 				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
-			handCrankModel.render(matrix, buffer.getBuffer(handCrankModel.getRenderType(
+			handCrankModel.renderToBuffer(matrix, buffer.getBuffer(handCrankModel.renderType(
 					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"))),
 					combinedLight, combinedOverlay, 1, 1, 1, 1);
 
 		}
-		matrix.pop();
+		matrix.popPose();
 	}
 }

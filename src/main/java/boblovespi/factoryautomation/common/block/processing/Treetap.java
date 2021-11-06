@@ -34,7 +34,7 @@ public class Treetap extends FABaseBlock
 		super("treetap", false, Properties.of(Material.METAL).strength(1), new Item.Properties().tab(
 				FAItemGroups.resources));
 		TileEntityHandler.tiles.add(TETreetap.class);
-		registerDefaultState(stateDefinition.any().with(FACING, Direction.NORTH));
+		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
 	}
 
 	@Override
@@ -62,11 +62,11 @@ public class Treetap extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getHorizontalDirection());
+		return defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}

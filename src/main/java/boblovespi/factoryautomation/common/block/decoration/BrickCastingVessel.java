@@ -39,7 +39,7 @@ public class BrickCastingVessel extends FABaseBlock
 				Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
 						  .harvestTool(ToolType.PICKAXE), new Item.Properties().tab(FAItemGroups.metallurgy));
 		// super(Material.STONE, "brick_casting_vessel", FAItemGroups.metallurgy);
-		registerDefaultState(stateDefinition.any().with(MOLD, CastingVesselStates.EMPTY));
+		registerDefaultState(stateDefinition.any().setValue(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
 	}
 
@@ -50,7 +50,7 @@ public class BrickCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(MOLD);
 	}
@@ -72,10 +72,10 @@ public class BrickCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 		if (te instanceof TEStoneCastingVessel && !world.isClientSide)
 		{
 			TEStoneCastingVessel vessel = (TEStoneCastingVessel) te;

@@ -4088,7 +4088,7 @@ Build 1.8.9-11.15.0.1716:
 	LexManos: Fix J6 compile error in IItemHandler PR.
 
 Build 1.8.9-11.15.0.1715:
-	blay09: Fix items being dropped out of a GuiContainer when dealing with a slot outside of the xSize/ySize boundaries.
+	blay09: Fix items being dropped out of a GuiContainer when dealing with a slot outside of the imageWidth/ySize boundaries.
 
 Build 1.8.9-11.15.0.1714:
 	asiekierka: Fix #2388

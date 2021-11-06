@@ -51,10 +51,10 @@ public class RiceGrain extends FABaseItem implements IPlantable
 		PlayerEntity player = context.getPlayer();
 		Direction facing = context.getHorizontalDirection();
 		ItemStack items = Objects.requireNonNull(player).getUseItem();
-		World level = context.getLevel();
+		World world = context.getLevel();
 
 		if (facing == Direction.UP && player.mayUseItemAt(pos.relative(facing), facing, items))
-			if (state.getBlock().canSustainPlant(state, level, pos.above(), Direction.UP, this) && level
+			if (state.getBlock().canSustainPlant(state, world, pos.above(), Direction.UP, this) && world
 					.isEmptyBlock(pos.above(2)))
 			{
 				world.setBlockAndUpdate(pos.above(2), FABlocks.riceCrop.ToBlock().defaultBlockState());

@@ -35,11 +35,11 @@ public class OreSample extends FABaseBlock
 		// setHardness(0.1f);
 	}
 
-	@Override
-	public boolean isNormalCube(BlockState state, IBlockReader level, BlockPos pos)
-	{
-		return false;
-	}
+	//	@Override
+	//	public boolean isNormalCube(BlockState state, IBlockReader level, BlockPos pos)
+	//	{
+	//		return false;
+	//	}
 
 	// TODO: Use loot tables!!!
 	//	@Override
@@ -72,12 +72,12 @@ public class OreSample extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World level, BlockPos pos, Block blockIn, BlockPos fromPos,
-			boolean isMoving)
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos,
+								boolean isMoving)
 	{
-		if (!world.getBlockState(pos.down()).isSolidSide(world, pos.below(), Direction.UP)) // isSideSolid ?
+		if (!world.getBlockState(pos.below()).isFaceSturdy(world, pos.below(), Direction.UP)) // isSideSolid ?
 		{
-			spawnDrops(state, level, pos);
+			dropResources(state, world, pos);
 			world.removeBlock(pos, isMoving);
 		}
 	}
@@ -86,11 +86,11 @@ public class OreSample extends FABaseBlock
 	 * Checks if this block can be placed exactly at the given position.
 	 */
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos)
+	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
 	{
-		return level.getBlockState(pos).getMaterial().isReplaceable() && level.getBlockState(pos.down())
-																			  .isSolidSide(world, pos.below(),
-																					  Direction.UP)
-				&& level.getBlockState(pos).getBlock() != this;
+		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.below())
+																				 .isFaceSturdy(world, pos.below(),
+																						 Direction.UP)
+					   && world.getBlockState(pos).getBlock() != this;
 	}
 }

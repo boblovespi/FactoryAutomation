@@ -1,18 +1,17 @@
 package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.resource.Ore;
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import java.util.Random;
-import java.util.function.Function;
 
 /**
  * Created by Willi on 4/4/2018.
@@ -25,8 +24,7 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 	private Ore ore;
 	private int radius;
 
-	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance,
-			Function<Dynamic<?>, ? extends NoFeatureConfig> config)
+	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance, Codec<NoFeatureConfig> config)
 	{
 		super(config);
 		this.ore = ore;
@@ -37,10 +35,9 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 	}
 
 	@Override
-	public boolean place(IWorld levelIn, ChunkGenerator generator, Random rand, BlockPos basePos,
-			NoFeatureConfig config)
+	public boolean place(ISeedReader levelIn, ChunkGenerator generator, Random rand, BlockPos basePos, NoFeatureConfig config)
 	{
-		if (worldIn.getBiome(basePos).getCategory() != Biome.Category.SWAMP)
+		if (levelIn.getBiome(basePos).getBiomeCategory() != Biome.Category.SWAMP)
 			return false;
 
 		Ore.Grade type;
@@ -53,7 +50,7 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 		else
 			type = Ore.Grade.RICH;
 
-		BlockState toGen = ore.GetBlock(type).getDefaultState();
+		BlockState toGen = ore.GetBlock(type).defaultBlockState();
 
 		for (int y = -10; y < 10; y++)
 		{
@@ -62,19 +59,17 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 			{
 				for (int z = -radius; z < radius; z++)
 				{
-					BlockPos pos = basePos.add(x, y, z);
+					BlockPos pos = basePos.offset(x, y, z);
 
 					//					System.out.println(
 					//							"worldIn = [" + levelIn + "], rand = [" + rand
 					//									+ "], basePos = [" + basePos + "]");
 					//					System.out.println("pos = " + pos);
 
-					if (pos.distanceSq(basePos) <= radius * radius && levelIn.getFluidState(pos.up()).getFluid()
-																			 .isEquivalentTo(Fluids.WATER) && levelIn
-							.getFluidState(pos).isEmpty())
+					if (pos.distSqr(basePos) <= radius * radius && levelIn.getFluidState(pos.above()).getType().isSame(Fluids.WATER) && levelIn.getFluidState(pos).isEmpty())
 					{
-						if (rand.nextFloat() < spawnChance * (1 - pos.down(y).distanceSq(basePos) / (radius * radius)))
-							setBlockState(worldIn, pos, toGen);
+						if (rand.nextFloat() < spawnChance * (1 - pos.below(y).distSqr(basePos) / (radius * radius)))
+							setBlock(levelIn, pos, toGen);
 					}
 				}
 			}

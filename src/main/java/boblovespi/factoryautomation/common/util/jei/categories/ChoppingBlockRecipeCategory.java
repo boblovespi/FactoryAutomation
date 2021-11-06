@@ -53,7 +53,7 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 	public String getTitle()
 	{
 		// noinspection MethodCallSideOnly
-		return I18n.format("gui.chopping_block.name");
+		return I18n.get("gui.chopping_block.name");
 	}
 
 	@Nonnull
@@ -94,7 +94,7 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 	public void setIngredients(ChoppingBlockRecipe recipe, IIngredients ingredients)
 	{
 		ingredients.setInputLists(VanillaTypes.ITEM,
-				Collections.singletonList(Arrays.asList(recipe.GetInput().getMatchingStacks())));
+				Collections.singletonList(Arrays.asList(recipe.GetInput().getItems())));
 		ingredients.setOutput(VanillaTypes.ITEM, recipe.GetOutput());
 	}
 }

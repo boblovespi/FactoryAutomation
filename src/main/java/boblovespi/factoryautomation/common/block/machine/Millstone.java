@@ -77,13 +77,13 @@ public class Millstone extends FABaseBlock
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult result)
 	{
 		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 		ItemStack item = player.getItemInHand(hand);
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 
 		if (te instanceof TEMillstone)
 		{

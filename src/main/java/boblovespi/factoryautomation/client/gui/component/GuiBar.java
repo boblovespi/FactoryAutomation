@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.client.gui.component;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -29,7 +30,7 @@ public class GuiBar
 		this.direction = direction;
 	}
 
-	public void Draw(ContainerScreen<?> gui, float percentage)
+	public void Draw(ContainerScreen<?> gui, MatrixStack matrix, float percentage)
 	{
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();
@@ -37,17 +38,17 @@ public class GuiBar
 		switch (direction)
 		{
 		case DOWN:
-			gui.blit(guiLeft + x, guiTop + y, barX, barY, w, (int) (h * percentage));
+			gui.blit(matrix, guiLeft + x, guiTop + y, barX, barY, w, (int) (h * percentage));
 			break;
 		case UP:
-			gui.blit(guiLeft + x, guiTop + y + (int) (h * aPercentage), barX, barY + (int) (h * aPercentage), w,
+			gui.blit(matrix, guiLeft + x, guiTop + y + (int) (h * aPercentage), barX, barY + (int) (h * aPercentage), w,
 					(int) (h * percentage));
 			break;
 		case RIGHT:
-			gui.blit(guiLeft + x, guiTop + y, barX, barY, (int) (w * percentage), h);
+			gui.blit(matrix, guiLeft + x, guiTop + y, barX, barY, (int) (w * percentage), h);
 			break;
 		case LEFT:
-			gui.blit(guiLeft + x + (int) (w * aPercentage), guiTop + y, barX + (int) (w * aPercentage), barY,
+			gui.blit(matrix, guiLeft + x + (int) (w * aPercentage), guiTop + y, barX + (int) (w * aPercentage), barY,
 					(int) (w * percentage), h);
 			break;
 		}

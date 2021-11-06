@@ -21,19 +21,19 @@ public class HandCrankModel extends Model
 
 	public HandCrankModel()
 	{
-		super(RenderType::getEntityCutoutNoCull);
-		this.textureWidth = 64;
-		this.textureHeight = 32;
+		super(RenderType::entityCutoutNoCull);
+		this.texWidth = 64;
+		this.texHeight = 32;
 		this.shape1 = new ModelRenderer(this, 8, 0);
-		this.shape1.setRotationPoint(0.0F, 12.0F, 0.0F);
+		this.shape1.setPos(0.0F, 12.0F, 0.0F);
 		this.shape1.addBox(-1.0F, -1.0F, -1.0F, 8, 2, 2, 0.0F);
 		this.shape1_1 = new ModelRenderer(this, 0, 0);
-		this.shape1_1.setRotationPoint(0.0F, 12.0F, 0.0F);
+		this.shape1_1.setPos(0.0F, 12.0F, 0.0F);
 		this.shape1_1.addBox(-1.0F, 1.0F, -1.0F, 2, 11, 2, 0.0F);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
+	public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
 			float red, float green, float blue, float alpha)
 	{
 		this.shape1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -45,8 +45,8 @@ public class HandCrankModel extends Model
 	 */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z)
 	{
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		modelRenderer.xRot = x;
+		modelRenderer.yRot = y;
+		modelRenderer.zRot = z;
 	}
 }

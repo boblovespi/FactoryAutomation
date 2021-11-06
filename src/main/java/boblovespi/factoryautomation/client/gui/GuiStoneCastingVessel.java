@@ -1,20 +1,17 @@
 package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.container.ContainerBrickFoundry;
 import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.network.StoneCastingVesselMoldPacket;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.button.ImageButton;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-
-import java.io.IOException;
 
 /**
  * Created by Willi on 12/30/2018.
@@ -33,8 +30,8 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 	public GuiStoneCastingVessel(ContainerStoneCastingVessel container, PlayerInventory playerInv, ITextComponent unused)
 	{
 		super(container, playerInv, new TranslationTextComponent("gui.stone_casting_vessel"));
-		xSize = 176;
-		ySize = 180;
+		imageWidth = 176;
+		imageHeight = 180;
 	}
 
 	/**
@@ -45,50 +42,50 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 	public void init()
 	{
 		super.init();
-		ingot = new ImageButton(guiLeft + 33, guiTop + 20, 18, 18, 0, 185, 19, loc,
-				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 0)));
+		ingot = new ImageButton(leftPos + 33, topPos + 20, 18, 18, 0, 185, 19, loc,
+				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(menu.GetPos(), (byte) 0)));
 		addButton(ingot);
-		nugget = new ImageButton(guiLeft + 33, guiTop + 39, 18, 18, 38, 185, 19, loc,
-				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 1)));
+		nugget = new ImageButton(leftPos + 33, topPos + 39, 18, 18, 38, 185, 19, loc,
+				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(menu.GetPos(), (byte) 1)));
 		addButton(nugget);
 		rod = new ImageButton(
-				guiLeft + 33, guiTop + 58, 18, 18, 76, 185, 19, loc,
-				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 4)));
+				leftPos + 33, topPos + 58, 18, 18, 76, 185, 19, loc,
+				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(menu.GetPos(), (byte) 4)));
 		addButton(rod);
-		sheet = new ImageButton(guiLeft + 52, guiTop + 20, 18, 18, 19, 185, 19, loc,
-				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 2)));
+		sheet = new ImageButton(leftPos + 52, topPos + 20, 18, 18, 19, 185, 19, loc,
+				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(menu.GetPos(), (byte) 2)));
 		addButton(sheet);
-		coin = new ImageButton(guiLeft + 52, guiTop + 39, 18, 18, 57, 185, 19, loc,
-				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 3)));
+		coin = new ImageButton(leftPos + 52, topPos + 39, 18, 18, 57, 185, 19, loc,
+				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(menu.GetPos(), (byte) 3)));
 		addButton(coin);
-		gear = new ImageButton(guiLeft + 52, guiTop + 58, 18, 18, 95, 185, 19, loc,
-				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(container.GetPos(), (byte) 5)));
+		gear = new ImageButton(leftPos + 52, topPos + 58, 18, 18, 95, 185, 19, loc,
+				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(menu.GetPos(), (byte) 5)));
 		addButton(gear);
 	}
 
 	/**
-	 * Draws the background layer of this container (behind the items).
+	 * Draws the background layer of this menu (behind the items).
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(MatrixStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
-		GlStateManager.blendColor(1, 1, 1, 1);
-		minecraft.getTextureManager().bindTexture(loc);
-		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
+		GlStateManager._blendColor(1, 1, 1, 1);
+		minecraft.getTextureManager().bind(loc);
+		blit(matrix, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground();
-		super.render(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+		renderBackground(matrix);
+		super.render(matrix, mouseX, mouseY, partialTicks);
+		renderTooltip(matrix, mouseX, mouseY);
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+	protected void renderLabels(MatrixStack matrix, int mouseX, int mouseY)
 	{
-		drawCenteredString(minecraft.fontRenderer, "Stone Casting Vessel", 56, 6, 180 + 100 * 256 + 100 * 256 * 256);
-		font.drawString(playerInventory.getDisplayName().getFormattedText(), 100, this.ySize - 96 + 2, 4210752);
+		drawCenteredString(matrix, minecraft.font, "Stone Casting Vessel", 56, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		font.draw(matrix, inventory.getDisplayName(), 100, this.imageHeight - 96 + 2, 4210752);
 	}
 }

@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 4/8/2018.
  */
-public class StoneWorkbench extends Workbench implements ITileEntityProvider
+public class StoneWorkbench extends Workbench
 {
 	private static final VoxelShape BOUNDING_BOX = VoxelShapes
 			.or(Block.box(1, 0, 1, 15, 13, 15), Block.box(0, 13, 0, 16, 16, 16));
@@ -42,16 +42,22 @@ public class StoneWorkbench extends Workbench implements ITileEntityProvider
 	 */
 	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader level)
+	public TileEntity createTileEntity(BlockState state, IBlockReader level)
 	{
 		return new TEStoneWorkbench();
+	}
+
+	@Override
+	public boolean hasTileEntity(BlockState state)
+	{
+		return true;
 	}
 
 	/**
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide && player instanceof ServerPlayerEntity)

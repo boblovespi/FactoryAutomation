@@ -67,7 +67,7 @@ public class BrickCrucible extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING, MULTIBLOCK_COMPLETE);
 	}
@@ -78,28 +78,28 @@ public class BrickCrucible extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
 		{
 			if (MultiblockHelper.IsStructureComplete(world, pos, TEBrickCrucible.MULTIBLOCK_ID, state.getValue(FACING)))
 			{
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEBrickCrucible)
 				{
 					TEBrickCrucible foundry = (TEBrickCrucible) te;
 					if (!foundry.IsStructureValid())
 						foundry.CreateStructure();
 
-					if (hit.getFace() == state.getValue(FACING).rotateYCCW())
-						foundry.PourInto(hit.getFace());
+					if (hit.getDirection() == state.getValue(FACING).getCounterClockWise())
+						foundry.PourInto(hit.getDirection());
 					else
 						NetworkHooks.openGui((ServerPlayerEntity) player, foundry, pos);
 				}
 			} else
 			{
-				TileEntity te = level.getBlockEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEBrickCrucible)
 					((TEBrickCrucible) te).SetStructureInvalid();
 			}
@@ -113,6 +113,6 @@ public class BrickCrucible extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(FACING, context.getHorizontalDirection().rotateYCCW());
+		return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getCounterClockWise());
 	}
 }

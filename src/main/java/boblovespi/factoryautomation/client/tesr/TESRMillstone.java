@@ -34,19 +34,19 @@ public class TESRMillstone extends TileEntityRenderer<TEMillstone>
 	{
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
 		if (state == null)
-			state = FABlocks.millstone.ToBlock().getDefaultState().with(Millstone.IS_TOP, true);
-		matrix.push();
+			state = FABlocks.millstone.ToBlock().defaultBlockState().setValue(Millstone.IS_TOP, true);
+		matrix.pushPose();
 		{
-			RenderHelper.disableStandardItemLighting();
+			RenderHelper.setupForFlatItems();
 			RenderSystem.disableLighting();
 			RenderSystem.disableRescaleNormal();
 			matrix.translate(0.5, 0, 0.5);
-			matrix.rotate(TESRUtils.QuatFromAngleAxis(toRotate, 0, 1, 0));
+			matrix.mulPose(TESRUtils.QuatFromAngleAxis(toRotate, 0, 1, 0));
 			// matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
 
 			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-			if (Minecraft.isAmbientOcclusionEnabled())
+			if (Minecraft.useAmbientOcclusion())
 			{
 				RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
@@ -59,17 +59,17 @@ public class TESRMillstone extends TileEntityRenderer<TEMillstone>
 			// Tessellator tessellator = Tessellator.getInstance();
 			// BufferBuilder buffer = tessellator.getBuffer();
 			// buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRendererDispatcher();
+			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 			if (cache == null)
-				cache = dispatcher.getModelForState(state);
-			dispatcher.getBlockModelRenderer()
-					  .renderModel(matrix.getLast(), buffer.getBuffer(Atlases.getCutoutBlockType()), state, cache, 1f,
+				cache = dispatcher.getBlockModel(state);
+			dispatcher.getModelRenderer()
+					  .renderModel(matrix.last(), buffer.getBuffer(Atlases.cutoutBlockSheet()), state, cache, 1f,
 							  1f, 1f, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
 
-			RenderHelper.enableStandardItemLighting();
+			RenderHelper.setupFor3DItems();
 			RenderSystem.enableLighting();
 		}
-		matrix.pop();
+		matrix.popPose();
 	}
 }

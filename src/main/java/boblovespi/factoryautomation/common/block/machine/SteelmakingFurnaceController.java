@@ -62,17 +62,17 @@ public class SteelmakingFurnaceController extends FABaseBlock
 	 * @return the block action use result.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World levelIn, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult hit)
 	{
-		if (!worldIn.isClientSide)
+		if (!world.isClientSide)
 		{
-			if (MultiblockHelper.IsStructureComplete(worldIn, pos, GetPatternId(),
-					worldIn.getBlockState(pos).getValue(AXIS) == Axis.X ? Direction.WEST : Direction.NORTH) /*|| MultiblockHelper
+			if (MultiblockHelper.IsStructureComplete(world, pos, GetPatternId(),
+					world.getBlockState(pos).getValue(AXIS) == Axis.X ? Direction.WEST : Direction.NORTH) /*|| MultiblockHelper
 					.IsStructureComplete(worldIn, pos, GetPatternId(),
 										 Direction.NORTH)*/)
 			{
-				TileEntity te = levelIn.getBlockEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
 				{
 					((TESteelmakingFurnace) te).CreateStructure();
@@ -80,7 +80,7 @@ public class SteelmakingFurnaceController extends FABaseBlock
 				}
 			} else
 			{
-				TileEntity te = levelIn.getBlockEntity(pos);
+				TileEntity te = world.getBlockEntity(pos);
 				if (te instanceof TESteelmakingFurnace)
 					((TESteelmakingFurnace) te).SetStructureInvalid();
 			}

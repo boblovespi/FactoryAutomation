@@ -29,6 +29,7 @@ import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
+import boblovespi.factoryautomation.common.worldgen.RockBlockPlacer;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import boblovespi.factoryautomation.datagen.loottable.FALootTableProvider;
 import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
@@ -78,6 +79,7 @@ public class FactoryAutomation
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
 		Fluids.FLUID_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
+		RockBlockPlacer.REGISTRY.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// ResourcePackHandler p; // lol
 	}
 
@@ -118,8 +120,8 @@ public class FactoryAutomation
 		// TODO: RenderTypeLookup.setRenderLayer();
 		proxy.RegisterRenders();
 		GuiHandler.RegisterGuis();
-		RenderTypeLookup.setRenderLayer(FABlocks.riceCrop.ToBlock(), RenderType.getCutoutMipped());
-		RenderTypeLookup.setRenderLayer(FABlocks.ironWorkbench.ToBlock(), RenderType.getCutoutMipped());
+		RenderTypeLookup.setRenderLayer(FABlocks.riceCrop.ToBlock(), RenderType.cutoutMipped());
+		RenderTypeLookup.setRenderLayer(FABlocks.ironWorkbench.ToBlock(), RenderType.cutoutMipped());
 	}
 
 	@SubscribeEvent
@@ -127,8 +129,9 @@ public class FactoryAutomation
 	{
 		DataGenerator generator = event.getGenerator();
 		generator.addProvider(new FARecipeProvider(generator));
-		generator.addProvider(new FABlockTagProvider(generator));
-		generator.addProvider(new FAItemTagProvider(generator));
+		FABlockTagProvider blockTags = new FABlockTagProvider(generator);
+		generator.addProvider(blockTags);
+		generator.addProvider(new FAItemTagProvider(generator, blockTags));
 		generator.addProvider(new FALootTableProvider(generator));
 	}
 

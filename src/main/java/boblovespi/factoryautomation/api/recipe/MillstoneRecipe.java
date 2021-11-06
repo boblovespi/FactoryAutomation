@@ -39,7 +39,7 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
-		MillstoneRecipe recipe = new MillstoneRecipe(name, Ingredient.fromTag(FATags.ForgeItemTag(oreName)), time, torque, output);
+		MillstoneRecipe recipe = new MillstoneRecipe(name, Ingredient.of(FATags.ForgeItemTag(oreName)), time, torque, output);
 		STRING_MAP.putIfAbsent(name, recipe);
 		OREDICT_MAP.put("forge:" + oreName, recipe);
 	}
@@ -48,7 +48,7 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 	{
 		if (STRING_MAP.containsKey(name))
 			return;
-		MillstoneRecipe recipe = new MillstoneRecipe(name, Ingredient.fromStacks(new ItemStack(item, 1)), time,
+		MillstoneRecipe recipe = new MillstoneRecipe(name, Ingredient.of(new ItemStack(item, 1)), time,
 				torque, output);
 		STRING_MAP.putIfAbsent(name, recipe);
 		ITEM_MAP.put(item, recipe);

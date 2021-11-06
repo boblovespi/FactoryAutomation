@@ -44,28 +44,28 @@ public class PaperBellows extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return this.getDefaultState().with(FACING, context.getHorizontalDirection());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 		if (te instanceof TEPaperBellows)
 			((TEPaperBellows) te).Blow();
-		world.playSound(player, pos, SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
+		world.playSound(player, pos, SoundEvents.ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
 		return ActionResultType.SUCCESS;
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(FACING);
 	}
 
 	@Override
-	public BlockRenderType getRenderType(BlockState state)
+	public BlockRenderType getRenderShape(BlockState state)
 	{
 		return BlockRenderType.INVISIBLE;
 	}

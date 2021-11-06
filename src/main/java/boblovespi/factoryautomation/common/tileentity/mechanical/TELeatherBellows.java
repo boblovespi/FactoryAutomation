@@ -65,7 +65,7 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 		LazyOptional<IBellowsable> capability = te
 				.getCapability(CapabilityBellowsUser.BELLOWS_USER_CAPABILITY, facing.getOpposite());
 		capability.ifPresent(n -> n.Blow(MathHelper.clamp(mechanicalUser.GetTorque() / 30f, 0.5f, 1), 50));
-		level.playSound(null, levelPosition, SoundEvents.ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
+		level.playSound(null, worldPosition, SoundEvents.ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
 	}
 
 	@Override

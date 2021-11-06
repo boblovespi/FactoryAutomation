@@ -8,13 +8,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.AttachFace;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
 
 import javax.annotation.Nullable;
 
-import static net.minecraft.state.properties.BlockStateProperties.FACE;
 import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 /**
@@ -35,7 +31,7 @@ public abstract class Workbench extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(HORIZONTAL_FACING);
 	}
@@ -43,6 +39,6 @@ public abstract class Workbench extends FABaseBlock
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return getDefaultState().with(HORIZONTAL_FACING, context.getHorizontalDirection());
+		return defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection());
 	}
 }

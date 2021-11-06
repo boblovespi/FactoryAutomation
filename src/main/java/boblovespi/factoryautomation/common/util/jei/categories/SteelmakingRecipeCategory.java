@@ -59,7 +59,7 @@ public class SteelmakingRecipeCategory implements IRecipeCategory<SteelmakingRec
 	public String getTitle()
 	{
 		//noinspection MethodCallSideOnly
-		return I18n.format("gui.steelmaking_furnace.name");
+		return I18n.get("gui.steelmaking_furnace.name");
 	}
 
 	@Nonnull
@@ -80,7 +80,7 @@ public class SteelmakingRecipeCategory implements IRecipeCategory<SteelmakingRec
 	public void setIngredients(SteelmakingRecipe recipe, IIngredients ingredients)
 	{
 		ingredients.setInputLists(VanillaTypes.ITEM,
-				recipe.GetItemInputs().stream().map(n -> Arrays.asList(n.getMatchingStacks()))
+				recipe.GetItemInputs().stream().map(n -> Arrays.asList(n.getItems()))
 					  .collect(Collectors.toList()));
 		if (recipe.GetFluidInputs() != null)
 			ingredients.setInputs(VanillaTypes.FLUID, recipe.GetFluidInputs());

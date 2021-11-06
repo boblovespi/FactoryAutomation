@@ -40,7 +40,7 @@ public class BrickMaker extends FABaseBlock
 	{
 		super("brick_maker_frame", false, Properties.of(Material.WOOD).strength(2).harvestLevel(0).harvestTool(
 				ToolType.AXE), new Item.Properties().tab(FAItemGroups.primitive));
-		registerDefaultState(stateDefinition.any().with(CONTENTS, Contents.EMPTY));
+		registerDefaultState(stateDefinition.any().setValue(CONTENTS, Contents.EMPTY));
 	}
 
 	@Override
@@ -49,21 +49,20 @@ public class BrickMaker extends FABaseBlock
 		return "processing/" + RegistryName();
 	}
 
-	@Override
 	public int tickRate(IWorldReader levelIn)
 	{
 		return 3000;
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld level, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
 		Contents value = state.getValue(CONTENTS);
 		if (value.CanDry())
 		{
-			world.setBlockState(pos, state.setValue(CONTENTS, value.GetDried()));
+			world.setBlockAndUpdate(pos, state.setValue(CONTENTS, value.GetDried()));
 			if (value.GetDried().CanDry())
-				world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
+				world.getBlockTicks().scheduleTick(pos, this, tickRate(world));
 		}
 	}
 
@@ -86,7 +85,7 @@ public class BrickMaker extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player, Hand hand,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
 			BlockRayTraceResult hit)
 	{
 		if (world.isClientSide)
@@ -95,27 +94,27 @@ public class BrickMaker extends FABaseBlock
 		Contents value = state.getValue(CONTENTS);
 		if (value.CanAddClay() && player.getItemInHand(hand).getItem() == FAItems.terraclay)
 		{
-			world.setBlockState(pos, state.setValue(CONTENTS, value.AddClay()));
+			world.setBlockAndUpdate(pos, state.setValue(CONTENTS, value.AddClay()));
 			player.getItemInHand(hand).shrink(1);
-			world.getPendingBlockTicks().scheduleTick(pos, this, tickRate(world));
+			world.getBlockTicks().scheduleTick(pos, this, tickRate(world));
 		} else if (value.CanRemove())
 		{
 			if (value.CanRemoveBrick())
 			{
-				world.setBlockState(pos, state.setValue(CONTENTS, value.RemoveClay()));
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.ToItem()), level);
+				world.setBlockAndUpdate(pos, state.setValue(CONTENTS, value.RemoveClay()));
+				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.ToItem()), world);
 
 			} else if (value.CanRemoveClay())
 			{
-				world.setBlockState(pos, state.setValue(CONTENTS, value.RemoveClay()));
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), level);
+				world.setBlockAndUpdate(pos, state.setValue(CONTENTS, value.RemoveClay()));
+				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), world);
 			}
 		}
 		return ActionResultType.SUCCESS;
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(CONTENTS);
 	}
@@ -137,7 +136,7 @@ public class BrickMaker extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getSerializedName()
 		{
 			return name;
 		}

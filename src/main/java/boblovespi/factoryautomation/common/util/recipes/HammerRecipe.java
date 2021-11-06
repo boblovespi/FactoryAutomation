@@ -36,10 +36,10 @@ public class HammerRecipe extends ShapedRecipe
 		NonNullList<ItemStack> list = super.getRemainingItems(inv);
 		for (int i = 0; i < list.size(); i++)
 		{
-			ItemStack stack = inv.getStackInSlot(i).copy();
+			ItemStack stack = inv.getItem(i).copy();
 			if (stack.getItem() instanceof Hammer)
 			{
-				boolean b = stack.attemptDamageItem(1, Randoms.MAIN.r, null);
+				boolean b = stack.hurt(1, Randoms.MAIN.r, null);
 				if (b)
 					stack.shrink(1);
 				list.set(i, stack);
@@ -58,22 +58,22 @@ public class HammerRecipe extends ShapedRecipe
 			implements IRecipeSerializer<HammerRecipe>
 	{
 		@Override
-		public HammerRecipe read(ResourceLocation recipeId, JsonObject json)
+		public HammerRecipe fromJson(ResourceLocation recipeId, JsonObject json)
 		{
-			return (HammerRecipe) IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, json);
+			return (HammerRecipe) IRecipeSerializer.SHAPED_RECIPE.fromJson(recipeId, json);
 		}
 
 		@Nullable
 		@Override
-		public HammerRecipe read(ResourceLocation recipeId, PacketBuffer buffer)
+		public HammerRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
 		{
-			return (HammerRecipe) IRecipeSerializer.CRAFTING_SHAPED.read(recipeId, buffer);
+			return (HammerRecipe) IRecipeSerializer.SHAPED_RECIPE.fromNetwork(recipeId, buffer);
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, HammerRecipe recipe)
+		public void toNetwork(PacketBuffer buffer, HammerRecipe recipe)
 		{
-			IRecipeSerializer.CRAFTING_SHAPED.write(buffer, recipe);
+			IRecipeSerializer.SHAPED_RECIPE.toNetwork(buffer, recipe);
 		}
 	}
 }

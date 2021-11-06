@@ -22,7 +22,7 @@ public class BronzeFence extends FenceBlock implements FABlock
 		setRegistryName(RegistryName());
 		// setResistance(10000);
 		FABlocks.blocks.add(this);
-		FAItemBlock item = new FAItemBlock(this, new Item.Properties().tab(ItemGroup.DECORATIONS));
+		FAItemBlock item = new FAItemBlock(this, new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
 		FAItems.items.add(item);
 	}
 

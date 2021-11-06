@@ -53,15 +53,15 @@ public class TESRChoppingBlock extends TileEntityRenderer<TEChoppingBlock>
 
 		if (!item.isEmpty())
 		{
-			matrix.push();
+			matrix.pushPose();
 			{
 				matrix.translate(0.5, 0.75, 0.5);
 				matrix.scale(0.5f, 0.5f, 0.5f);
 				Minecraft.getInstance().getItemRenderer()
-						 .renderItem(item, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay,
+						 .renderStatic(item, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay,
 								 matrix, buffer);
 			}
-			matrix.pop();
+			matrix.popPose();
 		}
 	}
 }

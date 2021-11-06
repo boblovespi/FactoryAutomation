@@ -39,19 +39,19 @@ public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>,
 	}
 
 	@Override
-	default ItemStack getCraftingResult(IInventory inv)
+	default ItemStack assemble(IInventory inv)
 	{
 		return GetResultItem();
 	}
 
 	@Override
-	default boolean canFit(int width, int height)
+	default boolean canCraftInDimensions(int width, int height)
 	{
 		return CanFitTier(width, height, 0);
 	}
 
 	@Override
-	default ItemStack getRecipeOutput()
+	default ItemStack getResultItem()
 	{
 		return GetResultItem();
 	}

@@ -11,6 +11,6 @@ public class EnergyConstants
 
 	// TODO: put more stuff, like rotational energy unit -> thermal energy unit, etc.
 	// units: electricity: kW/t (energy), kW (power)
-	// rotational energy: deg/t (angular velocity), N (torque)
-	// heat: Celcius (temperature)
+	// rotational energy: deg/t (angular velocity), N m (torque)
+	// heat: Kelvin (temperature)
 }

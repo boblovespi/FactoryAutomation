@@ -79,8 +79,8 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 			angle--;
 			angle = angle % 8;
 			horse.getNavigation()
-				 .moveTo(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
-						 levelPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)), 1);
+				 .moveTo(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), worldPosition.getY() - 2,
+						 worldPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)), 1);
 			//			horse.setPosition(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
 			//					worldPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)));
 		}
@@ -170,7 +170,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 		user.SetSpeedOnFace(Direction.UP, 0);
 		setChanged();
 		BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+		level.sendBlockUpdated(worldPosition, state2, state2, 3);
 		return true;
 	}
 
@@ -185,6 +185,6 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 		user.SetSpeedOnFace(Direction.UP, 0);
 		setChanged();
 		BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+		level.sendBlockUpdated(worldPosition, state2, state2, 3);
 	}
 }

@@ -25,7 +25,7 @@ public class GemOre extends FABaseBlock
 	{
 		super(name, false, Properties.of(Material.STONE).strength(data.hardness, data.resistance)
 									 .harvestLevel(data.miningLevel).harvestTool(ToolType.PICKAXE),
-				new Item.Properties().tab(ItemGroup.BUILDING_BLOCKS));
+				new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS));
 		this.data = data;
 		random = new Random();
 	}
@@ -70,7 +70,7 @@ public class GemOre extends FABaseBlock
 	@Override
 	public int getExpDrop(BlockState state, IWorldReader level, BlockPos pos, int fortune, int silktouch)
 	{
-		Random rand = level instanceof World ? ((World) level).rand : random;
+		Random rand = level instanceof World ? ((World) level).random : random;
 		return data.xpChance.apply(rand, fortune);
 	}
 

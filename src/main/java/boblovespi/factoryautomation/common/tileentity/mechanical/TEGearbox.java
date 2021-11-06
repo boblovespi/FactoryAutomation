@@ -199,7 +199,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 			/* IMPORTANT */
 			BlockState state2 = level.getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			level.sendBlockUpdated(worldPosition, state2, state2, 3);
 		}
 	}
 
@@ -218,7 +218,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 			setChanged();
 			BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			level.sendBlockUpdated(worldPosition, state2, state2, 3);
 			return true;
 
 		} else if (outputGear == null)
@@ -228,7 +228,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 			setChanged();
 			BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			level.sendBlockUpdated(worldPosition, state2, state2, 3);
 			return true;
 		}
 		return false;
@@ -242,7 +242,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 			{
 				ItemStack stack = new ItemStack(FAItems.gear.GetItem(outputGear), 1);
 				stack.setDamageValue(outputGear.durability - outputDurability);
-				level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), stack));
+				level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack));
 			}
 
 			outputGear = null;
@@ -250,14 +250,14 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 			setChanged();
 			BlockState state2 = level.getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			level.sendBlockUpdated(worldPosition, state2, state2, 3);
 		} else if (inputGear != null)
 		{
 			if (!Objects.requireNonNull(level).isClientSide)
 			{
 				ItemStack stack = new ItemStack(FAItems.gear.GetItem(inputGear), 1);
 				stack.setDamageValue(inputGear.durability - inputDurability);
-				level.addFreshEntity(new ItemEntity(level, levelPosition.getX(), levelPosition.getY(), levelPosition.getZ(), stack));
+				level.addFreshEntity(new ItemEntity(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), stack));
 			}
 
 			inputGear = null;
@@ -265,7 +265,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 			setChanged();
 			BlockState state2 = level.getBlockState(worldPosition);
-			level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+			level.sendBlockUpdated(worldPosition, state2, state2, 3);
 		}
 	}
 
@@ -315,17 +315,15 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 		setChanged();
 		BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdatedd(worldPosition, state2, state2, 3);
+		level.sendBlockUpdated(worldPosition, state2, state2, 3);
 	}
-
-	// Todo: update to use non-null.
-	@Nullable
+	
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> (T) this);
-		return null;
+		return LazyOptional.empty();
 	}
 
 	@Override

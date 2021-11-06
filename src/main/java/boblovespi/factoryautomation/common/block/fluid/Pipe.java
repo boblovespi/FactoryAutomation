@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.common.block.fluid;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEPipe;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -32,32 +32,32 @@ public class Pipe extends FABaseBlock
 	private static final EnumProperty<Connection> DOWN = EnumProperty.create("down", Connection.class);
 	private static final EnumProperty<Connection> UP = EnumProperty.create("up", Connection.class);
 
-	public static final EnumProperty[] CONNECTIONS = new EnumProperty[] { DOWN, UP, NORTH, SOUTH, WEST, EAST };
+	public static final EnumProperty[] CONNECTIONS = new EnumProperty[]{DOWN, UP, NORTH, SOUTH, WEST, EAST};
 
 	public Pipe(String name)
 	{
-		super(Material.METAL, name, ItemGroup.DECORATIONS);
-		registerDefaultState(stateDefinition.any().with(UP, Connection.NONE).with(DOWN, Connection.NONE)
-									  .with(NORTH, Connection.NONE).with(SOUTH, Connection.NONE)
-									  .with(EAST, Connection.NONE).with(WEST, Connection.NONE));
+		super(Material.METAL, name, ItemGroup.TAB_DECORATIONS);
+		registerDefaultState(stateDefinition.any().setValue(UP, Connection.NONE).setValue(DOWN, Connection.NONE)
+									 .setValue(NORTH, Connection.NONE).setValue(SOUTH, Connection.NONE)
+									 .setValue(EAST, Connection.NONE).setValue(WEST, Connection.NONE));
 		TileEntityHandler.tiles.add(TEPipe.class);
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(CONNECTIONS);
 	}
 
-	private Connection GetConnectionFor(IBlockReader level, BlockPos pos, Direction side)
+	private Connection GetConnectionFor(IBlockReader world, BlockPos pos, Direction side)
 	{
-		pos = pos.offset(side);
-		if (world.getBlockState(pos).getBlock() instanceof Pipe || level.getBlockState(pos).getBlock() instanceof Pump)
+		pos = pos.relative(side);
+		if (world.getBlockState(pos).getBlock() instanceof Pipe || world.getBlockState(pos).getBlock() instanceof Pump)
 			return Connection.JOIN;
 
-		TileEntity te = level.getBlockEntity(pos);
+		TileEntity te = world.getBlockEntity(pos);
 		if (te != null && te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())
-							.isPresent())
+								  .isPresent())
 			return Connection.CONNECTOR;
 		return Connection.NONE;
 	}
@@ -69,10 +69,10 @@ public class Pipe extends FABaseBlock
 	 * Note that this method should ideally consider only the specific face passed in.
 	 */
 	@Override
-	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld level,
-			BlockPos currentPos, BlockPos facingPos)
+	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, IWorld world,
+								  BlockPos currentPos, BlockPos facingPos)
 	{
-		return state.setValue(CONNECTIONS[facing.getIndex()], GetConnectionFor(world, currentPos, facing));
+		return state.setValue(CONNECTIONS[facing.ordinal()], GetConnectionFor(world, currentPos, facing));
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class Pipe extends FABaseBlock
 	}
 
 	@Override
-	public boolean hasTileEntity()
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
@@ -103,7 +103,7 @@ public class Pipe extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getSerializedName()
 		{
 			return name;
 		}

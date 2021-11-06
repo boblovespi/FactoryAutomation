@@ -85,9 +85,9 @@ public class TEPlacedBucket extends TileEntity
 	 *
 	 * Todo: translate to 1.16.5
 	 */
-	@Override
+	/*@Override
 	public boolean hasFastRenderer()
 	{
 		return false;
-	}
+	}*/
 }

@@ -62,7 +62,7 @@ public class TESRUtils
 			BakedQuad bakedquad = quads.get(i);
 			int k = color;
 
-			if (flag && bakedquad.hasTintIndex())
+			if (flag && bakedquad.isTinted())
 			{
 				k = Minecraft.getInstance().getItemColors().getColor(stack, bakedquad.getTintIndex());
 			}
@@ -70,7 +70,7 @@ public class TESRUtils
 			float f = (float) (k >> 16 & 255) / 255.0F;
 			float f1 = (float) (k >> 8 & 255) / 255.0F;
 			float f2 = (float) (k & 255) / 255.0F;
-			buffer.addVertexData(matrix.getLast(), bakedquad, f, f1, f2, combinedLight, combinedOverlay, true);
+			buffer.addVertexData(matrix.last(), bakedquad, f, f1, f2, combinedLight, combinedOverlay, true);
 		}
 	}
 
@@ -111,15 +111,15 @@ public class TESRUtils
 			boolean leftHand, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLightIn, int combinedOverlayIn,
 			IBakedModel model, int color)
 	{
-		matrix.push();
+		matrix.pushPose();
 		{
-			RenderType rendertype = RenderTypeLookup.getRenderType(stack);
+			RenderType rendertype = RenderTypeLookup.getRenderType(stack, true);
 			model = net.minecraftforge.client.ForgeHooksClient
 					.handleCameraTransforms(matrix, model, transforms, leftHand);
-			IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(buffer, rendertype, true, stack.hasEffect());
+			IVertexBuilder ivertexbuilder = ItemRenderer.getFoilBuffer(buffer, rendertype, true, stack.hasFoil());
 			RenderModel(model, stack, combinedLightIn, combinedOverlayIn, matrix, ivertexbuilder, color);
 		}
-		matrix.pop();
+		matrix.popPose();
 	}
 
 	public static void RenderBakedModel(IBakedModel model, VertexFormat fmt, int color)

@@ -67,7 +67,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 			setChanged();
 
 			/* IMPORTANT */
-			Objects.requireNonNull(level).sendBlockUpdatedd(worldPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
+			Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 				setChanged();
 
 				/* IMPORTANT */
-				Objects.requireNonNull(level).sendBlockUpdatedd(worldPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
+				Objects.requireNonNull(level).sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), FORCE_BLOCK_UPDATE | SEND_TO_CLIENT);
 			}
 		}
 	}

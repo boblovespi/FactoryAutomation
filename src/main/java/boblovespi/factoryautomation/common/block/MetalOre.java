@@ -13,6 +13,6 @@ public class MetalOre extends MultiTypeBlock<MetalOres>
 	public MetalOre()
 	{
 		super("ore_metal", MetalOres.class, "ores", Properties.of(Material.STONE).strength(3, 2.7f),
-				new Item.Properties().tab(ItemGroup.BUILDING_BLOCKS));
+				new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS));
 	}
 }

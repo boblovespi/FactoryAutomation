@@ -20,7 +20,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -51,7 +50,7 @@ public class StoneCastingVessel extends FABaseBlock
 		super("stone_casting_vessel", false,
 				Properties.of(Material.STONE).strength(1.5f).harvestLevel(0)
 						  .harvestTool(ToolType.PICKAXE), new Item.Properties().tab(FAItemGroups.primitive));
-		registerDefaultState(stateDefinition.any().with(MOLD, CastingVesselStates.EMPTY));
+		registerDefaultState(stateDefinition.any().setValue(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
 	}
 
@@ -62,7 +61,7 @@ public class StoneCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
 	{
 		builder.add(MOLD);
 	}
@@ -92,12 +91,12 @@ public class StoneCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		if (!world.isClientSide)
 		{
-			TEStoneCastingVessel te = (TEStoneCastingVessel) level.getBlockEntity(pos);
+			TEStoneCastingVessel te = (TEStoneCastingVessel) world.getBlockEntity(pos);
 
 			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.HasSpace())
 			{
@@ -129,7 +128,7 @@ public class StoneCastingVessel extends FABaseBlock
 		}
 
 		@Override
-		public String getName()
+		public String getSerializedName()
 		{
 			return name().toLowerCase();
 		}
@@ -137,7 +136,7 @@ public class StoneCastingVessel extends FABaseBlock
 		@Override
 		public String toString()
 		{
-			return getName();
+			return getSerializedName();
 		}
 	}
 }

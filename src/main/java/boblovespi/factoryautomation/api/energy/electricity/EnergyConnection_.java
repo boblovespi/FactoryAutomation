@@ -21,7 +21,7 @@ public class EnergyConnection_
 	float maxEnergyTransfer;
 
 	public EnergyConnection_(IProducesEnergy_ producer, IRequiresEnergy_ requirer,
-			int distance, float decay, float maxTransfer)
+							 int distance, float decay, float maxTransfer)
 	{
 		source = producer;
 		consumer = requirer;
@@ -83,16 +83,15 @@ public class EnergyConnection_
 	{
 		CompoundNBT tag = new CompoundNBT();
 		NBTHelper.SetLocationTag(tag, "sourceLoc",
-								 source.GetTe().getWorld().getWorldType()
-									   .getId(), source.GetTe().getPos().getX(),
-								 source.GetTe().getPos().getY(),
-								 source.GetTe().getPos().getX());
+				/*source.GetTe().getLevel().dimensionType()*/0,
+				source.GetTe().getBlockPos().getX(),
+				source.GetTe().getBlockPos().getY(),
+				source.GetTe().getBlockPos().getX());
 		NBTHelper.SetLocationTag(tag, "consumerLoc",
-								 consumer.GetTe().getWorld().getWorldType()
-										 .getId(),
-								 consumer.GetTe().getPos().getX(),
-								 consumer.GetTe().getPos().getY(),
-								 consumer.GetTe().getPos().getX());
+				0,
+				consumer.GetTe().getBlockPos().getX(),
+				consumer.GetTe().getBlockPos().getY(),
+				consumer.GetTe().getBlockPos().getX());
 		tag.putInt("distance", distance);
 		tag.putFloat("distanceDecay", distanceEnergyDecay);
 		tag.putFloat("maxTransfer", maxEnergyTransfer);
@@ -102,10 +101,10 @@ public class EnergyConnection_
 	public void Update()
 	{
 		float amountNeededToTransfer = consumer.ActualAmountNeeded() / (distance
-				* distanceEnergyDecay);
+																				* distanceEnergyDecay);
 
 		float amountExtracted = source
-				.ExtractEnergy(amountNeededToTransfer, false);
+										.ExtractEnergy(amountNeededToTransfer, false);
 
 		consumer.InsertEnergy(
 				amountExtracted * (distance * distanceEnergyDecay), false);
@@ -118,8 +117,8 @@ public class EnergyConnection_
 			return false;
 		EnergyConnection_ obj = (EnergyConnection_) ob;
 		return obj.consumer.equals(consumer) && obj.source.equals(source)
-				&& obj.distanceEnergyDecay == distanceEnergyDecay
-				&& obj.distance == distance
-				&& obj.maxEnergyTransfer == maxEnergyTransfer;
+					   && obj.distanceEnergyDecay == distanceEnergyDecay
+					   && obj.distance == distance
+					   && obj.maxEnergyTransfer == maxEnergyTransfer;
 	}
 }

@@ -7,41 +7,48 @@ import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.common.ForgeTagHandler;
+import net.minecraftforge.common.data.ExistingFileHelper;
+
+import javax.annotation.Nullable;
+
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 public class FABlockTagProvider extends BlockTagsProvider
 {
-	public FABlockTagProvider(DataGenerator generatorIn)
+	public FABlockTagProvider(DataGenerator dataGenerator)
 	{
-		super(generatorIn);
+		super(dataGenerator, MODID, null);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected void registerTags()
+	protected void addTags()
 	{
-		getBuilder(FATags.ForgeBlockTag("concrete")).add(FABlocks.concrete.ToBlock());
-		getBuilder(FATags.ForgeBlockTag("clay")).add(Blocks.CLAY);
-		getBuilder(FATags.ForgeBlockTag("slabs/cobblestone"))
+		tag(FATags.CreateForgeBlockTag("concrete")).add(FABlocks.concrete.ToBlock());
+		tag(FATags.CreateForgeBlockTag("clay")).add(Blocks.CLAY);
+		tag(FATags.CreateForgeBlockTag("slabs/cobblestone"))
 				.add(Blocks.COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE_SLAB);
-		getBuilder(FATags.ForgeBlockTag("dirt")).add(Blocks.DIRT, Blocks.COARSE_DIRT);
+		tag(FATags.CreateForgeBlockTag("dirt")).add(Blocks.DIRT, Blocks.COARSE_DIRT);
 		for (int i = 2; i < Metals.values().length; ++i)
 		{
-			getBuilder(FATags.ForgeBlockTag("storage_blocks/" + Metals.values()[i].getName()))
+			tag(FATags.CreateForgeBlockTag("storage_blocks/" + Metals.values()[i].name()))
 					.add(FABlocks.metalBlock.GetBlock(Metals.values()[i]));
 		}
 		for (MetalOres ore : MetalOres.values())
 		{
-			getBuilder(FATags.ForgeBlockTag("ores/" + ore.getName())).add(FABlocks.metalOres.GetBlock(ore));
+			tag(FATags.CreateForgeBlockTag("ores/" + ore.name())).add(FABlocks.metalOres.GetBlock(ore));
 		}
-		getBuilder(FATags.FABlockTag("storage_blocks/t5")).add(FATags.ForgeBlockTag("storage_blocks/steel"));
-		getBuilder(FATags.FABlockTag("storage_blocks/t4"))
-				.add(FATags.ForgeBlockTag("storage_blocks/magmatic_brass"), FATags.FABlockTag("storage_blocks/t5"));
-		getBuilder(FATags.FABlockTag("storage_blocks/t3"))
-				.add(FATags.ForgeBlockTag("storage_blocks/bronze"), FATags.FABlockTag("storage_blocks/t4"));
-		getBuilder(FATags.FABlockTag("storage_blocks/t2"))
-				.add(FATags.ForgeBlockTag("storage_blocks/iron"), FATags.FABlockTag("storage_blocks/t3"));
-		getBuilder(FATags.FABlockTag("storage_blocks/t1"))
-				.add(FATags.ForgeBlockTag("storage_blocks/copper"), FATags.FABlockTag("storage_blocks/t2"));
+		tag(FATags.CreateFABlockTag("storage_blocks/t5")).addTags(FATags.CreateForgeBlockTag("storage_blocks/steel"));
+		tag(FATags.CreateFABlockTag("storage_blocks/t4"))
+				.addTags(FATags.CreateForgeBlockTag("storage_blocks/magmatic_brass"), FATags.CreateFABlockTag("storage_blocks/t5"));
+		tag(FATags.CreateFABlockTag("storage_blocks/t3"))
+				.addTags(FATags.CreateForgeBlockTag("storage_blocks/bronze"), FATags.CreateFABlockTag("storage_blocks/t4"));
+		tag(FATags.CreateFABlockTag("storage_blocks/t2"))
+				.addTags(FATags.CreateForgeBlockTag("storage_blocks/iron"), FATags.CreateFABlockTag("storage_blocks/t3"));
+		tag(FATags.CreateFABlockTag("storage_blocks/t1"))
+				.addTags(FATags.CreateForgeBlockTag("storage_blocks/copper"), FATags.CreateFABlockTag("storage_blocks/t2"));
 
-		getBuilder(FATags.FABlockTag("campfire")).add(FABlocks.campfire.ToBlock(), Blocks.CAMPFIRE);
+		tag(FATags.CreateFABlockTag("campfire")).add(FABlocks.campfire.ToBlock(), Blocks.CAMPFIRE);
 	}
 }

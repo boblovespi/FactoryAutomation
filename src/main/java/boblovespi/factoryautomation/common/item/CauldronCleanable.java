@@ -32,10 +32,10 @@ public class CauldronCleanable extends FABaseItem
 	@Override
 	public ActionResultType useOn(ItemUseContext context)
 	{
-		World level = context.getLevel();
+		World world = context.getLevel();
 		BlockPos pos = context.getClickedPos();
 		PlayerEntity player = context.getPlayer();
-		BlockState state = level.getBlockState(pos);
+		BlockState state = world.getBlockState(pos);
 		ItemStack item = context.getItemInHand();
 
 		if (!(state.getBlock() instanceof CauldronBlock))

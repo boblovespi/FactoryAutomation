@@ -81,7 +81,7 @@ public class Gearbox extends FABaseBlock
 	 * @return
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World level, BlockPos pos, PlayerEntity player,
+	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
 			Hand hand, BlockRayTraceResult hit)
 	{
 		ItemStack stack = player.getItemInHand(hand);
@@ -92,7 +92,7 @@ public class Gearbox extends FABaseBlock
 		if (world.isClientSide)
 			return ActionResultType.SUCCESS;
 
-		TileEntity tileEntity = level.getBlockEntity(pos);
+		TileEntity tileEntity = world.getBlockEntity(pos);
 		Item item = stack.getItem();
 		GearType gear = GetGear(item);
 

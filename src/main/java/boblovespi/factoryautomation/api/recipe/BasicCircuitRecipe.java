@@ -124,7 +124,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 
 	private static BasicCircuitRecipe DeserializeFromJson(ResourceLocation id, JsonObject json)
 	{
-		JsonArray pattern = JSONUtils.getJsonArray(json, "pattern");
+		JsonArray pattern = JSONUtils.getAsJsonArray(json, "pattern");
 		Element[][] recPattern = new Element[8][8];
 
 		for (int x = 0; x < 8; x++)
@@ -137,7 +137,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 			}
 		}
 
-		ItemStack result = CraftingHelper.getItemStack(JSONUtils.getJsonObject(json, "result"), true);
+		ItemStack result = CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(json, "result"), true);
 		return new BasicCircuitRecipe(id, result, recPattern);
 	}
 
@@ -176,19 +176,19 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 	}
 
 	@Override
-	public ItemStack getCraftingResult(IInventory inv)
+	public ItemStack assemble(IInventory inv)
 	{
 		return result.copy();
 	}
 
 	@Override
-	public boolean canFit(int width, int height)
+	public boolean canCraftInDimensions(int width, int height)
 	{
 		return true;
 	}
 
 	@Override
-	public ItemStack getRecipeOutput()
+	public ItemStack getResultItem()
 	{
 		return result;
 	}
@@ -218,16 +218,16 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 				FactoryAutomation.MODID, "basic_circuit_recipe_serializer");
 
 		@Override
-		public BasicCircuitRecipe read(ResourceLocation recipeId, JsonObject json)
+		public BasicCircuitRecipe fromJson(ResourceLocation recipeId, JsonObject json)
 		{
 			return DeserializeFromJson(recipeId, json);
 		}
 
 		@Nullable
 		@Override
-		public BasicCircuitRecipe read(ResourceLocation recipeId, PacketBuffer buffer)
+		public BasicCircuitRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
 		{
-			ItemStack itemStack = buffer.readItemStack();
+			ItemStack itemStack = buffer.readItem();
 			byte[] bytes = buffer.readByteArray(64);
 			Element[][] elements = new Element[8][8];
 			for (int x = 0; x < 8; x++)
@@ -241,9 +241,9 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 		}
 
 		@Override
-		public void write(PacketBuffer buffer, BasicCircuitRecipe recipe)
+		public void toNetwork(PacketBuffer buffer, BasicCircuitRecipe recipe)
 		{
-			buffer.writeItemStack(recipe.result);
+			buffer.writeItemStack(recipe.result, true);
 			byte[] elements = new byte[64];
 			for (int x = 0; x < 8; x++)
 			{
