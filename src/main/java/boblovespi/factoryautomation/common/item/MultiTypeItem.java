@@ -10,16 +10,15 @@ import java.util.function.Function;
 /**
  * Created by Willi on 11/9/2017.
  */
-public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> extends Item implements FAItem
+public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> implements FAItem
 {
 	protected final Class<T> itemTypes;
 	protected final FABaseItem[] items;
 	private final String name;
 	private final String resourceFolder;
 
-	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Function<T, Properties> properties)
+	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Function<T, Item.Properties> properties)
 	{
-		super(properties.apply(types.getEnumConstants()[0]));
 		this.name = name;
 		itemTypes = types;
 		this.resourceFolder = resourceFolder;
@@ -42,7 +41,7 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializa
 		}
 	}
 
-	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Properties properties)
+	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Item.Properties properties)
 	{
 		this(name, types, resourceFolder, n -> properties);
 	}

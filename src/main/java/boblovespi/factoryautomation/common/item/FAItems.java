@@ -41,9 +41,6 @@ import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
 @Mod.EventBusSubscriber(modid = FactoryAutomation.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FAItems
 {
-	@ObjectHolder("factoryautomation:ore_metal")
-	public static final Item metalOre = null;
-
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
 	public static final List<Item> items = new ArrayList<>(100);
 
@@ -319,11 +316,11 @@ public class FAItems
 					else
 						RegisterItemBlock((BlockItem) item);
 
-				} else if (item instanceof MultiTypeItem)
+				} /*else if (item instanceof MultiTypeItem)
 				{
 					MultiTypeItem<?> variantItem = (MultiTypeItem<?>) item;
 					RegisterRenders(variantItem);
-				} /*else if (item instanceof MultiStateItemBlock)
+				}*/ /*else if (item instanceof MultiStateItemBlock)
 				{
 					MultiStateItemBlock variantItem = (MultiStateItemBlock) item;
 					RegisterRenders(variantItem);

@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.MultiTypeBlock;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.common.ToolType;
@@ -12,7 +13,7 @@ import net.minecraftforge.common.ToolType;
  */
 public class Ore extends MultiTypeBlock<Ore.Grade>
 {
-	public Ore(String name, int harvestLevel, Properties properties, Item.Properties itemProperties)
+	public Ore(String name, int harvestLevel, AbstractBlock.Properties properties, Item.Properties itemProperties)
 	{
 		super(
 				name, Ore.Grade.class, "ores", properties.harvestTool(ToolType.PICKAXE).harvestLevel(harvestLevel),
