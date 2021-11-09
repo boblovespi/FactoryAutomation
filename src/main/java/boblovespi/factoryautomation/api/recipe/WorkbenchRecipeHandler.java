@@ -240,7 +240,7 @@ public class WorkbenchRecipeHandler
 				Log.LogWarning(entry.getKey() + " is not a registered tool, but is used in a recipe!");
 			} else
 			{
-				JsonObject toolInfo = JSONUtils.getAsJsonObject(entry.getValue().getAsJsonObject(), entry.getKey());
+				JsonObject toolInfo = JSONUtils.convertToJsonObject(entry.getValue().getAsJsonObject(), entry.getKey());
 				WorkbenchTool.Instance toolInstance = WorkbenchTool.Instance
 						.FromTool(tool, JSONUtils.getAsInt(toolInfo, "tier"));
 				int durabilityUse = JSONUtils.getAsInt(toolInfo, "durabilityUse");
@@ -262,7 +262,7 @@ public class WorkbenchRecipeHandler
 				Log.LogWarning(entry.getKey() + " is not a registered part, but is used in a recipe!");
 			} else
 			{
-				JsonObject partInfo = JSONUtils.getAsJsonObject(entry.getValue().getAsJsonObject(), entry.getKey());
+				JsonObject partInfo = JSONUtils.convertToJsonObject(entry.getValue().getAsJsonObject(), entry.getKey());
 				WorkbenchPart.Instance partInstance = WorkbenchPart.Instance
 						.FromPart(part, JSONUtils.getAsInt(partInfo, "tier"));
 				int itemUse = JSONUtils.getAsInt(partInfo, "itemUse");
