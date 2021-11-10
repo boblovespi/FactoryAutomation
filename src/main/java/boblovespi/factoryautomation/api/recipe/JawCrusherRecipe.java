@@ -1,8 +1,11 @@
 package boblovespi.factoryautomation.api.recipe;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
@@ -161,6 +164,24 @@ public class JawCrusherRecipe implements IMachineRecipe
 	@Override
 	public void WriteToNBT(CompoundNBT tag)
 	{
+	}
+
+	@Override
+	public ResourceLocation getId()
+	{
+		return null;
+	}
+
+	@Override
+	public IRecipeSerializer<?> getSerializer()
+	{
+		return null;
+	}
+
+	@Override
+	public IRecipeType<?> getType()
+	{
+		return null;
 	}
 
 	public ItemStack GetOutput(float n)

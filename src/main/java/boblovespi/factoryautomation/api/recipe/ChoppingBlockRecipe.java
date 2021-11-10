@@ -1,22 +1,35 @@
 package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.common.util.FATags;
+import com.google.gson.JsonObject;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
+
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 /**
  * Created by Willi on 12/26/2018.
  */
 public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 {
+	public static final Serializer SERIALIZER = new ChoppingBlockRecipe.Serializer();
+	public static final IRecipeType<CampfireRecipe> TYPE = IRecipeType.register(MODID + ":chopping_block");
 	private static final HashMap<String, ChoppingBlockRecipe> STRING_MAP = new HashMap<>();
 	private static final HashMap<Item, ChoppingBlockRecipe> ITEM_MAP = new HashMap<>();
 	private static final HashMap<String, ChoppingBlockRecipe> OREDICT_MAP = new HashMap<>();
@@ -104,5 +117,59 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 	public static Collection<ChoppingBlockRecipe> GetRecipes()
 	{
 		return STRING_MAP.values();
+	}
+
+	@Override
+	public ResourceLocation getId()
+	{
+		return new ResourceLocation(name);
+	}
+
+	@Override
+	public IRecipeSerializer<?> getSerializer()
+	{
+		return SERIALIZER;
+	}
+
+	@Override
+	public IRecipeType<?> getType()
+	{
+		return TYPE;
+	}
+
+	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<ChoppingBlockRecipe>
+	{
+		@Override
+		public ChoppingBlockRecipe fromJson(ResourceLocation name, JsonObject json)
+		{
+			try
+			{
+				if (json.has("input"))
+				{
+					AddRecipe(name.toString(), ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getAsString(json, "input"))), CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(json, "output"), true));
+				}
+				else if (json.has("taginput"))
+				{
+					AddRecipe(name.toString(), new ResourceLocation(JSONUtils.getAsString(json, "taginput")), CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(json, "output"), true));
+				}
+			} catch (Exception ignored)
+			{
+				System.out.println("chopping block recipe " + name + " malformed");
+			}
+			return null;
+		}
+
+		@Nullable
+		@Override
+		public ChoppingBlockRecipe fromNetwork(ResourceLocation name, PacketBuffer buffer)
+		{
+			return null;
+		}
+
+		@Override
+		public void toNetwork(PacketBuffer buffer, ChoppingBlockRecipe recipe)
+		{
+
+		}
 	}
 }

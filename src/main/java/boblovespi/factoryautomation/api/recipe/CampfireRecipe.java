@@ -1,20 +1,33 @@
 package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.common.util.FATags;
+import com.google.gson.JsonObject;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
+
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 /**
  * Created by Willi on 12/26/2018.
  */
 public class CampfireRecipe extends ChancelessMachineRecipe
 {
+	public static final IRecipeSerializer<?> SERIALIZER = new Serializer();
+	public static final IRecipeType<CampfireRecipe> TYPE = IRecipeType.register(MODID + ":campfire");
 	private static final HashMap<String, CampfireRecipe> STRING_MAP = new HashMap<>();
 	private static final HashMap<Item, CampfireRecipe> ITEM_MAP = new HashMap<>();
 	private static final HashMap<String, CampfireRecipe> OREDICT_MAP = new HashMap<>();
@@ -93,5 +106,59 @@ public class CampfireRecipe extends ChancelessMachineRecipe
 	public int GetTime()
 	{
 		return time;
+	}
+
+	@Override
+	public ResourceLocation getId()
+	{
+		return new ResourceLocation(name);
+	}
+
+	@Override
+	public IRecipeSerializer<?> getSerializer()
+	{
+		return SERIALIZER;
+	}
+
+	@Override
+	public IRecipeType<?> getType()
+	{
+		return TYPE;
+	}
+
+	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CampfireRecipe>
+	{
+		@Override
+		public CampfireRecipe fromJson(ResourceLocation name, JsonObject json)
+		{
+			try
+			{
+				if (json.has("input"))
+				{
+					AddRecipe(name.toString(), ForgeRegistries.ITEMS.getValue(new ResourceLocation(JSONUtils.getAsString(json, "input"))), CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(json, "output"), true), JSONUtils.getAsInt(json, "time"));
+				}
+				else if (json.has("taginput"))
+				{
+					AddRecipe(name.toString(), JSONUtils.getAsString(json, "taginput"), CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(json, "output"), true), JSONUtils.getAsInt(json, "time"));
+				}
+			} catch (Exception ignored)
+			{
+				System.out.println("campfire recipe " + name + " malformed");
+			}
+			return null;
+		}
+
+		@Nullable
+		@Override
+		public CampfireRecipe fromNetwork(ResourceLocation name, PacketBuffer buffer)
+		{
+			return null;
+		}
+
+		@Override
+		public void toNetwork(PacketBuffer buffer, CampfireRecipe recipe)
+		{
+
+		}
 	}
 }

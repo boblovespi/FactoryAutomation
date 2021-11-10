@@ -143,7 +143,7 @@ public class FactoryAutomation
 		proxy.Init();
 		// GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
 		FuelHandler.RegisterFuels();
-		// RecipeHandler.registerIRecipes(); TODO: figure out when to actually call, or move to json
+		RecipeHandler.registerIRecipes(); // TODO: figure out when to actually call, or move to json
 		// OreDictionaryHandler.registerOreDictionary();
 		// Log.LogInfo("Slag resource path", FAItems.slag.ToItem().getRegistryName());
 		// TileEntityHandler.RegisterTileEntities();

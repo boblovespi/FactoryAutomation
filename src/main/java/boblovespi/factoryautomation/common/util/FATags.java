@@ -20,22 +20,22 @@ public class FATags
 
 	public static ITag<Item> ForgeItemTag(String name)
 	{
-		return ItemTags.getAllTags().getTag(new ResourceLocation("forge", name));
+		return ItemTags.createOptional(new ResourceLocation("forge", name));
 	}
 
 	public static ITag<Item> FAItemTag(String name)
 	{
-		return ItemTags.getAllTags().getTag(new ResourceLocation(FactoryAutomation.MODID, name));
+		return ItemTags.createOptional(new ResourceLocation(FactoryAutomation.MODID, name));
 	}
 
 	public static ITag<Block> FABlockTag(String name)
 	{
-		return BlockTags.getAllTags().getTag(new ResourceLocation(FactoryAutomation.MODID, name));
+		return BlockTags.createOptional(new ResourceLocation(FactoryAutomation.MODID, name));
 	}
 
 	public static ITag<Block> ForgeBlockTag(String name)
 	{
-		return BlockTags.getAllTags().getTag(new ResourceLocation("forge", name));
+		return BlockTags.createOptional(new ResourceLocation("forge", name));
 	}
 
 	public static ITag.INamedTag<Item> CreateForgeItemTag(String name)

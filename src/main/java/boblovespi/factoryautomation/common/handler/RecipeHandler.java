@@ -2,23 +2,33 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.block.machine.JawCrusher;
+import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
+import com.google.gson.JsonObject;
 import net.minecraft.block.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -228,7 +238,7 @@ public class RecipeHandler
 
 		// trip hammer recipes
 
-		new TripHammerRecipe("iron-block-to-sheets", Ingredient.of(FATags.ForgeItemTag("storage_blocks/iron")),
+		new TripHammerRecipe("iron-block-to-sheets", Ingredient.of(Items.IRON_BLOCK),
 				new ItemStack(FAItems.sheet.GetItem(Metals.IRON), 6), 100, 10);
 
 		// chopping block recipes
@@ -238,7 +248,7 @@ public class RecipeHandler
 					new ItemStack(type.GetPlanks(), 4));
 		}
 
-		ChoppingBlockRecipe.AddRecipe("plank_to_stick", new ResourceLocation("minecraft:planks"), new ItemStack(Items.STICK, 4));
+		// ChoppingBlockRecipe.AddRecipe("plank_to_stick", new ResourceLocation("minecraft:planks"), new ItemStack(Items.STICK, 4));
 		ChoppingBlockRecipe
 				.AddRecipe("grass_to_fiber", Blocks.GRASS.asItem(), new ItemStack(FAItems.plantFiber.ToItem(), 2));
 
@@ -373,7 +383,7 @@ public class RecipeHandler
 	@SubscribeEvent
 	public static void RegisterSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event)
 	{
-		BasicCircuitRecipe.SERIALIZER.setRegistryName(MODID, "basic_circuit_recipe_serializer");
+		BasicCircuitRecipe.SERIALIZER.setRegistryName(MODID, "basic_circuit");
 		event.getRegistry().register(BasicCircuitRecipe.SERIALIZER);
 		WorkbenchRecipeHandler.SHAPED_SERIALIZER.setRegistryName(MODID, "workbench_shaped");
 		event.getRegistry().register(WorkbenchRecipeHandler.SHAPED_SERIALIZER);
@@ -381,5 +391,7 @@ public class RecipeHandler
 		event.getRegistry().register(HammerRecipe.SERIALIZER);
 		AxeRecipe.SERIALIZER.setRegistryName(MODID, "axe_recipe");
 		event.getRegistry().register(AxeRecipe.SERIALIZER);
+		ChoppingBlockRecipe.SERIALIZER.setRegistryName(MODID, "chopping_block");
+		event.getRegistry().register(ChoppingBlockRecipe.SERIALIZER);
 	}
 }

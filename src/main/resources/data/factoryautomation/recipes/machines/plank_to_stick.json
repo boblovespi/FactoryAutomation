@@ -1,0 +1,8 @@
+{
+  "type": "factoryautomation:chopping_block",
+  "taginput": "minecraft:planks",
+  "output": {
+    "item": "minecraft:stick",
+    "count": 4
+  }
+}

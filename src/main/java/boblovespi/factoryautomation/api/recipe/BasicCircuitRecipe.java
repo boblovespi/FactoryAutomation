@@ -208,14 +208,14 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 	@Override
 	public IRecipeType<?> getType()
 	{
-		return null;
+		return TYPE;
 	}
 
 	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
 			implements IRecipeSerializer<BasicCircuitRecipe>
 	{
 		private static final ResourceLocation NAME = new ResourceLocation(
-				FactoryAutomation.MODID, "basic_circuit_recipe_serializer");
+				FactoryAutomation.MODID, "basic_circuit");
 
 		@Override
 		public BasicCircuitRecipe fromJson(ResourceLocation recipeId, JsonObject json)
