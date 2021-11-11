@@ -67,6 +67,7 @@ public class TEMultiblockPart extends TileEntity
 	{
 		SetMultiblockInformation(structure, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), offset.getX(), offset.getY(),
 				offset.getZ(), blockState);
+		setChanged();
 	}
 
 	@Override
