@@ -1,0 +1,17 @@
+{
+  "type": "factoryautomation:axe_recipe",
+  "pattern": ["ab"],
+  "group": "planks",
+  "key": {
+    "a": {
+      "tag": "minecraft:jungle_logs"
+    },
+    "b": {
+      "tag": "factoryautomation:tools/good_axes"
+    }
+  },
+  "result": {
+    "item": "minecraft:jungle_planks",
+    "count": 4
+  }
+}

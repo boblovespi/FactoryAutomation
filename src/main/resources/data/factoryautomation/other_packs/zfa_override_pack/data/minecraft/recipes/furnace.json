@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["ccc", "cfc", "ccc"],
+  "key": {
+    "c": {
+      "tag": "forge:cobblestone"
+    },
+    "f": {
+      "tag": "factoryautomation:campfire"
+    }
+  },
+  "result": {
+    "item": "minecraft:furnace"
+  }
+}

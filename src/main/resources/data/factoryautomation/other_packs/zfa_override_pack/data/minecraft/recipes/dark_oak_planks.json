@@ -1,0 +1,17 @@
+{
+  "type": "factoryautomation:axe_recipe",
+  "pattern": ["ab"],
+  "group": "planks",
+  "key": {
+    "a": {
+      "tag": "minecraft:dark_oak_logs"
+    },
+    "b": {
+      "tag": "factoryautomation:tools/good_axes"
+    }
+  },
+  "result": {
+    "item": "minecraft:dark_oak_planks",
+    "count": 4
+  }
+}

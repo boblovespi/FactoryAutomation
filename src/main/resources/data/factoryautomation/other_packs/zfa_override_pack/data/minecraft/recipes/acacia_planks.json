@@ -1,0 +1,17 @@
+{
+  "type": "factoryautomation:axe_recipe",
+  "pattern": ["ab"],
+  "group": "planks",
+  "key": {
+    "a": {
+      "tag": "minecraft:acacia_logs"
+    },
+    "b": {
+      "tag": "factoryautomation:tools/good_axes"
+    }
+  },
+  "result": {
+    "item": "minecraft:acacia_planks",
+    "count": 4
+  }
+}
