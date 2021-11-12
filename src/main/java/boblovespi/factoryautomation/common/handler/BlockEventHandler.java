@@ -8,6 +8,7 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
+import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.Log;
@@ -200,7 +201,7 @@ public class BlockEventHandler
 	{
 		BlockState state = event.getWorld().getBlockState(event.getPos());
 		BlockPos pos = event.getPos().immutable();
-		World level = event.getWorld();
+		World world = event.getWorld();
 		PlayerEntity player = event.getPlayer();
 
 		if (BlockTags.LOGS.contains(state.getBlock()))
@@ -211,6 +212,12 @@ public class BlockEventHandler
 				event.setUseBlock(Event.Result.DENY);
 				event.setUseItem(Event.Result.DENY);
 			}
+		}
+		if (FABlocks.woodChoppingBlocks.contains(state.getBlock()))
+		{
+			TileEntity te = world.getBlockEntity(pos);
+			if (te instanceof TEChoppingBlock)
+				((TEChoppingBlock) te).LeftClick(player.getItemInHand(Hand.MAIN_HAND));
 		}
 	}
 
