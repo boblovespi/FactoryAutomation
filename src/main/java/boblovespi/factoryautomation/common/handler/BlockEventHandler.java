@@ -12,6 +12,7 @@ import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.Log;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -19,6 +20,7 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
@@ -119,13 +121,13 @@ public class BlockEventHandler
 	public static void OnBlockBrokenEvent(BlockEvent.BreakEvent event)
 	{
 		BlockPos pos = event.getPos();
-		IWorld level = event.getWorld();
+		IWorld world = event.getWorld();
 		if (FABlocks.multiblockPart == event.getState().getBlock())
 		{
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
 
-			TEMultiblockPart part = (TEMultiblockPart) level.getBlockEntity(pos);
+			TEMultiblockPart part = (TEMultiblockPart) world.getBlockEntity(pos);
 
 			Log.LogInfo("part is null", part == null);
 
@@ -135,20 +137,22 @@ public class BlockEventHandler
 				int[] offset = part.GetOffset();
 
 				BlockPos controllerLoc = pos.offset(-offset[0], -offset[1], -offset[2]);
-				TileEntity te = level.getBlockEntity(controllerLoc);
+				TileEntity te = world.getBlockEntity(controllerLoc);
 				if (te instanceof IMultiblockControllerTE)
 				{
 					IMultiblockControllerTE controllerTe = (IMultiblockControllerTE) te;
 					controllerTe.BreakStructure();
 					controllerTe.SetStructureInvalid();
 				}
+				if (part.GetBlockState() != null)
+					Block.dropResources(part.GetBlockState(), part.getLevel(), pos);
 			}
-		} else if (level.getBlockEntity(pos) instanceof IMultiblockControllerTE)
+		} else if (world.getBlockEntity(pos) instanceof IMultiblockControllerTE)
 		{
 			Log.LogInfo("something broke!");
 			Log.LogInfo("blockPos", pos);
 
-			IMultiblockControllerTE part = (IMultiblockControllerTE) level.getBlockEntity(pos);
+			IMultiblockControllerTE part = (IMultiblockControllerTE) world.getBlockEntity(pos);
 
 			part.BreakStructure();
 			part.SetStructureInvalid();

@@ -44,6 +44,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
 import static boblovespi.factoryautomation.common.item.FAItems.Building;
+import static boblovespi.factoryautomation.common.item.FAItems.Prop;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.COPPER;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.STEEL;
 import static net.minecraft.block.AbstractBlock.Properties.of;
@@ -320,7 +321,8 @@ public class FABlocks
 
 		// resource blocks
 
-		greenSand = new FABaseBlock(Material.CLAY, "green_sand", FAItemGroups.metallurgy);
+		greenSand = new FABaseBlock("green_sand", false, of(Material.CLAY).harvestTool(ToolType.SHOVEL)
+				.strength(0.4f).sound(SoundType.GRAVEL), Prop().tab(FAItemGroups.metallurgy));
 		charcoalPile = new CharcoalPile();
 		logPile = new LogPile();
 		terraclayBrickBlock = new FABaseBlock("terraclay_brick_block", false,
