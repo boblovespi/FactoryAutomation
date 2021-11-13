@@ -4,21 +4,18 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FATags;
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-import javax.annotation.Nullable;
-
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 public class FAItemTagProvider extends ItemTagsProvider
 {
-	public FAItemTagProvider(DataGenerator dataGenerator, FABlockTagProvider blockTags)
+	public FAItemTagProvider(DataGenerator dataGenerator, FABlockTagProvider blockTags, ExistingFileHelper helper)
 	{
-		super(dataGenerator, blockTags, MODID, null);
+		super(dataGenerator, blockTags, MODID, helper);
 	}
 
 	@Override

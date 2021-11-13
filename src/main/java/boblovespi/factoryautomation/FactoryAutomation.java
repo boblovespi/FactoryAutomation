@@ -39,6 +39,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -128,11 +129,12 @@ public class FactoryAutomation
 	public static void DataSetup(GatherDataEvent event)
 	{
 		DataGenerator generator = event.getGenerator();
-		generator.addProvider(new FARecipeProvider(generator));
-		FABlockTagProvider blockTags = new FABlockTagProvider(generator);
+		ExistingFileHelper helper = event.getExistingFileHelper();
+		FABlockTagProvider blockTags = new FABlockTagProvider(generator, helper);
 		generator.addProvider(blockTags);
-		generator.addProvider(new FAItemTagProvider(generator, blockTags));
+		generator.addProvider(new FAItemTagProvider(generator, blockTags, helper));
 		generator.addProvider(new FALootTableProvider(generator));
+		generator.addProvider(new FARecipeProvider(generator));
 	}
 
 	@SuppressWarnings("unused")

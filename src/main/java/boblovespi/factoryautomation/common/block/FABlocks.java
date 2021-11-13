@@ -24,8 +24,11 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -103,6 +106,7 @@ public class FABlocks
 	public static FABlock siliconQuartzOre;
 	public static FABlock rock;
 	public static FABlock flintRock;
+	public static FABlock blackSand;
 
 	// workbenches
 
@@ -272,6 +276,8 @@ public class FABlocks
 
 		// TODO: add obsidian flake rock
 		flintRock = new OreSample("flint_rock", new ItemStack[] { new ItemStack(Items.FLINT) });
+		blackSand = new Sand("black_sand",0x1D1C1C, of(Material.SAND, MaterialColor.COLOR_BLACK)
+				.strength(0.5F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0), Building());
 
 		// workbenches
 

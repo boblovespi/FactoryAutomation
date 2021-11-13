@@ -7,18 +7,15 @@ import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.common.ForgeTagHandler;
 import net.minecraftforge.common.data.ExistingFileHelper;
-
-import javax.annotation.Nullable;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 public class FABlockTagProvider extends BlockTagsProvider
 {
-	public FABlockTagProvider(DataGenerator dataGenerator)
+	public FABlockTagProvider(DataGenerator dataGenerator, ExistingFileHelper existingHelper)
 	{
-		super(dataGenerator, MODID, null);
+		super(dataGenerator, MODID, existingHelper);
 	}
 
 	@SuppressWarnings("unchecked")

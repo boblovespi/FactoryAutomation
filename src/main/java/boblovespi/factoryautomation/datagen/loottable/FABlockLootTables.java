@@ -40,7 +40,7 @@ public class FABlockLootTables extends BlockLootTables
 										  .add(ItemLootEntry.lootTableItem(FAItems.riceGrain))
 										  .apply(SetCount.setCount(RandomValueRange.between(0, 3)))
 										  .apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
-		createSlabItemTable(FABlocks.concreteSlab);
+		add(FABlocks.concreteSlab, createSlabItemTable(FABlocks.concreteSlab));
 		// handle multiblock part separately
 		add(FABlocks.multiblockPart.ToBlock(), noDrop());
 		dropSelf(FABlocks.cable.ToBlock());
@@ -145,5 +145,6 @@ public class FABlockLootTables extends BlockLootTables
 						.apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))).withPool(
 				LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.slag))
 						.apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
+		dropSelf(FABlocks.blackSand.ToBlock());
 	}
 }

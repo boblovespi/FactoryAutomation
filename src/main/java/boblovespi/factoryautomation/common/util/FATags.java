@@ -20,41 +20,41 @@ public class FATags
 
 	public static ITag<Item> ForgeItemTag(String name)
 	{
-		return ItemTags.getAllTags().getTagOrEmpty(new ResourceLocation("forge", name));
+		return ItemTags.getAllTags().getTagOrEmpty(new ResourceLocation("forge", name.toLowerCase()));
 	}
 
 	public static ITag<Item> FAItemTag(String name)
 	{
-		return ItemTags.getAllTags().getTagOrEmpty(new ResourceLocation(FactoryAutomation.MODID, name));
+		return ItemTags.getAllTags().getTagOrEmpty(new ResourceLocation(FactoryAutomation.MODID, name.toLowerCase()));
 	}
 
 	public static ITag<Block> FABlockTag(String name)
 	{
-		return BlockTags.getAllTags().getTagOrEmpty(new ResourceLocation(FactoryAutomation.MODID, name));
+		return BlockTags.getAllTags().getTagOrEmpty(new ResourceLocation(FactoryAutomation.MODID, name.toLowerCase()));
 	}
 
 	public static ITag<Block> ForgeBlockTag(String name)
 	{
-		return BlockTags.getAllTags().getTagOrEmpty(new ResourceLocation("forge", name));
+		return BlockTags.getAllTags().getTagOrEmpty(new ResourceLocation("forge", name.toLowerCase()));
 	}
 
 	public static ITag.INamedTag<Item> CreateForgeItemTag(String name)
 	{
-		return ForgeTagHandler.makeWrapperTag(ForgeRegistries.ITEMS, new ResourceLocation("forge", name));
+		return ForgeTagHandler.createOptionalTag(ForgeRegistries.ITEMS, new ResourceLocation("forge", name.toLowerCase()));
 	}
 
 	public static ITag.INamedTag<Item> CreateFAItemTag(String name)
 	{
-		return ForgeTagHandler.makeWrapperTag(ForgeRegistries.ITEMS, new ResourceLocation(FactoryAutomation.MODID, name));
+		return ForgeTagHandler.createOptionalTag(ForgeRegistries.ITEMS, new ResourceLocation(FactoryAutomation.MODID, name.toLowerCase()));
 	}
 
 	public static ITag.INamedTag<Block> CreateFABlockTag(String name)
 	{
-		return ForgeTagHandler.makeWrapperTag(ForgeRegistries.BLOCKS, new ResourceLocation(FactoryAutomation.MODID, name));
+		return ForgeTagHandler.createOptionalTag(ForgeRegistries.BLOCKS, new ResourceLocation(FactoryAutomation.MODID, name.toLowerCase()));
 	}
 
 	public static ITag.INamedTag<Block> CreateForgeBlockTag(String name)
 	{
-		return ForgeTagHandler.makeWrapperTag(ForgeRegistries.BLOCKS, new ResourceLocation("forge", name));
+		return ForgeTagHandler.createOptionalTag(ForgeRegistries.BLOCKS, new ResourceLocation("forge", name.toLowerCase()));
 	}
 }

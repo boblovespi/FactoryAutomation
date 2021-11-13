@@ -30,48 +30,48 @@ public class FARecipeProvider extends RecipeProvider
 		for (int i = 2; i < Metals.values().length; i++)
 		{
 			ShapelessRecipeBuilder.shapeless(FAItems.nugget.GetItem(Metals.values()[i]), 9)
-								  .requires(FATags.ForgeItemTag("ingots/" + Metals.values()[i].name()))
-								  .group(Metals.values()[i].name() + "_nugget")
-								  .unlockedBy("has_" + Metals.values()[i].name() + "_ingot",
-										  has(FATags.ForgeItemTag("ingots/" + Metals.values()[i].name())))
+								  .requires(FATags.CreateForgeItemTag("ingots/" + Metals.values()[i].toString()))
+								  .group(Metals.values()[i].toString() + "_nugget")
+								  .unlockedBy("has_" + Metals.values()[i].toString() + "_ingot",
+										  has(FATags.CreateForgeItemTag("ingots/" + Metals.values()[i].toString())))
 								  .save(consumer, new ResourceLocation(MODID,
-										  "ingot_to_nugget_" + Metals.values()[i].name()));
+										  "ingot_to_nugget_" + Metals.values()[i].toString()));
 
 			ShapedRecipeBuilder.shaped(FAItems.ingot.GetItem(Metals.values()[i])).pattern("III")
 							   .pattern("III").pattern("III")
-							   .define('I', FATags.ForgeItemTag("nuggets/" + Metals.values()[i].name()))
-							   .group(Metals.values()[i].name() + "_ingot")
-							   .unlockedBy("has_" + Metals.values()[i].name() + "_nugget",
-									   has(FATags.ForgeItemTag("nuggets/" + Metals.values()[i].name())))
+							   .define('I', FATags.CreateForgeItemTag("nuggets/" + Metals.values()[i].toString()))
+							   .group(Metals.values()[i].toString() + "_ingot")
+							   .unlockedBy("has_" + Metals.values()[i].toString() + "_nugget",
+									   has(FATags.CreateForgeItemTag("nuggets/" + Metals.values()[i].toString())))
 							   .save(consumer,
-									   new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].name()));
+									   new ResourceLocation(MODID, "nugget_to_ingot_" + Metals.values()[i].toString()));
 
 			ShapelessRecipeBuilder.shapeless(FAItems.ingot.GetItem(Metals.values()[i]), 9)
-								  .requires(FATags.ForgeItemTag("storage_blocks/" + Metals.values()[i].name()))
-								  .group(Metals.values()[i].name() + "_ingot")
-								  .unlockedBy("has_" + Metals.values()[i].name() + "_block", has(FATags
-										  .ForgeItemTag("storage_blocks/" + Metals.values()[i].name())))
+								  .requires(FATags.CreateForgeItemTag("storage_blocks/" + Metals.values()[i].toString()))
+								  .group(Metals.values()[i].toString() + "_ingot")
+								  .unlockedBy("has_" + Metals.values()[i].toString() + "_block", has(FATags
+										  .CreateForgeItemTag("storage_blocks/" + Metals.values()[i].toString())))
 								  .save(consumer, new ResourceLocation(MODID,
-										  "block_to_ingot_" + Metals.values()[i].name()));
+										  "block_to_ingot_" + Metals.values()[i].toString()));
 
 			ShapedRecipeBuilder.shaped(FABlocks.metalBlock.GetBlock(Metals.values()[i])).pattern("III")
 							   .pattern("III").pattern("III")
-							   .define('I', FATags.ForgeItemTag("ingots/" + Metals.values()[i].name()))
-							   .group(Metals.values()[i].name() + "_block")
-							   .unlockedBy("has_" + Metals.values()[i].name() + "_ingot",
-									   has(FATags.ForgeItemTag("ingots/" + Metals.values()[i].name())))
+							   .define('I', FATags.CreateForgeItemTag("ingots/" + Metals.values()[i].toString()))
+							   .group(Metals.values()[i].toString() + "_block")
+							   .unlockedBy("has_" + Metals.values()[i].toString() + "_ingot",
+									   has(FATags.CreateForgeItemTag("ingots/" + Metals.values()[i].toString())))
 							   .save(consumer,
-									   new ResourceLocation(MODID, "ingot_to_block" + Metals.values()[i].name()));
+									   new ResourceLocation(MODID, "ingot_to_block" + Metals.values()[i].toString()));
 		}
 
 		// tools
-		AddToolRecipes(consumer, "bronze", FATags.ForgeItemTag("ingots/bronze"), FATags.ForgeItemTag("rods/wooden"),
+		AddToolRecipes(consumer, "bronze", FATags.CreateForgeItemTag("ingots/bronze"), FATags.CreateForgeItemTag("rods/wooden"),
 				FAItems.bronzePickaxe, FAItems.bronzeAxe, FAItems.bronzeSword, FAItems.bronzeHoe, FAItems.bronzeShovel);
 
-		AddToolRecipes(consumer, "steel", FATags.ForgeItemTag("ingots/steel"), FATags.ForgeItemTag("rods/wooden"),
+		AddToolRecipes(consumer, "steel", FATags.CreateForgeItemTag("ingots/steel"), FATags.CreateForgeItemTag("rods/wooden"),
 				FAItems.steelPickaxe, FAItems.steelAxe, FAItems.steelSword, FAItems.steelHoe, FAItems.steelShovel);
 
-		AddToolRecipes(consumer, "copper", FATags.ForgeItemTag("ingots/copper"), FATags.ForgeItemTag("rods/wooden"),
+		AddToolRecipes(consumer, "copper", FATags.CreateForgeItemTag("ingots/copper"), FATags.CreateForgeItemTag("rods/wooden"),
 				FAItems.copperPickaxe, FAItems.copperAxe, FAItems.copperSword, FAItems.copperHoe, FAItems.copperShovel);
 
 	}

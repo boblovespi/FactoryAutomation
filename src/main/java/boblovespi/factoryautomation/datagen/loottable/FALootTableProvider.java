@@ -8,6 +8,7 @@ import net.minecraft.data.loot.*;
 import net.minecraft.loot.LootParameterSet;
 import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.PiglinBarteringAddition;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class FALootTableProvider extends LootTableProvider
 				Pair.of(FishingLootTables::new, LootParameterSets.FISHING),
 				Pair.of(ChestLootTables::new, LootParameterSets.CHEST),
 				Pair.of(EntityLootTables::new, LootParameterSets.ENTITY),
+				Pair.of(PiglinBarteringAddition::new, LootParameterSets.PIGLIN_BARTER),
 				Pair.of(GiftLootTables::new, LootParameterSets.GIFT)));
 		tables.add(Pair.of(FABlockLootTables::new, LootParameterSets.BLOCK));
 		return tables;
