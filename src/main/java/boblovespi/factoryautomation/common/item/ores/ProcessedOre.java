@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.item.ores;
 
 import boblovespi.factoryautomation.common.item.MultiTypeItem;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.item.Item;
 
 /**
@@ -10,6 +11,6 @@ public class ProcessedOre extends MultiTypeItem<OreForms>
 {
 	public ProcessedOre(String name)
 	{
-		super(name, OreForms.class, "ores", new Item.Properties());
+		super(name, OreForms.class, "ores", new Item.Properties().tab(FAItemGroups.resources));
 	}
 }

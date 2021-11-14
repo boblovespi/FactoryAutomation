@@ -409,5 +409,11 @@
   
   "_comment": "jei description",
   "factoryautomation.jei.logs": "To obtain logs, first craft a chopping blade",
-  "gui.steelmaking_furnace.name": "Steelmaking Furnace"
+  "gui.steelmaking_furnace.name": "Steelmaking Furnace",
+  
+  "_comment": "music discs",
+  "item.factoryautomation.disc_factory": "Music Disc",
+  "item.factoryautomation.disc_factory.desc": "idk - Factory",
+  "item.factoryautomation.disc_meter": "Music Disc",
+  "item.factoryautomation.disc_meter.desc": "boblovespi - Meter"
 }

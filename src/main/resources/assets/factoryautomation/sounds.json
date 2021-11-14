@@ -1,7 +1,25 @@
 {
-	"break_rock": {
-		"category": "block",
-		"subtitle": "factoryautomation.subtitle.break_rock",
-		"sounds": ["factoryautomation:dig/rock1", "factoryautomation:dig/rock2"]
-	}
+  "block.rock.break": {
+    "category": "block",
+    "subtitle": "factoryautomation.subtitle.break_rock",
+    "sounds": ["factoryautomation:dig/rock1", "factoryautomation:dig/rock2"]
+  },
+  "music_disc.factory": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "factoryautomation:music/factory",
+        "stream": true
+      }
+    ]
+  },
+  "music_disc.meter": {
+    "category": "record",
+    "sounds": [
+      {
+        "name": "factoryautomation:music/meter",
+        "stream": true
+      }
+    ]
+  }
 }

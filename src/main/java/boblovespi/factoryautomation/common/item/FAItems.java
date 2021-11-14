@@ -18,6 +18,7 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.TallowForms;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
+import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
@@ -154,6 +155,11 @@ public class FAItems
 
 	public static FAItem fluidCanister;
 
+	// misc
+
+	public static FAItem factoryDisc;
+	public static FAItem meterDisc;
+
 	// guidebook
 
 	// public static FAItem guidebook;
@@ -288,6 +294,11 @@ public class FAItems
 		// guidebook
 
 		// guidebook = new Guidebook();
+
+		// misc
+
+		factoryDisc = new MusicDisc("disc_factory", 15, () -> SoundHandler.factoryDisc, Prop().tab(ItemGroup.TAB_MISC));
+		meterDisc = new MusicDisc("disc_meter", 15, () -> SoundHandler.meterDisc, Prop().tab(ItemGroup.TAB_MISC));
 	}
 
 	public static Item.Properties Prop()

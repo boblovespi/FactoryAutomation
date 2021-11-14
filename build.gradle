@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "mc1.15.2-alpha0.3.4"
+version = "mc1.16.5-alpha0.4.0"
 group = "boblovespi.factoryautomation" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "FactoryAutomation"
 
@@ -72,7 +72,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'factoryautomation', '--all', '--output', file('src/generated/resources/')
 
             mods {
                 factoryautomation {

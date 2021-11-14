@@ -15,14 +15,21 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class SoundHandler
 {
 	// Rock
-	public static SoundEvent breakRock = CreateEvent("break_rock");
+	public static SoundEvent breakRock = CreateEvent("block.rock.break");
 	public static SoundType rock = new SoundType(1f, 1f, breakRock, SoundEvents.STONE_STEP,
 			SoundEvents.STONE_PLACE, SoundEvents.STONE_HIT, SoundEvents.STONE_FALL);
+
+	// factory disc
+	public static SoundEvent factoryDisc = CreateEvent("music_disc.factory");
+	// meter
+	public static SoundEvent meterDisc = CreateEvent("music_disc.meter");
 
 	@SubscribeEvent
 	public static void RegisterSounds(RegistryEvent.Register<SoundEvent> event)
 	{
 		event.getRegistry().register(breakRock);
+		event.getRegistry().register(factoryDisc);
+		event.getRegistry().register(meterDisc);
 	}
 
 	public static SoundEvent CreateEvent(String id)
