@@ -91,7 +91,7 @@ public class WorldGenHandler
 		}
 		if (category == Biome.Category.SWAMP)
 		{
-			biome.addFeature(UNDERGROUND_ORES, limoniteGen.get().configured(NoFeatureConfig.NONE).count(2));
+			biome.addFeature(UNDERGROUND_ORES, limoniteGen.get().configured(NoFeatureConfig.NONE).chance(17));
 		}
 	}
 

@@ -37,6 +37,7 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 	@Override
 	public boolean place(ISeedReader levelIn, ChunkGenerator generator, Random rand, BlockPos basePos, NoFeatureConfig config)
 	{
+		basePos = basePos.offset(0, generator.getSeaLevel(), 0);
 		if (levelIn.getBiome(basePos).getBiomeCategory() != Biome.Category.SWAMP)
 			return false;
 
