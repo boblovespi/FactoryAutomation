@@ -77,7 +77,7 @@ public class TEMultiblockPart extends TileEntity
 		structurePosition = compound.getIntArray("structurePosition");
 		structureId = compound.getString("structure");
 		structureOffset = compound.getIntArray("structureOffset");
-		state = NBTHelper.GetBlockState(compound, "blockState");
+		this.state = NBTHelper.GetBlockState(compound, "blockState");
 	}
 
 	@Override

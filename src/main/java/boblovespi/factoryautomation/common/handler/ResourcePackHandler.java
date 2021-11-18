@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
+import com.google.common.collect.Lists;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.*;
 import net.minecraft.util.ResourceLocation;
@@ -33,6 +34,10 @@ public class ResourcePackHandler
 	public static void OnServerStart(FMLServerAboutToStartEvent event)
 	{
 		event.getServer().getPackRepository().addPackFinder(new FAOverridePackFinder());
+		event.getServer().getPackRepository().reload();
+		List<String> ids = Lists.newArrayList(event.getServer().getPackRepository().getSelectedIds());
+		ids.add("zfa_override_pack");
+		event.getServer().getPackRepository().setSelected(ids);
 	}
 
 	public static class FAOverridePackFinder implements IPackFinder

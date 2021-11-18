@@ -425,6 +425,8 @@ public class TEStoneCrucible extends TileEntity
 
 	public void PourInto(Direction facing)
 	{
+		if (metals.amount == 0)
+			return;
 		TileEntity te1 = Objects.requireNonNull(level).getBlockEntity(worldPosition.below().relative(facing));
 		if (te1 instanceof ICastingVessel)
 		{
