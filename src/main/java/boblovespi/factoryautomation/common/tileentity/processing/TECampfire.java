@@ -150,7 +150,7 @@ public class TECampfire extends TileEntity implements ITickableTileEntity
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
-		save(pkt.getTag());
+		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
