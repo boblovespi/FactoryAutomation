@@ -37,9 +37,6 @@ public class TESRMillstone extends TileEntityRenderer<TEMillstone>
 			state = FABlocks.millstone.ToBlock().defaultBlockState().setValue(Millstone.IS_TOP, true);
 		matrix.pushPose();
 		{
-			RenderHelper.setupForFlatItems();
-			RenderSystem.disableLighting();
-			RenderSystem.disableRescaleNormal();
 			matrix.translate(0.5, 0, 0.5);
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(toRotate, 0, 1, 0));
 			// matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
@@ -67,8 +64,7 @@ public class TESRMillstone extends TileEntityRenderer<TEMillstone>
 							  1f, 1f, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
 
-			RenderHelper.setupFor3DItems();
-			RenderSystem.enableLighting();
+			RenderHelper.turnBackOn();
 		}
 		matrix.popPose();
 	}

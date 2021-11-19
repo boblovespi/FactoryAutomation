@@ -57,7 +57,7 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 
 		matrix.pushPose();
 		{
-			RenderHelper.setupForFlatItems();
+			// RenderHelper.setupForFlatItems();
 			RenderSystem.disableLighting();
 			RenderSystem.disableRescaleNormal();
 			matrix.translate(0.5, 0.5, 0.5);
@@ -83,7 +83,8 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 
 			dispatcher.renderBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
-			RenderHelper.setupFor3DItems();
+			// RenderHelper.setupFor3DItems();
+			RenderHelper.turnBackOn();
 			RenderSystem.enableLighting();
 		}
 		matrix.popPose();

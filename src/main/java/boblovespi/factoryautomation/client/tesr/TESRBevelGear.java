@@ -13,14 +13,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.RenderMaterial;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 8/9/2019.
@@ -28,6 +28,8 @@ import org.lwjgl.opengl.GL11;
 public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 {
 	private final BevelGearbox model = new BevelGearbox();
+	public static final RenderMaterial LOCATION = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS, new ResourceLocation(FactoryAutomation.MODID,
+			"textures/blocks/machines/bevel_gearbox.png"));
 
 	public TESRBevelGear(TileEntityRendererDispatcher rendererDispatcherIn)
 	{
@@ -184,7 +186,7 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
 			RenderGear(null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0,
 					0, out, matrix, buffer, combinedLight, combinedOverlay);
-
+			RenderHelper.turnBackOn();
 		}
 		matrix.popPose();
 	}
@@ -196,7 +198,7 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 		if (type == null)
 			return;
 		ItemStack stack = new ItemStack(FAItems.gear.GetItem(type));
-		RenderHelper.setupFor3DItems();
+		RenderHelper.turnBackOn();
 		RenderSystem.enableLighting();
 		matrix.pushPose();
 		{
