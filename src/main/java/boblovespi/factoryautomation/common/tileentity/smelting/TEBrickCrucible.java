@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.api.misc.BellowsUser;
 import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
+import boblovespi.factoryautomation.common.block.processing.BrickCrucible;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
 import boblovespi.factoryautomation.common.container.ContainerBrickFoundry;
 import boblovespi.factoryautomation.common.container.StringIntArray;
@@ -221,7 +222,7 @@ public class TEBrickCrucible extends TileEntity
 	@Override
 	public void CreateStructure()
 	{
-		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
+		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(BrickCrucible.FACING));
 		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MULTIBLOCK_COMPLETE, true));
 		structureIsValid = true;
 	}
@@ -229,7 +230,7 @@ public class TEBrickCrucible extends TileEntity
 	@Override
 	public void BreakStructure()
 	{
-		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(StoneCrucible.FACING));
+		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, getBlockState().getValue(BrickCrucible.FACING));
 		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(MULTIBLOCK_COMPLETE, false));
 		structureIsValid = false;
 	}

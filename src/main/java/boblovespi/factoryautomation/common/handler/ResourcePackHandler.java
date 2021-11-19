@@ -38,6 +38,7 @@ public class ResourcePackHandler
 		List<String> ids = Lists.newArrayList(event.getServer().getPackRepository().getSelectedIds());
 		ids.add("zfa_override_pack");
 		event.getServer().getPackRepository().setSelected(ids);
+		event.getServer().reloadResources(event.getServer().getPackRepository().getSelectedIds());
 	}
 
 	public static class FAOverridePackFinder implements IPackFinder

@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "factoryautomation:processing/brick_firebox"
+      "model": "factoryautomation:block/processing/brick_firebox"
     }
   }
 }

@@ -23,6 +23,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
@@ -37,7 +40,7 @@ public class BrickCrucible extends FABaseBlock
 {
 	public static final BooleanProperty MULTIBLOCK_COMPLETE = BooleanProperty.create("multiblock_complete");
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(2 / 16d, 0, 2 / 16d, 14 / 16d, 1, 14 / 16d);
+	private static final VoxelShape BOUNDING_BOX = VoxelShapes.box(2 / 16d, 0, 2 / 16d, 14 / 16d, 1, 14 / 16d);
 
 	public BrickCrucible()
 	{
@@ -45,6 +48,7 @@ public class BrickCrucible extends FABaseBlock
 												 .harvestTool(ToolType.PICKAXE),
 				new Item.Properties().tab(FAItemGroups.metallurgy));
 		TileEntityHandler.tiles.add(TEBrickCrucible.class);
+		registerDefaultState(defaultBlockState().setValue(MULTIBLOCK_COMPLETE, false));
 	}
 
 	@Override
@@ -114,5 +118,11 @@ public class BrickCrucible extends FABaseBlock
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
 		return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getCounterClockWise());
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_)
+	{
+		return BOUNDING_BOX;
 	}
 }
