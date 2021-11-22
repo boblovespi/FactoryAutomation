@@ -15,6 +15,7 @@
   },
   "parts": {},
   "result": {
-    "item": "factoryautomation:power_shaft"
+    "item": "factoryautomation:power_shaft",
+    "count": 6
   }
 }
