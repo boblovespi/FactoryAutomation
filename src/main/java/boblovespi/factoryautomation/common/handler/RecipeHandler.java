@@ -268,7 +268,7 @@ public class RecipeHandler
 		CampfireRecipe.AddRecipe("cod", Items.COD, new ItemStack(Items.COOKED_COD, 1), 20 * 60 * 3);
 
 		// millstone recipes
-		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 50, 5, new ItemStack(FAItems.wheatFlour.ToItem()));
+		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 50, 1, new ItemStack(FAItems.wheatFlour.ToItem()));
 		MillstoneRecipe.AddRecipe("bone_meal", Items.BONE, 30, 5, new ItemStack(Items.BONE_MEAL, 4));
 
 		//

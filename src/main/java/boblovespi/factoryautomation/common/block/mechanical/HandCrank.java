@@ -38,7 +38,7 @@ public class HandCrank extends FABaseBlock
 {
 	public static final BooleanProperty INVERTED = BooleanProperty.create("inverted");
 	private static final VoxelShape BOUNDING_BOX = Block.box(2, 0, 2, 14, 14, 14);
-	private static final VoxelShape BOUNDING_BOX_I = Block.box(2, 2, 2, 14, 1, 14);
+	private static final VoxelShape BOUNDING_BOX_I = Block.box(2, 2, 2, 14, 16, 14);
 
 	public HandCrank()
 	{
@@ -51,7 +51,7 @@ public class HandCrank extends FABaseBlock
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context)
 	{
-		return context.getHorizontalDirection() == Direction.DOWN ? defaultBlockState().setValue(INVERTED, true) : defaultBlockState();
+		return context.getNearestLookingDirection() == Direction.UP ? defaultBlockState().setValue(INVERTED, true) : defaultBlockState();
 	}
 
 	@Override
