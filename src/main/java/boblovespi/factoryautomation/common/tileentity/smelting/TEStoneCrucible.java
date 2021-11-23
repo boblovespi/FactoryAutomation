@@ -7,12 +7,12 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
 import boblovespi.factoryautomation.common.container.ContainerStoneFoundry;
 import boblovespi.factoryautomation.common.container.StringIntArray;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import mcp.MethodsReturnNonnullByDefault;
@@ -40,7 +40,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.annotation.PropertyKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -94,6 +93,7 @@ public class TEStoneCrucible extends TileEntity
 	private FuelRegistry.FuelInfo fuelInfo = FuelRegistry.NULL;
 	private boolean isBurningFuel = false;
 	private boolean structureIsValid = false;
+	private final float efficiency = 0.5f;
 	private final IIntArray containerInfo = new IIntArray()
 	{
 		@Override
@@ -252,9 +252,9 @@ public class TEStoneCrucible extends TileEntity
 					isBurningFuel = false;
 				}
 			}
-			if (fuelInfo != FuelRegistry.NULL && heatUser.GetTemperature() <= fuelInfo.GetBurnTemp())
+			if (fuelInfo != FuelRegistry.NULL && heatUser.GetTemperature() <= fuelInfo.GetBurnTemp() * efficiency)
 			{
-				heatUser.TransferEnergy(fuelInfo.GetTotalEnergy() / (float) fuelInfo.GetBurnTime());
+				heatUser.TransferEnergy(fuelInfo.GetTotalEnergy() / (float) fuelInfo.GetBurnTime() * efficiency);
 			}
 			if (burnTime <= 0)
 			{
@@ -287,7 +287,7 @@ public class TEStoneCrucible extends TileEntity
 			} else if (metal.equals(metals.metal) || metals.metal.equals("none"))
 			{
 				int meltTemp = Metals.GetFromName(metal).meltTemp;
-				if (temp >= meltTemp)
+				if (temp >= meltTemp || meltStack.getItem() == FAItems.ironShard && temp >= 1000)
 					meltTime++;
 				else
 					meltTime -= 2;
