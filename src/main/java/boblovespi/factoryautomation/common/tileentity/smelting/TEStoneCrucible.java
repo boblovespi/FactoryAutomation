@@ -217,7 +217,7 @@ public class TEStoneCrucible extends TileEntity
 
 		// Iron shards
 		if (item == FAItems.ironShard)
-			return mult * 2;
+			return mult * 2 * 3;
 
 		// Item tag
 		for (MetalInfo info : infos)
