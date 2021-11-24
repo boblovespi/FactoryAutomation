@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.client.model.ElectricEngine2;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
@@ -88,7 +89,7 @@ public class TESRMotor extends TileEntityRenderer<TEMotor>
 				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
-			engineModel.Rotate((float) Math.toRadians(te.rotation + partialTicks * te.GetSpeedOnFace(facing)));
+			engineModel.Rotate((float) Math.toRadians(te.rotation + partialTicks * EnergyConstants.RadiansSecondToDegreesTick(te.GetSpeedOnFace(facing))));
 
 			engineModel.renderToBuffer(matrix, buffer.getBuffer(engineModel.renderType(
 					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"))),

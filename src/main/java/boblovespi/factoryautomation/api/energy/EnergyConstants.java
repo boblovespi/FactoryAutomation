@@ -13,4 +13,9 @@ public class EnergyConstants
 	// units: electricity: kW/t (energy), kW (power)
 	// rotational energy: deg/t (angular velocity), N m (torque)
 	// heat: Kelvin (temperature)
+
+	public static float RadiansSecondToDegreesTick(float radiansSecond)
+	{
+		return (float) (Math.toDegrees(radiansSecond) / 20);
+	}
 }

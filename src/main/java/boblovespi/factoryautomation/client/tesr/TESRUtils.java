@@ -142,4 +142,9 @@ public class TESRUtils
 		int aPart = (int) (a * 255) << 24;
 		return aPart | rPart | gPart | bPart;
 	}
+
+	public static float RadiansToDegrees(float radians)
+	{
+		return (float) Math.toDegrees(radians);
+	}
 }

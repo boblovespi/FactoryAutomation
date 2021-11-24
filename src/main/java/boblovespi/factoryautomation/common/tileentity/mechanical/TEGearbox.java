@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
@@ -271,12 +272,12 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 	public float GetSpeedIn()
 	{
-		return speedIn;
+		return EnergyConstants.RadiansSecondToDegreesTick(speedIn);
 	}
 
 	public float GetSpeedOut()
 	{
-		return speedOut;
+		return EnergyConstants.RadiansSecondToDegreesTick(speedOut);
 	}
 
 	public Gearbox.GearType GetGearIn()
@@ -291,13 +292,13 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 
 	public void ProcessVisualChanges()
 	{
-		rotationIn = (rotationIn + speedIn) % 360;
-		rotationOut = (rotationOut + speedOut) % 360;
+		rotationIn = (rotationIn + EnergyConstants.RadiansSecondToDegreesTick(speedIn)) % 360;
+		rotationOut = (rotationOut + EnergyConstants.RadiansSecondToDegreesTick(speedOut)) % 360;
 
 		if (inputGear != null)
 		{
 			int gInTop = 20 - inputGear.scaleFactor;
-			speedTop = (speedIn * inputGear.scaleFactor) / gInTop;
+			speedTop = EnergyConstants.RadiansSecondToDegreesTick((speedIn * inputGear.scaleFactor) / gInTop);
 			rotationTop = (rotationTop + speedTop) % 360;
 		}
 

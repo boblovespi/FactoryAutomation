@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.client.model.HandCrankModel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -48,7 +49,7 @@ public class TESRHandCrank extends TileEntityRenderer<TEHandCrank>
 			matrix.translate(-0.5, -1.5, 0.5);
 			if (te.IsRotating())
 				matrix.mulPose(
-						TESRUtils.QuatFromAngleAxis((te.inverted ? -1 : 1) * (te.rotation + partialTicks), 0, -1, 0));
+						TESRUtils.QuatFromAngleAxis((te.inverted ? -1 : 1) * (te.rotation + EnergyConstants.RadiansSecondToDegreesTick(te.SPEED) * partialTicks), 0, -1, 0));
 
 			// matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
 			if (Minecraft.useAmbientOcclusion())
