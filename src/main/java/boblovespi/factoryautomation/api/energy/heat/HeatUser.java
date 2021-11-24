@@ -54,9 +54,9 @@ public class HeatUser implements IHeatUser
 	@Override
 	public void TransferEnergy(float energyAmount)
 	{
-		temperature += (energyAmount / EnergyConstants.GAS_CONSTANT / GetHeatCapacity());
-		if (temperature < 0)
-			temperature = 0;
+		temperature += (energyAmount / GetHeatCapacity());
+		if (temperature < -273)
+			temperature = -273;
 	}
 
 	@Override
