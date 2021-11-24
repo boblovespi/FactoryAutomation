@@ -43,7 +43,7 @@ public class HeatUser implements IHeatUser
 			return;
 		float totalEnergy = GetEnergy() + toAdd * 300;
 		heatCapacity += toAdd;
-		temperature = totalEnergy / heatCapacity;
+		temperature = 273 + totalEnergy / heatCapacity;
 	}
 
 	/**

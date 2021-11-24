@@ -139,7 +139,7 @@ public class TEStoneCrucible extends TileEntity
 		super(TileEntityHandler.teStoneCrucible);
 		metals = new MetalHelper(MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
-		heatUser = new HeatUser(20, 1000, 300);
+		heatUser = new HeatUser(20, 2300 * 1000, 300);
 		metalName = new StringIntArray(8);
 		metalName.SetSource(this::GetMetalName);
 	}
@@ -305,10 +305,10 @@ public class TEStoneCrucible extends TileEntity
 					meltTime -= 2;
 				if (meltTime > maxMeltTime)
 				{
-					int added = this.metals.AddMetal(metal, amount);
+					int overflow = this.metals.AddMetal(metal, amount);
 					meltTime = 0;
 					inventory.setStackInSlot(1, ItemStack.EMPTY);
-					heatUser.SetHeatCapacity(heatUser.GetHeatCapacity() + specificHeatCapacity/ amount * added);
+					heatUser.SetHeatCapacity(heatUser.GetHeatCapacity() + specificHeatCapacity / amount * (amount - overflow));
 				}
 			}
 		} else
@@ -539,11 +539,12 @@ public class TEStoneCrucible extends TileEntity
 			{
 				amount = Math.min(maxCapacity, amountToAdd);
 				metal = metalToAdd;
-				return amountToAdd - amount;
+				return Math.max(amountToAdd - amount, 0);
 			} else if (metal.equals(metalToAdd))
 			{
+				int overflow = Math.max(0, amount + amountToAdd - maxCapacity);
 				amount = Math.min(maxCapacity, amountToAdd + amount);
-				return amountToAdd - amount;
+				return overflow;
 			} else
 				return amountToAdd;
 		}
