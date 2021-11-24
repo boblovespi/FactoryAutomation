@@ -1,6 +1,5 @@
 package boblovespi.factoryautomation.api.energy.heat;
 
-import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import net.minecraft.nbt.CompoundNBT;
 
 /**
@@ -9,20 +8,20 @@ import net.minecraft.nbt.CompoundNBT;
 public class HeatUser implements IHeatUser
 {
 	private float temperature;
-	private float substanceAmount;
+	private float heatCapacity;
 	private float conductivity;
 
 	public HeatUser()
 	{
 		temperature = 0;
-		substanceAmount = 0;
+		heatCapacity = 0;
 		conductivity = 0;
 	}
 
-	public HeatUser(float temperature, float substanceAmount, float conductivity)
+	public HeatUser(float temperature, float heatCapacity, float conductivity)
 	{
 		this.temperature = temperature;
-		this.substanceAmount = substanceAmount;
+		this.heatCapacity = heatCapacity;
 		this.conductivity = conductivity;
 	}
 
@@ -31,9 +30,18 @@ public class HeatUser implements IHeatUser
 		this.temperature = temperature;
 	}
 
-	public void SetSubstanceAmount(float mass)
+	public void SetHeatCapacity(float mass)
 	{
-		this.substanceAmount = mass;
+		this.heatCapacity = mass;
+	}
+
+	public void AddHeatCapacityAt300K(float toAdd)
+	{
+		if (toAdd <= 0)
+			return;
+		float totalEnergy = GetEnergy() + toAdd * 300;
+		heatCapacity += toAdd;
+		temperature = totalEnergy / heatCapacity;
 	}
 
 	/**
@@ -48,7 +56,7 @@ public class HeatUser implements IHeatUser
 	@Override
 	public float GetHeatCapacity()
 	{
-		return substanceAmount;
+		return heatCapacity;
 	}
 
 	@Override
@@ -69,7 +77,7 @@ public class HeatUser implements IHeatUser
 	{
 		CompoundNBT nbt = new CompoundNBT();
 		nbt.putFloat("temperature", temperature);
-		nbt.putFloat("substanceAmount", substanceAmount);
+		nbt.putFloat("heatCapacity", heatCapacity);
 		nbt.putFloat("conductivity", conductivity);
 		return nbt;
 	}
@@ -77,7 +85,7 @@ public class HeatUser implements IHeatUser
 	public void ReadFromNBT(CompoundNBT tag)
 	{
 		temperature = tag.getFloat("temperature");
-		substanceAmount = tag.getFloat("substanceAmount");
+		heatCapacity = tag.getFloat("heatCapacity");
 		conductivity = tag.getFloat("conductivity");
 	}
 
