@@ -12,6 +12,9 @@ public interface IHeatUser
 	 */
 	float GetTemperature();
 
+	/**
+	 * @return the heat capacity of the thing in Joules/Kelvin
+	 */
 	float GetHeatCapacity();
 
 	default float GetEnergy()
