@@ -32,6 +32,8 @@ public class HeatUser implements IHeatUser
 
 	public void SetHeatCapacity(float mass)
 	{
+		if (mass < 0)
+			mass = 0;
 		this.heatCapacity = mass;
 	}
 

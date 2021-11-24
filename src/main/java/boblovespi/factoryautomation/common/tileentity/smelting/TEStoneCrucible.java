@@ -30,6 +30,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -88,8 +89,8 @@ public class TEStoneCrucible extends TileEntity
 	private final HeatUser heatUser;
 	private int burnTime = 0;
 	private int maxBurnTime = 1;
-	private int meltTime = 0;
-	private final int maxMeltTime = 200;
+	private float meltTime = 0;
+	private final int maxMeltTime = 100;
 	private FuelRegistry.FuelInfo fuelInfo = FuelRegistry.NULL;
 	private boolean isBurningFuel = false;
 	private boolean structureIsValid = false;
@@ -281,21 +282,33 @@ public class TEStoneCrucible extends TileEntity
 			float temp = heatUser.GetTemperature();
 			String metal = GetMetalFromStack(meltStack);
 			int amount = GetAmountFromStack(meltStack);
+			Metals metalData = Metals.GetFromName(metal);
 			if (metal.equals("none"))
 			{
 				meltTime = 0;
 			} else if (metal.equals(metals.metal) || metals.metal.equals("none"))
 			{
-				int meltTemp = Metals.GetFromName(metal).meltTemp;
-				if (temp >= meltTemp || meltStack.getItem() == FAItems.ironShard && temp >= 1000)
-					meltTime++;
+				int meltTemp = metalData.meltTemp;
+				if (meltStack.getItem() == FAItems.ironShard)
+					meltTemp = 1000;
+				float specificHeatCapacity = metalData.massHeatCapacity * metalData.density * (amount / (18 * 9f));
+				if (temp >= meltTemp)
+					{
+						float energyIfMaxMeltTime = specificHeatCapacity * (metalData.meltTemp - 27) / 200f;
+						float energyIfMaxTempTaken = (temp - meltTemp) * heatUser.GetHeatCapacity();
+						float actualTaken = Math.min(energyIfMaxMeltTime, energyIfMaxTempTaken);
+						heatUser.TransferEnergy(-actualTaken);
+						float meltTimeInc = actualTaken / energyIfMaxMeltTime * 0.5f;
+						meltTime += meltTimeInc;
+					}
 				else
 					meltTime -= 2;
 				if (meltTime > maxMeltTime)
 				{
-					metals.AddMetal(metal, amount);
+					int added = this.metals.AddMetal(metal, amount);
 					meltTime = 0;
 					inventory.setStackInSlot(1, ItemStack.EMPTY);
+					heatUser.SetHeatCapacity(heatUser.GetHeatCapacity() + specificHeatCapacity/ amount * added);
 				}
 			}
 		} else
@@ -356,7 +369,7 @@ public class TEStoneCrucible extends TileEntity
 		structureIsValid = tag.getBoolean("structureIsValid");
 		burnTime = tag.getInt("burnTime");
 		maxBurnTime = tag.getInt("maxBurnTime");
-		meltTime = tag.getInt("meltTime");
+		meltTime = tag.getFloat("meltTime");
 		isBurningFuel = tag.getBoolean("isBurningFuel");
 	}
 
@@ -369,7 +382,7 @@ public class TEStoneCrucible extends TileEntity
 		tag.putBoolean("structureIsValid", structureIsValid);
 		tag.putInt("burnTime", burnTime);
 		tag.putInt("maxBurnTime", maxBurnTime);
-		tag.putInt("meltTime", meltTime);
+		tag.putFloat("meltTime", meltTime);
 		tag.putBoolean("isBurningFuel", isBurningFuel);
 		return super.save(tag);
 	}
@@ -435,7 +448,7 @@ public class TEStoneCrucible extends TileEntity
 			if (!(form == MetalForms.NONE) && te.HasSpace())
 			{
 				StringBuilder metalOut = new StringBuilder();
-				te.CastInto(metals.CastItem(form, metalOut), Metals.GetFromName(metalOut.toString()).meltTemp);
+				te.CastInto(metals.CastItem(form, metalOut, heatUser), Metals.GetFromName(metalOut.toString()).meltTemp);
 			}
 		}
 	}
@@ -477,7 +490,7 @@ public class TEStoneCrucible extends TileEntity
 			this.wasteFactor = wasteFactor;
 		}
 
-		public ItemStack CastItem(MetalForms form, StringBuilder metalOut)
+		public ItemStack CastItem(MetalForms form, StringBuilder metalOut, HeatUser user)
 		{
 			if (metal.equals("none") || amount == 0)
 				return ItemStack.EMPTY;
@@ -485,6 +498,8 @@ public class TEStoneCrucible extends TileEntity
 			int left = Math.max(0, amount - (int) (form.amount * actualWaste));
 			int toDrain = amount - left;
 			amount = left;
+			float specificHeatCapacity = Metals.GetFromName(metal).massHeatCapacity * Metals.GetFromName(metal).density * (toDrain / (18 * 9f));
+			user.SetHeatCapacity(user.GetHeatCapacity() - specificHeatCapacity);
 			String drainMetal = metal;
 			metalOut.append(drainMetal);
 			if (amount == 0)
