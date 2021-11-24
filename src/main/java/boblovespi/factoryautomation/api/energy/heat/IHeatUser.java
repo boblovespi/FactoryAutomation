@@ -19,7 +19,7 @@ public interface IHeatUser
 
 	default float GetEnergy()
 	{
-		return GetHeatCapacity() * (GetTemperature() + 273) * EnergyConstants.GAS_CONSTANT;
+		return GetHeatCapacity() * (GetTemperature() + 273);
 	}
 
 	void TransferEnergy(float energyAmount);
