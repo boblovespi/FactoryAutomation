@@ -46,7 +46,7 @@ public class HeatUser implements IHeatUser
 	}
 
 	@Override
-	public float GetSubstanceAmount()
+	public float GetHeatCapacity()
 	{
 		return substanceAmount;
 	}
@@ -54,7 +54,7 @@ public class HeatUser implements IHeatUser
 	@Override
 	public void TransferEnergy(float energyAmount)
 	{
-		temperature += (energyAmount / EnergyConstants.GAS_CONSTANT / GetSubstanceAmount());
+		temperature += (energyAmount / EnergyConstants.GAS_CONSTANT / GetHeatCapacity());
 		if (temperature < 0)
 			temperature = 0;
 	}
