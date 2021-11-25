@@ -28,7 +28,7 @@ public class GuiStoneFoundry extends ContainerScreen<ContainerStoneFoundry>
 	public GuiStoneFoundry(ContainerStoneFoundry container, PlayerInventory playerInv, ITextComponent unused)
 	{
 		super(container, playerInv, new TranslationTextComponent("gui.stone_foundry"));
-		tempBar = new GuiBar(53, 16, 176, 16, 6, 61, GuiBar.ProgressDirection.UP);
+		tempBar = new GuiBar(53, 16, 176, 17, 6, 61, GuiBar.ProgressDirection.UP);
 		flameBar = new GuiBar(67, 40, 176, 0, 14, 14, GuiBar.ProgressDirection.UP);
 		progressBar = new GuiBar(84, 21, 194, 2, 22, 10, GuiBar.ProgressDirection.RIGHT);
 		imageHeight = 180;
