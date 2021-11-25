@@ -197,44 +197,14 @@ public class RecipeHandler
 		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(Blocks.DIAMOND_ORE),
 				n -> new ItemStack(FAItems.diamondGravel.ToItem()), 0, "diamond-processing", 20, 10, 100));
 
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(POOR)),
-				n -> new ItemStack(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)), 0,
-				"magnetite-poor-ore-to-coarse", 20, 10, 100));
-
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(NORMAL)),
-				n -> new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)), 0,
-				"magnetite-normal-ore-to-coarse", 20, 10, 100));
-
-		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(FABlocks.magnetiteOre.GetBlock(RICH)),
-				n -> new ItemStack(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)), 0,
-				"magnetite-rich-ore-to-coarse", 20, 10, 100));
-
 		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)),
-						new HashMap<Float, ItemStack>()
-						{{
-							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(POOR_GRAVEL)));
-							put(0.12f, new ItemStack(FAItems.processedMagnetite.GetItem(POOR_FINE_GRAVEL)));
-							put(0.08f, new ItemStack(FAItems.processedMagnetite.GetItem(POOR_COARSE_GRAVEL)));
-						}}, 0, "magnetite-poor-coarse-to-gravel", 20, 10, 100));
-
-		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)),
+				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(CHUNK)),
 						new HashMap<Float, ItemStack>()
 						{{
 							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_GRAVEL)));
 							put(0.12f, new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_FINE_GRAVEL)));
-							put(0.08f, new ItemStack(FAItems.processedMagnetite.GetItem(NORMAL_COARSE_GRAVEL)));
+							put(0.08f, new ItemStack(FAItems.processedMagnetite.GetItem(CHUNK)));
 						}}, 0, "magnetite-normal-coarse-to-gravel", 20, 10, 100));
-
-		JawCrusherRecipe.AddRecipe(
-				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)),
-						new HashMap<Float, ItemStack>()
-						{{
-							put(0.8f, new ItemStack(FAItems.processedMagnetite.GetItem(RICH_GRAVEL)));
-							put(0.12f, new ItemStack(FAItems.processedMagnetite.GetItem(RICH_FINE_GRAVEL)));
-							put(0.08f, new ItemStack(FAItems.processedMagnetite.GetItem(RICH_COARSE_GRAVEL)));
-						}}, 0, "magnetite-rich-coarse-to-gravel", 20, 10, 100));
 
 		// trip hammer recipes
 
