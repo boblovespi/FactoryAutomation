@@ -1,9 +1,11 @@
 package boblovespi.factoryautomation.client.gui;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.client.gui.component.GuiMultiImage;
 import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.network.StoneCastingVesselMoldPacket;
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -26,6 +28,7 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 	private ImageButton sheet;
 	private ImageButton coin;
 	private ImageButton gear;
+	private GuiMultiImage image;
 
 	public GuiStoneCastingVessel(ContainerStoneCastingVessel container, PlayerInventory playerInv, ITextComponent unused)
 	{
@@ -61,6 +64,14 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 		gear = new ImageButton(leftPos + 52, topPos + 58, 18, 18, 95, 185, 19, loc,
 				unused -> PacketHandler.INSTANCE.sendToServer(new StoneCastingVesselMoldPacket(menu.GetPos(), (byte) 5)));
 		addButton(gear);
+		image = new GuiMultiImage(85, 16, 64, 64, 0, 0, 16, 16, Lists.newArrayList(
+				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/resources/green_sand.png"),
+				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/processing/casting_sand_ingot_pattern.png"),
+				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/processing/casting_sand_nugget_pattern.png"),
+				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/processing/casting_sand_sheet_pattern.png"),
+				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/processing/casting_sand_rod_pattern.png"),
+				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/processing/casting_sand_gear_pattern.png"),
+				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/processing/casting_sand_coin_pattern.png")));
 	}
 
 	/**
@@ -72,6 +83,8 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 		GlStateManager._blendColor(1, 1, 1, 1);
 		minecraft.getTextureManager().bind(loc);
 		blit(matrix, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+		image.SetTexture(menu.GetForm());
+		image.Draw(this, matrix);
 	}
 
 	@Override
@@ -85,7 +98,8 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 	@Override
 	protected void renderLabels(MatrixStack matrix, int mouseX, int mouseY)
 	{
-		drawCenteredString(matrix, minecraft.font, "Stone Casting Vessel", 56, 6, 180 + 100 * 256 + 100 * 256 * 256);
-		font.draw(matrix, inventory.getDisplayName(), 100, this.imageHeight - 96 + 2, 4210752);
+		font.draw(matrix, "Stone Casting Vessel", 8, 4, 180 + 100 * 256 + 100 * 256 * 256);
+		font.draw(matrix, inventory.getDisplayName(), 8, this.imageHeight - 96 + 2, 4210752);
+		// super.renderLabels(matrix, mouseX, mouseY);
 	}
 }

@@ -6,6 +6,8 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 
@@ -20,12 +22,15 @@ public class ContainerStoneCastingVessel extends Container
 	public static final ContainerType<ContainerStoneCastingVessel> TYPE = IForgeContainerType
 			.create(ContainerStoneCastingVessel::new);
 	private final BlockPos pos;
+	private IIntArray form;
 
 	// server-side constructor
-	public ContainerStoneCastingVessel(int id, PlayerInventory playerInv, BlockPos pos)
+	public ContainerStoneCastingVessel(int id, PlayerInventory playerInv, BlockPos pos, IIntArray form)
 	{
 		super(TYPE, id);
 		this.pos = pos;
+		this.form = form;
+		addDataSlots(form);
 		int x = 8;
 		int y = 98;
 
@@ -43,7 +48,7 @@ public class ContainerStoneCastingVessel extends Container
 	// client-side constructor
 	public ContainerStoneCastingVessel(int id, PlayerInventory playerInv, PacketBuffer extraData)
 	{
-		this(id, playerInv, extraData.readBlockPos());
+		this(id, playerInv, extraData.readBlockPos(), new IntArray(1));
 	}
 
 	/**
@@ -58,5 +63,10 @@ public class ContainerStoneCastingVessel extends Container
 	public BlockPos GetPos()
 	{
 		return pos;
+	}
+
+	public int GetForm()
+	{
+		return form.get(0);
 	}
 }

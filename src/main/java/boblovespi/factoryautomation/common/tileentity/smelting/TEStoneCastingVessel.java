@@ -20,6 +20,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
@@ -46,6 +47,26 @@ public class TEStoneCastingVessel extends TileEntity
 	private float temp = 20f;
 	private int counter = 0;
 	private boolean firstTick = true;
+	private IIntArray formData = new IIntArray()
+	{
+		@Override
+		public int get(int unused)
+		{
+			return form == TEStoneCrucible.MetalForms.NONE ? 0 : form.ordinal() + 1;
+		}
+
+		@Override
+		public void set(int a, int b)
+		{
+
+		}
+
+		@Override
+		public int getCount()
+		{
+			return 1;
+		}
+	};
 
 	public TEStoneCastingVessel()
 	{
@@ -223,7 +244,7 @@ public class TEStoneCastingVessel extends TileEntity
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
 	{
-		return new ContainerStoneCastingVessel(id, playerInv, worldPosition);
+		return new ContainerStoneCastingVessel(id, playerInv, worldPosition, formData);
 	}
 
 	@Override
