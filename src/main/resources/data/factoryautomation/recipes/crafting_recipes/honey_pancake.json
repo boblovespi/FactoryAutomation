@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["hp"],
+  "key": {
+    "h": {
+      "item": "minecraft:honey_bottle"
+    },
+    "p": {
+      "item": "factoryautomation:pancake"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:honey_pancake"
+  }
+}
