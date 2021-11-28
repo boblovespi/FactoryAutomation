@@ -5,10 +5,7 @@ import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
 import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
-import net.minecraft.item.TieredItem;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
@@ -112,6 +109,12 @@ public class VanillaTweakHandler
 		{
 			e.printStackTrace();
 		}*/
+
+		Items.IRON_AXE.maxDamage = 320;
+		Items.IRON_PICKAXE.maxDamage = 320;
+		Items.IRON_HOE.maxDamage = 320;
+		Items.IRON_SHOVEL.maxDamage = 320;
+		Items.IRON_SWORD.maxDamage = 320;
 	}
 
 	public static void RemoveItems(RegistryEvent.Register<Item> event)
