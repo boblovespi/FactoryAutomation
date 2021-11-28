@@ -63,7 +63,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 			this.isRotating = true;
 
 			this.mechanicalUser.SetTorqueOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
-			this.mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
+			this.mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, SPEED);
 
 			setChanged();
 

@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.MillstoneRecipe;
@@ -89,7 +90,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	@Override
 	protected void UpdateClient()
 	{
-		rotation = (rotation + mechanicalUser.GetSpeed()) % 360;
+		rotation = (rotation + EnergyConstants.RadiansSecondToDegreesTick(mechanicalUser.GetSpeed())) % 360;
 	}
 
 	@Nonnull
