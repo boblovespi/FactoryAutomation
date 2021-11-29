@@ -171,7 +171,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 	public float GetSpeed()
 	{
-		return mechanicalUser.GetSpeed();
+		return EnergyConstants.RadiansSecondToDegreesTick(mechanicalUser.GetSpeed());
 	}
 
 	public void TakeOrPlace(ItemStack item, PlayerEntity player)
