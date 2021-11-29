@@ -130,6 +130,7 @@ public class FAItems
 	public static FAItem copperHoe;
 	public static FAItem copperShovel;
 	public static FAItem copperSword;
+	public static FAItem copperShears;
 
 	public static FAItem flintPickaxe;
 
@@ -270,6 +271,7 @@ public class FAItems
 		copperShovel = new FAShovel(copperMaterial, "copper_shovel");
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
+		copperShears = new FAShears("copper_shears", Prop().tab(ItemGroup.TAB_TOOLS).durability(176));
 
 		flintPickaxe = new FAPickaxe(ItemTier.WOOD, "flint_pickaxe");
 
