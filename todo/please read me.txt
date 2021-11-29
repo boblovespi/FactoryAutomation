@@ -1,8 +1,0 @@
-If you have added something into the mod from here, please delete it, so nobody gets confused! Thank you!
-
-The todo folder contains the textures and or 3d models(.json) to be put into the gameready folder. And from there you can put it into the mod.
-                                                                                        \
-                                                                                        | 
-                                                                                       \/
-
-The gameready folder contains a blockstates and a models folder. They just need the coding bit of the work. If I'm nice, (SajtosTekercs aka.: Gaborboy95 or Gab) I'll even leave you the code there...
