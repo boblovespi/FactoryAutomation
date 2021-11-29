@@ -40,4 +40,12 @@ This is an open source project, this may change in the future, but help make thi
  - Start adding files from todo folder
  - Get ready for 1.13 update
 
+### Translation Credits
+|Language|Authors|
+|--------|-------|
+|Hungarian|Laz The Artist, Gaborboy95|
+|Italian|???|
+|Chinese Simplified|smallxiaoxiao|
+|Hindi|thesonofdevilhunter#5579|
 
+and thanks to all Crowdin Contributors.
