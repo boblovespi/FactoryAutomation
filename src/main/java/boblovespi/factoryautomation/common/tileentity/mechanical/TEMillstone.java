@@ -1,10 +1,11 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.MillstoneRecipe;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEMachine;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import mcp.MethodsReturnNonnullByDefault;
@@ -38,8 +39,8 @@ import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 @SuppressWarnings("unchecked")
 public class TEMillstone extends TEMachine<MillstoneRecipe>
 {
-	public float rotation = 0;
 	private final MechanicalUser mechanicalUser;
+	public float rotation = 0;
 	private MillstoneRecipe millstoneRecipe = null;
 	private int counter = 0;
 
@@ -58,15 +59,26 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		if (counter == 0)
 		{
 			TileEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.below());
+			TileEntity te1 = level.getBlockEntity(worldPosition.above());
 			Direction facing = Direction.UP;
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
 				mechanicalUser.SetSpeedOnFace(Direction.DOWN, GetUser(te, facing).GetSpeedOnFace(facing));
 				mechanicalUser.SetTorqueOnFace(Direction.DOWN, GetUser(te, facing).GetTorqueOnFace(facing));
+				mechanicalUser.SetSpeedOnFace(Direction.UP, 0);
+				mechanicalUser.SetTorqueOnFace(Direction.UP, 0);
+			} else if (TEHelper.IsMechanicalFace(te1, Direction.DOWN))
+			{
+				mechanicalUser.SetSpeedOnFace(Direction.UP, GetUser(te1, Direction.DOWN).GetSpeedOnFace(Direction.DOWN));
+				mechanicalUser.SetTorqueOnFace(Direction.UP, GetUser(te1, Direction.DOWN).GetTorqueOnFace(Direction.DOWN));
+				mechanicalUser.SetSpeedOnFace(Direction.DOWN, 0);
+				mechanicalUser.SetTorqueOnFace(Direction.DOWN, 0);
 			} else
 			{
 				mechanicalUser.SetSpeedOnFace(Direction.DOWN, 0);
 				mechanicalUser.SetTorqueOnFace(Direction.DOWN, 0);
+				mechanicalUser.SetSpeedOnFace(Direction.UP, 0);
+				mechanicalUser.SetTorqueOnFace(Direction.UP, 0);
 			}
 
 			// markDirty();
@@ -78,7 +90,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	@Override
 	protected void UpdateClient()
 	{
-		rotation = (rotation + mechanicalUser.GetSpeed()) % 360;
+		rotation = (rotation + EnergyConstants.RadiansSecondToDegreesTick(mechanicalUser.GetSpeed())) % 360;
 	}
 
 	@Nonnull
@@ -159,7 +171,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 	public float GetSpeed()
 	{
-		return mechanicalUser.GetSpeed();
+		return EnergyConstants.RadiansSecondToDegreesTick(mechanicalUser.GetSpeed());
 	}
 
 	public void TakeOrPlace(ItemStack item, PlayerEntity player)

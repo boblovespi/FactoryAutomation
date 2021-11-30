@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.electricity.EnergyConnection_;
 import boblovespi.factoryautomation.api.energy.electricity.IRequiresEnergy_;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
@@ -155,7 +156,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	{
 		if (Objects.requireNonNull(level).isClientSide)
 		{
-			rotation = (rotation + speed) % 360;
+			rotation = (rotation + EnergyConstants.RadiansSecondToDegreesTick(speed)) % 360;
 			return;
 		}
 

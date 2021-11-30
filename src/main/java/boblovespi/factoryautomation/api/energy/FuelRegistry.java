@@ -30,12 +30,12 @@ public class FuelRegistry
 		return fuels.getOrDefault(item, NULL);
 	}
 
-	public static void PutInfo(Item item, int meta, float burnTemp, int burnTime, int totalEnergy)
+	public static void PutInfo(Item item, int meta, float burnTemp, int burnTime, float totalEnergy)
 	{
 		fuels.put(item, new FuelInfo(burnTemp, burnTime, totalEnergy));
 	}
 
-	public static void PutInfo(Item item, float burnTemp, int burnTime, int totalEnergy)
+	public static void PutInfo(Item item, float burnTemp, int burnTime, float totalEnergy)
 	{
 		PutInfo(item, 0, burnTemp, burnTime, totalEnergy);
 	}
@@ -44,9 +44,9 @@ public class FuelRegistry
 	{
 		private final float burnTemp;
 		private final int burnTime;
-		private final int totalEnergy;
+		private final float totalEnergy;
 
-		public FuelInfo(float burnTemp, int burnTime, int totalEnergy)
+		public FuelInfo(float burnTemp, int burnTime, float totalEnergy)
 		{
 			this.burnTemp = burnTemp;
 			this.burnTime = burnTime;
@@ -63,7 +63,7 @@ public class FuelRegistry
 			return burnTime;
 		}
 
-		public int GetTotalEnergy()
+		public float GetTotalEnergy()
 		{
 			return totalEnergy;
 		}

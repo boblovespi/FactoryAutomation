@@ -12,11 +12,14 @@ public interface IHeatUser
 	 */
 	float GetTemperature();
 
-	float GetSubstanceAmount();
+	/**
+	 * @return the heat capacity of the thing in Joules/Kelvin
+	 */
+	float GetHeatCapacity();
 
 	default float GetEnergy()
 	{
-		return GetSubstanceAmount() * (GetTemperature() + 273) * EnergyConstants.GAS_CONSTANT;
+		return GetHeatCapacity() * (GetTemperature() + 273);
 	}
 
 	void TransferEnergy(float energyAmount);

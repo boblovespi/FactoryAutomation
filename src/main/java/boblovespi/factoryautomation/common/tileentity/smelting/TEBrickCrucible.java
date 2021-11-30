@@ -183,7 +183,7 @@ public class TEBrickCrucible extends TileEntity
 			} else
 			{
 				int meltTemp = Metals.GetFromName(metal).meltTemp;
-				if (temp >= meltTemp)
+				if (temp >= meltTemp || meltStack.getItem() == FAItems.ironShard && temp >= 1000)
 					meltTime++;
 				else
 					meltTime -= 2;

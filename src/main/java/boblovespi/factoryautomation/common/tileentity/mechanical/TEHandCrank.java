@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
@@ -33,7 +34,7 @@ import static boblovespi.factoryautomation.common.util.SetBlockStateFlags.SEND_T
 public class TEHandCrank extends TileEntity implements ITickableTileEntity
 {
 
-	private static final float SPEED = 1;
+	public static final float SPEED = 1;
 	public float rotation = 0;
 	private final MechanicalUser mechanicalUser;
 	private boolean isRotating;
@@ -62,7 +63,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 			this.isRotating = true;
 
 			this.mechanicalUser.SetTorqueOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
-			this.mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, 1f);
+			this.mechanicalUser.SetSpeedOnFace(inverted ? Direction.UP : Direction.DOWN, SPEED);
 
 			setChanged();
 
@@ -109,7 +110,7 @@ public class TEHandCrank extends TileEntity implements ITickableTileEntity
 			FirstLoad();
 		if (isRotating)
 		{
-			rotation += SPEED;
+			rotation += EnergyConstants.RadiansSecondToDegreesTick(SPEED);
 
 			if (rotation >= 360)
 			{

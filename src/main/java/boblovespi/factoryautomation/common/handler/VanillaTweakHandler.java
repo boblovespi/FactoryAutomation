@@ -2,11 +2,10 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
+import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
@@ -15,12 +14,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistry;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
 
 /**
  * Created by Willi on 4/30/2018.
@@ -48,6 +43,8 @@ public class VanillaTweakHandler
 		BlockState state = event.getTargetBlock();
 		ToolType tool = state.getHarvestTool();
 		int toolLevel = stack.getItem().getHarvestLevel(stack, tool, event.getPlayer(), state);
+		if (stack.getItem() instanceof TieredItem)
+			toolLevel = ((TieredItem) stack.getItem()).getTier().getLevel();
 		if (state.getBlock() == Blocks.IRON_ORE)
 			event.setCanHarvest(toolLevel >= blockMiningLevelCat.ironOre);
 		if (state.getBlock() == Blocks.DIAMOND_ORE)
@@ -88,7 +85,14 @@ public class VanillaTweakHandler
 	@SyncOnConfigChange(priority = Priority.FIRST)
 	public static void TweakToolLevels()
 	{
-		try
+		ItemTier.WOOD.level = ToolMaterial.WOOD;
+		ItemTier.STONE.level = ToolMaterial.STONE;
+		ItemTier.GOLD.level = ToolMaterial.COPPER;
+		ItemTier.IRON.level = ToolMaterial.IRON;
+		ItemTier.DIAMOND.level = ToolMaterial.DIAMOND;
+		ItemTier.NETHERITE.level = ToolMaterial.NETHERITE;
+
+/*		try
 		{
 			Field harvestLevel = ItemTier.class.getDeclaredFields()[0];
 			if (Modifier.isPrivate(harvestLevel.getModifiers()) && Modifier.isFinal(harvestLevel.getModifiers()))
@@ -104,7 +108,13 @@ public class VanillaTweakHandler
 		} catch (IllegalAccessException e)
 		{
 			e.printStackTrace();
-		}
+		}*/
+
+		Items.IRON_AXE.maxDamage = 320;
+		Items.IRON_PICKAXE.maxDamage = 320;
+		Items.IRON_HOE.maxDamage = 320;
+		Items.IRON_SHOVEL.maxDamage = 320;
+		Items.IRON_SWORD.maxDamage = 320;
 	}
 
 	public static void RemoveItems(RegistryEvent.Register<Item> event)

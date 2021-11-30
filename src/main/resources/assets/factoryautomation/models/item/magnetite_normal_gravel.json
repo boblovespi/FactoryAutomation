@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "factoryautomation:items/ores/magnetite_normal_gravel"
+    "layer0": "factoryautomation:items/ores/magnetite/normal_gravel"
   }
 }

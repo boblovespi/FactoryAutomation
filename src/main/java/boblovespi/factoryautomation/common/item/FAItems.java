@@ -28,10 +28,7 @@ import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
@@ -66,6 +63,7 @@ public class FAItems
 	// ore processing forms
 
 	public static MultiTypeItem<OreForms> processedMagnetite;
+	public static MultiTypeItem<OreForms> processedLimonite;
 
 	// food
 
@@ -73,6 +71,8 @@ public class FAItems
 	public static FAItem toastedBread;
 	public static FAItem wheatFlour;
 	public static FAItem[] iceCream;
+	public static FAItem pancake;
+	public static FAItem honeyPancake;
 
 	// resources
 
@@ -130,6 +130,7 @@ public class FAItems
 	public static FAItem copperHoe;
 	public static FAItem copperShovel;
 	public static FAItem copperSword;
+	public static FAItem copperShears;
 
 	public static FAItem flintPickaxe;
 
@@ -197,6 +198,7 @@ public class FAItems
 		// ore processing forms
 
 		processedMagnetite = new ProcessedOre("magnetite");
+		processedLimonite = new ProcessedOre("limonite");
 
 		// foods
 
@@ -210,6 +212,8 @@ public class FAItems
 			iceCream[i] = new FAFood("ice_cream_" + IceCreams.values()[i].name().toLowerCase(), 8, 12, 32, false, true,
 					IceCreams.values()[i].GetPotionEffects(), Collections.singletonList(1f));
 		}
+		pancake = new FABaseItem("pancake", Prop().tab(ItemGroup.TAB_FOOD).food(new Food.Builder().nutrition(5).saturationMod(0.8f).build()));
+		honeyPancake = new FABaseItem("honey_pancake", Prop().tab(ItemGroup.TAB_FOOD).food(new Food.Builder().nutrition(11).saturationMod(1f).build()));
 
 		// resources
 
@@ -267,6 +271,7 @@ public class FAItems
 		copperShovel = new FAShovel(copperMaterial, "copper_shovel");
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
+		copperShears = new FAShears("copper_shears", Prop().tab(ItemGroup.TAB_TOOLS).durability(176));
 
 		flintPickaxe = new FAPickaxe(ItemTier.WOOD, "flint_pickaxe");
 

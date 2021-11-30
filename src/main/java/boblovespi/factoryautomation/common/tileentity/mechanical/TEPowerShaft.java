@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
@@ -98,7 +99,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	{
 		if (Objects.requireNonNull(level).isClientSide)
 		{
-			rotation = (rotation + speed) % 360;
+			rotation = (rotation + EnergyConstants.RadiansSecondToDegreesTick(speed)) % 360;
 			return;
 		}
 
@@ -134,7 +135,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 
 	public float GetSpeed()
 	{
-		return speed;
+		return EnergyConstants.RadiansSecondToDegreesTick(speed);
 	}
 
 	@Nonnull

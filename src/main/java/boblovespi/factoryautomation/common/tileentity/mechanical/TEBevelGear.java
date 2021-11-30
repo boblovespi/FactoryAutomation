@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.mechanical;
 
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
@@ -69,7 +70,7 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 	{
 		if (level.isClientSide)
 		{
-			rotation += user.GetSpeed();
+			rotation += EnergyConstants.RadiansSecondToDegreesTick(user.GetSpeed());
 			rotation %= 360;
 			return;
 		}
@@ -112,7 +113,7 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 
 	public float GetSpeed()
 	{
-		return user.GetSpeed();
+		return EnergyConstants.RadiansSecondToDegreesTick(user.GetSpeed());
 	}
 
 	@Nullable
