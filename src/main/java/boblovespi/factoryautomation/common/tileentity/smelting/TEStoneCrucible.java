@@ -282,12 +282,12 @@ public class TEStoneCrucible extends TileEntity
 			float temp = heatUser.GetTemperature();
 			String metal = GetMetalFromStack(meltStack);
 			int amount = GetAmountFromStack(meltStack);
-			Metals metalData = Metals.GetFromName(metal);
 			if (metal.equals("none"))
 			{
 				meltTime = 0;
 			} else if (metal.equals(metals.metal) || metals.metal.equals("none"))
 			{
+				Metals metalData = Metals.GetFromName(metal);
 				int meltTemp = metalData.meltTemp;
 				if (meltStack.getItem() == FAItems.ironShard)
 					meltTemp = 1000;
