@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "factoryautomation:nugget_to_ingot_aluminum_bronze"
+    ]
+  },
+  "criteria": {
+    "has_aluminum_bronze_nugget": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:nuggets/aluminum_bronze"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "factoryautomation:nugget_to_ingot_aluminum_bronze"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_aluminum_bronze_nugget",
+      "has_the_recipe"
+    ]
+  ]
+}

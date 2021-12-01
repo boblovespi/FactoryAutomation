@@ -21,7 +21,10 @@ public enum Metals implements IStringSerializable, IMultiTypeEnum
 	PIG_IRON(6, "pig_iron", 10000, 0xFF000000, 415, 7850),
 	MAGMATIC_BRASS(7, "magmatic_brass", 10000, 0xFF000000, 0, 0),
 	SILVER(8, "silver", 10000, 0xFF000000, 235, 10500),
-	LEAD(9, "lead", 10000, 0xFF000000, 129, 11340);
+	LEAD(9, "lead", 10000, 0xFF000000, 129, 11340),
+	NICKEL(10, "nickel", 10000, 0xFF000000, 0, 0),
+	ALUMINUM(11, "aluminum", 10000, 0xFF000000, 0, 0),
+	ALUMINUM_BRONZE(12, "aluminum_bronze", 10000, 0xFF000000, 0, 0);
 	private final int id;
 	private final String name;
 	public final int meltTemp;

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "aluminum_bronze_block",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/aluminum_bronze"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:metal_block_aluminum_bronze"
+  }
+}

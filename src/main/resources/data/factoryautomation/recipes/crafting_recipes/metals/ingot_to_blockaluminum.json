@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "aluminum_block",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/aluminum"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:metal_block_aluminum"
+  }
+}

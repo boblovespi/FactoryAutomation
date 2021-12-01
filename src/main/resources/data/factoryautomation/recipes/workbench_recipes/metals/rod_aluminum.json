@@ -1,0 +1,21 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["i", "i"],
+  "key": {
+    "i": {
+      "tag": "forge:ingots/aluminum"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 1
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:rod_aluminum",
+    "count": 1
+  }
+}
