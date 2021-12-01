@@ -20,6 +20,9 @@
   "item.factoryautomation.ingot_magmatic_brass": "§6§lMagmatic Brass Clump",
   "item.factoryautomation.ingot_lead": "Lead Ingot",
   "item.factoryautomation.ingot_silver": "Silver Ingot",
+  "item.factoryautomation.ingot_nickel": "Nickel Ingot",
+  "item.factoryautomation.ingot_aluminum": "Aluminum Ingot",
+  "item.factoryautomation.ingot_aluminum_bronze": "Aluminum Bronze Ingot",
   
   
   "_comment": "items-nuggets",
@@ -32,6 +35,9 @@
   "item.factoryautomation.nugget_magmatic_brass": "§6§lMagmatic Brass Nugget",
   "item.factoryautomation.nugget_lead": "Lead Nugget",
   "item.factoryautomation.nugget_silver": "Silver Nugget",
+  "item.factoryautomation.nugget_nickel": "Nickel Nugget",
+  "item.factoryautomation.nugget_aluminum": "Aluminum Nugget",
+  "item.factoryautomation.nugget_aluminum_bronze": "Aluminum Bronze Nugget",
   
   
   "_comment": "items-sheets",
@@ -46,6 +52,9 @@
   "item.factoryautomation.sheet_magmatic_brass": "§6§lMagmatic Brass Sheet",
   "item.factoryautomation.sheet_lead": "Lead Sheet",
   "item.factoryautomation.sheet_silver": "Silver Sheet",
+  "item.factoryautomation.sheet_nickel": "Nickel Sheet",
+  "item.factoryautomation.sheet_aluminum": "Aluminum Sheet",
+  "item.factoryautomation.sheet_aluminum_bronze": "Aluminum Bronze Sheet",
   
   
   "_comment": "blocks - metals",
@@ -60,6 +69,9 @@
   "block.factoryautomation.metal_block_magmatic_brass": "§6§lMagmatic Brass Block",
   "block.factoryautomation.metal_block_lead": "Lead Block",
   "block.factoryautomation.metal_block_silver": "Silver Block",
+  "block.factoryautomation.metal_block_nickel": "Nickel Block",
+  "block.factoryautomation.metal_block_aluminum": "Aluminum Block",
+  "block.factoryautomation.metal_block_aluminum_bronze": "Aluminum Bronze Metal_block",
   
   "block.factoryautomation.metal_plate_block_iron": "Iron Plate Block",
   "block.factoryautomation.metal_plate_block_gold": "Gold Plate Block",
@@ -71,6 +83,9 @@
   "block.factoryautomation.metal_plate_block_magmatic_brass": "§6§lMagmatic Brass Plate Block",
   "block.factoryautomation.metal_plate_block_lead": "Lead Plate Block",
   "block.factoryautomation.metal_plate_block_silver": "Silver Plate Block",
+  "block.factoryautomation.metal_plate_block_nickel": "Nickel Plate Block",
+  "block.factoryautomation.metal_plate_block_aluminum": "Aluminum Plate Block",
+  "block.factoryautomation.metal_plate_block_aluminum_bronze": "Aluminum Bronze Plate Block",
   
   "item.factoryautomation.patterned_plate_block_iron": "Iron Patterned Plate Block",
   
@@ -101,6 +116,9 @@
   "item.factoryautomation.coin_diamond": "Diamond Coin",
   "item.factoryautomation.coin_lead": "Lead Coin",
   "item.factoryautomation.coin_silver": "Silver Coin",
+  "item.factoryautomation.coin_nickel": "Nickel Coin",
+  "item.factoryautomation.coin_aluminum": "Aluminum Coin",
+  "item.factoryautomation.coin_aluminum_bronze": "Aluminum Bronze Coin",
   
   
   "_comment": "items-rods",
@@ -115,6 +133,9 @@
   "item.factoryautomation.rod_magmatic_brass": "§6§lMagmatic Brass Rod",
   "item.factoryautomation.rod_lead": "Lead Rod",
   "item.factoryautomation.rod_silver": "Silver Rod",
+  "item.factoryautomation.rod_nickel": "Nickel Rod",
+  "item.factoryautomation.rod_aluminum": "Aluminum Rod",
+  "item.factoryautomation.rod_aluminum_bronze": "Aluminum Bronze Rod",
   
   
   "_comment": "items-tools",
