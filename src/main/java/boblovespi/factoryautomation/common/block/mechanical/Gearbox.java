@@ -158,7 +158,9 @@ public class Gearbox extends FABaseBlock
 		BRONZE(5, 600, "bronze"),
 		DIAMOND(4, 900, "diamond"),
 		MAGMATIC_BRASS(8, 900, "magmatic_brass"),
-		STEEL(16, 1200, "steel");
+		STEEL(16, 1200, "steel"),
+		ALUMINUM(6, 900, "aluminum"),
+		ALUMINUM_BRONZE(7, 900, "aluminum_bronze");
 
 		public final int scaleFactor;
 		public final int durability;

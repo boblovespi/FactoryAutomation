@@ -180,8 +180,7 @@ public class FAItems
 		items.remove(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
-		diamondCoin = new FABaseItem("coin_diamond", ItemGroup.TAB_MISC
-		);
+		diamondCoin = new FABaseItem("coin_diamond", ItemGroup.TAB_MISC);
 		rod = new MetalItem("rod");
 
 		// metallurgy misc
