@@ -4,10 +4,10 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -21,7 +21,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TECreativeMechanicalSource extends TileEntity implements IMechanicalUser
+public class TECreativeMechanicalSource extends BlockEntity implements IMechanicalUser
 {
 	private float torque;
 	private float speed;
@@ -62,7 +62,7 @@ public class TECreativeMechanicalSource extends TileEntity implements IMechanica
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		speed = tag.getFloat("speed");
@@ -70,7 +70,7 @@ public class TECreativeMechanicalSource extends TileEntity implements IMechanica
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		tag.putFloat("speed", speed);
 		tag.putFloat("torque", torque);

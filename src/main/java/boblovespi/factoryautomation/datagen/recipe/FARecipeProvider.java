@@ -6,15 +6,20 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.data.*;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.tags.Tag;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 
 public class FARecipeProvider extends RecipeProvider
 {
@@ -24,7 +29,7 @@ public class FARecipeProvider extends RecipeProvider
 	}
 
 	@Override
-	protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer)
+	protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer)
 	{
 		// metal storage recipes
 		for (int i = 2; i < Metals.values().length; i++)
@@ -76,8 +81,8 @@ public class FARecipeProvider extends RecipeProvider
 
 	}
 
-	private void AddToolRecipes(Consumer<IFinishedRecipe> consumer, String materialName, @Nonnull ITag<Item> ingot,
-			@Nonnull ITag<Item> stick, @Nullable FAItem pickaxe, @Nullable FAItem axe, @Nullable FAItem sword,
+	private void AddToolRecipes(Consumer<FinishedRecipe> consumer, String materialName, @Nonnull Tag<Item> ingot,
+			@Nonnull Tag<Item> stick, @Nullable FAItem pickaxe, @Nullable FAItem axe, @Nullable FAItem sword,
 			@Nullable FAItem hoe, @Nullable FAItem shovel)
 	{
 		if (pickaxe != null)

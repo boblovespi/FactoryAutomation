@@ -4,27 +4,29 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FireBlock;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 2/3/2019.
@@ -47,13 +49,13 @@ public class IronCharcoalMix extends FABaseBlock
 		return "processing/" + RegistryName();
 	}
 
-	public int tickRate(IWorldReader levelIn)
+	public int tickRate(LevelReader levelIn)
 	{
 		return 6000;
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
 	{
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
@@ -73,7 +75,7 @@ public class IronCharcoalMix extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block1, BlockPos fromPos,
+	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block1, BlockPos fromPos,
 			boolean isMoving)
 	{
 		BlockState block = world.getBlockState(fromPos);
@@ -134,19 +136,19 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public boolean isBurning(BlockState state, IBlockReader level, BlockPos pos)
+	public boolean isBurning(BlockState state, BlockGetter level, BlockPos pos)
 	{
 		return state.getValue(ACTIVATED);
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(ACTIVATED);
 	}
 
 	@Override
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(ACTIVATED))
 			return;
@@ -159,7 +161,7 @@ public class IronCharcoalMix extends FABaseBlock
 		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
-	private boolean isSurrounded(World level, BlockPos pos, @Nullable Predicate<BlockState> block)
+	private boolean isSurrounded(Level level, BlockPos pos, @Nullable Predicate<BlockState> block)
 	{
 		for (Direction dir : Direction.values())
 		{

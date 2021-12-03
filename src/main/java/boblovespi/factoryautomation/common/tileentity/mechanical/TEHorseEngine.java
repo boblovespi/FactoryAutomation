@@ -4,14 +4,14 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -27,12 +27,12 @@ import java.util.UUID;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEHorseEngine extends TileEntity implements ITickableTileEntity
+public class TEHorseEngine extends BlockEntity implements TickableBlockEntity
 {
 	private final MechanicalUser user;
 	private boolean hasHorse = false;
 	private UUID horseId;
-	private MobEntity horse;
+	private Mob horse;
 	private int moveTimer = 0;
 	private int angle = 0;
 	private final LazyOptional<MechanicalUser> lazyUser;
@@ -48,7 +48,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	public void FirstLoad()
 	{
 		if (!Objects.requireNonNull(level).isClientSide && hasHorse)
-			horse = (MobEntity) ((ServerWorld) level).getEntity(horseId);
+			horse = (Mob) ((ServerLevel) level).getEntity(horseId);
 		firstTick = false;
 	}
 
@@ -70,7 +70,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 				hasHorse = false;
 				return;
 			}
-			horse = (MobEntity) ((ServerWorld) level).getEntity(horseId);
+			horse = (Mob) ((ServerLevel) level).getEntity(horseId);
 		}
 		if (Objects.requireNonNull(horse).getNavigation().isDone())
 		{
@@ -79,15 +79,15 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 			angle--;
 			angle = angle % 8;
 			horse.getNavigation()
-				 .moveTo(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), worldPosition.getY() - 2,
-						 worldPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)), 1);
+				 .moveTo(worldPosition.getX() + 4 * Mth.cos((float) (angle * Math.PI / 4f)), worldPosition.getY() - 2,
+						 worldPosition.getZ() + 4 * Mth.sin((float) (angle * Math.PI / 4f)), 1);
 			//			horse.setPosition(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
 			//					worldPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)));
 		}
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		user.ReadFromNBT(tag.getCompound("user"));
@@ -99,7 +99,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		tag.put("user", user.WriteToNBT());
 		if (hasHorse)
@@ -159,7 +159,7 @@ public class TEHorseEngine extends TileEntity implements ITickableTileEntity
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
-	public boolean AttachHorse(MobEntity horse)
+	public boolean AttachHorse(Mob horse)
 	{
 		if (hasHorse)
 			return false;

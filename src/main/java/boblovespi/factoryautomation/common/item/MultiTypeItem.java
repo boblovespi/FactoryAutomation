@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
-import net.minecraft.item.Item;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.item.Item;
+import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -10,7 +10,7 @@ import java.util.function.Function;
 /**
  * Created by Willi on 11/9/2017.
  */
-public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> implements FAItem
+public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & StringRepresentable> implements FAItem
 {
 	protected final Class<T> itemTypes;
 	protected final FABaseItem[] items;

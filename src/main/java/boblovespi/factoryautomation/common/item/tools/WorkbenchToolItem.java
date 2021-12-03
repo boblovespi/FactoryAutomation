@@ -3,23 +3,25 @@ package boblovespi.factoryautomation.common.item.tools;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.Block;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.Item;
-import net.minecraft.item.ToolItem;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.DiggerItem;
 import net.minecraftforge.common.ToolType;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import net.minecraft.world.item.Item.Properties;
+
 /**
  * Created by Willi on 4/15/2018.
  */
-public class WorkbenchToolItem extends ToolItem implements FAItem
+public class WorkbenchToolItem extends DiggerItem implements FAItem
 {
 	private final String name;
 
-	public WorkbenchToolItem(String name, float damage, float speed, IItemTier material, Set<Block> effectiveBlocks,
+	public WorkbenchToolItem(String name, float damage, float speed, Tier material, Set<Block> effectiveBlocks,
 			Properties properties, ToolType toolType)
 	{
 		super(damage, speed, material, effectiveBlocks,
@@ -31,7 +33,7 @@ public class WorkbenchToolItem extends ToolItem implements FAItem
 		FAItems.items.add(this);
 	}
 
-	public WorkbenchToolItem(String name, float damage, float speed, IItemTier material, Properties properties,
+	public WorkbenchToolItem(String name, float damage, float speed, Tier material, Properties properties,
 			ToolType toolType)
 	{
 		this(name, damage, speed, material, new HashSet<>(), properties, toolType);

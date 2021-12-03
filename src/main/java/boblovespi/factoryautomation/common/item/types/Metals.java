@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item.types;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -10,7 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public enum Metals implements IStringSerializable, IMultiTypeEnum
+public enum Metals implements StringRepresentable, IMultiTypeEnum
 {
 	IRON(0, "iron", 1538, 0xFFEAEEF2, 447, 7870),
 	GOLD(1, "gold", 10000, 0xFFFAF437, 129, 19300),

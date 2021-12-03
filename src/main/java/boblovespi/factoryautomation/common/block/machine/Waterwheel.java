@@ -7,26 +7,26 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEWaterwheel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.Half;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
@@ -34,11 +34,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import static net.minecraft.util.Direction.AxisDirection.POSITIVE;
 
-/**
- * Created by Willi on 6/23/2019.
- */
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class Waterwheel extends FABaseBlock
 {
 	public static final EnumProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class, Axis::isHorizontal);
@@ -53,13 +50,13 @@ public class Waterwheel extends FABaseBlock
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(AXIS, MULTIBLOCK_COMPLETE);
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context)
+	public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
 		return defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getAxis());
 	}
@@ -72,7 +69,7 @@ public class Waterwheel extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
 	{
 		return new TEWaterwheel();
 	}
@@ -83,12 +80,12 @@ public class Waterwheel extends FABaseBlock
 	 * @return the result type of using the block.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockRayTraceResult hit)
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand,
+			BlockHitResult hit)
 	{
 		if (!world.isClientSide)
 		{
-			TileEntity te = world.getBlockEntity(pos);
+			BlockEntity te = world.getBlockEntity(pos);
 			if (te instanceof TEWaterwheel)
 			{
 				TEWaterwheel waterwheel = (TEWaterwheel) te;
@@ -99,17 +96,17 @@ public class Waterwheel extends FABaseBlock
 					waterwheel.BreakStructure();
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	private boolean MatchesStair(BlockState state, Direction dir, Half half)
 	{
-		return state.getBlock() == Blocks.OAK_STAIRS && state.getValue(StairsBlock.FACING) == dir.getOpposite()
-				&& state.getValue(StairsBlock.HALF) == half;
+		return state.getBlock() == Blocks.OAK_STAIRS && state.getValue(StairBlock.FACING) == dir.getOpposite()
+				&& state.getValue(StairBlock.HALF) == half;
 	}
 
-	private boolean IsComplete(World world, BlockPos pos, Axis axis)
+	private boolean IsComplete(Level world, BlockPos pos, Axis axis)
 	{
 		if (MultiblockHelper.IsStructureComplete(world, pos, "waterwheel", Direction.get(POSITIVE, axis)))
 		{

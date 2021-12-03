@@ -6,20 +6,20 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox.GearType;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import org.lwjgl.opengl.GL11;
 
@@ -32,15 +32,15 @@ import java.util.Objects;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TESRGearbox extends TileEntityRenderer<TEGearbox>
+public class TESRGearbox extends BlockEntityRenderer<TEGearbox>
 {
-	public TESRGearbox(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRGearbox(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEGearbox te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+	public void render(TEGearbox te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 		float inToRotate = te.rotationIn + partialTicks * te.GetSpeedIn();
@@ -113,12 +113,12 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 						combinedLight, combinedOverlay);
 			}
 
-			RenderAxle(te, new Vector3d(0.5, 1, 0.05f), new Vector3d(xD, yD, zD), 0.9f, m * outToRotate, facing, matrix,
+			RenderAxle(te, new Vec3(0.5, 1, 0.05f), new Vec3(xD, yD, zD), 0.9f, m * outToRotate, facing, matrix,
 					buffer, combinedLight, combinedOverlay);
 
-			RenderAxle(te, new Vector3d(0.5, 0.5, -0.14), new Vector3d(xD, yD, zD), 0.28f, n * outToRotate, facing, matrix,
+			RenderAxle(te, new Vec3(0.5, 0.5, -0.14), new Vec3(xD, yD, zD), 0.28f, n * outToRotate, facing, matrix,
 					buffer, combinedLight, combinedOverlay);
-			RenderAxle(te, new Vector3d(0.5, 0.5, 0.86), new Vector3d(xD, yD, zD), 0.28f, n * inToRotate, facing, matrix,
+			RenderAxle(te, new Vec3(0.5, 0.5, 0.86), new Vec3(xD, yD, zD), 0.28f, n * inToRotate, facing, matrix,
 					buffer, combinedLight, combinedOverlay);
 
 		}
@@ -126,8 +126,8 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 
 	}
 
-	private void RenderAxle(TEGearbox te, Vector3d pos, Vector3d rotVec, float length, float rotation, Direction facing,
-			MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay)
+	private void RenderAxle(TEGearbox te, Vec3 pos, Vec3 rotVec, float length, float rotation, Direction facing,
+			PoseStack matrix, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
 		BlockState state = FABlocks.powerShaft.ToBlock().defaultBlockState().setValue(PowerShaft.AXIS, Direction.Axis.Z)
 											  .setValue(PowerShaft.IS_TESR, true);
@@ -159,13 +159,13 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 			// BufferBuilder buffer = tessellator.getBuffer();
 
 			// buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 			// IBakedModel model = dispatcher.getModelForState(state);
 
 			dispatcher.renderBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
 
-			RenderHelper.turnBackOn();
+			Lighting.turnBackOn();
 			RenderSystem.enableLighting();
 		}
 		matrix.popPose();
@@ -173,13 +173,13 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 
 	@SuppressWarnings("SameParameterValue")
 	private void RenderGear(TEGearbox te, float posX, float posY, float posZ, float size, @Nullable GearType type,
-							float inToRotate, float xD, float yD, float zD, MatrixStack matrix, IRenderTypeBuffer buffer,
+							float inToRotate, float xD, float yD, float zD, PoseStack matrix, MultiBufferSource buffer,
 							int combinedLight, int combinedOverlay)
 	{
 		if (type == null)
 			return;
 		ItemStack stack = new ItemStack(FAItems.gear.GetItem(type));
-		RenderHelper.turnBackOn();
+		Lighting.turnBackOn();
 		RenderSystem.enableLighting();
 		matrix.pushPose();
 		{
@@ -188,7 +188,7 @@ public class TESRGearbox extends TileEntityRenderer<TEGearbox>
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(inToRotate, xD, yD, zD));
 
 			Minecraft.getInstance().getItemRenderer()
-					 .renderStatic(stack, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrix,
+					 .renderStatic(stack, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrix,
 							 buffer);
 
 		}

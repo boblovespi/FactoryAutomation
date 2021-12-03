@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.util;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 /**
  * Created by Willi on 12/19/2017.

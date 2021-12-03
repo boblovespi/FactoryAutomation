@@ -2,9 +2,9 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
 
 public class FAHoe extends HoeItem implements FAItem
 {
@@ -12,7 +12,7 @@ public class FAHoe extends HoeItem implements FAItem
 
 	public FAHoe(ToolMaterial material, String name, float attackSpeed)
 	{
-		super(material, (int) -(material.getAttackDamageBonus()), attackSpeed, new Item.Properties().tab(ItemGroup.TAB_TOOLS));
+		super(material, (int) -(material.getAttackDamageBonus()), attackSpeed, new Item.Properties().tab(CreativeModeTab.TAB_TOOLS));
 		unlocalizedName = name;
 		// setUnlocalizedName(name);
 		setRegistryName(name);

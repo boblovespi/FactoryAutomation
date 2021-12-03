@@ -2,29 +2,36 @@ package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.IItemProvider;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.ForgeHooks;
 
 import java.util.Random;
 
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.block.state.BlockState;
+
 /**
  * Created by Willi on 4/11/2017.
  */
-public class RiceCrop extends CropsBlock implements FABlock
+public class RiceCrop extends CropBlock implements FABlock
 {
 	public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
 	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[] { Block.box(0, 0, 0, 16, 1, 16),
@@ -42,7 +49,7 @@ public class RiceCrop extends CropsBlock implements FABlock
 	}
 
 	@Override
-	protected IItemProvider getBaseSeedId()
+	protected ItemLike getBaseSeedId()
 	{
 		return FAItems.riceGrain;
 	}
@@ -53,7 +60,7 @@ public class RiceCrop extends CropsBlock implements FABlock
 	}
 
 	@Override
-	public void growCrops(World world, BlockPos blockPos, BlockState BlockState)
+	public void growCrops(Level world, BlockPos blockPos, BlockState BlockState)
 	{
 		world.setBlock(blockPos, WithAge(Math.min(getAge(BlockState) + 1, getMaxAge())), 2);
 	}
@@ -65,13 +72,13 @@ public class RiceCrop extends CropsBlock implements FABlock
 	}
 
 	@Override
-	protected boolean mayPlaceOn(BlockState state, IBlockReader levelIn, BlockPos pos)
+	protected boolean mayPlaceOn(BlockState state, BlockGetter levelIn, BlockPos pos)
 	{
 		return canSustainBush(state);
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(AGE);
 	}
@@ -85,7 +92,7 @@ public class RiceCrop extends CropsBlock implements FABlock
 	}
 
 	@Override
-	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
 	{
 		if (!canSustainBush(world.getBlockState(pos.below())))
 		{
@@ -110,7 +117,7 @@ public class RiceCrop extends CropsBlock implements FABlock
 		}
 	}
 
-	private float GrowthChance(RiceCrop riceCrop, World w, BlockPos pos)
+	private float GrowthChance(RiceCrop riceCrop, Level w, BlockPos pos)
 	{
 		float chance = 0;
 
@@ -140,7 +147,7 @@ public class RiceCrop extends CropsBlock implements FABlock
 	}
 
 	@Override
-	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player)
+	public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player)
 	{
 		return new ItemStack(FAItems.riceGrain.ToItem());
 	}
@@ -166,7 +173,7 @@ public class RiceCrop extends CropsBlock implements FABlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, BlockGetter levelIn, BlockPos pos, CollisionContext context)
 	{
 		return SHAPE_BY_AGE[state.getValue(AGE)];
 	}

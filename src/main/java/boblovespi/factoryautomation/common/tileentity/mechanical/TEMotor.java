@@ -8,12 +8,12 @@ import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -28,7 +28,7 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEnergy_, ITickableTileEntity
+public class TEMotor extends BlockEntity implements IMechanicalUser, IRequiresEnergy_, TickableBlockEntity
 {
 	public float rotation = 0;
 	private float speed;
@@ -81,7 +81,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public TileEntity GetTe()
+	public BlockEntity GetTe()
 	{
 		return this;
 	}
@@ -127,7 +127,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	@Override
 	public float ActualAmountNeeded()
 	{
-		return MathHelper.clamp(AmountNeeded() - energyProvided, 0, AmountNeeded());
+		return Mth.clamp(AmountNeeded() - energyProvided, 0, AmountNeeded());
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		super.load(state, compound);
 		energyProvided = compound.getFloat("energyProvided");
@@ -198,7 +198,7 @@ public class TEMotor extends TileEntity implements IMechanicalUser, IRequiresEne
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		super.save(compound);
 		compound.putFloat("energyProvided", energyProvided);

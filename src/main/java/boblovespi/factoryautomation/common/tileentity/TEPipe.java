@@ -2,11 +2,11 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,7 +28,7 @@ import java.util.Objects;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TEPipe extends TileEntity implements ITickableTileEntity
+public class TEPipe extends BlockEntity implements TickableBlockEntity
 {
 	protected static int transferTime = 16;
 	protected static int transferAmount = 1500;
@@ -82,7 +82,7 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 				{
 					if (!(state.getValue(Pipe.CONNECTIONS[side.ordinal()]).equals(Pipe.Connection.NONE)))
 					{
-						TileEntity te = level.getBlockEntity(worldPosition.relative(side));
+						BlockEntity te = level.getBlockEntity(worldPosition.relative(side));
 						if (te != null)
 						{
 							LazyOptional<IFluidHandler> fluidHandler = te
@@ -117,7 +117,7 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		timer = tag.getInt("timer");
@@ -125,10 +125,10 @@ public class TEPipe extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		tag.putInt("timer", timer);
-		tag.put("tank", tank.writeToNBT(new CompoundNBT()));
+		tag.put("tank", tank.writeToNBT(new CompoundTag()));
 		return super.save(tag);
 	}
 

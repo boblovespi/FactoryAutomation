@@ -9,16 +9,16 @@ import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -58,8 +58,8 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 		if (counter == 0)
 		{
-			TileEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.below());
-			TileEntity te1 = level.getBlockEntity(worldPosition.above());
+			BlockEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.below());
+			BlockEntity te1 = level.getBlockEntity(worldPosition.above());
 			Direction facing = Direction.UP;
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
@@ -140,20 +140,20 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	protected float GetProgressScalar()
 	{
 		if (mechanicalUser.GetTorque() >= millstoneRecipe.GetTorque())
-			return MathHelper.clamp(mechanicalUser.GetSpeed() / 10f, 0, 10);
+			return Mth.clamp(mechanicalUser.GetSpeed() / 10f, 0, 10);
 		else
 			return 0;
 	}
 
 	@Override
-	protected void ReadCustomNBT(CompoundNBT tag)
+	protected void ReadCustomNBT(CompoundTag tag)
 	{
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 		millstoneRecipe = MillstoneRecipe.GetRecipe(recipeName);
 	}
 
 	@Override
-	protected void WriteCustomNBT(CompoundNBT tag)
+	protected void WriteCustomNBT(CompoundTag tag)
 	{
 		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
 	}
@@ -174,7 +174,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		return EnergyConstants.RadiansSecondToDegreesTick(mechanicalUser.GetSpeed());
 	}
 
-	public void TakeOrPlace(ItemStack item, PlayerEntity player)
+	public void TakeOrPlace(ItemStack item, Player player)
 	{
 		if (!processingInv.getStackInSlot(0).isEmpty())
 		{
@@ -192,17 +192,17 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
 		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 }

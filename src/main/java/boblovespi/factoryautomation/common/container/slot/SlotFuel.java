@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.container.slot;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.FurnaceTileEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -23,6 +23,6 @@ public class SlotFuel extends SlotItemHandler
 	@Override
 	public boolean mayPlace(@Nonnull ItemStack stack)
 	{
-		return FurnaceTileEntity.isFuel(stack) || stack.isEmpty();
+		return FurnaceBlockEntity.isFuel(stack) || stack.isEmpty();
 	}
 }

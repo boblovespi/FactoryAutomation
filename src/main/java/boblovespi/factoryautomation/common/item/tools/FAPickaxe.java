@@ -4,13 +4,18 @@ import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.item.*;
 
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.Tier;
+
 public class FAPickaxe extends PickaxeItem implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FAPickaxe(IItemTier material, String name)
+	public FAPickaxe(Tier material, String name)
 	{
-		super(material, 1, -2.8f, new Item.Properties().tab(ItemGroup.TAB_TOOLS));
+		super(material, 1, -2.8f, new Item.Properties().tab(CreativeModeTab.TAB_TOOLS));
 		this.unlocalizedName = name;
 		// this.setUnlocalizedName(unlocalizedName); TODO: Translation key??
 		this.setRegistryName(name);

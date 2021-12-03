@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 

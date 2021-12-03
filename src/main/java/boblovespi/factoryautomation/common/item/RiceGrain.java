@@ -2,16 +2,16 @@ package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
@@ -27,31 +27,31 @@ public class RiceGrain extends FABaseItem implements IPlantable
 {
 	public RiceGrain()
 	{
-		super("rice", ItemGroup.TAB_FOOD);
+		super("rice", CreativeModeTab.TAB_FOOD);
 	}
 
 	@Override
-	public PlantType getPlantType(IBlockReader iBlockAccess, BlockPos blockPos)
+	public PlantType getPlantType(BlockGetter iBlockAccess, BlockPos blockPos)
 	{
 		return PlantType.WATER;
 		// return EnumPlantType.Crop;
 	}
 
 	@Override
-	public BlockState getPlant(IBlockReader iBlockAccess, BlockPos blockPos)
+	public BlockState getPlant(BlockGetter iBlockAccess, BlockPos blockPos)
 	{
 		return FABlocks.riceCrop.ToBlock().defaultBlockState();
 	}
 
 	@Override
-	public ActionResultType useOn(ItemUseContext context)
+	public InteractionResult useOn(UseOnContext context)
 	{
 		BlockState state = context.getLevel().getBlockState(context.getClickedPos().above());
 		BlockPos pos = context.getClickedPos();
-		PlayerEntity player = context.getPlayer();
+		Player player = context.getPlayer();
 		Direction facing = context.getHorizontalDirection();
 		ItemStack items = Objects.requireNonNull(player).getUseItem();
-		World world = context.getLevel();
+		Level world = context.getLevel();
 
 		if (facing == Direction.UP && player.mayUseItemAt(pos.relative(facing), facing, items))
 			if (state.getBlock().canSustainPlant(state, world, pos.above(), Direction.UP, this) && world
@@ -60,8 +60,8 @@ public class RiceGrain extends FABaseItem implements IPlantable
 				world.setBlockAndUpdate(pos.above(2), FABlocks.riceCrop.ToBlock().defaultBlockState());
 				items.shrink(1);
 
-				return ActionResultType.SUCCESS;
+				return InteractionResult.SUCCESS;
 			}
-		return ActionResultType.FAIL;
+		return InteractionResult.FAIL;
 	}
 }

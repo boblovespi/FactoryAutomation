@@ -1,18 +1,18 @@
 package boblovespi.factoryautomation.common.util;
 
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * Created by Willi on 8/14/2018.
  */
 public class ItemHelper
 {
-	public static void PutItemsInInventoryOrDrop(PlayerEntity player, ItemStack stack, World level)
+	public static void PutItemsInInventoryOrDrop(Player player, ItemStack stack, Level level)
 	{
 		if (!player.addItem(stack.copy()))
 			level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), stack.copy()));
@@ -28,7 +28,7 @@ public class ItemHelper
 		DamageItem(stack, amount, null);
 	}
 
-	public static void DamageItem(ItemStack stack, int amount, ServerPlayerEntity damager)
+	public static void DamageItem(ItemStack stack, int amount, ServerPlayer damager)
 	{
 		boolean b = stack.hurt(1, damager == null ? Randoms.MAIN.r : damager.getRandom(), damager);
 		if (b)

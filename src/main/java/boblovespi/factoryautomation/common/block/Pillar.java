@@ -2,19 +2,21 @@ package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.Metals;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 8/4/2018.
@@ -30,7 +32,7 @@ public class Pillar extends FABaseBlock
 	{
 		super(name, false, Properties.of(Material.METAL).strength(1, 10).harvestLevel(1)
 									 .harvestTool(ToolType.PICKAXE),
-				new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
+				new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
 		registerDefaultState(stateDefinition.any().setValue(HEIGHT, 1));
 	}
 
@@ -45,7 +47,7 @@ public class Pillar extends FABaseBlock
 	 * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
+	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving)
 	{
 		int height = state.getValue(HEIGHT);
 
@@ -61,7 +63,7 @@ public class Pillar extends FABaseBlock
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(HEIGHT);
 	}
@@ -70,12 +72,12 @@ public class Pillar extends FABaseBlock
 	 * Gets the {@link BlockState} to place
 	 */
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context)
+	public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
 		return defaultBlockState().setValue(HEIGHT, 1);
 	}
 
-	private void UpdateState(World world, BlockPos pos, BlockState state)
+	private void UpdateState(Level world, BlockPos pos, BlockState state)
 	{
 		int height = state.getValue(HEIGHT);
 		BlockPos down1 = pos.below();
@@ -143,7 +145,7 @@ public class Pillar extends FABaseBlock
 	 * Called after the block is set in the Chunk data, but before the Tile Entity is set
 	 */
 	@Override
-	public void onPlace(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving)
+	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
 		// EffectivelyPlace(world, pos);
 		UpdateState(world, pos, state);
@@ -153,7 +155,7 @@ public class Pillar extends FABaseBlock
 	 * Called serverside after this block is replaced with another in Chunk, but before the Tile Entity is updated
 	 */
 	@Override
-	public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving)
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving)
 	{
 		BlockPos down1 = pos.below();
 		BlockPos down2 = pos.below(2);

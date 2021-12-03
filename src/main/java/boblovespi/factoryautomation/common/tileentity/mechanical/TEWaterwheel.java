@@ -6,15 +6,15 @@ import boblovespi.factoryautomation.common.block.machine.Waterwheel;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -29,7 +29,7 @@ import static boblovespi.factoryautomation.common.block.machine.Waterwheel.MULTI
 /**
  * Created by Willi on 6/23/2019.
  */
-public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE, ITickableTileEntity
+public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE, TickableBlockEntity
 {
 	public static final String MULTIBLOCK_ID = "waterwheel";
 	private boolean structureIsValid = false;
@@ -137,9 +137,9 @@ public class TEWaterwheel extends TileEntity implements IMultiblockControllerTE,
 					BlockState state = level.getBlockState(waterPos);
 					if (state.getMaterial() == Material.WATER)
 					{
-						if (state.getBlock() instanceof FlowingFluidBlock)
+						if (state.getBlock() instanceof LiquidBlock)
 						{
-							Vector3d acc = state.getFluidState().getFlow(level, waterPos);
+							Vec3 acc = state.getFluidState().getFlow(level, waterPos);
 							if (out.getAxis() == Direction.Axis.X) // water flowing along z axis
 							{
 								if (i < 3 || i > 6)

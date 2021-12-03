@@ -1,11 +1,11 @@
 package boblovespi.factoryautomation.common.util;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,7 +25,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 @Mod.EventBusSubscriber(modid = MODID)
 public class TooltipHandler
 {
-	private static Map<Item, ITextComponent> tooltips;
+	private static Map<Item, Component> tooltips;
 
 	@SubscribeEvent
 	public static void AddTooltip(ItemTooltipEvent event)
@@ -33,7 +33,7 @@ public class TooltipHandler
 		if (tooltips == null)
 			return;
 		ItemStack stack = event.getItemStack();
-		ITextComponent tooltip = tooltips.get(stack.getItem());
+		Component tooltip = tooltips.get(stack.getItem());
 		if (tooltip != null)
 			event.getToolTip().add(tooltip);
 	}
@@ -63,7 +63,7 @@ public class TooltipHandler
 				for (String key : keys)
 				{
 					Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(key));
-					tooltips.putIfAbsent(item, new StringTextComponent("\u00A77" + info));
+					tooltips.putIfAbsent(item, new TextComponent("\u00A77" + info));
 				}
 			}
 

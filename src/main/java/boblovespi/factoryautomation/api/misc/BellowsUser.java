@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.api.misc;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 /**
  * Created by Willi on 4/27/2019.
@@ -51,16 +51,16 @@ public class BellowsUser implements IBellowsable
 		}
 	}
 
-	public CompoundNBT WriteToNBT()
+	public CompoundTag WriteToNBT()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		nbt.putFloat("efficiency", efficiency);
 		nbt.putInt("time", time);
 		nbt.putInt("maxTime", maxTime);
 		return nbt;
 	}
 
-	public void ReadFromNBT(CompoundNBT tag)
+	public void ReadFromNBT(CompoundTag tag)
 	{
 		efficiency = tag.getFloat("efficiency");
 		time = tag.getInt("time");

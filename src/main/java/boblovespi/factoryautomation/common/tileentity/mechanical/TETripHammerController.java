@@ -8,13 +8,13 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
@@ -26,13 +26,15 @@ import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.block.machine.TripHammerController.*;
 
+import boblovespi.factoryautomation.common.block.machine.TripHammerController.BlockstateEnum;
+
 /**
  * Created by Willi on 8/13/2018.
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TETripHammerController extends TileEntity implements IMultiblockControllerTE, ITickableTileEntity
+public class TETripHammerController extends BlockEntity implements IMultiblockControllerTE, TickableBlockEntity
 {
 	public static final String MULTIBLOCK_ID = "trip_hammer";
 	private final ItemStackHandler itemHandler;
@@ -184,8 +186,8 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 			BlockPos pos2 = MultiblockHelper.AddWithRotation(worldPosition, 5, 1, 0, facing);
 			Direction clockWise = facing.getClockWise();
 			Direction counterClockWise = facing.getCounterClockWise();
-			TileEntity teCW = level.getBlockEntity(pos2.relative(clockWise, 1));
-			TileEntity teCCW = level.getBlockEntity(pos2.relative(counterClockWise, 1));
+			BlockEntity teCW = level.getBlockEntity(pos2.relative(clockWise, 1));
+			BlockEntity teCCW = level.getBlockEntity(pos2.relative(counterClockWise, 1));
 
 			if (TEHelper.IsMechanicalFace(teCW, counterClockWise))
 			{
@@ -200,7 +202,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT nbt)
+	public void load(BlockState state, CompoundTag nbt)
 	{
 		super.load(state, nbt);
 
@@ -211,7 +213,7 @@ public class TETripHammerController extends TileEntity implements IMultiblockCon
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT nbt)
+	public CompoundTag save(CompoundTag nbt)
 	{
 		nbt.put("inventory", itemHandler.serializeNBT());
 		nbt.put("mechanicalUser", mechanicalUser.WriteToNBT());

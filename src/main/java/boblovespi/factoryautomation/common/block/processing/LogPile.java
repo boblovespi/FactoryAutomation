@@ -3,28 +3,30 @@ package boblovespi.factoryautomation.common.block.processing;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 1/27/2019.
@@ -32,7 +34,7 @@ import java.util.function.Predicate;
 public class LogPile extends FABaseBlock
 {
 	public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
-	private static final VoxelShape BOUNDING_BOX = VoxelShapes
+	private static final VoxelShape BOUNDING_BOX = Shapes
 			.or(Block.box(0, 0, 0, 4, 16, 4), Block.box(6, 0, 0, 10, 16, 4),
 					Block.box(12, 0, 0, 16, 16, 4), Block.box(0, 0, 6, 4, 16, 10),
 					Block.box(6, 0, 6, 10, 16, 10), Block.box(12, 0, 6, 16, 16, 10),
@@ -54,30 +56,30 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, BlockGetter levelIn, BlockPos pos, CollisionContext context)
 	{
 		return BOUNDING_BOX;
 	}
 
 	@Override
-	public int getFireSpreadSpeed(BlockState state, IBlockReader level, BlockPos pos, Direction face)
+	public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction face)
 	{
 		return state.getValue(ACTIVATED) ? 20 : 8;
 	}
 
 	@Override
-	public int getFlammability(BlockState state, IBlockReader level, BlockPos pos, Direction face)
+	public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction face)
 	{
 		return state.getValue(ACTIVATED) ? 120 : 20;
 	}
 
-	public int tickRate(IWorldReader levelIn)
+	public int tickRate(LevelReader levelIn)
 	{
 		return 6000;
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
 	{
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
@@ -112,7 +114,7 @@ public class LogPile extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block1, BlockPos fromPos,
+	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block1, BlockPos fromPos,
 			boolean isMoving)
 	{
 		BlockState block = world.getBlockState(fromPos);
@@ -153,19 +155,19 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public boolean isBurning(BlockState state, IBlockReader level, BlockPos pos)
+	public boolean isBurning(BlockState state, BlockGetter level, BlockPos pos)
 	{
 		return state.getValue(ACTIVATED);
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(ACTIVATED);
 	}
 
 	@Override
-	public void animateTick(BlockState state, World world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
 	{
 		if (!state.getValue(ACTIVATED))
 			return;
@@ -178,7 +180,7 @@ public class LogPile extends FABaseBlock
 		world.addParticle(ParticleTypes.SMOKE, x, y + 1.5, z, rand.nextDouble() / 20d, 0.05, rand.nextDouble() / 20d);
 	}
 
-	private boolean isSurrounded(World world, BlockPos pos, @Nullable Predicate<BlockState> block)
+	private boolean isSurrounded(Level world, BlockPos pos, @Nullable Predicate<BlockState> block)
 	{
 		for (Direction dir : Direction.values())
 		{

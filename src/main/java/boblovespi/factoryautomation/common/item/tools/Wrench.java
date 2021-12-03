@@ -3,14 +3,16 @@ package boblovespi.factoryautomation.common.item.tools;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 8/1/2018.
@@ -28,9 +30,9 @@ public class Wrench extends WorkbenchToolItem
 	 * This is called when the item is used, before the block is activated.
 	 */
 	@Override
-	public ActionResultType useOn(ItemUseContext context)
+	public InteractionResult useOn(UseOnContext context)
 	{
-		World world = context.getLevel();
+		Level world = context.getLevel();
 		BlockPos pos = context.getClickedPos();
 		Block block = world.getBlockState(pos).getBlock();
 
@@ -38,14 +40,14 @@ public class Wrench extends WorkbenchToolItem
 		{
 			if (!world.isClientSide)
 			{
-				TileEntity te = world.getBlockEntity(pos);
+				BlockEntity te = world.getBlockEntity(pos);
 				if (te instanceof TEGearbox)
 				{
 					((TEGearbox) te).SwitchGears();
 				}
 			}
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 }

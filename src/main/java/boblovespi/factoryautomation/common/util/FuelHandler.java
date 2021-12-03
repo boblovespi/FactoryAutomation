@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.util;
 
 import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.Items;
 
 /**
  * Created by Willi on 10/28/2018.

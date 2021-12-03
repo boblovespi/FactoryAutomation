@@ -1,11 +1,11 @@
 package boblovespi.factoryautomation.api.recipe;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
@@ -89,7 +89,7 @@ public abstract class ChancelessMachineRecipe implements IMachineRecipe
 	}
 
 	@Override
-	public void WriteToNBT(CompoundNBT tag)
+	public void WriteToNBT(CompoundTag tag)
 	{
 		// itemInputs.stream().forEach(n -> n.w);
 	}
@@ -101,13 +101,13 @@ public abstract class ChancelessMachineRecipe implements IMachineRecipe
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer()
+	public RecipeSerializer<?> getSerializer()
 	{
 		return null;
 	}
 
 	@Override
-	public IRecipeType<?> getType()
+	public RecipeType<?> getType()
 	{
 		return null;
 	}

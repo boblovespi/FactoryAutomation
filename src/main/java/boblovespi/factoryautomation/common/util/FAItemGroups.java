@@ -4,9 +4,9 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -17,7 +17,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class FAItemGroups
 {
-	public static ItemGroup metallurgy = new ItemGroup("tabs.metallurgy.name")
+	public static CreativeModeTab metallurgy = new CreativeModeTab("tabs.metallurgy.name")
 	{
 		@Override
 		public ItemStack makeIcon()
@@ -26,7 +26,7 @@ public class FAItemGroups
 		}
 
 	};
-	public static ItemGroup resources = new ItemGroup("tabs.resources.name")
+	public static CreativeModeTab resources = new CreativeModeTab("tabs.resources.name")
 	{
 		@Override
 		public ItemStack makeIcon()
@@ -34,7 +34,7 @@ public class FAItemGroups
 			return new ItemStack(FAItems.diamondGravel.ToItem());
 		}
 	};
-	public static ItemGroup tools = new ItemGroup("tabs.tools.name")
+	public static CreativeModeTab tools = new CreativeModeTab("tabs.tools.name")
 	{
 		@Override
 		public ItemStack makeIcon()
@@ -42,7 +42,7 @@ public class FAItemGroups
 			return new ItemStack(FAItems.ironHammer.ToItem());
 		}
 	};
-	public static ItemGroup mechanical = new ItemGroup("tabs.mechanical.name")
+	public static CreativeModeTab mechanical = new CreativeModeTab("tabs.mechanical.name")
 	{
 		@Override
 		public ItemStack makeIcon()
@@ -50,7 +50,7 @@ public class FAItemGroups
 			return new ItemStack(FAItems.gear.GetItem(Gearbox.GearType.STEEL));
 		}
 	};
-	public static ItemGroup crafting = new ItemGroup("tabs.crafting.name")
+	public static CreativeModeTab crafting = new CreativeModeTab("tabs.crafting.name")
 	{
 		@Override
 		public ItemStack makeIcon()
@@ -58,7 +58,7 @@ public class FAItemGroups
 			return new ItemStack(FAItems.glassLens.ToItem());
 		}
 	};
-	public static ItemGroup electrical = new ItemGroup("tabs.electrical.name")
+	public static CreativeModeTab electrical = new CreativeModeTab("tabs.electrical.name")
 	{
 		@Override
 		public ItemStack makeIcon()
@@ -66,7 +66,7 @@ public class FAItemGroups
 			return new ItemStack(FAItems.copperWire.ToItem());
 		}
 	};
-	public static ItemGroup heat = new ItemGroup("tabs.heat.name")
+	public static CreativeModeTab heat = new CreativeModeTab("tabs.heat.name")
 	{
 		@Override
 		public ItemStack makeIcon()
@@ -74,7 +74,7 @@ public class FAItemGroups
 			return new ItemStack(Blocks.FURNACE);
 		}
 	};
-	public static ItemGroup primitive = new ItemGroup("tabs.primitive.name")
+	public static CreativeModeTab primitive = new CreativeModeTab("tabs.primitive.name")
 	{
 		@Override
 		public ItemStack makeIcon()

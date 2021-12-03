@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.block.resource;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 import java.util.Random;
 import java.util.function.BiFunction;

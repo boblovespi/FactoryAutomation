@@ -1,9 +1,11 @@
 package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.common.block.FABlock;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 11/9/2017.

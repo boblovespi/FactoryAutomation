@@ -1,24 +1,24 @@
 package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEJawCrusher;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 
 /**
  * Created by Willi on 3/5/2018.
  */
-public class TESRJawCrusher extends TileEntityRenderer<TEJawCrusher>
+public class TESRJawCrusher extends BlockEntityRenderer<TEJawCrusher>
 {
 
-	public TESRJawCrusher(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRJawCrusher(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEJawCrusher te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+	public void render(TEJawCrusher te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 

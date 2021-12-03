@@ -5,12 +5,12 @@ import boblovespi.factoryautomation.api.energy.electricity.EnergyNetwork_;
 import boblovespi.factoryautomation.api.energy.electricity.IProducesEnergy_;
 import boblovespi.factoryautomation.api.energy.electricity.InternalEnergyStorage;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -24,8 +24,8 @@ import java.util.List;
 /**
  * Created by Willi on 12/21/2017.
  */
-public class TileEntitySolarPanel extends TileEntity
-		implements IProducesEnergy_, ITickableTileEntity, ICapabilityProvider
+public class TileEntitySolarPanel extends BlockEntity
+		implements IProducesEnergy_, TickableBlockEntity, ICapabilityProvider
 {
 	private static final float productionScalar = 20f;
 	private boolean hasTicked = false;
@@ -55,7 +55,7 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	@Override
-	public TileEntity GetTe()
+	public BlockEntity GetTe()
 	{
 		return this;
 	}
@@ -108,7 +108,7 @@ public class TileEntitySolarPanel extends TileEntity
 	public float ExtractEnergy(float amount, boolean simulate)
 	{
 		ForceUpdate();
-		float amountExtracted = MathHelper.clamp(amount, 0, energyProduction - energyUsed);
+		float amountExtracted = Mth.clamp(amount, 0, energyProduction - energyUsed);
 		if (!simulate)
 		{
 			energyUsed += amountExtracted;
@@ -151,7 +151,7 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		super.load(state, compound);
 		energyProduction = compound.getFloat("energyProduction");
@@ -165,7 +165,7 @@ public class TileEntitySolarPanel extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		super.save(compound);
 		compound.putFloat("energyProduction", energyProduction);

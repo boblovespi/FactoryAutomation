@@ -1,18 +1,18 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Consumer;
 
 /**
  * Created by Willi on 12/23/2017.
  */
-public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializable> implements FABlock
+public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & StringRepresentable> implements FABlock
 {
 	protected final Class<T> blockTypes;
 	private final String registeryName;
@@ -21,7 +21,7 @@ public class MultiTypeBlock<T extends Enum<T> & IMultiTypeEnum & IStringSerializ
 	private String resourceFolder;
 	private FABaseBlock[] blocks;
 
-	public MultiTypeBlock(String registeryName, Class<T> types, String resourceFolder, AbstractBlock.Properties properties,
+	public MultiTypeBlock(String registeryName, Class<T> types, String resourceFolder, BlockBehaviour.Properties properties,
 			Item.Properties itemProperties)
 	{
 		this.registeryName = registeryName;

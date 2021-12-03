@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.api.energy.electricity;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * Created by Willi on 12/21/2017.
@@ -20,5 +20,5 @@ public interface IEnergyBlock
 	 * @return Whether or not a cable can attach to the given side and state
 	 */
 	boolean CanConnectCable(BlockState state, Direction side,
-			IBlockReader level, BlockPos pos);
+			BlockGetter level, BlockPos pos);
 }

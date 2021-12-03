@@ -17,21 +17,21 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.FloatNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.FloatTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
@@ -52,8 +52,8 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TEBrickCrucible extends TileEntity
-		implements IMultiblockControllerTE, ITickableTileEntity, INamedContainerProvider
+public class TEBrickCrucible extends BlockEntity
+		implements IMultiblockControllerTE, TickableBlockEntity, MenuProvider
 {
 	public static final String MULTIBLOCK_ID = "brick_foundry";
 	private final MultiMetalHelper metals;
@@ -67,7 +67,7 @@ public class TEBrickCrucible extends TileEntity
 	private boolean isBurningFuel = false;
 	private boolean structureIsValid = false;
 	private final BellowsUser bellowsUser;
-	private final IIntArray containerInfo = new IIntArray()
+	private final ContainerData containerInfo = new ContainerData()
 	{
 		@Override
 		public int get(int index)
@@ -258,7 +258,7 @@ public class TEBrickCrucible extends TileEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		metals.ReadFromNBT(tag.getCompound("metals"));
@@ -273,7 +273,7 @@ public class TEBrickCrucible extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		tag.put("metals", metals.WriteToNBT());
 		tag.put("inventory", inventory.serializeNBT());
@@ -340,7 +340,7 @@ public class TEBrickCrucible extends TileEntity
 
 	public void PourInto(Direction facing)
 	{
-		TileEntity te1 = Objects.requireNonNull(level).getBlockEntity(worldPosition.below().relative(facing));
+		BlockEntity te1 = Objects.requireNonNull(level).getBlockEntity(worldPosition.below().relative(facing));
 		if (te1 instanceof ICastingVessel)
 		{
 			ICastingVessel te = (ICastingVessel) te1;
@@ -365,14 +365,14 @@ public class TEBrickCrucible extends TileEntity
 	}
 
 	@Override
-	public ITextComponent getDisplayName()
+	public Component getDisplayName()
 	{
-		return new StringTextComponent("");
+		return new TextComponent("");
 	}
 
 	@Nullable
 	@Override
-	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player)
 	{
 		return new ContainerBrickFoundry(id, playerInv, inventory, containerInfo, metalName, worldPosition);
 	}
@@ -446,19 +446,19 @@ public class TEBrickCrucible extends TileEntity
 			return amountToAdd;
 		}
 
-		public void ReadFromNBT(CompoundNBT tag)
+		public void ReadFromNBT(CompoundTag tag)
 		{
 			metal = tag.getString("metal");
 			amount = tag.getShort("amount");
-			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((FloatNBT) t).getAsFloat());
+			metals = NBTHelper.GetMap(tag, "metals", k -> k, t -> ((FloatTag) t).getAsFloat());
 		}
 
-		public CompoundNBT WriteToNBT()
+		public CompoundTag WriteToNBT()
 		{
-			CompoundNBT tag = new CompoundNBT();
+			CompoundTag tag = new CompoundTag();
 			tag.putString("metal", metal);
 			tag.putInt("amount", amount);
-			NBTHelper.SetMap(tag, "metals", metals, k -> k, FloatNBT::valueOf);
+			NBTHelper.SetMap(tag, "metals", metals, k -> k, FloatTag::valueOf);
 			return tag;
 		}
 

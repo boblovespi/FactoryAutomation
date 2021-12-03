@@ -7,15 +7,15 @@ import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import com.mojang.authlib.GameProfile;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.common.util.LazyOptional;
@@ -36,7 +36,7 @@ import java.util.Optional;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public abstract class TEWorkbench extends TileEntity implements INamedContainerProvider
+public abstract class TEWorkbench extends BlockEntity implements MenuProvider
 {
 	protected final int size;
 	protected final int tier;
@@ -48,7 +48,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 	protected IWorkbenchRecipe recipe = null;
 	private boolean isUpdatingChanges = false;
 
-	public TEWorkbench(TileEntityType<? extends TEWorkbench> type, int size, int tier)
+	public TEWorkbench(BlockEntityType<? extends TEWorkbench> type, int size, int tier)
 	{
 		super(type);
 		this.size = size;
@@ -86,7 +86,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 							if (toolInfo.getKey().IsSameTool(tool) && toolInfo.getKey().tier <= Objects.requireNonNull(tool).tier)
 							{
 								getStackInSlot(i + firstToolIndex).hurtAndBreak(toolInfo.getValue(),
-										FakePlayerFactory.get((ServerWorld) level, new GameProfile(null, "fakePlayer")),
+										FakePlayerFactory.get((ServerLevel) level, new GameProfile(null, "fakePlayer")),
 										n -> {
 
 										});
@@ -166,14 +166,14 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		super.load(state, compound);
 		inventory.deserializeNBT(compound.getCompound("items"));
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		compound.put("items", inventory.serializeNBT());
 		return super.save(compound);
@@ -210,7 +210,7 @@ public abstract class TEWorkbench extends TileEntity implements INamedContainerP
 	}
 
 	@Override
-	public ITextComponent getDisplayName()
+	public Component getDisplayName()
 	{
 		return null;
 	}

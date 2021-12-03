@@ -2,18 +2,18 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Created by Willi on 2/17/2018.
  */
 public class MultiblockHelper
 {
-	private static boolean IterateOverMultiblock(World world, BlockPos controllerPos, String structureId,
+	private static boolean IterateOverMultiblock(Level world, BlockPos controllerPos, String structureId,
 			Direction facing, IterateAction action)
 	{
 		boolean isValid = true;
@@ -33,7 +33,7 @@ public class MultiblockHelper
 				for (int z = 0; z < pattern[x][y].length; z++)
 				{
 					BlockPos loc = AddWithRotation(lowerLeftFront, x, y, z, facing);
-					TileEntity te = world.getBlockEntity(loc);
+					BlockEntity te = world.getBlockEntity(loc);
 					TEMultiblockPart tePart;
 					MultiblockPart part = structure.GetPattern()[x][y][z];
 
@@ -90,17 +90,17 @@ public class MultiblockHelper
 		return true;
 	}
 
-	public static boolean IsStructureComplete(World world, BlockPos pos, String id, Direction facing)
+	public static boolean IsStructureComplete(Level world, BlockPos pos, String id, Direction facing)
 	{
 		return IterateOverMultiblock(world, pos, id, facing, IterateAction.CHECK_VALID);
 	}
 
-	public static void CreateStructure(World world, BlockPos pos, String id, Direction facing)
+	public static void CreateStructure(Level world, BlockPos pos, String id, Direction facing)
 	{
 		IterateOverMultiblock(world, pos, id, facing, IterateAction.CREATE);
 	}
 
-	public static void BreakStructure(World world, BlockPos pos, String id, Direction facing)
+	public static void BreakStructure(Level world, BlockPos pos, String id, Direction facing)
 	{
 		IterateOverMultiblock(world, pos, id, facing, IterateAction.BREAK);
 	}

@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.api.energy.electricity;
 
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
@@ -35,14 +35,14 @@ public class InternalEnergyStorage extends EnergyStorage
 
 	public void SetEnergy(int amount)
 	{
-		energy = MathHelper.clamp(amount, 0, capacity);
+		energy = Mth.clamp(amount, 0, capacity);
 	}
 
-	public void PushEnergy(TileEntity te, float maxPush, boolean allowPushToIUsesEnergy)
+	public void PushEnergy(BlockEntity te, float maxPush, boolean allowPushToIUsesEnergy)
 	{
 		for (Direction dir : Direction.values())
 		{
-			TileEntity te1 = te.getLevel().getBlockEntity(te.getBlockPos().relative(dir));
+			BlockEntity te1 = te.getLevel().getBlockEntity(te.getBlockPos().relative(dir));
 			if (te1 != null && (!(te1 instanceof IUsesEnergy_ || te1 instanceof IUsesEnergy) || allowPushToIUsesEnergy))
 			{
 				LazyOptional<IEnergyStorage> energy = te1.getCapability(CapabilityEnergy.ENERGY, dir.getOpposite());

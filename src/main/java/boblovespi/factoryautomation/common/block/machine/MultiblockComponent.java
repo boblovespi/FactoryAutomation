@@ -3,19 +3,21 @@ package boblovespi.factoryautomation.common.block.machine;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 11/26/2017.
@@ -38,7 +40,7 @@ public class MultiblockComponent extends FABaseBlock
 	}
 
 	// Todo: translate this to 1.16.5 with mojmaps.
-	public static boolean isRedstoneConductor(BlockState state, IBlockReader levelIn, BlockPos pos)
+	public static boolean isRedstoneConductor(BlockState state, BlockGetter levelIn, BlockPos pos)
 	{
 		return false;
 	}
@@ -55,15 +57,15 @@ public class MultiblockComponent extends FABaseBlock
 	//		return false;
 	//	}
 	@Override
-	public boolean canCreatureSpawn(BlockState state, IBlockReader level, BlockPos pos,
-			EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType)
+	public boolean canCreatureSpawn(BlockState state, BlockGetter level, BlockPos pos,
+			SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
 	{
 		return false;
 	}
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
 	{
 		return new TEMultiblockPart();
 	}
@@ -91,7 +93,7 @@ public class MultiblockComponent extends FABaseBlock
 	//	}
 
 	@Override
-	public void playerWillDestroy(World level, BlockPos pos, BlockState state, PlayerEntity player)
+	public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
 	{
 		//		Log.LogInfo("something broke!");
 		//		Log.LogInfo("blockPos", pos);

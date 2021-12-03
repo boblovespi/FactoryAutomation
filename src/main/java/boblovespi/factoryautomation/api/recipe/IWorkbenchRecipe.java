@@ -1,12 +1,12 @@
 package boblovespi.factoryautomation.api.recipe;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by Willi on 4/10/2018.
  */
-public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>, IRecipe<IInventory>
+public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>, Recipe<Container>
 {
 	boolean CanFitTier(int x, int y, int tier);
 
@@ -33,13 +33,13 @@ public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>,
 	ItemStack GetResultItem();
 
 	@Override
-	default boolean matches(IInventory inv, World levelIn)
+	default boolean matches(Container inv, Level levelIn)
 	{
 		return false;
 	}
 
 	@Override
-	default ItemStack assemble(IInventory inv)
+	default ItemStack assemble(Container inv)
 	{
 		return GetResultItem();
 	}
@@ -57,7 +57,7 @@ public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>,
 	}
 
 	@Override
-	default IRecipeType<?> getType()
+	default RecipeType<?> getType()
 	{
 		return WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE;
 	}

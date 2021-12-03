@@ -5,26 +5,26 @@ import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 
@@ -32,17 +32,20 @@ import javax.annotation.Nullable;
 
 import static boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible.MetalForms;
 
+import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible.MetalForms;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 /**
  * Created by Willi on 12/22/2018.
  */
 public class StoneCastingVessel extends FABaseBlock
 {
 	public static final EnumProperty<CastingVesselStates> MOLD = EnumProperty.create("mold", CastingVesselStates.class);
-	private static final VoxelShape BOUNDING_BOX_NO_SAND = VoxelShapes
+	private static final VoxelShape BOUNDING_BOX_NO_SAND = Shapes
 			.or(Block.box(1, 0, 1, 15, 1, 15), Block.box(0, 0, 1, 1, 8, 15),
 					Block.box(15, 0, 1, 16, 8, 15), Block.box(1, 0, 0, 15, 8, 1),
 					Block.box(1, 0, 15, 15, 8, 16)).optimize();
-	private static final VoxelShape BOUNDING_BOX_SAND = VoxelShapes
+	private static final VoxelShape BOUNDING_BOX_SAND = Shapes
 			.or(BOUNDING_BOX_NO_SAND, Block.box(1, 0, 1, 15, 7, 15));
 
 	public StoneCastingVessel()
@@ -61,13 +64,13 @@ public class StoneCastingVessel extends FABaseBlock
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(MOLD);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, BlockGetter levelIn, BlockPos pos, CollisionContext context)
 	{
 		if (state.getValue(MOLD) == CastingVesselStates.EMPTY)
 			return BOUNDING_BOX_NO_SAND;
@@ -82,7 +85,7 @@ public class StoneCastingVessel extends FABaseBlock
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
 	{
 		return new TEStoneCastingVessel();
 	}
@@ -91,26 +94,26 @@ public class StoneCastingVessel extends FABaseBlock
 	 * Called when the block is right clicked by a player.
 	 */
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player,
-			Hand hand, BlockRayTraceResult hit)
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player,
+			InteractionHand hand, BlockHitResult hit)
 	{
 		if (!world.isClientSide)
 		{
 			TEStoneCastingVessel te = (TEStoneCastingVessel) world.getBlockEntity(pos);
 
-			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayerEntity && te != null && te.HasSpace())
+			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayer && te != null && te.HasSpace())
 			{
-				NetworkHooks.openGui((ServerPlayerEntity) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+				NetworkHooks.openGui((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 			} else
 			{
 				if (te != null)
 					te.TakeOrPlace(player.getItemInHand(hand), player);
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return InteractionResult.SUCCESS;
 	}
 
-	public enum CastingVesselStates implements IStringSerializable
+	public enum CastingVesselStates implements StringRepresentable
 	{
 		EMPTY(MetalForms.NONE),
 		SAND(MetalForms.NONE),

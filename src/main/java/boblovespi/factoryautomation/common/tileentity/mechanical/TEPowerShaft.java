@@ -6,13 +6,13 @@ import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -24,7 +24,10 @@ import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace;
-import static net.minecraft.util.Direction.*;
+import static net.minecraft.core.Direction.*;
+
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.core.Direction.AxisDirection;
 
 /**
  * Created by Willi on 1/15/2018.
@@ -32,7 +35,7 @@ import static net.minecraft.util.Direction.*;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickableTileEntity
+public class TEPowerShaft extends BlockEntity implements IMechanicalUser, TickableBlockEntity
 {
 	public float rotation = 0;
 	private float speed;
@@ -77,7 +80,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		speed = compound.getFloat("speed");
 		torque = compound.getFloat("torque");
@@ -86,7 +89,7 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		compound.putFloat("speed", speed);
 		compound.putFloat("torque", torque);
@@ -113,8 +116,8 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 			Direction negativeFacing = get(AxisDirection.NEGATIVE, axis);
 			Direction positiveFacing = get(AxisDirection.POSITIVE, axis);
 
-			TileEntity front = Objects.requireNonNull(level).getBlockEntity(worldPosition.relative(positiveFacing));
-			TileEntity back = level.getBlockEntity(worldPosition.relative(negativeFacing));
+			BlockEntity front = Objects.requireNonNull(level).getBlockEntity(worldPosition.relative(positiveFacing));
+			BlockEntity back = level.getBlockEntity(worldPosition.relative(negativeFacing));
 
 			speed = ((IsMechanicalFace(front, negativeFacing) ?
 					GetUser(front, negativeFacing).GetSpeedOnFace(negativeFacing) : 0) + (
@@ -148,17 +151,17 @@ public class TEPowerShaft extends TileEntity implements IMechanicalUser, ITickab
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
 		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 }

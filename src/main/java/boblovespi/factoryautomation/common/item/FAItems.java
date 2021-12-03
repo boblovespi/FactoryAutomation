@@ -19,9 +19,9 @@ import boblovespi.factoryautomation.common.item.types.TallowForms;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.SoundHandler;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.*;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.IFluidBlock;
@@ -32,6 +32,14 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
+
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Tiers;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -180,7 +188,7 @@ public class FAItems
 		items.remove(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
-		diamondCoin = new FABaseItem("coin_diamond", ItemGroup.TAB_MISC);
+		diamondCoin = new FABaseItem("coin_diamond", CreativeModeTab.TAB_MISC);
 		rod = new MetalItem("rod");
 
 		// metallurgy misc
@@ -211,8 +219,8 @@ public class FAItems
 			iceCream[i] = new FAFood("ice_cream_" + IceCreams.values()[i].name().toLowerCase(), 8, 12, 32, false, true,
 					IceCreams.values()[i].GetPotionEffects(), Collections.singletonList(1f));
 		}
-		pancake = new FABaseItem("pancake", Prop().tab(ItemGroup.TAB_FOOD).food(new Food.Builder().nutrition(5).saturationMod(0.8f).build()));
-		honeyPancake = new FABaseItem("honey_pancake", Prop().tab(ItemGroup.TAB_FOOD).food(new Food.Builder().nutrition(11).saturationMod(1f).build()));
+		pancake = new FABaseItem("pancake", Prop().tab(CreativeModeTab.TAB_FOOD).food(new FoodProperties.Builder().nutrition(5).saturationMod(0.8f).build()));
+		honeyPancake = new FABaseItem("honey_pancake", Prop().tab(CreativeModeTab.TAB_FOOD).food(new FoodProperties.Builder().nutrition(11).saturationMod(1f).build()));
 
 		// resources
 
@@ -270,9 +278,9 @@ public class FAItems
 		copperShovel = new FAShovel(copperMaterial, "copper_shovel");
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
-		copperShears = new FAShears("copper_shears", Prop().tab(ItemGroup.TAB_TOOLS).durability(176));
+		copperShears = new FAShears("copper_shears", Prop().tab(CreativeModeTab.TAB_TOOLS).durability(176));
 
-		flintPickaxe = new FAPickaxe(ItemTier.WOOD, "flint_pickaxe");
+		flintPickaxe = new FAPickaxe(Tiers.WOOD, "flint_pickaxe");
 
 		choppingBlade = new FAAxe(flintMaterial, "chopping_blade");
 		firebow = new Firebow();
@@ -280,12 +288,12 @@ public class FAItems
 		// workbench tools
 
 		copperHammer = new Hammer("copper_hammer", 5, -3.7f, ToolMaterial.copperMaterial);
-		ironHammer = new Hammer("iron_hammer", 8, -3.7f, ItemTier.IRON);
+		ironHammer = new Hammer("iron_hammer", 8, -3.7f, Tiers.IRON);
 		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterial.steelMaterial);
 		steelWrench = new Wrench("steel_wrench", 0, 0, ToolMaterial.steelMaterial);
 		steelPinchers = new WorkbenchToolItem(
 				"steel_pinchers", 0, 0, ToolMaterial.steelMaterial, Prop(), FAToolTypes.NONE);
-		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, ItemTier.WOOD, Prop(), FAToolTypes.NONE);
+		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Tiers.WOOD, Prop(), FAToolTypes.NONE);
 		advancedFlintAndSteel = new AdvancedFlintAndSteel();
 
 		// misc tools
@@ -301,8 +309,8 @@ public class FAItems
 
 		// misc
 
-		factoryDisc = new MusicDisc("disc_factory", 15, () -> SoundHandler.factoryDisc, Prop().tab(ItemGroup.TAB_MISC));
-		meterDisc = new MusicDisc("disc_meter", 15, () -> SoundHandler.meterDisc, Prop().tab(ItemGroup.TAB_MISC));
+		factoryDisc = new MusicDisc("disc_factory", 15, () -> SoundHandler.factoryDisc, Prop().tab(CreativeModeTab.TAB_MISC));
+		meterDisc = new MusicDisc("disc_meter", 15, () -> SoundHandler.meterDisc, Prop().tab(CreativeModeTab.TAB_MISC));
 	}
 
 	public static Item.Properties Prop()
@@ -312,7 +320,7 @@ public class FAItems
 
 	public static Item.Properties Building()
 	{
-		return Prop().tab(ItemGroup.TAB_BUILDING_BLOCKS);
+		return Prop().tab(CreativeModeTab.TAB_BUILDING_BLOCKS);
 	}
 
 	public static void RegisterItemRenders()

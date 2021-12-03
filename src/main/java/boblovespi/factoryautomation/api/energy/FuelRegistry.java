@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.api.energy;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
 

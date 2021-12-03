@@ -36,7 +36,7 @@ import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
 import boblovespi.factoryautomation.datagen.tags.FABlockTagProvider;
 import boblovespi.factoryautomation.datagen.tags.FAItemTagProvider;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -121,8 +121,8 @@ public class FactoryAutomation
 		// TODO: RenderTypeLookup.setRenderLayer();
 		proxy.RegisterRenders();
 		GuiHandler.RegisterGuis();
-		RenderTypeLookup.setRenderLayer(FABlocks.riceCrop.ToBlock(), RenderType.cutoutMipped());
-		RenderTypeLookup.setRenderLayer(FABlocks.ironWorkbench.ToBlock(), RenderType.cutoutMipped());
+		ItemBlockRenderTypes.setRenderLayer(FABlocks.riceCrop.ToBlock(), RenderType.cutoutMipped());
+		ItemBlockRenderTypes.setRenderLayer(FABlocks.ironWorkbench.ToBlock(), RenderType.cutoutMipped());
 	}
 
 	@SubscribeEvent

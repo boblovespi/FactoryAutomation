@@ -4,11 +4,13 @@ import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 8/26/2018.
@@ -22,7 +24,7 @@ public class BronzeFence extends FenceBlock implements FABlock
 		setRegistryName(RegistryName());
 		// setResistance(10000);
 		FABlocks.blocks.add(this);
-		FAItemBlock item = new FAItemBlock(this, new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
+		FAItemBlock item = new FAItemBlock(this, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
 		FAItems.items.add(item);
 	}
 

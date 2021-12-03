@@ -3,18 +3,18 @@ package boblovespi.factoryautomation.common.block.fluid;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TEPipe;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 import javax.annotation.Nullable;
@@ -36,7 +36,7 @@ public class Pipe extends FABaseBlock
 
 	public Pipe(String name)
 	{
-		super(Material.METAL, name, ItemGroup.TAB_DECORATIONS);
+		super(Material.METAL, name, CreativeModeTab.TAB_DECORATIONS);
 		registerDefaultState(stateDefinition.any().setValue(UP, Connection.NONE).setValue(DOWN, Connection.NONE)
 									 .setValue(NORTH, Connection.NONE).setValue(SOUTH, Connection.NONE)
 									 .setValue(EAST, Connection.NONE).setValue(WEST, Connection.NONE));
@@ -44,18 +44,18 @@ public class Pipe extends FABaseBlock
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(CONNECTIONS);
 	}
 
-	private Connection GetConnectionFor(IBlockReader world, BlockPos pos, Direction side)
+	private Connection GetConnectionFor(BlockGetter world, BlockPos pos, Direction side)
 	{
 		pos = pos.relative(side);
 		if (world.getBlockState(pos).getBlock() instanceof Pipe || world.getBlockState(pos).getBlock() instanceof Pump)
 			return Connection.JOIN;
 
-		TileEntity te = world.getBlockEntity(pos);
+		BlockEntity te = world.getBlockEntity(pos);
 		if (te != null && te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())
 								  .isPresent())
 			return Connection.CONNECTOR;
@@ -69,7 +69,7 @@ public class Pipe extends FABaseBlock
 	 * Note that this method should ideally consider only the specific face passed in.
 	 */
 	@Override
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, IWorld world,
+	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world,
 								  BlockPos currentPos, BlockPos facingPos)
 	{
 		return state.setValue(CONNECTIONS[facing.ordinal()], GetConnectionFor(world, currentPos, facing));
@@ -80,7 +80,7 @@ public class Pipe extends FABaseBlock
 	 */
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader level)
+	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
 	{
 		return new TEPipe();
 	}
@@ -91,7 +91,7 @@ public class Pipe extends FABaseBlock
 		return true;
 	}
 
-	public enum Connection implements IStringSerializable
+	public enum Connection implements StringRepresentable
 	{
 		NONE("none"), CONNECTOR("connector"), JOIN("join");
 

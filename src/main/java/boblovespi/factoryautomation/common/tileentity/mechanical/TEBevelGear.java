@@ -6,11 +6,11 @@ import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -26,7 +26,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEBevelGear extends TileEntity implements ITickableTileEntity
+public class TEBevelGear extends BlockEntity implements TickableBlockEntity
 {
 	public float rotation = 0;
 	private final MechanicalUser user;
@@ -49,14 +49,14 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 	}
 	
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		user.ReadFromNBT(tag.getCompound("user"));
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		tag.put("user", user.WriteToNBT());
 		return super.save(tag);
@@ -87,8 +87,8 @@ public class TEBevelGear extends TileEntity implements ITickableTileEntity
 			Direction negativeFacing = BevelGear.GetNegative(state);
 			Direction positiveFacing = state.getValue(BevelGear.FACING);
 
-			TileEntity front = level.getBlockEntity(worldPosition.relative(positiveFacing));
-			TileEntity back = level.getBlockEntity(worldPosition.relative(negativeFacing));
+			BlockEntity front = level.getBlockEntity(worldPosition.relative(positiveFacing));
+			BlockEntity back = level.getBlockEntity(worldPosition.relative(negativeFacing));
 
 			user.SetSpeedOnFace(negativeFacing, ((IsMechanicalFace(front, positiveFacing.getOpposite()) ?
 					GetUser(front, positiveFacing.getOpposite()).GetSpeedOnFace(positiveFacing.getOpposite()) : 0) + (

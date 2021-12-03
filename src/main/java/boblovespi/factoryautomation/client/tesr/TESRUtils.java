@@ -1,21 +1,21 @@
 package boblovespi.factoryautomation.client.tesr;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.FaceBakery;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.FaceBakery;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Quaternion;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import com.mojang.math.Quaternion;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -24,6 +24,9 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Random;
+
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 
 /**
  * Created by Willi on 7/25/2018.
@@ -41,8 +44,8 @@ public class TESRUtils
 
 	public static Quaternion QuatFromAngleAxis(float deg, float x, float y, float z)
 	{
-		float sin = MathHelper.sin((float) (deg * Math.PI / 360f));
-		return new Quaternion(x * sin, y * sin, z * sin, MathHelper.cos((float) (deg * Math.PI / 360f)));
+		float sin = Mth.sin((float) (deg * Math.PI / 360f));
+		return new Quaternion(x * sin, y * sin, z * sin, Mth.cos((float) (deg * Math.PI / 360f)));
 	}
 
 	public static TextureAtlasSprite GetFlowingTextureFromFluid(FluidStack fluid)
@@ -51,7 +54,7 @@ public class TESRUtils
 						  .apply(ForgeHooksClient.getFluidMaterials(fluid.getFluid()).skip(1).findFirst().get());
 	}
 
-	public static void RenderQuads(MatrixStack matrix, IVertexBuilder buffer, List<BakedQuad> quads, ItemStack stack,
+	public static void RenderQuads(PoseStack matrix, VertexConsumer buffer, List<BakedQuad> quads, ItemStack stack,
 			int combinedLight, int combinedOverlay, int color)
 	{
 		boolean flag = color == -1 && !stack.isEmpty();
@@ -74,8 +77,8 @@ public class TESRUtils
 		}
 	}
 
-	private static void RenderModel(IBakedModel modelIn, ItemStack stack, int combinedLightIn, int combinedOverlayIn,
-			MatrixStack matrixStackIn, IVertexBuilder bufferIn, int color)
+	private static void RenderModel(BakedModel modelIn, ItemStack stack, int combinedLightIn, int combinedOverlayIn,
+			PoseStack matrixStackIn, VertexConsumer bufferIn, int color)
 	{
 		Random random = new Random();
 		long i = 42L;
@@ -94,7 +97,7 @@ public class TESRUtils
 				combinedOverlayIn, color);
 	}
 
-	public static void RenderItemModelFast(IBakedModel model, int color, ItemStack stack, BufferBuilder bufferBuilder,
+	public static void RenderItemModelFast(BakedModel model, int color, ItemStack stack, BufferBuilder bufferBuilder,
 			ItemColors colorMult)
 	{
 		/*// bufferBuilder.begin(7, DefaultVertexFormats.ITEM);
@@ -107,22 +110,22 @@ public class TESRUtils
 		RenderQuads(bufferBuilder, model.getQuads(null, null, random), color, stack, colorMult);*/
 	}
 
-	public static void RenderItemWithColor(ItemStack stack, ItemCameraTransforms.TransformType transforms,
-			boolean leftHand, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLightIn, int combinedOverlayIn,
-			IBakedModel model, int color)
+	public static void RenderItemWithColor(ItemStack stack, ItemTransforms.TransformType transforms,
+			boolean leftHand, PoseStack matrix, MultiBufferSource buffer, int combinedLightIn, int combinedOverlayIn,
+			BakedModel model, int color)
 	{
 		matrix.pushPose();
 		{
-			RenderType rendertype = RenderTypeLookup.getRenderType(stack, true);
+			RenderType rendertype = ItemBlockRenderTypes.getRenderType(stack, true);
 			model = net.minecraftforge.client.ForgeHooksClient
 					.handleCameraTransforms(matrix, model, transforms, leftHand);
-			IVertexBuilder ivertexbuilder = ItemRenderer.getFoilBuffer(buffer, rendertype, true, stack.hasFoil());
+			VertexConsumer ivertexbuilder = ItemRenderer.getFoilBuffer(buffer, rendertype, true, stack.hasFoil());
 			RenderModel(model, stack, combinedLightIn, combinedOverlayIn, matrix, ivertexbuilder, color);
 		}
 		matrix.popPose();
 	}
 
-	public static void RenderBakedModel(IBakedModel model, VertexFormat fmt, int color)
+	public static void RenderBakedModel(BakedModel model, VertexFormat fmt, int color)
 	{
 		/*Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder levelRenderer = tessellator.getBuffer();

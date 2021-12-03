@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TESolidFueledFirebox;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.material.Material;
 
 /**
  * Created by Willi on 10/28/2018.

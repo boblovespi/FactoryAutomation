@@ -2,17 +2,17 @@ package boblovespi.factoryautomation.common.container.workbench;
 
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.IContainerListener;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SSetSlotPacket;
-import net.minecraft.util.IntReferenceHolder;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.world.inventory.DataSlot;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -23,14 +23,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public abstract class ContainerWorkbench extends Container
+public abstract class ContainerWorkbench extends AbstractContainerMenu
 {
 	public final boolean is3x3;
 	protected IItemHandler inv;
-	protected PlayerEntity player;
+	protected Player player;
 
-	public ContainerWorkbench(int id, PlayerInventory playerInv, IItemHandler inv, BlockPos pos, boolean is3x3,
-			ContainerType<?> type)
+	public ContainerWorkbench(int id, Inventory playerInv, IItemHandler inv, BlockPos pos, boolean is3x3,
+			MenuType<?> type)
 	{
 		super(type, id);
 		this.inv = inv;
@@ -79,13 +79,13 @@ public abstract class ContainerWorkbench extends Container
 	}
 
 	@Override
-	public boolean stillValid(PlayerEntity playerIn)
+	public boolean stillValid(Player playerIn)
 	{
 		return !playerIn.isSpectator();
 	}
 
 	@Override
-	public ItemStack quickMoveStack(PlayerEntity playerIn, int fromSlot)
+	public ItemStack quickMoveStack(Player playerIn, int fromSlot)
 	{
 		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.slots.get(fromSlot);
@@ -138,32 +138,32 @@ public abstract class ContainerWorkbench extends Container
 				this.lastSlots.set(i, itemstack1);
 
 				if (clientStackChanged)
-					for (IContainerListener listener : this.containerListeners)
+					for (ContainerListener listener : this.containerListeners)
 					{
-						if (listener instanceof ServerPlayerEntity)
-							((ServerPlayerEntity) listener).connection
-									.send(new SSetSlotPacket(containerId, i, itemstack1));
+						if (listener instanceof ServerPlayer)
+							((ServerPlayer) listener).connection
+									.send(new ClientboundContainerSetSlotPacket(containerId, i, itemstack1));
 						else
 							listener.slotChanged(this, i, itemstack1);
 					}
 			}
 		}
 		if (shouldResendOutput && !hasResentOutput)
-			for (IContainerListener listener : this.containerListeners)
+			for (ContainerListener listener : this.containerListeners)
 			{
-				if (listener instanceof ServerPlayerEntity)
-					((ServerPlayerEntity) listener).connection
-							.send(new SSetSlotPacket(containerId, 0, slots.get(0).getItem()));
+				if (listener instanceof ServerPlayer)
+					((ServerPlayer) listener).connection
+							.send(new ClientboundContainerSetSlotPacket(containerId, 0, slots.get(0).getItem()));
 				else
 					listener.slotChanged(this, 0, slots.get(0).getItem());
 			}
 
 		for (int j = 0; j < this.dataSlots.size(); ++j)
 		{
-			IntReferenceHolder intreferenceholder = this.dataSlots.get(j);
+			DataSlot intreferenceholder = this.dataSlots.get(j);
 			if (intreferenceholder.checkAndClearUpdateFlag())
 			{
-				for (IContainerListener containerListener : this.containerListeners)
+				for (ContainerListener containerListener : this.containerListeners)
 				{
 					containerListener.setContainerData(this, j, intreferenceholder.get());
 				}

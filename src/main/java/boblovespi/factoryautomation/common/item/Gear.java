@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.item;
 
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 /**
  * Created by Willi on 5/6/2018.

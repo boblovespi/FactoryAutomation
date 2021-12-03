@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.api.energy.mechanical;
 
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
 
 /**
  * Created by Willi on 1/15/2018.

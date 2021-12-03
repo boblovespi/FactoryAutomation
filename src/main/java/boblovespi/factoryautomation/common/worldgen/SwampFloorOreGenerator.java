@@ -2,21 +2,21 @@ package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import com.mojang.serialization.Codec;
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 import java.util.Random;
 
 /**
  * Created by Willi on 4/4/2018.
  */
-public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
+public class SwampFloorOreGenerator extends Feature<NoneFeatureConfiguration>
 {
 	private final float spawnChance;
 	private final float lowCutoff;
@@ -24,7 +24,7 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 	private Ore ore;
 	private int radius;
 
-	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance, Codec<NoFeatureConfig> config)
+	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance, Codec<NoneFeatureConfiguration> config)
 	{
 		super(config);
 		this.ore = ore;
@@ -35,10 +35,10 @@ public class SwampFloorOreGenerator extends Feature<NoFeatureConfig>
 	}
 
 	@Override
-	public boolean place(ISeedReader levelIn, ChunkGenerator generator, Random rand, BlockPos basePos, NoFeatureConfig config)
+	public boolean place(WorldGenLevel levelIn, ChunkGenerator generator, Random rand, BlockPos basePos, NoneFeatureConfiguration config)
 	{
 		basePos = basePos.offset(0, generator.getSeaLevel(), 0);
-		if (levelIn.getBiome(basePos).getBiomeCategory() != Biome.Category.SWAMP)
+		if (levelIn.getBiome(basePos).getBiomeCategory() != Biome.BiomeCategory.SWAMP)
 			return false;
 
 		Ore.Grade type;

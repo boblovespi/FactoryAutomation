@@ -1,16 +1,18 @@
 package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 5/24/2018.
@@ -25,7 +27,7 @@ public class GemOre extends FABaseBlock
 	{
 		super(name, false, Properties.of(Material.STONE).strength(data.hardness, data.resistance)
 									 .harvestLevel(data.miningLevel).harvestTool(ToolType.PICKAXE),
-				new Item.Properties().tab(ItemGroup.TAB_BUILDING_BLOCKS));
+				new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
 		this.data = data;
 		random = new Random();
 	}
@@ -68,9 +70,9 @@ public class GemOre extends FABaseBlock
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, IWorldReader level, BlockPos pos, int fortune, int silktouch)
+	public int getExpDrop(BlockState state, LevelReader level, BlockPos pos, int fortune, int silktouch)
 	{
-		Random rand = level instanceof World ? ((World) level).random : random;
+		Random rand = level instanceof Level ? ((Level) level).random : random;
 		return data.xpChance.apply(rand, fortune);
 	}
 

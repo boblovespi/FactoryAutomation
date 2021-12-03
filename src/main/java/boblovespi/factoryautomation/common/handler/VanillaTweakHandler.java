@@ -3,10 +3,10 @@ package boblovespi.factoryautomation.common.handler;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
 import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.item.*;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -16,6 +16,12 @@ import net.minecraftforge.registries.ForgeRegistry;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
+
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Tiers;
 
 /**
  * Created by Willi on 4/30/2018.
@@ -85,12 +91,12 @@ public class VanillaTweakHandler
 	@SyncOnConfigChange(priority = Priority.FIRST)
 	public static void TweakToolLevels()
 	{
-		ItemTier.WOOD.level = ToolMaterial.WOOD;
-		ItemTier.STONE.level = ToolMaterial.STONE;
-		ItemTier.GOLD.level = ToolMaterial.COPPER;
-		ItemTier.IRON.level = ToolMaterial.IRON;
-		ItemTier.DIAMOND.level = ToolMaterial.DIAMOND;
-		ItemTier.NETHERITE.level = ToolMaterial.NETHERITE;
+		Tiers.WOOD.level = ToolMaterial.WOOD;
+		Tiers.STONE.level = ToolMaterial.STONE;
+		Tiers.GOLD.level = ToolMaterial.COPPER;
+		Tiers.IRON.level = ToolMaterial.IRON;
+		Tiers.DIAMOND.level = ToolMaterial.DIAMOND;
+		Tiers.NETHERITE.level = ToolMaterial.NETHERITE;
 
 /*		try
 		{

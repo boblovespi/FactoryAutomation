@@ -11,14 +11,14 @@ import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -40,7 +40,7 @@ import static boblovespi.factoryautomation.common.item.ores.OreForms.*;
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RecipeHandler
 {
-	public static List<IRecipe<?>> recipes;
+	public static List<Recipe<?>> recipes;
 
 	//	private static NonNullList<ItemStack> bronzeCrucibleItems = NonNullList
 	//			.from(ItemStack.EMPTY, new ItemStack(FAItems.nugget.GetItem(Metals.COPPER), 7),
@@ -351,7 +351,7 @@ public class RecipeHandler
 	} */
 
 	@SubscribeEvent
-	public static void RegisterSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event)
+	public static void RegisterSerializers(RegistryEvent.Register<RecipeSerializer<?>> event)
 	{
 		BasicCircuitRecipe.SERIALIZER.setRegistryName(MODID, "basic_circuit");
 		event.getRegistry().register(BasicCircuitRecipe.SERIALIZER);

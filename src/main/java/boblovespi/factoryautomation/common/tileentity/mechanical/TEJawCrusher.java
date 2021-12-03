@@ -11,13 +11,13 @@ import boblovespi.factoryautomation.common.tileentity.TEMachine;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -99,7 +99,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	{
 		if (speed > recipeCache.speedReq / 2 && torque > recipeCache.torqueReq)
 		{
-			return MathHelper.clamp(speed / recipeCache.speedReq, 0.5f, 20) * processingScalar;
+			return Mth.clamp(speed / recipeCache.speedReq, 0.5f, 20) * processingScalar;
 		}
 		return 0;
 	}
@@ -108,7 +108,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	public void Update()
 	{
 		Direction facing = Objects.requireNonNull(level).getBlockState(worldPosition).getValue(JawCrusher.FACING).getCounterClockWise();
-		TileEntity te = level.getBlockEntity(worldPosition.relative(facing));
+		BlockEntity te = level.getBlockEntity(worldPosition.relative(facing));
 		if (TEHelper.IsMechanicalFace(te, facing))
 		{
 			speed = GetUser(te, facing).GetSpeedOnFace(facing);
@@ -172,7 +172,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	}
 
 	@Override
-	protected void ReadCustomNBT(CompoundNBT tag)
+	protected void ReadCustomNBT(CompoundTag tag)
 	{
 		speed = tag.getFloat("speed");
 		torque = tag.getFloat("torque");
@@ -180,7 +180,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 	}
 
 	@Override
-	protected void WriteCustomNBT(CompoundNBT tag)
+	protected void WriteCustomNBT(CompoundTag tag)
 	{
 		tag.putFloat("speed", speed);
 		tag.putFloat("torque", torque);

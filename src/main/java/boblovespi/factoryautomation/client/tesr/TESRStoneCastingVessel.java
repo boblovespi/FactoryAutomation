@@ -1,31 +1,31 @@
 package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Created by Willi on 12/27/2018.
  */
-public class TESRStoneCastingVessel extends TileEntityRenderer<TEStoneCastingVessel>
+public class TESRStoneCastingVessel extends BlockEntityRenderer<TEStoneCastingVessel>
 {
-	private IBakedModel modelCache = null;
+	private BakedModel modelCache = null;
 	private ItemStack itemCache = ItemStack.EMPTY;
 
-	public TESRStoneCastingVessel(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRStoneCastingVessel(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEStoneCastingVessel te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+	public void render(TEStoneCastingVessel te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 		ItemStack item = te.GetRenderStack();
@@ -51,7 +51,7 @@ public class TESRStoneCastingVessel extends TileEntityRenderer<TEStoneCastingVes
 				// Minecraft.getInstance().getItemRenderer()
 				//		 .renderItem(item, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay,
 				//				 matrix, buffer);
-				TESRUtils.RenderItemWithColor(item, ItemCameraTransforms.TransformType.NONE, false, matrix, buffer,
+				TESRUtils.RenderItemWithColor(item, ItemTransforms.TransformType.NONE, false, matrix, buffer,
 						combinedLight, combinedOverlay, modelCache,
 						TESRUtils.RGBAToHex(GetRed(v), GetGreen(v), GetBlue(v), 1));
 			}

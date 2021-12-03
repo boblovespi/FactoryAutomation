@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.container.slot;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;

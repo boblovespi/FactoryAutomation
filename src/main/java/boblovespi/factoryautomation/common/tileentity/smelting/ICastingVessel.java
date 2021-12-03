@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.smelting;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Created by Willi on 4/9/2019.

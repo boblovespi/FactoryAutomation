@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common;
 
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.text.TextComponent;
 
 /**
@@ -29,7 +29,7 @@ public class ServerProxy implements CommonProxy
 	}
 
 	@Override
-	public void AddChatMessage(ChatType type, ITextComponent string)
+	public void AddChatMessage(ChatType type, Component string)
 	{
 
 	}

@@ -1,17 +1,17 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CauldronBlock;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CauldronBlock;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Created by Willi on 4/10/2018.
@@ -20,7 +20,7 @@ public class CauldronCleanable extends FABaseItem
 {
 	private final ItemStack cleanedInto;
 
-	public CauldronCleanable(String unlocalizedName, ItemGroup ct, ItemStack cleanedInto)
+	public CauldronCleanable(String unlocalizedName, CreativeModeTab ct, ItemStack cleanedInto)
 	{
 		super(unlocalizedName, ct);
 		this.cleanedInto = cleanedInto;
@@ -30,16 +30,16 @@ public class CauldronCleanable extends FABaseItem
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public ActionResultType useOn(ItemUseContext context)
+	public InteractionResult useOn(UseOnContext context)
 	{
-		World world = context.getLevel();
+		Level world = context.getLevel();
 		BlockPos pos = context.getClickedPos();
-		PlayerEntity player = context.getPlayer();
+		Player player = context.getPlayer();
 		BlockState state = world.getBlockState(pos);
 		ItemStack item = context.getItemInHand();
 
 		if (!(state.getBlock() instanceof CauldronBlock))
-			return ActionResultType.PASS;
+			return InteractionResult.PASS;
 
 		int i = state.getValue(CauldronBlock.LEVEL);
 
@@ -58,9 +58,9 @@ public class CauldronCleanable extends FABaseItem
 				player.awardStat(Stats.USE_CAULDRON);
 			}
 
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 }

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.api.energy.mechanical;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -80,15 +80,15 @@ public class MechanicalUser implements IMechanicalUser
 		return torque;
 	}
 
-	public CompoundNBT WriteToNBT()
+	public CompoundTag WriteToNBT()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		nbt.putFloat("speed", speed);
 		nbt.putFloat("torque", torque);
 		return nbt;
 	}
 
-	public void ReadFromNBT(CompoundNBT tag)
+	public void ReadFromNBT(CompoundTag tag)
 	{
 		this.speed = tag.getFloat("speed");
 		this.torque = tag.getFloat("torque");

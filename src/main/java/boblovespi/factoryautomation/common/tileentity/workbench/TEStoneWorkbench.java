@@ -2,9 +2,9 @@ package boblovespi.factoryautomation.common.tileentity.workbench;
 
 import boblovespi.factoryautomation.common.container.workbench.ContainerStoneWorkbench;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 
 import javax.annotation.Nullable;
 
@@ -20,7 +20,7 @@ public class TEStoneWorkbench extends TEWorkbench
 
 	@Nullable
 	@Override
-	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player)
 	{
 		return new ContainerStoneWorkbench(id, playerInv, inventory, worldPosition);
 	}

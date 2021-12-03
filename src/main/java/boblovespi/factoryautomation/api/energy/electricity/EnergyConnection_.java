@@ -2,9 +2,9 @@ package boblovespi.factoryautomation.api.energy.electricity;
 
 import boblovespi.factoryautomation.common.util.DimLocation;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
@@ -35,12 +35,12 @@ public class EnergyConnection_
 	}
 
 	@Nullable
-	public static EnergyConnection_ FromNBT(CompoundNBT tag, World level)
+	public static EnergyConnection_ FromNBT(CompoundTag tag, Level level)
 	{
 		EnergyConnection_ en = new EnergyConnection_();
 		DimLocation loc1 = NBTHelper.GetLocationTag(tag, "sourceLoc");
 
-		TileEntity te1 = null;
+		BlockEntity te1 = null;
 		IProducesEnergy_ source = null;
 
 		if (loc1 != null)
@@ -57,7 +57,7 @@ public class EnergyConnection_
 
 		DimLocation loc2 = NBTHelper.GetLocationTag(tag, "sourceLoc");
 
-		TileEntity te2 = null;
+		BlockEntity te2 = null;
 		IRequiresEnergy_ consumer = null;
 
 		if (loc2 != null)
@@ -79,9 +79,9 @@ public class EnergyConnection_
 		return en;
 	}
 
-	public CompoundNBT ToNBT()
+	public CompoundTag ToNBT()
 	{
-		CompoundNBT tag = new CompoundNBT();
+		CompoundTag tag = new CompoundTag();
 		NBTHelper.SetLocationTag(tag, "sourceLoc",
 				/*source.GetTe().getLevel().dimensionType()*/0,
 				source.GetTe().getBlockPos().getX(),

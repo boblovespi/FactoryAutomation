@@ -2,13 +2,13 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.IMachineRecipe;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -21,7 +21,7 @@ import java.util.Objects;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity implements ITickableTileEntity
+public abstract class TEMachine<T extends IMachineRecipe> extends BlockEntity implements TickableBlockEntity
 {
 	protected ItemStackHandler processingInv;
 	protected String recipeName = "none";
@@ -30,7 +30,7 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 	protected float currentProgress = 0;
 	private boolean firstTick = true;
 
-	public TEMachine(int outputSize, TileEntityType<?> tileType)
+	public TEMachine(int outputSize, BlockEntityType<?> tileType)
 	{
 		super(tileType);
 		processingInv = new ItemStackHandler(outputSize + 1)
@@ -133,10 +133,10 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 
 	}
 
-	protected abstract void ReadCustomNBT(CompoundNBT tag);
+	protected abstract void ReadCustomNBT(CompoundTag tag);
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		currentProgress = tag.getFloat("currentProgress");
@@ -146,10 +146,10 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 		ReadCustomNBT(tag);
 	}
 
-	protected abstract void WriteCustomNBT(CompoundNBT tag);
+	protected abstract void WriteCustomNBT(CompoundTag tag);
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		WriteCustomNBT(tag);
 		tag.putFloat("currentProgress", currentProgress);
@@ -161,18 +161,18 @@ public abstract class TEMachine<T extends IMachineRecipe> extends TileEntity imp
 
 	@SuppressWarnings("MethodCallSideOnly")
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
 		this.load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		save(nbt);
 
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 }

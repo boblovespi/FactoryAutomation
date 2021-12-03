@@ -1,11 +1,11 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEPlacedBucket extends TileEntity
+public class TEPlacedBucket extends BlockEntity
 {
 	private final FluidTank handler;
 
@@ -43,14 +43,14 @@ public class TEPlacedBucket extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		handler.writeToNBT(compound);
 		return super.save(compound);
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		super.load(state, compound);
 		handler.readFromNBT(compound);

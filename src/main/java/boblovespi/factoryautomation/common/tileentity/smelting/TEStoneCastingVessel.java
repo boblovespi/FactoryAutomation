@@ -6,23 +6,23 @@ import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -38,8 +38,8 @@ import static boblovespi.factoryautomation.common.block.decoration.StoneCastingV
 @SuppressWarnings("deprecation")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEStoneCastingVessel extends TileEntity
-		implements ITickableTileEntity, ICastingVessel, INamedContainerProvider
+public class TEStoneCastingVessel extends BlockEntity
+		implements TickableBlockEntity, ICastingVessel, MenuProvider
 {
 	private boolean hasSand;
 	private TEStoneCrucible.MetalForms form;
@@ -47,7 +47,7 @@ public class TEStoneCastingVessel extends TileEntity
 	private float temp = 20f;
 	private int counter = 0;
 	private boolean firstTick = true;
-	private IIntArray formData = new IIntArray()
+	private ContainerData formData = new ContainerData()
 	{
 		@Override
 		public int get(int unused)
@@ -125,7 +125,7 @@ public class TEStoneCastingVessel extends TileEntity
 		return stack;
 	}
 
-	public void TakeOrPlace(ItemStack item, PlayerEntity player)
+	public void TakeOrPlace(ItemStack item, Player player)
 	{
 		if (!slot.getStackInSlot(0).isEmpty())
 		{
@@ -142,7 +142,7 @@ public class TEStoneCastingVessel extends TileEntity
 			{
 				player.hurt(DamageSource.GENERIC, (temp - 40f) / (temp + 100f) * 20f);
 				player.displayClientMessage(
-						new StringTextComponent("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
+						new TextComponent("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
 			}
 		} else if (item.getItem() == Item.byBlock(FABlocks.greenSand.ToBlock())
 				&& getBlockState().getValue(MOLD) == CastingVesselStates.EMPTY)
@@ -174,7 +174,7 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		slot.deserializeNBT(tag.getCompound("slot"));
@@ -184,7 +184,7 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		tag.put("slot", slot.serializeNBT());
 		tag.putBoolean("hasSand", hasSand);
@@ -235,30 +235,30 @@ public class TEStoneCastingVessel extends TileEntity
 	}
 
 	@Override
-	public ITextComponent getDisplayName()
+	public Component getDisplayName()
 	{
-		return new StringTextComponent("");
+		return new TextComponent("");
 	}
 
 	@Nullable
 	@Override
-	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player)
 	{
 		return new ContainerStoneCastingVessel(id, playerInv, worldPosition, formData);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
 		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 }

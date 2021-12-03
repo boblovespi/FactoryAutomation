@@ -4,22 +4,30 @@ import boblovespi.factoryautomation.common.item.FABaseItem;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.UseAction;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
+
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 2/15/2019.
@@ -43,20 +51,20 @@ public class Firebow extends FABaseItem
 	 * Called when a Block is right-clicked with this Item
 	 */
 	@Override
-	public ActionResultType useOn(ItemUseContext context)
+	public InteractionResult useOn(UseOnContext context)
 	{
 		Objects.requireNonNull(context.getPlayer()).startUsingItem(context.getHand());
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	/**
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> use(World level, PlayerEntity player, Hand hand)
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
 	{
 		player.startUsingItem(hand);
-		return ActionResult.pass(player.getItemInHand(hand));
+		return InteractionResultHolder.pass(player.getItemInHand(hand));
 	}
 
 	/**
@@ -64,15 +72,15 @@ public class Firebow extends FABaseItem
 	 * the Item before the action is complete.
 	 */
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, World world, LivingEntity living)
+	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity living)
 	{
-		if (!(living instanceof PlayerEntity))
+		if (!(living instanceof Player))
 			return stack;
-		PlayerEntity player = (PlayerEntity) living;
-		BlockRayTraceResult rayTrace = getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE);
+		Player player = (Player) living;
+		BlockHitResult rayTrace = getPlayerPOVHitResult(world, player, ClipContext.Fluid.NONE);
 
 		// Todo: remove rayTrace null check, it shouldn't be null anyways.
-		if (rayTrace == null || rayTrace.getType() != RayTraceResult.Type.BLOCK)
+		if (rayTrace == null || rayTrace.getType() != HitResult.Type.BLOCK)
 			return stack;
 		BlockPos pos = rayTrace.getBlockPos();
 		Direction facing = rayTrace.getDirection();
@@ -85,14 +93,14 @@ public class Firebow extends FABaseItem
 		{
 			if (world.isEmptyBlock(pos))
 			{
-				world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
+				world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F,
 						random.nextFloat() * 0.4F + 0.8F);
 				world.setBlock(pos, Blocks.FIRE.defaultBlockState(), 11);
 			}
 
-			if (player instanceof ServerPlayerEntity)
+			if (player instanceof ServerPlayer)
 			{
-				CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) player, pos, stack);
+				CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, pos, stack);
 			}
 
 			stack.hurtAndBreak(1, player, n -> n.broadcastBreakEvent(player.getUsedItemHand()));
@@ -113,8 +121,8 @@ public class Firebow extends FABaseItem
 	 * returns the action that specifies what animation to play when the items is being used
 	 */
 	@Override
-	public UseAction getUseAnimation(ItemStack stack)
+	public UseAnim getUseAnimation(ItemStack stack)
 	{
-		return UseAction.BOW;
+		return UseAnim.BOW;
 	}
 }

@@ -3,15 +3,15 @@ package boblovespi.factoryautomation.client.gui;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.gui.component.GuiBar;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Willi on 12/24/2017.
  */
-public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingFurnace>
+public class GuiSteelmakingFurnace extends AbstractContainerScreen<ContainerSteelmakingFurnace>
 {
 	private GuiBar flameBar;
 	private GuiBar airTankBar;
@@ -27,10 +27,10 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 	private GuiBar tempBar;
 	private GuiBar progressBar;
 
-	public GuiSteelmakingFurnace(ContainerSteelmakingFurnace container, PlayerInventory playerInv,
-								 ITextComponent unused)
+	public GuiSteelmakingFurnace(ContainerSteelmakingFurnace container, Inventory playerInv,
+								 Component unused)
 	{
-		super(container, playerInv, new TranslationTextComponent("gui.steelmaking_furnace"));
+		super(container, playerInv, new TranslatableComponent("gui.steelmaking_furnace"));
 
 		this.imageWidth = 176;
 		this.imageHeight = 180;
@@ -46,7 +46,7 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 	 * Draws the background layer of this container (behind the items).
 	 */
 	@Override
-	protected void renderBg(MatrixStack matrix, float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(PoseStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
 		GlStateManager._blendColor(1, 1, 1, 1);
 		minecraft.getTextureManager().bind(
@@ -63,7 +63,7 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 	}
 
 	@Override
-	protected void renderLabels(MatrixStack matrix, int mouseX, int mouseY)
+	protected void renderLabels(PoseStack matrix, int mouseX, int mouseY)
 	{
 		drawCenteredString(matrix, minecraft.font, "Steelmaking Furnace", 112, 6, 180 + 100 * 256 + 100 * 256 * 256);
 		font.draw(matrix, inventory.getDisplayName(), 100, this.imageHeight - 96 + 2, 4210752);
@@ -71,7 +71,7 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 	}
 
 	@Override
-	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		renderBackground(matrix);
 		super.render(matrix, mouseX, mouseY, partialTicks);
@@ -79,12 +79,12 @@ public class GuiSteelmakingFurnace extends ContainerScreen<ContainerSteelmakingF
 	}
 
 	@Override
-	protected void renderTooltip(MatrixStack matrix, int mouseX, int mouseY)
+	protected void renderTooltip(PoseStack matrix, int mouseX, int mouseY)
 	{
 		super.renderTooltip(matrix, mouseX, mouseY);
 		if (isHovering(48, 7, 6, 61, mouseX, mouseY))
 		{
-			ITextComponent text = new StringTextComponent(I18n.get("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", menu.GetBar(3) / 10f));
+			Component text = new TextComponent(I18n.get("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", menu.GetBar(3) / 10f));
 			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 	}

@@ -4,15 +4,15 @@ import boblovespi.factoryautomation.common.item.tools.Hammer;
 import boblovespi.factoryautomation.common.util.Randoms;
 import com.google.gson.JsonObject;
 import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
@@ -31,7 +31,7 @@ public class HammerRecipe extends ShapedRecipe
 	}
 
 	@Override
-	public NonNullList<ItemStack> getRemainingItems(CraftingInventory inv)
+	public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv)
 	{
 		NonNullList<ItemStack> list = super.getRemainingItems(inv);
 		for (int i = 0; i < list.size(); i++)
@@ -49,31 +49,31 @@ public class HammerRecipe extends ShapedRecipe
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer()
+	public RecipeSerializer<?> getSerializer()
 	{
 		return SERIALIZER;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
-			implements IRecipeSerializer<HammerRecipe>
+	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
+			implements RecipeSerializer<HammerRecipe>
 	{
 		@Override
 		public HammerRecipe fromJson(ResourceLocation recipeId, JsonObject json)
 		{
-			return (HammerRecipe) IRecipeSerializer.SHAPED_RECIPE.fromJson(recipeId, json);
+			return (HammerRecipe) RecipeSerializer.SHAPED_RECIPE.fromJson(recipeId, json);
 		}
 
 		@Nullable
 		@Override
-		public HammerRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
+		public HammerRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
 		{
-			return (HammerRecipe) IRecipeSerializer.SHAPED_RECIPE.fromNetwork(recipeId, buffer);
+			return (HammerRecipe) RecipeSerializer.SHAPED_RECIPE.fromNetwork(recipeId, buffer);
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, HammerRecipe recipe)
+		public void toNetwork(FriendlyByteBuf buffer, HammerRecipe recipe)
 		{
-			IRecipeSerializer.SHAPED_RECIPE.toNetwork(buffer, recipe);
+			RecipeSerializer.SHAPED_RECIPE.toNetwork(buffer, recipe);
 		}
 	}
 }

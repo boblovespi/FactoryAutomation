@@ -7,8 +7,8 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -64,7 +64,7 @@ public class ClientProxy implements CommonProxy
 	}
 
 	@Override
-	public void AddChatMessage(ChatType type, ITextComponent string)
+	public void AddChatMessage(ChatType type, Component string)
 	{
 		Minecraft.getInstance().gui.handleChat(type, string, Minecraft.getInstance().player.getUUID());
 	}

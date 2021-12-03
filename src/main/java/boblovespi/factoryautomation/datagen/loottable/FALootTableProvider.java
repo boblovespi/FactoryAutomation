@@ -3,13 +3,13 @@ package boblovespi.factoryautomation.datagen.loottable;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.LootTableProvider;
+import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.loot.*;
-import net.minecraft.loot.LootParameterSet;
-import net.minecraft.loot.LootParameterSets;
-import net.minecraft.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.loot.PiglinBarteringAddition;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 
 public class FALootTableProvider extends LootTableProvider
 {
-	private final List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> tables = new ArrayList<>();
+	private final List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> tables = new ArrayList<>();
 
 	public FALootTableProvider(DataGenerator dataGeneratorIn)
 	{
@@ -27,15 +27,15 @@ public class FALootTableProvider extends LootTableProvider
 	}
 
 	@Override
-	protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> getTables()
+	protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables()
 	{
 		tables.addAll(ImmutableList.of(
-				Pair.of(FishingLootTables::new, LootParameterSets.FISHING),
-				Pair.of(ChestLootTables::new, LootParameterSets.CHEST),
-				Pair.of(EntityLootTables::new, LootParameterSets.ENTITY),
-				Pair.of(PiglinBarteringAddition::new, LootParameterSets.PIGLIN_BARTER),
-				Pair.of(GiftLootTables::new, LootParameterSets.GIFT)));
-		tables.add(Pair.of(FABlockLootTables::new, LootParameterSets.BLOCK));
+				Pair.of(FishingLoot::new, LootContextParamSets.FISHING),
+				Pair.of(ChestLoot::new, LootContextParamSets.CHEST),
+				Pair.of(EntityLoot::new, LootContextParamSets.ENTITY),
+				Pair.of(PiglinBarterLoot::new, LootContextParamSets.PIGLIN_BARTER),
+				Pair.of(GiftLoot::new, LootContextParamSets.GIFT)));
+		tables.add(Pair.of(FABlockLootTables::new, LootContextParamSets.BLOCK));
 		return tables;
 	}
 }

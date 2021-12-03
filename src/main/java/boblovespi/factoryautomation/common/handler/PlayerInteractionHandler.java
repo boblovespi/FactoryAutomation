@@ -3,14 +3,14 @@ package boblovespi.factoryautomation.common.handler;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -31,7 +31,7 @@ public class PlayerInteractionHandler
 		Item item = stack.getItem();
 		BlockPos pos = event.getPos();
 		Direction facing = event.getFace();
-		World world = event.getWorld();
+		Level world = event.getWorld();
 
 		if (item == Items.BUCKET && event.getEntityLiving().isCrouching())
 		{
@@ -52,18 +52,18 @@ public class PlayerInteractionHandler
 	{
 		if (!event.getWorld().isClientSide)
 		{
-			if (event.getEntity() instanceof PlayerEntity && !(event.getEntity() instanceof FakePlayer)) // is player
+			if (event.getEntity() instanceof Player && !(event.getEntity() instanceof FakePlayer)) // is player
 			{
-				PlayerEntity player = (PlayerEntity) event.getEntity();
-				if (!player.getPersistentData().contains(PlayerEntity.PERSISTED_NBT_TAG))
-					player.getPersistentData().put(PlayerEntity.PERSISTED_NBT_TAG, new CompoundNBT());
+				Player player = (Player) event.getEntity();
+				if (!player.getPersistentData().contains(Player.PERSISTED_NBT_TAG))
+					player.getPersistentData().put(Player.PERSISTED_NBT_TAG, new CompoundTag());
 
-				if (!player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG)
+				if (!player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG)
 						   .contains("faGuidebookReceived") && ModList.get().isLoaded("patchouli"))
 				{
 					player.addItem(ModCompatHandler.GetGuidebook());
 
-					player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG)
+					player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG)
 						  .putBoolean("faGuidebookReceived", true);
 				}
 			}

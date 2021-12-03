@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.item.ores;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import static boblovespi.factoryautomation.common.item.ores.OreForms.Stage.*;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public enum OreForms implements IMultiTypeEnum, IStringSerializable
+public enum OreForms implements IMultiTypeEnum, StringRepresentable
 {
 	CHUNK(NORMAL, Stage.CHUNK),
 	NORMAL_GRAVEL(NORMAL, GRAVEL),

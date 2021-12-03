@@ -4,12 +4,12 @@ import boblovespi.factoryautomation.common.block.resource.Rock;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.blockplacer.BlockPlacer;
-import net.minecraft.world.gen.blockplacer.BlockPlacerType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.feature.blockplacers.BlockPlacer;
+import net.minecraft.world.level.levelgen.feature.blockplacers.BlockPlacerType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -51,13 +51,13 @@ public class RockBlockPlacer extends BlockPlacer
 	}
 
 	@Override
-	public void place(IWorld level, BlockPos pos, BlockState state, Random random)
+	public void place(LevelAccessor level, BlockPos pos, BlockState state, Random random)
 	{
 		Biome biome = level.getBiome(pos);
-		if (biome.getBiomeCategory() == Biome.Category.DESERT)
+		if (biome.getBiomeCategory() == Biome.BiomeCategory.DESERT)
 		{
 			level.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.SANDSTONE), 2);
-		} else if (biome.getBiomeCategory() == Biome.Category.SWAMP || biome.getBiomeCategory() == Biome.Category.TAIGA)
+		} else if (biome.getBiomeCategory() == Biome.BiomeCategory.SWAMP || biome.getBiomeCategory() == Biome.BiomeCategory.TAIGA)
 		{
 			level.setBlock(pos, state.setValue(VARIANTS, Rock.Variants.MOSSY_COBBLESTONE), 2);
 		} else

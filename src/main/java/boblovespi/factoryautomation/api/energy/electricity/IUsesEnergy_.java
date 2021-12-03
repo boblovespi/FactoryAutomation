@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.api.energy.electricity;
 
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 /**
  * Created by Willi on 4/12/2017.
@@ -21,7 +21,7 @@ public interface IUsesEnergy_
 
 	boolean IsActive();
 
-	TileEntity GetTe();
+	BlockEntity GetTe();
 
 	/**
 	 * Add a connection to the machine

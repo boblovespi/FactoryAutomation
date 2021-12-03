@@ -6,18 +6,18 @@ import boblovespi.factoryautomation.common.container.slot.SlotRestrictedPredicat
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -35,16 +35,16 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ContainerBlastFurnace extends Container
+public class ContainerBlastFurnace extends AbstractContainerMenu
 {
-	public static final ContainerType<ContainerBlastFurnace> TYPE = IForgeContainerType
+	public static final MenuType<ContainerBlastFurnace> TYPE = IForgeContainerType
 			.create(ContainerBlastFurnace::new);
 	private TEBlastFurnaceController te;
 	private final IItemHandler handler;
-	private final IIntArray progressBars;
+	private final ContainerData progressBars;
 
 	// server-side container
-	public ContainerBlastFurnace(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray progressBars,
+	public ContainerBlastFurnace(int id, Inventory playerInv, IItemHandler inv, ContainerData progressBars,
 			BlockPos pos)
 	{
 		super(TYPE, id);
@@ -79,19 +79,19 @@ public class ContainerBlastFurnace extends Container
 	}
 
 	// client-side constructor
-	public ContainerBlastFurnace(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	public ContainerBlastFurnace(int id, Inventory playerInv, FriendlyByteBuf extraData)
 	{
-		this(id, playerInv, new ItemStackHandler(7), new IntArray(4), extraData.readBlockPos());
+		this(id, playerInv, new ItemStackHandler(7), new SimpleContainerData(4), extraData.readBlockPos());
 	}
 
 	@Override
-	public boolean stillValid(PlayerEntity playerIn)
+	public boolean stillValid(Player playerIn)
 	{
 		return !playerIn.isSpectator();
 	}
 
 	@Override
-	public ItemStack quickMoveStack(PlayerEntity playerIn, int fromSlot)
+	public ItemStack quickMoveStack(Player playerIn, int fromSlot)
 	{
 		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.slots.get(fromSlot);
@@ -127,7 +127,7 @@ public class ContainerBlastFurnace extends Container
 		return previous;
 	}
 
-	public IIntArray GetProgressBars()
+	public ContainerData GetProgressBars()
 	{
 		return progressBars;
 	}

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.util;
 
 import boblovespi.factoryautomation.common.util.patchouli.PatchouliHelper;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.ModList;
 
 /**

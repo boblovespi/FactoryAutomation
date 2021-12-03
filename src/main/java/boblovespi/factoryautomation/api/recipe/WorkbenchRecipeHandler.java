@@ -7,13 +7,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.lwjgl.system.CallbackI;
@@ -28,7 +28,7 @@ import java.util.Map;
 public class WorkbenchRecipeHandler
 {
 	public static final HashMap<ResourceLocation, IWorkbenchRecipe> recipes = new HashMap<>(50);
-	public static final IRecipeType<IWorkbenchRecipe> WORKBENCH_RECIPE_TYPE = IRecipeType.register("workbench_recipe");
+	public static final RecipeType<IWorkbenchRecipe> WORKBENCH_RECIPE_TYPE = RecipeType.register("workbench_recipe");
 	public static final ShapedSerializer SHAPED_SERIALIZER = new ShapedSerializer();
 
 	public static void AddRecipe(ResourceLocation id, IWorkbenchRecipe recipe)
@@ -164,7 +164,7 @@ public class WorkbenchRecipeHandler
 	private static void AddFromJson(JsonObject json, ResourceLocation id)
 	{
 		// System.out.println("json = [" + json + "], context = [" + context + "], id = [" + id + "]");
-		ResourceLocation type = new ResourceLocation(JSONUtils.getAsString(json, "type"));
+		ResourceLocation type = new ResourceLocation(GsonHelper.getAsString(json, "type"));
 		if (type.equals(new ResourceLocation("factoryautomation", "workbench_shaped")))
 		{
 			AddRecipe(id, DeserializeShapedFromJson(json));
@@ -173,18 +173,18 @@ public class WorkbenchRecipeHandler
 
 	private static IWorkbenchRecipe DeserializeShapedFromJson(JsonObject json)
 	{
-		int tier = JSONUtils.getAsInt(json, "tier");
-		JsonArray pattern = JSONUtils.getAsJsonArray(json, "pattern");
-		Map<String, Ingredient> key = DeserializeKeyFromJson(JSONUtils.getAsJsonObject(json, "key"));
+		int tier = GsonHelper.getAsInt(json, "tier");
+		JsonArray pattern = GsonHelper.getAsJsonArray(json, "pattern");
+		Map<String, Ingredient> key = DeserializeKeyFromJson(GsonHelper.getAsJsonObject(json, "key"));
 
 		Ingredient[][] ingredients = DeserializePatternFromJson(pattern, key);
 
-		JsonObject toolJson = JSONUtils.getAsJsonObject(json, "tools");
-		JsonObject partJson = JSONUtils.getAsJsonObject(json, "parts");
+		JsonObject toolJson = GsonHelper.getAsJsonObject(json, "tools");
+		JsonObject partJson = GsonHelper.getAsJsonObject(json, "parts");
 
 		HashMap<WorkbenchTool.Instance, Integer> tools = DeserializeToolsFromJson(toolJson);
 		HashMap<WorkbenchPart.Instance, Integer> parts = DeserializePartsFromJson(partJson);
-		ItemStack result = CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(json, "result"), true);
+		ItemStack result = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "result"), true);
 
 		return new ShapedWorkbenchRecipe(tier, ingredients, tools, parts, result);
 	}
@@ -240,10 +240,10 @@ public class WorkbenchRecipeHandler
 				Log.LogWarning(entry.getKey() + " is not a registered tool, but is used in a recipe!");
 			} else
 			{
-				JsonObject toolInfo = JSONUtils.convertToJsonObject(entry.getValue().getAsJsonObject(), entry.getKey());
+				JsonObject toolInfo = GsonHelper.convertToJsonObject(entry.getValue().getAsJsonObject(), entry.getKey());
 				WorkbenchTool.Instance toolInstance = WorkbenchTool.Instance
-						.FromTool(tool, JSONUtils.getAsInt(toolInfo, "tier"));
-				int durabilityUse = JSONUtils.getAsInt(toolInfo, "durabilityUse");
+						.FromTool(tool, GsonHelper.getAsInt(toolInfo, "tier"));
+				int durabilityUse = GsonHelper.getAsInt(toolInfo, "durabilityUse");
 				map.put(toolInstance, durabilityUse);
 			}
 		}
@@ -262,10 +262,10 @@ public class WorkbenchRecipeHandler
 				Log.LogWarning(entry.getKey() + " is not a registered part, but is used in a recipe!");
 			} else
 			{
-				JsonObject partInfo = JSONUtils.convertToJsonObject(entry.getValue().getAsJsonObject(), entry.getKey());
+				JsonObject partInfo = GsonHelper.convertToJsonObject(entry.getValue().getAsJsonObject(), entry.getKey());
 				WorkbenchPart.Instance partInstance = WorkbenchPart.Instance
-						.FromPart(part, JSONUtils.getAsInt(partInfo, "tier"));
-				int itemUse = JSONUtils.getAsInt(partInfo, "itemUse");
+						.FromPart(part, GsonHelper.getAsInt(partInfo, "tier"));
+				int itemUse = GsonHelper.getAsInt(partInfo, "itemUse");
 				map.put(partInstance, itemUse);
 			}
 		}
@@ -273,7 +273,7 @@ public class WorkbenchRecipeHandler
 		return map;
 	}
 
-	private static HashMap<WorkbenchTool.Instance, Integer> DeserializeToolsFromBuffer(PacketBuffer buffer)
+	private static HashMap<WorkbenchTool.Instance, Integer> DeserializeToolsFromBuffer(FriendlyByteBuf buffer)
 	{
 		HashMap<WorkbenchTool.Instance, Integer> map = new HashMap<>();
 		int l = buffer.readByte();
@@ -296,7 +296,7 @@ public class WorkbenchRecipeHandler
 		return map;
 	}
 
-	private static HashMap<WorkbenchPart.Instance, Integer> DeserializePartsFromBuffer(PacketBuffer buffer)
+	private static HashMap<WorkbenchPart.Instance, Integer> DeserializePartsFromBuffer(FriendlyByteBuf buffer)
 	{
 		HashMap<WorkbenchPart.Instance, Integer> map = new HashMap<>();
 		int l = buffer.readByte();
@@ -319,8 +319,8 @@ public class WorkbenchRecipeHandler
 		return map;
 	}
 
-	public static class ShapedSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
-			implements IRecipeSerializer<ShapedWorkbenchRecipe>
+	public static class ShapedSerializer extends ForgeRegistryEntry<RecipeSerializer<?>>
+			implements RecipeSerializer<ShapedWorkbenchRecipe>
 	{
 		@Override
 		public ShapedWorkbenchRecipe fromJson(ResourceLocation recipeId, JsonObject json)
@@ -330,7 +330,7 @@ public class WorkbenchRecipeHandler
 
 		@Nullable
 		@Override
-		public ShapedWorkbenchRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
+		public ShapedWorkbenchRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
 		{
 			int tier = buffer.readInt();
 			int sizeX = buffer.readInt();
@@ -350,7 +350,7 @@ public class WorkbenchRecipeHandler
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, ShapedWorkbenchRecipe recipe)
+		public void toNetwork(FriendlyByteBuf buffer, ShapedWorkbenchRecipe recipe)
 		{
 			buffer.writeInt(recipe.GetTier());
 			buffer.writeInt(recipe.GetSizeX());

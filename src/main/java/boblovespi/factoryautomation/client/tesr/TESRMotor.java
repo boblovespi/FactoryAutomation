@@ -5,33 +5,33 @@ import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.client.model.ElectricEngine2;
 import boblovespi.factoryautomation.common.block.machine.Motor;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 5/26/2018.
  */
-public class TESRMotor extends TileEntityRenderer<TEMotor>
+public class TESRMotor extends BlockEntityRenderer<TEMotor>
 {
 	private ElectricEngine2 engineModel = new ElectricEngine2();
 
-	public TESRMotor(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRMotor(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEMotor te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLight,
+	public void render(TEMotor te, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int combinedLight,
 			int combinedOverlay)
 	{
 		// if (!te.hasWorld() || te.getWorld().getBlockState(te.getPos()).getBlock() != FABlocks.motor)

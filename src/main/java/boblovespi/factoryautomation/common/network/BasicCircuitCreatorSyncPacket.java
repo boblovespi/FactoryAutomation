@@ -4,11 +4,11 @@ import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreato
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -72,12 +72,12 @@ public class BasicCircuitCreatorSyncPacket
 
 		ctx.get().enqueueWork(() ->
 		{
-			ServerPlayerEntity player = ctx.get().getSender();
-			ServerWorld world = player.getLevel();
+			ServerPlayer player = ctx.get().getSender();
+			ServerLevel world = player.getLevel();
 
 			if (world.hasChunkAt(te))
 			{
-				TileEntity te = world.getBlockEntity(this.te);
+				BlockEntity te = world.getBlockEntity(this.te);
 				if (te instanceof TEBasicCircuitCreator
 						&& player.containerMenu instanceof ContainerBasicCircuitCreator
 						&& ((ContainerBasicCircuitCreator) player.containerMenu).GetPos().equals(this.te))

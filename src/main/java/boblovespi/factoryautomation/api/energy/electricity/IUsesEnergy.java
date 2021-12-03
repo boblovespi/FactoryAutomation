@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.api.energy.electricity;
 
 import boblovespi.factoryautomation.api.energy.electricity.enums.VoltageTier;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface IUsesEnergy
 	/**
 	 * Gets the TileEntity of the machine for internal use
 	 */
-	TileEntity GetTe();
+	BlockEntity GetTe();
 
 	/**
 	 * Gets the voltage tier of the machine

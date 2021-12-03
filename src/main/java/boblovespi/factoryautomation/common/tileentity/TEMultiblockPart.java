@@ -3,11 +3,11 @@ package boblovespi.factoryautomation.common.tileentity;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -25,7 +25,7 @@ import static boblovespi.factoryautomation.common.tileentity.TileEntityHandler.t
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEMultiblockPart extends TileEntity
+public class TEMultiblockPart extends BlockEntity
 {
 	private int[] structurePosition = new int[3]; // the position of the block in the structure measured by {+x, +y, +z}
 	private String structureId = null; // the id of the multiblock structure
@@ -71,7 +71,7 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		super.load(state, compound);
 		structurePosition = compound.getIntArray("structurePosition");
@@ -81,7 +81,7 @@ public class TEMultiblockPart extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		compound.putIntArray("structurePosition", structurePosition);
 		compound.putString("structure", structureId);

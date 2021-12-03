@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item.types;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -10,7 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public enum TallowForms implements IMultiTypeEnum, IStringSerializable
+public enum TallowForms implements IMultiTypeEnum, StringRepresentable
 {
 	CUBE("cube"), INGOT("ingot"), SHEET("sheet"), COIN("coin"), NUGGET("nugget"), ROD("rod"), GEAR("gear");
 

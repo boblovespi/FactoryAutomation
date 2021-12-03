@@ -7,24 +7,24 @@ package boblovespi.factoryautomation.api.energy.electricity;
 
 import boblovespi.factoryautomation.api.IUpdatable;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.DimensionSavedDataManager;
-import net.minecraft.world.storage.WorldSavedData;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
-public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
+public class EnergyNetwork_ extends SavedData implements IUpdatable
 {
 	private static final int maxGridSize = 256;
 	private static final String DATA_NAME = MODID + "_EnergyNetwork_";
 	private static boolean isLoaded = false;
 	private List<EnergyConnection_> connections;
-	private CompoundNBT uninitData;
+	private CompoundTag uninitData;
 	private boolean isInit = false;
 
 	public EnergyNetwork_()
@@ -33,13 +33,13 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 		connections = new ArrayList<>(maxGridSize);
 	}
 
-	public static EnergyNetwork_ GetFromWorld(ServerWorld world)
+	public static EnergyNetwork_ GetFromWorld(ServerLevel world)
 	{
 		System.out.println("Loading energy network!");
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		EnergyNetwork_ instance;
-		DimensionSavedDataManager storage = world.getDataStorage();
+		DimensionDataStorage storage = world.getDataStorage();
 		try
 		{
 			instance = storage.get(EnergyNetwork_::new, DATA_NAME);
@@ -64,7 +64,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public void load(CompoundNBT nbt)
+	public void load(CompoundTag nbt)
 	{
 		//		for (int i = 0; i < nbt.getSize(); i++)
 		//		{
@@ -76,7 +76,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT nbt)
+	public CompoundTag save(CompoundTag nbt)
 	{
 		for (int i = 0; i < connections.size(); i++)
 		{
@@ -85,7 +85,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 		return nbt;
 	}
 
-	public void Update(World level)
+	public void Update(Level level)
 	{
 		if (!isInit)
 			Init(level);
@@ -95,7 +95,7 @@ public class EnergyNetwork_ extends WorldSavedData implements IUpdatable
 		setDirty();
 	}
 
-	private void Init(World level)
+	private void Init(Level level)
 	{
 		if (uninitData != null)
 		{

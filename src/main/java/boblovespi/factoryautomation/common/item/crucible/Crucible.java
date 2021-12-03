@@ -4,16 +4,18 @@ import boblovespi.factoryautomation.common.item.FABaseItem;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 4/8/2018.
@@ -31,7 +33,7 @@ public abstract class Crucible extends FABaseItem
 	 * Called when the equipped item is right clicked.
 	 */
 	@Override
-	public ActionResult<ItemStack> use(World world, PlayerEntity playerIn, Hand handIn)
+	public InteractionResultHolder<ItemStack> use(Level world, Player playerIn, InteractionHand handIn)
 	{
 		ItemStack stack = playerIn.getItemInHand(handIn);
 
@@ -50,9 +52,9 @@ public abstract class Crucible extends FABaseItem
 				}
 			}
 
-			return new ActionResult<>(ActionResultType.SUCCESS, new ItemStack(this));
+			return new InteractionResultHolder<>(InteractionResult.SUCCESS, new ItemStack(this));
 		}
 
-		return new ActionResult<>(ActionResultType.PASS, stack);
+		return new InteractionResultHolder<>(InteractionResult.PASS, stack);
 	}
 }

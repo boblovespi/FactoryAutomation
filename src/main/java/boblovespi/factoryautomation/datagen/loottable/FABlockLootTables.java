@@ -6,19 +6,19 @@ import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
-import net.minecraft.data.loot.BlockLootTables;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Items;
-import net.minecraft.loot.ItemLootEntry;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.RandomValueRange;
-import net.minecraft.loot.conditions.BlockStateProperty;
-import net.minecraft.loot.functions.ApplyBonus;
-import net.minecraft.loot.functions.SetCount;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.RandomValueBounds;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 
-public class FABlockLootTables extends BlockLootTables
+public class FABlockLootTables extends BlockLoot
 {
 	@Override
 	protected void addTables()
@@ -33,13 +33,13 @@ public class FABlockLootTables extends BlockLootTables
 		// misc
 		dropSelf(FABlocks.concrete.ToBlock());
 		add(FABlocks.riceCrop.ToBlock(),
-				LootTable.lootTable().withPool(LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.riceGrain)))
+				LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(FAItems.riceGrain)))
 						.withPool(LootPool.lootPool().when(
-								BlockStateProperty.hasBlockStateProperties(FABlocks.riceCrop.ToBlock()).setProperties(
+								LootItemBlockStatePropertyCondition.hasBlockStateProperties(FABlocks.riceCrop.ToBlock()).setProperties(
 										StatePropertiesPredicate.Builder.properties().hasProperty(RiceCrop.AGE, 7)))
-										  .add(ItemLootEntry.lootTableItem(FAItems.riceGrain))
-										  .apply(SetCount.setCount(RandomValueRange.between(0, 3)))
-										  .apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
+										  .add(LootItem.lootTableItem(FAItems.riceGrain))
+										  .apply(SetItemCountFunction.setCount(RandomValueBounds.between(0, 3)))
+										  .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 		add(FABlocks.concreteSlab, createSlabItemTable(FABlocks.concreteSlab));
 		// handle multiblock part separately
 		add(FABlocks.multiblockPart.ToBlock(), noDrop());
@@ -89,8 +89,8 @@ public class FABlockLootTables extends BlockLootTables
 			dropSelf(FABlocks.magnetiteOre.GetBlock(grade));
 		}
 		add(FABlocks.siliconQuartzOre.ToBlock(), LootTable.lootTable().withPool(
-				LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.siliconQuartz))
-						.apply(ApplyBonus.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+				LootPool.lootPool().add(LootItem.lootTableItem(FAItems.siliconQuartz))
+						.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
 		dropSelf(FABlocks.rock.ToBlock());
 		dropOther(FABlocks.flintRock.ToBlock(), Items.FLINT);
 
@@ -133,18 +133,18 @@ public class FABlockLootTables extends BlockLootTables
 		// resource blocks
 		dropSelf(FABlocks.greenSand.ToBlock());
 		add(FABlocks.charcoalPile.ToBlock(), LootTable.lootTable().withPool(
-				LootPool.lootPool().add(ItemLootEntry.lootTableItem(Items.CHARCOAL))
-						.apply(SetCount.setCount(RandomValueRange.between(7, 10)))
-						.apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
+				LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL))
+						.apply(SetItemCountFunction.setCount(RandomValueBounds.between(7, 10)))
+						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 		dropSelf(FABlocks.logPile.ToBlock());
 		dropSelf(FABlocks.terraclayBrickBlock.ToBlock());
 		dropSelf(FABlocks.terraclayBlock.ToBlock());
 		add(FABlocks.ironBloom.ToBlock(), LootTable.lootTable().withPool(
-				LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.ironShard))
-						.apply(SetCount.setCount(RandomValueRange.between(2, 4)))
-						.apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))).withPool(
-				LootPool.lootPool().add(ItemLootEntry.lootTableItem(FAItems.slag))
-						.apply(ApplyBonus.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
+				LootPool.lootPool().add(LootItem.lootTableItem(FAItems.ironShard))
+						.apply(SetItemCountFunction.setCount(RandomValueBounds.between(2, 4)))
+						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))).withPool(
+				LootPool.lootPool().add(LootItem.lootTableItem(FAItems.slag))
+						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 		dropSelf(FABlocks.blackSand.ToBlock());
 	}
 }

@@ -6,15 +6,15 @@ import boblovespi.factoryautomation.common.container.slot.SlotRestrictedPredicat
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FATags;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -30,15 +30,15 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ContainerBasicCircuitCreator extends Container
+public class ContainerBasicCircuitCreator extends AbstractContainerMenu
 {
-	public static final ContainerType<ContainerBasicCircuitCreator> TYPE = IForgeContainerType
+	public static final MenuType<ContainerBasicCircuitCreator> TYPE = IForgeContainerType
 			.create(ContainerBasicCircuitCreator::new);
 	private final IItemHandler inv;
 	private final BlockPos pos;
 
 	// server-side container
-	public ContainerBasicCircuitCreator(int id, PlayerInventory playerInv, IItemHandler inv, BlockPos pos)
+	public ContainerBasicCircuitCreator(int id, Inventory playerInv, IItemHandler inv, BlockPos pos)
 	{
 		super(TYPE, id);
 		this.inv = inv;
@@ -64,7 +64,7 @@ public class ContainerBasicCircuitCreator extends Container
 	}
 
 	// client-side constructor
-	public ContainerBasicCircuitCreator(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	public ContainerBasicCircuitCreator(int id, Inventory playerInv, FriendlyByteBuf extraData)
 	{
 		this(id, playerInv, new ItemStackHandler(5), extraData.readBlockPos());
 	}
@@ -73,13 +73,13 @@ public class ContainerBasicCircuitCreator extends Container
 	 * Determines whether supplied player can use this container
 	 */
 	@Override
-	public boolean stillValid(PlayerEntity playerIn)
+	public boolean stillValid(Player playerIn)
 	{
 		return !playerIn.isSpectator();
 	}
 
 	@Override
-	public ItemStack quickMoveStack(PlayerEntity playerIn, int fromSlot)
+	public ItemStack quickMoveStack(Player playerIn, int fromSlot)
 	{
 		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.slots.get(fromSlot);

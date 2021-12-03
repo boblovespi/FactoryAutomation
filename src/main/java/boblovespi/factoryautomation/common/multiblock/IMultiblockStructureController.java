@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.common.multiblock;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Created by Willi on 11/17/2017.
@@ -15,20 +15,20 @@ public interface IMultiblockStructureController
 {
 	String GetPatternId();
 
-	default boolean IsValidStructure(World level, BlockPos pos, BlockState state)
+	default boolean IsValidStructure(Level level, BlockPos pos, BlockState state)
 	{
 		return false;
 	}
 
-	default void CreateStructure(World level, BlockPos pos)
+	default void CreateStructure(Level level, BlockPos pos)
 	{
 	}
 
-	default void BreakStructure(World level, BlockPos pos)
+	default void BreakStructure(Level level, BlockPos pos)
 	{
 	}
 
-	default void SetStructureCompleted(World level, BlockPos pos, boolean completed)
+	default void SetStructureCompleted(Level level, BlockPos pos, boolean completed)
 	{
 	}
 }

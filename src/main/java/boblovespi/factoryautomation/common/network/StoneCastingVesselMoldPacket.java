@@ -4,10 +4,10 @@ import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
 import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.Objects;
@@ -57,11 +57,11 @@ public class StoneCastingVesselMoldPacket
 		if (switchTo < 6 && switchTo >= 0)
 		{
 			ctx.get().enqueueWork(() -> {
-				ServerPlayerEntity player = ctx.get().getSender();
-				ServerWorld world = Objects.requireNonNull(player).getLevel();
+				ServerPlayer player = ctx.get().getSender();
+				ServerLevel world = Objects.requireNonNull(player).getLevel();
 				if (world.hasChunkAt(pos))
 				{
-					TileEntity te = world.getBlockEntity(pos);
+					BlockEntity te = world.getBlockEntity(pos);
 					if (te instanceof TEStoneCastingVessel
 							&& player.containerMenu instanceof ContainerStoneCastingVessel
 							&& ((ContainerStoneCastingVessel) player.containerMenu).GetPos().equals(pos)

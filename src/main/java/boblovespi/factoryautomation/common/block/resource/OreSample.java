@@ -3,18 +3,20 @@ package boblovespi.factoryautomation.common.block.resource;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 12/25/2018.
@@ -22,9 +24,9 @@ import net.minecraft.world.World;
 @SuppressWarnings("deprecation")
 public class OreSample extends FABaseBlock
 {
-	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(
+	private static final AABB BOUNDING_BOX = new AABB(
 			3 / 16d, 0, 3 / 16d, 13 / 16d, 5 / 16d, 13 / 16d);
-	private static final VoxelShape BOUNDING_BOX_VS = VoxelShapes.create(BOUNDING_BOX);
+	private static final VoxelShape BOUNDING_BOX_VS = Shapes.create(BOUNDING_BOX);
 	private final ItemStack[] possibleDrops; // the drops the "rock" can drop
 
 	public OreSample(String name, ItemStack[] possibleDrops)
@@ -55,7 +57,7 @@ public class OreSample extends FABaseBlock
 	//	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, BlockGetter levelIn, BlockPos pos, CollisionContext context)
 	{
 		return BOUNDING_BOX_VS;
 	}
@@ -72,7 +74,7 @@ public class OreSample extends FABaseBlock
 	 * block, etc.
 	 */
 	@Override
-	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos,
+	public void neighborChanged(BlockState state, Level world, BlockPos pos, Block blockIn, BlockPos fromPos,
 								boolean isMoving)
 	{
 		if (!world.getBlockState(pos.below()).isFaceSturdy(world, pos.below(), Direction.UP)) // isSideSolid ?
@@ -86,7 +88,7 @@ public class OreSample extends FABaseBlock
 	 * Checks if this block can be placed exactly at the given position.
 	 */
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
+	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
 	{
 		return world.getBlockState(pos).getMaterial().isReplaceable() && world.getBlockState(pos.below())
 																				 .isFaceSturdy(world, pos.below(),

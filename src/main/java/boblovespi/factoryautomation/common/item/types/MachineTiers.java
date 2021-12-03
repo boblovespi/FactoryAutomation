@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item.types;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -10,7 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public enum MachineTiers implements IMultiTypeEnum, IStringSerializable
+public enum MachineTiers implements IMultiTypeEnum, StringRepresentable
 {
 	IRON("iron", 0), OBSIDIAN("obsidian", 1);
 

@@ -3,33 +3,36 @@ package boblovespi.factoryautomation.client.tesr;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import org.lwjgl.opengl.GL11;
+
+import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 
 /**
  * Created by Willi on 1/15/2018.
  * power shaft renderer
  */
-public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
+public class TESRPowerShaft extends BlockEntityRenderer<TEPowerShaft>
 {
-	public TESRPowerShaft(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRPowerShaft(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEPowerShaft te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+	public void render(TEPowerShaft te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 		if (!te.hasLevel() || te.getBlockState().getBlock() != FABlocks.powerShaft)
@@ -79,12 +82,12 @@ public class TESRPowerShaft extends TileEntityRenderer<TEPowerShaft>
 			// BufferBuilder bufferBuilder = tessellator.getBuffer();
 
 			// bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 
 			dispatcher.renderBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
 			// RenderHelper.setupFor3DItems();
-			RenderHelper.turnBackOn();
+			Lighting.turnBackOn();
 			RenderSystem.enableLighting();
 		}
 		matrix.popPose();

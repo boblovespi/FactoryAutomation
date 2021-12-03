@@ -1,14 +1,14 @@
 package boblovespi.factoryautomation.api.recipe;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Created by Willi on 12/25/2017.
  */
-public interface IMachineRecipe extends IRecipe<IInventory>
+public interface IMachineRecipe extends Recipe<Container>
 {
 	/**
 	 * @return A list of all the item inputs
@@ -52,16 +52,16 @@ public interface IMachineRecipe extends IRecipe<IInventory>
 	@Nullable
 	Map<FluidStack, Float> GetSecondaryFluidOutputs();
 
-	void WriteToNBT(CompoundNBT tag);
+	void WriteToNBT(CompoundTag tag);
 
 	@Override
-	default boolean matches(IInventory inv, World world)
+	default boolean matches(Container inv, Level world)
 	{
 		return false;
 	}
 
 	@Override
-	default ItemStack assemble(IInventory inv)
+	default ItemStack assemble(Container inv)
 	{
 		return ItemStack.EMPTY;
 	}
@@ -82,8 +82,8 @@ public interface IMachineRecipe extends IRecipe<IInventory>
 	ResourceLocation getId();
 
 	@Override
-	IRecipeSerializer<?> getSerializer();
+	RecipeSerializer<?> getSerializer();
 
 	@Override
-	IRecipeType<?> getType();
+	RecipeType<?> getType();
 }

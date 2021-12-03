@@ -9,14 +9,14 @@ import boblovespi.factoryautomation.common.block.processing.PaperBellows;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -35,7 +35,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TELeatherBellows extends TileEntity implements ITickableTileEntity, IBellowsTE
+public class TELeatherBellows extends BlockEntity implements TickableBlockEntity, IBellowsTE
 {
 	private float counter = 0;
 	private int c2 = 0;
@@ -59,13 +59,13 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	public void Blow()
 	{
 		Direction facing = getBlockState().getValue(PaperBellows.FACING);
-		TileEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.relative(facing));
+		BlockEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.relative(facing));
 		if (te == null)
 			return;
 		LazyOptional<IBellowsable> capability = te
 				.getCapability(CapabilityBellowsUser.BELLOWS_USER_CAPABILITY, facing.getOpposite());
-		capability.ifPresent(n -> n.Blow(MathHelper.clamp(mechanicalUser.GetTorque() / 30f, 0.5f, 1), 50));
-		level.playSound(null, worldPosition, SoundEvents.ENDER_DRAGON_FLAP, SoundCategory.BLOCKS, 0.8f, 1.5f);
+		capability.ifPresent(n -> n.Blow(Mth.clamp(mechanicalUser.GetTorque() / 30f, 0.5f, 1), 50));
+		level.playSound(null, worldPosition, SoundEvents.ENDER_DRAGON_FLAP, SoundSource.BLOCKS, 0.8f, 1.5f);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 		if (c2 <= 0)
 		{
 			Direction facing = getBlockState().getValue(FACING);
-			TileEntity te = level.getBlockEntity(worldPosition.relative(facing.getOpposite()));
+			BlockEntity te = level.getBlockEntity(worldPosition.relative(facing.getOpposite()));
 			if (TEHelper.IsMechanicalFace(te, facing))
 			{
 				mechanicalUser.SetSpeedOnFace(facing.getOpposite(), GetUser(te, facing).GetSpeedOnFace(facing));
@@ -112,7 +112,7 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
@@ -120,7 +120,7 @@ public class TELeatherBellows extends TileEntity implements ITickableTileEntity,
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
 		tag.putFloat("counter", counter);

@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.common.multiblock;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.function.Predicate;
 
@@ -15,11 +15,11 @@ public class MultiblockPart
 	public static final MultiblockPart EMPTY = new MultiblockPart(Blocks.AIR, false);
 
 	private final Block baseBlock;
-	private final Predicate<CompoundNBT> blockTagPredicate;
+	private final Predicate<CompoundTag> blockTagPredicate;
 	private final Predicate<BlockState> statePredicate;
 	private final boolean mustBeAirBlock;
 
-	public MultiblockPart(Block baseBlock, Predicate<CompoundNBT> blockTagPredicate,
+	public MultiblockPart(Block baseBlock, Predicate<CompoundTag> blockTagPredicate,
 			Predicate<BlockState> statePredicate, boolean mustBeAirBlock)
 	{
 		this.baseBlock = baseBlock;
@@ -61,7 +61,7 @@ public class MultiblockPart
 		return baseBlock;
 	}
 
-	public boolean MatchesNBT(CompoundNBT compound)
+	public boolean MatchesNBT(CompoundTag compound)
 	{
 		return blockTagPredicate.test(compound);
 	}

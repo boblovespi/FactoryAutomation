@@ -16,10 +16,10 @@ import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVes
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEIronWorkbench;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEStoneWorkbench;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,39 +36,39 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TileEntityHandler
 {
-	public static List<Class<? extends TileEntity>> tiles = new ArrayList<>(32);
-	public static List<TileEntityType<?>> tileTypes = new ArrayList<>(32);
-	public static TileEntityType<TECreativeMechanicalSource> teCreativeMechanicalSource;
-	public static TileEntityType<TEMultiblockPart> teMultiblockPart;
-	public static TileEntityType<TESolidFueledFirebox> teSolidFueledFirebox;
-	public static TileEntityType<TEHorseEngine> teHorseEngine;
-	public static TileEntityType<TEBasicCircuitCreator> teBasicCircuitCreator;
-	public static TileEntityType<TEBlastFurnaceController> teBlastFurnaceController;
-	public static TileEntityType<TESteelmakingFurnace> teSteelmakingFurnace;
-	public static TileEntityType<TEPipe> tePipe;
-	public static TileEntityType<TEPlacedBucket> tePlacedBucket;
-	public static TileEntityType<TEPump> tePump;
-	public static TileEntityType<TEBevelGear> teBevelGear;
-	public static TileEntityType<TEGearbox> teGearbox;
-	public static TileEntityType<TEHandCrank> teHandCrank;
-	public static TileEntityType<TEJawCrusher> teJawCrusher;
-	public static TileEntityType<TEMillstone> teMillstone;
-	public static TileEntityType<TELeatherBellows> teLeatherBellows;
-	public static TileEntityType<TEMotor> teMotor;
-	public static TileEntityType<TEPowerShaft> tePowerShaft;
-	public static TileEntityType<TETripHammerController> teTripHammerController;
-	public static TileEntityType<TEWaterwheel> teWaterwheel;
-	public static TileEntityType<TECampfire> teCampfire;
-	public static TileEntityType<TEChoppingBlock> teChoppingBlock;
-	public static TileEntityType<TETreetap> teTreetap;
-	public static TileEntityType<TEBrickCrucible> teBrickCrucible;
-	public static TileEntityType<TEPaperBellows> tePaperBellows;
-	public static TileEntityType<TEStoneCastingVessel> teStoneCastingVessel;
-	public static TileEntityType<TEStoneCrucible> teStoneCrucible;
-	public static TileEntityType<TEIronWorkbench> teIronWorkbench;
-	public static TileEntityType<TEStoneWorkbench> teStoneWorkbench;
-	public static TileEntityType<TileEntitySolarPanel> teSolarPanel;
-	public static TileEntityType<TileEntityCable> teCable;
+	public static List<Class<? extends BlockEntity>> tiles = new ArrayList<>(32);
+	public static List<BlockEntityType<?>> tileTypes = new ArrayList<>(32);
+	public static BlockEntityType<TECreativeMechanicalSource> teCreativeMechanicalSource;
+	public static BlockEntityType<TEMultiblockPart> teMultiblockPart;
+	public static BlockEntityType<TESolidFueledFirebox> teSolidFueledFirebox;
+	public static BlockEntityType<TEHorseEngine> teHorseEngine;
+	public static BlockEntityType<TEBasicCircuitCreator> teBasicCircuitCreator;
+	public static BlockEntityType<TEBlastFurnaceController> teBlastFurnaceController;
+	public static BlockEntityType<TESteelmakingFurnace> teSteelmakingFurnace;
+	public static BlockEntityType<TEPipe> tePipe;
+	public static BlockEntityType<TEPlacedBucket> tePlacedBucket;
+	public static BlockEntityType<TEPump> tePump;
+	public static BlockEntityType<TEBevelGear> teBevelGear;
+	public static BlockEntityType<TEGearbox> teGearbox;
+	public static BlockEntityType<TEHandCrank> teHandCrank;
+	public static BlockEntityType<TEJawCrusher> teJawCrusher;
+	public static BlockEntityType<TEMillstone> teMillstone;
+	public static BlockEntityType<TELeatherBellows> teLeatherBellows;
+	public static BlockEntityType<TEMotor> teMotor;
+	public static BlockEntityType<TEPowerShaft> tePowerShaft;
+	public static BlockEntityType<TETripHammerController> teTripHammerController;
+	public static BlockEntityType<TEWaterwheel> teWaterwheel;
+	public static BlockEntityType<TECampfire> teCampfire;
+	public static BlockEntityType<TEChoppingBlock> teChoppingBlock;
+	public static BlockEntityType<TETreetap> teTreetap;
+	public static BlockEntityType<TEBrickCrucible> teBrickCrucible;
+	public static BlockEntityType<TEPaperBellows> tePaperBellows;
+	public static BlockEntityType<TEStoneCastingVessel> teStoneCastingVessel;
+	public static BlockEntityType<TEStoneCrucible> teStoneCrucible;
+	public static BlockEntityType<TEIronWorkbench> teIronWorkbench;
+	public static BlockEntityType<TEStoneWorkbench> teStoneWorkbench;
+	public static BlockEntityType<TileEntitySolarPanel> teSolarPanel;
+	public static BlockEntityType<TileEntityCable> teCable;
 
 	public static void RegisterTileEntities()
 	{
@@ -109,18 +109,18 @@ public class TileEntityHandler
 		teCable = BuildType(TileEntityCable::new, FABlocks.cable, "cable");
 	}
 
-	private static <T extends TileEntity> TileEntityType<T> BuildType(Supplier<T> supplier, FABlock block, String name)
+	private static <T extends BlockEntity> BlockEntityType<T> BuildType(Supplier<T> supplier, FABlock block, String name)
 	{
-		TileEntityType<T> t = TileEntityType.Builder.of(supplier, block.ToBlock()).build(null);
+		BlockEntityType<T> t = BlockEntityType.Builder.of(supplier, block.ToBlock()).build(null);
 		t.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
 		tileTypes.add(t);
 		return t;
 	}
 
-	private static <T extends TileEntity> TileEntityType<T> BuildType(Supplier<T> supplier, List<FABlock> blocks,
+	private static <T extends BlockEntity> BlockEntityType<T> BuildType(Supplier<T> supplier, List<FABlock> blocks,
 			String name)
 	{
-		TileEntityType<T> t = TileEntityType.Builder
+		BlockEntityType<T> t = BlockEntityType.Builder
 				.of(supplier, blocks.stream().map(FABlock::ToBlock).toArray(Block[]::new)).build(null);
 		t.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
 		tileTypes.add(t);
@@ -128,7 +128,7 @@ public class TileEntityHandler
 	}
 
 	@SubscribeEvent
-	public static void RegisterTypes(RegistryEvent.Register<TileEntityType<?>> event)
+	public static void RegisterTypes(RegistryEvent.Register<BlockEntityType<?>> event)
 	{
 		RegisterTileEntities();
 		tileTypes.forEach(event.getRegistry()::register);

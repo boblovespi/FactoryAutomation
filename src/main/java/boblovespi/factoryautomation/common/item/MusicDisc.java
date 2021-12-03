@@ -1,13 +1,15 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.MusicDiscItem;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.sounds.SoundEvent;
 
 import java.util.function.Supplier;
 
-public class MusicDisc extends MusicDiscItem implements FAItem
+import net.minecraft.world.item.Item.Properties;
+
+public class MusicDisc extends RecordItem implements FAItem
 {
 	private final String name;
 

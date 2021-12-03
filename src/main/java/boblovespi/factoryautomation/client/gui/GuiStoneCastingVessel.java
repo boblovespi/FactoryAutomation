@@ -6,19 +6,19 @@ import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.network.StoneCastingVesselMoldPacket;
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.button.ImageButton;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * Created by Willi on 12/30/2018.
  */
-public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCastingVessel>
+public class GuiStoneCastingVessel extends AbstractContainerScreen<ContainerStoneCastingVessel>
 {
 	private ResourceLocation loc = new ResourceLocation(
 			FactoryAutomation.MODID, "textures/gui/container/stone_casting_vessel.png");
@@ -30,9 +30,9 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 	private ImageButton gear;
 	private GuiMultiImage image;
 
-	public GuiStoneCastingVessel(ContainerStoneCastingVessel container, PlayerInventory playerInv, ITextComponent unused)
+	public GuiStoneCastingVessel(ContainerStoneCastingVessel container, Inventory playerInv, Component unused)
 	{
-		super(container, playerInv, new TranslationTextComponent("gui.stone_casting_vessel"));
+		super(container, playerInv, new TranslatableComponent("gui.stone_casting_vessel"));
 		imageWidth = 176;
 		imageHeight = 180;
 	}
@@ -78,7 +78,7 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 	 * Draws the background layer of this menu (behind the items).
 	 */
 	@Override
-	protected void renderBg(MatrixStack matrix, float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(PoseStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
 		GlStateManager._blendColor(1, 1, 1, 1);
 		minecraft.getTextureManager().bind(loc);
@@ -88,7 +88,7 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 	}
 
 	@Override
-	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		renderBackground(matrix);
 		super.render(matrix, mouseX, mouseY, partialTicks);
@@ -96,7 +96,7 @@ public class GuiStoneCastingVessel extends ContainerScreen<ContainerStoneCasting
 	}
 
 	@Override
-	protected void renderLabels(MatrixStack matrix, int mouseX, int mouseY)
+	protected void renderLabels(PoseStack matrix, int mouseX, int mouseY)
 	{
 		font.draw(matrix, "Stone Casting Vessel", 8, 4, 180 + 100 * 256 + 100 * 256 * 256);
 		font.draw(matrix, inventory.getDisplayName(), 8, this.imageHeight - 96 + 2, 4210752);

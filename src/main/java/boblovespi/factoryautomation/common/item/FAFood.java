@@ -1,18 +1,25 @@
 package boblovespi.factoryautomation.common.item;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.util.*;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.food.FoodData;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 4/12/2017.
@@ -29,15 +36,15 @@ public class FAFood extends Item implements FAItem
 	private final int amountOfFood;
 	private final int saturationAmount;
 	private final boolean isWolfFood;
-	private final List<EffectInstance> potionEffects;
+	private final List<MobEffectInstance> potionEffects;
 	private final List<Float> potionEffectChances;
 	private final int itemUseTime;
 	private final boolean alwaysEdible;
 
 	public FAFood(String unName, int amount, int saturation, int eatTime, boolean WolfFood, boolean canAlwaysEat,
-			List<EffectInstance> potionEffects, List<Float> potionChances)
+			List<MobEffectInstance> potionEffects, List<Float> potionChances)
 	{
-		super(new Properties().tab(ItemGroup.TAB_FOOD));
+		super(new Properties().tab(CreativeModeTab.TAB_FOOD));
 
 		if (potionEffects.size() != potionChances.size())
 			throw new IndexOutOfBoundsException("the potionEffects and potionEffectChances sizes are not the same");
@@ -76,32 +83,32 @@ public class FAFood extends Item implements FAItem
 		return this;
 	}
 
-	protected void applyPotionAffects(ItemStack stack, World world, LivingEntity player)
+	protected void applyPotionAffects(ItemStack stack, Level world, LivingEntity player)
 	{
 		if (!world.isClientSide)
 		{
 			for (int i = 0; i < potionEffects.size(); ++i)
 			{
 				if (world.random.nextFloat() <= potionEffectChances.get(i))
-					player.addEffect(new EffectInstance(potionEffects.get(i)));
+					player.addEffect(new MobEffectInstance(potionEffects.get(i)));
 			}
 		}
 	}
 
 	@Override
-	public ItemStack finishUsingItem(ItemStack stack, World world, LivingEntity entityLiving)
+	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity entityLiving)
 	{
 		stack.shrink(1);
 
-		if (entityLiving instanceof PlayerEntity)
+		if (entityLiving instanceof Player)
 		{
-			PlayerEntity playerEntity = (PlayerEntity) entityLiving;
-			FoodStats foodData = playerEntity.getFoodData();
+			Player playerEntity = (Player) entityLiving;
+			FoodData foodData = playerEntity.getFoodData();
 			foodData.setFoodLevel(foodData.getFoodLevel() + amountOfFood);
 			foodData.setSaturation(foodData.getSaturationLevel() + saturationAmount / (float) amountOfFood);
 //			playerEntity.getFoodData().addStats(amountOfFood, saturationAmount / (float) amountOfFood);
 			world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
-					SoundEvents.PLAYER_BURP, SoundCategory.PLAYERS, 0.5F,
+					SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F,
 					world.random.nextFloat() * 0.1F + 0.9F);
 
 			// PlayerEntity.addStat(StatList.getObjectUseStats(this));
@@ -129,16 +136,16 @@ public class FAFood extends Item implements FAItem
 	}
 
 	@Override
-	public ActionResult<ItemStack> use(World levelIn, PlayerEntity playerIn, Hand hand)
+	public InteractionResultHolder<ItemStack> use(Level levelIn, Player playerIn, InteractionHand hand)
 	{
 		ItemStack stack = playerIn.getItemInHand(hand);
 		if (playerIn.canEat(alwaysEdible))
 		{
 			playerIn.startUsingItem(hand);
-			return ActionResult.success(stack);
+			return InteractionResultHolder.success(stack);
 		} else
 		{
-			return ActionResult.fail(stack);
+			return InteractionResultHolder.fail(stack);
 		}
 	}
 

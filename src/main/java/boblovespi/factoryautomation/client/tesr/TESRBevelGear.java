@@ -7,37 +7,37 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Created by Willi on 8/9/2019.
  */
-public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
+public class TESRBevelGear extends BlockEntityRenderer<TEBevelGear>
 {
 	private final BevelGearbox model = new BevelGearbox();
-	public static final RenderMaterial LOCATION = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS, new ResourceLocation(FactoryAutomation.MODID,
+	public static final Material LOCATION = new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(FactoryAutomation.MODID,
 			"textures/blocks/machines/bevel_gearbox.png"));
 
-	public TESRBevelGear(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRBevelGear(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEBevelGear te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+	public void render(TEBevelGear te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 		renderer.textureManager.bind(
@@ -186,19 +186,19 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
 			RenderGear(null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0,
 					0, out, matrix, buffer, combinedLight, combinedOverlay);
-			RenderHelper.turnBackOn();
+			Lighting.turnBackOn();
 		}
 		matrix.popPose();
 	}
 
 	private void RenderGear(TEGearbox te, float posX, float posY, float posZ, float size, Gearbox.GearType type,
-			float inTomulPose, float xD, float yD, float zD, MatrixStack matrix, IRenderTypeBuffer buffer,
+			float inTomulPose, float xD, float yD, float zD, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 		if (type == null)
 			return;
 		ItemStack stack = new ItemStack(FAItems.gear.GetItem(type));
-		RenderHelper.turnBackOn();
+		Lighting.turnBackOn();
 		RenderSystem.enableLighting();
 		matrix.pushPose();
 		{
@@ -208,7 +208,7 @@ public class TESRBevelGear extends TileEntityRenderer<TEBevelGear>
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(inTomulPose, xD, yD, zD));
 
 			Minecraft.getInstance().getItemRenderer()
-					 .renderStatic(stack, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrix,
+					 .renderStatic(stack, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrix,
 							 buffer);
 
 		}

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.block;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 
 /**
  * Created by Willi on 6/27/2018.

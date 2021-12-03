@@ -1,16 +1,16 @@
 package boblovespi.factoryautomation.common.container;
 
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -25,15 +25,15 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class ContainerSolidFueledFirebox extends Container
+public class ContainerSolidFueledFirebox extends AbstractContainerMenu
 {
-	public static final ContainerType<ContainerSolidFueledFirebox> TYPE = IForgeContainerType
+	public static final MenuType<ContainerSolidFueledFirebox> TYPE = IForgeContainerType
 			.create(ContainerSolidFueledFirebox::new);
 	private final IItemHandler itemHandler;
-	private final IIntArray containerInfo;
+	private final ContainerData containerInfo;
 
 	// server-side constructor
-	public ContainerSolidFueledFirebox(int id, PlayerInventory playerInv, IItemHandler inv, IIntArray containerInfo,
+	public ContainerSolidFueledFirebox(int id, Inventory playerInv, IItemHandler inv, ContainerData containerInfo,
 			BlockPos pos)
 	{
 		super(TYPE, id);
@@ -58,22 +58,22 @@ public class ContainerSolidFueledFirebox extends Container
 	}
 
 	// client-side constructor
-	public ContainerSolidFueledFirebox(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	public ContainerSolidFueledFirebox(int id, Inventory playerInv, FriendlyByteBuf extraData)
 	{
-		this(id, playerInv, new ItemStackHandler(1), new IntArray(3), extraData.readBlockPos());
+		this(id, playerInv, new ItemStackHandler(1), new SimpleContainerData(3), extraData.readBlockPos());
 	}
 
 	/**
 	 * Determines whether supplied player can use this container
 	 */
 	@Override
-	public boolean stillValid(PlayerEntity playerIn)
+	public boolean stillValid(Player playerIn)
 	{
 		return !playerIn.isSpectator();
 	}
 
 	@Override
-	public ItemStack quickMoveStack(PlayerEntity playerIn, int fromSlot)
+	public ItemStack quickMoveStack(Player playerIn, int fromSlot)
 	{
 		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.slots.get(fromSlot);

@@ -5,11 +5,11 @@ import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -30,7 +30,7 @@ import static boblovespi.factoryautomation.common.block.fluid.Pump.FACING;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TEPump extends TileEntity implements ITickableTileEntity
+public class TEPump extends BlockEntity implements TickableBlockEntity
 {
 	private static final float transferSpeed = 1f; // amount to decrease transfer time by per 10 rot speed
 	private static final float transferAmountScalar = 1f; // transfer amount per 10 rot torque
@@ -60,8 +60,8 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		Direction dir = Objects.requireNonNull(level).getBlockState(worldPosition).getValue(FACING);
 		if (timer < 0)
 		{
-			TileEntity pushTo = level.getBlockEntity(worldPosition.relative(dir.getOpposite()));
-			TileEntity takeFrom = level.getBlockEntity(worldPosition.relative(dir));
+			BlockEntity pushTo = level.getBlockEntity(worldPosition.relative(dir.getOpposite()));
+			BlockEntity takeFrom = level.getBlockEntity(worldPosition.relative(dir));
 
 			if (pushTo != null && takeFrom != null)
 			{
@@ -91,7 +91,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 		for (Direction facing : mechanicalUser.GetSides())
 		{
 			Direction opposite = facing.getOpposite();
-			TileEntity te = level.getBlockEntity(worldPosition.relative(facing));
+			BlockEntity te = level.getBlockEntity(worldPosition.relative(facing));
 			if (TEHelper.IsMechanicalFace(te, opposite))
 			{
 				hasConnection = true;
@@ -126,7 +126,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag)
+	public void load(BlockState state, CompoundTag tag)
 	{
 		super.load(state, tag);
 		timer = tag.getFloat("timer");
@@ -134,7 +134,7 @@ public class TEPump extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
 		tag.putFloat("timer", timer);
 		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());

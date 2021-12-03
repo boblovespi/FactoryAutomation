@@ -5,9 +5,9 @@ import boblovespi.factoryautomation.api.misc.IBellowsable;
 import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.Objects;
@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * Created by Willi on 5/5/2019.
  */
-public class TEPaperBellows extends TileEntity implements ITickableTileEntity, IBellowsTE
+public class TEPaperBellows extends BlockEntity implements TickableBlockEntity, IBellowsTE
 {
 	private float lerp = 0;
 
@@ -29,7 +29,7 @@ public class TEPaperBellows extends TileEntity implements ITickableTileEntity, I
 		if (!Objects.requireNonNull(level).isClientSide)
 		{
 			Direction facing = level.getBlockState(worldPosition).getValue(PaperBellows.FACING);
-			TileEntity te = level.getBlockEntity(worldPosition.relative(facing));
+			BlockEntity te = level.getBlockEntity(worldPosition.relative(facing));
 			if (te == null)
 				return;
 			LazyOptional<IBellowsable> capability = te

@@ -2,8 +2,10 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.item.Item;
-import net.minecraft.item.ShearsItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ShearsItem;
+
+import net.minecraft.world.item.Item.Properties;
 
 public class FAShears extends ShearsItem implements FAItem
 {

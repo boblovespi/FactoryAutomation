@@ -6,19 +6,19 @@ import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreato
 import boblovespi.factoryautomation.common.network.BasicCircuitCreatorSyncPacket;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.button.ImageButton;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * Created by Willi on 5/28/2018.
  */
-public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircuitCreator>
+public class GuiBasicCircuitCreator extends AbstractContainerScreen<ContainerBasicCircuitCreator>
 {
 	private TEBasicCircuitCreator te;
 
@@ -32,9 +32,9 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	private ImageButton addThirdMode;
 	private ImageButton craft;
 
-	public GuiBasicCircuitCreator(ContainerBasicCircuitCreator container, PlayerInventory playerInv, ITextComponent unused)
+	public GuiBasicCircuitCreator(ContainerBasicCircuitCreator container, Inventory playerInv, Component unused)
 	{
-		super(container, playerInv, new TranslationTextComponent("gui.basic_circuit_creator"));
+		super(container, playerInv, new TranslatableComponent("gui.basic_circuit_creator"));
 		this.te = (TEBasicCircuitCreator) playerInv.player.level.getBlockEntity(container.GetPos());
 
 		imageWidth = 206;
@@ -76,7 +76,7 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	 * Draws the background layer of this container (behind the items).
 	 */
 	@Override
-	protected void renderBg(MatrixStack matrix, float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(PoseStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
 		GlStateManager._blendColor(1, 1, 1, 1);
 		minecraft.getTextureManager().bind(loc);
@@ -100,7 +100,7 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	}
 
 	@Override
-	protected void renderLabels(MatrixStack matrix, int mouseX, int mouseY)
+	protected void renderLabels(PoseStack matrix, int mouseX, int mouseY)
 	{
 		super.renderLabels(matrix, mouseX, mouseY);
 		drawCenteredString(matrix, minecraft.font, "Circuit Creator", 104, 6, 180 + 100 * 256 + 100 * 256 * 256);
@@ -108,7 +108,7 @@ public class GuiBasicCircuitCreator extends ContainerScreen<ContainerBasicCircui
 	}
 
 	@Override
-	public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks)
+	public void render(PoseStack matrix, int mouseX, int mouseY, float partialTicks)
 	{
 		renderBackground(matrix);
 		super.render(matrix, mouseX, mouseY, partialTicks);

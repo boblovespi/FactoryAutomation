@@ -3,8 +3,10 @@ package boblovespi.factoryautomation.common.item.tools;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.item.FlintAndSteelItem;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.FlintAndSteelItem;
+import net.minecraft.world.item.Item;
+
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 5/10/2018.

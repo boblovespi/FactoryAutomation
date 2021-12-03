@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.container;
 
 import boblovespi.factoryautomation.common.container.workbench.ContainerIronWorkbench;
 import boblovespi.factoryautomation.common.container.workbench.ContainerStoneWorkbench;
-import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,7 +13,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class ContainerManager
 {
 	@SubscribeEvent
-	public static void RegisterTypes(RegistryEvent.Register<ContainerType<?>> event)
+	public static void RegisterTypes(RegistryEvent.Register<MenuType<?>> event)
 	{
 		event.getRegistry().register(ContainerBasicCircuitCreator.TYPE.setRegistryName(MODID, "basic_circuit_creator"));
 		event.getRegistry().register(ContainerBlastFurnace.TYPE.setRegistryName(MODID, "blast_furnace"));

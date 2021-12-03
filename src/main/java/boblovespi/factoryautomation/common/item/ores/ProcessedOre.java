@@ -2,7 +2,7 @@ package boblovespi.factoryautomation.common.item.ores;
 
 import boblovespi.factoryautomation.common.item.MultiTypeItem;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 /**
  * Created by Willi on 8/12/2018.

@@ -7,22 +7,22 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -42,8 +42,8 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEBlastFurnaceController extends TileEntity
-		implements ITickableTileEntity, IMultiblockControllerTE, INamedContainerProvider
+public class TEBlastFurnaceController extends BlockEntity
+		implements TickableBlockEntity, IMultiblockControllerTE, MenuProvider
 {
 	public static final int[] COKE_SLOTS = { 3, 4 };
 	public static final int IRON_SLOT = 1;
@@ -65,7 +65,7 @@ public class TEBlastFurnaceController extends TileEntity
 	private final float smeltScalar = 1; // the speed at which the pig iron smelts
 	private boolean isStructureValid = false;
 	private final IItemHandler inputHopperWrapper;
-	private final IIntArray containerInfo = new IIntArray()
+	private final ContainerData containerInfo = new ContainerData()
 	{
 		@Override
 		public int get(int index)
@@ -110,7 +110,7 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		burnTime = compound.getInt("burnTime");
 		fuelBurnTime = compound.getInt("fuelBurnTime");
@@ -133,7 +133,7 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		compound.putInt("burnTime", (int) burnTime);
 		compound.putInt("fuelBurnTime", (int) fuelBurnTime);
@@ -233,15 +233,15 @@ public class TEBlastFurnaceController extends TileEntity
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
 		this.load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
@@ -343,14 +343,14 @@ public class TEBlastFurnaceController extends TileEntity
 	}
 
 	@Override
-	public ITextComponent getDisplayName()
+	public Component getDisplayName()
 	{
-		return new StringTextComponent("");
+		return new TextComponent("");
 	}
 
 	@Nullable
 	@Override
-	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player)
 	{
 		return new ContainerBlastFurnace(id, playerInv, itemHandler, containerInfo, worldPosition);
 	}

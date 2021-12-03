@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.api.recipe;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -149,7 +149,7 @@ public class ShapedWorkbenchRecipe extends ForgeRegistryEntry<IWorkbenchRecipe> 
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer()
+	public RecipeSerializer<?> getSerializer()
 	{
 		return WorkbenchRecipeHandler.SHAPED_SERIALIZER;
 	}

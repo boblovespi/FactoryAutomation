@@ -8,15 +8,15 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -34,7 +34,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableTileEntity
+public class TEGearbox extends BlockEntity implements IMechanicalUser, TickableBlockEntity
 {
 	public float rotationIn = 0;
 	public float rotationOut = 0;
@@ -102,7 +102,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		speedIn = compound.getFloat("speedIn");
 		torqueIn = compound.getFloat("torqueIn");
@@ -119,7 +119,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		compound.putFloat("speedIn", speedIn);
 		compound.putFloat("torqueIn", torqueIn);
@@ -167,7 +167,7 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 		BlockState state = getBlockState();
 		Direction facing = state.getValue(Gearbox.FACING);
 
-		TileEntity te = level.getBlockEntity(worldPosition.relative(facing.getOpposite()));
+		BlockEntity te = level.getBlockEntity(worldPosition.relative(facing.getOpposite()));
 
 		if (IsMechanicalFace(te, facing))
 		{
@@ -328,17 +328,17 @@ public class TEGearbox extends TileEntity implements IMechanicalUser, ITickableT
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
 		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		save(nbt);
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 }

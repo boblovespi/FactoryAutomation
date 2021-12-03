@@ -6,30 +6,32 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Pair;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapeCube;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 12/20/2017.
@@ -41,23 +43,23 @@ public class Cable extends FABaseBlock
 {
 	protected static final VoxelShape[] CABLE_VOXEL = new VoxelShape[16];
 	private static final double u = 1 / 16D;
-	protected static final AxisAlignedBB[] CABLE_AABB = new AxisAlignedBB[] {
-			new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 4 * u, 0.8125D),
-			new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 0.8125D, 4 * u, 1.0D),
-			new AxisAlignedBB(0.0D, 0.0D, 0.1875D, 0.8125D, 4 * u, 0.8125D),
-			new AxisAlignedBB(0.0D, 0.0D, 0.1875D, 0.8125D, 4 * u, 1.0D),
-			new AxisAlignedBB(0.1875D, 0.0D, 0.0D, 0.8125D, 4 * u, 0.8125D),
-			new AxisAlignedBB(0.1875D, 0.0D, 0.0D, 0.8125D, 4 * u, 1.0D),
-			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.8125D, 4 * u, 0.8125D),
-			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.8125D, 4 * u, 1.0D),
-			new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 1.0D, 4 * u, 0.8125D),
-			new AxisAlignedBB(0.1875D, 0.0D, 0.1875D, 1.0D, 4 * u, 1.0D),
-			new AxisAlignedBB(0.0D, 0.0D, 0.1875D, 1.0D, 4 * u, 0.8125D),
-			new AxisAlignedBB(0.0D, 0.0D, 0.1875D, 1.0D, 4 * u, 1.0D),
-			new AxisAlignedBB(0.1875D, 0.0D, 0.0D, 1.0D, 4 * u, 0.8125D),
-			new AxisAlignedBB(0.1875D, 0.0D, 0.0D, 1.0D, 4 * u, 1.0D),
-			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4 * u, 0.8125D),
-			new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4 * u, 1.0D) };
+	protected static final AABB[] CABLE_AABB = new AABB[] {
+			new AABB(0.1875D, 0.0D, 0.1875D, 0.8125D, 4 * u, 0.8125D),
+			new AABB(0.1875D, 0.0D, 0.1875D, 0.8125D, 4 * u, 1.0D),
+			new AABB(0.0D, 0.0D, 0.1875D, 0.8125D, 4 * u, 0.8125D),
+			new AABB(0.0D, 0.0D, 0.1875D, 0.8125D, 4 * u, 1.0D),
+			new AABB(0.1875D, 0.0D, 0.0D, 0.8125D, 4 * u, 0.8125D),
+			new AABB(0.1875D, 0.0D, 0.0D, 0.8125D, 4 * u, 1.0D),
+			new AABB(0.0D, 0.0D, 0.0D, 0.8125D, 4 * u, 0.8125D),
+			new AABB(0.0D, 0.0D, 0.0D, 0.8125D, 4 * u, 1.0D),
+			new AABB(0.1875D, 0.0D, 0.1875D, 1.0D, 4 * u, 0.8125D),
+			new AABB(0.1875D, 0.0D, 0.1875D, 1.0D, 4 * u, 1.0D),
+			new AABB(0.0D, 0.0D, 0.1875D, 1.0D, 4 * u, 0.8125D),
+			new AABB(0.0D, 0.0D, 0.1875D, 1.0D, 4 * u, 1.0D),
+			new AABB(0.1875D, 0.0D, 0.0D, 1.0D, 4 * u, 0.8125D),
+			new AABB(0.1875D, 0.0D, 0.0D, 1.0D, 4 * u, 1.0D),
+			new AABB(0.0D, 0.0D, 0.0D, 1.0D, 4 * u, 0.8125D),
+			new AABB(0.0D, 0.0D, 0.0D, 1.0D, 4 * u, 1.0D) };
 	private static final EnumProperty<AttachPos> WEST = EnumProperty.create("west", AttachPos.class);
 	private static final EnumProperty<AttachPos> EAST = EnumProperty.create("east", AttachPos.class);
 	private static final EnumProperty<AttachPos> NORTH = EnumProperty.create("north", AttachPos.class);
@@ -72,11 +74,11 @@ public class Cable extends FABaseBlock
 									  .setValue(NORTH, AttachPos.NONE).setValue(SOUTH, AttachPos.NONE));
 		for (int i = 0; i < 16; i++)
 		{
-			CABLE_VOXEL[i] = VoxelShapes.create(CABLE_AABB[i]);
+			CABLE_VOXEL[i] = Shapes.create(CABLE_AABB[i]);
 		}
 	}
 
-	public static boolean CanConnectTo(BlockState state, Direction side, IBlockReader level, BlockPos pos)
+	public static boolean CanConnectTo(BlockState state, Direction side, BlockGetter level, BlockPos pos)
 	{
 		Block block = state.getBlock();
 		if (FABlocks.cable.ToBlock() == block)
@@ -119,7 +121,7 @@ public class Cable extends FABaseBlock
 		return i;
 	}
 
-	public BlockState GetActualState(BlockState state, IBlockReader world, BlockPos pos)
+	public BlockState GetActualState(BlockState state, BlockGetter world, BlockPos pos)
 	{
 		state = state.setValue(WEST, GetAttachPosition(world, pos, Direction.WEST));
 		state = state.setValue(EAST, GetAttachPosition(world, pos, Direction.EAST));
@@ -128,7 +130,7 @@ public class Cable extends FABaseBlock
 		return state;
 	}
 
-	private AttachPos GetAttachPosition(IBlockReader world, BlockPos pos, Direction facing)
+	private AttachPos GetAttachPosition(BlockGetter world, BlockPos pos, Direction facing)
 	{
 		BlockPos offset = pos.relative(facing);
 		BlockState blockState = world.getBlockState(offset);
@@ -161,26 +163,26 @@ public class Cable extends FABaseBlock
 		}
 	}
 
-	private boolean CanConnectUpwardsTo(IBlockReader world, BlockPos pos)
+	private boolean CanConnectUpwardsTo(BlockGetter world, BlockPos pos)
 	{
 		return CanConnectTo(world.getBlockState(pos), null, world, pos);
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader world, BlockPos pos)
+	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
 	{
 		return Block.isFaceFull(world.getBlockState(pos.below()).getBlockSupportShape(world, pos.below()), Direction.UP)
 				|| world.getBlockState(pos.below()).getBlock() == Blocks.GLOWSTONE;
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(WEST, EAST, NORTH, SOUTH);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader levelIn, BlockPos pos, ISelectionContext context)
+	public VoxelShape getShape(BlockState state, BlockGetter levelIn, BlockPos pos, CollisionContext context)
 	{
 		return CABLE_VOXEL[getAABBIndex(state)];
 	}
@@ -189,7 +191,7 @@ public class Cable extends FABaseBlock
 	 * Called after the block is set in the Chunk data, but before the Tile Entity is set
 	 */
 	@Override
-	public void onPlace(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving)
+	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
 		// NotifyNeighborCableOfStateChange(worldIn, pos);
 
@@ -217,7 +219,7 @@ public class Cable extends FABaseBlock
 					{
 						System.out.println("consumer = " + consumer.getKey().GetTe().getTileData().toString());
 						System.out.println("producer = " + machine.getKey().GetTe().getTileData().toString());
-						EnergyNetwork_.GetFromWorld((ServerWorld) world).AddConnection(
+						EnergyNetwork_.GetFromWorld((ServerLevel) world).AddConnection(
 								new EnergyConnection_((IProducesEnergy_) machine.getKey(),
 										(IRequiresEnergy_) consumer.getKey(),
 										(stop - machine.getValue()) + stop - consumer.getValue(), 0.99f, 100));
@@ -228,7 +230,7 @@ public class Cable extends FABaseBlock
 
 	}
 
-	private List<Pair<IUsesEnergy_, Integer>> GetEnergyMachines(World world, BlockPos pos, BlockState state, int stop,
+	private List<Pair<IUsesEnergy_, Integer>> GetEnergyMachines(Level world, BlockPos pos, BlockState state, int stop,
 			List<BlockPos> prevCableLocs)
 	{
 		System.out.println("world = [" + world + "], pos = [" + pos + "], state = [" + state + "], stop = [" + stop
@@ -359,7 +361,7 @@ public class Cable extends FABaseBlock
 		return users;
 	}
 
-	public enum AttachPos implements IStringSerializable
+	public enum AttachPos implements StringRepresentable
 	{
 		UP("up"), SIDE("side"), NONE("none");
 

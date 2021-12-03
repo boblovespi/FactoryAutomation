@@ -1,8 +1,8 @@
 package boblovespi.factoryautomation.api.energy.heat;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -24,17 +24,17 @@ public class CapabilityHeatUser
 		{
 			@Nullable
 			@Override
-			public INBT writeNBT(Capability<IHeatUser> capability, IHeatUser instance, Direction side)
+			public Tag writeNBT(Capability<IHeatUser> capability, IHeatUser instance, Direction side)
 			{
-				CompoundNBT nbtBase = new CompoundNBT();
+				CompoundTag nbtBase = new CompoundTag();
 
 				return nbtBase;
 			}
 
 			@Override
-			public void readNBT(Capability<IHeatUser> capability, IHeatUser instance, Direction side, INBT nbt)
+			public void readNBT(Capability<IHeatUser> capability, IHeatUser instance, Direction side, Tag nbt)
 			{
-				CompoundNBT compound = (CompoundNBT) nbt;
+				CompoundTag compound = (CompoundTag) nbt;
 				if (instance instanceof HeatUser)
 				{
 					((HeatUser) instance).ReadFromNBT(compound);

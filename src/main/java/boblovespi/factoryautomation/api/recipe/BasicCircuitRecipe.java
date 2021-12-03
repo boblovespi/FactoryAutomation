@@ -4,16 +4,16 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator.Layout.Element;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -23,10 +23,10 @@ import java.util.HashMap;
 /**
  * Created by Willi on 6/17/2018.
  */
-public class BasicCircuitRecipe implements IRecipe<IInventory>
+public class BasicCircuitRecipe implements Recipe<Container>
 {
 	public static final HashMap<ResourceLocation, BasicCircuitRecipe> recipes = new HashMap<>(2);
-	public static final IRecipeType<BasicCircuitRecipe> TYPE = IRecipeType
+	public static final RecipeType<BasicCircuitRecipe> TYPE = RecipeType
 			.register(FactoryAutomation.MODID + ":basic_circuit_creator");
 	public static final Serializer SERIALIZER = new Serializer();
 	private final ResourceLocation id;
@@ -124,20 +124,20 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 
 	private static BasicCircuitRecipe DeserializeFromJson(ResourceLocation id, JsonObject json)
 	{
-		JsonArray pattern = JSONUtils.getAsJsonArray(json, "pattern");
+		JsonArray pattern = GsonHelper.getAsJsonArray(json, "pattern");
 		Element[][] recPattern = new Element[8][8];
 
 		for (int x = 0; x < 8; x++)
 		{
 			for (int y = 0; y < 8; y++)
 			{
-				recPattern[x][y] = Element.values()[MathHelper
+				recPattern[x][y] = Element.values()[Mth
 						.clamp(Integer.parseInt(pattern.get(x).getAsString().substring(y, y + 1)), 0,
 								Element.values().length)];
 			}
 		}
 
-		ItemStack result = CraftingHelper.getItemStack(JSONUtils.getAsJsonObject(json, "result"), true);
+		ItemStack result = CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "result"), true);
 		return new BasicCircuitRecipe(id, result, recPattern);
 	}
 
@@ -170,13 +170,13 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 	}
 
 	@Override
-	public boolean matches(IInventory inv, World levelIn)
+	public boolean matches(Container inv, Level levelIn)
 	{
 		return false;
 	}
 
 	@Override
-	public ItemStack assemble(IInventory inv)
+	public ItemStack assemble(Container inv)
 	{
 		return result.copy();
 	}
@@ -200,19 +200,19 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer()
+	public RecipeSerializer<?> getSerializer()
 	{
 		return SERIALIZER;
 	}
 
 	@Override
-	public IRecipeType<?> getType()
+	public RecipeType<?> getType()
 	{
 		return TYPE;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
-			implements IRecipeSerializer<BasicCircuitRecipe>
+	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
+			implements RecipeSerializer<BasicCircuitRecipe>
 	{
 		private static final ResourceLocation NAME = new ResourceLocation(
 				FactoryAutomation.MODID, "basic_circuit");
@@ -225,7 +225,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 
 		@Nullable
 		@Override
-		public BasicCircuitRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer)
+		public BasicCircuitRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer)
 		{
 			ItemStack itemStack = buffer.readItem();
 			byte[] bytes = buffer.readByteArray(64);
@@ -241,7 +241,7 @@ public class BasicCircuitRecipe implements IRecipe<IInventory>
 		}
 
 		@Override
-		public void toNetwork(PacketBuffer buffer, BasicCircuitRecipe recipe)
+		public void toNetwork(FriendlyByteBuf buffer, BasicCircuitRecipe recipe)
 		{
 			buffer.writeItemStack(recipe.result, true);
 			byte[] elements = new byte[64];

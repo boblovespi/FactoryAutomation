@@ -3,16 +3,16 @@ package boblovespi.factoryautomation.api.energy.electricity;
 import boblovespi.factoryautomation.api.IUpdatable;
 import boblovespi.factoryautomation.api.energy.electricity.enums.WireType;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.DimensionSavedDataManager;
-import net.minecraft.world.storage.WorldSavedData;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.*;
 
@@ -21,12 +21,12 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 /**
  * Created by Willi on 7/12/2018.
  */
-public class EnergyNetwork extends WorldSavedData implements IUpdatable
+public class EnergyNetwork extends SavedData implements IUpdatable
 {
 	private static final int defaultGridSize = 256;
 	private static final String DATA_NAME = MODID + "_EnergyNetworkNew";
 	private static boolean isLoaded = false;
-	private CompoundNBT uninitData = null;
+	private CompoundTag uninitData = null;
 	private boolean isInit = false;
 
 	private Map<IProducesEnergy, List<EnergyConnection>> connections = new HashMap<>(defaultGridSize);
@@ -41,13 +41,13 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		super(DATA_NAME);
 	}
 
-	public static EnergyNetwork GetFromWorld(ServerWorld world)
+	public static EnergyNetwork GetFromWorld(ServerLevel world)
 	{
 		System.out.println("Loading energy network!");
 
 		// The IS_GLOBAL constant is there for clarity, and should be simplified into the right branch.
 		EnergyNetwork instance;
-		DimensionSavedDataManager storage = world.getDataStorage();
+		DimensionDataStorage storage = world.getDataStorage();
 		try
 		{
 			instance = (EnergyNetwork) storage.get(EnergyNetwork::new, DATA_NAME);
@@ -71,7 +71,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		return instance;
 	}
 
-	private void Init(World world)
+	private void Init(Level world)
 	{
 		if (isInit)
 			return;
@@ -79,11 +79,11 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		if (uninitData == null)
 			return;
 
-		ListNBT list = uninitData.getList("connections", 10);
-		Iterator<INBT> iterator = list.iterator();
+		ListTag list = uninitData.getList("connections", 10);
+		Iterator<Tag> iterator = list.iterator();
 		while (iterator.hasNext())
 		{
-			CompoundNBT next = (CompoundNBT) iterator.next();
+			CompoundTag next = (CompoundTag) iterator.next();
 			EnergyConnection e = ReadConnectionFromTag(world, next);
 			AddConnection(e);
 		}
@@ -91,7 +91,7 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	}
 
 	@Override
-	public void Update(World world)
+	public void Update(Level world)
 	{
 		if (!isInit)
 			Init(world);
@@ -135,16 +135,16 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 	 * reads in data from the CompoundNBT into this MapDataBase
 	 */
 	@Override
-	public void load(CompoundNBT tag)
+	public void load(CompoundTag tag)
 	{
 		isInit = false;
 		uninitData = tag;
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag)
+	public CompoundTag save(CompoundTag tag)
 	{
-		ListNBT list = new ListNBT();
+		ListTag list = new ListTag();
 
 		connections.values().forEach(l -> l.forEach(e -> list.add(WriteConnectionToTag(e.GetProducer(), e))));
 		tag.put("connections", list);
@@ -168,14 +168,14 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		setDirty();
 	}
 
-	private CompoundNBT WriteConnectionToTag(IProducesEnergy p, EnergyConnection e)
+	private CompoundTag WriteConnectionToTag(IProducesEnergy p, EnergyConnection e)
 	{
-		CompoundNBT tag = new CompoundNBT();
+		CompoundTag tag = new CompoundTag();
 
-		tag.put("producerPos", NBTUtil.writeBlockPos(p.GetTe().getBlockPos()));
-		CompoundNBT eTag = new CompoundNBT();
+		tag.put("producerPos", NbtUtils.writeBlockPos(p.GetTe().getBlockPos()));
+		CompoundTag eTag = new CompoundTag();
 
-		eTag.put("consumerPos", NBTUtil.writeBlockPos(e.GetConsumer().GetTe().getBlockPos()));
+		eTag.put("consumerPos", NbtUtils.writeBlockPos(e.GetConsumer().GetTe().getBlockPos()));
 		eTag.putDouble("maxVoltage", e.maxVoltage);
 		eTag.putDouble("maxAmperage", e.maxAmperage);
 		eTag.putInt("wireType", e.wire.ordinal());
@@ -186,19 +186,19 @@ public class EnergyNetwork extends WorldSavedData implements IUpdatable
 		return tag;
 	}
 
-	private EnergyConnection ReadConnectionFromTag(World w, CompoundNBT tag)
+	private EnergyConnection ReadConnectionFromTag(Level w, CompoundTag tag)
 	{
-		BlockPos pPos = NBTUtil.readBlockPos(tag.getCompound("producerPos"));
-		CompoundNBT tag1 = tag.getCompound("energyConnection");
-		BlockPos cPos = NBTUtil.readBlockPos(tag1.getCompound("consumerPos"));
+		BlockPos pPos = NbtUtils.readBlockPos(tag.getCompound("producerPos"));
+		CompoundTag tag1 = tag.getCompound("energyConnection");
+		BlockPos cPos = NbtUtils.readBlockPos(tag1.getCompound("consumerPos"));
 
 		double maxVoltage = tag1.getDouble("maxVoltage");
 		double maxAmperage = tag1.getDouble("maxAmperage");
 		int wireType = tag1.getInt("wireType");
 		double wireLength = tag1.getDouble("wireLength");
 
-		TileEntity pTE = w.getBlockEntity(pPos);
-		TileEntity cTE = w.getBlockEntity(cPos);
+		BlockEntity pTE = w.getBlockEntity(pPos);
+		BlockEntity cTE = w.getBlockEntity(cPos);
 
 		if (pTE instanceof IProducesEnergy)
 		{

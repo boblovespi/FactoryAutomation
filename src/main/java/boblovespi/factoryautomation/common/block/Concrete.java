@@ -1,15 +1,17 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 4/11/2017.
@@ -42,11 +44,11 @@ public class Concrete extends Block implements FABlock
 	}
 
 	@Override
-	public void stepOn(World level, BlockPos pos, Entity entity)
+	public void stepOn(Level level, BlockPos pos, Entity entity)
 	{
-		if (entity instanceof PlayerEntity)
+		if (entity instanceof Player)
 		{
-			((PlayerEntity) entity).addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 10, 1));
+			((Player) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 10, 1));
 		}
 	}
 }

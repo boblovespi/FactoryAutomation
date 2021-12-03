@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.api.pollution;
 
 import boblovespi.factoryautomation.common.config.ConfigFields;
-import net.minecraft.util.Direction;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -20,16 +20,16 @@ import static boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk
  */
 public class PollutionCapabilityProvider implements ICapabilityProvider
 {
-	private final Chunk chunk;
+	private final LevelChunk chunk;
 	private PollutedChunk cap;
 
-	public PollutionCapabilityProvider(Chunk chunk)
+	public PollutionCapabilityProvider(LevelChunk chunk)
 	{
 		this.chunk = chunk;
 		this.cap = new PollutedChunk();
 
 		cap.SetPollutionCallback(n -> {
-			World world = chunk.getLevel();
+			Level world = chunk.getLevel();
 			if (world.isClientSide)
 				return;
 			int x = chunk.getPos().x;

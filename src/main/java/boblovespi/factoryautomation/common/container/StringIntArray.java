@@ -1,10 +1,10 @@
 package boblovespi.factoryautomation.common.container;
 
-import net.minecraft.util.IIntArray;
+import net.minecraft.world.inventory.ContainerData;
 
 import java.util.function.Supplier;
 
-public class StringIntArray implements IIntArray
+public class StringIntArray implements ContainerData
 {
 	private int actualLength;
 	private final char[] string;

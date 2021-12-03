@@ -4,37 +4,37 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.client.model.BellowsModel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 8/7/2019.
  */
-public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends TileEntityRenderer<T>
+public abstract class TESRBellows<T extends BlockEntity & IBellowsTE> extends BlockEntityRenderer<T>
 {
 	private final String texture;
 	private BellowsModel model = new BellowsModel();
 
-	protected TESRBellows(TileEntityRendererDispatcher renderDispatcher, String texture)
+	protected TESRBellows(BlockEntityRenderDispatcher renderDispatcher, String texture)
 	{
 		super(renderDispatcher);
 		this.texture = texture;
 	}
 
 	@Override
-	public void render(T te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int combinedLight,
+	public void render(T te, float partialTicks, PoseStack matrix, MultiBufferSource buffer, int combinedLight,
 			int combinedOverlay)
 	{
 		// renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, texture));
@@ -47,7 +47,7 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getBlockState();
-			Direction facing = state.getValue(HorizontalBlock.FACING);
+			Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
 			switch (facing)
 			{
 			case NORTH:
@@ -91,7 +91,7 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 
 	public static class Leather extends TESRBellows<TELeatherBellows>
 	{
-		public Leather(TileEntityRendererDispatcher dispatcher)
+		public Leather(BlockEntityRenderDispatcher dispatcher)
 		{
 			super(dispatcher, "textures/blocks/machines/leather_bellows.png");
 		}
@@ -99,7 +99,7 @@ public abstract class TESRBellows<T extends TileEntity & IBellowsTE> extends Til
 
 	public static class Paper extends TESRBellows<TEPaperBellows>
 	{
-		public Paper(TileEntityRendererDispatcher dispatcher)
+		public Paper(BlockEntityRenderDispatcher dispatcher)
 		{
 			super(dispatcher, "textures/blocks/machines/paper_bellows.png");
 		}

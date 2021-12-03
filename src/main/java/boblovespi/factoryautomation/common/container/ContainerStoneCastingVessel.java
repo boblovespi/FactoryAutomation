@@ -1,14 +1,14 @@
 package boblovespi.factoryautomation.common.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
@@ -16,16 +16,16 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 /**
  * Created by Willi on 12/30/2018.
  */
-public class ContainerStoneCastingVessel extends Container
+public class ContainerStoneCastingVessel extends AbstractContainerMenu
 {
 
-	public static final ContainerType<ContainerStoneCastingVessel> TYPE = IForgeContainerType
+	public static final MenuType<ContainerStoneCastingVessel> TYPE = IForgeContainerType
 			.create(ContainerStoneCastingVessel::new);
 	private final BlockPos pos;
-	private IIntArray form;
+	private ContainerData form;
 
 	// server-side constructor
-	public ContainerStoneCastingVessel(int id, PlayerInventory playerInv, BlockPos pos, IIntArray form)
+	public ContainerStoneCastingVessel(int id, Inventory playerInv, BlockPos pos, ContainerData form)
 	{
 		super(TYPE, id);
 		this.pos = pos;
@@ -46,16 +46,16 @@ public class ContainerStoneCastingVessel extends Container
 	}
 
 	// client-side constructor
-	public ContainerStoneCastingVessel(int id, PlayerInventory playerInv, PacketBuffer extraData)
+	public ContainerStoneCastingVessel(int id, Inventory playerInv, FriendlyByteBuf extraData)
 	{
-		this(id, playerInv, extraData.readBlockPos(), new IntArray(1));
+		this(id, playerInv, extraData.readBlockPos(), new SimpleContainerData(1));
 	}
 
 	/**
 	 * Determines whether supplied player can use this container
 	 */
 	@Override
-	public boolean stillValid(PlayerEntity playerIn)
+	public boolean stillValid(Player playerIn)
 	{
 		return !playerIn.isSpectator();
 	}

@@ -1,17 +1,19 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.Metals;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.ToolType;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class PillarAlt extends FABaseBlock
 {
@@ -21,7 +23,7 @@ public class PillarAlt extends FABaseBlock
 	public PillarAlt(String name, Metals metal)
 	{
 		super(name, false, Properties.of(Material.METAL).harvestTool(ToolType.PICKAXE).harvestLevel(1)
-									 .strength(1, 10), new Item.Properties().tab(ItemGroup.TAB_DECORATIONS));
+									 .strength(1, 10), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
 		registerDefaultState(stateDefinition.any().setValue(TOP, false).setValue(BOTTOM, false));
 	}
 
@@ -32,7 +34,7 @@ public class PillarAlt extends FABaseBlock
 	 * Note that this method should ideally consider only the specific face passed in.
 	 */
 	@Override
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, IWorld level,
+	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level,
 			BlockPos pos, BlockPos facingPos)
 	{
 		switch (facing)
@@ -47,7 +49,7 @@ public class PillarAlt extends FABaseBlock
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder)
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(TOP, BOTTOM);
 	}

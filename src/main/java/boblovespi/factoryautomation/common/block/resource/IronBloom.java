@@ -4,7 +4,9 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.item.tools.FAToolTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 1/28/2019.

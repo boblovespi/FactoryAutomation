@@ -7,21 +7,21 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.IGuiElement;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.IntArrayNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntArrayTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -39,7 +39,7 @@ import java.util.Objects;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TEBasicCircuitCreator extends TileEntity implements INamedContainerProvider
+public class TEBasicCircuitCreator extends BlockEntity implements MenuProvider
 {
 	private Layout layout;
 	private final ItemStackHandler inventory;
@@ -158,7 +158,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT compound)
+	public void load(BlockState state, CompoundTag compound)
 	{
 		super.load(state, compound);
 		inventory.deserializeNBT(compound.getCompound("items"));
@@ -166,7 +166,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT compound)
+	public CompoundTag save(CompoundTag compound)
 	{
 		compound.put("items", inventory.serializeNBT());
 		compound.put("layout", layout.Serialize());
@@ -174,7 +174,7 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
 		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
@@ -197,12 +197,12 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket()
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundNBT nbt = new CompoundNBT();
+		CompoundTag nbt = new CompoundTag();
 		save(nbt);
 
-		return new SUpdateTileEntityPacket(worldPosition, 0, nbt);
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 
 	public Layout.Element[][] GetComponents()
@@ -211,14 +211,14 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 	}
 
 	@Override
-	public ITextComponent getDisplayName()
+	public Component getDisplayName()
 	{
-		return new StringTextComponent("");
+		return new TextComponent("");
 	}
 
 	@Nullable
 	@Override
-	public Container createMenu(int id, PlayerInventory playerInv, PlayerEntity player)
+	public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player)
 	{
 		return new ContainerBasicCircuitCreator(id, playerInv, inventory, worldPosition);
 	}
@@ -249,9 +249,9 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 			return grid[y][x];
 		}
 
-		public ListNBT Serialize()
+		public ListTag Serialize()
 		{
-			ListNBT list = new ListNBT();
+			ListTag list = new ListTag();
 
 			for (Element[] elements : grid) {
 				int[] arr = new int[elements.length];
@@ -260,13 +260,13 @@ public class TEBasicCircuitCreator extends TileEntity implements INamedContainer
 					arr[j] = elements[j].ordinal();
 				}
 
-				list.add(new IntArrayNBT(arr));
+				list.add(new IntArrayTag(arr));
 			}
 
 			return list;
 		}
 
-		public void Deserialize(ListNBT list)
+		public void Deserialize(ListTag list)
 		{
 			for (int i = 0; i < grid.length; i++)
 			{

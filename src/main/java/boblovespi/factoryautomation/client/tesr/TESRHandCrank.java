@@ -4,31 +4,31 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.client.model.HandCrankModel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Willi on 9/9/2018.
  */
-public class TESRHandCrank extends TileEntityRenderer<TEHandCrank>
+public class TESRHandCrank extends BlockEntityRenderer<TEHandCrank>
 {
 	private final HandCrankModel handCrankModel = new HandCrankModel();
 
-	public TESRHandCrank(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRHandCrank(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEHandCrank te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+	public void render(TEHandCrank te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 		// renderDispatcher.textureManager.bindTexture(new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"));

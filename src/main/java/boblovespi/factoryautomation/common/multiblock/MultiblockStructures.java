@@ -2,9 +2,13 @@ package boblovespi.factoryautomation.common.multiblock;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import net.minecraft.block.*;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
 
 import static boblovespi.factoryautomation.common.multiblock.MultiblockPart.EMPTY;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 
 /**
  * Created by Willi on 12/24/2017.

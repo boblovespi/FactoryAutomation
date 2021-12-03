@@ -2,17 +2,17 @@ package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.resource.Ore;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.blockplacers.SimpleBlockPlacer;
+import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
-import net.minecraft.world.gen.placement.ConfiguredPlacement;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.placement.TopSolidRangeConfig;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.placement.ConfiguredDecorator;
+import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
+import net.minecraft.world.level.levelgen.feature.configurations.RangeDecoratorConfiguration;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -30,8 +30,14 @@ import static boblovespi.factoryautomation.common.item.types.MetalOres.COPPER;
 import static boblovespi.factoryautomation.common.item.types.MetalOres.TIN;
 import static net.minecraft.world.gen.GenerationStage.Decoration.UNDERGROUND_ORES;
 import static net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION;
-import static net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType.NATURAL_STONE;
+import staticnet.minecraft.world.level.levelgen.GenerationStep.DecorationFillerBlockType.NATURAL_STONE;
 
+
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 
 /**
  * Created by Willi on 12/28/2017.
@@ -41,9 +47,9 @@ import static net.minecraft.world.gen.feature.OreFeatureConfig.FillerBlockType.N
 public class WorldGenHandler
 {
 	public static final DeferredRegister<Feature<?>> deferredRegister = DeferredRegister.create(ForgeRegistries.FEATURES, MODID);
-	private static final RegistryObject<Feature<NoFeatureConfig>> limoniteGen = deferredRegister.register(
+	private static final RegistryObject<Feature<NoneFeatureConfiguration>> limoniteGen = deferredRegister.register(
 			"limonite_gen", () -> new SwampFloorOreGenerator((Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f,
-					NoFeatureConfig.CODEC));
+					NoneFeatureConfiguration.CODEC));
 
 	// surface blocks
 	private final Set<Block> surfaceBlocks = new HashSet<Block>(5)
@@ -65,33 +71,33 @@ public class WorldGenHandler
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void BiomeLoadingEvent(BiomeLoadingEvent event)
 	{
-		Biome.Category category = event.getCategory();
+		Biome.BiomeCategory category = event.getCategory();
 		BiomeGenerationSettingsBuilder biome = event.getGeneration();
-		if (category != Biome.Category.NETHER && category != Biome.Category.THEEND
-					&& category != Biome.Category.NONE)
+		if (category != Biome.BiomeCategory.NETHER && category != Biome.BiomeCategory.THEEND
+					&& category != Biome.BiomeCategory.NONE)
 		{
 			AddOre(biome,
-					new OreFeatureConfig(NATURAL_STONE, FABlocks.metalOres.GetBlock(COPPER).defaultBlockState(), 10),
+					new OreConfiguration(NATURAL_STONE, FABlocks.metalOres.GetBlock(COPPER).defaultBlockState(), 10),
 					CountRange(9, 64));
 			AddOre(biome,
-					new OreFeatureConfig(NATURAL_STONE, FABlocks.metalOres.GetBlock(TIN).defaultBlockState(), 4),
+					new OreConfiguration(NATURAL_STONE, FABlocks.metalOres.GetBlock(TIN).defaultBlockState(), 4),
 					CountRange(15, 64));
-			biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.configured(new BlockClusterFeatureConfig.Builder(
-					new SimpleBlockStateProvider(FABlocks.flintRock.ToBlock().defaultBlockState()),
+			biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.configured(new RandomPatchConfiguration.GrassConfigurationBuilder(
+					new SimpleStateProvider(FABlocks.flintRock.ToBlock().defaultBlockState()),
 					new SimpleBlockPlacer()).tries(1).build()).count(1));
-			biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.configured(new BlockClusterFeatureConfig.Builder(
-					new SimpleBlockStateProvider(FABlocks.rock.ToBlock().defaultBlockState()), new RockBlockPlacer())
+			biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.configured(new RandomPatchConfiguration.GrassConfigurationBuilder(
+					new SimpleStateProvider(FABlocks.rock.ToBlock().defaultBlockState()), new RockBlockPlacer())
 																						 .tries(2).build()).count(5));
 		}
-		if (category == Biome.Category.THEEND)
+		if (category == Biome.BiomeCategory.THEEND)
 		{
-			AddOre(biome, new OreFeatureConfig(
-					new BlockMatchRuleTest(Blocks.END_STONE),
+			AddOre(biome, new OreConfiguration(
+					new BlockMatchTest(Blocks.END_STONE),
 					FABlocks.siliconQuartzOre.ToBlock().defaultBlockState(), 9), CountRange(2, 255));
 		}
-		if (category == Biome.Category.SWAMP)
+		if (category == Biome.BiomeCategory.SWAMP)
 		{
-			biome.addFeature(UNDERGROUND_ORES, limoniteGen.get().configured(NoFeatureConfig.NONE).chance(17));
+			biome.addFeature(UNDERGROUND_ORES, limoniteGen.get().configured(NoneFeatureConfiguration.NONE).chance(17));
 		}
 	}
 
@@ -133,20 +139,20 @@ public class WorldGenHandler
 		*/
 	}
 
-	private static <T extends IFeatureConfig> void AddToBiome(BiomeGenerationSettingsBuilder biome, Feature<T> feature, T config,
-															  GenerationStage.Decoration stage, ConfiguredPlacement<?> placement)
+	private static <T extends FeatureConfiguration> void AddToBiome(BiomeGenerationSettingsBuilder biome, Feature<T> feature, T config,
+															  GenerationStep.Decoration stage, ConfiguredDecorator<?> placement)
 	{
 		biome.addFeature(stage, feature.configured(config).decorated(placement));
 	}
 
-	private static void AddOre(BiomeGenerationSettingsBuilder biome, OreFeatureConfig config, ConfiguredPlacement<?> placement)
+	private static void AddOre(BiomeGenerationSettingsBuilder biome, OreConfiguration config, ConfiguredDecorator<?> placement)
 	{
 		biome.addFeature(UNDERGROUND_ORES, Feature.ORE.configured(config).decorated(placement));
 	}
 
-	private static ConfiguredPlacement<?> CountRange(int count, int max)
+	private static ConfiguredDecorator<?> CountRange(int count, int max)
 	{
-		return Placement.RANGE.configured(new TopSolidRangeConfig(0, 0, max)).count(count);
+		return FeatureDecorator.RANGE.configured(new RangeDecoratorConfiguration(0, 0, max)).count(count);
 	}
 
 	//	@Override

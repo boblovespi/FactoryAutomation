@@ -3,16 +3,18 @@ package boblovespi.factoryautomation.common.block;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 12/21/2017.
@@ -39,17 +41,17 @@ public class FABaseBlock extends Block implements FABlock
 		}
 	}
 
-	public FABaseBlock(Material materialIn, String unlocalizedName, ItemGroup tab)
+	public FABaseBlock(Material materialIn, String unlocalizedName, CreativeModeTab tab)
 	{
 		this(materialIn, unlocalizedName, tab, false);
 	}
 
-	public FABaseBlock(Material materialIn, String unlocalizedName, ItemGroup tab, boolean hasCustomItem)
+	public FABaseBlock(Material materialIn, String unlocalizedName, CreativeModeTab tab, boolean hasCustomItem)
 	{
 		this(unlocalizedName, hasCustomItem, Properties.of(materialIn), new Item.Properties().tab(tab));
 	}
 
-	public FABaseBlock(Material materialIn, MaterialColor blockMapColorIn, String unlocalizedName, ItemGroup tab)
+	public FABaseBlock(Material materialIn, MaterialColor blockMapColorIn, String unlocalizedName, CreativeModeTab tab)
 	{
 		this(unlocalizedName, false, Properties.of(materialIn, blockMapColorIn), new Item.Properties().tab(tab));
 	}

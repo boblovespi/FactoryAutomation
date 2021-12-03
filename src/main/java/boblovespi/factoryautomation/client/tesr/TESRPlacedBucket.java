@@ -1,29 +1,29 @@
 package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
  * Created by Willi on 7/25/2018.
  */
-public class TESRPlacedBucket extends TileEntityRenderer<TEPlacedBucket>
+public class TESRPlacedBucket extends BlockEntityRenderer<TEPlacedBucket>
 {
-	public TESRPlacedBucket(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRPlacedBucket(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEPlacedBucket te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+	public void render(TEPlacedBucket te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 		FluidStack fluidStack = te.GetFluidStack();
@@ -52,7 +52,7 @@ public class TESRPlacedBucket extends TileEntityRenderer<TEPlacedBucket>
 			// buffer1.pos(1, 0, 1).tex(maxU, maxV).endVertex();
 			// buffer1.pos(1, 0, 0).tex(maxU, minV).endVertex();
 			Minecraft.getInstance().getBlockRenderer().renderLiquid(te.getBlockPos(), te.getLevel(),
-					buffer.getBuffer(RenderTypeLookup.getRenderLayer(fluidStack.getFluid().defaultFluidState())),
+					buffer.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluidStack.getFluid().defaultFluidState())),
 					fluidStack.getFluid().defaultFluidState());
 			// TODO: draw quads manually for efficiency
 

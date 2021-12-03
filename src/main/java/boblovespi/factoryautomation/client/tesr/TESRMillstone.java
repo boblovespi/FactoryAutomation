@@ -3,33 +3,36 @@ package boblovespi.factoryautomation.client.tesr;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.machine.Millstone;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMillstone;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+
 /**
  * Created by Willi on 2/12/2019.
  */
-public class TESRMillstone extends TileEntityRenderer<TEMillstone>
+public class TESRMillstone extends BlockEntityRenderer<TEMillstone>
 {
-	private IBakedModel cache = null;
+	private BakedModel cache = null;
 	private BlockState state = null;
 
-	public TESRMillstone(TileEntityRendererDispatcher rendererDispatcherIn)
+	public TESRMillstone(BlockEntityRenderDispatcher rendererDispatcherIn)
 	{
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(TEMillstone te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer,
+	public void render(TEMillstone te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
@@ -56,15 +59,15 @@ public class TESRMillstone extends TileEntityRenderer<TEMillstone>
 			// Tessellator tessellator = Tessellator.getInstance();
 			// BufferBuilder buffer = tessellator.getBuffer();
 			// buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRendererDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 			if (cache == null)
 				cache = dispatcher.getBlockModel(state);
 			dispatcher.getModelRenderer()
-					  .renderModel(matrix.last(), buffer.getBuffer(Atlases.cutoutBlockSheet()), state, cache, 1f,
+					  .renderModel(matrix.last(), buffer.getBuffer(Sheets.cutoutBlockSheet()), state, cache, 1f,
 							  1f, 1f, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
 
-			RenderHelper.turnBackOn();
+			Lighting.turnBackOn();
 		}
 		matrix.popPose();
 	}

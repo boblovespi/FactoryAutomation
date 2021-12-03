@@ -1,7 +1,9 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 4/13/2017.
@@ -12,7 +14,7 @@ public class FABaseItem extends Item implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FABaseItem(String unlocalizedName, ItemGroup ct)
+	public FABaseItem(String unlocalizedName, CreativeModeTab ct)
 	{
 		this(unlocalizedName, new Properties().tab(ct));
 	}

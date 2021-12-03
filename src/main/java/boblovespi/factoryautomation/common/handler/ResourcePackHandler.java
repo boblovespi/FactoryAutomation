@@ -25,6 +25,12 @@ import java.util.stream.Stream;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
+import net.minecraft.server.packs.AbstractPackResources;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.server.packs.repository.RepositorySource;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Mod.EventBusSubscriber(modid = MODID)
@@ -41,19 +47,19 @@ public class ResourcePackHandler
 		event.getServer().reloadResources(event.getServer().getPackRepository().getSelectedIds());
 	}
 
-	public static class FAOverridePackFinder implements IPackFinder
+	public static class FAOverridePackFinder implements RepositorySource
 	{
 		@Override
-		public void loadPacks(Consumer<ResourcePackInfo> consumer, ResourcePackInfo.IFactory packInfoFactory) {
+		public void loadPacks(Consumer<Pack> consumer, Pack.PackConstructor packInfoFactory) {
 			// Thanks Dark Roleplay for showing off how to add more datapacks for each mod
-			ResourcePackInfo pack = ResourcePackInfo.create("zfa_override_pack", false, () -> new FAOverridePack(Collections.singleton("minecraft")),
-					packInfoFactory, ResourcePackInfo.Priority.TOP, IPackNameDecorator.DEFAULT);
+			Pack pack = Pack.create("zfa_override_pack", false, () -> new FAOverridePack(Collections.singleton("minecraft")),
+					packInfoFactory, Pack.Position.TOP, PackSource.DEFAULT);
 			if (pack != null)
 				consumer.accept(pack);
 		}
 	}
 
-	public static class FAOverridePack extends ResourcePack
+	public static class FAOverridePack extends AbstractPackResources
 	{
 		private final String root = "/data/factoryautomation/other_packs/zfa_override_pack/";
 		private final Set<String> resourceNamespaces;
@@ -76,10 +82,10 @@ public class ResourcePackHandler
 		}
 
 		@Override
-		public Collection<ResourceLocation> getResources(ResourcePackType type, String namespaceIn,
+		public Collection<ResourceLocation> getResources(PackType type, String namespaceIn,
 				String pathIn, int maxDepthIn, Predicate<String> filterIn)
 		{
-			if (type == ResourcePackType.CLIENT_RESOURCES)
+			if (type == PackType.CLIENT_RESOURCES)
 				return Collections.emptyList();
 
 			Collection<ResourceLocation> all = new ArrayList<>();
@@ -118,7 +124,7 @@ public class ResourcePackHandler
 		}
 
 		@Override
-		public Set<String> getNamespaces(ResourcePackType type)
+		public Set<String> getNamespaces(PackType type)
 		{
 			return resourceNamespaces;
 		}

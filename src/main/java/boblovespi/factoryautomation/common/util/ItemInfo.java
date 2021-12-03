@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.util;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 /**
  * Created by Willi on 12/1/2018.

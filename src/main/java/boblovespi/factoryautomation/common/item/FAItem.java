@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.util.IItemProvider;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * Created by Willi on 4/12/2017.
  * the default interface for all factory automation items.  every item MUST implement this
  */
-public interface FAItem extends IItemProvider
+public interface FAItem extends ItemLike
 {
 	String UnlocalizedName();
 

@@ -3,9 +3,9 @@ package boblovespi.factoryautomation.common.util;
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.IHeatUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Direction;
 
 import static boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
@@ -15,13 +15,13 @@ import static boblovespi.factoryautomation.api.energy.mechanical.CapabilityMecha
  */
 public class TEHelper
 {
-	public static boolean IsMechanicalFace(TileEntity te, Direction face)
+	public static boolean IsMechanicalFace(BlockEntity te, Direction face)
 	{
 		return te != null && te.getCapability(MECHANICAL_USER_CAPABILITY, face).isPresent();
 	}
 
 	@SuppressWarnings("ConstantConditions")
-	public static IMechanicalUser GetUser(TileEntity te, Direction face)
+	public static IMechanicalUser GetUser(BlockEntity te, Direction face)
 	{
 		return te.getCapability(MECHANICAL_USER_CAPABILITY, face).orElse(null);
 	}
@@ -43,10 +43,10 @@ public class TEHelper
 		heatUser.TransferEnergy(-transfer);
 	}
 
-	public static INamedContainerProvider GetContainer(TileEntity te)
+	public static MenuProvider GetContainer(BlockEntity te)
 	{
-		if (te instanceof INamedContainerProvider)
-			return (INamedContainerProvider) te;
+		if (te instanceof MenuProvider)
+			return (MenuProvider) te;
 		return null;
 	}
 }

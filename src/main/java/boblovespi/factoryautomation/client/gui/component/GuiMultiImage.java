@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.client.gui.component;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.util.ResourceLocation;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -45,7 +45,7 @@ public class GuiMultiImage
 		texture = number;
 	}
 
-	public void Draw(ContainerScreen<?> gui, MatrixStack matrix)
+	public void Draw(AbstractContainerScreen<?> gui, PoseStack matrix)
 	{
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();
@@ -54,7 +54,7 @@ public class GuiMultiImage
 		{
 			matrix.translate(guiLeft + x, guiTop + y, 0);
 			matrix.scale(w, h, 1);
-			AbstractGui.blit(matrix, 0, 0, texX, texY, texW, texH, texW, texH);
+			GuiComponent.blit(matrix, 0, 0, texX, texY, texW, texH, texW, texH);
 		}
 		matrix.popPose();
 	}
