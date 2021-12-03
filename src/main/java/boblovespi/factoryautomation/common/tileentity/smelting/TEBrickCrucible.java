@@ -115,7 +115,7 @@ public class TEBrickCrucible extends TileEntity
 		super(TileEntityHandler.teBrickCrucible);
 		metals = new MultiMetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
-		heatUser = new HeatUser(20, 1000, 300);
+		heatUser = new HeatUser(20, 2300 * 1000, 300);
 		bellowsUser = new BellowsUser(0.5f);
 		metalName = new StringIntArray(8);
 		metalName.SetSource(this::GetMetalName);
@@ -182,16 +182,28 @@ public class TEBrickCrucible extends TileEntity
 				meltTime = 0;
 			} else
 			{
-				int meltTemp = Metals.GetFromName(metal).meltTemp;
-				if (temp >= meltTemp || meltStack.getItem() == FAItems.ironShard && temp >= 1000)
-					meltTime++;
+				Metals metalData = Metals.GetFromName(metal);
+				int meltTemp = metalData.meltTemp;
+				if (meltStack.getItem() == FAItems.ironShard)
+					meltTemp = 1000;
+				float specificHeatCapacity = metalData.massHeatCapacity * metalData.density * (amount / (18 * 9f));
+				if (temp >= meltTemp)
+				{
+					float energyIfMaxMeltTime = specificHeatCapacity * (metalData.meltTemp - 27) / 200f;
+					float energyIfMaxTempTaken = (temp - meltTemp) * heatUser.GetHeatCapacity();
+					float actualTaken = Math.min(energyIfMaxMeltTime, energyIfMaxTempTaken);
+					heatUser.TransferEnergy(-actualTaken);
+					float meltTimeInc = actualTaken / energyIfMaxMeltTime * 0.5f;
+					meltTime += meltTimeInc;
+				}
 				else
 					meltTime -= 2;
 				if (meltTime > maxMeltTime)
 				{
-					metals.AddMetal(metal, amount);
+					int added = this.metals.AddMetal(metal, amount);
 					meltTime = 0;
 					inventory.setStackInSlot(1, ItemStack.EMPTY);
+					heatUser.SetHeatCapacity(heatUser.GetHeatCapacity() + specificHeatCapacity / amount * added);
 				}
 			}
 		} else
@@ -336,7 +348,7 @@ public class TEBrickCrucible extends TileEntity
 			if (!(form == TEStoneCrucible.MetalForms.NONE) && te.HasSpace())
 			{
 				StringBuilder metalOut = new StringBuilder();
-				ItemStack item = metals.CastItem(form, metalOut);
+				ItemStack item = metals.CastItem(form, metalOut, heatUser);
 				te.CastInto(item, Metals.GetFromName(metalOut.toString()).meltTemp);
 			}
 		}
@@ -431,7 +443,7 @@ public class TEBrickCrucible extends TileEntity
 				metals.put(metalToAdd, (float) amountToAdd);
 
 			RecalculateMetal();
-			return amountToAdd - amount;
+			return amountToAdd;
 		}
 
 		public void ReadFromNBT(CompoundNBT tag)
@@ -450,7 +462,7 @@ public class TEBrickCrucible extends TileEntity
 			return tag;
 		}
 
-		public ItemStack CastItem(TEStoneCrucible.MetalForms form, StringBuilder metalOut)
+		public ItemStack CastItem(TEStoneCrucible.MetalForms form, StringBuilder metalOut, HeatUser user)
 		{
 			if (metal.equals("none") || amount == 0 || metal.equals("unknown"))
 				return ItemStack.EMPTY;
@@ -461,7 +473,8 @@ public class TEBrickCrucible extends TileEntity
 			int toDrain = amount - left;
 			float mult = left / (float) amount;
 			amount = left;
-
+			float specificHeatCapacity = Metals.GetFromName(metal).massHeatCapacity * Metals.GetFromName(metal).density * (toDrain / (18 * 9f));
+			user.SetHeatCapacity(user.GetHeatCapacity() - specificHeatCapacity);
 			// update map
 			for (Map.Entry<String, Float> entry : metals.entrySet())
 			{

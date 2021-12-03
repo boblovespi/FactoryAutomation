@@ -30,7 +30,6 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -293,14 +292,14 @@ public class TEStoneCrucible extends TileEntity
 					meltTemp = 1000;
 				float specificHeatCapacity = metalData.massHeatCapacity * metalData.density * (amount / (18 * 9f));
 				if (temp >= meltTemp)
-					{
-						float energyIfMaxMeltTime = specificHeatCapacity * (metalData.meltTemp - 27) / 200f;
-						float energyIfMaxTempTaken = (temp - meltTemp) * heatUser.GetHeatCapacity();
-						float actualTaken = Math.min(energyIfMaxMeltTime, energyIfMaxTempTaken);
-						heatUser.TransferEnergy(-actualTaken);
-						float meltTimeInc = actualTaken / energyIfMaxMeltTime * 0.5f;
-						meltTime += meltTimeInc;
-					}
+				{
+					float energyIfMaxMeltTime = specificHeatCapacity * (metalData.meltTemp - 27) / 200f;
+					float energyIfMaxTempTaken = (temp - meltTemp) * heatUser.GetHeatCapacity();
+					float actualTaken = Math.min(energyIfMaxMeltTime, energyIfMaxTempTaken);
+					heatUser.TransferEnergy(-actualTaken);
+					float meltTimeInc = actualTaken / energyIfMaxMeltTime * 0.5f;
+					meltTime += meltTimeInc;
+				}
 				else
 					meltTime -= 2;
 				if (meltTime > maxMeltTime)
