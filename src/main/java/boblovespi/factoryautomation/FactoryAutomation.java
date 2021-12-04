@@ -35,8 +35,8 @@ import boblovespi.factoryautomation.datagen.loottable.FALootTableProvider;
 import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
 import boblovespi.factoryautomation.datagen.tags.FABlockTagProvider;
 import boblovespi.factoryautomation.datagen.tags.FAItemTagProvider;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -45,8 +45,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 /**
  * Created by Willi on 11/8/2017.
