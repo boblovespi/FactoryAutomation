@@ -87,7 +87,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18-38.0.12'
+    minecraft 'net.minecraftforge:forge:1.18-38.0.14'
 
 
     // you may put jars on which you depend on in ./libs

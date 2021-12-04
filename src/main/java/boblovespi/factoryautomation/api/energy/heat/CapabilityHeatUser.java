@@ -1,11 +1,11 @@
 package boblovespi.factoryautomation.api.energy.heat;
 
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 
 import javax.annotation.Nullable;
 
@@ -15,8 +15,7 @@ import javax.annotation.Nullable;
 public class CapabilityHeatUser
 {
 	public static final float AIR_CONDUCTIVITY = 0.024f;
-	@CapabilityInject(IHeatUser.class)
-	public static Capability<IHeatUser> HEAT_USER_CAPABILITY = null;
+	public static Capability<IHeatUser> HEAT_USER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
 	public static void Register()
 	{

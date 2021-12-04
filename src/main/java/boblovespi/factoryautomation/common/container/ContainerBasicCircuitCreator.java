@@ -5,17 +5,16 @@ import boblovespi.factoryautomation.common.container.slot.SlotRestrictedItem;
 import boblovespi.factoryautomation.common.container.slot.SlotRestrictedPredicate;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FATags;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.BlockPos;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -23,17 +22,13 @@ import net.minecraftforge.items.SlotItemHandler;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 
-import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-
 /**
  * Created by Willi on 5/28/2018.
  */
 @ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class ContainerBasicCircuitCreator extends AbstractContainerMenu
 {
-	public static final MenuType<ContainerBasicCircuitCreator> TYPE = IForgeContainerType
-			.create(ContainerBasicCircuitCreator::new);
+	public static final MenuType<ContainerBasicCircuitCreator> TYPE = IForgeMenuType.create(ContainerBasicCircuitCreator::new);
 	private final IItemHandler inv;
 	private final BlockPos pos;
 

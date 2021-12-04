@@ -4,21 +4,21 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -28,8 +28,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @SuppressWarnings("deprecation")
 @ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
-public class BevelGear extends FABaseBlock
+public class BevelGear extends FABaseBlock implements EntityBlock
 {
 	public static IntegerProperty LAYER = IntegerProperty.create("layer", 0, 2);
 	public static DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -56,15 +55,9 @@ public class BevelGear extends FABaseBlock
 		builder.add(LAYER, FACING);
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state)
-	{
-		return true;
-	}
-
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
 		return new TEBevelGear();
 	}
