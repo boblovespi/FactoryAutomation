@@ -1,40 +1,30 @@
 package boblovespi.factoryautomation.common.container;
 
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-
 /**
  * Created by Willi on 12/29/2018.
  */
 @ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class ContainerStoneFoundry extends AbstractContainerMenu
 {
-	public static final MenuType<ContainerStoneFoundry> TYPE = IForgeContainerType
-			.create(ContainerStoneFoundry::new);
+	public static final MenuType<ContainerStoneFoundry> TYPE = IForgeMenuType.create(ContainerStoneFoundry::new);
 	private final IItemHandler itemHandler;
 	private final ContainerData containerInfo;
 	private final StringIntArray metalName;
 
-	public ContainerStoneFoundry(int id, Inventory playerInv, IItemHandler inv, ContainerData containerInfo,
-			StringIntArray metalName, BlockPos pos)
+	public ContainerStoneFoundry(int id, Inventory playerInv, IItemHandler inv, ContainerData containerInfo, StringIntArray metalName, BlockPos pos)
 	{
 		super(TYPE, id);
 		this.itemHandler = inv;
@@ -65,15 +55,6 @@ public class ContainerStoneFoundry extends AbstractContainerMenu
 		this(id, playerInv, new ItemStackHandler(2), new SimpleContainerData(7), new StringIntArray(8), extraData.readBlockPos());
 	}
 
-	/**
-	 * Determines whether supplied player can use this container
-	 */
-	@Override
-	public boolean stillValid(Player playerIn)
-	{
-		return !playerIn.isSpectator();
-	}
-
 	@Override
 	public ItemStack quickMoveStack(Player playerIn, int fromSlot)
 	{
@@ -93,22 +74,27 @@ public class ContainerStoneFoundry extends AbstractContainerMenu
 			} else
 			{
 				// From the player's inventory to block breaker's inventory
-				if (!this.moveItemStackTo(current, 0, itemHandler.getSlots(), false))
-					return ItemStack.EMPTY;
+				if (!this.moveItemStackTo(current, 0, itemHandler.getSlots(), false)) return ItemStack.EMPTY;
 			}
 
 			if (current.isEmpty()) //Use func_190916_E() instead of stackSize 1.11 only 1.11.2 use getCount()
-				slot.set(
-						ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
-			else
-				slot.setChanged();
+				slot.set(ItemStack.EMPTY); //Use ItemStack.field_190927_a instead of (ItemStack)null for a blank item stack. In 1.11.2 use ItemStack.EMPTY
+			else slot.setChanged();
 
-			if (current.getCount() == previous.getCount())
-				return ItemStack.EMPTY;
+			if (current.getCount() == previous.getCount()) return ItemStack.EMPTY;
 			slot.onTake(playerIn, current);
 
 		}
 		return previous;
+	}
+
+	/**
+	 * Determines whether supplied player can use this container
+	 */
+	@Override
+	public boolean stillValid(Player playerIn)
+	{
+		return !playerIn.isSpectator();
 	}
 
 	public int GetBar(int id)

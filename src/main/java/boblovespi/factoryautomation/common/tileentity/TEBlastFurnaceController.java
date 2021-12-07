@@ -6,7 +6,6 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
-import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
@@ -41,7 +40,6 @@ import java.util.Objects;
  */
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class TEBlastFurnaceController extends BlockEntity
 		implements TickableBlockEntity, IMultiblockControllerTE, MenuProvider
 {

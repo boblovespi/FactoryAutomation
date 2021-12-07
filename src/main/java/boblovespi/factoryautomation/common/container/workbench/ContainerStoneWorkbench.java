@@ -4,7 +4,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -12,7 +12,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
 public class ContainerStoneWorkbench extends ContainerWorkbench
 {
-	public static final MenuType<ContainerStoneWorkbench> TYPE = IForgeContainerType
+	public static final MenuType<ContainerStoneWorkbench> TYPE = IForgeMenuType
 			.create(ContainerStoneWorkbench::new);
 
 	// server-side constructor

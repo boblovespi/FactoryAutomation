@@ -1,9 +1,13 @@
 package boblovespi.factoryautomation;
 
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
+import boblovespi.factoryautomation.api.energy.heat.IHeatUser;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
+import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
+import boblovespi.factoryautomation.api.misc.IBellowsable;
 import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
+import boblovespi.factoryautomation.api.pollution.IPollutedChunk;
 import boblovespi.factoryautomation.client.ClientProxy;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
 import boblovespi.factoryautomation.common.CommonProxy;
@@ -39,6 +43,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -94,10 +99,10 @@ public class FactoryAutomation
 
 		// ConfigManager.sync(MODID, Config.Type.INSTANCE);
 
-		CapabilityPollutedChunk.Register();
-		CapabilityMechanicalUser.Register();
-		CapabilityHeatUser.Register();
-		CapabilityBellowsUser.Register();
+		// CapabilityPollutedChunk.Register();
+		// CapabilityMechanicalUser.Register();
+		// CapabilityHeatUser.Register();
+		// CapabilityBellowsUser.Register();
 
 		// FAConfig.PreInit();
 		PacketHandler.CreateChannel(MODID);
@@ -197,5 +202,13 @@ public class FactoryAutomation
 		// RecipeHandler.RemoveSmeltingRecipes();
 
 		Log.getLogger().info("Postinitialization end");
+	}
+
+	@SubscribeEvent
+	public void RegisterCaps(RegisterCapabilitiesEvent event) {
+		event.register(IHeatUser.class);
+		event.register(IMechanicalUser.class);
+		event.register(IBellowsable.class);
+		event.register(IPollutedChunk.class);
 	}
 }

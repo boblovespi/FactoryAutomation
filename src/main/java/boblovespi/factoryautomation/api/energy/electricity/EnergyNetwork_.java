@@ -8,10 +8,10 @@ package boblovespi.factoryautomation.api.energy.electricity;
 import boblovespi.factoryautomation.api.IUpdatable;
 import boblovespi.factoryautomation.common.handler.WorldTickHandler;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.storage.DimensionDataStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class EnergyNetwork_ extends SavedData implements IUpdatable
 
 	public EnergyNetwork_()
 	{
-		super(DATA_NAME);
+		super(/*DATA_NAME*/);
 		connections = new ArrayList<>(maxGridSize);
 	}
 
@@ -42,7 +42,7 @@ public class EnergyNetwork_ extends SavedData implements IUpdatable
 		DimensionDataStorage storage = world.getDataStorage();
 		try
 		{
-			instance = storage.get(EnergyNetwork_::new, DATA_NAME);
+			instance = storage.get(EnergyNetwork_::LoadFromTag, DATA_NAME);
 		} catch (Exception e)
 		{
 			instance = null;
@@ -51,7 +51,7 @@ public class EnergyNetwork_ extends SavedData implements IUpdatable
 		if (instance == null)
 		{
 			instance = new EnergyNetwork_();
-			storage.set(instance);
+			storage.set(DATA_NAME, instance);
 		}
 		if (!isLoaded)
 		{
@@ -63,7 +63,13 @@ public class EnergyNetwork_ extends SavedData implements IUpdatable
 		return instance;
 	}
 
-	@Override
+	private static EnergyNetwork_ LoadFromTag(CompoundTag t)
+	{
+		EnergyNetwork_ e = new EnergyNetwork_();
+		e.load(t);
+		return e;
+	}
+
 	public void load(CompoundTag nbt)
 	{
 		//		for (int i = 0; i < nbt.getSize(); i++)

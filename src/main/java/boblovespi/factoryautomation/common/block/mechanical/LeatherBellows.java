@@ -4,8 +4,9 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SoundType;
@@ -33,7 +34,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 @SuppressWarnings("deprecation")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class LeatherBellows extends FABaseBlock
+public class LeatherBellows extends FABaseBlock implements EntityBlock
 {
 	public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
@@ -45,15 +46,9 @@ public class LeatherBellows extends FABaseBlock
 		TileEntityHandler.tiles.add(TELeatherBellows.class);
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state)
-	{
-		return true;
-	}
-
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
 		return new TELeatherBellows();
 	}

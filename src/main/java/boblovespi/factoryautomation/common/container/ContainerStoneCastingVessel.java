@@ -9,7 +9,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -19,7 +19,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class ContainerStoneCastingVessel extends AbstractContainerMenu
 {
 
-	public static final MenuType<ContainerStoneCastingVessel> TYPE = IForgeContainerType
+	public static final MenuType<ContainerStoneCastingVessel> TYPE = IForgeMenuType
 			.create(ContainerStoneCastingVessel::new);
 	private final BlockPos pos;
 	private ContainerData form;

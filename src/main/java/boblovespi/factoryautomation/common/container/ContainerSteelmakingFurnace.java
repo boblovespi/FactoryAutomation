@@ -3,41 +3,31 @@ package boblovespi.factoryautomation.common.container;
 import boblovespi.factoryautomation.common.container.slot.SlotFuel;
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-
 /**
  * Created by Willi on 12/24/2017.
  */
 @ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class ContainerSteelmakingFurnace extends AbstractContainerMenu
 {
-	public static final MenuType<ContainerSteelmakingFurnace> TYPE = IForgeContainerType
-			.create(ContainerSteelmakingFurnace::new);
+	public static final MenuType<ContainerSteelmakingFurnace> TYPE = IForgeMenuType.create(ContainerSteelmakingFurnace::new);
 	private final IItemHandler itemHandler;
 	private final ContainerData containerInfo;
 
 	// server-side constructor
-	public ContainerSteelmakingFurnace(int id, Inventory playerInv, IItemHandler inv, ContainerData containerInfo,
-			BlockPos pos)
+	public ContainerSteelmakingFurnace(int id, Inventory playerInv, IItemHandler inv, ContainerData containerInfo, BlockPos pos)
 	{
 		super(TYPE, id);
 		this.itemHandler = inv;

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.container.workbench;
 
 import boblovespi.factoryautomation.common.container.slot.SlotOutputItem;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;

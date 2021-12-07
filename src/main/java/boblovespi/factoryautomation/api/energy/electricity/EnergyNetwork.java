@@ -33,12 +33,12 @@ public class EnergyNetwork extends SavedData implements IUpdatable
 
 	public EnergyNetwork()
 	{
-		super(DATA_NAME);
+		super(/*DATA_NAME*/);
 	}
 
 	public EnergyNetwork(String unused)
 	{
-		super(DATA_NAME);
+		super(/*DATA_NAME*/);
 	}
 
 	public static EnergyNetwork GetFromWorld(ServerLevel world)
@@ -50,7 +50,7 @@ public class EnergyNetwork extends SavedData implements IUpdatable
 		DimensionDataStorage storage = world.getDataStorage();
 		try
 		{
-			instance = (EnergyNetwork) storage.get(EnergyNetwork::new, DATA_NAME);
+			instance = (EnergyNetwork) storage.get(EnergyNetwork::LoadFromTag, DATA_NAME);
 		} catch (Exception e)
 		{
 			instance = null;
@@ -59,7 +59,7 @@ public class EnergyNetwork extends SavedData implements IUpdatable
 		if (instance == null)
 		{
 			instance = new EnergyNetwork();
-			storage.set(instance);
+			storage.set(DATA_NAME, instance);
 		}
 		if (!isLoaded)
 		{
@@ -69,6 +69,13 @@ public class EnergyNetwork extends SavedData implements IUpdatable
 		if (!instance.isInit)
 			instance.Init(world);
 		return instance;
+	}
+
+	private static EnergyNetwork LoadFromTag(CompoundTag t)
+	{
+		EnergyNetwork e = new EnergyNetwork();
+		e.load(t);
+		return e;
 	}
 
 	private void Init(Level world)
@@ -134,7 +141,6 @@ public class EnergyNetwork extends SavedData implements IUpdatable
 	/**
 	 * reads in data from the CompoundNBT into this MapDataBase
 	 */
-	@Override
 	public void load(CompoundTag tag)
 	{
 		isInit = false;
