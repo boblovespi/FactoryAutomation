@@ -4,7 +4,7 @@ import boblovespi.factoryautomation.api.energy.FuelRegistry;
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -14,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.inventory.ContainerData;
@@ -32,8 +31,6 @@ import java.util.Objects;
 
 import static boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser.HEAT_USER_CAPABILITY;
 import static boblovespi.factoryautomation.common.tileentity.TileEntityHandler.teSolidFueledFirebox;
-import static net.minecraftforge.common.util.Constants.BlockFlags.DEFAULT;
-import static net.minecraftforge.common.util.Constants.BlockFlags.NO_RERENDER;
 import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 
 /**
@@ -42,7 +39,7 @@ import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABI
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TESolidFueledFirebox extends BlockEntity implements TickableBlockEntity, MenuProvider
+public class TESolidFueledFirebox extends BlockEntity implements MenuProvider
 {
 	private final HeatUser heatUser;
 	private final ItemStackHandler inventory;
@@ -90,7 +87,6 @@ public class TESolidFueledFirebox extends BlockEntity implements TickableBlockEn
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
-	@Override
 	public void tick()
 	{
 		float K_d = heatUser.GetTemperature() - 20f;
@@ -140,7 +136,7 @@ public class TESolidFueledFirebox extends BlockEntity implements TickableBlockEn
 
 		// TODO: FIGURE OUT UPDATING TEs
 		BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
-		level.sendBlockUpdated(worldPosition, state, state, DEFAULT | NO_RERENDER);
+		level.sendBlockUpdated(worldPosition, state, state, 7);
 	}
 
 	@Nonnull
@@ -170,7 +166,7 @@ public class TESolidFueledFirebox extends BlockEntity implements TickableBlockEn
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
 		burnTime = tag.getInt("burnTime");
 		maxBurnTime = tag.getInt("maxBurnTime");
@@ -179,11 +175,11 @@ public class TESolidFueledFirebox extends BlockEntity implements TickableBlockEn
 		inventory.deserializeNBT(tag.getCompound("inventory"));
 		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
 
-		super.load(state, tag);
+		super.load(tag);
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	protected void saveAdditional(CompoundTag tag)
 	{
 		tag.putInt("burnTime", burnTime);
 		tag.putInt("maxBurnTime", maxBurnTime);
@@ -191,24 +187,19 @@ public class TESolidFueledFirebox extends BlockEntity implements TickableBlockEn
 
 		tag.put("inventory", inventory.serializeNBT());
 		tag.put("heatUser", heatUser.WriteToNBT());
-
-		return super.save(tag);
 	}
 
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		load(pkt.getTag());
 	}
 
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 
 	@Override
