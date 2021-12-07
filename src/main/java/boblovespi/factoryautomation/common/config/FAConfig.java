@@ -1,15 +1,5 @@
 package boblovespi.factoryautomation.common.config;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraftforge.common.MinecraftForge;
-
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-
-import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-
 /**
  * Created by Willi on 11/10/2017.
  */

@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.fluid;
 
 import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 
 /**
  * Created by Willi on 12/28/2017.
