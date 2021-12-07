@@ -24,16 +24,14 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
-import net.minecraft.block.AbstractBlock;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,7 +45,7 @@ import static boblovespi.factoryautomation.common.item.FAItems.Building;
 import static boblovespi.factoryautomation.common.item.FAItems.Prop;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.COPPER;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.STEEL;
-import static net.minecraft.block.AbstractBlock.Properties.of;
+import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of;
 
 /**
  * Created by Willi on 11/9/2017.
@@ -271,13 +269,13 @@ public class FABlocks
 		// .Init(n -> n.setHardness(3f).setResistance(16));
 		siliconQuartzOre = new GemOre("ore_silicon_quartz",
 				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
-														   .SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
+						.SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
 
 		rock = new Rock();
 
 		// TODO: add obsidian flake rock
-		flintRock = new OreSample("flint_rock", new ItemStack[] { new ItemStack(Items.FLINT) });
-		blackSand = new Sand("black_sand",0x1D1C1C, of(Material.SAND, MaterialColor.COLOR_BLACK)
+		flintRock = new OreSample("flint_rock", new ItemStack[] {new ItemStack(Items.FLINT)});
+		blackSand = new Sand("black_sand", 0x1D1C1C, of(Material.SAND, MaterialColor.COLOR_BLACK)
 				.strength(0.5F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0), Building());
 
 		// workbenches
