@@ -1,9 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity;
 
-import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.tileentity.*;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntityCable;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
@@ -16,17 +14,18 @@ import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVes
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCrucible;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEIronWorkbench;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEStoneWorkbench;
+import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -109,20 +108,23 @@ public class TileEntityHandler
 		teCable = BuildType(TileEntityCable::new, FABlocks.cable, "cable");
 	}
 
-	private static <T extends BlockEntity> BlockEntityType<T> BuildType(Supplier<T> supplier, FABlock block, String name)
+	private static <T extends BlockEntity> BlockEntityType<T> BuildType(BlockEntityType.BlockEntitySupplier<T> supplier,
+																		FABlock block, String name)
 	{
-		BlockEntityType<T> t = BlockEntityType.Builder.of(supplier, block.ToBlock()).build(null);
-		t.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
+		ResourceLocation loc = new ResourceLocation(MODID, name);
+		BlockEntityType<T> t = BlockEntityType.Builder.of(supplier, block.ToBlock()).build(Util.fetchChoiceType(References.BLOCK_ENTITY, loc.toString()));
+		t.setRegistryName(loc);
 		tileTypes.add(t);
 		return t;
 	}
 
-	private static <T extends BlockEntity> BlockEntityType<T> BuildType(Supplier<T> supplier, List<FABlock> blocks,
-			String name)
+	private static <T extends BlockEntity> BlockEntityType<T> BuildType(BlockEntityType.BlockEntitySupplier<T> supplier,
+																		List<FABlock> blocks, String name)
 	{
-		BlockEntityType<T> t = BlockEntityType.Builder
-				.of(supplier, blocks.stream().map(FABlock::ToBlock).toArray(Block[]::new)).build(null);
-		t.setRegistryName(new ResourceLocation(FactoryAutomation.MODID, name));
+		ResourceLocation loc = new ResourceLocation(MODID, name);
+		BlockEntityType<T> t = BlockEntityType.Builder.of(supplier, blocks.stream().map(FABlock::ToBlock).toArray(Block[]::new))
+				.build(Util.fetchChoiceType(References.BLOCK_ENTITY, loc.toString()));
+		t.setRegistryName(loc);
 		tileTypes.add(t);
 		return t;
 	}

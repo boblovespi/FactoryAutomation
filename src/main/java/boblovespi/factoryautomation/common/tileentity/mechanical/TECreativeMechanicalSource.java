@@ -3,11 +3,12 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -26,9 +27,9 @@ public class TECreativeMechanicalSource extends BlockEntity implements IMechanic
 	private float torque;
 	private float speed;
 
-	public TECreativeMechanicalSource()
+	public TECreativeMechanicalSource(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teCreativeMechanicalSource);
+		super(TileEntityHandler.teCreativeMechanicalSource, pos, state);
 	}
 
 	@Override
@@ -62,19 +63,18 @@ public class TECreativeMechanicalSource extends BlockEntity implements IMechanic
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		speed = tag.getFloat("speed");
 		torque = tag.getFloat("torque");
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.putFloat("speed", speed);
 		tag.putFloat("torque", torque);
-		return super.save(tag);
 	}
 
 	@Nonnull

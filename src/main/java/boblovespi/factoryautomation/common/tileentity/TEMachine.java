@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.IMachineRecipe;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;

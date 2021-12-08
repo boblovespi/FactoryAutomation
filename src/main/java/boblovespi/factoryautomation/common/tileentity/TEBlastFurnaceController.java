@@ -6,22 +6,21 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -41,7 +40,7 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 public class TEBlastFurnaceController extends BlockEntity
-		implements TickableBlockEntity, IMultiblockControllerTE, MenuProvider
+		implements ITickable, IMultiblockControllerTE, MenuProvider
 {
 	public static final int[] COKE_SLOTS = { 3, 4 };
 	public static final int IRON_SLOT = 1;
@@ -95,9 +94,9 @@ public class TEBlastFurnaceController extends BlockEntity
 		}
 	};
 
-	public TEBlastFurnaceController()
+	public TEBlastFurnaceController(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teBlastFurnaceController);
+		super(TileEntityHandler.teBlastFurnaceController, pos, state);
 		itemHandler = new ItemStackHandler(7);
 		inputHopperWrapper = new RestrictedSlotItemHandler(new BitSet(7)
 		{{
@@ -108,7 +107,7 @@ public class TEBlastFurnaceController extends BlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound)
+	public void load(CompoundTag compound)
 	{
 		burnTime = compound.getInt("burnTime");
 		fuelBurnTime = compound.getInt("fuelBurnTime");
@@ -120,7 +119,7 @@ public class TEBlastFurnaceController extends BlockEntity
 
 		itemHandler.deserializeNBT(compound.getCompound("itemHandler"));
 
-		super.load(state, compound);
+		super.load(compound);
 
 		//		inputHopperWrapper = new RestrictedSlotItemHandler(new HashSet<Integer>()
 		//		{{
@@ -179,7 +178,7 @@ public class TEBlastFurnaceController extends BlockEntity
 				if (!itemHandler.getStackInSlot(COKE_SLOTS[0]).isEmpty())
 				{
 					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0]).getItem()
-											  .getBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]));
+											  .getBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]), null);
 
 					itemHandler.extractItem(COKE_SLOTS[0], 1, false);
 					burnTime = fuelBurnTime;
@@ -187,7 +186,7 @@ public class TEBlastFurnaceController extends BlockEntity
 				} else if (!itemHandler.getStackInSlot(COKE_SLOTS[1]).isEmpty())
 				{
 					fuelBurnTime = itemHandler.getStackInSlot(COKE_SLOTS[0]).getItem()
-											  .getBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]));
+											  .getBurnTime(itemHandler.getStackInSlot(COKE_SLOTS[0]), null);
 
 					itemHandler.extractItem(COKE_SLOTS[1], 1, false);
 					burnTime = fuelBurnTime;
@@ -235,13 +234,7 @@ public class TEBlastFurnaceController extends BlockEntity
 	{
 		CompoundTag nbt = new CompoundTag();
 		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
-	}
-
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		this.load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 
 	@Nonnull
