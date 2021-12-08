@@ -2,22 +2,21 @@ package boblovespi.factoryautomation.common.block.machine;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 11/26/2017.
@@ -25,12 +24,12 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 @SuppressWarnings({"DanglingJavadoc", "CommentedOutCode", "SpellCheckingInspection"})
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MultiblockComponent extends FABaseBlock
+public class MultiblockComponent extends FABaseBlock implements EntityBlock
 {
 	public MultiblockComponent()
 	{
-		super("multiblock_part", true, Properties.of(Material.METAL).strength(1.5f).isRedstoneConductor(MultiblockComponent::isRedstoneConductor),
-				new Item.Properties());
+		super("multiblock_part", true, Properties.of(Material.METAL).strength(1.5f)
+				.isRedstoneConductor(MultiblockComponent::isRedstoneConductor), new Item.Properties());
 		//		setUnlocalizedName(UnlocalizedName());
 		//		setRegistryName(RegistryName());
 		//		setLightOpacity(0);
@@ -57,23 +56,17 @@ public class MultiblockComponent extends FABaseBlock
 	//		return false;
 	//	}
 	@Override
-	public boolean canCreatureSpawn(BlockState state, BlockGetter level, BlockPos pos,
-			SpawnPlacements.Type type, @Nullable EntityType<?> entityType)
+	public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type,
+								EntityType<?> entityType)
 	{
 		return false;
 	}
 
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new TEMultiblockPart();
-	}
-
-	@Override
-	public boolean hasTileEntity(BlockState state)
-	{
-		return true;
+		return new TEMultiblockPart(pos, state);
 	}
 
 	//	public void getDrops(NonNullList<ItemStack> drops, ServerWorld level, BlockPos pos, BlockState state, int fortune)

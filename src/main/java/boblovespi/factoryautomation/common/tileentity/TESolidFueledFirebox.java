@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.HeatUser;
 import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -39,7 +40,7 @@ import static net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABI
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TESolidFueledFirebox extends BlockEntity implements MenuProvider
+public class TESolidFueledFirebox extends BlockEntity implements MenuProvider, ITickable
 {
 	private final HeatUser heatUser;
 	private final ItemStackHandler inventory;
@@ -77,9 +78,9 @@ public class TESolidFueledFirebox extends BlockEntity implements MenuProvider
 		}
 	};
 
-	public TESolidFueledFirebox()
+	public TESolidFueledFirebox(BlockPos pos, BlockState state)
 	{
-		super(teSolidFueledFirebox);
+		super(teSolidFueledFirebox, pos, state);
 		heatUser = new HeatUser(20, 1600, 300);
 		inventory = new ItemStackHandler(1);
 	}
@@ -87,6 +88,7 @@ public class TESolidFueledFirebox extends BlockEntity implements MenuProvider
 	/**
 	 * Like the old updateEntity(), except more generic.
 	 */
+	@Override
 	public void tick()
 	{
 		float K_d = heatUser.GetTemperature() - 20f;

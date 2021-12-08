@@ -6,6 +6,8 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.IGuiElement;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntArrayTag;
@@ -36,15 +38,16 @@ import java.util.Objects;
  * Created by Willi on 5/28/2018.
  */
 @ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
 public class TEBasicCircuitCreator extends BlockEntity implements MenuProvider
 {
 	private Layout layout;
 	private final ItemStackHandler inventory;
 
-	public TEBasicCircuitCreator()
+	public TEBasicCircuitCreator(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teBasicCircuitCreator);
+		super(TileEntityHandler.teBasicCircuitCreator, pos, state);
 		inventory = new ItemStackHandler(5)
 		{
 			@Override
@@ -164,17 +167,10 @@ public class TEBasicCircuitCreator extends BlockEntity implements MenuProvider
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound)
+	public void saveAdditional(CompoundTag compound)
 	{
 		compound.put("items", inventory.serializeNBT());
 		compound.put("layout", layout.Serialize());
-		return super.save(compound);
-	}
-
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	//	@Override
@@ -197,10 +193,7 @@ public class TEBasicCircuitCreator extends BlockEntity implements MenuProvider
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 
 	public Layout.Element[][] GetComponents()

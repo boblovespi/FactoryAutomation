@@ -71,16 +71,13 @@ public class TileEntityHandler
 
 	public static void RegisterTileEntities()
 	{
-		teCreativeMechanicalSource = BuildType(TECreativeMechanicalSource::new, FABlocks.creativeMechanicalSource,
-				"creative_mechanical_source");
+		teCreativeMechanicalSource = BuildType(TECreativeMechanicalSource::new, FABlocks.creativeMechanicalSource, "creative_mechanical_source");
 		teMultiblockPart = BuildType(TEMultiblockPart::new, FABlocks.multiblockPart, "multiblock_part");
 		teSolidFueledFirebox = BuildType(TESolidFueledFirebox::new, FABlocks.solidfueledfirebox, "solid_fueled_firebox");
 		teHorseEngine = BuildType(TEHorseEngine::new, FABlocks.horseEngine, "horse_engine");
 		teBasicCircuitCreator = BuildType(TEBasicCircuitCreator::new, FABlocks.chipCreator, "basic_circuit_creator");
-		teBlastFurnaceController = BuildType(
-				TEBlastFurnaceController::new, FABlocks.blastFurnaceController, "blast_furnace");
-		teSteelmakingFurnace = BuildType(
-				TESteelmakingFurnace::new, FABlocks.steelmakingFurnaceController, "steelmaking_furnace");
+		teBlastFurnaceController = BuildType(TEBlastFurnaceController::new, FABlocks.blastFurnaceController, "blast_furnace");
+		teSteelmakingFurnace = BuildType(TESteelmakingFurnace::new, FABlocks.steelmakingFurnaceController, "steelmaking_furnace");
 		tePipe = BuildType(TEPipe::new, FABlocks.pipe, "pipe");
 		tePlacedBucket = BuildType(TEPlacedBucket::new, FABlocks.placedBucket, "placed_bucket");
 		tePump = BuildType(TEPump::new, FABlocks.pump, "pump");
@@ -99,8 +96,7 @@ public class TileEntityHandler
 		teTreetap = BuildType(TETreetap::new, FABlocks.treetap, "treetap");
 		teBrickCrucible = BuildType(TEBrickCrucible::new, FABlocks.brickCrucible, "brick_crucible");
 		tePaperBellows = BuildType(TEPaperBellows::new, FABlocks.paperBellows, "paper_bellows");
-		teStoneCastingVessel = BuildType(
-				TEStoneCastingVessel::new, FABlocks.stoneCastingVessel, "stone_casting_vessel");
+		teStoneCastingVessel = BuildType(TEStoneCastingVessel::new, FABlocks.stoneCastingVessel, "stone_casting_vessel");
 		teStoneCrucible = BuildType(TEStoneCrucible::new, FABlocks.stoneCrucible, "stone_crucible");
 		teIronWorkbench = BuildType(TEIronWorkbench::new, FABlocks.ironWorkbench, "iron_workbench");
 		teStoneWorkbench = BuildType(TEStoneWorkbench::new, FABlocks.stoneWorkbench, "stone_workbench");
@@ -112,7 +108,8 @@ public class TileEntityHandler
 																		FABlock block, String name)
 	{
 		ResourceLocation loc = new ResourceLocation(MODID, name);
-		BlockEntityType<T> t = BlockEntityType.Builder.of(supplier, block.ToBlock()).build(Util.fetchChoiceType(References.BLOCK_ENTITY, loc.toString()));
+		BlockEntityType<T> t = BlockEntityType.Builder.of(supplier, block.ToBlock())
+				.build(Util.fetchChoiceType(References.BLOCK_ENTITY, loc.toString()));
 		t.setRegistryName(loc);
 		tileTypes.add(t);
 		return t;
@@ -122,8 +119,8 @@ public class TileEntityHandler
 																		List<FABlock> blocks, String name)
 	{
 		ResourceLocation loc = new ResourceLocation(MODID, name);
-		BlockEntityType<T> t = BlockEntityType.Builder.of(supplier, blocks.stream().map(FABlock::ToBlock).toArray(Block[]::new))
-				.build(Util.fetchChoiceType(References.BLOCK_ENTITY, loc.toString()));
+		BlockEntityType<T> t = BlockEntityType.Builder.of(supplier, blocks.stream().map(FABlock::ToBlock)
+				.toArray(Block[]::new)).build(Util.fetchChoiceType(References.BLOCK_ENTITY, loc.toString()));
 		t.setRegistryName(loc);
 		tileTypes.add(t);
 		return t;

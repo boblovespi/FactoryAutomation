@@ -3,27 +3,26 @@ package boblovespi.factoryautomation.common.tileentity.smelting;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.CastingVesselStates;
 import boblovespi.factoryautomation.common.container.ContainerStoneCastingVessel;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.World;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
@@ -39,7 +38,7 @@ import static boblovespi.factoryautomation.common.block.decoration.StoneCastingV
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class TEStoneCastingVessel extends BlockEntity
-		implements TickableBlockEntity, ICastingVessel, MenuProvider
+		implements ITickable, ICastingVessel, MenuProvider
 {
 	private boolean hasSand;
 	private TEStoneCrucible.MetalForms form;
@@ -68,15 +67,14 @@ public class TEStoneCastingVessel extends BlockEntity
 		}
 	};
 
-	public TEStoneCastingVessel()
+	public TEStoneCastingVessel(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teStoneCastingVessel);
+		super(TileEntityHandler.teStoneCastingVessel, pos, state);
 		slot = new ItemStackHandler(1);
 		form = TEStoneCrucible.MetalForms.NONE;
 	}
 
 	/**
-	 * Called when this is first added to the level (by {@link World#addBlockEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	public void FirstLoad()
@@ -174,9 +172,9 @@ public class TEStoneCastingVessel extends BlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		slot.deserializeNBT(tag.getCompound("slot"));
 		hasSand = tag.getBoolean("hasSand");
 		temp = tag.getFloat("temp");
@@ -184,13 +182,12 @@ public class TEStoneCastingVessel extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.put("slot", slot.serializeNBT());
 		tag.putBoolean("hasSand", hasSand);
 		tag.putFloat("temp", temp);
 		tag.putInt("form", form.ordinal());
-		return super.save(tag);
 	}
 
 	public boolean HasSand()
@@ -247,18 +244,12 @@ public class TEStoneCastingVessel extends BlockEntity
 		return new ContainerStoneCastingVessel(id, playerInv, worldPosition, formData);
 	}
 
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
-	}
-
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
 		CompoundTag nbt = new CompoundTag();
 		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 }

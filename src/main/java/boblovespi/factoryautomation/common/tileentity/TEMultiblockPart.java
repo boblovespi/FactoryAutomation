@@ -2,13 +2,12 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -33,13 +32,12 @@ public class TEMultiblockPart extends BlockEntity
 	private BlockState state;
 	private IMultiblockControllerTE controller;
 
-	public TEMultiblockPart()
+	public TEMultiblockPart(BlockPos pos, BlockState state)
 	{
-		super(teMultiblockPart);
+		super(teMultiblockPart, pos, state);
 	}
 
 	/**
-	 * Called when this is first added to the level (by {@link World#addBlockEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	public void InitController()
@@ -71,9 +69,9 @@ public class TEMultiblockPart extends BlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound)
+	public void load(CompoundTag compound)
 	{
-		super.load(state, compound);
+		super.load(compound);
 		structurePosition = compound.getIntArray("structurePosition");
 		structureId = compound.getString("structure");
 		structureOffset = compound.getIntArray("structureOffset");
@@ -81,13 +79,12 @@ public class TEMultiblockPart extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound)
+	public void saveAdditional(CompoundTag compound)
 	{
 		compound.putIntArray("structurePosition", structurePosition);
 		compound.putString("structure", structureId);
 		compound.putIntArray("structureOffset", structureOffset);
 		NBTHelper.SetBlockState(compound, state, "blockState");
-		return super.save(compound);
 	}
 
 	public String GetStructureId()

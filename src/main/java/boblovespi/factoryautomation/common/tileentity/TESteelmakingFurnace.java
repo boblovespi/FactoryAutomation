@@ -6,22 +6,21 @@ import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.util.MultiFluidTank;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -44,7 +43,7 @@ import static boblovespi.factoryautomation.common.block.machine.SteelmakingFurna
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
 public class TESteelmakingFurnace extends BlockEntity
-		implements TickableBlockEntity, IMultiblockControllerTE, MenuProvider
+		implements ITickable, IMultiblockControllerTE, MenuProvider
 {
 	public static final String MULTIBLOCK_ID = "steelmaking_furnace";
 
@@ -105,9 +104,9 @@ public class TESteelmakingFurnace extends BlockEntity
 		}
 	};
 
-	public TESteelmakingFurnace()
+	public TESteelmakingFurnace(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teSteelmakingFurnace);
+		super(TileEntityHandler.teSteelmakingFurnace, pos, state);
 		itemHandler = new ItemStackHandler(11);
 		fluidHandler = new MultiFluidTank(2, 1000/*magic number moment*/ * 10);
 	}
@@ -172,7 +171,7 @@ public class TESteelmakingFurnace extends BlockEntity
 
 					itemHandler.extractItem(FUEL_SLOT, 1, false);
 					isBurningFuel = true;
-					currentMaxBurnTime = fuel.getBurnTime();
+					currentMaxBurnTime = fuel.getBurnTime(null);
 					currentBurnTime = currentMaxBurnTime;
 				}
 
@@ -283,7 +282,7 @@ public class TESteelmakingFurnace extends BlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
 		currentSmeltTime = tag.getFloat("currentSmeltTime");
 		currentMaxSmeltTime = tag.getFloat("currentMaxSmeltTime");
@@ -298,11 +297,11 @@ public class TESteelmakingFurnace extends BlockEntity
 
 		itemHandler.deserializeNBT(tag.getCompound("itemHandler"));
 
-		super.load(state, tag);
+		super.load(tag);
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.putFloat("currentSmeltTime", currentSmeltTime);
 		tag.putFloat("currentMaxSmeltTime", currentMaxSmeltTime);
@@ -316,8 +315,6 @@ public class TESteelmakingFurnace extends BlockEntity
 		tag.putBoolean("isSmeltingItem", isSmeltingItem);
 
 		tag.put("itemHandler", itemHandler.serializeNBT());
-
-		return super.save(tag);
 	}
 
 	@Nullable
@@ -333,20 +330,11 @@ public class TESteelmakingFurnace extends BlockEntity
 		return SteelmakingRecipe.FindRecipe(items, fluidHandler.GetFluids());
 	}
 
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
-	}
-
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 
 	public float GetTempPercent()

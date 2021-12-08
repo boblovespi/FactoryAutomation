@@ -2,27 +2,31 @@ package boblovespi.factoryautomation.common.block.machine;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TESteelmakingFurnace;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -34,7 +38,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @SuppressWarnings("deprecation")
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class SteelmakingFurnaceController extends FABaseBlock
+public class SteelmakingFurnaceController extends FABaseBlock implements EntityBlock
 {
 	public static final EnumProperty<Axis> AXIS = EnumProperty.create("axis", Axis.class, Axis.X, Axis.Z);
 	public static final BooleanProperty MULTIBLOCK_COMPLETE = BooleanProperty.create("multiblock_complete");
@@ -51,9 +55,17 @@ public class SteelmakingFurnaceController extends FABaseBlock
 
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new TESteelmakingFurnace();
+		return new TESteelmakingFurnace(pos, state);
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state,
+																  BlockEntityType<T> type)
+	{
+		return ITickable::tickTE;
 	}
 
 	/**
@@ -73,16 +85,16 @@ public class SteelmakingFurnaceController extends FABaseBlock
 										 Direction.NORTH)*/)
 			{
 				BlockEntity te = world.getBlockEntity(pos);
-				if (te instanceof TESteelmakingFurnace)
+				if (te instanceof TESteelmakingFurnace tesf)
 				{
-					((TESteelmakingFurnace) te).CreateStructure();
+					tesf.CreateStructure();
 					NetworkHooks.openGui((ServerPlayer) player, TEHelper.GetContainer(te), pos);
 				}
 			} else
 			{
 				BlockEntity te = world.getBlockEntity(pos);
-				if (te instanceof TESteelmakingFurnace)
-					((TESteelmakingFurnace) te).SetStructureInvalid();
+				if (te instanceof TESteelmakingFurnace tesf)
+					tesf.SetStructureInvalid();
 			}
 		}
 		return InteractionResult.SUCCESS;

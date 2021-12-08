@@ -2,12 +2,13 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -27,7 +28,7 @@ import java.util.UUID;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEHorseEngine extends BlockEntity implements TickableBlockEntity
+public class TEHorseEngine extends BlockEntity implements ITickable
 {
 	private final MechanicalUser user;
 	private boolean hasHorse = false;
@@ -38,9 +39,9 @@ public class TEHorseEngine extends BlockEntity implements TickableBlockEntity
 	private final LazyOptional<MechanicalUser> lazyUser;
 	private boolean firstTick = true;
 
-	public TEHorseEngine()
+	public TEHorseEngine(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teHorseEngine);
+		super(TileEntityHandler.teHorseEngine, pos, state);
 		user = new MechanicalUser(EnumSet.of(Direction.UP));
 		lazyUser = LazyOptional.of(() -> user);
 	}
@@ -87,9 +88,9 @@ public class TEHorseEngine extends BlockEntity implements TickableBlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		user.ReadFromNBT(tag.getCompound("user"));
 		hasHorse = tag.getBoolean("hasHorse");
 		if (hasHorse)
@@ -99,7 +100,7 @@ public class TEHorseEngine extends BlockEntity implements TickableBlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.put("user", user.WriteToNBT());
 		if (hasHorse)
@@ -107,7 +108,6 @@ public class TEHorseEngine extends BlockEntity implements TickableBlockEntity
 		tag.putBoolean("hasHorse", hasHorse);
 		tag.putFloat("moveTimer", moveTimer);
 		tag.putFloat("angle", angle);
-		return super.save(tag);
 	}
 
 	//	@Nullable
