@@ -105,13 +105,7 @@ public class BlastFurnaceController extends Block
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type)
 	{
-		return (level1, blockPos, blockState, t) ->
-		{
-			if (t instanceof ITickable tile)
-			{
-				tile.tick();
-			}
-		};
+		return ITickable::tickTE;
 	}
 
 	@Override
