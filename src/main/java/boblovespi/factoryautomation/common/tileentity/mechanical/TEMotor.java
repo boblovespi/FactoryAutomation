@@ -6,14 +6,15 @@ import boblovespi.factoryautomation.api.energy.electricity.IRequiresEnergy_;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.machine.Motor;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -28,7 +29,7 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEMotor extends BlockEntity implements IMechanicalUser, IRequiresEnergy_, TickableBlockEntity
+public class TEMotor extends BlockEntity implements IMechanicalUser, IRequiresEnergy_, ITickable
 {
 	public float rotation = 0;
 	private float speed;
@@ -37,9 +38,9 @@ public class TEMotor extends BlockEntity implements IMechanicalUser, IRequiresEn
 	private int cooldown = -1;
 	private float energyProvided;
 
-	public TEMotor()
+	public TEMotor(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teMotor);
+		super(TileEntityHandler.teMotor, pos, state);
 	}
 
 	@Override
@@ -189,22 +190,21 @@ public class TEMotor extends BlockEntity implements IMechanicalUser, IRequiresEn
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound)
+	public void load(CompoundTag compound)
 	{
-		super.load(state, compound);
+		super.load(compound);
 		energyProvided = compound.getFloat("energyProvided");
 		speed = compound.getFloat("speed");
 		torque = compound.getFloat("torque");
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound)
+	public void saveAdditional(CompoundTag compound)
 	{
 		super.save(compound);
 		compound.putFloat("energyProvided", energyProvided);
 		compound.putFloat("speed", speed);
 		compound.putFloat("torque", torque);
-		return compound;
 	}
 
 	@Nonnull

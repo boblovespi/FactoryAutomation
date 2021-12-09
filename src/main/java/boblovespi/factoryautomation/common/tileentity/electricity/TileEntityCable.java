@@ -1,9 +1,11 @@
 package boblovespi.factoryautomation.common.tileentity.electricity;
 
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -25,9 +27,9 @@ public class TileEntityCable extends BlockEntity implements ICapabilityProvider
 {
 	private final IEnergyStorage energyStorage;
 
-	public TileEntityCable()
+	public TileEntityCable(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teCable);
+		super(TileEntityHandler.teCable, pos, state);
 		energyStorage = new EnergyStorage(128);
 	}
 

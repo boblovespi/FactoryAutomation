@@ -5,18 +5,19 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -34,7 +35,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEGearbox extends BlockEntity implements IMechanicalUser, TickableBlockEntity
+public class TEGearbox extends BlockEntity implements IMechanicalUser, ITickable
 {
 	public float rotationIn = 0;
 	public float rotationOut = 0;
@@ -50,9 +51,9 @@ public class TEGearbox extends BlockEntity implements IMechanicalUser, TickableB
 	private int outputDurability = -1;
 	private int counter = -1;
 
-	public TEGearbox()
+	public TEGearbox(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teGearbox);
+		super(TileEntityHandler.teGearbox, pos, state);
 	}
 
 	public boolean SideIsInput(Direction side)
@@ -102,7 +103,7 @@ public class TEGearbox extends BlockEntity implements IMechanicalUser, TickableB
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound)
+	public void load(CompoundTag compound)
 	{
 		speedIn = compound.getFloat("speedIn");
 		torqueIn = compound.getFloat("torqueIn");
@@ -115,11 +116,11 @@ public class TEGearbox extends BlockEntity implements IMechanicalUser, TickableB
 		inputDurability = compound.getInt("inputDurability");
 		outputDurability = compound.getInt("outputDurability");
 
-		super.load(state, compound);
+		super.load(compound);
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound)
+	public void saveAdditional(CompoundTag compound)
 	{
 		compound.putFloat("speedIn", speedIn);
 		compound.putFloat("torqueIn", torqueIn);
@@ -131,8 +132,6 @@ public class TEGearbox extends BlockEntity implements IMechanicalUser, TickableB
 
 		compound.putInt("inputDurability", inputDurability);
 		compound.putInt("outputDurability", outputDurability);
-
-		return super.save(compound);
 	}
 
 	/**
@@ -327,18 +326,10 @@ public class TEGearbox extends BlockEntity implements IMechanicalUser, TickableB
 		return LazyOptional.empty();
 	}
 
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
-	}
-
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 }

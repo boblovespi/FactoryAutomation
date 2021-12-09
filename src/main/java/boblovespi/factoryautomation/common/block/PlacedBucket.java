@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.block;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.TEPlacedBucket;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.Fluid;
@@ -25,7 +26,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 /**
  * Created by Willi on 6/27/2018.
  */
-public class PlacedBucket extends FABaseBlock
+public class PlacedBucket extends FABaseBlock implements EntityBlock
 {
 	public static final VoxelShape AXIS_ALIGNED_BB = Block
 			.box(4 / 16d, 0, 4 / 16d, 12 / 16d, 8 / 16d, 12 / 16d);
@@ -42,17 +43,11 @@ public class PlacedBucket extends FABaseBlock
 		return AXIS_ALIGNED_BB;
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state)
-	{
-		return true;
-	}
-
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new TEPlacedBucket();
+		return new TEPlacedBucket(pos, state);
 	}
 
 	@Override

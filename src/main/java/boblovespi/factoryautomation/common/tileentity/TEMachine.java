@@ -2,13 +2,12 @@ package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.IMachineRecipe;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -21,7 +20,7 @@ import java.util.Objects;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public abstract class TEMachine<T extends IMachineRecipe> extends BlockEntity implements TickableBlockEntity
+public abstract class TEMachine<T extends IMachineRecipe> extends BlockEntity implements ITickable
 {
 	protected ItemStackHandler processingInv;
 	protected String recipeName = "none";
@@ -30,9 +29,9 @@ public abstract class TEMachine<T extends IMachineRecipe> extends BlockEntity im
 	protected float currentProgress = 0;
 	private boolean firstTick = true;
 
-	public TEMachine(int outputSize, BlockEntityType<?> tileType)
+	public TEMachine(int outputSize, BlockEntityType<?> tileType, BlockPos pos, BlockState state)
 	{
-		super(tileType);
+		super(tileType, pos, state);
 		processingInv = new ItemStackHandler(outputSize + 1)
 		{
 			@Override
@@ -136,9 +135,9 @@ public abstract class TEMachine<T extends IMachineRecipe> extends BlockEntity im
 	protected abstract void ReadCustomNBT(CompoundTag tag);
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		currentProgress = tag.getFloat("currentProgress");
 		maxProgress = tag.getInt("maxProgress");
 		recipeName = tag.getString("recipe");
@@ -149,30 +148,19 @@ public abstract class TEMachine<T extends IMachineRecipe> extends BlockEntity im
 	protected abstract void WriteCustomNBT(CompoundTag tag);
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		WriteCustomNBT(tag);
 		tag.putFloat("currentProgress", currentProgress);
 		tag.putInt("maxProgress", maxProgress);
 		tag.putString("recipe", recipeName);
 		tag.put("processingInv", processingInv.serializeNBT());
-		return super.save(tag);
-	}
-
-	@SuppressWarnings("MethodCallSideOnly")
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		this.load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
 	}
 
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 }

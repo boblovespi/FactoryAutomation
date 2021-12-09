@@ -5,15 +5,15 @@ import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.block.machine.Waterwheel;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -29,7 +29,7 @@ import static boblovespi.factoryautomation.common.block.machine.Waterwheel.MULTI
 /**
  * Created by Willi on 6/23/2019.
  */
-public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE, TickableBlockEntity
+public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE, ITickable
 {
 	public static final String MULTIBLOCK_ID = "waterwheel";
 	private boolean structureIsValid = false;
@@ -39,9 +39,9 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 	private ArrayList<BlockPos> waterLoc;
 	private boolean firstTick = true;
 
-	public TEWaterwheel()
+	public TEWaterwheel(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teWaterwheel);
+		super(TileEntityHandler.teWaterwheel, pos, state);
 		user = new MechanicalUser();
 	}
 

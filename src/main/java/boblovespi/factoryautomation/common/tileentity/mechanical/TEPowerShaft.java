@@ -4,30 +4,28 @@ import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.core.Direction.AxisDirection;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace;
-import static net.minecraft.core.Direction.*;
-
-import net.minecraft.core.Direction.Axis;
-import net.minecraft.core.Direction.AxisDirection;
+import static net.minecraft.core.Direction.get;
 
 /**
  * Created by Willi on 1/15/2018.
@@ -35,16 +33,16 @@ import net.minecraft.core.Direction.AxisDirection;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEPowerShaft extends BlockEntity implements IMechanicalUser, TickableBlockEntity
+public class TEPowerShaft extends BlockEntity implements IMechanicalUser, ITickable
 {
 	public float rotation = 0;
 	private float speed;
 	private float torque;
 	private int counter = -1;
 
-	public TEPowerShaft()
+	public TEPowerShaft(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePowerShaft);
+		super(TileEntityHandler.tePowerShaft, pos, state);
 	}
 
 	@Override
@@ -80,21 +78,19 @@ public class TEPowerShaft extends BlockEntity implements IMechanicalUser, Tickab
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound)
+	public void load(CompoundTag compound)
 	{
 		speed = compound.getFloat("speed");
 		torque = compound.getFloat("torque");
 
-		super.load(state, compound);
+		super.load(compound);
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound)
+	public void saveAdditional(CompoundTag compound)
 	{
 		compound.putFloat("speed", speed);
 		compound.putFloat("torque", torque);
-
-		return super.save(compound);
 	}
 
 	@Override
@@ -150,18 +146,10 @@ public class TEPowerShaft extends BlockEntity implements IMechanicalUser, Tickab
 		return super.getCapability(capability, facing);
 	}
 
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
-	}
-
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 }

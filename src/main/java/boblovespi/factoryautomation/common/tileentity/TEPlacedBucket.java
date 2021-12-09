@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.tileentity;
 
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.nbt.CompoundTag;
@@ -27,9 +28,9 @@ public class TEPlacedBucket extends BlockEntity
 {
 	private final FluidTank handler;
 
-	public TEPlacedBucket()
+	public TEPlacedBucket(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePlacedBucket);
+		super(TileEntityHandler.tePlacedBucket, pos, state);
 		handler = new FluidTank(1000)
 		{
 			@Override
@@ -43,16 +44,15 @@ public class TEPlacedBucket extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound)
+	public void saveAdditional(CompoundTag compound)
 	{
 		handler.writeToNBT(compound);
-		return super.save(compound);
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound)
+	public void load(CompoundTag compound)
 	{
-		super.load(state, compound);
+		super.load(compound);
 		handler.readFromNBT(compound);
 	}
 

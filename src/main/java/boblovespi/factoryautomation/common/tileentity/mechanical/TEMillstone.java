@@ -8,7 +8,8 @@ import boblovespi.factoryautomation.common.tileentity.TEMachine;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -44,9 +45,9 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	private MillstoneRecipe millstoneRecipe = null;
 	private int counter = 0;
 
-	public TEMillstone()
+	public TEMillstone(BlockPos pos, BlockState state)
 	{
-		super(0, TileEntityHandler.teMillstone);
+		super(0, TileEntityHandler.teMillstone, pos, state);
 		mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
 	}
 
@@ -189,20 +190,5 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 		setChanged();
 		BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
 		level.sendBlockUpdated(worldPosition, state, state, 3);
-	}
-
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
-	}
-
-	@Nullable
-	@Override
-	public ClientboundBlockEntityDataPacket getUpdatePacket()
-	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 }

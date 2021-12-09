@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.TEPipe;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,7 +24,7 @@ import javax.annotation.Nullable;
  * Created by Willi on 10/6/2018.
  * TODO: optimize w/ manager object
  */
-public class Pipe extends FABaseBlock
+public class Pipe extends FABaseBlock implements EntityBlock
 {
 	private static final EnumProperty<Connection> WEST = EnumProperty.create("west", Connection.class);
 	private static final EnumProperty<Connection> EAST = EnumProperty.create("east", Connection.class);
@@ -80,15 +81,9 @@ public class Pipe extends FABaseBlock
 	 */
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new TEPipe();
-	}
-
-	@Override
-	public boolean hasTileEntity(BlockState state)
-	{
-		return true;
+		return new TEPipe(pos, state);
 	}
 
 	public enum Connection implements StringRepresentable

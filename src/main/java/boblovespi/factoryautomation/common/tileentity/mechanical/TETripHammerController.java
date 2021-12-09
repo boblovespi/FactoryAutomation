@@ -3,18 +3,19 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.TripHammerRecipe;
+import boblovespi.factoryautomation.common.block.machine.TripHammerController.BlockstateEnum;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
@@ -24,9 +25,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 import java.util.Objects;
 
-import static boblovespi.factoryautomation.common.block.machine.TripHammerController.*;
-
-import boblovespi.factoryautomation.common.block.machine.TripHammerController.BlockstateEnum;
+import static boblovespi.factoryautomation.common.block.machine.TripHammerController.FACING;
+import static boblovespi.factoryautomation.common.block.machine.TripHammerController.MULTIBLOCK_COMPLETE;
 
 /**
  * Created by Willi on 8/13/2018.
@@ -34,7 +34,7 @@ import boblovespi.factoryautomation.common.block.machine.TripHammerController.Bl
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TETripHammerController extends BlockEntity implements IMultiblockControllerTE, TickableBlockEntity
+public class TETripHammerController extends BlockEntity implements IMultiblockControllerTE, ITickable
 {
 	public static final String MULTIBLOCK_ID = "trip_hammer";
 	private final ItemStackHandler itemHandler;
@@ -45,9 +45,9 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 	private float timeLeftInRecipe = -1;
 	private boolean firstTick = true;
 
-	public TETripHammerController()
+	public TETripHammerController(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teTripHammerController);
+		super(TileEntityHandler.teTripHammerController, pos, state);
 		itemHandler = new ItemStackHandler(2)
 		{
 			@Override
@@ -202,9 +202,9 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag nbt)
+	public void load(CompoundTag nbt)
 	{
-		super.load(state, nbt);
+		super.load(nbt);
 
 		itemHandler.deserializeNBT(nbt.getCompound("inventory"));
 		mechanicalUser.ReadFromNBT(nbt.getCompound("mechanicalUser"));
@@ -213,13 +213,11 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag nbt)
+	public void saveAdditional(CompoundTag nbt)
 	{
 		nbt.put("inventory", itemHandler.serializeNBT());
 		nbt.put("mechanicalUser", mechanicalUser.WriteToNBT());
 		nbt.putString("recipe", currentRecipeString);
 		nbt.putFloat("timeLeftInRecipe", timeLeftInRecipe);
-
-		return super.save(nbt);
 	}
 }

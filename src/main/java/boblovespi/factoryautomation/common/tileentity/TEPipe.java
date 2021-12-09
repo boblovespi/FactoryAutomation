@@ -1,12 +1,12 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,16 +28,16 @@ import java.util.Objects;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TEPipe extends BlockEntity implements TickableBlockEntity
+public class TEPipe extends BlockEntity implements ITickable
 {
 	protected static int transferTime = 16;
 	protected static int transferAmount = 1500;
 	private int timer = -1;
 	private final FluidTank tank;
 
-	public TEPipe()
+	public TEPipe(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePipe);
+		super(TileEntityHandler.tePipe, pos, state);
 		tank = new FluidTank(transferAmount)
 		{
 			@Override
@@ -117,19 +117,18 @@ public class TEPipe extends BlockEntity implements TickableBlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		timer = tag.getInt("timer");
 		tank.readFromNBT(tag.getCompound("tank"));
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.putInt("timer", timer);
 		tag.put("tank", tank.writeToNBT(new CompoundTag()));
-		return super.save(tag);
 	}
 
 	@Nonnull

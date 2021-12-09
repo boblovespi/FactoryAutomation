@@ -2,9 +2,11 @@ package boblovespi.factoryautomation.common.tileentity.workbench;
 
 import boblovespi.factoryautomation.common.container.workbench.ContainerStoneWorkbench;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
@@ -13,9 +15,9 @@ import javax.annotation.Nullable;
  */
 public class TEStoneWorkbench extends TEWorkbench
 {
-	public TEStoneWorkbench()
+	public TEStoneWorkbench(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teStoneWorkbench, 3, 1);
+		super(TileEntityHandler.teIronWorkbench, 3, 1, pos, state);
 	}
 
 	@Nullable

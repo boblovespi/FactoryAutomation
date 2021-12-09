@@ -2,18 +2,19 @@ package boblovespi.factoryautomation.common.tileentity.processing;
 
 import boblovespi.factoryautomation.api.recipe.CampfireRecipe;
 import boblovespi.factoryautomation.common.block.processing.Campfire;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
@@ -25,16 +26,16 @@ import java.util.Objects;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TECampfire extends BlockEntity implements TickableBlockEntity
+public class TECampfire extends BlockEntity implements ITickable
 {
 	private final ItemStackHandler slot;
 	private String recipe = "none";
 	private int timeLeft = -1;
 	private boolean isLit = false;
 
-	public TECampfire()
+	public TECampfire(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teCampfire);
+		super(TileEntityHandler.teCampfire, pos, state);
 		slot = new ItemStackHandler(1);
 	}
 
@@ -125,21 +126,20 @@ public class TECampfire extends BlockEntity implements TickableBlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		timeLeft = tag.getInt("timeLeft");
 		slot.deserializeNBT(tag.getCompound("slot"));
 		recipe = tag.getString("recipe");
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.putInt("timeLeft", timeLeft);
 		tag.putString("recipe", recipe);
 		tag.put("slot", slot.serializeNBT());
-		return super.save(tag);
 	}
 
 	public void SetLit(boolean isLit)
@@ -147,18 +147,10 @@ public class TECampfire extends BlockEntity implements TickableBlockEntity
 		this.isLit = isLit;
 	}
 
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
-	}
-
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 }

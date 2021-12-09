@@ -1,14 +1,14 @@
 package boblovespi.factoryautomation.common.tileentity.processing;
 
 import boblovespi.factoryautomation.common.fluid.Fluids;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -21,15 +21,15 @@ import static boblovespi.factoryautomation.common.block.processing.Treetap.FACIN
 /**
  * Created by Willi on 6/26/2018.
  */
-public class TETreetap extends BlockEntity implements TickableBlockEntity
+public class TETreetap extends BlockEntity implements ITickable
 {
 	private static final int AMOUNT_PER_UPDATE = 1;
 	private static final int AMOUNT_UNTIL_UPDATE = 24000 / (1000 / AMOUNT_PER_UPDATE); // TODO: move to config
 	private int counter = -1;
 
-	public TETreetap()
+	public TETreetap(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teTreetap);
+		super(TileEntityHandler.teTreetap, pos, state);
 	}
 
 	/**

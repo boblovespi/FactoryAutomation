@@ -6,16 +6,18 @@ import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.misc.IBellowsable;
 import boblovespi.factoryautomation.client.tesr.IBellowsTE;
 import boblovespi.factoryautomation.common.block.processing.PaperBellows;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -34,7 +36,7 @@ import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TELeatherBellows extends BlockEntity implements TickableBlockEntity, IBellowsTE
+public class TELeatherBellows extends BlockEntity implements ITickable, IBellowsTE
 {
 	private float counter = 0;
 	private int c2 = 0;
@@ -42,9 +44,9 @@ public class TELeatherBellows extends BlockEntity implements TickableBlockEntity
 	private float lerp = 0;
 	private boolean firstTick = true;
 
-	public TELeatherBellows()
+	public TELeatherBellows(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teLeatherBellows);
+		super(TileEntityHandler.teLeatherBellows, pos, state);
 		mechanicalUser = new MechanicalUser();
 	}
 
@@ -111,19 +113,18 @@ public class TELeatherBellows extends BlockEntity implements TickableBlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 		counter = tag.getFloat("counter");
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
 		tag.putFloat("counter", counter);
-		return super.save(tag);
 	}
 
 	@Nonnull

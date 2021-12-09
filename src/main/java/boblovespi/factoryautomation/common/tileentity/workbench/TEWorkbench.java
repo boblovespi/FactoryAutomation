@@ -6,16 +6,17 @@ import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
 import boblovespi.factoryautomation.api.recipe.WorkbenchTool;
 import boblovespi.factoryautomation.common.util.SetBlockStateFlags;
 import com.mojang.authlib.GameProfile;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.common.util.LazyOptional;
@@ -48,9 +49,9 @@ public abstract class TEWorkbench extends BlockEntity implements MenuProvider
 	protected IWorkbenchRecipe recipe = null;
 	private boolean isUpdatingChanges = false;
 
-	public TEWorkbench(BlockEntityType<? extends TEWorkbench> type, int size, int tier)
+	public TEWorkbench(BlockEntityType<? extends TEWorkbench> type, int size, int tier, BlockPos pos, BlockState state)
 	{
-		super(type);
+		super(type, pos, state);
 		this.size = size;
 		this.tier = tier;
 		firstPartIndex = 2 + size;
@@ -166,24 +167,23 @@ public abstract class TEWorkbench extends BlockEntity implements MenuProvider
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag compound)
+	public void load(CompoundTag compound)
 	{
-		super.load(state, compound);
+		super.load(compound);
 		inventory.deserializeNBT(compound.getCompound("items"));
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound)
+	public void saveAdditional(CompoundTag compound)
 	{
 		compound.put("items", inventory.serializeNBT());
-		return super.save(compound);
 	}
 
 	public void CheckForRecipe()
 	{
 		Optional<IWorkbenchRecipe> recipeOptional = Objects.requireNonNull(level).getRecipeManager()
 														 .getAllRecipesFor(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE)
-														 .stream().map(n -> (IWorkbenchRecipe) n)
+														 .stream()
 														 .filter(n -> n.CanFitTier(size, size, tier)).filter(n -> n
 						.Matches(inventory, size <= 3, firstToolIndex, firstPartIndex, firstCraftingIndex)).findFirst();
 		recipe = recipeOptional.orElse(null);
@@ -200,7 +200,6 @@ public abstract class TEWorkbench extends BlockEntity implements MenuProvider
 	}
 
 	/**
-	 * Called when this is first added to the level (by {@link World#addTileEntity(TileEntity)}).
 	 * Override instead of adding {@code if (firstTick)} stuff in update.
 	 */
 	@Override

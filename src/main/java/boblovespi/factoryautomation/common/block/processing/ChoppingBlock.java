@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.block.processing;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -25,7 +26,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 /**
  * Created by Willi on 12/26/2018.
  */
-public class ChoppingBlock extends FABaseBlock
+public class ChoppingBlock extends FABaseBlock implements EntityBlock
 {
 	private static final VoxelShape BOUNDING_BOX = Block.box(0, 0, 0, 16, 8, 16);
 	public final int maxUses;
@@ -42,17 +43,11 @@ public class ChoppingBlock extends FABaseBlock
 		return "processing/" + RegistryName();
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state)
-	{
-		return true;
-	}
-
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new TEChoppingBlock(maxUses);
+		return new TEChoppingBlock(maxUses, pos, state);
 	}
 
 	@Override

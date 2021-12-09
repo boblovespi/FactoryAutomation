@@ -4,13 +4,14 @@ import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -26,16 +27,16 @@ import static boblovespi.factoryautomation.common.util.TEHelper.IsMechanicalFace
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEBevelGear extends BlockEntity implements TickableBlockEntity
+public class TEBevelGear extends BlockEntity implements ITickable
 {
 	public float rotation = 0;
 	private final MechanicalUser user;
 	private int counter = -1;
 	private boolean firstTick = true;
 
-	public TEBevelGear()
+	public TEBevelGear(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teBevelGear);
+		super(TileEntityHandler.teBevelGear, pos, state);
 		user = new MechanicalUser();
 	}
 
@@ -49,17 +50,16 @@ public class TEBevelGear extends BlockEntity implements TickableBlockEntity
 	}
 	
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		user.ReadFromNBT(tag.getCompound("user"));
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.put("user", user.WriteToNBT());
-		return super.save(tag);
 	}
 
 	/**

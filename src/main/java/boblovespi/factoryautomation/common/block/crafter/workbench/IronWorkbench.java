@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEIronWorkbench;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * Created by Willi on 4/15/2018.
  */
-public class IronWorkbench extends Workbench
+public class IronWorkbench extends Workbench implements EntityBlock
 {
 	private static final VoxelShape BOUNDING_BOX = Block.box(0, 0, 0, 16, 15, 16);
 
@@ -35,20 +36,14 @@ public class IronWorkbench extends Workbench
 		TileEntityHandler.tiles.add(TEIronWorkbench.class);
 	}
 
-	@Override
-	public boolean hasTileEntity(BlockState state)
-	{
-		return true;
-	}
-
 	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
 	 */
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new TEIronWorkbench();
+		return new TEIronWorkbench(pos, state);
 	}
 
 	/**

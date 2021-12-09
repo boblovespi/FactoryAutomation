@@ -2,17 +2,22 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,24 +40,18 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 /**
  * Created by Willi on 12/27/2018.
  */
-public class Campfire extends FABaseBlock
+public class Campfire extends FABaseBlock implements EntityBlock
 {
-	public static final BooleanProperty LIT = BooleanProperty.create("lit");
+	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 	private static final VoxelShape BOUNDING_BOX = Block
 			.box(3, 0, 3, 13, 6, 13);
 
 	public Campfire()
 	{
-		super("campfire", false, Properties.of(Materials.WOOD_MACHINE).strength(4),
+		super("campfire", false, Properties.of(Materials.WOOD_MACHINE).strength(4).lightLevel(s -> s.getValue(LIT) ? 11 : 0),
 				new Item.Properties().tab(FAItemGroups.primitive));
 		registerDefaultState(defaultBlockState().setValue(LIT, false));
 		TileEntityHandler.tiles.add(TECampfire.class);
-	}
-
-	@Override
-	public int getLightValue(BlockState state, BlockGetter world, BlockPos pos)
-	{
-		return state.getValue(LIT) ? 11 : 0;
 	}
 
 	@Override
@@ -61,17 +60,18 @@ public class Campfire extends FABaseBlock
 		return "processing/" + RegistryName();
 	}
 
+	@Nullable
 	@Override
-	public boolean hasTileEntity(BlockState state)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return true;
+		return new TECampfire(pos, state);
 	}
 
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type)
 	{
-		return new TECampfire();
+		return ITickable::tickTE;
 	}
 
 	@Override

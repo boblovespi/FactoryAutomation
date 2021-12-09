@@ -1,37 +1,30 @@
 package boblovespi.factoryautomation.common.block.machine;
 
-import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.energy.electricity.IEnergyBlock;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import boblovespi.factoryautomation.common.util.Log;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.core.Direction;
-import net.minecraft.util.Hand;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 12/21/2017.
  * solar panels!
  */
-public class SolarPanel extends FABaseBlock implements IEnergyBlock
+public class SolarPanel extends FABaseBlock implements IEnergyBlock, EntityBlock
 {
 	private static final AABB BOUNDING_BOX = new AABB(0, 0, 0, 1, 0.21875, 1);
 
@@ -39,7 +32,7 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 	{
 		super(
 				"solar_panel", false,
-				Properties.of(Material.METAL).strength(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
+				Properties.of(Material.METAL).strength(2).requiresCorrectToolForDrops(),
 				new Item.Properties().tab(FAItemGroups.electrical));
 	}
 
@@ -60,9 +53,16 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 
 	@Nullable
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter level)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new TileEntitySolarPanel();
+		return new TileEntitySolarPanel(pos, state);
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type)
+	{
+		return ITickable::tickTE;
 	}
 
 //	@Override
@@ -87,20 +87,4 @@ public class SolarPanel extends FABaseBlock implements IEnergyBlock
 //		}
 //		return true;
 //	}
-
-	/**
-	 * Called throughout the code as a replacement for block instanceof BlockContainer
-	 * Moving this to the Block base class allows for mods that wish to extend vanilla
-	 * blocks, and also want to have a tile entity on that block, may.
-	 * <p>
-	 * Return true from this function to specify this block has a tile entity.
-	 *
-	 * @param state State of the current block
-	 * @return True if block has a tile entity, false otherwise
-	 */
-	@Override
-	public boolean hasTileEntity(BlockState state)
-	{
-		return true;
-	}
 }

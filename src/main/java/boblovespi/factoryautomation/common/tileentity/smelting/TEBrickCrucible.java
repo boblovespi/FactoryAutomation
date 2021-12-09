@@ -6,32 +6,32 @@ import boblovespi.factoryautomation.api.misc.BellowsUser;
 import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.processing.BrickCrucible;
-import boblovespi.factoryautomation.common.block.processing.StoneCrucible;
 import boblovespi.factoryautomation.common.container.ContainerBrickFoundry;
 import boblovespi.factoryautomation.common.container.StringIntArray;
-import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.NBTHelper;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.FloatTag;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
@@ -52,8 +52,7 @@ import static boblovespi.factoryautomation.common.block.processing.StoneCrucible
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TEBrickCrucible extends BlockEntity
-		implements IMultiblockControllerTE, TickableBlockEntity, MenuProvider
+public class TEBrickCrucible extends BlockEntity implements IMultiblockControllerTE, ITickable, MenuProvider
 {
 	public static final String MULTIBLOCK_ID = "brick_foundry";
 	private final MultiMetalHelper metals;
@@ -110,9 +109,9 @@ public class TEBrickCrucible extends BlockEntity
 	};
 	private final StringIntArray metalName;
 
-	public TEBrickCrucible()
+	public TEBrickCrucible(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teBrickCrucible);
+		super(TileEntityHandler.teBrickCrucible, pos, state);
 		metals = new MultiMetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 2300 * 1000, 300);
@@ -258,9 +257,9 @@ public class TEBrickCrucible extends BlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		metals.ReadFromNBT(tag.getCompound("metals"));
 		inventory.deserializeNBT(tag.getCompound("inventory"));
 		heatUser.ReadFromNBT(tag.getCompound("heatUser"));
@@ -273,7 +272,7 @@ public class TEBrickCrucible extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.put("metals", metals.WriteToNBT());
 		tag.put("inventory", inventory.serializeNBT());
@@ -284,7 +283,6 @@ public class TEBrickCrucible extends BlockEntity
 		tag.putInt("meltTime", meltTime);
 		tag.putBoolean("isBurningFuel", isBurningFuel);
 		tag.put("bellowsUser", bellowsUser.WriteToNBT());
-		return super.save(tag);
 	}
 
 	public IItemHandler GetInventory()

@@ -4,12 +4,12 @@ import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUs
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.common.util.TEHelper;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -30,7 +30,7 @@ import static boblovespi.factoryautomation.common.block.fluid.Pump.FACING;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TEPump extends BlockEntity implements TickableBlockEntity
+public class TEPump extends BlockEntity implements ITickable
 {
 	private static final float transferSpeed = 1f; // amount to decrease transfer time by per 10 rot speed
 	private static final float transferAmountScalar = 1f; // transfer amount per 10 rot torque
@@ -40,9 +40,9 @@ public class TEPump extends BlockEntity implements TickableBlockEntity
 	private final MechanicalUser mechanicalUser;
 	private boolean firstTick = true;
 
-	public TEPump()
+	public TEPump(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePump);
+		super(TileEntityHandler.tePump, pos, state);
 		this.timer = 0;
 		mechanicalUser = new MechanicalUser();
 	}
@@ -126,18 +126,17 @@ public class TEPump extends BlockEntity implements TickableBlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		timer = tag.getFloat("timer");
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.putFloat("timer", timer);
 		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
-		return super.save(tag);
 	}
 }

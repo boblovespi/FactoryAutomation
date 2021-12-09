@@ -3,15 +3,15 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -31,7 +31,7 @@ import static boblovespi.factoryautomation.common.util.SetBlockStateFlags.SEND_T
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TEHandCrank extends BlockEntity implements TickableBlockEntity
+public class TEHandCrank extends BlockEntity implements ITickable
 {
 
 	public static final float SPEED = 1;
@@ -41,9 +41,9 @@ public class TEHandCrank extends BlockEntity implements TickableBlockEntity
 	public boolean inverted = false;
 	private boolean firstTick = true;
 
-	public TEHandCrank()
+	public TEHandCrank(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teHandCrank);
+		super(TileEntityHandler.teHandCrank, pos, state);
 		this.mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
 		this.isRotating = false;
 	}
@@ -73,21 +73,20 @@ public class TEHandCrank extends BlockEntity implements TickableBlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 		rotation = tag.getFloat("rotation");
 		isRotating = tag.getBoolean("isRotating");
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
 		tag.putFloat("rotation", rotation);
 		tag.putBoolean("isRotating", isRotating);
-		return super.save(tag);
 	}
 
 	// Todo: update to use non-null
@@ -133,18 +132,10 @@ public class TEHandCrank extends BlockEntity implements TickableBlockEntity
 		return isRotating;
 	}
 
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
-	}
-
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 }

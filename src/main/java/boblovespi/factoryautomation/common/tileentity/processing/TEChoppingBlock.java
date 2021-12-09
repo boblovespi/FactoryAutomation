@@ -5,18 +5,18 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
@@ -37,15 +37,15 @@ public class TEChoppingBlock extends BlockEntity
 	private int craftsDone = 0;
 	private String recipe = "none";
 
-	public TEChoppingBlock()
+	public TEChoppingBlock(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teChoppingBlock);
+		super(TileEntityHandler.teChoppingBlock, pos, state);
 		slot = new ItemStackHandler(1);
 	}
 
-	public TEChoppingBlock(int maxUses)
+	public TEChoppingBlock(int maxUses, BlockPos pos, BlockState state)
 	{
-		this();
+		this(pos, state);
 		craftsBeforeBreak = maxUses;
 	}
 
@@ -145,9 +145,9 @@ public class TEChoppingBlock extends BlockEntity
 	}
 
 	@Override
-	public void load(BlockState state, CompoundTag tag)
+	public void load(CompoundTag tag)
 	{
-		super.load(state, tag);
+		super.load(tag);
 		clicksLeft = tag.getInt("clicksLeft");
 		slot.deserializeNBT(tag.getCompound("slot"));
 		craftsBeforeBreak = tag.getInt("craftsBeforeBreak");
@@ -156,14 +156,13 @@ public class TEChoppingBlock extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public void saveAdditional(CompoundTag tag)
 	{
 		tag.putInt("clicksLeft", clicksLeft);
 		tag.putInt("craftsBeforeBreak", craftsBeforeBreak);
 		tag.putInt("craftsDone", craftsDone);
 		tag.putString("recipe", recipe);
 		tag.put("slot", slot.serializeNBT());
-		return super.save(tag);
 	}
 
 	public void DropItems()
@@ -177,19 +176,10 @@ public class TEChoppingBlock extends BlockEntity
 		return slot.getStackInSlot(0);
 	}
 
-
-	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
-	{
-		load(Objects.requireNonNull(level).getBlockState(worldPosition), pkt.getTag());
-	}
-
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 }
