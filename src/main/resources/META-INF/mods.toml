@@ -22,7 +22,7 @@ issueTrackerURL="https://github.com/boblovespi/FactoryAutomation/issues" #option
 modId="factoryautomation" #mandatory
 
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="mc1.16.5-alpha0.4.0" #mandatory
+version="mc1.18-alpha0.4.0" #mandatory
 
  # A display name for the mod
 displayName="Factory Automation" #mandatory
@@ -63,6 +63,6 @@ A tech mod that adds an age-based progression system.
 [[dependencies.factoryautomation]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16,1.16.5]"
+    versionRange="[1.18,1.18.1]"
     ordering="NONE"
     side="BOTH"
