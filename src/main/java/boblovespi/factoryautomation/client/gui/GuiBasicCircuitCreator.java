@@ -6,14 +6,15 @@ import boblovespi.factoryautomation.common.container.ContainerBasicCircuitCreato
 import boblovespi.factoryautomation.common.network.BasicCircuitCreatorSyncPacket;
 import boblovespi.factoryautomation.common.network.PacketHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.components.ImageButton;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 /**
  * Created by Willi on 5/28/2018.
@@ -61,15 +62,15 @@ public class GuiBasicCircuitCreator extends AbstractContainerScreen<ContainerBas
 	{
 		super.init();
 		solderMode = new ImageButton(leftPos + 106, topPos + 12, 20, 18, 1, 167, 19, loc, unused -> mode = 0);
-		addButton(solderMode);
+		addRenderableWidget(solderMode);
 		wireMode = new ImageButton(leftPos + 106, topPos + 32, 20, 18, 22, 167, 19, loc, unused -> mode = 1);
-		addButton(wireMode);
+		addRenderableWidget(wireMode);
 		addThirdMode = new ImageButton(leftPos + 106, topPos + 52, 20, 18, 43, 167, 19, loc, unused -> mode = 2);
-		addButton(addThirdMode);
+		addRenderableWidget(addThirdMode);
 		craft = new ImageButton(
 				leftPos + 106, topPos + 72, 20, 18, 64, 167, 19, loc, unused -> PacketHandler.INSTANCE
 				.sendToServer(new BasicCircuitCreatorSyncPacket(te.getBlockPos(), (byte) 4, (byte) 0, (byte) 0)));
-		addButton(craft);
+		addRenderableWidget(craft);
 	}
 
 	/**
@@ -78,8 +79,9 @@ public class GuiBasicCircuitCreator extends AbstractContainerScreen<ContainerBas
 	@Override
 	protected void renderBg(PoseStack matrix, float partialTicks, int mouseX, int mouseY)
 	{
-		GlStateManager._blendColor(1, 1, 1, 1);
-		minecraft.getTextureManager().bind(loc);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
+		RenderSystem.setShaderTexture(0, loc);
 		blit(matrix, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 
 		// drawTexturedModalRect(leftPos + 106, topPos, 1, 167, 20, 18);

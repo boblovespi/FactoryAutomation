@@ -63,6 +63,6 @@ A tech mod that adds an age-based progression system.
 [[dependencies.factoryautomation]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18,1.18.1]"
+    versionRange="[1.18.1,1.18.1]"
     ordering="NONE"
     side="BOTH"

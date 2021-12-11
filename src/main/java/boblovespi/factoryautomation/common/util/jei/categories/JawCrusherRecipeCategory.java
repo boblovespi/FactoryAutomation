@@ -12,6 +12,8 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 
@@ -57,10 +59,9 @@ public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecip
 
 	@Nonnull
 	@Override
-	public String getTitle()
+	public Component getTitle()
 	{
-		//noinspection MethodCallSideOnly
-		return I18n.get("tile.jaw_crusher.name");
+		return new TranslatableComponent("tile.jaw_crusher.name");
 	}
 
 	@Nonnull

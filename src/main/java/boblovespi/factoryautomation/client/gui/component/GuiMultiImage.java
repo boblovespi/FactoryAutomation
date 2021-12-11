@@ -1,8 +1,10 @@
 package boblovespi.factoryautomation.client.gui.component;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -23,7 +25,8 @@ public class GuiMultiImage
 	private final List<ResourceLocation> texLocs;
 	private int texture;
 
-	public GuiMultiImage(int x, int y, int w, int h, int texX, int texY, int texW, int texH, List<ResourceLocation> texLocs)
+	public GuiMultiImage(int x, int y, int w, int h, int texX, int texY, int texW, int texH,
+						 List<ResourceLocation> texLocs)
 	{
 		this.x = x;
 		this.y = y;
@@ -49,7 +52,7 @@ public class GuiMultiImage
 	{
 		int guiLeft = gui.getGuiLeft();
 		int guiTop = gui.getGuiTop();
-		gui.getMinecraft().getTextureManager().bind(texLocs.get(texture));
+		RenderSystem.setShaderTexture(0, texLocs.get(texture));
 		matrix.pushPose();
 		{
 			matrix.translate(guiLeft + x, guiTop + y, 0);

@@ -10,6 +10,8 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 
@@ -48,9 +50,9 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory<BlastFurnaceR
 
 	@Nonnull
 	@Override
-	public String getTitle()
+	public Component getTitle()
 	{
-		return "gui.blast_furnace.name";
+		return new TranslatableComponent("gui.blast_furnace.name");
 	}
 
 	@Nonnull

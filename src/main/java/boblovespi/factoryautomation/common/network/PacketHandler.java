@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.common.network;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.Optional;
 
@@ -24,7 +24,7 @@ public class PacketHandler
 	public static void CreateChannel(String channelName)
 	{
 		INSTANCE = NetworkRegistry.newSimpleChannel(ResourceLocation.tryParse(channelName), () -> PROTOCOL_VERSION,
-				PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
+													PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 		RegisterMessages();
 	}
 
