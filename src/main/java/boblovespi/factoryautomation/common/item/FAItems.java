@@ -17,6 +17,7 @@ import boblovespi.factoryautomation.common.item.types.MachineTiers;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.TallowForms;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -292,8 +293,8 @@ public class FAItems
 		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterial.steelMaterial);
 		steelWrench = new Wrench("steel_wrench", 0, 0, ToolMaterial.steelMaterial);
 		steelPinchers = new WorkbenchToolItem(
-				"steel_pinchers", 0, 0, ToolMaterial.steelMaterial, Prop(), FAToolTypes.NONE);
-		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Tiers.WOOD, Prop(), FAToolTypes.NONE);
+				"steel_pinchers", 0, 0, ToolMaterial.steelMaterial, FATags.NOTHING_TOOL, Prop());
+		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Tiers.WOOD,FATags.NOTHING_TOOL, Prop());
 		advancedFlintAndSteel = new AdvancedFlintAndSteel();
 
 		// misc tools

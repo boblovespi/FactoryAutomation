@@ -27,15 +27,15 @@ public class PatchouliHelper
 
 	public static void RegisterMultiblocks()
 	{
-		IMultiblock stoneFoundry = PatchouliAPI.instance
+		IMultiblock stoneFoundry = PatchouliAPI.get()
 				.makeMultiblock(new String[][] { new String[] { "a_" }, new String[] { "0b" } }, 'a',
 						FABlocks.stoneCrucible, '0', Blocks.FURNACE, 'b', FABlocks.stoneCastingVessel);
-		PatchouliAPI.instance
+		PatchouliAPI.get()
 				.registerMultiblock(new ResourceLocation(FactoryAutomation.MODID, "stone_foundry"), stoneFoundry);
 	}
 
 	public static ItemStack GetGuidebook()
 	{
-		return PatchouliAPI.instance.getBookStack(BOOK);
+		return PatchouliAPI.get().getBookStack(BOOK);
 	}
 }

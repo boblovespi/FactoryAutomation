@@ -1,7 +1,6 @@
 package boblovespi.factoryautomation.common.util;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 

@@ -3,10 +3,9 @@ package boblovespi.factoryautomation.common.util;
 import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.IHeatUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
+import net.minecraft.core.Direction;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.util.Direction;
 
 import static boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 

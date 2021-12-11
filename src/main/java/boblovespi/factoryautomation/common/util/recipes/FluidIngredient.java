@@ -1,12 +1,8 @@
 package boblovespi.factoryautomation.common.util.recipes;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 
-import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
 /**

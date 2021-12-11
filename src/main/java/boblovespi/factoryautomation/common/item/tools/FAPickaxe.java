@@ -2,8 +2,6 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
-import net.minecraft.item.*;
-
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PickaxeItem;

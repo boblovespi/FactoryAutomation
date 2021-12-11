@@ -2,17 +2,17 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.InteractionResult;
+import boblovespi.factoryautomation.common.util.FATags;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 8/1/2018.
@@ -21,9 +21,9 @@ import net.minecraft.world.item.Item.Properties;
 @MethodsReturnNonnullByDefault
 public class Wrench extends WorkbenchToolItem
 {
-	public Wrench(String name, float attackDamageIn, float attackSpeedIn, ToolMaterial materialIn)
+	public Wrench(String name, float attackDamageIn, float attackSpeedIn, Tier materialIn)
 	{
-		super(name, attackDamageIn, attackSpeedIn, materialIn, new Properties(), FAToolTypes.NONE);
+		super(name, attackDamageIn, attackSpeedIn, materialIn, FATags.NOTHING_TOOL, new Properties());
 	}
 
 	/**

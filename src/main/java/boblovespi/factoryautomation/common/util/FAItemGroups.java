@@ -3,10 +3,10 @@ package boblovespi.factoryautomation.common.util;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

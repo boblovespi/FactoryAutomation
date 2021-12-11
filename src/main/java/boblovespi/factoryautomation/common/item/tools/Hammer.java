@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.item.tools;
 
+import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.item.Tier;
 
@@ -14,7 +15,6 @@ public class Hammer extends WorkbenchToolItem
 {
 	public Hammer(String name, float attackDamageIn, float attackSpeedIn, Tier materialIn)
 	{
-		super(name, attackDamageIn, attackSpeedIn, materialIn, Collections.singleton(Blocks.STONE), new Properties(),
-				FAToolTypes.HAMMER);
+		super(name, attackDamageIn, attackSpeedIn, materialIn, FATags.HAMMER_TOOL, new Properties());
 	}
 }

@@ -5,31 +5,26 @@ import boblovespi.factoryautomation.client.model.BellowsModel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TELeatherBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Created by Willi on 8/7/2019.
  */
-public abstract class TESRBellows<T extends BlockEntity & IBellowsTE> extends BlockEntityRenderer<T>
+public abstract class TESRBellows<T extends BlockEntity & IBellowsTE> implements BlockEntityRenderer<T>
 {
 	private final String texture;
 	private BellowsModel model = new BellowsModel();
 
 	protected TESRBellows(BlockEntityRenderDispatcher renderDispatcher, String texture)
 	{
-		super(renderDispatcher);
 		this.texture = texture;
 	}
 

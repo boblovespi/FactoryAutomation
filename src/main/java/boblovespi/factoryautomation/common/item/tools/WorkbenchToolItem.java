@@ -3,16 +3,11 @@ package boblovespi.factoryautomation.common.item.tools;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Item;
+import net.minecraft.tags.Tag;
 import net.minecraft.world.item.DiggerItem;
-import net.minecraftforge.common.ToolType;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.block.Block;
 
 /**
  * Created by Willi on 4/15/2018.
@@ -21,11 +16,10 @@ public class WorkbenchToolItem extends DiggerItem implements FAItem
 {
 	private final String name;
 
-	public WorkbenchToolItem(String name, float damage, float speed, Tier material, Set<Block> effectiveBlocks,
-			Properties properties, ToolType toolType)
+	public WorkbenchToolItem(String name, float damage, float speed, Tier material, Tag<Block> toolType,
+							 Properties properties)
 	{
-		super(damage, speed, material, effectiveBlocks,
-				properties.addToolType(toolType, material.getLevel()).tab(FAItemGroups.tools));
+		super(damage, speed, material, toolType, properties.tab(FAItemGroups.tools));
 		this.name = name;
 		// setUnlocalizedName(UnlocalizedName());
 		setRegistryName(RegistryName() == null ? UnlocalizedName() : RegistryName());
@@ -34,9 +28,9 @@ public class WorkbenchToolItem extends DiggerItem implements FAItem
 	}
 
 	public WorkbenchToolItem(String name, float damage, float speed, Tier material, Properties properties,
-			ToolType toolType)
+							 Tag<Block> toolType)
 	{
-		this(name, damage, speed, material, new HashSet<>(), properties, toolType);
+		this(name, damage, speed, material, toolType, properties);
 	}
 
 	@Override

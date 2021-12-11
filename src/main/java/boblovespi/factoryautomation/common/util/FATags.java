@@ -17,6 +17,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class FATags
 {
 	// public static final Tag<Item> INGOT_BRONZE = itemTag("ingots/bronze");
+	public static final Tag.Named<Block> NEEDS_FLINT_TOOL = CreateFABlockTag("needs_flint_tool");
+	public static final Tag.Named<Block> NEEDS_COPPER_TOOL = CreateFABlockTag("needs_copper_tool");
+	public static final Tag.Named<Block> NEEDS_BRONZE_TOOL = CreateFABlockTag("needs_bronze_tool");
+	public static final Tag.Named<Block> NEEDS_STEEL_TOOL = CreateFABlockTag("needs_steel_tool");
+	public static final Tag.Named<Block> HAMMER_TOOL = CreateFABlockTag("mineable/hammer");
+	public static final Tag.Named<Block> NOTHING_TOOL = CreateFABlockTag("mineable/nothing");
 
 	public static Tag<Item> ForgeItemTag(String name)
 	{

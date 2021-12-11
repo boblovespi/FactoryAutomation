@@ -7,12 +7,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Tier;
 
 public class FAShovel extends ShovelItem implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FAShovel(ToolMaterial material, String name)
+	public FAShovel(Tier material, String name)
 	{
 		super(material, 1.5f, -3.0F, new Item.Properties().tab(CreativeModeTab.TAB_TOOLS));
 		unlocalizedName = name;

@@ -29,7 +29,7 @@ public class FARecipeProvider extends RecipeProvider
 	}
 
 	@Override
-	protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer)
+	protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer)
 	{
 		// metal storage recipes
 		for (int i = 2; i < Metals.values().length; i++)

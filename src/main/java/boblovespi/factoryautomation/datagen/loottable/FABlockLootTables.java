@@ -8,15 +8,15 @@ import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.RandomValueBounds;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class FABlockLootTables extends BlockLoot
 {
@@ -38,7 +38,7 @@ public class FABlockLootTables extends BlockLoot
 								LootItemBlockStatePropertyCondition.hasBlockStateProperties(FABlocks.riceCrop.ToBlock()).setProperties(
 										StatePropertiesPredicate.Builder.properties().hasProperty(RiceCrop.AGE, 7)))
 										  .add(LootItem.lootTableItem(FAItems.riceGrain))
-										  .apply(SetItemCountFunction.setCount(RandomValueBounds.between(0, 3)))
+										  .apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 3)))
 										  .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 		add(FABlocks.concreteSlab, createSlabItemTable(FABlocks.concreteSlab));
 		// handle multiblock part separately
@@ -134,14 +134,14 @@ public class FABlockLootTables extends BlockLoot
 		dropSelf(FABlocks.greenSand.ToBlock());
 		add(FABlocks.charcoalPile.ToBlock(), LootTable.lootTable().withPool(
 				LootPool.lootPool().add(LootItem.lootTableItem(Items.CHARCOAL))
-						.apply(SetItemCountFunction.setCount(RandomValueBounds.between(7, 10)))
+						.apply(SetItemCountFunction.setCount(UniformGenerator.between(7, 10)))
 						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 		dropSelf(FABlocks.logPile.ToBlock());
 		dropSelf(FABlocks.terraclayBrickBlock.ToBlock());
 		dropSelf(FABlocks.terraclayBlock.ToBlock());
 		add(FABlocks.ironBloom.ToBlock(), LootTable.lootTable().withPool(
 				LootPool.lootPool().add(LootItem.lootTableItem(FAItems.ironShard))
-						.apply(SetItemCountFunction.setCount(RandomValueBounds.between(2, 4)))
+						.apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4)))
 						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))).withPool(
 				LootPool.lootPool().add(LootItem.lootTableItem(FAItems.slag))
 						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));

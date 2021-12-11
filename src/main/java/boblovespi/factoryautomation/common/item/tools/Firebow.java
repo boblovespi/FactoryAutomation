@@ -2,32 +2,29 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FABaseItem;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.util.*;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.level.Level;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Objects;
-
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 /**
  * Created by Willi on 2/15/2019.
@@ -94,7 +91,7 @@ public class Firebow extends FABaseItem
 			if (world.isEmptyBlock(pos))
 			{
 				world.playSound(player, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F,
-						random.nextFloat() * 0.4F + 0.8F);
+						world.random.nextFloat() * 0.4F + 0.8F);
 				world.setBlock(pos, Blocks.FIRE.defaultBlockState(), 11);
 			}
 

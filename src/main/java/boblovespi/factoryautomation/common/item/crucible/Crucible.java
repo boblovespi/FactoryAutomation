@@ -3,19 +3,17 @@ package boblovespi.factoryautomation.common.item.crucible;
 import boblovespi.factoryautomation.common.item.FABaseItem;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.NBTHelper;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import net.minecraft.world.item.Item.Properties;
 
 /**
  * Created by Willi on 4/8/2018.

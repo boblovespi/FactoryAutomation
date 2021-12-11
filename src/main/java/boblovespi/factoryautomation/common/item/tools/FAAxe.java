@@ -7,12 +7,13 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Tier;
 
 public class FAAxe extends AxeItem implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FAAxe(ToolMaterial material, String name)
+	public FAAxe(Tier material, String name)
 	{
 		super(material, 6, -3.0F, new Item.Properties().tab(CreativeModeTab.TAB_TOOLS));
 		unlocalizedName = name;

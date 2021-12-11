@@ -7,12 +7,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.SwordItem;
 
 import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.Tier;
 
 public class FASword extends SwordItem implements FAItem
 {
 	private final String unlocalizedName;
 
-	public FASword(ToolMaterial material, String name)
+	public FASword(Tier material, String name)
 	{
 		super(material, 3, -2.4f, new Properties().tab(CreativeModeTab.TAB_COMBAT));
 		unlocalizedName = name;

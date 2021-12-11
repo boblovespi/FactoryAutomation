@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.item.ores;
 
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.ParametersAreNonnullByDefault;

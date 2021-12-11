@@ -1,24 +1,25 @@
 package boblovespi.factoryautomation.common.util.jei;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.api.recipe.*;
+import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
+import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
+import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
+import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.jei.categories.*;
-import boblovespi.factoryautomation.common.util.jei.wrappers.*;
+import boblovespi.factoryautomation.common.util.jei.wrappers.BlastFurnaceRecipeWrapper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -76,7 +77,7 @@ public class JEIPlugin implements IModPlugin
 	{
 		registry.addIngredientInfo(
 				ItemTags.LOGS.getValues().stream().map(ItemStack::new).collect(Collectors.toList()),
-				VanillaTypes.ITEM, "factoryautomation.jei.logs");
+				VanillaTypes.ITEM, new TranslatableComponent("factoryautomation.jei.logs"));
 	}
 
 	@Override
