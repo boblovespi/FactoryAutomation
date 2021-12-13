@@ -206,12 +206,12 @@ public class FABlocks
 		placedBucket = new PlacedBucket();
 
 		metalBlock = new MetalBlock("metal_block",
-				of(Material.METAL).strength(5, 30).harvestTool(ToolType.PICKAXE).harvestLevel(COPPER));
+				of(Material.METAL).strength(5, 30).requiresCorrectToolForDrops());
 		metalPlateBlock = new MetalBlock("metal_plate_block",
-				of(Material.METAL).strength(5, 30).harvestTool(ToolType.PICKAXE).harvestLevel(COPPER));
+				of(Material.METAL).strength(5, 30).requiresCorrectToolForDrops());
 
 		ironPatternedPlateBlock = new FABaseBlock("patterned_plate_block_iron", false,
-				of(Material.METAL).strength(1, 40).harvestTool(ToolType.PICKAXE).harvestLevel(3),
+				of(Material.METAL).strength(1, 40).requiresCorrectToolForDrops(),
 				Building());
 
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
@@ -221,7 +221,7 @@ public class FABlocks
 		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
 
 		factorySign = new FABaseBlock("factory_sign_block", false,
-				of(Material.METAL).strength(1, 10).harvestTool(ToolType.PICKAXE).harvestLevel(1),
+				of(Material.METAL).strength(1, 10),
 				Building());
 
 		solidfueledfirebox = new SolidFueledFirebox();
@@ -276,7 +276,7 @@ public class FABlocks
 		// TODO: add obsidian flake rock
 		flintRock = new OreSample("flint_rock", new ItemStack[] {new ItemStack(Items.FLINT)});
 		blackSand = new Sand("black_sand", 0x1D1C1C, of(Material.SAND, MaterialColor.COLOR_BLACK)
-				.strength(0.5F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0), Building());
+				.strength(0.5F).sound(SoundType.SAND).requiresCorrectToolForDrops(), Building());
 
 		// workbenches
 
@@ -324,8 +324,7 @@ public class FABlocks
 		charcoalPile = new CharcoalPile();
 		logPile = new LogPile();
 		terraclayBrickBlock = new FABaseBlock("terraclay_brick_block", false,
-				of(Material.STONE).strength(2).harvestTool(ToolType.PICKAXE).harvestLevel(0),
-				Building());
+				of(Material.STONE).strength(2).requiresCorrectToolForDrops(), Building());
 		terraclayBlock = new FABaseBlock("terraclay_block", false,
 				of(Material.STONE).strength(0.8f).harvestTool(ToolType.SHOVEL).harvestLevel(0),
 				Building());

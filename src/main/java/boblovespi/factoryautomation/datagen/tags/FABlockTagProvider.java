@@ -4,10 +4,14 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FATags;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
+import java.util.Arrays;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -48,6 +52,17 @@ public class FABlockTagProvider extends BlockTagsProvider
 
 		tag(FATags.CreateFABlockTag("campfire")).add(FABlocks.campfire.ToBlock(), Blocks.CAMPFIRE);
 
+		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(FABlocks.limoniteOre.ToBlock())
+				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n).ToBlock())
+							 .toArray(Block[]::new))
+				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n).ToBlock())
+							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock.ToBlock()).add(FABlocks.factorySign.ToBlock()).add(FABlocks.terraclayBrickBlock.ToBlock());
 		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom.ToBlock());
+		tag(FATags.NEEDS_FLINT_TOOL);
+		tag(FATags.NEEDS_COPPER_TOOL).add(FABlocks.limoniteOre.ToBlock())
+				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n).ToBlock())
+							 .toArray(Block[]::new))
+				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n).ToBlock())
+							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock.ToBlock()).add(FABlocks.factorySign.ToBlock());
 	}
 }
