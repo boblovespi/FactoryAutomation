@@ -1,17 +1,19 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CauldronBlock;
-import net.minecraft.world.entity.item.ItemEntity;
+import boblovespi.factoryautomation.common.util.ItemHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CauldronBlock;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Created by Willi on 4/10/2018.
@@ -24,43 +26,23 @@ public class CauldronCleanable extends FABaseItem
 	{
 		super(unlocalizedName, ct);
 		this.cleanedInto = cleanedInto;
+		CauldronInteraction.WATER.put(this, new CleanInteraction());
 	}
 
-	/**
-	 * Called when a Block is right-clicked with this Item
-	 */
-	@Override
-	public InteractionResult useOn(UseOnContext context)
+	public class CleanInteraction implements CauldronInteraction
 	{
-		Level world = context.getLevel();
-		BlockPos pos = context.getClickedPos();
-		Player player = context.getPlayer();
-		BlockState state = world.getBlockState(pos);
-		ItemStack item = context.getItemInHand();
-
-		if (!(state.getBlock() instanceof CauldronBlock))
-			return InteractionResult.PASS;
-
-		int i = state.getValue(CauldronBlock.LEVEL);
-
-		if (i > 0)
+		@Override
+		public InteractionResult interact(BlockState state, Level world, BlockPos pos, Player player,
+										  InteractionHand hand, ItemStack stack)
 		{
 			if (!world.isClientSide)
 			{
-				item.shrink(1);
-
-				if (player == null || !player.addItem(cleanedInto.copy()))
-					world.addFreshEntity(
-							new ItemEntity(world, pos.getX(), pos.getY() + 0.5f, pos.getZ(), cleanedInto.copy()));
-
-				((CauldronBlock) Blocks.CAULDRON).setWaterLevel(world, pos, state, i - 1);
-				if (player != null)
+				stack.shrink(1);
+				ItemHelper.PutItemsInInventoryOrDrop(player, cleanedInto, world);
+				LayeredCauldronBlock.lowerFillLevel(state, world, pos);
 				player.awardStat(Stats.USE_CAULDRON);
 			}
-
 			return InteractionResult.SUCCESS;
 		}
-
-		return InteractionResult.PASS;
 	}
 }
