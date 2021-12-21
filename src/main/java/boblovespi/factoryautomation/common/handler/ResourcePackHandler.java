@@ -3,12 +3,16 @@ package boblovespi.factoryautomation.common.handler;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
 import com.google.common.collect.Lists;
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.resources.*;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.AbstractPackResources;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.server.packs.repository.RepositorySource;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
@@ -25,19 +29,13 @@ import java.util.stream.Stream;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
-import net.minecraft.server.packs.AbstractPackResources;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.server.packs.repository.RepositorySource;
-
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Mod.EventBusSubscriber(modid = MODID)
 public class ResourcePackHandler
 {
 	@SubscribeEvent
-	public static void OnServerStart(FMLServerAboutToStartEvent event)
+	public static void OnServerStart(ServerAboutToStartEvent event)
 	{
 		event.getServer().getPackRepository().addPackFinder(new FAOverridePackFinder());
 		event.getServer().getPackRepository().reload();

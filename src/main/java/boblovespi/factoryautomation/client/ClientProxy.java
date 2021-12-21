@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
@@ -35,18 +36,18 @@ public class ClientProxy implements CommonProxy
 	@Override
 	public void RegisterRenders()
 	{
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.tePowerShaft, TESRPowerShaft::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teGearbox, TESRGearbox::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teMotor, TESRMotor::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.tePlacedBucket, TESRPlacedBucket::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teHandCrank, TESRHandCrank::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teChoppingBlock, TESRChoppingBlock::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teCampfire, TESRCampfire::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teStoneCastingVessel, TESRStoneCastingVessel::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teMillstone, TESRMillstone::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.tePaperBellows, TESRBellows.Paper::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teLeatherBellows, TESRBellows.Leather::new);
-		ClientRegistry.bindTileEntityRenderer(TileEntityHandler.teBevelGear, TESRBevelGear::new);
+		BlockEntityRenderers.register(TileEntityHandler.tePowerShaft, TESRPowerShaft::new);
+		BlockEntityRenderers.register(TileEntityHandler.teGearbox, TESRGearbox::new);
+		BlockEntityRenderers.register(TileEntityHandler.teMotor, TESRMotor::new);
+		BlockEntityRenderers.register(TileEntityHandler.tePlacedBucket, TESRPlacedBucket::new);
+		BlockEntityRenderers.register(TileEntityHandler.teHandCrank, TESRHandCrank::new);
+		BlockEntityRenderers.register(TileEntityHandler.teChoppingBlock, TESRChoppingBlock::new);
+		BlockEntityRenderers.register(TileEntityHandler.teCampfire, TESRCampfire::new);
+		BlockEntityRenderers.register(TileEntityHandler.teStoneCastingVessel, TESRStoneCastingVessel::new);
+		BlockEntityRenderers.register(TileEntityHandler.teMillstone, TESRMillstone::new);
+		BlockEntityRenderers.register(TileEntityHandler.tePaperBellows, TESRBellows.Paper::new);
+		BlockEntityRenderers.register(TileEntityHandler.teLeatherBellows, TESRBellows.Leather::new);
+		BlockEntityRenderers.register(TileEntityHandler.teBevelGear, TESRBevelGear::new);
 	}
 
 	@Override
