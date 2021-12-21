@@ -2,10 +2,9 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.MultiTypeBlock;
 import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.item.Item;
 import net.minecraft.util.StringRepresentable;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 /**
  * Created by Willi on 4/1/2018.
@@ -16,7 +15,7 @@ public class Ore extends MultiTypeBlock<Ore.Grade>
 	public Ore(String name, int harvestLevel, BlockBehaviour.Properties properties, Item.Properties itemProperties)
 	{
 		super(
-				name, Ore.Grade.class, "ores", properties.harvestTool(ToolType.PICKAXE).harvestLevel(harvestLevel),
+				name, Ore.Grade.class, "ores", properties.requiresCorrectToolForDrops(),
 				itemProperties);
 	}
 

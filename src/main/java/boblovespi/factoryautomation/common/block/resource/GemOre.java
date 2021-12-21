@@ -1,18 +1,15 @@
 package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 5/24/2018.
@@ -25,8 +22,7 @@ public class GemOre extends FABaseBlock
 
 	public GemOre(String name, OreData data)
 	{
-		super(name, false, Properties.of(Material.STONE).strength(data.hardness, data.resistance)
-									 .harvestLevel(data.miningLevel).harvestTool(ToolType.PICKAXE),
+		super(name, false, Properties.of(Material.STONE).strength(data.hardness, data.resistance).requiresCorrectToolForDrops(),
 				new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
 		this.data = data;
 		random = new Random();

@@ -4,29 +4,26 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.world.item.Item;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.ticks.ScheduledTick;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.function.Predicate;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 2/3/2019.
@@ -37,8 +34,7 @@ public class IronCharcoalMix extends FABaseBlock
 
 	public IronCharcoalMix()
 	{
-		super("iron_charcoal_mix", false, Properties.of(Material.STONE).strength(3.5f).harvestLevel(0)
-													.harvestTool(ToolType.SHOVEL),
+		super("iron_charcoal_mix", false, Properties.of(Material.STONE).strength(3.5f).requiresCorrectToolForDrops(),
 				new Item.Properties().tab(FAItemGroups.metallurgy));
 		registerDefaultState(stateDefinition.any().setValue(ACTIVATED, false));
 	}
@@ -89,7 +85,7 @@ public class IronCharcoalMix extends FABaseBlock
 				{
 					BlockPos offset = pos.relative(face);
 					BlockState state1 = world.getBlockState(offset);
-					if (state1.getBlock().isAir(state1, world, offset))
+					if (state1.isAir())
 					{
 						isSurrounded = false;
 						world.setBlockAndUpdate(offset, FireBlock.getState(world, offset));
@@ -106,7 +102,7 @@ public class IronCharcoalMix extends FABaseBlock
 				if (isSurrounded)
 				{
 					world.setBlock(pos, state.setValue(ACTIVATED, true), 7);
-					world.getBlockTicks().scheduleTick(pos, this, tickRate(world));
+					world.scheduleTick(pos, this, tickRate(world));
 				}
 			}
 
@@ -116,7 +112,7 @@ public class IronCharcoalMix extends FABaseBlock
 			{
 				BlockPos offset = pos.relative(face);
 				BlockState state1 = world.getBlockState(offset);
-				if (state1.getBlock().isAir(state1, world, offset))
+				if (state1.isAir())
 				{
 					isSurrounded = false;
 					world.setBlockAndUpdate(offset, Blocks.FIRE.defaultBlockState());

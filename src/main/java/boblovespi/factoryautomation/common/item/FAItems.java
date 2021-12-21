@@ -21,26 +21,21 @@ import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.item.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.*;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ObjectHolder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
-
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Tiers;
 
 /**
  * Created by Willi on 11/8/2017.

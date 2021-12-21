@@ -1,22 +1,19 @@
 package boblovespi.factoryautomation.common.block;
 
 import boblovespi.factoryautomation.common.item.types.Metals;
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Material;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 8/4/2018.
@@ -30,8 +27,7 @@ public class Pillar extends FABaseBlock
 
 	public Pillar(String name, Metals metal)
 	{
-		super(name, false, Properties.of(Material.METAL).strength(1, 10).harvestLevel(1)
-									 .harvestTool(ToolType.PICKAXE),
+		super(name, false, Properties.of(Material.METAL).strength(1, 10).requiresCorrectToolForDrops(),
 				new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS));
 		registerDefaultState(stateDefinition.any().setValue(HEIGHT, 1));
 	}

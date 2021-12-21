@@ -1,6 +1,6 @@
 package boblovespi.factoryautomation.common.item.types;
 
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.ParametersAreNonnullByDefault;

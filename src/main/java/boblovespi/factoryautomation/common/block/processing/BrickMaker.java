@@ -4,31 +4,29 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.ItemHelper;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.util.StringRepresentable;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.ticks.ScheduledTick;
 
 import java.util.Random;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 2/2/2019.
@@ -40,8 +38,7 @@ public class BrickMaker extends FABaseBlock
 
 	public BrickMaker()
 	{
-		super("brick_maker_frame", false, Properties.of(Material.WOOD).strength(2).harvestLevel(0).harvestTool(
-				ToolType.AXE), new Item.Properties().tab(FAItemGroups.primitive));
+		super("brick_maker_frame", false, Properties.of(Material.WOOD).strength(2), new Item.Properties().tab(FAItemGroups.primitive));
 		registerDefaultState(stateDefinition.any().setValue(CONTENTS, Contents.EMPTY));
 	}
 
@@ -64,7 +61,7 @@ public class BrickMaker extends FABaseBlock
 		{
 			world.setBlockAndUpdate(pos, state.setValue(CONTENTS, value.GetDried()));
 			if (value.GetDried().CanDry())
-				world.getBlockTicks().scheduleTick(pos, this, tickRate(world));
+				world.scheduleTick(pos, this, tickRate(world));
 		}
 	}
 
@@ -98,7 +95,7 @@ public class BrickMaker extends FABaseBlock
 		{
 			world.setBlockAndUpdate(pos, state.setValue(CONTENTS, value.AddClay()));
 			player.getItemInHand(hand).shrink(1);
-			world.getBlockTicks().scheduleTick(pos, this, tickRate(world));
+			world.scheduleTick(pos, this, tickRate(world));
 		} else if (value.CanRemove())
 		{
 			if (value.CanRemoveBrick())

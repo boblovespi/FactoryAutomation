@@ -142,7 +142,7 @@ public abstract class ContainerWorkbench extends AbstractContainerMenu
 					{
 						if (listener instanceof ServerPlayer)
 							((ServerPlayer) listener).connection
-									.send(new ClientboundContainerSetSlotPacket(containerId, i, itemstack1));
+									.send(new ClientboundContainerSetSlotPacket(containerId, incrementStateId(), i, itemstack1));
 						else
 							listener.slotChanged(this, i, itemstack1);
 					}
@@ -153,7 +153,7 @@ public abstract class ContainerWorkbench extends AbstractContainerMenu
 			{
 				if (listener instanceof ServerPlayer)
 					((ServerPlayer) listener).connection
-							.send(new ClientboundContainerSetSlotPacket(containerId, 0, slots.get(0).getItem()));
+							.send(new ClientboundContainerSetSlotPacket(containerId, incrementStateId(), 0, slots.get(0).getItem()));
 				else
 					listener.slotChanged(this, 0, slots.get(0).getItem());
 			}
@@ -165,9 +165,15 @@ public abstract class ContainerWorkbench extends AbstractContainerMenu
 			{
 				for (ContainerListener containerListener : this.containerListeners)
 				{
-					containerListener.setContainerData(this, j, intreferenceholder.get());
+					containerListener.dataChanged(this, j, intreferenceholder.get());
 				}
 			}
 		}
+	}
+
+	@Override
+	public void broadcastFullState()
+	{
+		broadcastChanges();
 	}
 }

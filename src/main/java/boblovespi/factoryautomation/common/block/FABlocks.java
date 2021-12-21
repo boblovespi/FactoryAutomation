@@ -319,14 +319,14 @@ public class FABlocks
 
 		// resource blocks
 
-		greenSand = new FABaseBlock("green_sand", false, of(Material.CLAY).harvestTool(ToolType.SHOVEL)
+		greenSand = new FABaseBlock("green_sand", false, of(Material.CLAY)
 				.strength(0.4f).sound(SoundType.GRAVEL), Prop().tab(FAItemGroups.metallurgy));
 		charcoalPile = new CharcoalPile();
 		logPile = new LogPile();
 		terraclayBrickBlock = new FABaseBlock("terraclay_brick_block", false,
 				of(Material.STONE).strength(2).requiresCorrectToolForDrops(), Building());
 		terraclayBlock = new FABaseBlock("terraclay_block", false,
-				of(Material.STONE).strength(0.8f).harvestTool(ToolType.SHOVEL).harvestLevel(0),
+				of(Material.STONE).strength(0.8f).requiresCorrectToolForDrops(),
 				Building());
 		ironBloom = new IronBloom();
 	}

@@ -1,19 +1,18 @@
 package boblovespi.factoryautomation.common.block;
 
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Concrete slab block.
@@ -56,7 +55,7 @@ public class ConcreteSlab extends SlabBlock implements FABlock
 	}
 
 	@Override
-	public void stepOn(Level level, BlockPos pos, Entity entity)
+	public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity)
 	{
 		if (entity instanceof Player)
 		{

@@ -2,11 +2,8 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ToolType;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.material.Material;
 
 /**
  * Created by Willi on 1/28/2019.
@@ -15,8 +12,7 @@ public class CharcoalPile extends FABaseBlock
 {
 	public CharcoalPile()
 	{
-		super("charcoal_pile", false, Properties.of(Material.DIRT).strength(0.5f).harvestLevel(0)
-												.harvestTool(ToolType.SHOVEL),
+		super("charcoal_pile", false, Properties.of(Material.DIRT).strength(0.5f).requiresCorrectToolForDrops(),
 				new Item.Properties().tab(FAItemGroups.resources));
 	}
 

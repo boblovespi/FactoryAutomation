@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.datagen.tags;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FATags;
@@ -52,14 +53,22 @@ public class FABlockTagProvider extends BlockTagsProvider
 
 		tag(FATags.CreateFABlockTag("campfire")).add(FABlocks.campfire.ToBlock(), Blocks.CAMPFIRE);
 
-		tag(BlockTags.MINEABLE_WITH_PICKAXE).add(FABlocks.limoniteOre.ToBlock())
+		tag(BlockTags.MINEABLE_WITH_PICKAXE)
 				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n).ToBlock())
 							 .toArray(Block[]::new))
 				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n).ToBlock())
-							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock.ToBlock()).add(FABlocks.factorySign.ToBlock()).add(FABlocks.terraclayBrickBlock.ToBlock());
+							 .toArray(Block[]::new))
+				.add(Arrays.stream(Ore.Grade.values()).map(n -> FABlocks.limoniteOre.GetBlock(n).ToBlock())
+							 .toArray(Block[]::new))
+				.add(Arrays.stream(MetalOres.values()).map(n -> FABlocks.metalOres.GetBlock(n).ToBlock())
+							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock.ToBlock()).add(FABlocks.factorySign.ToBlock()).add(FABlocks.terraclayBrickBlock.ToBlock()).add(FABlocks.slagGlass.ToBlock());
+		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame.ToBlock()).add(FABlocks.logPile.ToBlock());
+		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(FABlocks.charcoalPile.ToBlock()).add(FABlocks.ironCharcoalMix.ToBlock()).add(FABlocks.greenSand.ToBlock()).add(FABlocks.terraclayBlock.ToBlock());
 		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom.ToBlock());
 		tag(FATags.NEEDS_FLINT_TOOL);
-		tag(FATags.NEEDS_COPPER_TOOL).add(FABlocks.limoniteOre.ToBlock())
+		tag(FATags.NEEDS_COPPER_TOOL)
+				.add(Arrays.stream(Ore.Grade.values()).skip(3).map(n -> FABlocks.limoniteOre.GetBlock(n).ToBlock())
+							 .toArray(Block[]::new))
 				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n).ToBlock())
 							 .toArray(Block[]::new))
 				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n).ToBlock())

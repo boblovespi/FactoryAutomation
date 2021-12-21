@@ -12,8 +12,7 @@ public class IronBloom extends FABaseBlock
 {
 	public IronBloom()
 	{
-		super("iron_bloom", false, Properties.of(Materials.BLOOM).requiresCorrectToolForDrops().strength(4).harvestLevel(0)
-											 .harvestTool(FAToolTypes.HAMMER),
+		super("iron_bloom", false, Properties.of(Materials.BLOOM).requiresCorrectToolForDrops().strength(4).requiresCorrectToolForDrops(),
 				new Item.Properties().tab(FAItemGroups.metallurgy));
 	}
 

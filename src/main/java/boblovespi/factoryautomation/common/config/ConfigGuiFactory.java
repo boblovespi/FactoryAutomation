@@ -1,13 +1,5 @@
 package boblovespi.factoryautomation.common.config;
 
-import boblovespi.factoryautomation.FactoryAutomation;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.I18n;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Created by Willi on 11/10/2017.
  */

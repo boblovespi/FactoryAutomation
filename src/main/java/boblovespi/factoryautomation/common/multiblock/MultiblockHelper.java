@@ -72,7 +72,7 @@ public class MultiblockHelper
 								continue;
 							BlockState state = world.getBlockState(loc);
 
-							if (part.AllowsAnyBlock() && state.getBlock().isAir(state, world, loc))
+							if (part.AllowsAnyBlock() && state.isAir())
 								continue;
 
 							world.setBlockAndUpdate(loc, FABlocks.multiblockPart.ToBlock().defaultBlockState());

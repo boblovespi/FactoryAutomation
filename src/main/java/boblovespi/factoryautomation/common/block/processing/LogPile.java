@@ -3,30 +3,27 @@ package boblovespi.factoryautomation.common.block.processing;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.Item;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.Level;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.function.Predicate;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 /**
  * Created by Willi on 1/27/2019.
@@ -44,7 +41,7 @@ public class LogPile extends FABaseBlock
 	public LogPile()
 	{
 		super("log_pile", false,
-				Properties.of(Material.WOOD).strength(1.2f).harvestLevel(0).harvestTool(ToolType.AXE),
+				Properties.of(Material.WOOD).strength(1.2f),
 				new Item.Properties().tab(FAItemGroups.primitive));
 		registerDefaultState(stateDefinition.any().setValue(ACTIVATED, false));
 	}
@@ -123,7 +120,7 @@ public class LogPile extends FABaseBlock
 			if (block.getBlock() == Blocks.FIRE || (block.getBlock() == this && block.getValue(ACTIVATED)))
 			{
 				world.setBlock(pos, state.setValue(ACTIVATED, true), 7);
-				world.getBlockTicks().scheduleTick(pos, this, tickRate(world));
+				world.scheduleTick(pos, this, tickRate(world));
 			}
 
 		} else
@@ -134,7 +131,7 @@ public class LogPile extends FABaseBlock
 			{
 				BlockPos offset = pos.relative(face);
 				BlockState state1 = world.getBlockState(offset);
-				if (state1.getBlock().isAir(state1, world, offset))
+				if (state1.isAir())
 				{
 					world.setBlockAndUpdate(offset, Blocks.FIRE.defaultBlockState());
 					sidesOnFire = true;
