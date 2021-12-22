@@ -126,6 +126,9 @@ dependencies {
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${mcversion}:${jeiversion}")
 
+    // gekolib
+    implementation fg.deobf("software.bernie.geckolib:geckolib-1.18-forge:${gekolibversion}")
+
 }
 repositories {
     maven {
@@ -138,6 +141,9 @@ repositories {
     }
     maven {
         url = "https://maven.blamejared.com"
+    }
+    maven {
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
 }
 
