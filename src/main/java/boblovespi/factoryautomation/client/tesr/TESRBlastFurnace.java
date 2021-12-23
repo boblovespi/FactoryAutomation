@@ -4,16 +4,18 @@ import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 
 /**
  * Created by Willi on 11/21/2017.
  */
-public class TESRBlastFurnace extends BlockEntityRenderer<TEBlastFurnaceController>
+public class TESRBlastFurnace implements BlockEntityRenderer<TEBlastFurnaceController>
 {
-	public TESRBlastFurnace(BlockEntityRenderDispatcher dispatcher)
+	private BlockEntityRendererProvider.Context context;
+
+	public TESRBlastFurnace(BlockEntityRendererProvider.Context context)
 	{
-		super(dispatcher);
+		this.context = context;
 	}
 
 	@Override

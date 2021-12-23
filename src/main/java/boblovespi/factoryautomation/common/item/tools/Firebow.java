@@ -71,9 +71,8 @@ public class Firebow extends FABaseItem
 	@Override
 	public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity living)
 	{
-		if (!(living instanceof Player))
+		if (!(living instanceof Player player))
 			return stack;
-		Player player = (Player) living;
 		BlockHitResult rayTrace = getPlayerPOVHitResult(world, player, ClipContext.Fluid.NONE);
 
 		// Todo: remove rayTrace null check, it shouldn't be null anyways.

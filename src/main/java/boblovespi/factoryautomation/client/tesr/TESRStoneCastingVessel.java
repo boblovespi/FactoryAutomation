@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -14,14 +15,15 @@ import net.minecraft.world.item.ItemStack;
 /**
  * Created by Willi on 12/27/2018.
  */
-public class TESRStoneCastingVessel extends BlockEntityRenderer<TEStoneCastingVessel>
+public class TESRStoneCastingVessel implements BlockEntityRenderer<TEStoneCastingVessel>
 {
+	private BlockEntityRendererProvider.Context context;
 	private BakedModel modelCache = null;
 	private ItemStack itemCache = ItemStack.EMPTY;
 
-	public TESRStoneCastingVessel(BlockEntityRenderDispatcher rendererDispatcherIn)
+	public TESRStoneCastingVessel(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 
 	@Override
@@ -35,7 +37,7 @@ public class TESRStoneCastingVessel extends BlockEntityRenderer<TEStoneCastingVe
 			if (!item.sameItem(itemCache)) // update the cache if outdated
 			{
 				modelCache = Minecraft.getInstance().getItemRenderer()
-									  .getModel(item.copy().split(1), null, null);
+									  .getModel(item.copy().split(1), null, null, 0);
 				itemCache = item;
 			}
 			matrix.pushPose();
@@ -45,7 +47,7 @@ public class TESRStoneCastingVessel extends BlockEntityRenderer<TEStoneCastingVe
 				matrix.scale(0.99f, 1, 0.99f);
 				matrix.mulPose(TESRUtils.QuatFromAngleAxis(-90, 1, 0, 0));
 				float v = te.GetTemp();
-				RenderSystem.color3f(GetRed(v), GetGreen(v), GetBlue(v));
+				RenderSystem.setShaderColor(GetRed(v), GetGreen(v), GetBlue(v), 1f);
 				// TESRUtils.RenderBakedModel(modelCache, DefaultVertexFormats.ITEM,
 				// 		TESRUtils.RGBAToHex(GetRed(v), GetGreen(v), GetBlue(v), 1f));
 				// Minecraft.getInstance().getItemRenderer()

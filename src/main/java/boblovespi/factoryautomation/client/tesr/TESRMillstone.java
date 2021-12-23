@@ -4,31 +4,28 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.machine.Millstone;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMillstone;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.EmptyModelData;
 
 /**
  * Created by Willi on 2/12/2019.
  */
-public class TESRMillstone extends BlockEntityRenderer<TEMillstone>
+public class TESRMillstone implements BlockEntityRenderer<TEMillstone>
 {
+	private BlockEntityRendererProvider.Context context;
 	private BakedModel cache = null;
 	private BlockState state = null;
 
-	public TESRMillstone(BlockEntityRenderDispatcher rendererDispatcherIn)
+	public TESRMillstone(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 
 	@Override
@@ -48,10 +45,10 @@ public class TESRMillstone extends BlockEntityRenderer<TEMillstone>
 
 			if (Minecraft.useAmbientOcclusion())
 			{
-				RenderSystem.shadeModel(GL11.GL_SMOOTH);
+				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				RenderSystem.shadeModel(GL11.GL_FLAT);
+				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
 			// version that caches the blockstate model
@@ -59,7 +56,7 @@ public class TESRMillstone extends BlockEntityRenderer<TEMillstone>
 			// Tessellator tessellator = Tessellator.getInstance();
 			// BufferBuilder buffer = tessellator.getBuffer();
 			// buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
-			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+			BlockRenderDispatcher dispatcher = context.getBlockRenderDispatcher();
 			if (cache == null)
 				cache = dispatcher.getBlockModel(state);
 			dispatcher.getModelRenderer()
@@ -67,7 +64,7 @@ public class TESRMillstone extends BlockEntityRenderer<TEMillstone>
 							  1f, 1f, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
 
-			Lighting.turnBackOn();
+			// Lighting.turnBackOn();
 		}
 		matrix.popPose();
 	}

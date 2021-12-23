@@ -1,32 +1,36 @@
 package boblovespi.factoryautomation.client.tesr;
 
+import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
+import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Quaternion;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.FaceBakery;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import com.mojang.math.Quaternion;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.FluidStack;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
-
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 
 /**
  * Created by Willi on 7/25/2018.
@@ -50,8 +54,8 @@ public class TESRUtils
 
 	public static TextureAtlasSprite GetFlowingTextureFromFluid(FluidStack fluid)
 	{
-		return ModelLoader.defaultTextureGetter()
-						  .apply(ForgeHooksClient.getFluidMaterials(fluid.getFluid()).skip(1).findFirst().get());
+		return null; /*ModelLoader.defaultTextureGetter()
+						  .apply(ForgeHooksClient.getFluidMaterials(fluid.getFluid()).skip(1).findFirst().get());*/
 	}
 
 	public static void RenderQuads(PoseStack matrix, VertexConsumer buffer, List<BakedQuad> quads, ItemStack stack,
@@ -73,7 +77,7 @@ public class TESRUtils
 			float f = (float) (k >> 16 & 255) / 255.0F;
 			float f1 = (float) (k >> 8 & 255) / 255.0F;
 			float f2 = (float) (k & 255) / 255.0F;
-			buffer.addVertexData(matrix.last(), bakedquad, f, f1, f2, combinedLight, combinedOverlay, true);
+			buffer.putBulkData(matrix.last(), bakedquad, f, f1, f2, combinedLight, combinedOverlay, true);
 		}
 	}
 
@@ -149,5 +153,27 @@ public class TESRUtils
 	public static float RadiansToDegrees(float radians)
 	{
 		return (float) Math.toDegrees(radians);
+	}
+
+	public static void RenderGear(BlockEntity te, float posX, float posY, float posZ, float size, @Nullable Gearbox.GearType type,
+								  float inToRotate, float xD, float yD, float zD, PoseStack matrix, MultiBufferSource buffer,
+								  int combinedLight, int combinedOverlay)
+	{
+		if (type == null)
+			return;
+		ItemStack stack = new ItemStack(FAItems.gear.GetItem(type));
+		// Lighting.turnBackOn();
+		// RenderSystem.enableLighting();
+		matrix.pushPose();
+		{
+			matrix.translate(posX, posY, posZ);
+			matrix.scale(size, size, 0.6f);
+			matrix.mulPose(TESRUtils.QuatFromAngleAxis(inToRotate, xD, yD, zD));
+
+			Minecraft.getInstance().getItemRenderer()
+					.renderStatic(stack, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrix, buffer, te.getBlockPos().hashCode() + (int) (posY * 5 + posZ * 11 + posX * 13));
+
+		}
+		matrix.popPose();
 	}
 }

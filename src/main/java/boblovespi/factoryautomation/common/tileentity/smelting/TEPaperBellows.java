@@ -11,19 +11,27 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.Objects;
 
 /**
  * Created by Willi on 5/5/2019.
  */
-public class TEPaperBellows extends BlockEntity implements ITickable, IBellowsTE
+public class TEPaperBellows extends BlockEntity implements ITickable, IBellowsTE, IAnimatable
 {
 	private float lerp = 0;
+	private AnimationFactory factory;
 
 	public TEPaperBellows(BlockPos pos, BlockState state)
 	{
 		super(TileEntityHandler.tePaperBellows, pos, state);
+		factory = new AnimationFactory(this);
 	}
 
 	public void Blow()
@@ -66,8 +74,28 @@ public class TEPaperBellows extends BlockEntity implements ITickable, IBellowsTE
 			return;
 		if (lerp > 0)
 		{
-			lerp -= 1 / 40f;
+			lerp -= 1 / 20f;
 		} else
 			lerp = 0;
+	}
+
+	@Override
+	public void registerControllers(AnimationData data)
+	{
+		data.addAnimationController(new AnimationController(this, "controller", 0, event -> {
+			event.getController().transitionLengthTicks = 0;
+			if (lerp > 0)
+			{
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.pumping_air", true));
+				return PlayState.CONTINUE;
+			}
+			else return PlayState.STOP;
+		}));
+	}
+
+	@Override
+	public AnimationFactory getFactory()
+	{
+		return factory;
 	}
 }

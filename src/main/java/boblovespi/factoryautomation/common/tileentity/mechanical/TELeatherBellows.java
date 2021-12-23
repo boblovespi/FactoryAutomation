@@ -20,6 +20,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,18 +42,21 @@ import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 @SuppressWarnings("unchecked")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class TELeatherBellows extends BlockEntity implements ITickable, IBellowsTE
+public class TELeatherBellows extends BlockEntity implements ITickable, IBellowsTE, IAnimatable
 {
 	private float counter = 0;
 	private int c2 = 0;
 	private final MechanicalUser mechanicalUser;
 	private float lerp = 0;
+	private int blowCounter = 0;
 	private boolean firstTick = true;
+	private AnimationFactory factory;
 
 	public TELeatherBellows(BlockPos pos, BlockState state)
 	{
 		super(TileEntityHandler.teLeatherBellows, pos, state);
 		mechanicalUser = new MechanicalUser();
+		factory = new AnimationFactory(this);
 	}
 
 	public void FirstLoad()
@@ -67,6 +76,8 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 				.getCapability(CapabilityBellowsUser.BELLOWS_USER_CAPABILITY, facing.getOpposite());
 		capability.ifPresent(n -> n.Blow(Mth.clamp(mechanicalUser.GetTorque() / 30f, 0.5f, 1), 50));
 		level.playSound(null, worldPosition, SoundEvents.ENDER_DRAGON_FLAP, SoundSource.BLOCKS, 0.8f, 1.5f);
+		blowCounter = 20;
+		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 	}
 
 	@Override
@@ -80,12 +91,16 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 				counter = 100;
 			}
 			lerp = Math.abs(2 * (counter / 100f) - 1);
+			if (blowCounter > 0)
+				blowCounter--;
 			return;
 		}
 		if (firstTick)
 			FirstLoad();
 
 		counter -= mechanicalUser.GetSpeed() / 10f;
+		if (blowCounter > 0)
+			blowCounter--;
 		if (counter <= 0)
 		{
 			counter = 100;
@@ -118,6 +133,7 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 		super.load(tag);
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
 		counter = tag.getFloat("counter");
+		blowCounter = tag.getInt("blowCounter");
 	}
 
 	@Override
@@ -125,6 +141,7 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 	{
 		tag.put("mechanicalUser", mechanicalUser.WriteToNBT());
 		tag.putFloat("counter", counter);
+		tag.putInt("blowCounter", blowCounter);
 	}
 
 	@Nonnull
@@ -146,5 +163,26 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 	public float GetLerpSpeed()
 	{
 		return (counter > 50 ? -1 : 1) * mechanicalUser.GetSpeed() / 400f;
+	}
+
+
+	@Override
+	public void registerControllers(AnimationData data)
+	{
+		data.addAnimationController(new AnimationController(this, "controller", 0, event -> {
+			event.getController().transitionLengthTicks = 0;
+			if (blowCounter > 0)
+			{
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.pumping_air", true));
+				return PlayState.CONTINUE;
+			}
+			else return PlayState.STOP;
+		}));
+	}
+
+	@Override
+	public AnimationFactory getFactory()
+	{
+		return factory;
 	}
 }

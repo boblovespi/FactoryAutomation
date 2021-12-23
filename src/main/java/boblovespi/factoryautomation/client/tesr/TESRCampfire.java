@@ -6,17 +6,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemStack;
 
 /**
  * Created by Willi on 12/27/2018.
  */
-public class TESRCampfire extends BlockEntityRenderer<TECampfire>
+public class TESRCampfire implements BlockEntityRenderer<TECampfire>
 {
-	public TESRCampfire(BlockEntityRenderDispatcher rendererDispatcherIn)
+	private BlockEntityRendererProvider.Context context;
+
+	public TESRCampfire(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 
 	@Override
@@ -34,7 +36,7 @@ public class TESRCampfire extends BlockEntityRenderer<TECampfire>
 				matrix.mulPose(TESRUtils.QuatFromAngleAxis(90, 1, 0, 0));
 				Minecraft.getInstance().getItemRenderer()
 						 .renderStatic(item, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay,
-								 matrix, buffer);
+								 matrix, buffer, te.getBlockPos().hashCode());
 			}
 			matrix.popPose();
 		}

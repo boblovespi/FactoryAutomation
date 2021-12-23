@@ -1,33 +1,32 @@
 package boblovespi.factoryautomation.client.tesr;
 
-import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.api.energy.EnergyConstants;
-import boblovespi.factoryautomation.client.model.ElectricEngine2;
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.machine.Motor;
+import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
+import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEMotor;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.model.data.EmptyModelData;
 
 /**
  * Created by Willi on 5/26/2018.
  */
-public class TESRMotor extends BlockEntityRenderer<TEMotor>
+public class TESRMotor implements BlockEntityRenderer<TEMotor>
 {
-	private ElectricEngine2 engineModel = new ElectricEngine2();
+	private BlockEntityRendererProvider.Context context;
+	// private ElectricEngine2 engineModel = new ElectricEngine2();
 
-	public TESRMotor(BlockEntityRenderDispatcher rendererDispatcherIn)
+	public TESRMotor(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 
 	@Override
@@ -89,12 +88,57 @@ public class TESRMotor extends BlockEntityRenderer<TEMotor>
 				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
-			engineModel.Rotate((float) Math.toRadians(te.rotation + partialTicks * EnergyConstants.RadiansSecondToDegreesTick(te.GetSpeedOnFace(facing))));
+			// engineModel.Rotate((float) Math.toRadians(te.rotation + partialTicks * EnergyConstants.RadiansSecondToDegreesTick(te.GetSpeedOnFace(facing))));
 
-			engineModel.renderToBuffer(matrix, buffer.getBuffer(engineModel.renderType(
-					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"))),
-					combinedLight, combinedOverlay, 1, 1, 1, 1);
+			// engineModel.renderToBuffer(matrix, buffer.getBuffer(engineModel.renderType(
+			//		new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/electric_engine_2.png"))),
+			//		combinedLight, combinedOverlay, 1, 1, 1, 1);
 
+		}
+		matrix.popPose();
+	}
+
+	private void RenderAxle(TEGearbox te, Vec3 pos, Vec3 rotVec, float length, float rotation, Direction facing,
+							PoseStack matrix, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
+	{
+		BlockState state = FABlocks.powerShaft.ToBlock().defaultBlockState().setValue(PowerShaft.AXIS, Direction.Axis.Z)
+				.setValue(PowerShaft.IS_TESR, true);
+
+		matrix.pushPose();
+		{
+			// RenderSystem.disableLighting();
+			// RenderSystem.disableRescaleNormal();
+
+			matrix.translate(pos.x, pos.y, pos.z);
+
+			matrix.scale(0.2f, 0.2f, length);
+
+			matrix.mulPose(TESRUtils.QuatFromAngleAxis(rotation, (float) rotVec.x, (float) rotVec.y, (float) rotVec.z));
+
+			// matrix.translate(-te.getPos().getX(), -te.getPos().getY(), -te.getPos().getZ());
+
+			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
+			if (Minecraft.useAmbientOcclusion())
+			{
+				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
+			} else
+			{
+				// RenderSystem.shadeModel(GL11.GL_FLAT);
+			}
+
+			// Tessellator tessellator = Tessellator.getInstance();
+			// BufferBuilder buffer = tessellator.getBuffer();
+
+			// buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+			// IBakedModel model = dispatcher.getModelForState(state);
+
+			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			// tessellator.draw();
+
+			// Lighting.turnBackOn();
+			// RenderSystem.enableLighting();
 		}
 		matrix.popPose();
 	}

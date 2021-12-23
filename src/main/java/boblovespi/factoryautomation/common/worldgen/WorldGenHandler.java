@@ -1,43 +1,8 @@
 package boblovespi.factoryautomation.common.worldgen;
 
-import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.block.resource.Ore;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.blockplacers.SimpleBlockPlacer;
-import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
-import net.minecraft.world.level.levelgen.placement.ConfiguredDecorator;
-import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
-import net.minecraft.world.level.levelgen.feature.configurations.RangeDecoratorConfiguration;
-import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-import static boblovespi.factoryautomation.common.item.types.MetalOres.COPPER;
-import static boblovespi.factoryautomation.common.item.types.MetalOres.TIN;
-import static net.minecraft.world.gen.GenerationStage.Decoration.UNDERGROUND_ORES;
-import static net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION;
-import staticnet.minecraft.world.level.levelgen.GenerationStep.DecorationFillerBlockType.NATURAL_STONE;
-
-
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 
 /**
  * Created by Willi on 12/28/2017.
@@ -45,8 +10,8 @@ import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConf
  */
 @Mod.EventBusSubscriber(modid = MODID)
 public class WorldGenHandler
-{
-	public static final DeferredRegister<Feature<?>> deferredRegister = DeferredRegister.create(ForgeRegistries.FEATURES, MODID);
+{ // TODO: figure out worldgen
+	/*public static final DeferredRegister<Feature<?>> deferredRegister = DeferredRegister.create(ForgeRegistries.FEATURES, MODID);
 	private static final RegistryObject<Feature<NoneFeatureConfiguration>> limoniteGen = deferredRegister.register(
 			"limonite_gen", () -> new SwampFloorOreGenerator((Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f,
 					NoneFeatureConfiguration.CODEC));
@@ -103,7 +68,7 @@ public class WorldGenHandler
 
 	public static void AddFeaturesToBiomes()
 	{
-		/* TODO: Switch to BiomeLoadingEvent
+		*//* TODO: Switch to BiomeLoadingEvent
 		for (Biome biome : ForgeRegistries.BIOMES.getValues())
 		{
 			if (biome.getBiomeCategory() != Biome.Category.NETHER && biome.getBiomeCategory() != Biome.Category.THEEND
@@ -136,7 +101,7 @@ public class WorldGenHandler
 						COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(2)));
 			}
 		}
-		*/
+		*//*
 	}
 
 	private static <T extends FeatureConfiguration> void AddToBiome(BiomeGenerationSettingsBuilder biome, Feature<T> feature, T config,
@@ -174,5 +139,5 @@ public class WorldGenHandler
 	//		default:
 	//			break;
 	//		}
-	//	}
+	//	}*/
 }

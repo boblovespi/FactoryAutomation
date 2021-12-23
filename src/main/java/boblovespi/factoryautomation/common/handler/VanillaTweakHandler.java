@@ -3,11 +3,10 @@ package boblovespi.factoryautomation.common.handler;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
 import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.item.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Tiers;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,13 +14,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistry;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
-
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.Tiers;
 
 /**
  * Created by Willi on 4/30/2018.
@@ -45,10 +37,9 @@ public class VanillaTweakHandler
 	@SubscribeEvent
 	public static void CheckMiningLevel(PlayerEvent.HarvestCheck event)
 	{
-		ItemStack stack = event.getPlayer().getMainHandItem();
+		/*ItemStack stack = event.getPlayer().getMainHandItem();
 		BlockState state = event.getTargetBlock();
-		ToolType tool = state.getHarvestTool();
-		int toolLevel = stack.getItem().getHarvestLevel(stack, tool, event.getPlayer(), state);
+		int toolLevel = ToolAction
 		if (stack.getItem() instanceof TieredItem)
 			toolLevel = ((TieredItem) stack.getItem()).getTier().getLevel();
 		if (state.getBlock() == Blocks.IRON_ORE)
@@ -62,7 +53,7 @@ public class VanillaTweakHandler
 		if (state.getBlock() == Blocks.GOLD_ORE)
 			event.setCanHarvest(toolLevel >= blockMiningLevelCat.goldOre);
 		if (state.getBlock() == Blocks.OBSIDIAN)
-			event.setCanHarvest(toolLevel >= blockMiningLevelCat.obsidian);
+			event.setCanHarvest(toolLevel >= blockMiningLevelCat.obsidian);*/ // TODO: figure out how to do better probably by modifying tags
 	}
 
 	@SyncOnConfigChange(priority = Priority.FIRST)

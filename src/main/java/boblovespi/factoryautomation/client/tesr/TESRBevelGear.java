@@ -1,47 +1,37 @@
 package boblovespi.factoryautomation.client.tesr;
 
-import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.client.model.BevelGearbox;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
-import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
-import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import com.mojang.blaze3d.platform.Lighting;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Created by Willi on 8/9/2019.
  */
-public class TESRBevelGear extends BlockEntityRenderer<TEBevelGear>
+public class TESRBevelGear implements BlockEntityRenderer<TEBevelGear>
 {
-	private final BevelGearbox model = new BevelGearbox();
-	public static final Material LOCATION = new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(FactoryAutomation.MODID,
-			"textures/blocks/machines/bevel_gearbox.png"));
+	// private final BevelGearbox model = new BevelGearbox();
+	// public static final Material LOCATION = new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(FactoryAutomation.MODID,
+	//		"textures/blocks/machines/bevel_gearbox.png"));
+	private BlockEntityRendererProvider.Context context;
 
-	public TESRBevelGear(BlockEntityRenderDispatcher rendererDispatcherIn)
+	public TESRBevelGear(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 
 	@Override
 	public void render(TEBevelGear te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
-		renderer.textureManager.bind(
-				new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/bevel_gearbox.png"));
+		// renderer.textureManager.bind(
+		//		new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/bevel_gearbox.png"));
 
 		boolean isUpper = false;
 		matrix.pushPose();
@@ -168,49 +158,25 @@ public class TESRBevelGear extends BlockEntityRenderer<TEBevelGear>
 			{
 				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
-			model.Rotate(te.rotation + te.GetSpeed() * partialTicks, out, in);
-			model.renderToBuffer(matrix, buffer.getBuffer(model.renderType(new ResourceLocation(FactoryAutomation.MODID,
-					"textures/blocks/machines/bevel_gearbox.png"))), combinedLight, combinedOverlay, 1, 1, 1, 1);
+			// model.Rotate(te.rotation + te.GetSpeed() * partialTicks, out, in);
+			// model.renderToBuffer(matrix, buffer.getBuffer(model.renderType(new ResourceLocation(FactoryAutomation.MODID,
+			// 		"textures/blocks/machines/bevel_gearbox.png"))), combinedLight, combinedOverlay, 1, 1, 1, 1);
 
 			if (isUpper)
 			{
 				in *= -1;
 				out *= -1; // flip the signs for some reason
-				RenderGear(null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
+				TESRUtils.RenderGear(te, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
 						in, matrix, buffer, combinedLight, combinedOverlay);
 			} else
 			{
-				RenderGear(null, 0, 16, -6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
+				TESRUtils.RenderGear(te, 0, 16, -6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
 						in, matrix, buffer, combinedLight, combinedOverlay);
 			}
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
-			RenderGear(null, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0,
+			TESRUtils.RenderGear(te, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0,
 					0, out, matrix, buffer, combinedLight, combinedOverlay);
-			Lighting.turnBackOn();
-		}
-		matrix.popPose();
-	}
-
-	private void RenderGear(TEGearbox te, float posX, float posY, float posZ, float size, Gearbox.GearType type,
-			float inTomulPose, float xD, float yD, float zD, PoseStack matrix, MultiBufferSource buffer,
-			int combinedLight, int combinedOverlay)
-	{
-		if (type == null)
-			return;
-		ItemStack stack = new ItemStack(FAItems.gear.GetItem(type));
-		Lighting.turnBackOn();
-		RenderSystem.enableLighting();
-		matrix.pushPose();
-		{
-			matrix.scale(1 / 16f, 1 / 16f, 1 / 16f);
-			matrix.translate(posX, posY, posZ);
-			matrix.scale(size, size, 0.6f);
-			matrix.mulPose(TESRUtils.QuatFromAngleAxis(inTomulPose, xD, yD, zD));
-
-			Minecraft.getInstance().getItemRenderer()
-					 .renderStatic(stack, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrix,
-							 buffer);
-
+			// Lighting.turnBackOn();
 		}
 		matrix.popPose();
 	}

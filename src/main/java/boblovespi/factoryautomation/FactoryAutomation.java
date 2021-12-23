@@ -52,6 +52,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import software.bernie.geckolib3.GeckoLib;
 
 /**
  * Created by Willi on 11/8/2017.
@@ -81,11 +82,12 @@ public class FactoryAutomation
 
 	public FactoryAutomation()
 	{
+		GeckoLib.initialize();
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
 		Fluids.FLUID_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-		WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
-		RockBlockPlacer.REGISTRY.register(FMLJavaModLoadingContext.get().getModEventBus());
+		// WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
+		// RockBlockPlacer.REGISTRY.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// ResourcePackHandler p; // lol
 	}
 
@@ -157,7 +159,7 @@ public class FactoryAutomation
 
 		Log.getLogger().info("Initialization end");
 
-		WorldGenHandler.AddFeaturesToBiomes();
+		// WorldGenHandler.AddFeaturesToBiomes();
 
 		MultiblockHandler.Register(
 				"blast_furnace",

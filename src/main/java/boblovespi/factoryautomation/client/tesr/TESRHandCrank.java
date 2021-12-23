@@ -1,30 +1,27 @@
 package boblovespi.factoryautomation.client.tesr;
 
-import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.energy.EnergyConstants;
-import boblovespi.factoryautomation.client.model.HandCrankModel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEHandCrank;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.EmptyModelData;
 
 /**
  * Created by Willi on 9/9/2018.
  */
-public class TESRHandCrank extends BlockEntityRenderer<TEHandCrank>
+public class TESRHandCrank implements BlockEntityRenderer<TEHandCrank>
 {
-	private final HandCrankModel handCrankModel = new HandCrankModel();
+	// private final HandCrankModel handCrankModel = new HandCrankModel();
+	private BlockEntityRendererProvider.Context context;
 
-	public TESRHandCrank(BlockEntityRenderDispatcher rendererDispatcherIn)
+	public TESRHandCrank(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 
 	@Override
@@ -41,11 +38,11 @@ public class TESRHandCrank extends BlockEntityRenderer<TEHandCrank>
 			// RenderSystem.enableRescaleNormal();
 
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 0, 0, 1));
-			if (te.inverted)
-			{
-				matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 1, 0, 0));
-				matrix.translate(0, 1, -1);
-			}
+			// if (te.inverted)
+			// {
+			//	matrix.mulPose(TESRUtils.QuatFromAngleAxis(180, 1, 0, 0));
+			//	matrix.translate(0, 1, -1);
+			// }
 			matrix.translate(-0.5, -1.5, 0.5);
 			if (te.IsRotating())
 				matrix.mulPose(
@@ -60,9 +57,12 @@ public class TESRHandCrank extends BlockEntityRenderer<TEHandCrank>
 				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
-			handCrankModel.renderToBuffer(matrix, buffer.getBuffer(handCrankModel.renderType(
-					new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"))),
-					combinedLight, combinedOverlay, 1, 1, 1, 1);
+			// handCrankModel.renderToBuffer(matrix, buffer.getBuffer(handCrankModel.renderType(
+			//		new ResourceLocation(FactoryAutomation.MODID, "textures/blocks/machines/hand_crank.png"))),
+			//		combinedLight, combinedOverlay, 1, 1, 1, 1);
+			BlockState state = te.getBlockState();
+			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 
 		}
 		matrix.popPose();

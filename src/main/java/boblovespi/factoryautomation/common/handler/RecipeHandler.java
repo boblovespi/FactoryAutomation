@@ -1,40 +1,26 @@
 package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.api.recipe.*;
-import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.block.machine.JawCrusher;
-import boblovespi.factoryautomation.common.block.processing.ChoppingBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
-import boblovespi.factoryautomation.common.util.FATags;
 import boblovespi.factoryautomation.common.util.recipes.AxeRecipe;
 import boblovespi.factoryautomation.common.util.recipes.HammerRecipe;
-import com.google.gson.JsonObject;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-import static boblovespi.factoryautomation.common.block.resource.Ore.Grade.*;
 import static boblovespi.factoryautomation.common.item.ores.OreForms.*;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

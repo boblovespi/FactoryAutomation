@@ -4,31 +4,27 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.core.Direction;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.EmptyModelData;
 
 /**
  * Created by Willi on 1/15/2018.
  * power shaft renderer
  */
-public class TESRPowerShaft extends BlockEntityRenderer<TEPowerShaft>
+public class TESRPowerShaft implements BlockEntityRenderer<TEPowerShaft>
 {
-	public TESRPowerShaft(BlockEntityRenderDispatcher rendererDispatcherIn)
+	private BlockEntityRendererProvider.Context context;
+
+	public TESRPowerShaft(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 
 	@Override
@@ -61,8 +57,8 @@ public class TESRPowerShaft extends BlockEntityRenderer<TEPowerShaft>
 		matrix.pushPose();
 		{
 			// RenderHelper.setupForFlatItems();
-			RenderSystem.disableLighting();
-			RenderSystem.disableRescaleNormal();
+			// RenderSystem.disableLighting();
+			// RenderSystem.disableRescaleNormal();
 			matrix.translate(0.5, 0.5, 0.5);
 			matrix.translate(-xD / 2d, -yD / 2d, -zD / 2d);
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(toRotate, xD, yD, zD));
@@ -72,10 +68,10 @@ public class TESRPowerShaft extends BlockEntityRenderer<TEPowerShaft>
 
 			if (Minecraft.useAmbientOcclusion())
 			{
-				RenderSystem.shadeModel(GL11.GL_SMOOTH);
+				// RenderSystem.shadeModel(GL11.GL_SMOOTH);
 			} else
 			{
-				RenderSystem.shadeModel(GL11.GL_FLAT);
+				// RenderSystem.shadeModel(GL11.GL_FLAT);
 			}
 
 			// Tessellator tessellator = Tessellator.getInstance();
@@ -84,11 +80,11 @@ public class TESRPowerShaft extends BlockEntityRenderer<TEPowerShaft>
 			// bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
 			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 
-			dispatcher.renderBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
 			// tessellator.draw();
 			// RenderHelper.setupFor3DItems();
-			Lighting.turnBackOn();
-			RenderSystem.enableLighting();
+			// Lighting.turnBackOn();
+			// RenderSystem.enableLighting();
 		}
 		matrix.popPose();
 	}

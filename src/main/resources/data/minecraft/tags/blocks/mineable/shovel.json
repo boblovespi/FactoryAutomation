@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "factoryautomation:charcoal_pile",
+    "factoryautomation:iron_charcoal_mix",
+    "factoryautomation:green_sand",
+    "factoryautomation:terraclay_block"
+  ]
+}

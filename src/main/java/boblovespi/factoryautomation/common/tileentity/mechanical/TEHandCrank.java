@@ -89,14 +89,13 @@ public class TEHandCrank extends BlockEntity implements ITickable
 		tag.putBoolean("isRotating", isRotating);
 	}
 
-	// Todo: update to use non-null
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> (T) mechanicalUser);
-		return null;
+		return super.getCapability(capability, facing);
 	}
 
 	/**

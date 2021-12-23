@@ -1,11 +1,5 @@
 package boblovespi.factoryautomation.client.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.model.Model;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -14,7 +8,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  * Created using Tabula 7.0.1
  */
 @OnlyIn(Dist.CLIENT)
-public class WaterWheel extends Model
+public class WaterWheel {}/*extends Model
 {
 	public ModelPart small_plate_horizontal_top;
 	public ModelPart small_plate_horizontal_bottom;
@@ -83,9 +77,9 @@ public class WaterWheel extends Model
 				.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 	}
 
-	/**
+	*//**
 	 * This is a helper function from Tabula to set the rotation of model parts
-	 */
+	 *//*
 	public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z)
 	{
 		modelRenderer.xRot = x;
@@ -93,3 +87,4 @@ public class WaterWheel extends Model
 		modelRenderer.zRot = z;
 	}
 }
+*/

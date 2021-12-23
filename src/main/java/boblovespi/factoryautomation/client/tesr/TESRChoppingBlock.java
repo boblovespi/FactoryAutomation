@@ -7,16 +7,19 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemStack;
 
 /**
  * Created by Willi on 12/27/2018.
  */
-public class TESRChoppingBlock extends BlockEntityRenderer<TEChoppingBlock>
+public class TESRChoppingBlock implements BlockEntityRenderer<TEChoppingBlock>
 {
-	public TESRChoppingBlock(BlockEntityRenderDispatcher rendererDispatcherIn)
+	private BlockEntityRendererProvider.Context context;
+
+	public TESRChoppingBlock(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 	//	private RenderItem itemRenderer = null;
 	//	private ItemStack itemCache = ItemStack.EMPTY;
@@ -59,7 +62,7 @@ public class TESRChoppingBlock extends BlockEntityRenderer<TEChoppingBlock>
 				matrix.scale(0.5f, 0.5f, 0.5f);
 				Minecraft.getInstance().getItemRenderer()
 						 .renderStatic(item, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay,
-								 matrix, buffer);
+								 matrix, buffer, te.getBlockPos().hashCode());
 			}
 			matrix.popPose();
 		}

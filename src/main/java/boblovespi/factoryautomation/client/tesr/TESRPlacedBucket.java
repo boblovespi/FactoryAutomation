@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -15,11 +16,13 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * Created by Willi on 7/25/2018.
  */
-public class TESRPlacedBucket extends BlockEntityRenderer<TEPlacedBucket>
+public class TESRPlacedBucket implements BlockEntityRenderer<TEPlacedBucket>
 {
-	public TESRPlacedBucket(BlockEntityRenderDispatcher rendererDispatcherIn)
+	private BlockEntityRendererProvider.Context context;
+
+	public TESRPlacedBucket(BlockEntityRendererProvider.Context context)
 	{
-		super(rendererDispatcherIn);
+		this.context = context;
 	}
 
 	@Override
@@ -41,7 +44,7 @@ public class TESRPlacedBucket extends BlockEntityRenderer<TEPlacedBucket>
 			matrix.translate(5 / 16d, amount * 0.4 + 1 / 16d, 5 / 16d);
 			matrix.scale(6 / 16f, 0.5f, 6 / 16f);
 
-			RenderSystem.disableLighting();
+			// RenderSystem.disableLighting();
 
 			// bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 

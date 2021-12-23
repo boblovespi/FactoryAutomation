@@ -1,22 +1,9 @@
 package boblovespi.factoryautomation.common.worldgen;
 
-import boblovespi.factoryautomation.common.block.resource.Ore;
-import com.mojang.serialization.Codec;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-
-import java.util.Random;
-
 /**
  * Created by Willi on 4/4/2018.
  */
-public class SwampFloorOreGenerator extends Feature<NoneFeatureConfiguration>
+public class SwampFloorOreGenerator {}/*extends Feature<NoneFeatureConfiguration>
 {
 	private final float spawnChance;
 	private final float lowCutoff;
@@ -79,3 +66,4 @@ public class SwampFloorOreGenerator extends Feature<NoneFeatureConfiguration>
 		return true;
 	}
 }
+*/
