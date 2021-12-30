@@ -105,6 +105,48 @@
         "y": 270
       }
     ],
+    "variants=tuff": [
+      {
+        "model": "factoryautomation:block/resources/rocks/tuff_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/tuff_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/tuff_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/tuff_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ],
+    "variants=calcite": [
+      {
+        "model": "factoryautomation:block/resources/rocks/calcite_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/calcite_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/calcite_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/calcite_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ],
     "variants=sandstone": [
       {
         "model": "factoryautomation:block/resources/rocks/sandstone_rock",
@@ -143,6 +185,27 @@
       },
       {
         "model": "factoryautomation:block/resources/rocks/mossy_cobblestone_rock",
+        "uvlock": true,
+        "y": 270
+      }
+    ],
+    "variants=terracotta": [
+      {
+        "model": "factoryautomation:block/resources/rocks/terracotta_rock",
+        "uvlock": true
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/terracotta_rock",
+        "uvlock": true,
+        "y": 90
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/terracotta_rock",
+        "uvlock": true,
+        "y": 180
+      },
+      {
+        "model": "factoryautomation:block/resources/rocks/terracotta_rock",
         "uvlock": true,
         "y": 270
       }
