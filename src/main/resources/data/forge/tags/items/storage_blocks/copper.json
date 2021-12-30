@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "factoryautomation:metal_block_copper"
+    "minecraft:copper_block"
   ]
 }

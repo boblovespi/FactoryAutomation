@@ -169,7 +169,7 @@ public class TEStoneCrucible extends BlockEntity
 		// ores and other raw forms
 		if (item == Items.GOLD_ORE)
 			return "gold";
-		if (item == Item.byBlock(FABlocks.metalOres.GetBlock(MetalOres.COPPER)))
+		if (item == Item.byBlock(FABlocks.metalOres.GetBlock(MetalOres.COPPER)) || item == Items.COPPER_ORE || item == Items.DEEPSLATE_COPPER_ORE || item == Items.RAW_COPPER)
 			return "copper";
 		if (item == Item.byBlock(FABlocks.metalOres.GetBlock(MetalOres.TIN)))
 			return "tin";
@@ -201,7 +201,7 @@ public class TEStoneCrucible extends BlockEntity
 			return mult * 9;
 		if (FAItems.sheet.Contains(item))
 			return mult * 18;
-		for (int i = 2; i < Metals.values().length; i++)
+		for (int i = 3; i < Metals.values().length; i++)
 		{
 			if (item == Item.byBlock(FABlocks.metalBlock.GetBlock(Metals.values()[i])))
 				return mult * 18 * 9;

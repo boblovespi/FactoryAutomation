@@ -216,9 +216,11 @@ public class FABlocks
 
 		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
 		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
+		blocks.remove(metalBlock.GetBlock(Metals.COPPER).ToBlock());
 
 		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).GetItem().ToItem());
 		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
+		FAItems.items.remove(metalBlock.GetBlock(Metals.COPPER).GetItem().ToItem());
 
 		factorySign = new FABaseBlock("factory_sign_block", false,
 				of(Material.METAL).strength(1, 10),

@@ -179,6 +179,7 @@ public class FAItems
 		ingot = new Ingot();
 		items.remove(ingot.GetItem(Metals.IRON));
 		items.remove(ingot.GetItem(Metals.GOLD));
+		items.remove(ingot.GetItem(Metals.COPPER));
 		nugget = new Nugget();
 		items.remove(nugget.GetItem(Metals.IRON));
 		items.remove(nugget.GetItem(Metals.GOLD));
