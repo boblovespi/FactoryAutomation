@@ -60,24 +60,28 @@ public class TEStoneCrucible extends BlockEntity
 	public static final List<MetalInfo> infos = new ArrayList<MetalInfo>(20)
 	{{
 		add(new MetalInfo("ores/iron", "iron", 18));
+		add(new MetalInfo("raw_ores/iron", "iron", 18));
 		add(new MetalInfo("nuggets/iron", "iron", 2));
 		add(new MetalInfo("ingots/iron", "iron", 18));
 		add(new MetalInfo("sticks/iron", "iron", 9));
 		add(new MetalInfo("plates/iron", "iron", 18));
 		add(new MetalInfo("storage_blocks/iron", "iron", 162));
 		add(new MetalInfo("ores/gold", "gold", 18));
+		add(new MetalInfo("raw_ores/gold", "gold", 18));
 		add(new MetalInfo("nuggets/gold", "gold", 2));
 		add(new MetalInfo("ingots/gold", "gold", 18));
 		add(new MetalInfo("sticks/gold", "gold", 9));
 		add(new MetalInfo("plates/gold", "gold", 18));
 		add(new MetalInfo("storage_blocks/gold", "gold", 162));
 		add(new MetalInfo("ores/copper", "copper", 18));
+		add(new MetalInfo("raw_ores/copper", "copper", 18));
 		add(new MetalInfo("nuggets/copper", "copper", 2));
 		add(new MetalInfo("ingots/copper", "copper", 18));
 		add(new MetalInfo("sticks/copper", "copper", 9));
 		add(new MetalInfo("plates/copper", "copper", 18));
 		add(new MetalInfo("storage_blocks/copper", "copper", 162));
 		add(new MetalInfo("ores/tin", "tin", 18));
+		add(new MetalInfo("raw_ores/tin", "tin", 18));
 		add(new MetalInfo("nuggets/tin", "tin", 2));
 		add(new MetalInfo("ingots/tin", "tin", 18));
 		add(new MetalInfo("sticks/tin", "tin", 9));

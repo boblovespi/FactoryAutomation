@@ -52,6 +52,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 
 /**
@@ -82,6 +83,7 @@ public class FactoryAutomation
 
 	public FactoryAutomation()
 	{
+		ModCompatHandler.PreInit();
 		GeckoLib.initialize();
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);

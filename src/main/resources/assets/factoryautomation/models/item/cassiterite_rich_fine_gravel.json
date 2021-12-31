@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "factoryautomation:items/ores/cassiterite/rich_fine_gravel"
+  }
+}

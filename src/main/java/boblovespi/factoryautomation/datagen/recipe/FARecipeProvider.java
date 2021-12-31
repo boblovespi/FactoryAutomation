@@ -32,7 +32,7 @@ public class FARecipeProvider extends RecipeProvider
 	protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer)
 	{
 		// metal storage recipes
-		for (int i = 2; i < Metals.values().length; i++)
+		for (int i = 3; i < Metals.values().length; i++)
 		{
 			ShapelessRecipeBuilder.shapeless(FAItems.nugget.GetItem(Metals.values()[i]), 9)
 								  .requires(FATags.CreateForgeItemTag("ingots/" + Metals.values()[i].toString()))

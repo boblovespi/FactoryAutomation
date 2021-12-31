@@ -68,6 +68,7 @@ public class FAItems
 
 	public static MultiTypeItem<OreForms> processedMagnetite;
 	public static MultiTypeItem<OreForms> processedLimonite;
+	public static MultiTypeItem<OreForms> processedCassiterite;
 
 	// food
 
@@ -203,6 +204,7 @@ public class FAItems
 
 		processedMagnetite = new ProcessedOre("magnetite");
 		processedLimonite = new ProcessedOre("limonite");
+		processedCassiterite = new ProcessedOre("cassiterite");
 
 		// foods
 
