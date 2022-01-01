@@ -1,15 +1,22 @@
 package boblovespi.factoryautomation.common.worldgen;
 
+import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.block.resource.Ore;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.NoSuchElementException;
 
@@ -22,11 +29,12 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 @Mod.EventBusSubscriber(modid = MODID)
 public class WorldGenHandler
 { // TODO: figure out worldgen
-	/*public static final DeferredRegister<Feature<?>> deferredRegister = DeferredRegister.create(ForgeRegistries.FEATURES, MODID);
-	private static final RegistryObject<Feature<NoneFeatureConfiguration>> limoniteGen = deferredRegister.register(
+	public static final DeferredRegister<Feature<?>> deferredRegister = DeferredRegister.create(ForgeRegistries.FEATURES, MODID);
+	public static final RegistryObject<Feature<NoneFeatureConfiguration>> limoniteGen = deferredRegister.register(
 			"limonite_gen", () -> new SwampFloorOreGenerator((Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f,
-					NoneFeatureConfiguration.CODEC));
+															 NoneFeatureConfiguration.CODEC));
 
+	/*
 	// surface blocks
 	private final Set<Block> surfaceBlocks = new HashSet<Block>(5)
 	{{
@@ -51,8 +59,7 @@ public class WorldGenHandler
 		PlacedFeatures.init();
 		BiomeCategory category = event.getCategory();
 		BiomeGenerationSettingsBuilder biome = event.getGeneration();
-		if (category != BiomeCategory.NETHER && category != BiomeCategory.THEEND
-					&& category != BiomeCategory.NONE)
+		if (category != BiomeCategory.NETHER && category != BiomeCategory.THEEND && category != BiomeCategory.NONE)
 		{
 			/*AddOre(biome,
 					new OreConfiguration(NATURAL_STONE, FABlocks.metalOres.GetBlock(COPPER).defaultBlockState(), 10),
@@ -79,6 +86,11 @@ public class WorldGenHandler
 			// flint
 			if (category != BiomeCategory.RIVER && category != BiomeCategory.OCEAN && category != BiomeCategory.UNDERGROUND)
 				biome.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, GetFeature("patch_flint_normal"));
+			// limonite
+			if (category == BiomeCategory.SWAMP)
+				biome.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GetFeature("ore_limonite_normal"));
+			// casserite
+			biome.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GetFeature("ore_cassiterite_small_normal"));
 		}
 		else if (category == BiomeCategory.THEEND)
 		{
@@ -86,7 +98,7 @@ public class WorldGenHandler
 					new BlockMatchTest(Blocks.END_STONE),
 					FABlocks.siliconQuartzOre.ToBlock().defaultBlockState(), 9), CountRange(2, 255));*/
 		}
-		else if (category == BiomeCategory.SWAMP)
+		else if (category == BiomeCategory.NETHER)
 		{
 			/*biome.addFeature(UNDERGROUND_ORES, limoniteGen.get().configured(NoneFeatureConfiguration.NONE).chance(17));*/
 		}

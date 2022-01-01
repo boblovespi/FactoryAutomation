@@ -88,7 +88,7 @@ public class FactoryAutomation
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
 		Fluids.FLUID_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-		// WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
+		WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// RockBlockPlacer.REGISTRY.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// ResourcePackHandler p; // lol
 	}

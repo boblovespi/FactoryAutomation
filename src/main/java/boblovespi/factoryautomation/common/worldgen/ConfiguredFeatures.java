@@ -1,16 +1,21 @@
 package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.block.resource.Rock;
 import boblovespi.factoryautomation.common.block.resource.Rock.Variants;
+import boblovespi.factoryautomation.common.item.types.MetalOres;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
@@ -34,6 +39,9 @@ public class ConfiguredFeatures
 	public static ConfiguredFeature<?, ?> rockPatchDesert = Register("patch_rock_desert", Feature.RANDOM_PATCH.configured(SimplePatch(4, SimpleStateProvider.simple(RockVariant(Variants.SANDSTONE)))));
 	public static ConfiguredFeature<?, ?> rockPatchMesa = Register("patch_rock_mesa", Feature.RANDOM_PATCH.configured(SimplePatch(4, SimpleStateProvider.simple(RockVariant(Variants.TERRACOTTA)))));
 	public static ConfiguredFeature<?, ?> rockPatchSwamp = Register("patch_rock_swamp", Feature.RANDOM_PATCH.configured(SimplePatch(5, SimpleStateProvider.simple(RockVariant(Variants.MOSSY_COBBLESTONE)))));
+	public static ConfiguredFeature<?, ?> tinSmallVein = Register("ore_cassiterite_small", Feature.ORE.configured(new OreConfiguration(OreFeatures.STONE_ORE_REPLACEABLES, FABlocks.metalOres.GetBlock(MetalOres.TIN)
+			.ToBlock().defaultBlockState(), 4)));
+	public static ConfiguredFeature<?, ?> limoniteVein = Register("ore_limonite", WorldGenHandler.limoniteGen.get().configured(NoneFeatureConfiguration.INSTANCE));
 
 	public static void init()
 	{
