@@ -515,6 +515,8 @@ public class TEStoneCrucible extends BlockEntity
 						return new ItemStack(Items.IRON_INGOT);
 					else if (drainMetal.equals("gold"))
 						return new ItemStack(Items.GOLD_INGOT);
+					else if (drainMetal.equals("copper"))
+						return new ItemStack(Items.COPPER_INGOT);
 					return new ItemStack(FAItems.ingot.GetItem(Metals.GetFromName(drainMetal)));
 				case NUGGET:
 					if (drainMetal.equals("iron"))
