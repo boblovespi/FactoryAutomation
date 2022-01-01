@@ -32,6 +32,8 @@
     "factoryautomation:patterned_plate_block_iron",
     "factoryautomation:factory_sign_block",
     "factoryautomation:terraclay_brick_block",
-    "factoryautomation:slag_glass"
+    "factoryautomation:slag_glass",
+    "factoryautomation:cassiterite_raw_block",
+    "factoryautomation:limonite_raw_block"
   ]
 }

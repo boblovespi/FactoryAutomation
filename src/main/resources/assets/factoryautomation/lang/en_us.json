@@ -268,6 +268,7 @@
   "item.factoryautomation.limonite_rich_pellet": "Rich Limonite Pellet",
   "item.factoryautomation.limonite_concentrated_pellet": "Concentrated Limonite Pellet",
   "item.factoryautomation.limonite_purified_pellet": "Purified Limonite Pellet",
+  "block.factoryautomation.limonite_raw_block": "Block of Raw Limonite",
   "_comment": "cassiterite",
   "item.factoryautomation.cassiterite_chunk": "Raw Cassiterite",
   "item.factoryautomation.cassiterite_normal_gravel": "Cassiterite Gravel",
@@ -282,6 +283,7 @@
   "item.factoryautomation.cassiterite_rich_pellet": "Rich Cassiterite Pellet",
   "item.factoryautomation.cassiterite_concentrated_pellet": "Concentrated Cassiterite Pellet",
   "item.factoryautomation.cassiterite_purified_pellet": "Purified Cassiterite Pellet",
+  "block.factoryautomation.cassiterite_raw_block": "Block of Raw Cassiterite",
   
   
   "_comment": "items - foods",

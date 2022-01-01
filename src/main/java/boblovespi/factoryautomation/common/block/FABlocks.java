@@ -43,7 +43,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
 import static boblovespi.factoryautomation.common.item.FAItems.Building;
 import static boblovespi.factoryautomation.common.item.FAItems.Prop;
-import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.COPPER;
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.STEEL;
 import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of;
 
@@ -106,6 +105,10 @@ public class FABlocks
 	public static FABlock rock;
 	public static FABlock flintRock;
 	public static FABlock blackSand;
+
+	// raw chunks
+	public static FABlock cassiteriteRawBlock;
+	public static FABlock limoniteRawBlock;
 
 	// workbenches
 
@@ -279,6 +282,9 @@ public class FABlocks
 		flintRock = new OreSample("flint_rock", new ItemStack[] {new ItemStack(Items.FLINT)});
 		blackSand = new Sand("black_sand", 0x1D1C1C, of(Material.SAND, MaterialColor.COLOR_BLACK)
 				.strength(0.5F).sound(SoundType.SAND).requiresCorrectToolForDrops(), Building());
+
+		cassiteriteRawBlock = new FABaseBlock("cassiterite_raw_block", false, of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops().strength(5.0F, 6.0F), Building());
+		limoniteRawBlock = new FABaseBlock("limonite_raw_block", false, of(Material.STONE, MaterialColor.TERRACOTTA_ORANGE).requiresCorrectToolForDrops().strength(5.0F, 6.0F), Building());
 
 		// workbenches
 

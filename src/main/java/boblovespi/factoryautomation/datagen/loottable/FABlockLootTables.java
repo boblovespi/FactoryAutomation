@@ -147,5 +147,8 @@ public class FABlockLootTables extends BlockLoot
 				LootPool.lootPool().add(LootItem.lootTableItem(FAItems.slag))
 						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 		dropSelf(FABlocks.blackSand.ToBlock());
+
+		dropSelf(FABlocks.limoniteRawBlock.ToBlock());
+		dropSelf(FABlocks.cassiteriteRawBlock.ToBlock());
 	}
 }

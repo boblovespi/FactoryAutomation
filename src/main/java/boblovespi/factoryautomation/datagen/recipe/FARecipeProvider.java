@@ -1,8 +1,10 @@
 package boblovespi.factoryautomation.datagen.recipe;
 
+import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.ores.OreForms;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.data.*;
@@ -79,6 +81,9 @@ public class FARecipeProvider extends RecipeProvider
 		AddToolRecipes(consumer, "copper", FATags.CreateForgeItemTag("ingots/copper"), FATags.CreateForgeItemTag("rods/wooden"),
 				FAItems.copperPickaxe, FAItems.copperAxe, FAItems.copperSword, FAItems.copperHoe, FAItems.copperShovel);
 
+		// raw ore blocks
+		AddRawBlock(consumer, FABlocks.limoniteRawBlock, FATags.CreateForgeItemTag("raw_ores/limonite"), FAItems.processedLimonite.GetItem(OreForms.CHUNK));
+		AddRawBlock(consumer, FABlocks.cassiteriteRawBlock, FATags.CreateForgeItemTag("raw_ores/tin"), FAItems.processedCassiterite.GetItem(OreForms.CHUNK));
 	}
 
 	private void AddToolRecipes(Consumer<FinishedRecipe> consumer, String materialName, @Nonnull Tag<Item> ingot,
@@ -115,5 +120,20 @@ public class FARecipeProvider extends RecipeProvider
 							   .define('s', stick).unlockedBy("has_" + materialName, has(ingot))
 							   .save(consumer, new ResourceLocation(MODID, materialName + "_shovel"));
 		}
+	}
+
+	private void AddRawBlock(Consumer<FinishedRecipe> consumer, FABlock rawOre, Tag<Item> fromChunk, FAItem toChunk)
+	{
+		ShapelessRecipeBuilder.shapeless(toChunk, 9)
+				.requires(rawOre)
+				.group(toChunk.RegistryName())
+				.unlockedBy("has_" + rawOre.RegistryName(), has(rawOre))
+				.save(consumer, new ResourceLocation(MODID, rawOre.RegistryName() + "_to_" + toChunk.RegistryName()));
+
+		ShapedRecipeBuilder.shaped(rawOre).pattern("III").pattern("III").pattern("III")
+				.define('I', fromChunk)
+				.group(rawOre.RegistryName())
+				.unlockedBy("has_" + toChunk.RegistryName(), has(fromChunk))
+				.save(consumer, new ResourceLocation(MODID, toChunk.RegistryName() + "_to_" + rawOre.RegistryName()));
 	}
 }

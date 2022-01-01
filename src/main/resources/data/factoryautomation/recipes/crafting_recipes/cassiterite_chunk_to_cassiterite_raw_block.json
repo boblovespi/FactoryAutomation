@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "cassiterite_raw_block",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:raw_ores/tin"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:cassiterite_raw_block"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "factoryautomation:block/ores/cassiterite_raw_block"
+    }
+  }
+}

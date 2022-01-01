@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "factoryautomation:blocks/ores/cassiterite_raw_block"
+  }
+}
