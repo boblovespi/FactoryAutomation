@@ -3,10 +3,14 @@ package boblovespi.factoryautomation.common.handler;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
 import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
+import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,6 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistry;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
 
 /**
  * Created by Willi on 4/30/2018.
@@ -37,23 +42,23 @@ public class VanillaTweakHandler
 	@SubscribeEvent
 	public static void CheckMiningLevel(PlayerEvent.HarvestCheck event)
 	{
-		/*ItemStack stack = event.getPlayer().getMainHandItem();
+		ItemStack stack = event.getPlayer().getMainHandItem();
 		BlockState state = event.getTargetBlock();
-		int toolLevel = ToolAction
-		if (stack.getItem() instanceof TieredItem)
-			toolLevel = ((TieredItem) stack.getItem()).getTier().getLevel();
-		if (state.getBlock() == Blocks.IRON_ORE)
-			event.setCanHarvest(toolLevel >= blockMiningLevelCat.ironOre);
-		if (state.getBlock() == Blocks.DIAMOND_ORE)
-			event.setCanHarvest(toolLevel >= blockMiningLevelCat.diamondOre);
-		if (state.getBlock() == Blocks.REDSTONE_ORE)
-			event.setCanHarvest(toolLevel >= blockMiningLevelCat.redstoneOre);
-		if (state.getBlock() == Blocks.LAPIS_ORE)
-			event.setCanHarvest(toolLevel >= blockMiningLevelCat.lapisOre);
-		if (state.getBlock() == Blocks.GOLD_ORE)
-			event.setCanHarvest(toolLevel >= blockMiningLevelCat.goldOre);
-		if (state.getBlock() == Blocks.OBSIDIAN)
-			event.setCanHarvest(toolLevel >= blockMiningLevelCat.obsidian);*/ // TODO: figure out how to do better probably by modifying tags
+		Tier tier = Tiers.WOOD;
+		if (stack.getItem() instanceof TieredItem te)
+			tier = te.getTier();
+		if (state.is(BlockTags.IRON_ORES))
+			event.setCanHarvest(TierSortingRegistry.getSortedTiers().stream().dropWhile(t -> t != Tiers.IRON).anyMatch(tier::equals));
+		if (state.is(BlockTags.DIAMOND_ORES))
+			event.setCanHarvest(TierSortingRegistry.getSortedTiers().stream().dropWhile(t -> t != ToolMaterial.bronzeMaterial).anyMatch(tier::equals));
+		if (state.is(BlockTags.REDSTONE_ORES))
+			event.setCanHarvest(TierSortingRegistry.getSortedTiers().stream().dropWhile(t -> t != ToolMaterial.bronzeMaterial).anyMatch(tier::equals));
+		if (state.is(BlockTags.LAPIS_ORES))
+			event.setCanHarvest(TierSortingRegistry.getSortedTiers().stream().dropWhile(t -> t != ToolMaterial.copperMaterial).anyMatch(tier::equals));
+		if (state.is(BlockTags.GOLD_ORES))
+			event.setCanHarvest(TierSortingRegistry.getSortedTiers().stream().dropWhile(t -> t != ToolMaterial.bronzeMaterial).anyMatch(tier::equals));
+		if (state.is(Tags.Blocks.OBSIDIAN))
+			event.setCanHarvest(TierSortingRegistry.getSortedTiers().stream().dropWhile(t -> t != ToolMaterial.steelMaterial).anyMatch(tier::equals)); // TODO: figure out how to do better probably by modifying tags
 	}
 
 	@SyncOnConfigChange(priority = Priority.FIRST)
