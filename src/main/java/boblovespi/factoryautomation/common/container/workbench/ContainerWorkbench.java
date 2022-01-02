@@ -123,7 +123,8 @@ public abstract class ContainerWorkbench extends AbstractContainerMenu
 	@Override
 	public void broadcastChanges()
 	{
-		boolean shouldResendOutput = false;
+		super.broadcastChanges();
+		/*boolean shouldResendOutput = false;
 		boolean hasResentOutput = false;
 		for (int i = 0; i < this.slots.size(); ++i)
 		{
@@ -168,12 +169,12 @@ public abstract class ContainerWorkbench extends AbstractContainerMenu
 					containerListener.dataChanged(this, j, intreferenceholder.get());
 				}
 			}
-		}
+		}*/
 	}
 
 	@Override
 	public void broadcastFullState()
 	{
-		broadcastChanges();
+		super.broadcastFullState();
 	}
 }
