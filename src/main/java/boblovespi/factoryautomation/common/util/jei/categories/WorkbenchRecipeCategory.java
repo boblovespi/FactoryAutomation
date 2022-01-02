@@ -62,7 +62,7 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 	@Override
 	public Component getTitle()
 	{
-		return new TranslatableComponent("gui.workbench.name");
+		return new TranslatableComponent("jei.workbench");
 	}
 
 	@Override

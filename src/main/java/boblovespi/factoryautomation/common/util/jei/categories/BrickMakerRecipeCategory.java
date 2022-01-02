@@ -1,8 +1,9 @@
 package boblovespi.factoryautomation.common.util.jei.categories;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.util.jei.wrappers.BrickMakerRecipeWrapper;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -11,36 +12,35 @@ import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Willi on 3/3/2019.
- */
-public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBlockRecipe>
+public class BrickMakerRecipeCategory implements IRecipeCategory<BrickMakerRecipeWrapper>
 {
-	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "chopping_block");
+	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "brick_maker");
+	private static final MutableComponent text = new TextComponent("150 seconds").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY);
 	private static final int u = 54;
 	private static final int v = 16;
 	private final IGuiHelper guiHelper;
 	private final IDrawableStatic background;
 	private IDrawable icon;
 
-	public ChoppingBlockRecipeCategory(IGuiHelper guiHelper)
+	public BrickMakerRecipeCategory(IGuiHelper guiHelper)
 	{
 		this.guiHelper = guiHelper;
 		background = guiHelper
 				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/generic_energyless.png"),
-						u, v, 83, 54);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.woodChoppingBlocks.get(0)));
+								u, v, 83, 54);
+		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.brickMakerFrame));
 	}
 
 	@Nonnull
@@ -54,7 +54,7 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 	@Override
 	public Component getTitle()
 	{
-		return new TranslatableComponent("jei.chopping_block");
+		return new TranslatableComponent("jei.brick_maker");
 	}
 
 	@Nonnull
@@ -65,7 +65,7 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, ChoppingBlockRecipe recipe, IIngredients ing)
+	public void setRecipe(IRecipeLayout recipeLayout, BrickMakerRecipeWrapper recipe, IIngredients ing)
 	{
 		List<List<ItemStack>> inputs = ing.getInputs(VanillaTypes.ITEM);
 		List<List<ItemStack>> outputs = ing.getOutputs(VanillaTypes.ITEM);
@@ -80,9 +80,9 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 	}
 
 	@Override
-	public Class<? extends ChoppingBlockRecipe> getRecipeClass()
+	public Class<? extends BrickMakerRecipeWrapper> getRecipeClass()
 	{
-		return ChoppingBlockRecipe.class;
+		return BrickMakerRecipeWrapper.class;
 	}
 
 	@Override
@@ -92,10 +92,15 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 	}
 
 	@Override
-	public void setIngredients(ChoppingBlockRecipe recipe, IIngredients ingredients)
+	public void setIngredients(BrickMakerRecipeWrapper recipe, IIngredients ingredients)
 	{
-		ingredients.setInputLists(VanillaTypes.ITEM,
-				Collections.singletonList(Arrays.asList(recipe.GetInput().getItems())));
-		ingredients.setOutput(VanillaTypes.ITEM, recipe.GetOutput());
+		recipe.fillIngredients(ingredients);
+	}
+
+	@Override
+	public void draw(BrickMakerRecipeWrapper recipe, PoseStack stack, double mouseX, double mouseY)
+	{
+		IRecipeCategory.super.draw(recipe, stack, mouseX, mouseY);
+		Minecraft.getInstance().font.draw(stack, text, 54 - u, 60 - v - 1, 1);
 	}
 }

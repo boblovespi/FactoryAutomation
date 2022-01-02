@@ -9,6 +9,7 @@ import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.jei.categories.*;
 import boblovespi.factoryautomation.common.util.jei.wrappers.BlastFurnaceRecipeWrapper;
+import boblovespi.factoryautomation.common.util.jei.wrappers.BrickMakerRecipeWrapper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.*;
@@ -59,6 +60,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipeCategories(new JawCrusherRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new SteelmakingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new ChoppingBlockRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new BrickMakerRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -70,6 +72,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipes(SteelmakingRecipe.GetRecipes(), SteelmakingRecipeCategory.ID);
 		registry.addRecipes(JawCrusherRecipe.GetRecipes(), JawCrusherRecipeCategory.ID);
 		registry.addRecipes(ChoppingBlockRecipe.GetRecipes(), ChoppingBlockRecipeCategory.ID);
+		registry.addRecipes(Collections.singletonList(new BrickMakerRecipeWrapper()), BrickMakerRecipeCategory.ID);
 		RegisterDescriptions(registry);
 	}
 
@@ -100,5 +103,6 @@ public class JEIPlugin implements IModPlugin
 		{
 			registry.addRecipeCatalyst(new ItemStack(choppingBlock.ToBlock()), ChoppingBlockRecipeCategory.ID);
 		}
+		registry.addRecipeCatalyst(new ItemStack(FABlocks.brickMakerFrame), BrickMakerRecipeCategory.ID);
 	}
 }
