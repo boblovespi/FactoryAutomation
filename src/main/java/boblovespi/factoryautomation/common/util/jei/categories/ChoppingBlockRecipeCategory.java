@@ -72,8 +72,8 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 
 		IGuiItemStackGroup gui = recipeLayout.getItemStacks();
 
-		gui.init(0, true, 55 - u, 35 - v - 1);
-		gui.init(1, false, 116 - u, 35 - v - 1);
+		gui.init(0, true, 54 - u, 35 - v - 1);
+		gui.init(1, false, 115 - u, 35 - v - 1);
 
 		gui.set(0, inputs.get(0));
 		gui.set(1, outputs.get(0));
