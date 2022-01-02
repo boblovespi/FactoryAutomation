@@ -79,16 +79,22 @@ public class HorseEngine extends FABaseBlock implements EntityBlock
 		if (world.isClientSide)
 			return InteractionResult.SUCCESS;
 
-		for (Mob horse : world.getEntitiesOfClass(Mob.class,
-				new AABB(pos.getX() - 7.0D, pos.getY() - 7.0D, pos.getZ() - 7.0D, pos.getX() + 7.0D,
-						pos.getY() + 7.0D, pos.getZ() + 7.0D)))
+		BlockEntity te = world.getBlockEntity(pos);
+		if (te instanceof TEHorseEngine he)
 		{
-			if (horse.isLeashed() && horse.getLeashHolder() == player && horse instanceof AbstractHorse)
+			if (he.HasHorse())
+				he.RemoveHorse();
+			else
 			{
-				horse.dropLeash(true, true);
-				BlockEntity te = world.getBlockEntity(pos);
-				if (te instanceof TEHorseEngine)
-					((TEHorseEngine) te).AttachHorse(horse);
+				for (Mob horse : world.getEntitiesOfClass(Mob.class, new AABB(pos.getX() - 7.0D, pos.getY() - 7.0D, pos.getZ() - 7.0D,
+																			  pos.getX() + 7.0D, pos.getY() + 7.0D, pos.getZ() + 7.0D)))
+				{
+					if (horse instanceof AbstractHorse ah && horse.isLeashed() && horse.getLeashHolder() == player && ah.isTamed())
+					{
+						horse.dropLeash(true, true);
+						he.AttachHorse(ah);
+					}
+				}
 			}
 		}
 		return InteractionResult.SUCCESS;

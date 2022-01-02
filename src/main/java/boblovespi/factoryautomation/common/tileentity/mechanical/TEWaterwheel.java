@@ -9,6 +9,7 @@ import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -62,6 +63,7 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 		waterLoc.add(worldPosition.relative(front, 1).above(-3));
 		waterLoc.add(worldPosition.above(-3));
 		waterLoc.add(worldPosition.relative(front, -1).above(-3));
+		structureIsValid = getBlockState().getValue(MULTIBLOCK_COMPLETE);
 		firstTick = false;
 	}
 
@@ -80,15 +82,25 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 	@Override
 	public void CreateStructure()
 	{
-		MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, out);
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
+		if (!structureIsValid)
+		{
+			SetStructureValid();
+			MultiblockHelper.CreateStructure(level, worldPosition, MULTIBLOCK_ID, out);
+			Objects.requireNonNull(level)
+					.setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, true));
+		}
 	}
 
 	@Override
 	public void BreakStructure()
 	{
-		MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, out);
-		Objects.requireNonNull(level).setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
+		if (structureIsValid)
+		{
+			SetStructureInvalid();
+			MultiblockHelper.BreakStructure(level, worldPosition, MULTIBLOCK_ID, out);
+			Objects.requireNonNull(level)
+					.setBlockAndUpdate(worldPosition, getBlockState().setValue(MULTIBLOCK_COMPLETE, false));
+		}
 	}
 
 	/**
@@ -118,6 +130,13 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 		}
 		if (firstTick)
 			FirstLoad();
+
+		if (!structureIsValid)
+		{
+			user.SetSpeedOnFace(out, 0);
+			user.SetTorqueOnFace(out, 0);
+			return;
+		}
 
 		++counter;
 		counter %= 10;
@@ -156,7 +175,7 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 						}
 					}
 				}
-				user.SetSpeedOnFace(out, torque < 1 ? 0 : 10);
+				user.SetSpeedOnFace(out, torque < 1 ? 0 : torque > 10 ? 4 / 2.5f : torque * 4 / 2.5f / 10f);
 				user.SetTorqueOnFace(out, torque);
 			}
 		}

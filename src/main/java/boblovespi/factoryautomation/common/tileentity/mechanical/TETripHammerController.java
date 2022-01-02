@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.common.tileentity.mechanical;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.TripHammerRecipe;
+import boblovespi.factoryautomation.common.block.machine.TripHammerController;
 import boblovespi.factoryautomation.common.block.machine.TripHammerController.BlockstateEnum;
 import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
@@ -63,6 +64,7 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 	{
 		Direction dir = getBlockState().getValue(FACING);
 		mechanicalUser.SetSides(EnumSet.of(dir.getClockWise(), dir.getCounterClockWise()));
+		isValid = getBlockState().getValue(MULTIBLOCK_COMPLETE) == BlockstateEnum.TRUE;
 		firstTick = false;
 	}
 
@@ -146,6 +148,35 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 			if (firstTick)
 				FirstLoad();
 
+			if (!isValid)
+				return;
+
+			Direction facing = getBlockState().getValue(FACING);
+
+			BlockPos pos2 = MultiblockHelper.AddWithRotation(worldPosition, 5, 1, 0, facing);
+			Direction clockWise = facing.getClockWise();
+			Direction counterClockWise = facing.getCounterClockWise();
+			BlockEntity teCW = level.getBlockEntity(pos2.relative(clockWise, 1));
+			BlockEntity teCCW = level.getBlockEntity(pos2.relative(counterClockWise, 1));
+
+			if (TEHelper.IsMechanicalFace(teCW, counterClockWise) && TEHelper.IsMechanicalFace(teCCW, clockWise))
+			{
+				mechanicalUser.SetSpeedOnFace(clockWise, 0);
+				mechanicalUser.SetTorqueOnFace(clockWise, 0);
+			} else if (TEHelper.IsMechanicalFace(teCW, counterClockWise))
+			{
+				mechanicalUser.SetSpeedOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).GetSpeedOnFace(counterClockWise));
+				mechanicalUser.SetTorqueOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).GetTorqueOnFace(counterClockWise));
+			} else if (TEHelper.IsMechanicalFace(teCCW, clockWise))
+			{
+				mechanicalUser.SetSpeedOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).GetSpeedOnFace(clockWise));
+				mechanicalUser.SetTorqueOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).GetTorqueOnFace(clockWise));
+			} else
+			{
+				mechanicalUser.SetSpeedOnFace(clockWise, 0);
+				mechanicalUser.SetTorqueOnFace(clockWise, 0);
+			}
+
 			ItemStack stack = itemHandler.getStackInSlot(0);
 			if (stack.isEmpty() || !itemHandler.getStackInSlot(1).isEmpty())
 				return;
@@ -180,23 +211,6 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 
 				}
 				setChanged();
-			}
-			Direction facing = getBlockState().getValue(FACING);
-
-			BlockPos pos2 = MultiblockHelper.AddWithRotation(worldPosition, 5, 1, 0, facing);
-			Direction clockWise = facing.getClockWise();
-			Direction counterClockWise = facing.getCounterClockWise();
-			BlockEntity teCW = level.getBlockEntity(pos2.relative(clockWise, 1));
-			BlockEntity teCCW = level.getBlockEntity(pos2.relative(counterClockWise, 1));
-
-			if (TEHelper.IsMechanicalFace(teCW, counterClockWise))
-			{
-				mechanicalUser.SetSpeedOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).GetSpeedOnFace(counterClockWise));
-				mechanicalUser.SetTorqueOnFace(clockWise, TEHelper.GetUser(teCW, counterClockWise).GetTorqueOnFace(counterClockWise));
-			} else if (TEHelper.IsMechanicalFace(teCCW, clockWise))
-			{
-				mechanicalUser.SetSpeedOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).GetSpeedOnFace(clockWise));
-				mechanicalUser.SetTorqueOnFace(counterClockWise, TEHelper.GetUser(teCCW, clockWise).GetTorqueOnFace(clockWise));
 			}
 		}
 	}

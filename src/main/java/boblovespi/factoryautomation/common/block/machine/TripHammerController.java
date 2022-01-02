@@ -84,18 +84,24 @@ public class TripHammerController extends FABaseBlock implements EntityBlock
 					world.getBlockState(pos).getValue(FACING)))
 			{
 				System.out.println("complete!");
-				te.CreateStructure();
-				ItemStack item = player.getItemInHand(hand);
-				if (item.isEmpty())
+				if (!te.IsStructureValid())
+					te.CreateStructure();
+				else
 				{
-					ItemStack item1 = te.TakeItem();
-					ItemHelper.PutItemsInInventoryOrDrop(player, item1, world);
-				} else
-				{
-					if (te.PutItem(item.copy().split(1)))
-						item.shrink(1);
+					ItemStack item = player.getItemInHand(hand);
+					if (item.isEmpty())
+					{
+						ItemStack item1 = te.TakeItem();
+						ItemHelper.PutItemsInInventoryOrDrop(player, item1, world);
+					} else
+					{
+						if (te.PutItem(item.copy().split(1)))
+							item.shrink(1);
+					}
 				}
 			}
+			else
+				te.BreakStructure();
 		} else
 			System.out.println("incomplete!");
 		if (te1 == null)
