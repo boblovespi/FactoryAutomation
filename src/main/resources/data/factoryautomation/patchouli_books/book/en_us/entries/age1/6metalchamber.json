@@ -2,11 +2,11 @@
     "name": "Metal Chamber",
     "icon": "factoryautomation:metal_plate_block_copper",
     "category": "factoryautomation:age1",
-    "sortnum": 5,
+    "sortnum": 6,
     "pages": [
         {
             "type": "text",
-            "text": "So I heard copper and tin is not enough for you... what do you want then? What do you mean by iron? Well then, let me tell you how to do it: First get yourself a TON of copper plates and screws.",
+            "text": "So I heard just getting iron is not enough for you... what do you want then? What do you mean by usable iron? Well then, let me tell you how to do it: First get yourself a TON of copper plates and screws.",
         	"title": "Chambers?"
         },
 		{

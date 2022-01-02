@@ -1,0 +1,29 @@
+{
+    "name": "Limonite",
+    "icon": "factoryautomation:limonite_chunk",
+    "category": "factoryautomation:age1",
+    "sortnum": 5,
+    "pages": [
+        {
+            "type": "text",
+            "text": "What is limonite, you say? And how does it help you get iron? Well, limonite IS a form of iron. If you could get some, there might be a way to turn it into a much more refined form of iron. Just one problem: limonite is quite rare.",
+        	"title": "What is Limonite?"
+        },
+		{
+            "type": "spotlight",
+            "item": "factoryautomation:limonite_ore_rich",
+			"text": "Limonite can only be found in one place: the swamp. If you haven't found a swamp, you might need to start looking. Though limonite is scarce, other sources of iron are even scarcer.",
+			"title": "The Hunt Begins!"
+        },
+		{
+            "type": "text",
+            "text": "Now that you've arrived at a swamp, you can start looking for limonite. It is generally found at the bottom of bodies of water. However, you may notice it comes in three forms: $(#55cc55)rich$(), normal, and $(#cc5555)poor$(). As the names suggest, rich ore contains the most iron, and poor the least.",
+            "title": "The Rich and The Poor"
+        },
+        {
+            "type": "text",
+            "text": "Now that you have limonite, $(l:age1/6metalchamber)read on$() to learn how to convert it to usable iron!",
+            "title": "The Next Step"
+        }
+    ]
+}
