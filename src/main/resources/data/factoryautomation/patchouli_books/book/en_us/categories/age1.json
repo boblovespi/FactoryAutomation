@@ -1,6 +1,6 @@
 {
 	"name": "Age 1 - Age of Metals",
 	"description": "Start metallurgy, get your hands on the first ingot of metal!",
-	"icon": "factoryautomation:ingot_copper",
+	"icon": "minecraft:copper_ingot",
 	"sortnum": 1
 }

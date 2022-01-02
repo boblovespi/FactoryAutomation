@@ -1,24 +1,24 @@
 {
-    "name": "Chopping wood",
+    "name": "Chopping Wood",
     "icon": "minecraft:oak_planks",
-    "category": "age0",
+    "category": "factoryautomation:age0",
     "sortnum": 1,
     "pages": [
         {
             "type": "text",
-            "text": "Now you have yourself a chopping blade, and you attacked some trees with it. But what can you achieve with some logs? Right, you want some planks. To turn your logs into planks, make a chopping block. Now you ask how to make that, FINE i'll tell you: Grab a rock from the ground, then press down shift, and right click on a wood log with your rock. Tadaa, now you got not one but two chopping blocks.",
+            "text": "Now you have yourself a chopping blade, and you can attack trees with it. But what can you achieve with some logs? Right, you want some planks. To turn your logs into planks, make a chopping block. How do you make that, you ask? FINE, I'll tell you: Grab a rock from the ground, then press down shift and right click on a wood log with your rock. Tada, now you have not one but two chopping blocks.",
         	"title": "Woods everywhere"
         },
 		{
             "type": "spotlight",
 			"item": "factoryautomation:wood_chopping_block_oak",
-            "text": "Now to get your wooden planks, place a wood log on your chopping block with right click, and then grab your chopping blade and start chopping with left click, until it turns into planks. There are other things you can make with this method: You can turn planks into sticks; grass into plant fiber.",
-        	"title": "The Chopping block"
+            "text": "To get your wood planks, right click the chopping block with wood logs in your hand, and then grab your chopping blade and start chopping with left click until it turns into planks. There are other things you can make with this method: You can turn planks into sticks; grass into plant fiber.",
+        	"title": "The Chopping Block"
         },
 		{
             "type": "image",
 			"images": ["factoryautomation:textures/patchouli/use_chopping_block.png"],
-            "title": "Chopping irl"
+            "title": "Chopping IRL"
         }
     ]
 }

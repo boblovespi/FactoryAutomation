@@ -1,24 +1,24 @@
 {
-    "name": "A bruning alternative",
+    "name": "A Burning Alternative",
     "icon": "minecraft:charcoal",
-    "category": "age1",
+    "category": "factoryautomation:age1",
     "sortnum": 1,
     "pages": [
         {
             "type": "text",
-            "text": "Before you can melt ores, you will need something to power the foundry, which is coal. But there is an alternative if you dont like mining a lot.",
-        	"title": "Charcoal is your friend"
+            "text": "Before you can melt ores, you will need something to power the foundry, which is coal. But there is an alternative if you don't like mining a lot.",
+        	"title": "Charcoal is Your Friend"
         },
 		{
             "type": "crafting",
         	"recipe": "factoryautomation:crafting_recipes/firebow_bow_upgrade",
-            "text": "You will need to lit things on fire, but you cant craft flint and steel... But, there is the firebow. To use it, press down the right click while holding it in your hand, aim at the block where you want fire, and hold it until it lits the block.",
+            "text": "You will need to light things on fire, but you can't craft a flint and steel... Luckily, you can craft the firebow. To use it, hold right click while holding it in your hand, aim at the block where you want fire, and wait until it lights the block.",
         	"title": "Firebow"
         },
 		{
             "type": "crafting",
         	"recipe": "factoryautomation:workbench_recipes/log_pile",
-            "text": "Now you know there is charcoal, you can lit things on fire, what else do you need? Oh, the thing that will be lit. This is a wood log pile. if you light it, it will spread fire and burn down quickly. It will drop you one piece of charcoal upon burning down.",
+            "text": "Now what would you light on fire? How about this handy pile of logs? Upon being lit on fire, it will quickly burn. However, if the log pile is completely covered by blocks soon after being set ablaze, after a few minutes it will turn into charcoal.",
         	"title": "Wood Log Pile"
         }
     ]

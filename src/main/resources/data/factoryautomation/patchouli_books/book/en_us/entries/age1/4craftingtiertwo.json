@@ -1,25 +1,24 @@
 {
     "name": "Stone Workbench",
     "icon": "factoryautomation:stone_workbench",
-    "category": "age1",
+    "category": "factoryautomation:age1",
     "sortnum": 4,
     "pages": [
         {
             "type": "text",
-            "text": "You have succesfully achieved tin and copper ingots, now you want to make things out of it. But you will need a better workbench to do that, which is the Stone Workbench, aka Crafting Table II.",
+            "text": "You have successfully obtained tin and copper ingots, and now you want to make things out of it. But you will need a better workbench to do that, which is the Stone Workbench, aka Crafting Table II.",
         	"title": "Chambers?"
         },
 		{
             "type": "crafting",
         	"recipe": "factoryautomation:crafting_recipes/stone_workbench",
-            "text": "The recipe shows many possible ingots to use, but you will probably use either tin or copper. To look up recipoes in this workbench, use JEI, because this book is incapable of displaying them properly.",
+            "text": "The recipe shows many possible ingots to use, but you will probably use either tin or copper. To look up recipes in this workbench, use JEI, because this book is incapable of displaying them properly.",
         	"title": "Stone Workbench"
         },
 		{
-            "type": "crafting",
-        	"recipe": "factoryautomation:workbench_recipes/copper_hammer",
-            "text": "This tool will help you craft stuff in it, its a hammer.",
-        	"title": "Stone Workbench"
+            "type": "spotlight",
+        	"item": "factoryautomation:copper_hammer",
+            "text": "This tool will help you use the workbench."
         }
     ]
 }

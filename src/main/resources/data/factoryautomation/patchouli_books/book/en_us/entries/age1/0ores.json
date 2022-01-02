@@ -1,20 +1,20 @@
 {
-    "name": "Mining ores",
+    "name": "Mining Ores",
     "icon": "minecraft:stone_pickaxe",
-    "category": "age1",
+    "category": "factoryautomation:age1",
     "sortnum": 0,
     "pages": [
         {
             "type": "spotlight",
 			"item": "factoryautomation:ore_metal_tin",
-            "text": "Welcome to the age of Metals! Well, dont expect too fancy stuff here, because you can only start with copper, and maybe some tin.",
-        	"title": "Mining ores"
+            "text": "Welcome to the Age of Metals! Well, don't expect anything too fancy yet, because you can only start with copper, and maybe some tin.",
+        	"title": "Mining Ores"
         },
 		{
             "type": "spotlight",
-			"item": "factoryautomation:ore_metal_copper",
-            "text": "You can mine these so called malachite and cassiterite ores with your flint pickaxe, but it would be faster with a stone one.",
-        	"title": "Resources aroud you"
+			"item": "minecraft:copper_ore",
+            "text": "You can mine these malachite and cassiterite ores with your flint pickaxe, but it would be faster with a stone one.",
+        	"title": "Resources Around You"
         },
 		{
             "type": "image",
