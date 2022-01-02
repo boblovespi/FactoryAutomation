@@ -17,7 +17,7 @@ public class TEStoneWorkbench extends TEWorkbench
 {
 	public TEStoneWorkbench(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teIronWorkbench, 3, 1, pos, state);
+		super(TileEntityHandler.teStoneWorkbench, 3, 1, pos, state);
 	}
 
 	@Nullable
