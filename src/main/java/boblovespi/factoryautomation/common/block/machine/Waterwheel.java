@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.block.machine;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.ITickable;
@@ -100,8 +101,8 @@ public class Waterwheel extends FABaseBlock implements EntityBlock
 	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	private boolean MatchesStair(BlockState state, Direction dir, Half half)
 	{
-		return state.getBlock() == Blocks.OAK_STAIRS && state.getValue(StairBlock.FACING) == dir.getOpposite()
-				&& state.getValue(StairBlock.HALF) == half;
+		return state.getBlock() == FABlocks.multiblockPart || (state.getBlock() == Blocks.OAK_STAIRS && state.getValue(StairBlock.FACING) == dir.getOpposite()
+				&& state.getValue(StairBlock.HALF) == half);
 	}
 
 	private boolean IsComplete(Level world, BlockPos pos, Axis axis)

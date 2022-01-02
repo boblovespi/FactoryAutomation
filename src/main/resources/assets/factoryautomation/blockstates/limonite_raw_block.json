@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "factoryautomation:block/ores/limonite_raw_block"
+    }
+  }
+}

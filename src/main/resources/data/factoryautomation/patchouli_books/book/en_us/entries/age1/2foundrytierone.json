@@ -1,37 +1,37 @@
 {
-    "name": "Smelting metals I",
+    "name": "Smelting Metals I",
     "icon": "minecraft:furnace",
-    "category": "age1",
+    "category": "factoryautomation:age1",
     "sortnum": 2,
     "pages": [
         {
             "type": "text",
-            "text": "After you gathered some ore chunks, you will need some stone to craft a furnace and use that to build a foundry which can melt and cast several things.",
+            "text": "After you have gathered some ore chunks, you will need some stone to build a foundry, which can melt down the ore and cast it into several different items.",
         	"title": "Foundry Chapter I"
         },
 		{
             "type": "crafting",
         	"recipe": "factoryautomation:crafting_recipes/stone_crucible",
-            "text": "The first piece of the Foundry I, is a stone crucible, which will hold all the moletn metal in the structure.",
+            "text": "The first piece of the foundry is a stone crucible, which will hold all the molten metal in the structure.",
         	"title": "Stone Crucible"
         },
 		{
             "type": "crafting",
         	"recipe": "factoryautomation:crafting_recipes/stone_casting_vessel",
-            "text": "The second piece is the stone casting vessel, which will be used for holding the shapes that you will cast in.",
+            "text": "The second piece is the stone casting vessel, which will be used as a container to cast the metal into.",
         	"title": "Stone Casting Vessel"
         },
 		{
             "type": "crafting",
         	"recipe": "minecraft:furnace",
-            "text": "The last piece is a regular old furnace",
-        	"title": "The Good ol'"
+            "text": "The last piece is a regular old furnace.",
+        	"title": "The Good Ol'"
         },
 		{
             "type": "multiblock",
 			"name": "Foundry Tier I",
 			"multiblock_id": "factoryautomation:stone_foundry",
-            "text": "Use the book to visualise how to build the Foundry, and then you can go smelt your ores :3"
+            "text": "Use the book to visualise how to build the foundry, and then you can go smelt your ores."
         }
     ]
 }

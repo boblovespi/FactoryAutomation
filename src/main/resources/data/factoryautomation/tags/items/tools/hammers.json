@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "factoryautomation:copper_hammer",
+    "factoryautomation:iron_hammer",
+    "factoryautomation:steel_hammer"
+  ]
+}

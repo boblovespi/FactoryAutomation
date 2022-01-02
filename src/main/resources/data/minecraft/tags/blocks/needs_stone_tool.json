@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "factoryautomation:cassiterite_raw_block",
+    "factoryautomation:limonite_raw_block"
+  ]
+}

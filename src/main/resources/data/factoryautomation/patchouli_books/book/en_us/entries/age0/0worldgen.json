@@ -1,7 +1,7 @@
 {
-    "name": "Gathering flint and rocks",
+    "name": "Gathering Flint and Rocks",
     "icon": "minecraft:flint",
-    "category": "age0",
+    "category": "factoryautomation:age0",
     "sortnum": 0,
     "pages": [
         {
@@ -12,7 +12,7 @@
 		{
         	"type": "crafting",
         	"recipe": "factoryautomation:crafting_recipes/chopping_blade",
-        	"text": "Next, organize them in the pattern above in your crafting inventory and you have your first tool! You can finally chop down some trees using this. $(br)$(o)You really tryed it with your hands, huh?"
+        	"text": "Next, organize them in the pattern above in your crafting inventory and you have your first tool! You can finally chop down some trees using this. $(br)$(o)You really tried it with your hands, huh?"
         }
     ]
 }

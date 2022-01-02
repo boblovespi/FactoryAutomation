@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.datagen.tags;
 
+import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -61,11 +63,12 @@ public class FABlockTagProvider extends BlockTagsProvider
 				.add(Arrays.stream(Ore.Grade.values()).map(n -> FABlocks.limoniteOre.GetBlock(n).ToBlock())
 							 .toArray(Block[]::new))
 				.add(Arrays.stream(MetalOres.values()).map(n -> FABlocks.metalOres.GetBlock(n).ToBlock())
-							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock.ToBlock()).add(FABlocks.factorySign.ToBlock()).add(FABlocks.terraclayBrickBlock.ToBlock()).add(FABlocks.slagGlass.ToBlock());
-		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame.ToBlock()).add(FABlocks.logPile.ToBlock());
+							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock.ToBlock()).add(FABlocks.factorySign.ToBlock()).add(FABlocks.terraclayBrickBlock.ToBlock()).add(FABlocks.slagGlass.ToBlock()).add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock());
+		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame.ToBlock()).add(FABlocks.logPile.ToBlock()).add(FABlocks.woodChoppingBlocks.stream().map(FABlock::ToBlock).toArray(Block[]::new));
 		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(FABlocks.charcoalPile.ToBlock()).add(FABlocks.ironCharcoalMix.ToBlock()).add(FABlocks.greenSand.ToBlock()).add(FABlocks.terraclayBlock.ToBlock());
-		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom.ToBlock());
+		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom.ToBlock()).add(Blocks.COBBLESTONE);
 		tag(FATags.NEEDS_FLINT_TOOL);
+		tag(BlockTags.NEEDS_STONE_TOOL).add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock());
 		tag(FATags.NEEDS_COPPER_TOOL)
 				.add(Arrays.stream(Ore.Grade.values()).skip(3).map(n -> FABlocks.limoniteOre.GetBlock(n).ToBlock())
 							 .toArray(Block[]::new))

@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
 import net.minecraft.core.Direction;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.util.LazyOptional;
 
 import static boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY;
 
@@ -16,7 +17,12 @@ public class TEHelper
 {
 	public static boolean IsMechanicalFace(BlockEntity te, Direction face)
 	{
-		return te != null && te.getCapability(MECHANICAL_USER_CAPABILITY, face).isPresent();
+		if (te != null)
+		{
+			var mechanicalUser = te.getCapability(MECHANICAL_USER_CAPABILITY, face);
+			return mechanicalUser.isPresent() && mechanicalUser.orElse(null).HasConnectionOnSide(face);
+		}
+		return false;
 	}
 
 	@SuppressWarnings("ConstantConditions")

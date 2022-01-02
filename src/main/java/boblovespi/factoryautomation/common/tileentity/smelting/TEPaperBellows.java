@@ -83,7 +83,6 @@ public class TEPaperBellows extends BlockEntity implements ITickable, IBellowsTE
 	public void registerControllers(AnimationData data)
 	{
 		data.addAnimationController(new AnimationController(this, "controller", 0, event -> {
-			event.getController().transitionLengthTicks = 0;
 			if (lerp > 0)
 			{
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.pumping_air", true));

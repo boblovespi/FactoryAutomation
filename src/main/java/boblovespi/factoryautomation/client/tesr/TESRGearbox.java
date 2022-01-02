@@ -51,6 +51,8 @@ public class TESRGearbox implements BlockEntityRenderer<TEGearbox>
 		float topToRotate = te.rotationTop + partialTicks * te.speedTop;
 
 		BlockState state = Objects.requireNonNull(te.getLevel()).getBlockState(te.getBlockPos());
+		if (state.isAir())
+			return;
 		Direction facing = state.getValue(Gearbox.FACING);
 		Direction.Axis axis = facing.getAxis();
 		float xD = 0, yD = 0, zD = 1;

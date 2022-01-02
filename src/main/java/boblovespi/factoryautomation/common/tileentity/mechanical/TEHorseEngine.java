@@ -6,13 +6,16 @@ import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -30,12 +33,15 @@ import java.util.UUID;
 @MethodsReturnNonnullByDefault
 public class TEHorseEngine extends BlockEntity implements ITickable
 {
+	private static final float blocksPerTick = 43 / 20f;
+	private static final float radiusCircle = 4;
+	private static final float radiansPerTick = blocksPerTick / radiusCircle;
 	private final MechanicalUser user;
 	private boolean hasHorse = false;
 	private UUID horseId;
 	private Mob horse;
 	private int moveTimer = 0;
-	private int angle = 0;
+	private float angle = 0;
 	private final LazyOptional<MechanicalUser> lazyUser;
 	private boolean firstTick = true;
 
@@ -63,28 +69,49 @@ public class TEHorseEngine extends BlockEntity implements ITickable
 			return;
 		if (firstTick)
 			FirstLoad();
-		moveTimer++;
+		// moveTimer++;
 		if (horse == null)
 		{
 			if (horseId == null)
 			{
 				hasHorse = false;
+				user.SetTorqueOnFace(Direction.UP, 0);
+				user.SetSpeedOnFace(Direction.UP, 0);
 				return;
 			}
 			horse = (Mob) ((ServerLevel) level).getEntity(horseId);
+			if (horse == null)
+			{
+				hasHorse = false;
+				horseId = null;
+				user.SetTorqueOnFace(Direction.UP, 0);
+				user.SetSpeedOnFace(Direction.UP, 0);
+				return;
+			}
 		}
-		if (Objects.requireNonNull(horse).getNavigation().isDone())
+		/*if (Objects.requireNonNull(horse).getNavigation().isDone())
 		{
-			user.SetSpeedOnFace(Direction.UP, 45f / moveTimer);
+			System.out.println(moveTimer);
+			user.SetSpeedOnFace(Direction.UP, (float) (1 / 4f * Math.PI / (moveTimer / 20f)));
 			moveTimer = 0;
 			angle--;
 			angle = angle % 8;
 			horse.getNavigation()
 				 .moveTo(worldPosition.getX() + 4 * Mth.cos((float) (angle * Math.PI / 4f)), worldPosition.getY() - 2,
-						 worldPosition.getZ() + 4 * Mth.sin((float) (angle * Math.PI / 4f)), 1);
+						 worldPosition.getZ() + 4 * Mth.sin((float) (angle * Math.PI / 4f)), 10 * horse.getAttributeValue(Attributes.MOVEMENT_SPEED));
 			//			horse.setPosition(worldPosition.getX() + 4 * MathHelper.cos((float) (angle * Math.PI / 4f)), levelPosition.getY() - 2,
 			//					worldPosition.getZ() + 4 * MathHelper.sin((float) (angle * Math.PI / 4f)));
-		}
+			// System.out.println((worldPosition.getX() + 4 * Mth.cos((float) (angle * Math.PI / 4f))) + ", " + (worldPosition.getY() - 2)
+			//				   + ", " + (worldPosition.getZ() + 4 * Mth.sin((float) (angle * Math.PI / 4f))));
+		}*/
+		float x, y, z;
+		angle -= radiansPerTick * horse.getAttributeValue(Attributes.MOVEMENT_SPEED);
+		angle = angle % (2 * Mth.PI);
+		x = worldPosition.getX() + 0.5f + 4 * Mth.cos(angle);
+		y = worldPosition.getY() - 2;
+		z = worldPosition.getZ() + 0.5f + 4 * Mth.sin(angle);
+		horse.getMoveControl().setWantedPosition(x, y, z, 2);
+		horse.getNavigation().stop();
 	}
 
 	@Override
@@ -96,7 +123,7 @@ public class TEHorseEngine extends BlockEntity implements ITickable
 		if (hasHorse)
 			horseId = tag.getUUID("horseId");
 		moveTimer = tag.getInt("moveTimer");
-		angle = tag.getInt("angle");
+		angle = tag.getFloat("angle");
 	}
 
 	@Override
@@ -159,15 +186,15 @@ public class TEHorseEngine extends BlockEntity implements ITickable
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
-	public boolean AttachHorse(Mob horse)
+	public boolean AttachHorse(AbstractHorse horse)
 	{
 		if (hasHorse)
 			return false;
 		hasHorse = true;
 		this.horse = horse;
 		horseId = horse.getUUID();
-		user.SetTorqueOnFace(Direction.UP, 10);
-		user.SetSpeedOnFace(Direction.UP, 0);
+		user.SetTorqueOnFace(Direction.UP, (float) (horse.getCustomJump() * 40));
+		user.SetSpeedOnFace(Direction.UP, (float) horse.getAttributeValue(Attributes.MOVEMENT_SPEED) * radiansPerTick * 20f);
 		setChanged();
 		BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
 		level.sendBlockUpdated(worldPosition, state2, state2, 3);
@@ -186,5 +213,10 @@ public class TEHorseEngine extends BlockEntity implements ITickable
 		setChanged();
 		BlockState state2 = Objects.requireNonNull(level).getBlockState(worldPosition);
 		level.sendBlockUpdated(worldPosition, state2, state2, 3);
+	}
+
+	public boolean HasHorse()
+	{
+		return hasHorse;
 	}
 }

@@ -100,7 +100,7 @@ public class PowerShaft extends FABaseBlock implements EntityBlock
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
-		return this.defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getAxis());
+		return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());
 	}
 
 	@Override

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "minecraft:copper_ore"
+  },
+  "result": "minecraft:air",
+  "experience": 0.0,
+  "cookingtime": 200
+}

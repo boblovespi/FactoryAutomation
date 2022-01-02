@@ -68,6 +68,7 @@ public class FAItems
 
 	public static MultiTypeItem<OreForms> processedMagnetite;
 	public static MultiTypeItem<OreForms> processedLimonite;
+	public static MultiTypeItem<OreForms> processedCassiterite;
 
 	// food
 
@@ -179,6 +180,7 @@ public class FAItems
 		ingot = new Ingot();
 		items.remove(ingot.GetItem(Metals.IRON));
 		items.remove(ingot.GetItem(Metals.GOLD));
+		items.remove(ingot.GetItem(Metals.COPPER));
 		nugget = new Nugget();
 		items.remove(nugget.GetItem(Metals.IRON));
 		items.remove(nugget.GetItem(Metals.GOLD));
@@ -202,6 +204,7 @@ public class FAItems
 
 		processedMagnetite = new ProcessedOre("magnetite");
 		processedLimonite = new ProcessedOre("limonite");
+		processedCassiterite = new ProcessedOre("cassiterite");
 
 		// foods
 

@@ -13,6 +13,8 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -48,7 +50,7 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 	private int c2 = 0;
 	private final MechanicalUser mechanicalUser;
 	private float lerp = 0;
-	private int blowCounter = 0;
+	private int blowCounter = 0; // counter for geckolib animation; > 0 is animating
 	private boolean firstTick = true;
 	private AnimationFactory factory;
 
@@ -68,7 +70,7 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 
 	public void Blow()
 	{
-		Direction facing = getBlockState().getValue(PaperBellows.FACING);
+		Direction facing = getBlockState().getValue(FACING);
 		BlockEntity te = Objects.requireNonNull(level).getBlockEntity(worldPosition.relative(facing));
 		if (te == null)
 			return;
@@ -144,6 +146,13 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 		tag.putInt("blowCounter", blowCounter);
 	}
 
+	@Nullable
+	@Override
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
+	{
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
+	}
+
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
@@ -165,12 +174,10 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 		return (counter > 50 ? -1 : 1) * mechanicalUser.GetSpeed() / 400f;
 	}
 
-
 	@Override
 	public void registerControllers(AnimationData data)
 	{
 		data.addAnimationController(new AnimationController(this, "controller", 0, event -> {
-			event.getController().transitionLengthTicks = 0;
 			if (blowCounter > 0)
 			{
 				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.pumping_air", true));

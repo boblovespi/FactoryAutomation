@@ -43,15 +43,17 @@ public class FAItemTagProvider extends ItemTagsProvider
 			copy(FATags.CreateForgeBlockTag("ores/" + ore.name()), FATags.CreateForgeItemTag("ores/" + ore.name()));
 		}
 
-		for (int i = 2; i < Metals.values().length; ++i)
+		for (int i = 3; i < Metals.values().length; ++i)
 		{
 			copy(FATags.CreateForgeBlockTag("storage_blocks/" + Metals.values()[i].name()),
 					FATags.CreateForgeItemTag("storage_blocks/" + Metals.values()[i].name()));
 			tag(FATags.CreateForgeItemTag("ingots/" + Metals.values()[i].name()))
 					.add(FAItems.ingot.GetItem(Metals.values()[i]));
+		}
+
+		for (int i = 2; i < Metals.values().length; ++i)
 			tag(FATags.CreateForgeItemTag("nuggets/" + Metals.values()[i].name()))
 					.add(FAItems.nugget.GetItem(Metals.values()[i]));
-		}
 
 		for (int i = 0; i < Metals.values().length; ++i)
 		{
@@ -112,5 +114,6 @@ public class FAItemTagProvider extends ItemTagsProvider
 		tag(FATags.CreateFAItemTag("tools/silks_grass")).add(Items.SHEARS, FAItems.choppingBlade.ToItem());
 		tag(FATags.CreateFAItemTag("tools/good_axes"))
 				.add(Items.IRON_AXE, Items.DIAMOND_AXE, FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem());
+		tag(FATags.CreateFAItemTag("tools/hammers")).add(FAItems.copperHammer.ToItem(), FAItems.ironHammer.ToItem(), FAItems.steelHammer.ToItem());
 	}
 }

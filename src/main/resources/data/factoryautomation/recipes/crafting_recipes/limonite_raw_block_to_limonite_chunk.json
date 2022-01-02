@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "limonite_chunk",
+  "ingredients": [
+    {
+      "item": "factoryautomation:limonite_raw_block"
+    }
+  ],
+  "result": {
+    "item": "factoryautomation:limonite_chunk",
+    "count": 9
+  }
+}

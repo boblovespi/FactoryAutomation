@@ -1,10 +1,12 @@
 package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.tileentity.mechanical.TECreativeMechanicalSource;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
@@ -47,6 +49,27 @@ public class Wrench extends WorkbenchToolItem
 				}
 			}
 			return InteractionResult.SUCCESS;
+		} else if (block == FABlocks.creativeMechanicalSource)
+		{
+			if (!world.isClientSide)
+			{
+				var te = world.getBlockEntity(pos);
+				if (te instanceof TECreativeMechanicalSource cms)
+				{
+					if (context.getHand() == InteractionHand.MAIN_HAND)
+					{
+						cms.speed += 10 * (context.isSecondaryUseActive() ? -1 : 1) * (context.getClickLocation().y - pos.getY());
+						if (cms.speed < 0)
+							cms.speed = 0;
+					} else
+					{
+						cms.torque += 10 * (context.isSecondaryUseActive() ? -1 : 1) * (context.getClickLocation().y - pos.getY());
+						if (cms.torque < 0)
+							cms.torque = 0;
+					}
+				}
+				return InteractionResult.SUCCESS;
+			}
 		}
 		return InteractionResult.PASS;
 	}

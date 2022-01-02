@@ -60,24 +60,28 @@ public class TEStoneCrucible extends BlockEntity
 	public static final List<MetalInfo> infos = new ArrayList<MetalInfo>(20)
 	{{
 		add(new MetalInfo("ores/iron", "iron", 18));
+		add(new MetalInfo("raw_ores/iron", "iron", 18));
 		add(new MetalInfo("nuggets/iron", "iron", 2));
 		add(new MetalInfo("ingots/iron", "iron", 18));
 		add(new MetalInfo("sticks/iron", "iron", 9));
 		add(new MetalInfo("plates/iron", "iron", 18));
 		add(new MetalInfo("storage_blocks/iron", "iron", 162));
 		add(new MetalInfo("ores/gold", "gold", 18));
+		add(new MetalInfo("raw_ores/gold", "gold", 18));
 		add(new MetalInfo("nuggets/gold", "gold", 2));
 		add(new MetalInfo("ingots/gold", "gold", 18));
 		add(new MetalInfo("sticks/gold", "gold", 9));
 		add(new MetalInfo("plates/gold", "gold", 18));
 		add(new MetalInfo("storage_blocks/gold", "gold", 162));
 		add(new MetalInfo("ores/copper", "copper", 18));
+		add(new MetalInfo("raw_ores/copper", "copper", 18));
 		add(new MetalInfo("nuggets/copper", "copper", 2));
 		add(new MetalInfo("ingots/copper", "copper", 18));
 		add(new MetalInfo("sticks/copper", "copper", 9));
 		add(new MetalInfo("plates/copper", "copper", 18));
 		add(new MetalInfo("storage_blocks/copper", "copper", 162));
 		add(new MetalInfo("ores/tin", "tin", 18));
+		add(new MetalInfo("raw_ores/tin", "tin", 18));
 		add(new MetalInfo("nuggets/tin", "tin", 2));
 		add(new MetalInfo("ingots/tin", "tin", 18));
 		add(new MetalInfo("sticks/tin", "tin", 9));
@@ -169,7 +173,7 @@ public class TEStoneCrucible extends BlockEntity
 		// ores and other raw forms
 		if (item == Items.GOLD_ORE)
 			return "gold";
-		if (item == Item.byBlock(FABlocks.metalOres.GetBlock(MetalOres.COPPER)))
+		if (item == Item.byBlock(FABlocks.metalOres.GetBlock(MetalOres.COPPER)) || item == Items.COPPER_ORE || item == Items.DEEPSLATE_COPPER_ORE || item == Items.RAW_COPPER)
 			return "copper";
 		if (item == Item.byBlock(FABlocks.metalOres.GetBlock(MetalOres.TIN)))
 			return "tin";
@@ -201,7 +205,7 @@ public class TEStoneCrucible extends BlockEntity
 			return mult * 9;
 		if (FAItems.sheet.Contains(item))
 			return mult * 18;
-		for (int i = 2; i < Metals.values().length; i++)
+		for (int i = 3; i < Metals.values().length; i++)
 		{
 			if (item == Item.byBlock(FABlocks.metalBlock.GetBlock(Metals.values()[i])))
 				return mult * 18 * 9;
@@ -511,6 +515,8 @@ public class TEStoneCrucible extends BlockEntity
 						return new ItemStack(Items.IRON_INGOT);
 					else if (drainMetal.equals("gold"))
 						return new ItemStack(Items.GOLD_INGOT);
+					else if (drainMetal.equals("copper"))
+						return new ItemStack(Items.COPPER_INGOT);
 					return new ItemStack(FAItems.ingot.GetItem(Metals.GetFromName(drainMetal)));
 				case NUGGET:
 					if (drainMetal.equals("iron"))

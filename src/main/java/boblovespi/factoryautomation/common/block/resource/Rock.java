@@ -121,8 +121,11 @@ public class Rock extends FABaseBlock
 		ANDESITE("andesite"),
 		DIORITE("diorite"),
 		GRANITE("granite"),
+		TUFF("tuff"),
+		CALCITE("calcite"),
 		SANDSTONE("sandstone"),
-		MOSSY_COBBLESTONE("mossy_cobblestone");
+		MOSSY_COBBLESTONE("mossy_cobblestone"),
+		TERRACOTTA("terracotta");
 
 		private final String name;
 

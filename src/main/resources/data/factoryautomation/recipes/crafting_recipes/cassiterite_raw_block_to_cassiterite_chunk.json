@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "cassiterite_chunk",
+  "ingredients": [
+    {
+      "item": "factoryautomation:cassiterite_raw_block"
+    }
+  ],
+  "result": {
+    "item": "factoryautomation:cassiterite_chunk",
+    "count": 9
+  }
+}

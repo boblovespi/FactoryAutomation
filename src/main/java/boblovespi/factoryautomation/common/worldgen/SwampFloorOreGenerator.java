@@ -1,9 +1,18 @@
 package boblovespi.factoryautomation.common.worldgen;
 
+import boblovespi.factoryautomation.common.block.resource.Ore;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+
 /**
  * Created by Willi on 4/4/2018.
  */
-public class SwampFloorOreGenerator {}/*extends Feature<NoneFeatureConfiguration>
+public class SwampFloorOreGenerator extends Feature<NoneFeatureConfiguration>
 {
 	private final float spawnChance;
 	private final float lowCutoff;
@@ -11,7 +20,8 @@ public class SwampFloorOreGenerator {}/*extends Feature<NoneFeatureConfiguration
 	private Ore ore;
 	private int radius;
 
-	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance, Codec<NoneFeatureConfiguration> config)
+	public SwampFloorOreGenerator(Ore ore, int radius, float lowCutoff, float midCutoff, float spawnChance,
+								  Codec<NoneFeatureConfiguration> config)
 	{
 		super(config);
 		this.ore = ore;
@@ -22,48 +32,34 @@ public class SwampFloorOreGenerator {}/*extends Feature<NoneFeatureConfiguration
 	}
 
 	@Override
-	public boolean place(WorldGenLevel levelIn, ChunkGenerator generator, Random rand, BlockPos basePos, NoneFeatureConfiguration config)
+	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
 	{
-		basePos = basePos.offset(0, generator.getSeaLevel(), 0);
-		if (levelIn.getBiome(basePos).getBiomeCategory() != Biome.BiomeCategory.SWAMP)
-			return false;
+		var basePos = context.origin();
 
 		Ore.Grade type;
-
+		var rand = context.random();
+		var world = context.level();
 		float r = rand.nextFloat(); // decides grade of ore
-		if (r < lowCutoff)
-			type = Ore.Grade.POOR;
-		else if (r < midCutoff)
-			type = Ore.Grade.NORMAL;
-		else
-			type = Ore.Grade.RICH;
+		if (r < lowCutoff) type = Ore.Grade.POOR;
+		else if (r < midCutoff) type = Ore.Grade.NORMAL;
+		else type = Ore.Grade.RICH;
 
 		BlockState toGen = ore.GetBlock(type).defaultBlockState();
 
 		for (int y = -10; y < 10; y++)
 		{
-
 			for (int x = -radius; x < radius; x++)
 			{
 				for (int z = -radius; z < radius; z++)
 				{
 					BlockPos pos = basePos.offset(x, y, z);
-
-					//					System.out.println(
-					//							"worldIn = [" + levelIn + "], rand = [" + rand
-					//									+ "], basePos = [" + basePos + "]");
-					//					System.out.println("pos = " + pos);
-
-					if (pos.distSqr(basePos) <= radius * radius && levelIn.getFluidState(pos.above()).getType().isSame(Fluids.WATER) && levelIn.getFluidState(pos).isEmpty())
-					{
-						if (rand.nextFloat() < spawnChance * (1 - pos.below(y).distSqr(basePos) / (radius * radius)))
-							setBlock(levelIn, pos, toGen);
-					}
+					if (pos.distSqr(basePos) <= radius * radius
+								&& FluidTags.WATER.contains(world.getFluidState(pos.above()).getType()) && world.getFluidState(pos).isEmpty()
+								&& rand.nextFloat() < spawnChance * (1 - pos.below(y).distSqr(basePos) / (radius * radius)))
+						setBlock(world, pos, toGen);
 				}
 			}
 		}
-
 		return true;
 	}
 }
-*/

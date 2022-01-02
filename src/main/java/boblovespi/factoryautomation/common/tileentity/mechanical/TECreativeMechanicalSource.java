@@ -24,8 +24,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class TECreativeMechanicalSource extends BlockEntity implements IMechanicalUser
 {
-	private float torque;
-	private float speed;
+	public float torque;
+	public float speed;
 
 	public TECreativeMechanicalSource(BlockPos pos, BlockState state)
 	{

@@ -2,6 +2,12 @@
   "replace": false,
   "values": [
     "factoryautomation:brick_maker_frame",
-    "factoryautomation:log_pile"
+    "factoryautomation:log_pile",
+    "factoryautomation:wood_chopping_block_oak",
+    "factoryautomation:wood_chopping_block_spruce",
+    "factoryautomation:wood_chopping_block_birch",
+    "factoryautomation:wood_chopping_block_jungle",
+    "factoryautomation:wood_chopping_block_acacia",
+    "factoryautomation:wood_chopping_block_dark_oak"
   ]
 }

@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.RiceCrop;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.item.ores.OreForms;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -33,13 +34,14 @@ public class FABlockLootTables extends BlockLoot
 		// misc
 		dropSelf(FABlocks.concrete.ToBlock());
 		add(FABlocks.riceCrop.ToBlock(),
-				LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(FAItems.riceGrain)))
-						.withPool(LootPool.lootPool().when(
-								LootItemBlockStatePropertyCondition.hasBlockStateProperties(FABlocks.riceCrop.ToBlock()).setProperties(
-										StatePropertiesPredicate.Builder.properties().hasProperty(RiceCrop.AGE, 7)))
-										  .add(LootItem.lootTableItem(FAItems.riceGrain))
-										  .apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 3)))
-										  .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
+			LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(FAItems.riceGrain)))
+					.withPool(LootPool.lootPool().when(
+									LootItemBlockStatePropertyCondition.hasBlockStateProperties(FABlocks.riceCrop.ToBlock())
+											.setProperties(
+													StatePropertiesPredicate.Builder.properties().hasProperty(RiceCrop.AGE, 7)))
+									  .add(LootItem.lootTableItem(FAItems.riceGrain))
+									  .apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 3)))
+									  .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 		add(FABlocks.concreteSlab, createSlabItemTable(FABlocks.concreteSlab));
 		// handle multiblock part separately
 		add(FABlocks.multiblockPart.ToBlock(), noDrop());
@@ -58,7 +60,7 @@ public class FABlockLootTables extends BlockLoot
 		// metal blocks
 		for (Metals metal : Metals.values())
 		{
-			if (metal != Metals.IRON && metal != Metals.GOLD)
+			if (metal != Metals.IRON && metal != Metals.GOLD && metal != Metals.COPPER)
 				dropSelf(FABlocks.metalBlock.GetBlock(metal));
 			dropSelf(FABlocks.metalPlateBlock.GetBlock(metal));
 		}
@@ -79,10 +81,9 @@ public class FABlockLootTables extends BlockLoot
 		dropSelf(FABlocks.altpillarTin.ToBlock());
 
 		// ores
-		for (MetalOres ore : MetalOres.values())
-		{
-			dropSelf(FABlocks.metalOres.GetBlock(ore));
-		}
+		add(FABlocks.metalOres.GetBlock(MetalOres.TIN), createOreDrop(FABlocks.metalOres.GetBlock(MetalOres.TIN), FAItems.processedCassiterite.GetItem(OreForms.CHUNK)));
+		dropSelf(FABlocks.metalOres.GetBlock(MetalOres.COPPER));
+
 		for (Ore.Grade grade : Ore.Grade.values())
 		{
 			dropSelf(FABlocks.limoniteOre.GetBlock(grade));
@@ -146,5 +147,8 @@ public class FABlockLootTables extends BlockLoot
 				LootPool.lootPool().add(LootItem.lootTableItem(FAItems.slag))
 						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))));
 		dropSelf(FABlocks.blackSand.ToBlock());
+
+		dropSelf(FABlocks.limoniteRawBlock.ToBlock());
+		dropSelf(FABlocks.cassiteriteRawBlock.ToBlock());
 	}
 }

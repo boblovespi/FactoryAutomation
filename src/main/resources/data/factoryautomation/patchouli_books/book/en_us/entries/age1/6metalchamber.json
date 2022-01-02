@@ -1,0 +1,29 @@
+{
+    "name": "Metal Chamber",
+    "icon": "factoryautomation:metal_plate_block_copper",
+    "category": "factoryautomation:age1",
+    "sortnum": 6,
+    "pages": [
+        {
+            "type": "text",
+            "text": "So I heard just getting iron is not enough for you... what do you want then? What do you mean by usable iron? Well then, let me tell you how to do it: First get yourself a TON of copper plates and screws.",
+        	"title": "Chambers?"
+        },
+		{
+            "type": "spotlight",
+            "item": "factoryautomation:metal_plate_block_copper",
+			"text": "To craft a single copper plate block, you will need: $(li)9 copper plates$(li)6 screws $(br) 4 screws is 1 copper rod and 3 copper nuggets (it can also be crafted with higher tier metals). Again, these recipes are crafted in the stone workbench so they can't be shown here.",
+			"title": "Copper, Copper, COPPER!"
+        },
+		{
+            "type": "text",
+            "text": "Now place them in a shape as shown on the right. The minimum required volume inside a chamber is 1x1x1 (since you can't build smaller than a block), but you can build it bigger (Right now, a 50x55x1 chamber crashes the game. The world can be loaded without any problems after that). After building your chamber, fill it up with some limonite-charcoal mix (which you can craft in a Stone Workbench), ",
+            "title": "How to Build It"
+        },
+        {
+            "type": "image",
+            "images": ["factoryautomation:textures/patchouli/multiblock_metal_chamber.png"],
+            "text": "light it on fire using the $(l:age1/1charcoal)firebow$(), and cover it up."
+        }
+    ]
+}
