@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.multiblock.IMultiblockControllerTE;
 import boblovespi.factoryautomation.common.multiblock.MultiblockHelper;
 import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -49,7 +50,7 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 	public void FirstLoad()
 	{
 		out = Direction.get(Direction.AxisDirection.POSITIVE, getBlockState().getValue(Waterwheel.AXIS));
-		user.SetSides(EnumSet.of(out));
+		user.SetSides(EnumSet.of(out, out.getOpposite()));
 		waterLoc = new ArrayList<>(11);
 		Direction front = out.getClockWise();
 		waterLoc.add(worldPosition.relative(front, -1).above(3));
@@ -143,7 +144,13 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 
 		if (counter == 0)
 		{
-			if (level.getBiome(worldPosition).getRegistryName() == Biomes.RIVER.location())
+			var teOut = level.getBlockEntity(worldPosition.relative(out));
+			var teOut2 = level.getBlockEntity(worldPosition.relative(out, -1));
+			if (TEHelper.IsMechanicalFace(teOut, out.getOpposite()) && TEHelper.IsMechanicalFace(teOut2, out))
+			{
+				user.SetSpeedOnFace(out, 0);
+				user.SetTorqueOnFace(out, 0);
+			} else if (level.getBiome(worldPosition).getRegistryName() == Biomes.RIVER.location())
 			{
 				user.SetSpeedOnFace(out, 10);
 				user.SetTorqueOnFace(out, 25);
