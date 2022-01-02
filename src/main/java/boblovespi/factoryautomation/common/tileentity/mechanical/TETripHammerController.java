@@ -14,6 +14,8 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -208,7 +210,7 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 					itemHandler.insertItem(1, currentRecipe.itemOutput.copy(), false);
 					currentRecipe = null;
 					currentRecipeString = "none";
-
+					level.playSound(null, worldPosition, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 0.3f, 0.5f);
 				}
 				setChanged();
 			}
