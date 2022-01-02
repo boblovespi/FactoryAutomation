@@ -107,9 +107,9 @@ public class TEHorseEngine extends BlockEntity implements ITickable
 		float x, y, z;
 		angle -= radiansPerTick * horse.getAttributeValue(Attributes.MOVEMENT_SPEED);
 		angle = angle % (2 * Mth.PI);
-		x = worldPosition.getX() + 0.5f + 4 * Mth.cos(angle);
+		x = worldPosition.getX() + 0.5f + radiusCircle * Mth.cos(angle);
 		y = worldPosition.getY() - 2;
-		z = worldPosition.getZ() + 0.5f + 4 * Mth.sin(angle);
+		z = worldPosition.getZ() + 0.5f + radiusCircle * Mth.sin(angle);
 		horse.getMoveControl().setWantedPosition(x, y, z, 2);
 		horse.getNavigation().stop();
 	}
