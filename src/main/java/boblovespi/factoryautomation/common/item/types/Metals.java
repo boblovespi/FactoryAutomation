@@ -15,7 +15,7 @@ public enum Metals implements StringRepresentable, IMultiTypeEnum
 	IRON(0, "iron", 1538, 0xFFEAEEF2, 447, 7870),
 	GOLD(1, "gold", 10000, 0xFFFAF437, 129, 19300),
 	COPPER(2, "copper", 1084, 0xFFFF973D, 385, 8933),
-	TIN(3, "tin", 232, 0xFFF7E8E8, 7310, 227),
+	TIN(3, "tin", 232, 0xFFF7E8E8, 227, 7310),
 	BRONZE(4, "bronze", 950, 0xFFFFB201, 355, 8780),
 	STEEL(5, "steel", 10000, 0xFF000000, 434, 7854),
 	PIG_IRON(6, "pig_iron", 10000, 0xFF000000, 415, 7850),

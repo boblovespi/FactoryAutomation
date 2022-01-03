@@ -1,0 +1,18 @@
+{
+    "name": "Fuels, and their properties",
+    "icon": "minecraft:coal",
+    "category": "factoryautomation:references",
+    "sortnum": 2,
+    "pages": [
+        {
+            "type": "text",
+            "text": "To survive, the first thing that you will need to do is make some tools. First, gather at least two rocks and one piece of flint off of the ground. $(br)$(br)Rocks and flint are essential resources that you will need plenty of to survive.",
+        	"title": "The World around you"
+        },
+		{
+        	"type": "crafting",
+        	"recipe": "factoryautomation:crafting_recipes/chopping_blade",
+        	"text": "Next, organize them in the pattern above in your crafting inventory and you have your first tool! You can finally chop down some trees using this. $(br)$(o)You really tried it with your hands, huh?"
+        }
+    ]
+}
