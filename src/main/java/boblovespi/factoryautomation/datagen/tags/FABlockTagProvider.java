@@ -65,7 +65,8 @@ public class FABlockTagProvider extends BlockTagsProvider
 				.add(Arrays.stream(MetalOres.values()).map(n -> FABlocks.metalOres.GetBlock(n).ToBlock())
 							 .toArray(Block[]::new))
 				.add(FABlocks.ironPatternedPlateBlock.ToBlock(), FABlocks.factorySign.ToBlock(), FABlocks.terraclayBrickBlock.ToBlock(), FABlocks.slagGlass.ToBlock())
-				.add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock(), FABlocks.brickFirebox.ToBlock(), FABlocks.brickCrucible.ToBlock());
+				.add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock(), FABlocks.brickFirebox.ToBlock(), FABlocks.brickCrucible.ToBlock())
+				.add(FABlocks.stoneCastingVessel.ToBlock(), FABlocks.stoneCrucible.ToBlock());
 		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame.ToBlock(), FABlocks.logPile.ToBlock()).add(FABlocks.woodChoppingBlocks.stream().map(FABlock::ToBlock).toArray(Block[]::new))
 				.add(FABlocks.campfire.ToBlock());
 		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(FABlocks.charcoalPile.ToBlock()).add(FABlocks.ironCharcoalMix.ToBlock()).add(FABlocks.greenSand.ToBlock()).add(FABlocks.terraclayBlock.ToBlock());

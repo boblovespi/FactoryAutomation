@@ -36,6 +36,8 @@
     "factoryautomation:cassiterite_raw_block",
     "factoryautomation:limonite_raw_block",
     "factoryautomation:brick_firebox",
-    "factoryautomation:brick_crucible"
+    "factoryautomation:brick_crucible",
+    "factoryautomation:stone_casting_vessel",
+    "factoryautomation:stone_crucible"
   ]
 }
