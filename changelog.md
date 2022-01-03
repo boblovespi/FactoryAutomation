@@ -1,3 +1,6 @@
+## Version 0.4.0 - beta
+- updated to Minecraft 1.18.1
+- changed a lot of other things, probably
 ### Version 0.3.4 - alpha (dev build)
 - added gears and gearbox to the mechanical creative tab
 - added sweet berry ice cream (gives instant health)
