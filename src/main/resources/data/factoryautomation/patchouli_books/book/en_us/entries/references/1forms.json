@@ -1,18 +1,30 @@
 {
-    "name": "Forms of Metals",
-    "icon": "factoryautomation:rod_iron",
-    "category": "factoryautomation:references",
-    "sortnum": 1,
-    "pages": [
-        {
-            "type": "text",
-            "text": "To survive, the first thing that you will need to do is make some tools. First, gather at least two rocks and one piece of flint off of the ground. $(br)$(br)Rocks and flint are essential resources that you will need plenty of to survive.",
-        	"title": "The World around you"
-        },
-		{
-        	"type": "crafting",
-        	"recipe": "factoryautomation:crafting_recipes/chopping_blade",
-        	"text": "Next, organize them in the pattern above in your crafting inventory and you have your first tool! You can finally chop down some trees using this. $(br)$(o)You really tried it with your hands, huh?"
-        }
-    ]
+  "name": "Forms of Metals",
+  "icon": "factoryautomation:rod_iron",
+  "category": "factoryautomation:references",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "title": "Forms of Metals",
+      "text": "The different forms of metals, along with units per cast for each casting vessel.$(br)$(li)$(l:references/1forms#stone)Stone Casting Vessel"
+    },
+    {
+      "type": "factoryautomation:dictionary",
+      "title": "Units per Cast (Stone)",
+      "anchor": "stone",
+      "i1": "minecraft:iron_ingot",
+      "t1": "Ingot - 18 units",
+      "i2": "minecraft:iron_nugget",
+      "t2": "Nugget - 2 units",
+      "i3": "factoryautomation:rod_iron",
+      "t3": "Rod - 13 units",
+      "i4": "factoryautomation:sheet_iron",
+      "t4": "Sheet - 27 units",
+      "i5": "factoryautomation:coin_iron",
+      "t5": "Coin - 3 units",
+      "i6": "factoryautomation:gear_iron",
+      "t6": "Gear - 108 units"
+    }
+  ]
 }
