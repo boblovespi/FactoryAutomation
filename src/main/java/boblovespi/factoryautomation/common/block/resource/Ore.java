@@ -29,15 +29,17 @@ public class Ore extends MultiTypeBlock<Ore.Grade>
 
 	public enum Grade implements StringRepresentable, IMultiTypeEnum
 	{
-		POOR(0, "poor"), NORMAL(1, "normal"), RICH(2, "rich");
+		POOR(0, "poor", 1), NORMAL(1, "normal", 2), RICH(2, "rich", 3);
 
 		private final int id;
 		private final String name;
+		public final int quantity;
 
-		Grade(int id, String name)
+		Grade(int id, String name, int quantity)
 		{
 			this.id = id;
 			this.name = name;
+			this.quantity = quantity;
 		}
 
 		@Override

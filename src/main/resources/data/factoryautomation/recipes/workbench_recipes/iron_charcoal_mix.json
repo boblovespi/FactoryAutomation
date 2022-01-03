@@ -1,0 +1,24 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["lc", "cc"],
+  "key": {
+    "l": {
+      "item": "factoryautomation:limonite_chunk"
+    },
+    "c": {
+      "tag": "forge:gems/charcoal"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 10
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:iron_charcoal_mix",
+    "count": 1
+  }
+}

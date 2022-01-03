@@ -9,18 +9,28 @@ import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class FABlockLootTables extends BlockLoot
 {
+	private static LootTable.Builder CreateMultiOreDrop(Block block, Item item, int quantity)
+	{
+		return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(item)
+				.apply(SetItemCountFunction.setCount(ConstantValue.exactly(quantity)))
+				.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
+	}
+
 	@Override
 	protected void addTables()
 	{
@@ -86,7 +96,7 @@ public class FABlockLootTables extends BlockLoot
 
 		for (Ore.Grade grade : Ore.Grade.values())
 		{
-			dropSelf(FABlocks.limoniteOre.GetBlock(grade));
+			add(FABlocks.limoniteOre.GetBlock(grade), CreateMultiOreDrop(FABlocks.limoniteOre.GetBlock(grade), FAItems.processedLimonite.GetItem(OreForms.CHUNK), grade.quantity));
 			dropSelf(FABlocks.magnetiteOre.GetBlock(grade));
 		}
 		add(FABlocks.siliconQuartzOre.ToBlock(), LootTable.lootTable().withPool(
