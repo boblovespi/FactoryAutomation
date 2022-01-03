@@ -60,7 +60,7 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 	private final HeatUser heatUser;
 	private int burnTime = 0;
 	private int maxBurnTime = 1;
-	private int meltTime = 0;
+	private float meltTime = 0;
 	private final int maxMeltTime = 200;
 	private FuelRegistry.FuelInfo fuelInfo = FuelRegistry.NULL;
 	private boolean isBurningFuel = false;
@@ -266,7 +266,7 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 		structureIsValid = tag.getBoolean("structureIsValid");
 		burnTime = tag.getInt("burnTime");
 		maxBurnTime = tag.getInt("maxBurnTime");
-		meltTime = tag.getInt("meltTime");
+		meltTime = tag.getFloat("meltTime");
 		isBurningFuel = tag.getBoolean("isBurningFuel");
 		bellowsUser.ReadFromNBT(tag.getCompound("bellowsUser"));
 	}
@@ -280,7 +280,7 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 		tag.putBoolean("structureIsValid", structureIsValid);
 		tag.putInt("burnTime", burnTime);
 		tag.putInt("maxBurnTime", maxBurnTime);
-		tag.putInt("meltTime", meltTime);
+		tag.putFloat("meltTime", meltTime);
 		tag.putBoolean("isBurningFuel", isBurningFuel);
 		tag.put("bellowsUser", bellowsUser.WriteToNBT());
 	}
@@ -328,7 +328,7 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 	{
 		if (metals.metal.equals("none"))
 			return "";
-		return "metal" + metals.metal + "name";
+		return "metal." + metals.metal + ".name";
 	}
 
 	public int GetAmountMetal()

@@ -34,6 +34,8 @@
     "factoryautomation:terraclay_brick_block",
     "factoryautomation:slag_glass",
     "factoryautomation:cassiterite_raw_block",
-    "factoryautomation:limonite_raw_block"
+    "factoryautomation:limonite_raw_block",
+    "factoryautomation:brick_firebox",
+    "factoryautomation:brick_crucible"
   ]
 }

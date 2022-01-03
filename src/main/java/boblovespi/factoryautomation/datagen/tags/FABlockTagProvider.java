@@ -63,8 +63,11 @@ public class FABlockTagProvider extends BlockTagsProvider
 				.add(Arrays.stream(Ore.Grade.values()).map(n -> FABlocks.limoniteOre.GetBlock(n).ToBlock())
 							 .toArray(Block[]::new))
 				.add(Arrays.stream(MetalOres.values()).map(n -> FABlocks.metalOres.GetBlock(n).ToBlock())
-							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock.ToBlock()).add(FABlocks.factorySign.ToBlock()).add(FABlocks.terraclayBrickBlock.ToBlock()).add(FABlocks.slagGlass.ToBlock()).add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock());
-		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame.ToBlock()).add(FABlocks.logPile.ToBlock()).add(FABlocks.woodChoppingBlocks.stream().map(FABlock::ToBlock).toArray(Block[]::new));
+							 .toArray(Block[]::new))
+				.add(FABlocks.ironPatternedPlateBlock.ToBlock(), FABlocks.factorySign.ToBlock(), FABlocks.terraclayBrickBlock.ToBlock(), FABlocks.slagGlass.ToBlock())
+				.add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock(), FABlocks.brickFirebox.ToBlock(), FABlocks.brickCrucible.ToBlock());
+		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame.ToBlock(), FABlocks.logPile.ToBlock()).add(FABlocks.woodChoppingBlocks.stream().map(FABlock::ToBlock).toArray(Block[]::new))
+				.add(FABlocks.campfire.ToBlock());
 		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(FABlocks.charcoalPile.ToBlock()).add(FABlocks.ironCharcoalMix.ToBlock()).add(FABlocks.greenSand.ToBlock()).add(FABlocks.terraclayBlock.ToBlock());
 		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom.ToBlock()).add(Blocks.COBBLESTONE);
 		tag(FATags.NEEDS_FLINT_TOOL);

@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "tag": "#minecraft:logs_that_burn"
+    "tag": "minecraft:logs_that_burn"
   },
   "result": "minecraft:air",
   "experience": 0.0,

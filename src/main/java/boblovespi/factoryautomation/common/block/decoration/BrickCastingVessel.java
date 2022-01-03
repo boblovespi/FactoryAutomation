@@ -38,7 +38,7 @@ public class BrickCastingVessel extends FABaseBlock implements EntityBlock
 	public BrickCastingVessel()
 	{
 		super("brick_casting_vessel", false,
-				Properties.of(Material.STONE).strength(1.5f).requiresCorrectToolForDrops(), new Item.Properties().tab(FAItemGroups.metallurgy));
+				Properties.of(Material.STONE).strength(2f).requiresCorrectToolForDrops(), new Item.Properties().tab(FAItemGroups.metallurgy));
 		// super(Material.STONE, "brick_casting_vessel", FAItemGroups.metallurgy);
 		registerDefaultState(stateDefinition.any().setValue(MOLD, CastingVesselStates.EMPTY));
 		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
