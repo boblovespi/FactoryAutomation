@@ -11,6 +11,7 @@ import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
 import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
 import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import boblovespi.factoryautomation.common.block.fluid.Pump;
+import boblovespi.factoryautomation.common.block.fluid.ScrewPump;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.*;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
@@ -149,6 +150,7 @@ public class FABlocks
 	public static FABlock handCrank;
 	public static FABlock millstone;
 	public static FABlock horseEngine;
+	public static FABlock screwPump;
 
 	// transfer
 
@@ -319,6 +321,7 @@ public class FABlocks
 		handCrank = new HandCrank();
 		millstone = new Millstone();
 		horseEngine = new HorseEngine();
+		screwPump = new ScrewPump();
 
 		// transfer
 

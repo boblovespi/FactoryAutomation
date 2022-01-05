@@ -68,6 +68,7 @@ public class TileEntityHandler
 	public static BlockEntityType<TEStoneWorkbench> teStoneWorkbench;
 	public static BlockEntityType<TileEntitySolarPanel> teSolarPanel;
 	public static BlockEntityType<TileEntityCable> teCable;
+	public static BlockEntityType<TEScrewPump> teScrewPump;
 
 	public static void RegisterTileEntities()
 	{
@@ -102,6 +103,7 @@ public class TileEntityHandler
 		teStoneWorkbench = BuildType(TEStoneWorkbench::new, FABlocks.stoneWorkbench, "stone_workbench");
 		teSolarPanel = BuildType(TileEntitySolarPanel::new, FABlocks.solarPanel, "solar_panel");
 		teCable = BuildType(TileEntityCable::new, FABlocks.cable, "cable");
+		teScrewPump = BuildType(TEScrewPump::new, FABlocks.screwPump, "screw_pump");
 	}
 
 	private static <T extends BlockEntity> BlockEntityType<T> BuildType(BlockEntityType.BlockEntitySupplier<T> supplier,

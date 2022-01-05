@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "factoryautomation:block/pipe/iron_pump",
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "factoryautomation:block/pipe/iron_pump",
+      "uvlock": true,
+      "y":180
+    },
+    "facing=east": {
+      "model": "factoryautomation:block/pipe/iron_pump",
+      "uvlock": true,
+      "y":90
+    },
+    "facing=west": {
+      "model": "factoryautomation:block/pipe/iron_pump",
+      "uvlock": true,
+      "y":270
+    }
+  }
+}
