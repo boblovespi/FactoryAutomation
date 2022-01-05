@@ -3,12 +3,14 @@ package boblovespi.factoryautomation.common.block.resource;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.Materials;
 import boblovespi.factoryautomation.common.item.FAItems;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -31,7 +33,7 @@ public class OreSample extends FABaseBlock
 
 	public OreSample(String name, ItemStack[] possibleDrops)
 	{
-		super(name, false, Properties.of(Materials.ROCKS).strength(0.1f), FAItems.Prop());
+		super(name, true, Properties.of(Materials.ROCKS).strength(0.1f), FAItems.Prop());
 		this.possibleDrops = possibleDrops;
 		// setLightOpacity(0);
 		// setHardness(0.1f);
@@ -94,5 +96,12 @@ public class OreSample extends FABaseBlock
 																				 .isFaceSturdy(world, pos.below(),
 																						 Direction.UP)
 					   && world.getBlockState(pos).getBlock() != this;
+	}
+
+	@Override
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos,
+									   Player player)
+	{
+		return possibleDrops[0].copy();
 	}
 }

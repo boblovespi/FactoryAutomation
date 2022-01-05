@@ -133,6 +133,9 @@ dependencies {
     // gekolib
     implementation fg.deobf("software.bernie.geckolib:geckolib-1.18-forge:${gekolibversion}")
 
+    // jade
+    implementation fg.deobf("curse.maven:jade-324717:${jadeid}")
+
 }
 repositories {
     maven {
@@ -148,6 +151,12 @@ repositories {
     }
     maven {
         url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
 }
 

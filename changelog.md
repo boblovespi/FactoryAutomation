@@ -1,3 +1,5 @@
+### Version 0.4.1 - beta (unreleased)
+- fixed flint rocks not having a texture in JADE
 ## Version 0.4.0 - beta
 - updated to Minecraft 1.18.1
 - changed a lot of other things, probably
