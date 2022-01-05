@@ -29,7 +29,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 public class PlacedBucket extends FABaseBlock implements EntityBlock
 {
 	public static final VoxelShape AXIS_ALIGNED_BB = Block
-			.box(4 / 16d, 0, 4 / 16d, 12 / 16d, 8 / 16d, 12 / 16d);
+			.box(4, 0, 4, 12, 8, 12);
 
 	public PlacedBucket()
 	{
