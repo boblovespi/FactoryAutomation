@@ -42,6 +42,7 @@ import boblovespi.factoryautomation.datagen.tags.FAItemTagProvider;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -91,6 +92,7 @@ public class FactoryAutomation
 		WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// RockBlockPlacer.REGISTRY.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// ResourcePackHandler p; // lol
+		ForgeMod.enableMilkFluid();
 	}
 
 	@SubscribeEvent

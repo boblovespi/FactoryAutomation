@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.item.FAItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -80,6 +81,14 @@ public class FAItemGroups
 		public ItemStack makeIcon()
 		{
 			return new ItemStack(FABlocks.campfire.ToBlock());
+		}
+	};
+	public static CreativeModeTab fluid = new CreativeModeTab("tabs.fluid.name")
+	{
+		@Override
+		public ItemStack makeIcon()
+		{
+			return new ItemStack(Items.WATER_BUCKET);
 		}
 	};
 }

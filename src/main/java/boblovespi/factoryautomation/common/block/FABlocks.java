@@ -8,10 +8,7 @@ import boblovespi.factoryautomation.common.block.decoration.BrickCastingVessel;
 import boblovespi.factoryautomation.common.block.decoration.BronzeCauldron;
 import boblovespi.factoryautomation.common.block.decoration.BronzeFence;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel;
-import boblovespi.factoryautomation.common.block.fluid.FluidFinite;
-import boblovespi.factoryautomation.common.block.fluid.Pipe;
-import boblovespi.factoryautomation.common.block.fluid.Pump;
-import boblovespi.factoryautomation.common.block.fluid.ScrewPump;
+import boblovespi.factoryautomation.common.block.fluid.*;
 import boblovespi.factoryautomation.common.block.machine.*;
 import boblovespi.factoryautomation.common.block.mechanical.*;
 import boblovespi.factoryautomation.common.block.powercable.Cable;
@@ -156,6 +153,7 @@ public class FABlocks
 
 	public static FABlock pipe;
 	public static FABlock pump;
+	public static FABlock woodenTank;
 
 	// resource blocks
 
@@ -327,6 +325,7 @@ public class FABlocks
 
 		pipe = new Pipe("iron_pipe");
 		pump = new Pump("iron_pump");
+		woodenTank = new WoodenTank();
 
 		// resource blocks
 
