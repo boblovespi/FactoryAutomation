@@ -15,6 +15,13 @@ public class RecipeHelper
 
 	}
 
+	public static ItemStack GetItemStackFromObject(JsonObject object, String key)
+	{
+		if (object.get(key).isJsonObject())
+			return ShapedRecipe.itemStackFromJson(object.get(key).getAsJsonObject());
+		else return new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(object.get(key).getAsString())));
+	}
+
 	public static ItemStack[] GetStacksFromArray(JsonArray array)
 	{
 		var result = new ItemStack[array.size()];

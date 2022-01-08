@@ -54,7 +54,7 @@ public class TECampfire extends BlockEntity implements ITickable
 		timeLeft--;
 		if (timeLeft < 0)
 		{
-			CampfireRecipe getRecipe = CampfireRecipe.GetRecipe(recipe);
+			CampfireRecipe getRecipe = level.getRecipeManager().getAllRecipesFor(CampfireRecipe.TYPE).stream().filter(r -> r.GetName().equals(recipe)).findFirst().orElse(null);
 			ItemStack output = getRecipe.GetOutput();
 			slot.setStackInSlot(0, output.copy());
 			recipe = "none";
@@ -76,7 +76,7 @@ public class TECampfire extends BlockEntity implements ITickable
 		if (!slot.getStackInSlot(0).isEmpty())
 			return items;
 		ItemStack stack = slot.insertItem(0, items, false);
-		CampfireRecipe getRecipe = CampfireRecipe.FindRecipe(slot.getStackInSlot(0));
+		CampfireRecipe getRecipe = level.getRecipeManager().getAllRecipesFor(CampfireRecipe.TYPE).stream().filter(r -> r.GetInput().test(slot.getStackInSlot(0))).findFirst().orElse(null);
 		if (getRecipe != null)
 		{
 			recipe = getRecipe.GetName();

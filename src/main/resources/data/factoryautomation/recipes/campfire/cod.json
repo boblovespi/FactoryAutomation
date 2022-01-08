@@ -1,0 +1,8 @@
+{
+  "type": "factoryautomation:campfire",
+  "input": {
+    "item": "minecraft:cod"
+  },
+  "output": "minecraft:cooked_cod",
+  "time": 3600
+}

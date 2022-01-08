@@ -1,0 +1,8 @@
+{
+  "type": "factoryautomation:campfire",
+  "input": {
+    "item": "minecraft:bread"
+  },
+  "output": "factoryautomation:toasted_bread",
+  "time": 300
+}

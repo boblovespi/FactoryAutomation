@@ -1,0 +1,8 @@
+{
+  "type": "factoryautomation:campfire",
+  "input": {
+    "item": "minecraft:mutton"
+  },
+  "output": "minecraft:cooked_mutton",
+  "time": 3600
+}

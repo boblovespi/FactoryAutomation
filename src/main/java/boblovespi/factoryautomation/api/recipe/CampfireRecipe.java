@@ -2,16 +2,14 @@ package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.common.util.FATags;
 import com.google.gson.JsonObject;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
@@ -26,7 +24,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
  */
 public class CampfireRecipe extends ChancelessMachineRecipe
 {
-	public static final RecipeSerializer<?> SERIALIZER = new Serializer();
+	public static final Serializer SERIALIZER = new Serializer();
 	public static final RecipeType<CampfireRecipe> TYPE = RecipeType.register(MODID + ":campfire");
 	private static final HashMap<String, CampfireRecipe> STRING_MAP = new HashMap<>();
 	private static final HashMap<Item, CampfireRecipe> ITEM_MAP = new HashMap<>();
@@ -131,34 +129,28 @@ public class CampfireRecipe extends ChancelessMachineRecipe
 		@Override
 		public CampfireRecipe fromJson(ResourceLocation name, JsonObject json)
 		{
-			try
-			{
-				if (json.has("input"))
-				{
-					AddRecipe(name.toString(), ForgeRegistries.ITEMS.getValue(new ResourceLocation(GsonHelper.getAsString(json, "input"))), CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "output"), true), GsonHelper.getAsInt(json, "time"));
-				}
-				else if (json.has("taginput"))
-				{
-					AddRecipe(name.toString(), GsonHelper.getAsString(json, "taginput"), CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "output"), true), GsonHelper.getAsInt(json, "time"));
-				}
-			} catch (Exception ignored)
-			{
-				System.out.println("campfire recipe " + name + " malformed");
-			}
-			return null;
+			Ingredient input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
+			ItemStack output = RecipeHelper.GetItemStackFromObject(json, "output");
+			int time = GsonHelper.getAsInt(json, "time");
+			return new CampfireRecipe(name.toString(), input, output, time);
 		}
 
 		@Nullable
 		@Override
 		public CampfireRecipe fromNetwork(ResourceLocation name, FriendlyByteBuf buffer)
 		{
-			return null;
+			var ingredient = Ingredient.fromNetwork(buffer);
+			var output = buffer.readItem();
+			var time = buffer.readVarInt();
+			return new CampfireRecipe(name.toString(), ingredient, output, time);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, CampfireRecipe recipe)
 		{
-
+			recipe.input.toNetwork(buffer);
+			buffer.writeItem(recipe.output);
+			buffer.writeVarInt(recipe.time);
 		}
 	}
 }

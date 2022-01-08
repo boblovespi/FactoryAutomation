@@ -351,5 +351,7 @@ public class RecipeHandler
 		event.getRegistry().register(ChoppingBlockRecipe.SERIALIZER);
 		MillstoneRecipe.SERIALIZER.setRegistryName(MODID, "millstone");
 		event.getRegistry().register(MillstoneRecipe.SERIALIZER);
+		CampfireRecipe.SERIALIZER.setRegistryName(MODID, "campfire");
+		event.getRegistry().register(CampfireRecipe.SERIALIZER);
 	}
 }
