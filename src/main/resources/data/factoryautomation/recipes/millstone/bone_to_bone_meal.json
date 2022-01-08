@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "tag": "forge:bones"
+  },
+  "output": {
+    "item": "minecraft:bone_meal",
+    "count": 4
+  },
+  "time": 30,
+  "torque": 5
+}

@@ -1,0 +1,9 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "tag": "forge:crops/wheat"
+  },
+  "output": "factoryautomation:wheat_flour",
+  "time": 50,
+  "torque": 1
+}

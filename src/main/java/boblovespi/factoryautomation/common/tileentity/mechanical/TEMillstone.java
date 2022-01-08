@@ -42,7 +42,6 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 {
 	private final MechanicalUser mechanicalUser;
 	public float rotation = 0;
-	private MillstoneRecipe millstoneRecipe = null;
 	private int counter = 0;
 
 	public TEMillstone(BlockPos pos, BlockState state)
@@ -98,35 +97,27 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	@Override
 	protected String FindRecipeName()
 	{
-		MillstoneRecipe recipe1 = MillstoneRecipe.FindRecipe(processingInv.getStackInSlot(0));
-		if (recipe1 == null)
-		{
-			millstoneRecipe = null;
-			return "none";
-		} else
-		{
-			millstoneRecipe = recipe1;
-			return recipe1.GetName();
-		}
+		var recipe1 = FirstRecipeMatching(MillstoneRecipe.TYPE, n -> n.GetInput().test(processingInv.getStackInSlot(0)));
+		return recipe1 == null ? "none" : recipe1.GetName();
 	}
 
 	@Nullable
 	@Override
 	protected MillstoneRecipe FindRecipe(String recipeName)
 	{
-		return MillstoneRecipe.GetRecipe(recipeName);
+		return FirstRecipeMatching(MillstoneRecipe.TYPE, n -> n.GetName().equals(recipeName));
 	}
 
 	@Override
 	protected int GetMaxProgress()
 	{
-		return millstoneRecipe.GetTime();
+		return recipeCache.GetTime();
 	}
 
 	@Override
 	protected void OnRecipeComplete(String recipe)
 	{
-		for (ItemStack stack : millstoneRecipe.GetOutputs())
+		for (ItemStack stack : recipeCache.GetOutputs())
 		{
 			ItemEntity item = new ItemEntity(Objects.requireNonNull(level), worldPosition.getX() - 0.5 + Objects.requireNonNull(level).random.nextInt(3), worldPosition.getY() - 0.1,
 					worldPosition.getZ() - 0.5 + level.random.nextInt(3), stack.copy());
@@ -140,7 +131,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	@Override
 	protected float GetProgressScalar()
 	{
-		if (mechanicalUser.GetTorque() >= millstoneRecipe.GetTorque())
+		if (mechanicalUser.GetTorque() >= recipeCache.GetTorque())
 			return Mth.clamp(mechanicalUser.GetSpeed() / 10f, 0, 10);
 		else
 			return 0;
@@ -150,7 +141,6 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	protected void ReadCustomNBT(CompoundTag tag)
 	{
 		mechanicalUser.ReadFromNBT(tag.getCompound("mechanicalUser"));
-		millstoneRecipe = MillstoneRecipe.GetRecipe(recipeName);
 	}
 
 	@Override

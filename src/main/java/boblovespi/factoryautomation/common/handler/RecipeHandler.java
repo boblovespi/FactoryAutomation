@@ -349,5 +349,7 @@ public class RecipeHandler
 		event.getRegistry().register(AxeRecipe.SERIALIZER);
 		ChoppingBlockRecipe.SERIALIZER.setRegistryName(MODID, "chopping_block");
 		event.getRegistry().register(ChoppingBlockRecipe.SERIALIZER);
+		MillstoneRecipe.SERIALIZER.setRegistryName(MODID, "millstone");
+		event.getRegistry().register(MillstoneRecipe.SERIALIZER);
 	}
 }

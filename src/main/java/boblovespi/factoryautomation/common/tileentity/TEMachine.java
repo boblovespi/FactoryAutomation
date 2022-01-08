@@ -1,10 +1,12 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.api.recipe.IMachineRecipe;
+import boblovespi.factoryautomation.api.recipe.MillstoneRecipe;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,6 +16,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * Created by Willi on 2/12/2019.
@@ -66,6 +69,12 @@ public abstract class TEMachine<T extends IMachineRecipe> extends BlockEntity im
 
 	@Nullable
 	protected abstract T FindRecipe(String recipeName);
+
+	@Nullable
+	protected T FirstRecipeMatching(RecipeType<T> type, Predicate<T> matcher)
+	{
+		return level.getRecipeManager().getAllRecipesFor(type).stream().filter(matcher).findFirst().orElse(null);
+	}
 
 	protected void Update()
 	{
