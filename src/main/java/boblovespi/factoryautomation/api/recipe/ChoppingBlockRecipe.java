@@ -2,17 +2,15 @@ package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.common.util.FATags;
 import com.google.gson.JsonObject;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
@@ -29,7 +27,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 {
 	public static final Serializer SERIALIZER = new ChoppingBlockRecipe.Serializer();
-	public static final RecipeType<CampfireRecipe> TYPE = RecipeType.register(MODID + ":chopping_block");
+	public static final RecipeType<ChoppingBlockRecipe> TYPE = RecipeType.register(MODID + ":chopping_block");
 	private static final HashMap<String, ChoppingBlockRecipe> STRING_MAP = new HashMap<>();
 	private static final HashMap<Item, ChoppingBlockRecipe> ITEM_MAP = new HashMap<>();
 	private static final HashMap<String, ChoppingBlockRecipe> OREDICT_MAP = new HashMap<>();
@@ -99,6 +97,11 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		return STRING_MAP.getOrDefault(name, null);
 	}
 
+	public static Collection<ChoppingBlockRecipe> GetRecipes()
+	{
+		return STRING_MAP.values();
+	}
+
 	public ItemStack GetOutput()
 	{
 		return output;
@@ -112,11 +115,6 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 	public String GetName()
 	{
 		return name;
-	}
-
-	public static Collection<ChoppingBlockRecipe> GetRecipes()
-	{
-		return STRING_MAP.values();
 	}
 
 	@Override
@@ -142,34 +140,25 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		@Override
 		public ChoppingBlockRecipe fromJson(ResourceLocation name, JsonObject json)
 		{
-			try
-			{
-				if (json.has("input"))
-				{
-					AddRecipe(name.toString(), ForgeRegistries.ITEMS.getValue(new ResourceLocation(GsonHelper.getAsString(json, "input"))), CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "output"), true));
-				}
-				else if (json.has("taginput"))
-				{
-					AddRecipe(name.toString(), new ResourceLocation(GsonHelper.getAsString(json, "taginput")), CraftingHelper.getItemStack(GsonHelper.getAsJsonObject(json, "output"), true));
-				}
-			} catch (Exception ignored)
-			{
-				System.out.println("chopping block recipe " + name + " malformed");
-			}
-			return null;
+			Ingredient input = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "input"));
+			ItemStack output = RecipeHelper.GetItemStackFromObject(json, "output");
+			return new ChoppingBlockRecipe(name.toString(), input, output);
 		}
 
 		@Nullable
 		@Override
 		public ChoppingBlockRecipe fromNetwork(ResourceLocation name, FriendlyByteBuf buffer)
 		{
-			return null;
+			var input = Ingredient.fromNetwork(buffer);
+			var output = buffer.readItem();
+			return new ChoppingBlockRecipe(name.toString(), input, output);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, ChoppingBlockRecipe recipe)
 		{
-
+			recipe.input.toNetwork(buffer);
+			buffer.writeItem(recipe.output);
 		}
 	}
 }

@@ -1,0 +1,10 @@
+{
+  "type": "factoryautomation:chopping_block",
+  "input": {
+    "tag": "minecraft:acacia_logs"
+  },
+  "output": {
+    "item": "minecraft:acacia_planks",
+    "count": 4
+  }
+}

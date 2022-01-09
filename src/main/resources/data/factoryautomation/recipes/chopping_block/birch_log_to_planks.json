@@ -1,0 +1,10 @@
+{
+  "type": "factoryautomation:chopping_block",
+  "input": {
+    "tag": "minecraft:birch_logs"
+  },
+  "output": {
+    "item": "minecraft:birch_planks",
+    "count": 4
+  }
+}

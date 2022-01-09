@@ -1,0 +1,10 @@
+{
+  "type": "factoryautomation:chopping_block",
+  "input": {
+    "tag": "minecraft:jungle_logs"
+  },
+  "output": {
+    "item": "minecraft:jungle_planks",
+    "count": 4
+  }
+}

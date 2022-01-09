@@ -4,6 +4,7 @@
     "minecraft:iron_axe",
     "minecraft:diamond_axe",
     "factoryautomation:bronze_axe",
-    "factoryautomation:steel_axe"
+    "factoryautomation:steel_axe",
+    "minecraft:netherite_axe"
   ]
 }

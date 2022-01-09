@@ -1,0 +1,10 @@
+{
+  "type": "factoryautomation:chopping_block",
+  "input": {
+    "tag": "minecraft:spruce_logs"
+  },
+  "output": {
+    "item": "minecraft:spruce_planks",
+    "count": 4
+  }
+}

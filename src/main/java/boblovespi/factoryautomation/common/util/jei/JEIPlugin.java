@@ -71,7 +71,7 @@ public class JEIPlugin implements IModPlugin
 														 .getAllRecipesFor(WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE), WorkbenchRecipeCategory.ID);
 		registry.addRecipes(SteelmakingRecipe.GetRecipes(), SteelmakingRecipeCategory.ID);
 		registry.addRecipes(JawCrusherRecipe.GetRecipes(), JawCrusherRecipeCategory.ID);
-		registry.addRecipes(ChoppingBlockRecipe.GetRecipes(), ChoppingBlockRecipeCategory.ID);
+		registry.addRecipes(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(ChoppingBlockRecipe.TYPE), ChoppingBlockRecipeCategory.ID);
 		registry.addRecipes(Collections.singletonList(new BrickMakerRecipeWrapper()), BrickMakerRecipeCategory.ID);
 		RegisterDescriptions(registry);
 	}

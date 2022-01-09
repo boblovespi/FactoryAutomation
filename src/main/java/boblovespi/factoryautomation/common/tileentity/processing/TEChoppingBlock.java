@@ -54,7 +54,7 @@ public class TEChoppingBlock extends BlockEntity
 		if (!slot.getStackInSlot(0).isEmpty())
 			return items;
 		ItemStack stack = slot.insertItem(0, items, false);
-		ChoppingBlockRecipe getRecipe = ChoppingBlockRecipe.FindRecipe(slot.getStackInSlot(0));
+		ChoppingBlockRecipe getRecipe = level.getRecipeManager().getAllRecipesFor(ChoppingBlockRecipe.TYPE).stream().filter(r -> r.GetInput().test(slot.getStackInSlot(0))).findFirst().orElse(null);
 		if (getRecipe != null)
 		{
 			recipe = getRecipe.GetName();
@@ -111,7 +111,7 @@ public class TEChoppingBlock extends BlockEntity
 			clicksLeft--;
 			if (clicksLeft <= 0)
 			{
-				ChoppingBlockRecipe getRecipe = ChoppingBlockRecipe.GetRecipe(recipe);
+				ChoppingBlockRecipe getRecipe = level.getRecipeManager().getAllRecipesFor(ChoppingBlockRecipe.TYPE).stream().filter(r -> r.GetName().equals(recipe)).findFirst().orElse(null);
 				recipe = "none";
 				int count = slot.getStackInSlot(0).getCount();
 				if (item == FAItems.choppingBlade || item == Items.WOODEN_AXE || item == Items.STONE_AXE)

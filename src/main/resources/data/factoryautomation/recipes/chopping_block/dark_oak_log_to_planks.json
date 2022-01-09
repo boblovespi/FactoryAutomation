@@ -1,0 +1,10 @@
+{
+  "type": "factoryautomation:chopping_block",
+  "input": {
+    "tag": "minecraft:dark_oak_logs"
+  },
+  "output": {
+    "item": "minecraft:dark_oak_planks",
+    "count": 4
+  }
+}

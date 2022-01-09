@@ -238,7 +238,7 @@ public class FABlocks
 		for (int i = 0; i < 6; i++)
 		{
 			FABlock tempChoppingBlock = new ChoppingBlock("wood_chopping_block_" + WoodTypes.values()[i].GetName(), 10,
-					of(Material.WOOD, WoodTypes.values()[i].GetColor()).strength(4));
+					of(Material.WOOD, WoodTypes.values()[i].GetColor()).strength(4).sound(SoundType.WOOD));
 			woodChoppingBlocks.add(tempChoppingBlock);
 		}
 
