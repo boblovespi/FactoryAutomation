@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:trip_hammer",
+  "input": {
+    "tag": "forge:storage_blocks/lead"
+  },
+  "output": {
+    "item": "factoryautomation:sheet_lead",
+    "count": 6
+  },
+  "time": 100,
+  "torque": 10
+}

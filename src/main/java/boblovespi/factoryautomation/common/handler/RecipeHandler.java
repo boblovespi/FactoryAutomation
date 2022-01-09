@@ -353,5 +353,7 @@ public class RecipeHandler
 		event.getRegistry().register(MillstoneRecipe.SERIALIZER);
 		CampfireRecipe.SERIALIZER.setRegistryName(MODID, "campfire");
 		event.getRegistry().register(CampfireRecipe.SERIALIZER);
+		TripHammerRecipe.SERIALIZER.setRegistryName(MODID, "trip_hammer");
+		event.getRegistry()	.register(TripHammerRecipe.SERIALIZER);
 	}
 }

@@ -186,7 +186,7 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 			{
 				if ("none".equals(currentRecipeString))
 				{
-					TripHammerRecipe recipe = TripHammerRecipe.FindRecipe(stack);
+					TripHammerRecipe recipe = level.getRecipeManager().getAllRecipesFor(TripHammerRecipe.TYPE).stream().filter(r -> r.itemInput.test(stack)).findFirst().orElse(null);
 					currentRecipe = recipe;
 					if (recipe != null)
 					{
@@ -196,7 +196,7 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 					}
 				} else
 				{
-					currentRecipe = TripHammerRecipe.STRING_TRIP_HAMMER_RECIPE_MAP.get(currentRecipeString);
+					currentRecipe = level.getRecipeManager().getAllRecipesFor(TripHammerRecipe.TYPE).stream().filter(r -> r.name.equals(currentRecipeString)).findFirst().orElse(null);
 				}
 			} else
 			{
