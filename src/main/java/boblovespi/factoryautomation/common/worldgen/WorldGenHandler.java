@@ -33,6 +33,8 @@ public class WorldGenHandler
 	public static final RegistryObject<Feature<NoneFeatureConfiguration>> limoniteGen = deferredRegister.register(
 			"limonite_gen", () -> new SwampFloorOreGenerator((Ore) FABlocks.limoniteOre, 12, 0.6f, 0.9f, 0.8f,
 															 NoneFeatureConfiguration.CODEC));
+	public static final RegistryObject<Feature<NoneFeatureConfiguration>> blackSandGen = deferredRegister.register(
+			"black_sand_gen", () -> new BlackSandOreGenerator(14, 10, NoneFeatureConfiguration.CODEC));
 
 	/*
 	// surface blocks
@@ -91,6 +93,9 @@ public class WorldGenHandler
 				biome.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GetFeature("ore_limonite_normal"));
 			// casserite
 			biome.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GetFeature("ore_cassiterite_small_normal"));
+			// black sand
+			if (category == BiomeCategory.BEACH)
+				biome.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GetFeature("ore_black_sand_normal"));
 		}
 		else if (category == BiomeCategory.THEEND)
 		{

@@ -10,6 +10,7 @@ import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -22,6 +23,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -42,6 +44,7 @@ public class ConfiguredFeatures
 	public static ConfiguredFeature<?, ?> tinSmallVein = Register("ore_cassiterite_small", Feature.ORE.configured(new OreConfiguration(OreFeatures.STONE_ORE_REPLACEABLES, FABlocks.metalOres.GetBlock(MetalOres.TIN)
 			.ToBlock().defaultBlockState(), 4)));
 	public static ConfiguredFeature<?, ?> limoniteVein = Register("ore_limonite", WorldGenHandler.limoniteGen.get().configured(NoneFeatureConfiguration.INSTANCE));
+	public static ConfiguredFeature<?, ?> blackSand = Register("ore_black_sand", WorldGenHandler.blackSandGen.get().configured(NoneFeatureConfiguration.INSTANCE));
 
 	public static void init()
 	{

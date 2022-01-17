@@ -1,4 +1,5 @@
 ### Version 0.4.1 - beta (unreleased)
+- added black sand to worldgen
 - changed machine recipes to use json recipes from datapacks
 - fixed flint rocks not having a texture in JADE
 ## Version 0.4.0 - beta

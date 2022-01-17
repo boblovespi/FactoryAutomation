@@ -21,6 +21,7 @@ public class PlacedFeatures
 	public static PlacedFeature rockPatchSwamp = Register("patch_rock_swamp", ConfiguredFeatures.rockPatchSwamp.placed(VegetationPlacements.worldSurfaceSquaredWithCount(2)));
 	public static PlacedFeature tinSmallVeinNormal = Register("ore_cassiterite_small_normal", ConfiguredFeatures.tinSmallVein.placed(SmallOrePlacement(8, HeightRangePlacement.triangle(VerticalAnchor.absolute(64 - 32), VerticalAnchor.absolute(64 + 32)))));
 	public static PlacedFeature limoniteVeinNormal = Register("ore_limonite_normal", ConfiguredFeatures.limoniteVein.placed(LargeOrePlacement(17, PlacementUtils.HEIGHTMAP_TOP_SOLID)));
+	public static PlacedFeature blackSandNormal = Register("ore_black_sand_normal", ConfiguredFeatures.blackSand.placed(LargeOrePlacement(200, PlacementUtils.HEIGHTMAP_WORLD_SURFACE)));
 
 	public static void init()
 	{
