@@ -14,6 +14,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
@@ -22,8 +23,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.ItemStackHandler;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.EnumSet;
 import java.util.Objects;
@@ -37,7 +45,7 @@ import static boblovespi.factoryautomation.common.block.machine.TripHammerContro
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @SuppressWarnings("unchecked")
-public class TETripHammerController extends BlockEntity implements IMultiblockControllerTE, ITickable
+public class TETripHammerController extends BlockEntity implements IMultiblockControllerTE, ITickable, IAnimatable
 {
 	public static final String MULTIBLOCK_ID = "trip_hammer";
 	private final ItemStackHandler itemHandler;
@@ -47,6 +55,7 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 	private String currentRecipeString = "none";
 	private float timeLeftInRecipe = -1;
 	private boolean firstTick = true;
+	private AnimationFactory factory;
 
 	public TETripHammerController(BlockPos pos, BlockState state)
 	{
@@ -60,6 +69,7 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 			}
 		};
 		mechanicalUser = new MechanicalUser();
+		factory = new AnimationFactory(this);
 	}
 
 	public void FirstLoad()
@@ -226,6 +236,7 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 		mechanicalUser.ReadFromNBT(nbt.getCompound("mechanicalUser"));
 		currentRecipeString = nbt.getString("recipe");
 		timeLeftInRecipe = nbt.getFloat("timeLeftInRecipe");
+		isValid = nbt.getBoolean("isValid");
 	}
 
 	@Override
@@ -235,5 +246,32 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 		nbt.put("mechanicalUser", mechanicalUser.WriteToNBT());
 		nbt.putString("recipe", currentRecipeString);
 		nbt.putFloat("timeLeftInRecipe", timeLeftInRecipe);
+		nbt.putBoolean("isValid", isValid);
+	}
+
+	@Nullable
+	@Override
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
+	{
+		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
+	}
+
+	@Override
+	public void registerControllers(AnimationData data)
+	{
+		data.addAnimationController(new AnimationController(this, "controller", 0, event -> {
+			if (isValid && mechanicalUser.GetSpeed() >= 1)
+			{
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.model.active", true));
+				return PlayState.CONTINUE;
+			}
+			else return PlayState.STOP;
+		}));
+	}
+
+	@Override
+	public AnimationFactory getFactory()
+	{
+		return factory;
 	}
 }

@@ -48,6 +48,7 @@ public class ClientProxy implements CommonProxy
 		BlockEntityRenderers.register(TileEntityHandler.tePaperBellows, TESRBellows.Paper::new);
 		BlockEntityRenderers.register(TileEntityHandler.teLeatherBellows, TESRBellows.Leather::new);
 		BlockEntityRenderers.register(TileEntityHandler.teBevelGear, TESRBevelGear::new);
+		BlockEntityRenderers.register(TileEntityHandler.teTripHammerController, TESRTripHammer::new);
 	}
 
 	@Override
