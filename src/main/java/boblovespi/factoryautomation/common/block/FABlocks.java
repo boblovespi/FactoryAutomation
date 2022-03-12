@@ -138,7 +138,9 @@ public class FABlocks
 
 	// mechanical
 
+	public static List<FABlock> powerShafts;
 	public static FABlock powerShaft;
+	public static FABlock powerShaftWood;
 	public static FABlock gearbox;
 	public static FABlock bevelGear;
 	public static FABlock jawCrusher;
@@ -195,7 +197,10 @@ public class FABlocks
 		solarPanel = new SolarPanel();
 		metalOres = new MetalOre();
 
-		powerShaft = new PowerShaft();
+		powerShaft = new PowerShaft("power_shaft", 25, 25);
+		powerShaftWood = new PowerShaft("power_shaft_wood", 10, 10);
+		powerShafts = List.of(powerShaftWood, powerShaft);
+
 		gearbox = new Gearbox();
 		bevelGear = new BevelGear();
 

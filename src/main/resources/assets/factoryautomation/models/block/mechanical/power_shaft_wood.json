@@ -1,0 +1,7 @@
+{
+  "parent": "factoryautomation:block/mechanical/power_shaft",
+  "textures": {
+    "side": "minecraft:block/oak_planks",
+    "front": "minecraft:block/oak_planks"
+  }
+}

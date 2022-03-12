@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "minecraft:block/barrel_open"
+      "model": "factoryautomation:block/fluid/wooden_tank"
     }
   }
 }

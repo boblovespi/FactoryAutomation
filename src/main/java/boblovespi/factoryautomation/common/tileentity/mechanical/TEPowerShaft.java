@@ -13,6 +13,7 @@ import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.Direction.AxisDirection;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -38,11 +39,18 @@ public class TEPowerShaft extends BlockEntity implements IMechanicalUser, ITicka
 	public float rotation = 0;
 	private float speed;
 	private float torque;
+	private float maxSpeed = 0;
+	private float maxTorque = 0;
 	private int counter = -1;
 
 	public TEPowerShaft(BlockPos pos, BlockState state)
 	{
 		super(TileEntityHandler.tePowerShaft, pos, state);
+		if (state.getBlock() instanceof PowerShaft ps)
+		{
+			maxSpeed = ps.maxSpeed;
+			maxTorque = ps.maxTorque;
+		}
 	}
 
 	@Override
@@ -124,6 +132,12 @@ public class TEPowerShaft extends BlockEntity implements IMechanicalUser, ITicka
 					GetUser(front, negativeFacing).GetTorqueOnFace(negativeFacing) : 0) + (
 					IsMechanicalFace(back, positiveFacing) ?
 							GetUser(back, positiveFacing).GetTorqueOnFace(positiveFacing) : 0)) / 2f;
+
+			if (speed > maxSpeed || torque > maxTorque)
+			{
+				level.destroyBlock(worldPosition, true);
+				return;
+			}
 
 			setChanged();
 

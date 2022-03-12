@@ -1,0 +1,29 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["w", "s", "w"],
+  "key": {
+    "s": {
+      "tag": "forge:rods/copper"
+    },
+    "w": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 5
+    }
+  },
+  "parts": {
+    "factoryautomation:screw": {
+      "tier": 1,
+      "itemUse": 2
+    }
+  },
+  "result": {
+    "item": "factoryautomation:power_shaft_wood",
+    "count": 1
+  }
+}

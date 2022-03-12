@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,7 +23,7 @@ public class WoodenTank extends FABaseBlock implements EntityBlock
 {
 	public WoodenTank()
 	{
-		super("wooden_tank", false, BlockBehaviour.Properties.of(Material.WOOD).strength(1f), new Item.Properties().tab(FAItemGroups.fluid));
+		super("wooden_tank", false, BlockBehaviour.Properties.of(Material.WOOD).strength(1f).sound(SoundType.WOOD), new Item.Properties().tab(FAItemGroups.fluid));
 	}
 
 	@Nullable
@@ -40,8 +41,7 @@ public class WoodenTank extends FABaseBlock implements EntityBlock
 		var te = world.getBlockEntity(pos);
 		if (te instanceof TEWoodenTank tank)
 		{
-			if (!FluidUtil.tryEmptyContainerAndStow(player.getItemInHand(hand), tank.GetHandler(), null, 1000, player, true).isSuccess())
-				FluidUtil.tryFillContainerAndStow(player.getItemInHand(hand), tank.GetHandler(), null, 1000, player, true);
+			FluidUtil.interactWithFluidHandler(player, hand, tank.GetHandler());
 		}
 		return InteractionResult.SUCCESS;
 	}

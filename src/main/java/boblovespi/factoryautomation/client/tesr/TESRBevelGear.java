@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.client.tesr;
 
+import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
@@ -42,6 +43,9 @@ public class TESRBevelGear implements BlockEntityRenderer<TEBevelGear>
 			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getBlockState();
+			if (state.getBlock() != FABlocks.bevelGear)
+				return;
+
 			Direction facing = state.getValue(BevelGear.FACING);
 			int layer = state.getValue(BevelGear.LAYER);
 			int out = 1, in = 1;
@@ -166,15 +170,15 @@ public class TESRBevelGear implements BlockEntityRenderer<TEBevelGear>
 			{
 				in *= -1;
 				out *= -1; // flip the signs for some reason
-				TESRUtils.RenderGear(te, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
+				TESRUtils.RenderGear(te, 0, 16/16f, 6/16f, 12/16f, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
 						in, matrix, buffer, combinedLight, combinedOverlay);
 			} else
 			{
-				TESRUtils.RenderGear(te, 0, 16, -6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
+				TESRUtils.RenderGear(te, 0, 16/16f, -6/16f, 12/16f, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks, 0, 0,
 						in, matrix, buffer, combinedLight, combinedOverlay);
 			}
 			matrix.mulPose(TESRUtils.QuatFromAngleAxis(90, 0, 1, 0));
-			TESRUtils.RenderGear(te, 0, 16, 6, 12, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0,
+			TESRUtils.RenderGear(te, 0, 16/16f, 6/16f, 12/16f, Gearbox.GearType.IRON, te.rotation + te.GetSpeed() * partialTicks + 22.5f, 0,
 					0, out, matrix, buffer, combinedLight, combinedOverlay);
 			// Lighting.turnBackOn();
 		}

@@ -31,7 +31,7 @@ public class TESRPowerShaft implements BlockEntityRenderer<TEPowerShaft>
 	public void render(TEPowerShaft te, float partialTicks, PoseStack matrix, MultiBufferSource buffer,
 			int combinedLight, int combinedOverlay)
 	{
-		if (!te.hasLevel() || te.getBlockState().getBlock() != FABlocks.powerShaft)
+		if (!te.hasLevel() || !(te.getBlockState().getBlock() instanceof PowerShaft))
 			return;
 
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();

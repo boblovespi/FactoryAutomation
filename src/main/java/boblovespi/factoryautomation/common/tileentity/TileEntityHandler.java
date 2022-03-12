@@ -90,7 +90,7 @@ public class TileEntityHandler
 		teMillstone = BuildType(TEMillstone::new, FABlocks.millstone, "millstone");
 		teLeatherBellows = BuildType(TELeatherBellows::new, FABlocks.leatherBellows, "leather_bellows");
 		teMotor = BuildType(TEMotor::new, FABlocks.motor, "motor");
-		tePowerShaft = BuildType(TEPowerShaft::new, FABlocks.powerShaft, "power_shaft");
+		tePowerShaft = BuildType(TEPowerShaft::new, FABlocks.powerShafts, "power_shaft");
 		teTripHammerController = BuildType(TETripHammerController::new, FABlocks.tripHammerController, "trip_hammer");
 		teWaterwheel = BuildType(TEWaterwheel::new, FABlocks.waterwheel, "waterwheel");
 		teCampfire = BuildType(TECampfire::new, FABlocks.campfire, "campfire");

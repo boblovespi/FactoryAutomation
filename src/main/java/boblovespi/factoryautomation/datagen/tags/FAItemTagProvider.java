@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.datagen.tags;
 
+import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
@@ -8,6 +9,8 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
+import java.util.Arrays;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -62,6 +65,9 @@ public class FAItemTagProvider extends ItemTagsProvider
 			tag(FATags.CreateForgeItemTag("rods/" + Metals.values()[i].name()))
 					.add(FAItems.rod.GetItem(Metals.values()[i]));
 		}
+
+		Arrays.stream(Gearbox.GearType.values())
+				.forEach(n -> tag(FATags.CreateForgeItemTag("gears/" + n.toString())).add(FAItems.gear.GetItem(n)));
 
 		tag(FATags.CreateFAItemTag("ingots/t5")).addTags(FATags.CreateForgeItemTag("ingots/steel"));
 		tag(FATags.CreateFAItemTag("ingots/t4"))

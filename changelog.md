@@ -1,6 +1,12 @@
 ### Version 0.4.1 - beta (unreleased)
 - added black sand to worldgen
+- added wooden power shaft
+- added wooden tanka bunch
+- added model to bevel gear
+- added many recipes
 - changed machine recipes to use json recipes from datapacks
+- changed power shafts to break
+- changed iron power shaft recipe (gives 6 to gives 3)
 - fixed flint rocks not having a texture in JADE
 ## Version 0.4.0 - beta
 - updated to Minecraft 1.18.1

@@ -3,9 +3,11 @@ package boblovespi.factoryautomation.common.block.mechanical;
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
+import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -44,10 +46,15 @@ public class PowerShaft extends FABaseBlock implements EntityBlock
 			new AABB(6.5 / 16d, 6.5 / 16d, 0 / 16d, 6.5 / 16d + 3 / 16d, 6.5 / 16d + 3 / 16d,
 					16 / 16d) }; // 0: up; 1: n-s; 2: e-w
 	public static VoxelShape[] VOXELS = new VoxelShape[3];
+	public final float maxSpeed;
+	public final float maxTorque;
 
-	public PowerShaft()
+	public PowerShaft(String name, float maxSpeed, float maxTorque)
 	{
-		super(Material.METAL, "power_shaft", null);
+		super(name, false, Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(1.5f),
+			  new Item.Properties().tab(FAItemGroups.mechanical));
+		this.maxSpeed = maxSpeed;
+		this.maxTorque = maxTorque;
 		registerDefaultState(stateDefinition.any().setValue(AXIS, Axis.X).setValue(IS_TESR, false));
 		if (VOXELS[0] == null)
 			for (int i = 0; i < 3; i++)

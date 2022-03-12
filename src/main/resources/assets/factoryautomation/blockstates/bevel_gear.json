@@ -1,9 +1,69 @@
 {
-  "multipart": [
-    {
-      "apply": {
-        "model": "factoryautomation:block/empty"
-      }
+  "variants": {
+    "layer=0,facing=north": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 90,
+      "x": 90
+    },
+    "layer=0,facing=south": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 270,
+      "x": 90
+    },
+    "layer=0,facing=east": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 180,
+      "x": 90
+    },
+    "layer=0,facing=west": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "x": 90
+    },
+    "layer=1,facing=north": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 90
+    },
+    "layer=1,facing=south": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 270
+    },
+    "layer=1,facing=east": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 180
+    },
+    "layer=1,facing=west": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true
+    },
+    "layer=2,facing=north": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 90,
+      "x": 270
+    },
+    "layer=2,facing=south": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 270,
+      "x": 270
+    },
+    "layer=2,facing=east": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "y": 180,
+      "x": 270
+    },
+    "layer=2,facing=west": {
+      "model": "factoryautomation:block/mechanical/bevel_gear",
+      "uvlock": true,
+      "x": 270
     }
-  ]
+  }
 }

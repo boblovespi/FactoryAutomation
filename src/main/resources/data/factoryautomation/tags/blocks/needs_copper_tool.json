@@ -25,6 +25,7 @@
     "factoryautomation:metal_plate_block_aluminum",
     "factoryautomation:metal_plate_block_aluminum_bronze",
     "factoryautomation:patterned_plate_block_iron",
-    "factoryautomation:factory_sign_block"
+    "factoryautomation:factory_sign_block",
+    "factoryautomation:power_shaft"
   ]
 }

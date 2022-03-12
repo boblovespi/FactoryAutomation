@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "factoryautomation:blocks/fluid/wooden_tank_top",
+    "side": "factoryautomation:blocks/fluid/wooden_tank_side"
+  }
+}

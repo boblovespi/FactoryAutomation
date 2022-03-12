@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TEBevelGear;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -39,7 +40,7 @@ public class BevelGear extends FABaseBlock implements EntityBlock
 
 	public BevelGear()
 	{
-		super(Material.METAL, "bevel_gear", FAItemGroups.mechanical);
+		super("bevel_gear", false, Properties.of(Material.METAL).noOcclusion(), new Item.Properties().tab(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TEBevelGear.class);
 	}
 
@@ -77,15 +78,15 @@ public class BevelGear extends FABaseBlock implements EntityBlock
 	public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
 		BlockState state = defaultBlockState();
-		if (context.getHorizontalDirection() == Direction.UP)
+		if (context.getClickedFace() == Direction.UP)
 			state = state.setValue(LAYER, 0);
-		else if (context.getHorizontalDirection() == Direction.DOWN)
-			state = state.setValue(LAYER, 1);
+		else if (context.getClickedFace() == Direction.DOWN)
+			state = state.setValue(LAYER, 2);
 		else
 			state = state
-					.setValue(LAYER, context.getClickLocation().y > 2 / 3f ? 2 : context.getClickLocation().y > 1 / 3f ? 1 : 0);
-		if (context.getHorizontalDirection().get2DDataValue() >= 0)
-			state = state.setValue(FACING, context.getHorizontalDirection().getOpposite());
+					.setValue(LAYER, context.getClickLocation().y - context.getClickedPos().getY() > 2 / 3f ? 2 : context.getClickLocation().y - context.getClickedPos().getY() > 1 / 3f ? 1 : 0);
+		if (context.getClickedFace().get2DDataValue() >= 0)
+			state = state.setValue(FACING, context.getClickedFace().getOpposite());
 		else
 			state = state.setValue(FACING, context.getHorizontalDirection().getOpposite());
 		return state;

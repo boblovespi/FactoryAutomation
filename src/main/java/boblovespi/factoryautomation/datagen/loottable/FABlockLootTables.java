@@ -128,6 +128,8 @@ public class FABlockLootTables extends BlockLoot
 
 		// mechanical
 		dropSelf(FABlocks.powerShaft.ToBlock());
+		dropSelf(FABlocks.powerShaftWood.ToBlock());
+
 		dropSelf(FABlocks.gearbox.ToBlock());
 		dropSelf(FABlocks.bevelGear.ToBlock());
 		dropSelf(FABlocks.jawCrusher.ToBlock());
@@ -136,10 +138,12 @@ public class FABlockLootTables extends BlockLoot
 		dropSelf(FABlocks.handCrank.ToBlock());
 		dropSelf(FABlocks.millstone.ToBlock());
 		dropSelf(FABlocks.horseEngine.ToBlock());
+		dropSelf(FABlocks.screwPump.ToBlock());
 
 		// transfer
 		dropSelf(FABlocks.pipe.ToBlock());
 		dropSelf(FABlocks.pump.ToBlock());
+		dropSelf(FABlocks.woodenTank.ToBlock());
 
 		// resource blocks
 		dropSelf(FABlocks.greenSand.ToBlock());

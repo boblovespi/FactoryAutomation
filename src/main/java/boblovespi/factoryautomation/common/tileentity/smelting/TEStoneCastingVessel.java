@@ -248,8 +248,6 @@ public class TEStoneCastingVessel extends BlockEntity
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		CompoundTag nbt = new CompoundTag();
-		save(nbt);
 		return ClientboundBlockEntityDataPacket.create(this, BlockEntity::saveWithFullMetadata);
 	}
 }
