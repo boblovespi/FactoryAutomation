@@ -328,11 +328,16 @@
   "block.factoryautomation.flint_rock": "Flint Rock",
   
   "block.factoryautomation.lv_cable": "LV Cable",
-  "block.factoryautomation.power_shaft": "Power Shaft",
+  
   "block.factoryautomation.iron_pipe": "Iron Pipe",
   "block.factoryautomation.iron_pump": "Iron Pump",
+  "block.factoryautomation.wooden_tank": "Wooden Tank",
   
   "block.factoryautomation.solar_panel": "Solar Panel",
+  
+  "_comment": "mechanical blocks",
+  "block.factoryautomation.power_shaft": "Iron Power Shaft",
+  "block.factoryautomation.power_shaft_wood": "Wood Power Shaft",
   "block.factoryautomation.creative_mechanical_source": "Radial Tachyon Accelerator",
   "block.factoryautomation.motor": "Motor",
   "block.factoryautomation.gearbox": "Gearbox",
