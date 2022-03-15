@@ -4,7 +4,7 @@
 - added wooden tank
 - added model to bevel gear
 - added many recipes
-- added voidsteel sword and pickaxe
+- added voidsteel tools
 - added iron splitter
 - changed machine recipes to use json recipes from datapacks
 - changed power shafts to break

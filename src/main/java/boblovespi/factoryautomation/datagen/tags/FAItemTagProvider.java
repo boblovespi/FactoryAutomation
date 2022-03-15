@@ -116,10 +116,10 @@ public class FAItemTagProvider extends ItemTagsProvider
 		tag(FATags.CreateFAItemTag("tools/axes"))
 				.add(Items.WOODEN_AXE, Items.STONE_AXE, Items.GOLDEN_AXE, Items.IRON_AXE, Items.DIAMOND_AXE,
 						FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem(), FAItems.copperAxe.ToItem(),
-						FAItems.choppingBlade.ToItem());
+						FAItems.choppingBlade.ToItem(), FAItems.voidsteelAxe.ToItem());
 		tag(FATags.CreateFAItemTag("tools/silks_grass")).add(Items.SHEARS, FAItems.choppingBlade.ToItem());
 		tag(FATags.CreateFAItemTag("tools/good_axes"))
-				.add(Items.IRON_AXE, Items.DIAMOND_AXE, FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem());
+				.add(Items.IRON_AXE, Items.DIAMOND_AXE, FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem(), FAItems.voidsteelAxe.ToItem());
 		tag(FATags.CreateFAItemTag("tools/hammers")).add(FAItems.copperHammer.ToItem(), FAItems.ironHammer.ToItem(), FAItems.steelHammer.ToItem());
 	}
 }

@@ -96,6 +96,7 @@ public class FAItems
 	public static FAItem terraclayBrick;
 	public static FAItem plantFiber;
 	public static FAItem pigTallow;
+	public static FAItem voidsteelIngot;
 
 	// crafting components
 
@@ -138,6 +139,9 @@ public class FAItems
 	public static FAItem copperShears;
 
 	public static FAItem voidsteelPickaxe;
+	public static FAItem voidsteelAxe;
+	public static FAItem voidsteelHoe;
+	public static FAItem voidsteelShovel;
 	public static FAItem voidsteelSword;
 
 	public static FAItem flintPickaxe;
@@ -241,6 +245,7 @@ public class FAItems
 		terraclayBrick = new FABaseItem("terraclay_brick", FAItemGroups.resources);
 		plantFiber = new FABaseItem("plant_fiber", FAItemGroups.resources);
 		pigTallow = new FABaseItem("pig_tallow", FAItemGroups.resources);
+		voidsteelIngot = new FABaseItem("ingot_voidsteel", FAItemGroups.metallurgy);
 
 		// crafting components
 
@@ -282,6 +287,9 @@ public class FAItems
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
 		copperShears = new FAShears("copper_shears", Prop().tab(CreativeModeTab.TAB_TOOLS).durability(176));
 
+		voidsteelAxe = new FAAxe(voidsteelMaterial, "voidsteel_axe");
+		voidsteelHoe = new FAHoe(voidsteelMaterial, "voidsteel_hoe", 0f);
+		voidsteelShovel = new FAShovel(voidsteelMaterial, "voidsteel_shovel");
 		voidsteelPickaxe = new FAPickaxe(voidsteelMaterial, "voidsteel_pickaxe");
 		voidsteelSword = new FASword(voidsteelMaterial, "voidsteel_sword");
 

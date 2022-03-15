@@ -5,6 +5,7 @@
     "minecraft:diamond_axe",
     "factoryautomation:bronze_axe",
     "factoryautomation:steel_axe",
-    "minecraft:netherite_axe"
+    "minecraft:netherite_axe",
+    "factoryautomation:voidsteel_axe"
   ]
 }
