@@ -143,6 +143,8 @@ public class FABlocks
 	public static FABlock powerShaftWood;
 	public static FABlock gearbox;
 	public static FABlock bevelGear;
+	public static FABlock splitterIron;
+
 	public static FABlock jawCrusher;
 	public static FABlock creativeMechanicalSource;
 	public static FABlock motor;
@@ -203,6 +205,7 @@ public class FABlocks
 
 		gearbox = new Gearbox();
 		bevelGear = new BevelGear();
+		splitterIron = new Splitter("splitter_iron", 25, 25);
 
 		jawCrusher = new JawCrusher();
 

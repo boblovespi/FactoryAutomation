@@ -70,6 +70,7 @@ public class TileEntityHandler
 	public static BlockEntityType<TileEntityCable> teCable;
 	public static BlockEntityType<TEScrewPump> teScrewPump;
 	public static BlockEntityType<TEWoodenTank> teWoodenTank;
+	public static BlockEntityType<TESplitter> teSplitter;
 
 	public static void RegisterTileEntities()
 	{
@@ -106,6 +107,7 @@ public class TileEntityHandler
 		teCable = BuildType(TileEntityCable::new, FABlocks.cable, "cable");
 		teScrewPump = BuildType(TEScrewPump::new, FABlocks.screwPump, "screw_pump");
 		teWoodenTank = BuildType(TEWoodenTank::new, FABlocks.woodenTank, "wooden_tank");
+		teSplitter = BuildType(TESplitter::new, FABlocks.splitterIron, "splitter");
 	}
 
 	private static <T extends BlockEntity> BlockEntityType<T> BuildType(BlockEntityType.BlockEntitySupplier<T> supplier,

@@ -1,9 +1,11 @@
 ### Version 0.4.1 - beta (unreleased)
 - added black sand to worldgen
 - added wooden power shaft
-- added wooden tanka bunch
+- added wooden tank
 - added model to bevel gear
 - added many recipes
+- added voidsteel sword and pickaxe
+- added iron splitter
 - changed machine recipes to use json recipes from datapacks
 - changed power shafts to break
 - changed iron power shaft recipe (gives 6 to gives 3)

@@ -137,6 +137,9 @@ public class FAItems
 	public static FAItem copperSword;
 	public static FAItem copperShears;
 
+	public static FAItem voidsteelPickaxe;
+	public static FAItem voidsteelSword;
+
 	public static FAItem flintPickaxe;
 
 	public static FAItem choppingBlade;
@@ -278,6 +281,9 @@ public class FAItems
 		copperSword = new FASword(copperMaterial, "copper_sword");
 		copperPickaxe = new FAPickaxe(copperMaterial, "copper_pickaxe");
 		copperShears = new FAShears("copper_shears", Prop().tab(CreativeModeTab.TAB_TOOLS).durability(176));
+
+		voidsteelPickaxe = new FAPickaxe(voidsteelMaterial, "voidsteel_pickaxe");
+		voidsteelSword = new FASword(voidsteelMaterial, "voidsteel_sword");
 
 		flintPickaxe = new FAPickaxe(Tiers.WOOD, "flint_pickaxe");
 

@@ -44,10 +44,12 @@ public class ToolMaterial implements Tier
 	public static int DIAMOND = toolMiningLevelCat.diamond;
 	public static int STEEL = toolMiningLevelCat.steel;
 	public static int NETHERITE = toolMiningLevelCat.netherite;
-	public static Tier steelMaterial = TierSortingRegistry.registerTier(new ToolMaterial(STEEL, 1920, 6.5f, 8, 3, () -> Ingredient.of(FATags.ForgeItemTag("ingots/steel"))),
+	public static Tier steelMaterial = TierSortingRegistry.registerTier(new ToolMaterial(STEEL, 1920, 6.5f, 4, 3, () -> Ingredient.of(FATags.ForgeItemTag("ingots/steel"))),
 																				new ResourceLocation(MODID, "steel"), List.of(bronzeMaterial), List.of(Tiers.DIAMOND));
 	public static Tier copperMaterial = TierSortingRegistry.registerTier(new ToolMaterial(COPPER, 240, 3.5f, 1.5f, 5, () -> Ingredient.of(FATags.ForgeItemTag("ingots/copper"))),
 																				 new ResourceLocation(MODID, "copper"), List.of(Tiers.STONE), List.of(Tiers.IRON));
+	public static Tier voidsteelMaterial = TierSortingRegistry.registerTier(new ToolMaterial(NETHERITE, 2269, 20f, 6.5f, 25, () -> Ingredient.of(FATags.ForgeItemTag("ingots/voidsteel"))),
+																		 new ResourceLocation(MODID, "voidsteel"), List.of(Tiers.NETHERITE), List.of());
 	//
 
 	private final int harvestLevel;
