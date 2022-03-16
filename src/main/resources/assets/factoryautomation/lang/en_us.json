@@ -24,6 +24,8 @@
   "item.factoryautomation.ingot_aluminum": "Aluminum Ingot",
   "item.factoryautomation.ingot_aluminum_bronze": "Aluminum Bronze Ingot",
   
+  "item.factoryautomation.ingot_voidsteel": "Voidsteel Ingot",
+  
   
   "_comment": "items-nuggets",
   
@@ -159,6 +161,12 @@
   "item.factoryautomation.copper_hoe": "Copper Hoe",
   "item.factoryautomation.copper_shovel": "Copper Shovel",
   "item.factoryautomation.copper_sword": "Copper Sword",
+  
+  "item.factoryautomation.voidsteel_pickaxe": "Voidsteel Pickaxe",
+  "item.factoryautomation.voidsteel_axe": "Voidsteel Axe",
+  "item.factoryautomation.voidsteel_hoe": "Voidsteel Hoe",
+  "item.factoryautomation.voidsteel_shovel": "Voidsteel Shovel",
+  "item.factoryautomation.voidsteel_sword": "Voidsteel Sword",
   
   "item.factoryautomation.flint_pickaxe": "Flint Pickaxe",
   
@@ -338,6 +346,9 @@
   "_comment": "mechanical blocks",
   "block.factoryautomation.power_shaft": "Iron Power Shaft",
   "block.factoryautomation.power_shaft_wood": "Wood Power Shaft",
+  
+  "block.factoryautomation.splitter_iron": "Iron Splitter",
+  
   "block.factoryautomation.creative_mechanical_source": "Radial Tachyon Accelerator",
   "block.factoryautomation.motor": "Motor",
   "block.factoryautomation.gearbox": "Gearbox",
