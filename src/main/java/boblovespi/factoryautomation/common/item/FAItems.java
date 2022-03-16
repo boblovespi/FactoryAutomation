@@ -54,6 +54,7 @@ public class FAItems
 	public static MultiTypeItem<Metals> coin;
 	public static MultiTypeItem<Metals> rod;
 	public static FAItem diamondCoin;
+	public static FAItem voidsteelIngot;
 
 	// metallurgy misc
 
@@ -96,7 +97,7 @@ public class FAItems
 	public static FAItem terraclayBrick;
 	public static FAItem plantFiber;
 	public static FAItem pigTallow;
-	public static FAItem voidsteelIngot;
+	public static FAItem tanbarkDust;
 
 	// crafting components
 
@@ -245,6 +246,7 @@ public class FAItems
 		terraclayBrick = new FABaseItem("terraclay_brick", FAItemGroups.resources);
 		plantFiber = new FABaseItem("plant_fiber", FAItemGroups.resources);
 		pigTallow = new FABaseItem("pig_tallow", FAItemGroups.resources);
+		tanbarkDust = new FABaseItem("tanbark_dust", FAItemGroups.resources);
 		voidsteelIngot = new FABaseItem("ingot_voidsteel", FAItemGroups.metallurgy);
 
 		// crafting components

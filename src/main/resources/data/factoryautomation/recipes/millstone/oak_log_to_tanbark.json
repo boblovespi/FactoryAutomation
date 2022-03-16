@@ -1,0 +1,9 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "item": "minecraft:oak_log"
+  },
+  "output": "factoryautomation:tanbark_dust",
+  "time": 50,
+  "torque": 10
+}

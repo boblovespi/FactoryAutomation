@@ -5,6 +5,7 @@
 - added model to bevel gear
 - added many recipes
 - added voidsteel tools
+- added tanbark dust
 - added iron splitter
 - changed machine recipes to use json recipes from datapacks
 - changed power shafts to break
