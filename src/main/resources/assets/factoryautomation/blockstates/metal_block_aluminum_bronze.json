@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "factoryautomation:block/metals/block_aluminum_bronze"
+    }
+  }
+}

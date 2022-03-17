@@ -7,10 +7,14 @@
 - added voidsteel tools
 - added tanbark dust
 - added iron splitter
+- added bronze and iron wrench
 - changed machine recipes to use json recipes from datapacks
 - changed power shafts to break
 - changed iron power shaft recipe (gives 6 to gives 3)
 - fixed flint rocks not having a texture in JADE
+- fixed brick casting vessel item model
+- fixed brick foundry multiblock model
+- fixed aluminum and aluminum bronze blocks not having textures
 ## Version 0.4.0 - beta
 - updated to Minecraft 1.18.1
 - changed a lot of other things, probably
