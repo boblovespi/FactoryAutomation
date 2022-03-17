@@ -155,6 +155,8 @@ public class FAItems
 	public static FAItem copperHammer;
 	public static FAItem ironHammer;
 	public static FAItem steelHammer;
+	public static FAItem ironWrench;
+	public static FAItem bronzeWrench;
 	public static FAItem steelWrench;
 	public static FAItem steelPinchers;
 	public static FAItem sandpaper;
@@ -305,7 +307,9 @@ public class FAItems
 		copperHammer = new Hammer("copper_hammer", 5, -3.7f, ToolMaterial.copperMaterial);
 		ironHammer = new Hammer("iron_hammer", 8, -3.7f, Tiers.IRON);
 		steelHammer = new Hammer("steel_hammer", 12, -3.7f, ToolMaterial.steelMaterial);
-		steelWrench = new Wrench("steel_wrench", 0, 0, ToolMaterial.steelMaterial);
+		ironWrench = new Wrench("iron_wrench", 2f, -2.9f, Tiers.IRON);
+		bronzeWrench = new Wrench("bronze_wrench", 2f, -2.9f, bronzeMaterial);
+		steelWrench = new Wrench("steel_wrench", 2f, -2.9f, ToolMaterial.steelMaterial);
 		steelPinchers = new WorkbenchToolItem(
 				"steel_pinchers", 0, 0, ToolMaterial.steelMaterial, FATags.NOTHING_TOOL, Prop());
 		sandpaper = new WorkbenchToolItem("sandpaper", 0, 0, Tiers.WOOD,FATags.NOTHING_TOOL, Prop());

@@ -1,0 +1,27 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["i i", "b b", "sss"],
+  "key": {
+    "b": {
+      "item": "minecraft:bricks"
+    },
+    "s": {
+      "item": "minecraft:brick_slab"
+    },
+    "i": {
+      "tag": "forge:plates/iron"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 15
+    }
+  },
+  "parts": {
+  },
+  "result": {
+    "item": "factoryautomation:brick_casting_vessel"
+  }
+}
