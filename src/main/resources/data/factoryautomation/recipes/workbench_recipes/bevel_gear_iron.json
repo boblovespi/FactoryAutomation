@@ -17,6 +17,10 @@
     "factoryautomation:hammer": {
       "tier": 1,
       "durabilityUse": 5
+    },
+    "factoryautomation:wrench": {
+      "tier": 1,
+      "durabilityUse": 5
     }
   },
   "parts": {

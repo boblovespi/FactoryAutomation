@@ -1,0 +1,10 @@
+{
+  "type": "factoryautomation:chopping_block",
+  "input": {
+    "item": "minecraft:grass"
+  },
+  "output": {
+    "item": "factoryautomation:plant_fiber",
+    "count": 2
+  }
+}

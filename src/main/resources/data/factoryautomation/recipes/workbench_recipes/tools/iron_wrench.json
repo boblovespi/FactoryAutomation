@@ -1,0 +1,23 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": [" i ", " ri", "r  "],
+  "key": {
+    "i": {
+      "tag": "forge:ingots/iron"
+    },
+    "r": {
+      "tag": "forge:rods/iron"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 1,
+      "durabilityUse": 1
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:iron_wrench"
+  }
+}

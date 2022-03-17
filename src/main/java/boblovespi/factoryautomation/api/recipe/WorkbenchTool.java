@@ -23,7 +23,9 @@ public class WorkbenchTool
 	public static final WorkbenchTool WRENCH = new WorkbenchTool(new ResourceLocation("factoryautomation", "wrench"),
 			new HashMap<Item, Integer>()
 			{{
-				put(FAItems.steelWrench.ToItem(), 2);
+				put(FAItems.ironWrench.ToItem(), 1);
+				put(FAItems.bronzeWrench.ToItem(), 2);
+				put(FAItems.steelWrench.ToItem(), 3);
 			}});
 	public static final WorkbenchTool PINCHERS = new WorkbenchTool(
 			new ResourceLocation("factoryautomation", "pinchers"), new HashMap<Item, Integer>()
