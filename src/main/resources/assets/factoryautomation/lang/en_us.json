@@ -73,7 +73,7 @@
   "block.factoryautomation.metal_block_silver": "Silver Block",
   "block.factoryautomation.metal_block_nickel": "Nickel Block",
   "block.factoryautomation.metal_block_aluminum": "Aluminum Block",
-  "block.factoryautomation.metal_block_aluminum_bronze": "Aluminum Bronze Metal_block",
+  "block.factoryautomation.metal_block_aluminum_bronze": "Aluminum Bronze Block",
   
   "block.factoryautomation.metal_plate_block_iron": "Iron Plate Block",
   "block.factoryautomation.metal_plate_block_gold": "Gold Plate Block",
@@ -176,6 +176,8 @@
   "item.factoryautomation.copper_hammer": "Copper Hammer",
   "item.factoryautomation.iron_hammer": "Iron Hammer",
   "item.factoryautomation.steel_hammer": "Steel Hammer",
+  "item.factoryautomation.iron_wrench": "Iron Wrench",
+  "item.factoryautomation.bronze_wrench": "Bronze Wrench",
   "item.factoryautomation.steel_wrench": "Steel Wrench",
   "item.factoryautomation.steel_pinchers": "Steel Pinchers",
   "item.factoryautomation.advanced_flint_and_steel": "Advanced flint and steel",
