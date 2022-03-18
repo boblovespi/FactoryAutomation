@@ -1,10 +1,10 @@
 {
   "variants": {
     "inverted=false": {
-      "model": "factoryautomation:block/empty"
+      "model": "factoryautomation:block/mechanical/hand_crank"
     },
     "inverted=true": {
-      "model": "factoryautomation:block/empty"
+      "model": "factoryautomation:block/mechanical/hand_crank"
     }
   }
 }

@@ -14,18 +14,23 @@ import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.FaceBakery;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
@@ -175,5 +180,15 @@ public class TESRUtils
 
 		}
 		matrix.popPose();
+	}
+
+	public static void RenderBlockModel(BlockRenderDispatcher dispatcher, BlockState state, PoseStack stack, MultiBufferSource buffer, int i1, int i2, IModelData modelData)
+	{
+		BakedModel bakedmodel = dispatcher.getBlockModel(state);
+		int i = Minecraft.getInstance().getBlockColors().getColor(state, null, null, 0);
+		float f = (float)(i >> 16 & 255) / 255.0F;
+		float f1 = (float)(i >> 8 & 255) / 255.0F;
+		float f2 = (float)(i & 255) / 255.0F;
+		dispatcher.getModelRenderer().renderModel(stack.last(), buffer.getBuffer(ItemBlockRenderTypes.getRenderType(state, false)), state, bakedmodel, f, f1, f2, i1, i2, modelData);
 	}
 }
