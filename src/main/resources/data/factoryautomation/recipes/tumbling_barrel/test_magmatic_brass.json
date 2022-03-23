@@ -1,0 +1,20 @@
+{
+  "type": "factoryautomation:tumbling_barrel",
+  "input": {
+    "tag": "forge:ingots/aluminum_bronze"
+  },
+  "inputFluid":
+  {
+    "fluid": "minecraft:lava",
+    "amount": 250
+  },
+  "output": {
+    "item": "factoryautomation:ingot_magmatic_brass"
+  },
+  "outputFluid":
+  {
+    "fluid": "minecraft:water",
+    "amount": 250
+  },
+  "time": 30
+}

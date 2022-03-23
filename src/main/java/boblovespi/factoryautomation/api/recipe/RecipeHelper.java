@@ -6,6 +6,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class RecipeHelper
@@ -61,5 +63,17 @@ public class RecipeHelper
 		{
 			buffer.writeItem(stack);
 		}
+	}
+
+	public static FluidStack GetFluidFromObject(JsonObject object, String key)
+	{
+		var fluidName = new ResourceLocation(object.getAsJsonObject(key).get("fluid").getAsString());
+		var fluid = ForgeRegistries.FLUIDS.getValue(fluidName);
+		if (fluid == null)
+			return FluidStack.EMPTY;
+		var amount = FluidAttributes.BUCKET_VOLUME;
+		if (object.getAsJsonObject(key).has("amount"))
+			amount = object.getAsJsonObject(key).get("amount").getAsInt();
+		return new FluidStack(fluid, amount);
 	}
 }

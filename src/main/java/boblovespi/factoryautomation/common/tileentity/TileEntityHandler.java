@@ -8,6 +8,7 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.*;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
 import boblovespi.factoryautomation.common.tileentity.processing.TETreetap;
+import boblovespi.factoryautomation.common.tileentity.processing.TETumblingBarrel;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEPaperBellows;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
@@ -71,6 +72,7 @@ public class TileEntityHandler
 	public static BlockEntityType<TEScrewPump> teScrewPump;
 	public static BlockEntityType<TEWoodenTank> teWoodenTank;
 	public static BlockEntityType<TESplitter> teSplitter;
+	public static BlockEntityType<TETumblingBarrel> teTumblingBarrel;
 
 	public static void RegisterTileEntities()
 	{
@@ -108,6 +110,7 @@ public class TileEntityHandler
 		teScrewPump = BuildType(TEScrewPump::new, FABlocks.screwPump, "screw_pump");
 		teWoodenTank = BuildType(TEWoodenTank::new, FABlocks.woodenTank, "wooden_tank");
 		teSplitter = BuildType(TESplitter::new, FABlocks.splitterIron, "splitter");
+		teTumblingBarrel = BuildType(TETumblingBarrel::new, FABlocks.tumblingBarrel, "tumbling_barrel");
 	}
 
 	private static <T extends BlockEntity> BlockEntityType<T> BuildType(BlockEntityType.BlockEntitySupplier<T> supplier,

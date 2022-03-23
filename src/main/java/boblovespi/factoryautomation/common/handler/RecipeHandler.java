@@ -354,6 +354,8 @@ public class RecipeHandler
 		CampfireRecipe.SERIALIZER.setRegistryName(MODID, "campfire");
 		event.getRegistry().register(CampfireRecipe.SERIALIZER);
 		TripHammerRecipe.SERIALIZER.setRegistryName(MODID, "trip_hammer");
-		event.getRegistry()	.register(TripHammerRecipe.SERIALIZER);
+		event.getRegistry().register(TripHammerRecipe.SERIALIZER);
+		TumblingBarrelRecipe.SERIALIZER.setRegistryName(MODID, "tumbling_barrel");
+		event.getRegistry().register(TumblingBarrelRecipe.SERIALIZER);
 	}
 }
