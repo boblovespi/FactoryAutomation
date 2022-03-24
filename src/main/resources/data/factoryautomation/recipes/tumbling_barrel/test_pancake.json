@@ -1,0 +1,15 @@
+{
+  "type": "factoryautomation:tumbling_barrel",
+  "input": {
+    "item": "factoryautomation:wheat_flour"
+  },
+  "inputFluid":
+  {
+    "fluid": "minecraft:water",
+    "amount": 100
+  },
+  "output": {
+    "item": "factoryautomation:pancake"
+  },
+  "time": 150
+}

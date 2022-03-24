@@ -23,5 +23,6 @@ public class GuiHandler
 		MenuScreens.register(ContainerStoneFoundry.TYPE, GuiStoneFoundry::new);
 		MenuScreens.register(ContainerStoneWorkbench.TYPE, GuiWorkbench::new);
 		MenuScreens.register(ContainerIronWorkbench.TYPE, GuiWorkbench::new);
+		MenuScreens.register(ContainerTumblingBarrel.TYPE, GuiTumblingBarrel::new);
 	}
 }

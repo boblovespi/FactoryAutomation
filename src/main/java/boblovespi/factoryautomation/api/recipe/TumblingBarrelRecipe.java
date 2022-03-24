@@ -127,9 +127,9 @@ public class TumblingBarrelRecipe implements IMachineRecipe
 		{
 			JsonElement element = GsonHelper.isArrayNode(json, "input") ? GsonHelper.getAsJsonArray(json, "input") : GsonHelper.getAsJsonObject(json, "input");
 			Ingredient input = Ingredient.fromJson(element);
-			ItemStack output = RecipeHelper.GetItemStackFromObject(json, "output");
-			FluidStack inputFluid = RecipeHelper.GetFluidFromObject(json, "inputFluid");
-			FluidStack outputFluid = RecipeHelper.GetFluidFromObject(json, "outputFluid");
+			ItemStack output = RecipeHelper.GetStackOrEmptyFromObject(json, "output");
+			FluidStack inputFluid = RecipeHelper.GetFluidOrEmptyFromObject(json, "inputFluid");
+			FluidStack outputFluid = RecipeHelper.GetFluidOrEmptyFromObject(json, "outputFluid");
 			int time = GsonHelper.getAsInt(json, "time");
 			return new TumblingBarrelRecipe(name.toString(), input, output, inputFluid, outputFluid, time);
 		}

@@ -24,5 +24,6 @@ public class ContainerManager
 		event.getRegistry().register(ContainerStoneFoundry.TYPE.setRegistryName(MODID, "stone_foundry"));
 		event.getRegistry().register(ContainerIronWorkbench.TYPE.setRegistryName(MODID, "iron_workbench"));
 		event.getRegistry().register(ContainerStoneWorkbench.TYPE.setRegistryName(MODID, "stone_workbench"));
+		event.getRegistry().register(ContainerTumblingBarrel.TYPE.setRegistryName(MODID, "tumbling_barrel"));
 	}
 }

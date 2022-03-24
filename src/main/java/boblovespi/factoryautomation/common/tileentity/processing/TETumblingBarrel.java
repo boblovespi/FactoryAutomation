@@ -3,13 +3,22 @@ package boblovespi.factoryautomation.common.tileentity.processing;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.TumblingBarrelRecipe;
+import boblovespi.factoryautomation.common.container.ContainerTumblingBarrel;
 import boblovespi.factoryautomation.common.tileentity.TEMachine;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import boblovespi.factoryautomation.common.util.RestrictedSlotItemHandler;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.capabilities.Capability;
@@ -22,16 +31,46 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.BitSet;
 import java.util.EnumSet;
 import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 
-public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe>
+public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements MenuProvider
 {
 	private final FluidTank input;
 	private final FluidTank output;
+	private final RestrictedSlotItemHandler inputWrapper;
+	private final RestrictedSlotItemHandler outputWrapper;
 	private final MechanicalUser user;
+	private final ContainerData containerData = new ContainerData()
+	{
+		@Override
+		public int get(int index)
+		{
+			return switch (index)
+						   {
+							   case 0 -> maxProgress;
+							   case 1 -> (int) currentProgress;
+							   case 2 -> input.getFluidAmount();
+							   case 3 -> output.getFluidAmount();
+							   default -> 0;
+						   };
+		}
+
+		@Override
+		public void set(int index, int val)
+		{
+
+		}
+
+		@Override
+		public int getCount()
+		{
+			return 4;
+		}
+	};
 
 	public TETumblingBarrel(BlockPos pos, BlockState state)
 	{
@@ -90,6 +129,14 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe>
 				level.sendBlockUpdated(worldPosition, state, state, 7);
 			}
 		};
+		inputWrapper = new RestrictedSlotItemHandler(new BitSet(2)
+		{{
+			set(0);
+		}}, processingInv);
+		outputWrapper = new RestrictedSlotItemHandler(new BitSet(2)
+		{{
+			set(1);
+		}}, processingInv);
 		Direction.Axis axis = state.getValue(BlockStateProperties.HORIZONTAL_AXIS);
 		user = new MechanicalUser(EnumSet.of(Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE), Direction.fromAxisAndDirection(axis, Direction.AxisDirection.NEGATIVE)));
 	}
@@ -196,11 +243,24 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe>
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
 	{
 		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return LazyOptional.of(() -> processingInv).cast();
+			return side == Direction.UP ? LazyOptional.of(() -> inputWrapper).cast() : LazyOptional.of(() -> outputWrapper).cast();
 		else if (cap == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> user).cast();
 		else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 			return side == Direction.DOWN ? LazyOptional.of(() -> output).cast() : LazyOptional.of(() -> input).cast();
 		return super.getCapability(cap, side);
+	}
+
+	@Override
+	public Component getDisplayName()
+	{
+		return new TextComponent("");
+	}
+
+	@Nullable
+	@Override
+	public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player)
+	{
+		return new ContainerTumblingBarrel(id, playerInv, processingInv, containerData, worldPosition);
 	}
 }

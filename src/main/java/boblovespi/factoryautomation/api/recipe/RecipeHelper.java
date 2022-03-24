@@ -76,4 +76,18 @@ public class RecipeHelper
 			amount = object.getAsJsonObject(key).get("amount").getAsInt();
 		return new FluidStack(fluid, amount);
 	}
+
+	public static ItemStack GetStackOrEmptyFromObject(JsonObject object, String key)
+	{
+		if (object.has(key))
+			return GetItemStackFromObject(object, key);
+		else return ItemStack.EMPTY;
+	}
+
+	public static FluidStack GetFluidOrEmptyFromObject(JsonObject object, String key)
+	{
+		if (object.has(key))
+			return GetFluidFromObject(object, key);
+		else return FluidStack.EMPTY;
+	}
 }

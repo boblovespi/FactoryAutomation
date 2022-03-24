@@ -1,0 +1,15 @@
+{
+  "type": "factoryautomation:tumbling_barrel",
+  "input": {
+    "item": "factoryautomation:coal_coke"
+  },
+  "inputFluid": {
+    "fluid": "minecraft:water",
+    "amount": 10
+  },
+  "outputFluid": {
+    "fluid": "factoryautomation:fa_steam_still",
+    "amount": 10
+  },
+  "time": 10
+}
