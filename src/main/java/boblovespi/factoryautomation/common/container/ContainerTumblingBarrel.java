@@ -7,10 +7,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistry;
 
 public class ContainerTumblingBarrel extends AbstractContainerMenu
 {
@@ -46,7 +49,7 @@ public class ContainerTumblingBarrel extends AbstractContainerMenu
 	// client-side constructor
 	public ContainerTumblingBarrel(int id, Inventory playerInv, FriendlyByteBuf extraData)
 	{
-		this(id, playerInv, new ItemStackHandler(2), new SimpleContainerData(4), extraData.readBlockPos());
+		this(id, playerInv, new ItemStackHandler(2), new SimpleContainerData(6), extraData.readBlockPos());
 	}
 
 	/**
@@ -98,5 +101,15 @@ public class ContainerTumblingBarrel extends AbstractContainerMenu
 	public int GetBar(int id)
 	{
 		return containerInfo.get(id);
+	}
+
+	public Fluid GetFluidIn()
+	{
+		return ((ForgeRegistry<Fluid>) ForgeRegistries.FLUIDS).getValue(containerInfo.get(4));
+	}
+
+	public Fluid GetFluidOut()
+	{
+		return ((ForgeRegistry<Fluid>) ForgeRegistries.FLUIDS).getValue(containerInfo.get(5));
 	}
 }

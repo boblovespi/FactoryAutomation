@@ -21,6 +21,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,6 +29,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -50,13 +53,15 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 		public int get(int index)
 		{
 			return switch (index)
-						   {
-							   case 0 -> maxProgress;
-							   case 1 -> (int) currentProgress;
-							   case 2 -> input.getFluidAmount();
-							   case 3 -> output.getFluidAmount();
-							   default -> 0;
-						   };
+			{
+				case 0 -> maxProgress;
+				case 1 -> (int) currentProgress;
+				case 2 -> input.getFluidAmount();
+				case 3 -> output.getFluidAmount();
+				case 4 -> ((ForgeRegistry<Fluid>) ForgeRegistries.FLUIDS).getID(input.getFluid().getFluid());
+				case 5 -> ((ForgeRegistry<Fluid>) ForgeRegistries.FLUIDS).getID(output.getFluid().getFluid());
+				default -> 0;
+			};
 		}
 
 		@Override
@@ -68,7 +73,7 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 		@Override
 		public int getCount()
 		{
-			return 4;
+			return 6;
 		}
 	};
 
@@ -138,7 +143,8 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 			set(1);
 		}}, processingInv);
 		Direction.Axis axis = state.getValue(BlockStateProperties.HORIZONTAL_AXIS);
-		user = new MechanicalUser(EnumSet.of(Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE), Direction.fromAxisAndDirection(axis, Direction.AxisDirection.NEGATIVE)));
+		user = new MechanicalUser(EnumSet.of(Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE),
+											 Direction.fromAxisAndDirection(axis, Direction.AxisDirection.NEGATIVE)));
 	}
 
 	@Nonnull
