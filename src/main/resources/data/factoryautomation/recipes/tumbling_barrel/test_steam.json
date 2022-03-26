@@ -11,5 +11,7 @@
     "fluid": "factoryautomation:fa_steam_still",
     "amount": 10
   },
-  "time": 10
+  "time": 10,
+  "minSpeed": 1,
+  "maxSpeed": 25
 }

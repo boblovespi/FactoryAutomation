@@ -29,11 +29,12 @@ public class TumblingBarrelRecipe implements IMachineRecipe
 	private FluidStack inputFluid;
 	private FluidStack outputFluid;
 	private int time;
+	private float minSpeed;
+	private float maxSpeed;
 	private ResourceLocation name;
 
 	public TumblingBarrelRecipe(String name, Ingredient input, ItemStack output, FluidStack inputFluid,
-								FluidStack outputFluid,
-								int time)
+								FluidStack outputFluid, int time, float minSpeed, float maxSpeed)
 	{
 		this.input = input;
 		this.output = output;
@@ -41,6 +42,8 @@ public class TumblingBarrelRecipe implements IMachineRecipe
 		this.outputFluid = outputFluid;
 		this.time = time;
 		this.name = new ResourceLocation(name);
+		this.minSpeed = minSpeed;
+		this.maxSpeed = maxSpeed;
 	}
 
 	@Override
@@ -120,6 +123,16 @@ public class TumblingBarrelRecipe implements IMachineRecipe
 		return time;
 	}
 
+	public float GetMinSpeed()
+	{
+		return minSpeed;
+	}
+
+	public float GetMaxSpeed()
+	{
+		return maxSpeed;
+	}
+
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<TumblingBarrelRecipe>
 	{
 		@Override
@@ -131,7 +144,9 @@ public class TumblingBarrelRecipe implements IMachineRecipe
 			FluidStack inputFluid = RecipeHelper.GetFluidOrEmptyFromObject(json, "inputFluid");
 			FluidStack outputFluid = RecipeHelper.GetFluidOrEmptyFromObject(json, "outputFluid");
 			int time = GsonHelper.getAsInt(json, "time");
-			return new TumblingBarrelRecipe(name.toString(), input, output, inputFluid, outputFluid, time);
+			var minSpeed = GsonHelper.getAsFloat(json, "minSpeed");
+			var maxSpeed = GsonHelper.getAsFloat(json, "maxSpeed");
+			return new TumblingBarrelRecipe(name.toString(), input, output, inputFluid, outputFluid, time, minSpeed, maxSpeed);
 		}
 
 		@Nullable
@@ -143,7 +158,9 @@ public class TumblingBarrelRecipe implements IMachineRecipe
 			FluidStack inputFluid = FluidStack.readFromPacket(buffer);
 			FluidStack outputFluid = FluidStack.readFromPacket(buffer);
 			int time = buffer.readVarInt();
-			return new TumblingBarrelRecipe(name.toString(), input, output, inputFluid, outputFluid, time);
+			var minSpeed = buffer.readFloat();
+			var maxSpeed = buffer.readFloat();
+			return new TumblingBarrelRecipe(name.toString(), input, output, inputFluid, outputFluid, time, minSpeed, maxSpeed);
 		}
 
 		@Override
@@ -154,6 +171,8 @@ public class TumblingBarrelRecipe implements IMachineRecipe
 			recipe.inputFluid.writeToPacket(buffer);
 			recipe.outputFluid.writeToPacket(buffer);
 			buffer.writeVarInt(recipe.time);
+			buffer.writeFloat(recipe.minSpeed);
+			buffer.writeFloat(recipe.maxSpeed);
 		}
 	}
 }

@@ -1,0 +1,17 @@
+{
+  "type": "factoryautomation:tumbling_barrel",
+  "input": {
+    "item": "factoryautomation:cleaned_leather"
+  },
+  "inputFluid":
+  {
+    "fluid": "factoryautomation:tannin_still",
+    "amount": 500
+  },
+  "output": {
+    "item": "factoryautomation:processed_leather"
+  },
+  "time": 500,
+  "minSpeed": 1,
+  "maxSpeed": 25
+}

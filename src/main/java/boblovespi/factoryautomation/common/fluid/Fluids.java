@@ -46,12 +46,18 @@ public class Fluids
 			FluidAttributes.builder(GetFluidPath("molten_nether_metal"), GetFluidPath("molten_nether_metal"))
 						   .density(5000).temperature(550).viscosity(88000));
 
+	public static FluidBase tannin = new FluidBase();
+	public static Properties tanninProperties = new Properties(Fluids.tannin::Still, Fluids.tannin::Flowing,
+			FluidAttributes.builder(GetFluidPath("tannin"), GetFluidPath("tannin"))
+																				  .density(5000).temperature(550).viscosity(88000));
+
 	static
 	{
 		steam.Update(MakeAndRegister("fa_steam", Fluids.steamProperties));
 		air.Update(MakeAndRegister("fa_air", Fluids.airProperties));
 		rubberSap.Update(MakeAndRegister("rubber_sap", Fluids.rubberSapProperties));
 		moltenNetherMetal.Update(MakeAndRegister("molten_nether_metal", Fluids.moltenNetherMetalProperties));
+		tannin.Update(MakeAndRegister("tannin", Fluids.tanninProperties));
 	}
 	private static final List<Fluid> fluids = new ArrayList<>();
 

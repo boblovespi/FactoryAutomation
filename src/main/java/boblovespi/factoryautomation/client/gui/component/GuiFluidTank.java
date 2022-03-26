@@ -53,7 +53,6 @@ public class GuiFluidTank
 		float alpha = (color >> 24 & 255) / 255.0F;
 		RenderSystem.setShaderColor(red, green, blue, alpha);
 		int curX = guiLeft + x, curY = guiTop + y + Mth.ceil(h * aPercentage), leftX = w, leftY = (int) (h * percentage);
-		int texW = sprite.getWidth(), texH = sprite.getHeight();
 		while (leftX > 0)
 		{
 			while (leftY > 0)

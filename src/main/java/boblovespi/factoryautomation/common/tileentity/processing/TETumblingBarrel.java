@@ -198,7 +198,11 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 	@Override
 	protected float GetProgressScalar()
 	{
-		return user.GetTorque() > 5f ? Mth.clamp(user.GetSpeed() / 10f, 0, 10) : 0;
+		var max = recipeCache.GetMaxSpeed();
+		var min = recipeCache.GetMinSpeed();
+		if (user.GetSpeed() > max || user.GetSpeed() < min)
+			return 0;
+		return user.GetTorque() > 5f ? Mth.clamp(user.GetSpeed() / 20f, min / 20f, max / 20f) : 0;
 	}
 
 	@Override

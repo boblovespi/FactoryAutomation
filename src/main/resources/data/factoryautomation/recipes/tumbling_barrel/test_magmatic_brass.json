@@ -16,5 +16,7 @@
     "fluid": "minecraft:water",
     "amount": 250
   },
-  "time": 30
+  "time": 30,
+  "minSpeed": 1,
+  "maxSpeed": 25
 }

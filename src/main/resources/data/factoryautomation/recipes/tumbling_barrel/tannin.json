@@ -1,17 +1,17 @@
 {
   "type": "factoryautomation:tumbling_barrel",
   "input": {
-    "item": "factoryautomation:wheat_flour"
+    "item": "factoryautomation:tanbark_dust"
   },
-  "inputFluid":
-  {
+  "inputFluid": {
     "fluid": "minecraft:water",
     "amount": 100
   },
-  "output": {
-    "item": "factoryautomation:pancake"
+  "outputFluid": {
+    "fluid": "factoryautomation:tannin_still",
+    "amount": 100
   },
-  "time": 150,
+  "time": 100,
   "minSpeed": 1,
   "maxSpeed": 25
 }
