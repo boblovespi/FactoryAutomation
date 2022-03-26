@@ -420,6 +420,7 @@
   "_comment": "gui",
   "gui.misc.temperature": "Temp",
   "gui.misc.efficiency": "Efficiency",
+  "gui.misc.millibucket": "%s mB",
   "gui.blast_furnace": "Blast Furnace",
   "gui.workbench": "Stone workbench",
   "gui.chopping_block": "Chopping Block",

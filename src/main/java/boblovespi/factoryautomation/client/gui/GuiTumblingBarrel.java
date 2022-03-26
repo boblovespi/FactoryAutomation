@@ -41,6 +41,8 @@ public class GuiTumblingBarrel extends AbstractContainerScreen<ContainerTumbling
 	protected void renderTooltip(PoseStack matrix, int mouseX, int mouseY)
 	{
 		super.renderTooltip(matrix, mouseX, mouseY);
+		input.RenderTooltip(this, matrix, mouseX, mouseY, menu.GetFluidIn(), menu.GetBar(2));
+		output.RenderTooltip(this, matrix, mouseX, mouseY, menu.GetFluidOut(), menu.GetBar(3));
 	}
 
 	@Override

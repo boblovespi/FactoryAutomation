@@ -5,11 +5,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.material.EmptyFluid;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 public class GuiFluidTank
 {
@@ -67,5 +74,13 @@ public class GuiFluidTank
 		RenderSystem.setShaderTexture(0, guiTexture);
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		gauge.Draw(gui, matrix, percentage);
+	}
+
+	public void RenderTooltip(AbstractContainerScreen<?> gui, PoseStack matrix, int mouseX, int mouseY, Fluid fluid, int amount)
+	{
+		if (mouseX >= x + gui.getGuiLeft() && mouseX <= x + gui.getGuiLeft() + w && mouseY >= y + gui.getGuiTop() && mouseY <= y + gui.getGuiTop() + h)
+		{
+			gui.renderComponentTooltip(matrix, List.of(fluid.getAttributes().getDisplayName(FluidStack.EMPTY), new TranslatableComponent("gui.misc.millibucket", amount)), mouseX, mouseY);
+		}
 	}
 }
