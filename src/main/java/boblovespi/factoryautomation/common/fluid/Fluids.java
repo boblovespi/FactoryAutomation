@@ -49,7 +49,11 @@ public class Fluids
 	public static FluidBase tannin = new FluidBase();
 	public static Properties tanninProperties = new Properties(Fluids.tannin::Still, Fluids.tannin::Flowing,
 			FluidAttributes.builder(GetFluidPath("tannin"), GetFluidPath("tannin"))
-																				  .density(5000).temperature(550).viscosity(88000));
+																				  .density(5000).temperature(300).viscosity(88000));
+	public static FluidBase limewater = new FluidBase();
+	public static Properties limewaterProperties = new Properties(Fluids.limewater::Still, Fluids.limewater::Flowing,
+															   FluidAttributes.builder(GetFluidPath("limewater"), GetFluidPath("limewater"))
+																	   .density(5000).temperature(300).viscosity(88000));
 
 	static
 	{
@@ -58,6 +62,7 @@ public class Fluids
 		rubberSap.Update(MakeAndRegister("rubber_sap", Fluids.rubberSapProperties));
 		moltenNetherMetal.Update(MakeAndRegister("molten_nether_metal", Fluids.moltenNetherMetalProperties));
 		tannin.Update(MakeAndRegister("tannin", Fluids.tanninProperties));
+		limewater.Update(MakeAndRegister("limewater", Fluids.limewaterProperties));
 	}
 	private static final List<Fluid> fluids = new ArrayList<>();
 

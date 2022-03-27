@@ -9,6 +9,9 @@
 - added iron splitter
 - added bronze and iron wrench
 - added recipe for brick casting vessel
+- added tumbling barrel
+- added leather processing
+- added quicklime production
 - changed machine recipes to use json recipes from datapacks
 - changed power shafts to break
 - changed iron power shaft recipe (gives 6 to gives 3)

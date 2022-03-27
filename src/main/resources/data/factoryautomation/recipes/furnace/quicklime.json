@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:dusts/calcium_carbonate"
+  },
+  "result": "factoryautomation:quicklime",
+  "experience": 1.0,
+  "cookingtime": 200
+}

@@ -98,6 +98,8 @@ public class FAItems
 	public static FAItem plantFiber;
 	public static FAItem pigTallow;
 	public static FAItem tanbarkDust;
+	public static FAItem calciteDust;
+	public static FAItem quicklime;
 	public static FAItem cleanedLeather;
 	public static FAItem processedLeather;
 
@@ -251,6 +253,8 @@ public class FAItems
 		plantFiber = new FABaseItem("plant_fiber", FAItemGroups.resources);
 		pigTallow = new FABaseItem("pig_tallow", FAItemGroups.resources);
 		tanbarkDust = new FABaseItem("tanbark_dust", FAItemGroups.resources);
+		calciteDust = new FABaseItem("calcite_dust", FAItemGroups.resources);
+		quicklime = new FABaseItem("quicklime", FAItemGroups.resources);
 		cleanedLeather = new FABaseItem("cleaned_leather", FAItemGroups.resources);
 		processedLeather = new FABaseItem("processed_leather", FAItemGroups.resources);
 		voidsteelIngot = new FABaseItem("ingot_voidsteel", FAItemGroups.metallurgy);

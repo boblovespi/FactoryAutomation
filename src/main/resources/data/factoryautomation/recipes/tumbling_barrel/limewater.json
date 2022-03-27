@@ -1,17 +1,17 @@
 {
   "type": "factoryautomation:tumbling_barrel",
   "input": {
-    "item": "factoryautomation:tanbark_dust"
+    "item": "factoryautomation:quicklime"
   },
   "inputFluid": {
     "fluid": "minecraft:water",
-    "amount": 100
+    "amount": 250
   },
   "outputFluid": {
-    "fluid": "factoryautomation:tannin_still",
-    "amount": 100
+    "fluid": "factoryautomation:limewater_still",
+    "amount": 250
   },
-  "time": 200,
+  "time": 250,
   "minSpeed": 1,
   "maxSpeed": 25
 }

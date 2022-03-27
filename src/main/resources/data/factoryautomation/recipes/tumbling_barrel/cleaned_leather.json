@@ -1,15 +1,15 @@
 {
   "type": "factoryautomation:tumbling_barrel",
   "input": {
-    "item": "factoryautomation:cleaned_leather"
+    "item": "minecraft:leather"
   },
   "inputFluid":
   {
-    "fluid": "factoryautomation:tannin_still",
+    "fluid": "factoryautomation:limewater_still",
     "amount": 500
   },
   "output": {
-    "item": "factoryautomation:processed_leather"
+    "item": "factoryautomation:cleaned_leather"
   },
   "time": 1000,
   "minSpeed": 1,

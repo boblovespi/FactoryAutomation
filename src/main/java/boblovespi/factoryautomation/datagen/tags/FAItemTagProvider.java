@@ -35,6 +35,8 @@ public class FAItemTagProvider extends ItemTagsProvider
 		tag(FATags.CreateForgeItemTag("dusts/stone")).add(FAItems.stoneDust.ToItem());
 		tag(FATags.CreateForgeItemTag("dusts/ash")).add(FAItems.ash.ToItem());
 		tag(FATags.CreateForgeItemTag("dusts/acid")).add(FAItems.acidPowder.ToItem());
+		tag(FATags.CreateForgeItemTag("dusts/calcium_carbonate")).add(FAItems.calciteDust.ToItem());
+		tag(FATags.CreateForgeItemTag("dusts/quicklime")).add(FAItems.quicklime.ToItem());
 		tag(FATags.CreateForgeItemTag("bowls/glycerin")).add(FAItems.liquidGlycerin.ToItem());
 		tag(FATags.CreateForgeItemTag("glycerin")).add(FAItems.dryGlycerin.ToItem());
 		tag(FATags.CreateForgeItemTag("ingots/rubber")).add(FAItems.rubber.ToItem());

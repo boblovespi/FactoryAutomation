@@ -136,11 +136,11 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 		};
 		inputWrapper = new RestrictedSlotItemHandler(new BitSet(2)
 		{{
-			set(0);
+			set(1);
 		}}, processingInv);
 		outputWrapper = new RestrictedSlotItemHandler(new BitSet(2)
 		{{
-			set(1);
+			set(0);
 		}}, processingInv);
 		Direction.Axis axis = state.getValue(BlockStateProperties.HORIZONTAL_AXIS);
 		user = new MechanicalUser(EnumSet.of(Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE),
@@ -253,7 +253,7 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
 	{
 		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-			return side == Direction.UP ? LazyOptional.of(() -> inputWrapper).cast() : LazyOptional.of(() -> outputWrapper).cast();
+			return side == Direction.DOWN ? LazyOptional.of(() -> outputWrapper).cast() : LazyOptional.of(() -> inputWrapper).cast();
 		else if (cap == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> user).cast();
 		else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
