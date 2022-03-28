@@ -7,6 +7,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 
 /**
@@ -25,6 +26,8 @@ public class WorkbenchToolItem extends DiggerItem implements FAItem
 		setRegistryName(RegistryName() == null ? UnlocalizedName() : RegistryName());
 		// setCreativeTab(FAItemGroups.tools);
 		FAItems.items.add(this);
+		if (material == Tiers.IRON)
+			maxDamage = 320;
 	}
 
 	public WorkbenchToolItem(String name, float damage, float speed, Tier material, Properties properties,

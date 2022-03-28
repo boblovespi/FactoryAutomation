@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TECreativeMechanicalSource;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import boblovespi.factoryautomation.common.util.FATags;

@@ -1,13 +1,13 @@
 {
   "type": "factoryautomation:workbench_shaped",
   "tier": 1,
-  "pattern": ["igi", "gsi", "iii"],
+  "pattern": ["i i", "rbr", "i i"],
   "key": {
-    "s": {
+    "r": {
       "tag": "forge:rods/iron"
     },
-    "g": {
-      "tag": "forge:gears/iron"
+    "b": {
+      "item": "factoryautomation:wooden_tank"
     },
     "i": {
       "tag": "forge:ingots/iron"
@@ -15,7 +15,7 @@
   },
   "tools": {
     "factoryautomation:hammer": {
-      "tier": 2,
+      "tier": 1,
       "durabilityUse": 5
     },
     "factoryautomation:wrench": {
@@ -30,7 +30,7 @@
     }
   },
   "result": {
-    "item": "factoryautomation:bevel_gear",
-    "count": 2
+    "item": "factoryautomation:tumbling_barrel",
+    "count": 1
   }
 }

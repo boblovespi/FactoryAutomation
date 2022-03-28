@@ -25,7 +25,7 @@
   },
   "tools": {
     "factoryautomation:hammer": {
-      "tier": 1,
+      "tier": 2,
       "durabilityUse": 25
     },
     "factoryautomation:wrench": {

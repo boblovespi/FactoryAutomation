@@ -9,7 +9,7 @@
   },
   "tools": {
     "factoryautomation:hammer": {
-      "tier": 1,
+      "tier": 2,
       "durabilityUse": 5
     }
   },

@@ -17,8 +17,8 @@ public class WorkbenchTool
 			new HashMap<Item, Integer>()
 			{{
 				put(FAItems.copperHammer.ToItem(), 1);
-				put(FAItems.ironHammer.ToItem(), 1);
-				put(FAItems.steelHammer.ToItem(), 2);
+				put(FAItems.ironHammer.ToItem(), 2);
+				put(FAItems.steelHammer.ToItem(), 3);
 			}});
 	public static final WorkbenchTool WRENCH = new WorkbenchTool(new ResourceLocation("factoryautomation", "wrench"),
 			new HashMap<Item, Integer>()

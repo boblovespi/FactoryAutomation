@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
+import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
 import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.resources.ResourceLocation;
