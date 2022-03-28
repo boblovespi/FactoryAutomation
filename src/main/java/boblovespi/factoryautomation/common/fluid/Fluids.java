@@ -1,7 +1,7 @@
 package boblovespi.factoryautomation.common.fluid;
 
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fluids.ForgeFlowingFluid.Properties;
@@ -11,7 +11,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -24,6 +23,8 @@ public class Fluids
 {
 	public static final DeferredRegister<Fluid> FLUID_REGISTER = DeferredRegister.create(ForgeRegistries.FLUIDS, MODID);
 	// public static Fluid sodiumChloride = new FluidBase("sodium_chloride", null, null);
+	private static final ResourceLocation waterStill = new ResourceLocation("minecraft", "block/water_still");
+	private static final ResourceLocation waterFlowing = new ResourceLocation("minecraft", "block/water_flow");
 
 	public static FluidBase steam = new FluidBase();
 	public static Properties steamProperties = new Properties(Fluids.steam::Still, Fluids.steam::Flowing,
@@ -47,13 +48,12 @@ public class Fluids
 						   .density(5000).temperature(550).viscosity(88000));
 
 	public static FluidBase tannin = new FluidBase();
-	public static Properties tanninProperties = new Properties(Fluids.tannin::Still, Fluids.tannin::Flowing,
-			FluidAttributes.builder(GetFluidPath("tannin"), GetFluidPath("tannin"))
-																				  .density(5000).temperature(300).viscosity(88000));
+	public static Properties tanninProperties = new Properties(Fluids.tannin::Still, Fluids.tannin::Flowing, FluidAttributes.builder(waterStill, waterFlowing)
+			.density(1000).temperature(300).viscosity(1000).color(0xFF6E4434));
+
 	public static FluidBase limewater = new FluidBase();
-	public static Properties limewaterProperties = new Properties(Fluids.limewater::Still, Fluids.limewater::Flowing,
-															   FluidAttributes.builder(GetFluidPath("limewater"), GetFluidPath("limewater"))
-																	   .density(5000).temperature(300).viscosity(88000));
+	public static Properties limewaterProperties = new Properties(Fluids.limewater::Still, Fluids.limewater::Flowing, FluidAttributes.builder(waterStill, waterFlowing)
+			.density(1000).temperature(300).viscosity(1000).color(0xFFF3F0DE));
 
 	static
 	{

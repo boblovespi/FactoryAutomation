@@ -3,7 +3,10 @@
   "input": {
     "item": "minecraft:calcite"
   },
-  "output": "factoryautomation:calcite_dust",
+  "output": {
+    "item": "factoryautomation:calcite_dust",
+    "count": 2
+  },
   "time": 50,
   "torque": 10
 }

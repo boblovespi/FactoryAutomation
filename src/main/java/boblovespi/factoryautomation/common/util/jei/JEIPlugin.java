@@ -1,10 +1,7 @@
 package boblovespi.factoryautomation.common.util.jei;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.api.recipe.ChoppingBlockRecipe;
-import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
-import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
-import boblovespi.factoryautomation.api.recipe.WorkbenchRecipeHandler;
+import boblovespi.factoryautomation.api.recipe.*;
 import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.jei.categories.*;
@@ -61,6 +58,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipeCategories(new SteelmakingRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new ChoppingBlockRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new BrickMakerRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new MillstoneRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -73,6 +71,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipes(JawCrusherRecipe.GetRecipes(), JawCrusherRecipeCategory.ID);
 		registry.addRecipes(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(ChoppingBlockRecipe.TYPE), ChoppingBlockRecipeCategory.ID);
 		registry.addRecipes(Collections.singletonList(new BrickMakerRecipeWrapper()), BrickMakerRecipeCategory.ID);
+		registry.addRecipes(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(MillstoneRecipe.TYPE), MillstoneRecipeCategory.ID);
 		RegisterDescriptions(registry);
 	}
 
@@ -104,5 +103,6 @@ public class JEIPlugin implements IModPlugin
 			registry.addRecipeCatalyst(new ItemStack(choppingBlock.ToBlock()), ChoppingBlockRecipeCategory.ID);
 		}
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.brickMakerFrame), BrickMakerRecipeCategory.ID);
+		registry.addRecipeCatalyst(new ItemStack(FABlocks.millstone), MillstoneRecipeCategory.ID);
 	}
 }

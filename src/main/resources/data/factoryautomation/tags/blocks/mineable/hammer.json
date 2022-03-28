@@ -3,6 +3,7 @@
   "values": [
     "minecraft:stone",
     "factoryautomation:iron_bloom",
-    "minecraft:cobblestone"
+    "minecraft:cobblestone",
+    "minecraft:calcite"
   ]
 }

@@ -132,7 +132,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 	protected float GetProgressScalar()
 	{
 		if (mechanicalUser.GetTorque() >= recipeCache.GetTorque())
-			return Mth.clamp(mechanicalUser.GetSpeed() / 10f, 0, 10);
+			return Mth.clamp(mechanicalUser.GetSpeed() / 20f, 0, 20);
 		else
 			return 0;
 	}

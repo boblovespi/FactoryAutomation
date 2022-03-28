@@ -3,6 +3,7 @@ package boblovespi.factoryautomation.client.gui.component;
 import boblovespi.factoryautomation.client.gui.GuiUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -77,7 +78,7 @@ public class GuiFluidTank
 	{
 		if (mouseX >= x + gui.getGuiLeft() && mouseX <= x + gui.getGuiLeft() + w && mouseY >= y + gui.getGuiTop() && mouseY <= y + gui.getGuiTop() + h)
 		{
-			gui.renderComponentTooltip(matrix, List.of(fluid.getAttributes().getDisplayName(FluidStack.EMPTY), new TranslatableComponent("gui.misc.millibucket", amount)), mouseX, mouseY);
+			gui.renderComponentTooltip(matrix, List.of(fluid.getAttributes().getDisplayName(FluidStack.EMPTY), new TranslatableComponent("gui.misc.millibucket", amount).withStyle(ChatFormatting.GRAY)), mouseX, mouseY);
 		}
 	}
 }
