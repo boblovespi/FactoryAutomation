@@ -111,13 +111,12 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 			}
 		}
 
-		Iterator<Map.Entry<WorkbenchTool.Instance, Integer>> tools = recipe.GetToolDurabilityUsage().entrySet()
-																		   .iterator();
+		Iterator<Map.Entry<WorkbenchTool.Instance, Integer>> tools = recipe.GetToolDurabilityUsage().entrySet().iterator();
 		int y = 2;
 		while (tools.hasNext())
 		{
 			Map.Entry<WorkbenchTool.Instance, Integer> next = tools.next();
-			gui.set(y, next.getKey().GetTool().GetItems().keySet().stream().map(n -> {
+			gui.set(y, next.getKey().GetTool().GetItems().entrySet().stream().filter(n -> n.getValue() >= next.getKey().tier).map(Map.Entry::getKey).map(n -> {
 				ItemStack itemStack = new ItemStack(n, 1);
 				itemStack.setDamageValue(next.getValue());
 				return itemStack;
@@ -130,9 +129,8 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 		while (parts.hasNext())
 		{
 			Map.Entry<WorkbenchPart.Instance, Integer> next = parts.next();
-			gui.set(
-					y, next.getKey().GetPart().GetItems().keySet().stream().map(n -> new ItemStack(n, next.getValue()))
-						   .collect(Collectors.toList()));
+			gui.set(y, next.getKey().GetPart().GetItems().entrySet().stream().filter(n -> n.getValue() >= next.getKey().tier)
+					.map(Map.Entry::getKey).map(n -> new ItemStack(n, next.getValue())).collect(Collectors.toList()));
 			y++;
 		}
 
