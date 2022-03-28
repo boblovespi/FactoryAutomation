@@ -59,6 +59,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipeCategories(new ChoppingBlockRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new BrickMakerRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new MillstoneRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new TumblingBarrelRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -72,6 +73,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipes(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(ChoppingBlockRecipe.TYPE), ChoppingBlockRecipeCategory.ID);
 		registry.addRecipes(Collections.singletonList(new BrickMakerRecipeWrapper()), BrickMakerRecipeCategory.ID);
 		registry.addRecipes(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(MillstoneRecipe.TYPE), MillstoneRecipeCategory.ID);
+		registry.addRecipes(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(TumblingBarrelRecipe.TYPE), TumblingBarrelRecipeCategory.ID);
 		RegisterDescriptions(registry);
 	}
 
@@ -104,5 +106,6 @@ public class JEIPlugin implements IModPlugin
 		}
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.brickMakerFrame), BrickMakerRecipeCategory.ID);
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.millstone), MillstoneRecipeCategory.ID);
+		registry.addRecipeCatalyst(new ItemStack(FABlocks.tumblingBarrel), TumblingBarrelRecipeCategory.ID);
 	}
 }

@@ -492,6 +492,7 @@
   "jei.brick_maker": "Brick Maker Frame",
   "jei.chopping_block": "Chopping Block",
   "jei.withTorqueAndTime": "%2$s s @ %1$s Nm",
+  "jei.minMaxSpeed": "%s - %s rad/s",
   
   "_comment": "music discs",
   "item.factoryautomation.disc_factory": "Music Disc",
