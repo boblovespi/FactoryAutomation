@@ -60,8 +60,12 @@ public class PaperBellows extends FABaseBlock implements EntityBlock
 			InteractionHand hand, BlockHitResult hit)
 	{
 		BlockEntity te = world.getBlockEntity(pos);
-		if (te instanceof TEPaperBellows)
-			((TEPaperBellows) te).Blow();
+		if (te instanceof TEPaperBellows bellows)
+		{
+			bellows.Blow();
+			if (!world.isClientSide)
+				player.causeFoodExhaustion(0.8f);
+		}
 		world.playSound(player, pos, SoundEvents.ENDER_DRAGON_FLAP, SoundSource.BLOCKS, 0.8f, 1.5f);
 		return InteractionResult.SUCCESS;
 	}

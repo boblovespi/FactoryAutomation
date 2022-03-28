@@ -16,6 +16,7 @@
 - changed power shafts to break
 - changed iron power shaft recipe (gives 6 to gives 3)
 - changed tier of iron hammer and steel hammer (1 -> 2, 2 -> 3) and recipes to match
+- changed paper bellows to require hunger
 - fixed flint rocks not having a texture in JADE
 - fixed brick casting vessel item model
 - fixed brick foundry multiblock model

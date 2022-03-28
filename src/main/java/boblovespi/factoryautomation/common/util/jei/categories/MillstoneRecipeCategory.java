@@ -103,7 +103,7 @@ public class MillstoneRecipeCategory implements IRecipeCategory<MillstoneRecipe>
 	public void draw(MillstoneRecipe recipe, PoseStack stack, double mouseX, double mouseY)
 	{
 		IRecipeCategory.super.draw(recipe, stack, mouseX, mouseY);
-		var text = new TranslatableComponent("jei.withTorqueAndTime", recipe.GetTorque(), recipe.GetTime()).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY);
+		var text = new TranslatableComponent("jei.with_torque_and_time", recipe.GetTorque(), recipe.GetTime()).withStyle(ChatFormatting.DARK_GRAY);
 		Minecraft.getInstance().font.draw(stack, text, 54 - u, 60 - v - 1, 1);
 	}
 }

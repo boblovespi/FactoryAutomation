@@ -105,8 +105,8 @@ public class TumblingBarrelRecipeCategory extends AbstractMachineRecipeCategory<
 	public void draw(TumblingBarrelRecipe recipe, PoseStack stack, double mouseX, double mouseY)
 	{
 		super.draw(recipe, stack, mouseX, mouseY);
-		var text = new TranslatableComponent("jei.minMaxSpeed", recipe.GetMinSpeed(), recipe.GetMaxSpeed()).withStyle(ChatFormatting.ITALIC)
-				.withStyle(ChatFormatting.GRAY);
+		var text = new TranslatableComponent("jei.min_max_speed", recipe.GetMinSpeed(), recipe.GetMaxSpeed())
+				.withStyle(ChatFormatting.DARK_GRAY);
 		Minecraft.getInstance().font.draw(stack, text, 54 - u, 60 - v - 1, 1);
 	}
 }

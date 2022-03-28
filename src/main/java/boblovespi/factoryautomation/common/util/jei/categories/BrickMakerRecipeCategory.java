@@ -27,7 +27,7 @@ import java.util.List;
 public class BrickMakerRecipeCategory implements IRecipeCategory<BrickMakerRecipeWrapper>
 {
 	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "brick_maker");
-	private static final MutableComponent text = new TextComponent("150 seconds").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY);
+	private static final MutableComponent text = new TextComponent("150 seconds").withStyle(ChatFormatting.DARK_GRAY);
 	private static final int u = 54;
 	private static final int v = 16;
 	private final IGuiHelper guiHelper;

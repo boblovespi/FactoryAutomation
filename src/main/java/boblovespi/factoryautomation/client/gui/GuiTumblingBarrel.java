@@ -48,7 +48,7 @@ public class GuiTumblingBarrel extends AbstractContainerScreen<ContainerTumbling
 	@Override
 	protected void renderLabels(PoseStack matrix, int mouseX, int mouseY)
 	{
-		drawCenteredString(matrix, minecraft.font, "Tumbling Barrel", 56, 6, 180 + 100 * 256 + 100 * 256 * 256);
+		drawCenteredString(matrix, minecraft.font, "Tumbling Barrel", 76, 6, 180 + 100 * 256 + 100 * 256 * 256);
 		font.draw(matrix, playerInventoryTitle, 100, this.imageHeight - 96 + 2, 4210752);
 	}
 

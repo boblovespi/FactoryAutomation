@@ -491,12 +491,28 @@
   "jei.workbench": "Workbench",
   "jei.brick_maker": "Brick Maker Frame",
   "jei.chopping_block": "Chopping Block",
-  "jei.withTorqueAndTime": "%2$s s @ %1$s Nm",
-  "jei.minMaxSpeed": "%s - %s rad/s",
+  "jei.with_torque_and_time": "%2$s s @ %1$s Nm",
+  "jei.min_max_speed": "%s - %s rad/s",
   
   "_comment": "music discs",
   "item.factoryautomation.disc_factory": "Music Disc",
   "item.factoryautomation.disc_factory.desc": "idk - Factory",
   "item.factoryautomation.disc_meter": "Music Disc",
-  "item.factoryautomation.disc_meter.desc": "boblovespi - Meter"
+  "item.factoryautomation.disc_meter.desc": "boblovespi - Meter",
+  
+  "_comment": "metal names",
+  "metal.iron.name": "Iron",
+  "metal.gold.name": "Gold",
+  "metal.copper.name": "Copper",
+  "metal.tin.name": "Tin",
+  "metal.bronze.name": "Bronze",
+  "metal.steel.name": "Steel",
+  "metal.pig_iron.name": "Pig Iron",
+  "metal.magmatic_brass.name": "Magmatic Brass",
+  "metal.silver.name": "Silver",
+  "metal.Lead.name": "lead",
+  "metal.nickel.name": "Nickel",
+  "metal.aluminum.name": "Aluminum",
+  "metal.aluminum_bronze.name": "Aluminum Bronze",
+  "metal.unknown.name": "Unknown"
 }
