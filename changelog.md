@@ -15,10 +15,12 @@
 - changed machine recipes to use json recipes from datapacks
 - changed power shafts to break
 - changed iron power shaft recipe (gives 6 to gives 3)
+- changed tier of iron hammer and steel hammer (1 -> 2, 2 -> 3) and recipes to match
 - fixed flint rocks not having a texture in JADE
 - fixed brick casting vessel item model
 - fixed brick foundry multiblock model
 - fixed aluminum and aluminum bronze blocks not having textures
+- fixed workbench JEI displaying tools of incorrect tier
 ## Version 0.4.0 - beta
 - updated to Minecraft 1.18.1
 - changed a lot of other things, probably
