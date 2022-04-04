@@ -79,6 +79,6 @@ public class PollutionCapabilityProvider implements ICapabilityProvider
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing)
 	{
 		//noinspection unchecked
-		return capability == POLLUTED_CHUNK_CAPABILITY ? LazyOptional.of(() -> (T) cap) : null;
+		return capability == POLLUTED_CHUNK_CAPABILITY ? LazyOptional.of(() -> cap).cast() : LazyOptional.empty();
 	}
 }

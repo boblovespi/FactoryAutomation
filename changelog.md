@@ -22,6 +22,7 @@
 - fixed brick foundry multiblock model
 - fixed aluminum and aluminum bronze blocks not having textures
 - fixed workbench JEI displaying tools of incorrect tier
+- fixed pollution capability provider returning null
 ## Version 0.4.0 - beta
 - updated to Minecraft 1.18.1
 - changed a lot of other things, probably
