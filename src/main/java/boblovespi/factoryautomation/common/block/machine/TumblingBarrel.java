@@ -43,7 +43,7 @@ public class TumblingBarrel extends FABaseBlock implements EntityBlock
 
 	public TumblingBarrel()
 	{
-		super("tumbling_barrel", false, BlockBehaviour.Properties.of(Material.WOOD).strength(1.5f),
+		super("tumbling_barrel", false, BlockBehaviour.Properties.of(Material.WOOD).strength(1.5f).requiresCorrectToolForDrops(),
 			  new Item.Properties().tab(FAItemGroups.fluid));
 		TileEntityHandler.tiles.add(TETumblingBarrel.class);
 		registerDefaultState(stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_AXIS, Direction.Axis.X));

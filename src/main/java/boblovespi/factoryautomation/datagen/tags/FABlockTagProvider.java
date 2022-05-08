@@ -68,7 +68,7 @@ public class FABlockTagProvider extends BlockTagsProvider
 				.add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock(), FABlocks.brickFirebox.ToBlock(), FABlocks.brickCrucible.ToBlock())
 				.add(FABlocks.stoneCastingVessel.ToBlock(), FABlocks.stoneCrucible.ToBlock(), FABlocks.powerShaft.ToBlock());
 		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame.ToBlock(), FABlocks.logPile.ToBlock()).add(FABlocks.woodChoppingBlocks.stream().map(FABlock::ToBlock).toArray(Block[]::new))
-				.add(FABlocks.campfire.ToBlock(), FABlocks.powerShaftWood.ToBlock(), FABlocks.woodenTank.ToBlock());
+				.add(FABlocks.campfire.ToBlock(), FABlocks.powerShaftWood.ToBlock(), FABlocks.woodenTank.ToBlock(), FABlocks.tumblingBarrel.ToBlock());
 		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(FABlocks.charcoalPile.ToBlock()).add(FABlocks.ironCharcoalMix.ToBlock()).add(FABlocks.greenSand.ToBlock()).add(FABlocks.terraclayBlock.ToBlock());
 		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom.ToBlock()).add(Blocks.COBBLESTONE).add(Blocks.CALCITE);
 		tag(FATags.NEEDS_FLINT_TOOL);
