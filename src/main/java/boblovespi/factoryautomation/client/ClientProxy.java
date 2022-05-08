@@ -7,6 +7,8 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
@@ -48,6 +50,10 @@ public class ClientProxy implements CommonProxy
 		BlockEntityRenderers.register(TileEntityHandler.teLeatherBellows, TESRBellows.Leather::new);
 		BlockEntityRenderers.register(TileEntityHandler.teBevelGear, TESRBevelGear::new);
 		BlockEntityRenderers.register(TileEntityHandler.teTripHammerController, TESRTripHammer::new);
+		BlockEntityRenderers.register(TileEntityHandler.teTumblingBarrel, TESRTumblingBarrel::new);
+
+		// block render layers
+		ItemBlockRenderTypes.setRenderLayer(FABlocks.bevelGear.ToBlock(), RenderType.cutoutMipped());
 	}
 
 	@Override

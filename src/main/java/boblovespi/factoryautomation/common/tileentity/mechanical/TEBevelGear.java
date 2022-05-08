@@ -123,7 +123,7 @@ public class TEBevelGear extends BlockEntity implements ITickable
 	{
 		if (capability == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> (T) user);
-		return null;
+		return LazyOptional.empty();
 	}
 
 	@Nullable

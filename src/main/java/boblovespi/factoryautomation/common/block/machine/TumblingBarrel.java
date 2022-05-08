@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -25,12 +26,21 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
 public class TumblingBarrel extends FABaseBlock implements EntityBlock
 {
+	private static final VoxelShape BOUNDING_BOX = Shapes.or(Block.box(2, 4, 2, 14, 16, 14),
+															 Block.box(14, 7, 5, 16, 13, 11),
+															 Block.box(14, 0, 6, 16, 7, 10),
+															 Block.box(0, 7, 5, 2, 13, 11),
+															 Block.box(0, 0, 6, 2, 7, 10));
+
 	public TumblingBarrel()
 	{
 		super("tumbling_barrel", false, BlockBehaviour.Properties.of(Material.WOOD).strength(1.5f),
@@ -57,6 +67,12 @@ public class TumblingBarrel extends FABaseBlock implements EntityBlock
 		if (!world.isClientSide)
 			NetworkHooks.openGui((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 		return InteractionResult.SUCCESS;
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
+	{
+		return BOUNDING_BOX;
 	}
 
 	@Nullable

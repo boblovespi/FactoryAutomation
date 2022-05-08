@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.tileentity.processing;
 
+import boblovespi.factoryautomation.api.energy.EnergyConstants;
 import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.MechanicalUser;
 import boblovespi.factoryautomation.api.recipe.TumblingBarrelRecipe;
@@ -32,6 +33,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nonnull;
 import java.util.BitSet;
@@ -40,8 +47,9 @@ import java.util.Objects;
 
 import static boblovespi.factoryautomation.common.util.TEHelper.GetUser;
 
-public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements MenuProvider
+public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements MenuProvider, IAnimatable
 {
+	public float rotation = 0;
 	private final FluidTank input;
 	private final FluidTank output;
 	private final RestrictedSlotItemHandler inputWrapper;
@@ -76,6 +84,7 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 			return 6;
 		}
 	};
+	private AnimationFactory factory;
 
 	public TETumblingBarrel(BlockPos pos, BlockState state)
 	{
@@ -145,6 +154,7 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 		Direction.Axis axis = state.getValue(BlockStateProperties.HORIZONTAL_AXIS);
 		user = new MechanicalUser(EnumSet.of(Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE),
 											 Direction.fromAxisAndDirection(axis, Direction.AxisDirection.NEGATIVE)));
+		factory = new AnimationFactory(this);
 	}
 
 	@Nonnull
@@ -176,10 +186,15 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 		var te1 = level.getBlockEntity(worldPosition.relative(axis, -1));
 		var facing = Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE);
 		var opposite = facing.getOpposite();
+		var shouldSend = false;
 		if (TEHelper.IsMechanicalFace(te, opposite))
 		{
-			user.SetSpeedOnFace(facing, GetUser(te, opposite).GetSpeedOnFace(opposite));
-			user.SetTorqueOnFace(facing, GetUser(te, opposite).GetTorqueOnFace(opposite));
+			var speed = GetUser(te, opposite).GetSpeedOnFace(opposite);
+			var torque = GetUser(te, opposite).GetTorqueOnFace(opposite);
+			if (Mth.abs((speed - user.GetSpeed()) / speed) > 0.1 || Mth.abs((torque - user.GetTorque()) / torque) > 0.1)
+				shouldSend = true;
+			user.SetSpeedOnFace(facing, speed);
+			user.SetTorqueOnFace(facing, torque);
 		/*	user.SetSpeedOnFace(opposite, 0);
 			user.SetTorqueOnFace(opposite, 0);
 		} else if (TEHelper.IsMechanicalFace(te1, facing))
@@ -190,9 +205,24 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 			user.SetTorqueOnFace(facing, 0);*/
 		} else
 		{
+			if (user.GetSpeed() != 0 || user.GetTorque() != 0)
+				shouldSend = true;
 			user.SetSpeedOnFace(facing, 0);
 			user.SetTorqueOnFace(facing, 0);
 		}
+		if (shouldSend)
+		{
+			setChanged();
+			BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
+			level.sendBlockUpdated(worldPosition, state, state, 7);
+		}
+	}
+
+	@Override
+	protected void UpdateClient()
+	{
+		rotation += GetSpeed();
+		rotation %= 360;
 	}
 
 	@Override
@@ -267,10 +297,34 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 		return new TextComponent("");
 	}
 
+	public float GetSpeed()
+	{
+		return EnergyConstants.RadiansSecondToDegreesTick(user.GetSpeed());
+	}
+
 	@Nullable
 	@Override
 	public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player)
 	{
 		return new ContainerTumblingBarrel(id, playerInv, processingInv, containerData, worldPosition);
+	}
+
+	@Override
+	public void registerControllers(AnimationData data)
+	{
+		data.addAnimationController(new AnimationController(this, "controller", 0, event -> {
+			if (user.GetSpeed() > 0)
+			{
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.tumbling_barrel.active", true));
+				return PlayState.CONTINUE;
+			}
+			else return PlayState.STOP;
+		}));
+	}
+
+	@Override
+	public AnimationFactory getFactory()
+	{
+		return factory;
 	}
 }

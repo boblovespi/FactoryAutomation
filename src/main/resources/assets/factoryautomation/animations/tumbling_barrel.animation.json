@@ -1,0 +1,16 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.tumbling_barrel.active": {
+			"loop": true,
+			"animation_length": 0.05,
+			"bones": {
+				"group": {
+					"rotation": {
+						"vector": ["-rot", 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

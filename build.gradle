@@ -13,7 +13,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = "mc1.18.1-alpha0.4.0"
+version = "mc1.18.1-alpha0.4.1"
 group = "boblovespi.factoryautomation" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "FactoryAutomation"
 
