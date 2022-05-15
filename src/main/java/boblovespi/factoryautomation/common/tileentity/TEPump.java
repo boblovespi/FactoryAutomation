@@ -36,8 +36,8 @@ public class TEPump extends BlockEntity implements ITickable
 	private static final float transferAmountScalar = 1f; // transfer amount per 10 rot torque
 	protected static int transferTime = 80;
 	protected static int transferAmount = 1500;
-	private float timer;
 	private final MechanicalUser mechanicalUser;
+	private float timer;
 	private boolean firstTick = true;
 
 	public TEPump(BlockPos pos, BlockState state)
@@ -65,10 +65,8 @@ public class TEPump extends BlockEntity implements ITickable
 
 			if (pushTo != null && takeFrom != null)
 			{
-				LazyOptional<IFluidHandler> takeFromCapability = takeFrom
-						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir.getOpposite());
-				LazyOptional<IFluidHandler> pushToCapability = pushTo
-						.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir);
+				var takeFromCapability = takeFrom.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir.getOpposite());
+				var pushToCapability = pushTo.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, dir);
 
 				if (takeFromCapability.isPresent() && pushToCapability.isPresent())
 				{
@@ -76,11 +74,9 @@ public class TEPump extends BlockEntity implements ITickable
 					//noinspection ConstantConditions
 					drain = takeFromCapability.orElse(null).drain(
 							(int) (transferAmount * transferAmountScalar * mechanicalUser.GetTorque() / 10f),
-							IFluidHandler.FluidAction.EXECUTE);
+							IFluidHandler.FluidAction.SIMULATE);
 
-					pushToCapability.ifPresent(n -> takeFromCapability.ifPresent(m -> m.drain(
-							n.fill(drain.copy(), IFluidHandler.FluidAction.EXECUTE),
-							IFluidHandler.FluidAction.EXECUTE)));
+					pushToCapability.ifPresent(n -> takeFromCapability.ifPresent(m -> m.drain(n.fill(drain.copy(), IFluidHandler.FluidAction.EXECUTE), IFluidHandler.FluidAction.EXECUTE)));
 
 				}
 			}
