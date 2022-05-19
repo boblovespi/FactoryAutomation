@@ -1,21 +1,30 @@
 package boblovespi.factoryautomation.common.block.fluid;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
-import boblovespi.factoryautomation.common.tileentity.TEPipe;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import boblovespi.factoryautomation.common.tileentity.pipe.PipeNetwork;
+import boblovespi.factoryautomation.common.tileentity.pipe.TEPipe;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 import javax.annotation.Nullable;
@@ -33,7 +42,7 @@ public class Pipe extends FABaseBlock implements EntityBlock
 	private static final EnumProperty<Connection> DOWN = EnumProperty.create("down", Connection.class);
 	private static final EnumProperty<Connection> UP = EnumProperty.create("up", Connection.class);
 
-	public static final EnumProperty[] CONNECTIONS = new EnumProperty[]{DOWN, UP, NORTH, SOUTH, WEST, EAST};
+	public static final EnumProperty<Connection>[] CONNECTIONS = new EnumProperty[] {DOWN, UP, NORTH, SOUTH, WEST, EAST};
 
 	public Pipe(String name)
 	{
@@ -76,6 +85,46 @@ public class Pipe extends FABaseBlock implements EntityBlock
 		return state.setValue(CONNECTIONS[facing.ordinal()], GetConnectionFor(world, currentPos, facing));
 	}
 
+	@Override
+	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving)
+	{
+		if (world.isClientSide || state.is(oldState.getBlock()))
+			return;
+		PipeNetwork net = null;
+		PipeNetwork.Adjacencies adj = PipeNetwork.NONE;
+		for (Direction dir : Direction.values())
+		{
+			if (world.getBlockEntity(pos.relative(dir)) != null && world.getBlockEntity(pos.relative(dir)) instanceof TEPipe te)
+			{
+				adj = adj.With(dir, true);
+				if (net == null)
+					net = te.GetPipeNetwork();
+				else
+					net.Join(te.GetPipeNetwork(), world);
+			}
+		}
+		if (net == null)
+			net = new PipeNetwork(pos);
+		if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof TEPipe te)
+			te.SetPipeNetwork(net, adj);
+	}
+
+	@Override
+	public void onRemove(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving)
+	{
+		if (!state.is(oldState.getBlock()) && world.getBlockEntity(pos) instanceof TEPipe te && te.GetPipeNetwork() != null)
+			te.GetPipeNetwork().Split(pos, world);
+		super.onRemove(state, world, pos, oldState, isMoving);
+	}
+
+	@Override
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result)
+	{
+		if (!world.isClientSide)
+			System.out.println(((TEPipe)world.getBlockEntity(pos)).GetPipeNetwork().name);
+		return InteractionResult.SUCCESS;
+	}
+
 	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
 	 */
@@ -84,6 +133,15 @@ public class Pipe extends FABaseBlock implements EntityBlock
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
 		return new TEPipe(pos, state);
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type)
+	{
+		if (state.getValues().entrySet().stream().anyMatch(n -> n.getValue() == Connection.CONNECTOR))
+			return ITickable::tickTE;
+		return null;
 	}
 
 	public enum Connection implements StringRepresentable

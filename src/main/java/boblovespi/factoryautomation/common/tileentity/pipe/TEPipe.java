@@ -1,6 +1,7 @@
-package boblovespi.factoryautomation.common.tileentity;
+package boblovespi.factoryautomation.common.tileentity.pipe;
 
-import boblovespi.factoryautomation.common.block.fluid.Pipe;
+import boblovespi.factoryautomation.common.tileentity.ITickable;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,15 +12,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,30 +29,44 @@ public class TEPipe extends BlockEntity implements ITickable
 {
 	protected static int transferTime = 16;
 	protected static int transferAmount = 1500;
+	private final FluidTank[] tanks;
 	private int timer = -1;
-	private final FluidTank tank;
+	private PipeNetwork network = null;
+	private boolean shouldSaveNet = false;
 
 	public TEPipe(BlockPos pos, BlockState state)
 	{
 		super(TileEntityHandler.tePipe, pos, state);
-		tank = new FluidTank(transferAmount)
+		tanks = new FluidTank[6];
+		for (int i = 0; i < 6; i++)
 		{
-			@Override
-			protected void onContentsChanged()
+			tanks[i] = new FluidTank(transferAmount)
 			{
-				setChanged();
-				BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
-				level.sendBlockUpdated(worldPosition, state, state, 7);
-			}
+				@Override
+				public int fill(FluidStack resource, FluidAction doFill)
+				{
+					if (doFill.execute() && timer < 0)
+						timer = transferTime;
+					return super.fill(resource, doFill);
+				}
 
-			@Override
-			public int fill(FluidStack resource, FluidAction doFill)
-			{
-				if (doFill.execute() && timer < 0)
-					timer = transferTime;
-				return super.fill(resource, doFill);
-			}
-		};
+				@Override
+				protected void onContentsChanged()
+				{
+					setChanged();
+					BlockState state = Objects.requireNonNull(level).getBlockState(worldPosition);
+					level.sendBlockUpdated(worldPosition, state, state, 7);
+				}
+			};
+		}
+	}
+
+	@Override
+	public void onLoad()
+	{
+		super.onLoad();
+		if (network != null)
+			network.Load(level);
 	}
 
 	/**
@@ -68,7 +79,7 @@ public class TEPipe extends BlockEntity implements ITickable
 			return;
 
 		// only decrease if we have fluids to process
-		if (timer > 0)
+		/*if (timer > 0)
 		{
 			timer--;
 			if (timer <= 0)
@@ -113,7 +124,7 @@ public class TEPipe extends BlockEntity implements ITickable
 				if (tank.getFluidAmount() > 0)
 					timer = transferAmount; // again, we still have fluids to transfer!
 			}
-		}
+		}*/
 	}
 
 	@Override
@@ -121,22 +132,58 @@ public class TEPipe extends BlockEntity implements ITickable
 	{
 		super.load(tag);
 		timer = tag.getInt("timer");
-		tank.readFromNBT(tag.getCompound("tank"));
+		for (int i = 0; i < tanks.length; i++)
+		{
+			FluidTank tank = tanks[i];
+			tank.readFromNBT(tag.getCompound("tank_" + i));
+		}
+		if (tag.contains("pipenet"))
+		{
+			shouldSaveNet = true;
+			network = PipeNetwork.FromNBT(worldPosition, tag.getCompound("pipenet"));
+		}
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag tag)
 	{
 		tag.putInt("timer", timer);
-		tag.put("tank", tank.writeToNBT(new CompoundTag()));
+		for (int i = 0; i < tanks.length; i++)
+		{
+			tag.put("tank_" + i, tanks[i].writeToNBT(new CompoundTag()));
+		}
+		if (shouldSaveNet)
+			tag.put("pipenet", network.ToNBT());
 	}
 
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-			return LazyOptional.of(() -> (T) tank);
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing != null)
+			return LazyOptional.of(() -> (T) tanks[facing.ordinal()]);
 		return super.getCapability(capability, facing);
+	}
+
+	public PipeNetwork GetPipeNetwork()
+	{
+		return network;
+	}
+
+	public void SetPipeNetwork(PipeNetwork net, PipeNetwork.Adjacencies adj)
+	{
+		if (net != network)
+		{
+			if (network != null)
+				network.LeaveNode(worldPosition);
+			network = net;
+			net.AddNode(worldPosition, adj);
+		}
+		shouldSaveNet = net.GetDataSaver().equals(worldPosition);
+	}
+
+	public void SetPipeNetworkQuickly(PipeNetwork net)
+	{
+		network = net;
 	}
 }

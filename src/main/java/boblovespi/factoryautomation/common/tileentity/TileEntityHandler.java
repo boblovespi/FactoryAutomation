@@ -5,6 +5,7 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntityCable;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
+import boblovespi.factoryautomation.common.tileentity.pipe.TEPipe;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
 import boblovespi.factoryautomation.common.tileentity.processing.TETreetap;
