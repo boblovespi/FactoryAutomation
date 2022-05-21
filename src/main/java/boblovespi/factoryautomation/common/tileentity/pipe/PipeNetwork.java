@@ -11,16 +11,18 @@ import java.util.function.Function;
 public class PipeNetwork
 {
 	public static final Adjacencies NONE = new Adjacencies(false, false, false, false, false, false);
+	public final NodeNetwork nodeNetwork;
 	public String name;
 	private BlockPos dataSaver;
-	private NodeNetwork nodeNetwork;
 	private HashMap<BlockPos, Adjacencies> nodes;
+	private int counter = 0;
 
 	public PipeNetwork(BlockPos pos)
 	{
 		name = pos.toString();
 		dataSaver = pos;
 		nodes = new HashMap<>();
+		nodeNetwork = new NodeNetwork(10, 20, -64, 256);
 	}
 
 	public static PipeNetwork FromNBT(BlockPos pos, CompoundTag tag)
@@ -178,6 +180,18 @@ public class PipeNetwork
 		{
 			if (world.getBlockEntity(pos) instanceof TEPipe pipe)
 				pipe.SetPipeNetworkQuickly(this);
+		}
+	}
+
+	public void Tick()
+	{
+		if (nodeNetwork != null)
+		{
+			nodeNetwork.Tick();
+			if (counter == 0)
+				nodeNetwork.Cycle();
+			counter += 1;
+			counter %= nodeNetwork.ticksPerCycle;
 		}
 	}
 

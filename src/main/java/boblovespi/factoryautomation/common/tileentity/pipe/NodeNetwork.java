@@ -2,8 +2,10 @@ package boblovespi.factoryautomation.common.tileentity.pipe;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class NodeNetwork
 {
@@ -30,15 +32,17 @@ public class NodeNetwork
 			nodes[i] = new ArrayList<>();
 		}
 		nodeCount = 0;
+		fluid = Fluids.EMPTY;
 	}
 
 	private float GetBuffer(int y)
 	{
-		return yBuffer[Mth.clamp(y - startY, 0, yBuffer.length - 1)];
+		return yBuffer[YToIndexVal(y)];
 	}
 
 	public void Cycle()
 	{
+		System.out.println(Arrays.toString(yBuffer));
 		for (ArrayList<IONode> nodeList : nodes)
 			nodeList.forEach(IONode::PushToNetwork);
 
@@ -52,6 +56,8 @@ public class NodeNetwork
 				y = Math.max(h, y);
 				var left = nodes[h].stream().filter(IONode::IsOutput).mapToInt(IONode::OutputBufferSpace).max().orElse(0);
 				int count = (int) nodes[h].stream().filter(IONode::IsOutput).count();
+				if (count == 0)
+					break;
 				var toGive = Math.min(yBuffer[y] / count, left);
 				for (var node : nodes[h])
 				{
@@ -65,6 +71,7 @@ public class NodeNetwork
 					y++;
 				else isFull = true;
 				if (y >= yBuffer.length) yBufferEmpty = true;
+				if (yBufferEmpty) break;
 			}
 			if (yBufferEmpty) break;
 		}
@@ -72,14 +79,17 @@ public class NodeNetwork
 
 	public void Tick()
 	{
-		for (var nodeList : nodes)
+		for (int buffer : yBuffer)
 		{
-			nodeList.forEach(IONode::Tick);
+			if (buffer != 0)
+				return;
 		}
+		fluid = Fluids.EMPTY;
 	}
 
 	public int AddToYBuffer(int y, int amt)
 	{
+		y = YToIndexVal(y);
 		var accepted = Mth.clamp(amt, 0, maxBuffer - yBuffer[y]);
 		yBuffer[y] += accepted;
 		return accepted;
@@ -87,8 +97,13 @@ public class NodeNetwork
 
 	public void AddNode(IONode node)
 	{
-		nodes[node.GetY()].add(node);
+		nodes[YToIndexVal(node.GetY())].add(node);
 		nodeCount++;
 		maxBuffer += ioRate * ticksPerCycle;
+	}
+
+	public int YToIndexVal(int y)
+	{
+		return Mth.clamp(y - startY, 0, yBuffer.length - 1);
 	}
 }

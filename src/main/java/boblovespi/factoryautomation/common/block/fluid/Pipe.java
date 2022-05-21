@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -66,8 +67,7 @@ public class Pipe extends FABaseBlock implements EntityBlock
 			return Connection.JOIN;
 
 		BlockEntity te = world.getBlockEntity(pos);
-		if (te != null && te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())
-								  .isPresent())
+		if (te != null && te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite()).isPresent())
 			return Connection.CONNECTOR;
 		return Connection.NONE;
 	}
@@ -85,28 +85,64 @@ public class Pipe extends FABaseBlock implements EntityBlock
 		return state.setValue(CONNECTIONS[facing.ordinal()], GetConnectionFor(world, currentPos, facing));
 	}
 
+	@Nullable
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context)
+	{
+		var state = defaultBlockState();
+		var world = context.getLevel();
+		var pos = context.getClickedPos();
+		for (int i = 0; i < CONNECTIONS.length; i++)
+		{
+			state = state.setValue(CONNECTIONS[i], GetConnectionFor(world, pos, Direction.values()[i]));
+		}
+		return state;
+	}
+
 	@Override
 	public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving)
 	{
-		if (world.isClientSide || state.is(oldState.getBlock()))
+		if (world.isClientSide)
 			return;
+		if (state.is(oldState.getBlock()))
+		{
+			if (world.getBlockEntity(pos) instanceof TEPipe te)
+			{
+				for (Direction dir : Direction.values())
+				{
+					if (state.getValue(CONNECTIONS[dir.ordinal()]) == Connection.CONNECTOR)
+						te.AddIONode(dir);
+				}
+			}
+			return;
+		}
 		PipeNetwork net = null;
 		PipeNetwork.Adjacencies adj = PipeNetwork.NONE;
 		for (Direction dir : Direction.values())
 		{
-			if (world.getBlockEntity(pos.relative(dir)) != null && world.getBlockEntity(pos.relative(dir)) instanceof TEPipe te)
+			if (state.getValue(CONNECTIONS[dir.ordinal()]) == Connection.NONE)
+				continue;
+			var te = world.getBlockEntity(pos.relative(dir));
+			if (te instanceof TEPipe pipe)
 			{
 				adj = adj.With(dir, true);
 				if (net == null)
-					net = te.GetPipeNetwork();
+					net = pipe.GetPipeNetwork();
 				else
-					net.Join(te.GetPipeNetwork(), world);
+					net.Join(pipe.GetPipeNetwork(), world);
 			}
 		}
 		if (net == null)
 			net = new PipeNetwork(pos);
 		if (world.getBlockEntity(pos) != null && world.getBlockEntity(pos) instanceof TEPipe te)
+		{
 			te.SetPipeNetwork(net, adj);
+			for (Direction dir : Direction.values())
+			{
+				if (state.getValue(CONNECTIONS[dir.ordinal()]) == Connection.CONNECTOR)
+					te.AddIONode(dir);
+			}
+		}
 	}
 
 	@Override
@@ -121,7 +157,7 @@ public class Pipe extends FABaseBlock implements EntityBlock
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result)
 	{
 		if (!world.isClientSide)
-			System.out.println(((TEPipe)world.getBlockEntity(pos)).GetPipeNetwork().name);
+			System.out.println(((TEPipe) world.getBlockEntity(pos)).GetPipeNetwork().name);
 		return InteractionResult.SUCCESS;
 	}
 

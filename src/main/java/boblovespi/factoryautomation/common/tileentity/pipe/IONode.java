@@ -2,13 +2,14 @@ package boblovespi.factoryautomation.common.tileentity.pipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 
 public class IONode
 {
+	private final int maxBuffer;
 	private NodeNetwork network;
 	private BlockPos pos;
 	private Direction facing;
-	private final int maxBuffer;
 	private int inBuffer;
 	private int outBuffer;
 	private boolean isInput;
@@ -19,12 +20,8 @@ public class IONode
 		this.pos = pos;
 		this.facing = facing;
 		this.maxBuffer = network.ioRate * network.ticksPerCycle;
+		isInput = false;
 		network.AddNode(this);
-	}
-
-	public void Tick()
-	{
-
 	}
 
 	public boolean IsInput()
@@ -37,14 +34,25 @@ public class IONode
 		return !isInput;
 	}
 
+	public void SetInput(boolean isInput)
+	{
+		this.isInput = isInput;
+	}
+
 	public void PushToNetwork()
 	{
-		network.AddToYBuffer(pos.getY(), inBuffer);
+		var accepted = network.AddToYBuffer(pos.getY(), inBuffer);
+		inBuffer -= accepted;
 	}
 
 	int OutputBufferSpace()
 	{
 		return maxBuffer - outBuffer;
+	}
+
+	int OutputBuffer()
+	{
+		return outBuffer;
 	}
 
 	int AddToOutBuffer(int amt)
@@ -54,8 +62,25 @@ public class IONode
 		return actual;
 	}
 
+	void DrainOutput(int amt)
+	{
+		outBuffer = Mth.clamp(outBuffer - amt, 0, maxBuffer);
+	}
+
 	public int GetY()
 	{
 		return pos.getY();
+	}
+
+	public Direction Facing()
+	{
+		return facing;
+	}
+
+	public int AddToInBuffer(int amt)
+	{
+		var actual = Math.min(amt, maxBuffer - inBuffer);
+		inBuffer += actual;
+		return actual;
 	}
 }

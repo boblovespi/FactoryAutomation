@@ -6,12 +6,15 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nonnull;
@@ -30,6 +33,7 @@ public class TEPipe extends BlockEntity implements ITickable
 	protected static int transferTime = 16;
 	protected static int transferAmount = 1500;
 	private final FluidTank[] tanks;
+	private final IONode[] ioNodes;
 	private int timer = -1;
 	private PipeNetwork network = null;
 	private boolean shouldSaveNet = false;
@@ -59,6 +63,7 @@ public class TEPipe extends BlockEntity implements ITickable
 				}
 			};
 		}
+		ioNodes = new IONode[6];
 	}
 
 	@Override
@@ -77,6 +82,41 @@ public class TEPipe extends BlockEntity implements ITickable
 	{
 		if (Objects.requireNonNull(level).isClientSide)
 			return;
+		if (shouldSaveNet)
+			network.Tick();
+		for (var ioNode : ioNodes)
+		{
+			if (ioNode != null)
+			{
+				var te = level.getBlockEntity(worldPosition.relative(ioNode.Facing()));
+				if (ioNode.IsOutput() && te != null)
+				{
+					var optional = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+													ioNode.Facing().getOpposite());
+					optional.ifPresent(n -> {
+						var stack = new FluidStack(network.nodeNetwork.fluid, Mth.clamp(ioNode.OutputBuffer(), 0, network.nodeNetwork.ioRate));
+						var fill = n.fill(stack, IFluidHandler.FluidAction.EXECUTE);
+						ioNode.DrainOutput(fill);
+					});
+				}
+				else if (ioNode.IsInput() && te != null)
+				{
+					var optional = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+													ioNode.Facing().getOpposite());
+					optional.ifPresent(n -> {
+						var stack = n.drain(network.nodeNetwork.ioRate, IFluidHandler.FluidAction.SIMULATE);
+						if (network.nodeNetwork.fluid == Fluids.EMPTY)
+							network.nodeNetwork.fluid = stack.getFluid();
+						if (network.nodeNetwork.fluid == stack.getFluid())
+						{
+							var filled = ioNode.AddToInBuffer(stack.getAmount());
+							var actualDrain = new FluidStack(stack, filled);
+							n.drain(actualDrain, IFluidHandler.FluidAction.EXECUTE);
+						}
+					});
+				}
+			}
+		}
 
 		// only decrease if we have fluids to process
 		/*if (timer > 0)
@@ -185,5 +225,16 @@ public class TEPipe extends BlockEntity implements ITickable
 	public void SetPipeNetworkQuickly(PipeNetwork net)
 	{
 		network = net;
+	}
+
+	public void AddIONode(Direction side)
+	{
+		if (network != null)
+		{
+			var ioNode = new IONode(network.nodeNetwork, worldPosition, side);
+			if (side == Direction.UP)
+				ioNode.SetInput(true);
+			ioNodes[side.ordinal()] = ioNode;
+		}
 	}
 }
