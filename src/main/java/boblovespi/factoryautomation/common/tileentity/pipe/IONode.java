@@ -83,4 +83,9 @@ public class IONode
 		inBuffer += actual;
 		return actual;
 	}
+
+	public boolean IsEmpty()
+	{
+		return inBuffer == 0 && outBuffer == 0;
+	}
 }

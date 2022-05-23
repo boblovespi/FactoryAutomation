@@ -42,7 +42,7 @@ public class NodeNetwork
 
 	public void Cycle()
 	{
-		System.out.println(Arrays.toString(yBuffer));
+		// System.out.println(Arrays.toString(yBuffer));
 		for (ArrayList<IONode> nodeList : nodes)
 			nodeList.forEach(IONode::PushToNetwork);
 
@@ -83,6 +83,14 @@ public class NodeNetwork
 		{
 			if (buffer != 0)
 				return;
+		}
+		for (var nodeList : nodes)
+		{
+			for (IONode node : nodeList)
+			{
+				if (!node.IsEmpty())
+					return;
+			}
 		}
 		fluid = Fluids.EMPTY;
 	}

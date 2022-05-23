@@ -229,7 +229,7 @@ public class TEPipe extends BlockEntity implements ITickable
 
 	public void AddIONode(Direction side)
 	{
-		if (network != null)
+		if (network != null && ioNodes[side.ordinal()] == null)
 		{
 			var ioNode = new IONode(network.nodeNetwork, worldPosition, side);
 			if (side == Direction.UP)
