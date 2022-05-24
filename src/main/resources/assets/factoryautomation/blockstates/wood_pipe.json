@@ -2,7 +2,7 @@
   "multipart": [
     {
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_center"
+        "model": "factoryautomation:block/pipe/wood_pipe_center"
       }
     },
     {
@@ -10,7 +10,7 @@
         "north": "join"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connect"
+        "model": "factoryautomation:block/pipe/wood_pipe_connect"
       }
     },
     {
@@ -18,7 +18,7 @@
         "east": "join"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connect",
+        "model": "factoryautomation:block/pipe/wood_pipe_connect",
         "y": 90,
         "uvlock": true
       }
@@ -28,7 +28,7 @@
         "south": "join"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connect",
+        "model": "factoryautomation:block/pipe/wood_pipe_connect",
         "y": 180,
         "uvlock": true
       }
@@ -38,7 +38,7 @@
         "west": "join"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connect",
+        "model": "factoryautomation:block/pipe/wood_pipe_connect",
         "y": 270,
         "uvlock": true
       }
@@ -48,7 +48,7 @@
         "up": "join"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connect",
+        "model": "factoryautomation:block/pipe/wood_pipe_connect",
         "x": 270,
         "uvlock": true
       }
@@ -58,7 +58,7 @@
         "down": "join"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connect",
+        "model": "factoryautomation:block/pipe/wood_pipe_connect",
         "x": 90,
         "uvlock": true
       }
@@ -68,7 +68,7 @@
         "north": "connector"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connector"
+        "model": "factoryautomation:block/pipe/wood_pipe_connector"
       }
     },
     {
@@ -76,7 +76,7 @@
         "east": "connector"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connector",
+        "model": "factoryautomation:block/pipe/wood_pipe_connector",
         "y": 90,
         "uvlock": true
       }
@@ -86,7 +86,7 @@
         "south": "connector"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connector",
+        "model": "factoryautomation:block/pipe/wood_pipe_connector",
         "y": 180,
         "uvlock": true
       }
@@ -96,7 +96,7 @@
         "west": "connector"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connector",
+        "model": "factoryautomation:block/pipe/wood_pipe_connector",
         "y": 270,
         "uvlock": true
       }
@@ -105,7 +105,7 @@
         "up": "connector"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connector",
+        "model": "factoryautomation:block/pipe/wood_pipe_connector",
         "x": 270,
         "uvlock": true
       }
@@ -115,7 +115,7 @@
         "down": "connector"
       },
       "apply": {
-        "model": "factoryautomation:block/pipe/fluid_pipe_connector",
+        "model": "factoryautomation:block/pipe/wood_pipe_connector",
         "x": 90,
         "uvlock": true
       }

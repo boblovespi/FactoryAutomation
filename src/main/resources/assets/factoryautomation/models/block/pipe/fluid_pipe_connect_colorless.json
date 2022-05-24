@@ -2,9 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "factoryautomation:blocks/pipe/iron_fluid_pipe",
-		"1": "factoryautomation:blocks/pipe/pipe_color",
-		"particle": "factoryautomation:blocks/pipe/iron_fluid_pipe"
+		"0": "#pipe",
+		"particle": "#pipe"
 	},
 	"elements": [
 		{
@@ -53,30 +52,6 @@
 				"west": {"uv": [2, 2, 4, 4], "texture": "#0"},
 				"up": {"uv": [0, 0, 8, 8], "texture": "#missing"},
 				"down": {"uv": [0, 0, 8, 8], "texture": "#missing"}
-			}
-		},
-		{
-			"from": [7, 12, 0],
-			"to": [9, 13, 8],
-			"faces": {
-				"north": {"uv": [0, 0, 2, 1], "texture": "#1"},
-				"east": {"uv": [0, 0, 8, 1], "texture": "#1"},
-				"south": {"uv": [0, 0, 2, 1], "texture": "#1"},
-				"west": {"uv": [0, 0, 8, 1], "texture": "#1"},
-				"up": {"uv": [0, 0, 2, 8], "texture": "#1"},
-				"down": {"uv": [0, 0, 2, 8], "texture": "#1"}
-			}
-		},
-		{
-			"from": [7, 3, 0],
-			"to": [9, 4, 8],
-			"faces": {
-				"north": {"uv": [0, 0, 2, 1], "texture": "#1"},
-				"east": {"uv": [0, 0, 8, 1], "texture": "#1"},
-				"south": {"uv": [0, 0, 2, 1], "texture": "#1"},
-				"west": {"uv": [0, 0, 8, 1], "texture": "#1"},
-				"up": {"uv": [0, 0, 2, 8], "texture": "#1"},
-				"down": {"uv": [0, 0, 2, 8], "texture": "#1"}
 			}
 		}
 	],

@@ -26,6 +26,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 import javax.annotation.Nullable;
@@ -45,6 +48,14 @@ public class Pipe extends FABaseBlock implements EntityBlock
 
 	public static final EnumProperty<Connection>[] CONNECTIONS = new EnumProperty[] {DOWN, UP, NORTH, SOUTH, WEST, EAST};
 
+	private static final VoxelShape CENTER_BB = box(4, 4, 4, 12, 12, 12);
+	private static final VoxelShape UP_BB = box(4, 12, 4, 12, 16, 12);
+	private static final VoxelShape DOWN_BB = box(4, 0, 4, 12, 4, 12);
+	private static final VoxelShape NORTH_BB = box(4, 4, 0, 12, 12, 4);
+	private static final VoxelShape SOUTH_BB = box(4, 4, 12, 12, 12, 16);
+	private static final VoxelShape WEST_BB = box(0, 4, 4, 4, 12, 12);
+	private static final VoxelShape EAST_BB = box(12, 4, 4, 16, 12, 12);
+
 	public Pipe(String name)
 	{
 		super(Material.METAL, name, CreativeModeTab.TAB_DECORATIONS);
@@ -52,6 +63,17 @@ public class Pipe extends FABaseBlock implements EntityBlock
 									 .setValue(NORTH, Connection.NONE).setValue(SOUTH, Connection.NONE)
 									 .setValue(EAST, Connection.NONE).setValue(WEST, Connection.NONE));
 		TileEntityHandler.tiles.add(TEPipe.class);
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context)
+	{
+		return Shapes.or(CENTER_BB, state.getValue(WEST) != Connection.NONE ? WEST_BB : Shapes.empty(),
+						 state.getValue(EAST) != Connection.NONE ? EAST_BB : Shapes.empty(),
+						 state.getValue(SOUTH) != Connection.NONE ? SOUTH_BB : Shapes.empty(),
+						 state.getValue(NORTH) != Connection.NONE ? NORTH_BB : Shapes.empty(),
+						 state.getValue(UP) != Connection.NONE ? UP_BB : Shapes.empty(),
+						 state.getValue(DOWN) != Connection.NONE ? DOWN_BB : Shapes.empty());
 	}
 
 	@Override

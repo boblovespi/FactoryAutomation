@@ -142,7 +142,8 @@ public class FABlockLootTables extends BlockLoot
 		dropSelf(FABlocks.tumblingBarrel.ToBlock());
 
 		// transfer
-		dropSelf(FABlocks.pipe.ToBlock());
+		dropSelf(FABlocks.ironPipe.ToBlock());
+		dropSelf(FABlocks.woodPipe.ToBlock());
 		dropSelf(FABlocks.pump.ToBlock());
 		dropSelf(FABlocks.woodenTank.ToBlock());
 

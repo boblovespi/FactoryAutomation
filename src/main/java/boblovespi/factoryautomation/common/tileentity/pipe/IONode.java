@@ -129,7 +129,6 @@ public class IONode
 		network.AddNode(this);
 	}
 
-
 	public void RemoveNetwork()
 	{
 		if (network != null)

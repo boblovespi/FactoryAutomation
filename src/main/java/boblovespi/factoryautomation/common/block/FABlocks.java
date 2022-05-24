@@ -156,7 +156,8 @@ public class FABlocks
 
 	// transfer
 
-	public static FABlock pipe;
+	public static FABlock ironPipe;
+	public static FABlock woodPipe;
 	public static FABlock pump;
 	public static FABlock woodenTank;
 
@@ -333,7 +334,8 @@ public class FABlocks
 
 		// transfer
 
-		pipe = new Pipe("iron_pipe");
+		ironPipe = new Pipe("iron_pipe");
+		woodPipe = new Pipe("wood_pipe");
 		pump = new Pump("iron_pump");
 		woodenTank = new WoodenTank();
 

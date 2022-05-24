@@ -1,0 +1,6 @@
+{
+  "parent": "factoryautomation:block/pipe/fluid_pipe_connect_colorless",
+  "textures": {
+    "pipe": "factoryautomation:blocks/pipe/wood_fluid_pipe"
+  }
+}

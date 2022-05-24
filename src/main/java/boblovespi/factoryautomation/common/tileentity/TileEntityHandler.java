@@ -84,7 +84,7 @@ public class TileEntityHandler
 		teBasicCircuitCreator = BuildType(TEBasicCircuitCreator::new, FABlocks.chipCreator, "basic_circuit_creator");
 		teBlastFurnaceController = BuildType(TEBlastFurnaceController::new, FABlocks.blastFurnaceController, "blast_furnace");
 		teSteelmakingFurnace = BuildType(TESteelmakingFurnace::new, FABlocks.steelmakingFurnaceController, "steelmaking_furnace");
-		tePipe = BuildType(TEPipe::new, FABlocks.pipe, "pipe");
+		tePipe = BuildType(TEPipe::new, List.of(FABlocks.ironPipe, FABlocks.woodPipe), "pipe");
 		tePlacedBucket = BuildType(TEPlacedBucket::new, FABlocks.placedBucket, "placed_bucket");
 		tePump = BuildType(TEPump::new, FABlocks.pump, "pump");
 		teBevelGear = BuildType(TEBevelGear::new, FABlocks.bevelGear, "bevel_gear");
