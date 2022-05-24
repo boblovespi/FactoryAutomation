@@ -1,11 +1,12 @@
 package boblovespi.factoryautomation.common.tileentity.pipe;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class NodeNetwork
 {
@@ -113,5 +114,35 @@ public class NodeNetwork
 	public int YToIndexVal(int y)
 	{
 		return Mth.clamp(y - startY, 0, yBuffer.length - 1);
+	}
+
+	public Tag ToNBT()
+	{
+		var tag = new CompoundTag();
+		tag.putIntArray("yBuffer", yBuffer);
+		return tag;
+	}
+
+	public void LoadNBT(CompoundTag tag)
+	{
+		yBuffer = tag.getIntArray("yBuffer");
+	}
+
+	public void RemoveNode(IONode node)
+	{
+		var remove = nodes[YToIndexVal(node.GetY())].remove(node);
+		if (remove)
+		{
+			nodeCount--;
+			maxBuffer -= ioRate * ticksPerCycle;
+		}
+	}
+
+	public void Join(NodeNetwork other)
+	{
+		for (int i = 0; i < yBuffer.length; i++)
+		{
+			yBuffer[i] += other.yBuffer[i];
+		}
 	}
 }

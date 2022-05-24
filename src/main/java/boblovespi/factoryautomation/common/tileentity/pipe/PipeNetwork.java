@@ -40,6 +40,7 @@ public class PipeNetwork
 
 			}
 		}
+		net.nodeNetwork.LoadNBT(tag.getCompound("nodeNetwork"));
 		return net;
 	}
 
@@ -53,6 +54,7 @@ public class PipeNetwork
 		}
 		for (var pipe : pipesToAdd)
 			pipe.SetPipeNetwork(this, net.nodes.get(pipe.getBlockPos()));
+		nodeNetwork.Join(net.nodeNetwork);
 	}
 
 	public void AddNode(BlockPos pos, Adjacencies adjacencies)
@@ -171,6 +173,7 @@ public class PipeNetwork
 		{
 			tag.putInt(String.valueOf(entry.getKey().asLong()), entry.getValue().AsInt());
 		}
+		tag.put("nodeNetwork", nodeNetwork.ToNBT());
 		return tag;
 	}
 

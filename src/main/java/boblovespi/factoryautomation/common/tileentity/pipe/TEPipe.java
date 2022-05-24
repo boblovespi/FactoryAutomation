@@ -182,6 +182,11 @@ public class TEPipe extends BlockEntity implements ITickable
 			shouldSaveNet = true;
 			network = PipeNetwork.FromNBT(worldPosition, tag.getCompound("pipenet"));
 		}
+		for (int i = 0; i < ioNodes.length; i++)
+		{
+			if (tag.contains("ioNode_" + i))
+				ioNodes[i] = IONode.FromNBT(worldPosition, Direction.values()[i], tag.getCompound("ioNode_" + i));
+		}
 	}
 
 	@Override
@@ -194,6 +199,11 @@ public class TEPipe extends BlockEntity implements ITickable
 		}
 		if (shouldSaveNet)
 			tag.put("pipenet", network.ToNBT());
+		for (int i = 0; i < ioNodes.length; i++)
+		{
+			if (ioNodes[i] != null)
+				tag.put("ioNode_" + i, ioNodes[i].ToNBT());
+		}
 	}
 
 	@Nonnull
@@ -218,6 +228,11 @@ public class TEPipe extends BlockEntity implements ITickable
 				network.LeaveNode(worldPosition);
 			network = net;
 			net.AddNode(worldPosition, adj);
+			for (IONode ioNode : ioNodes)
+			{
+				if (ioNode != null)
+					ioNode.SetNetwork(net.nodeNetwork);
+			}
 		}
 		shouldSaveNet = net.GetDataSaver().equals(worldPosition);
 	}
@@ -225,6 +240,11 @@ public class TEPipe extends BlockEntity implements ITickable
 	public void SetPipeNetworkQuickly(PipeNetwork net)
 	{
 		network = net;
+		for (IONode ioNode : ioNodes)
+		{
+			if (ioNode != null)
+				ioNode.SetNetwork(network.nodeNetwork);
+		}
 	}
 
 	public void AddIONode(Direction side)
@@ -235,6 +255,14 @@ public class TEPipe extends BlockEntity implements ITickable
 			if (side == Direction.UP)
 				ioNode.SetInput(true);
 			ioNodes[side.ordinal()] = ioNode;
+		}
+	}
+
+	public void RemoveIONode(Direction side)
+	{
+		if (network != null && ioNodes[side.ordinal()] != null)
+		{
+			ioNodes[side.ordinal()].RemoveNetwork();
 		}
 	}
 }

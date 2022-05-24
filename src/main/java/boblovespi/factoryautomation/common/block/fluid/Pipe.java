@@ -112,6 +112,8 @@ public class Pipe extends FABaseBlock implements EntityBlock
 				{
 					if (state.getValue(CONNECTIONS[dir.ordinal()]) == Connection.CONNECTOR)
 						te.AddIONode(dir);
+					else
+						te.RemoveIONode(dir);
 				}
 			}
 			return;
