@@ -1,6 +1,6 @@
 {
   "parent": "factoryautomation:block/pipe/fluid_pipe_center",
   "textures": {
-    "pipe": "factoryautomation:blocks/pipe/iron_fluid_pipe"
+    "pipe": "factoryautomation:blocks/pipe/wood_fluid_pipe"
   }
 }

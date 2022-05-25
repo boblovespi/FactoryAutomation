@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -56,9 +57,9 @@ public class Pipe extends FABaseBlock implements EntityBlock
 	private static final VoxelShape WEST_BB = box(0, 4, 4, 4, 12, 12);
 	private static final VoxelShape EAST_BB = box(12, 4, 4, 16, 12, 12);
 
-	public Pipe(String name)
+	public Pipe(String name, Properties properties, Item.Properties itemProperties)
 	{
-		super(Material.METAL, name, CreativeModeTab.TAB_DECORATIONS);
+		super(name, false, properties, itemProperties);
 		registerDefaultState(stateDefinition.any().setValue(UP, Connection.NONE).setValue(DOWN, Connection.NONE)
 									 .setValue(NORTH, Connection.NONE).setValue(SOUTH, Connection.NONE)
 									 .setValue(EAST, Connection.NONE).setValue(WEST, Connection.NONE));
@@ -182,7 +183,7 @@ public class Pipe extends FABaseBlock implements EntityBlock
 	{
 		if (!world.isClientSide)
 			System.out.println(((TEPipe) world.getBlockEntity(pos)).GetPipeNetwork().name);
-		return InteractionResult.SUCCESS;
+		return InteractionResult.PASS;
 	}
 
 	/**

@@ -334,8 +334,8 @@ public class FABlocks
 
 		// transfer
 
-		ironPipe = new Pipe("iron_pipe");
-		woodPipe = new Pipe("wood_pipe");
+		ironPipe = new Pipe("iron_pipe", of(Material.METAL).strength(5f).requiresCorrectToolForDrops().sound(SoundType.METAL), Building());
+		woodPipe = new Pipe("wood_pipe", of(Material.WOOD).strength(2f).sound(SoundType.WOOD), Building());
 		pump = new Pump("iron_pump");
 		woodenTank = new WoodenTank();
 
