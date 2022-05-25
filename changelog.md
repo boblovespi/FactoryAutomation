@@ -12,6 +12,7 @@
 - added tumbling barrel
 - added leather processing
 - added quicklime production
+- added wooden pipes
 - changed machine recipes to use json recipes from datapacks
 - changed power shafts to break
 - changed iron power shaft recipe (gives 6 to gives 3)
