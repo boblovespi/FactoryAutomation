@@ -20,7 +20,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connect",
         "y": 90,
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -30,7 +30,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connect",
         "y": 180,
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -40,7 +40,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connect",
         "y": 270,
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -50,7 +50,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connect",
         "x": 270,
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -60,7 +60,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connect",
         "x": 90,
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -78,7 +78,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connector",
         "y": 90,
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -88,7 +88,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connector",
         "y": 180,
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -98,7 +98,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connector",
         "y": 270,
-        "uvlock": true
+        "uvlock": false
       }
     }, {
       "when": {
@@ -107,7 +107,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connector",
         "x": 270,
-        "uvlock": true
+        "uvlock": false
       }
     },
     {
@@ -117,7 +117,7 @@
       "apply": {
         "model": "factoryautomation:block/pipe/iron_pipe_connector",
         "x": 90,
-        "uvlock": true
+        "uvlock": false
       }
     }
   ]
