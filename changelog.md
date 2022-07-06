@@ -1,4 +1,4 @@
-### Version 0.4.1 - beta (unreleased)
+### Version 0.4.1 - beta
 - added black sand to worldgen
 - added wooden power shaft
 - added wooden tank
