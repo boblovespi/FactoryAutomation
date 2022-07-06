@@ -1,12 +1,15 @@
 package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.block.fluid.Pipe;
 import boblovespi.factoryautomation.common.block.mechanical.BevelGear;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TECreativeMechanicalSource;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
+import boblovespi.factoryautomation.common.tileentity.pipe.TEPipe;
 import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Tier;
@@ -70,6 +73,22 @@ public class Wrench extends WorkbenchToolItem
 					}
 				}
 				return InteractionResult.SUCCESS;
+			}
+		} else if (block instanceof Pipe)
+		{
+			if (!world.isClientSide)
+			{
+				var te = world.getBlockEntity(pos);
+				if (te instanceof TEPipe pipe)
+				{
+					var x = context.getClickLocation().x - pos.getX() - 0.5f;
+					var y = context.getClickLocation().y - pos.getY() - 0.5f;
+					var z = context.getClickLocation().z - pos.getZ() - 0.5f;
+					var side = Direction.getNearest(x, y, z);
+					// System.out.println(String.format("%f, %f, %f | side: %s", x, y, z, side));
+					if (pipe.FlipIONode(side))
+						return InteractionResult.SUCCESS;
+				}
 			}
 		}
 		return InteractionResult.PASS;

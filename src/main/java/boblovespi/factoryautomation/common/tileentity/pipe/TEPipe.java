@@ -265,4 +265,14 @@ public class TEPipe extends BlockEntity implements ITickable
 			ioNodes[side.ordinal()].RemoveNetwork();
 		}
 	}
+
+	public boolean FlipIONode(Direction side)
+	{
+		if (network != null && ioNodes[side.ordinal()] != null)
+		{
+			ioNodes[side.ordinal()].SetInput(!ioNodes[side.ordinal()].IsInput());
+			return true;
+		}
+		return false;
+	}
 }
