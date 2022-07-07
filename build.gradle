@@ -13,7 +13,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = "mc1.18.1-alpha0.4.1"
+version = "mc1.19-alpha0.5.0"
 group = "boblovespi.factoryautomation" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "FactoryAutomation"
 
@@ -21,7 +21,7 @@ archivesBaseName = "FactoryAutomation"
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
-    mappings channel: 'official', version: '1.18.1'
+    mappings channel: 'official', version: '1.19'
 
     // the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
@@ -38,6 +38,9 @@ minecraft {
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
+
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            property 'forge.enabledGameTestNamespaces', 'factoryautomation'
 
             mods {
                 factoryautomation {
@@ -56,6 +59,8 @@ minecraft {
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', 'factoryautomation'
 
             mods {
                 factoryautomation {
@@ -91,7 +96,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.0'
+    minecraft 'net.minecraftforge:forge:1.19-41.0.63'
 
 
     // you may put jars on which you depend on in ./libs
@@ -126,12 +131,13 @@ dependencies {
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouliversion}")
 
     // jei
-    compileOnly fg.deobf("mezz.jei:jei-${mcversion}:${jeiversion}:api")
+    compileOnly fg.deobf("mezz.jei:jei-${mcversion}-common-api:${jeiversion}")
+    compileOnly fg.deobf("mezz.jei:jei-${mcversion}-forge-api:${jeiversion}")
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${mcversion}:${jeiversion}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mcversion}-forge:${jeiversion}")
 
     // gekolib
-    implementation fg.deobf("software.bernie.geckolib:geckolib-1.18-forge:${gekolibversion}")
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-1.19:${gekolibversion}")
 
     // jade
     implementation fg.deobf("curse.maven:jade-324717:${jadeid}")

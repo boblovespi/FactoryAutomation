@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by Willi on 4/11/2018.
  */
-public class ShapedWorkbenchRecipe extends ForgeRegistryEntry<IWorkbenchRecipe> implements IWorkbenchRecipe
+public class ShapedWorkbenchRecipe implements IWorkbenchRecipe
 {
 	private final int tier;
 	private final int sizeX;

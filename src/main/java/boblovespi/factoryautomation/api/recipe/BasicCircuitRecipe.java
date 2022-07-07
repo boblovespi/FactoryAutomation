@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import boblovespi.factoryautomation.common.handler.RecipeHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator.Layout.Element;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -15,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -211,8 +211,7 @@ public class BasicCircuitRecipe implements Recipe<Container>
 		return TYPE;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
-			implements RecipeSerializer<BasicCircuitRecipe>
+	public static class Serializer implements RecipeSerializer<BasicCircuitRecipe>
 	{
 		private static final ResourceLocation NAME = new ResourceLocation(
 				FactoryAutomation.MODID, "basic_circuit");

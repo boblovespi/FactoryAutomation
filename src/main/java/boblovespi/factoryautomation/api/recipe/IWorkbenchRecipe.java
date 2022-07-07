@@ -8,7 +8,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by Willi on 4/10/2018.
  */
-public interface IWorkbenchRecipe extends IForgeRegistryEntry<IWorkbenchRecipe>, Recipe<Container>
+public interface IWorkbenchRecipe extends IForgeRegistry<IWorkbenchRecipe>, Recipe<Container>
 {
 	boolean CanFitTier(int x, int y, int tier);
 

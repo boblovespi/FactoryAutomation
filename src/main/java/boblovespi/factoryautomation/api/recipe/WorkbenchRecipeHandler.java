@@ -319,13 +319,13 @@ public class WorkbenchRecipeHandler
 		return map;
 	}
 
-	public static class ShapedSerializer extends ForgeRegistryEntry<RecipeSerializer<?>>
+	public static class ShapedSerializer extends RegistryObject<RecipeSerializer<?>>
 			implements RecipeSerializer<ShapedWorkbenchRecipe>
 	{
 		@Override
 		public ShapedWorkbenchRecipe fromJson(ResourceLocation recipeId, JsonObject json)
 		{
-			return (ShapedWorkbenchRecipe) DeserializeShapedFromJson(json).setRegistryName(recipeId);
+			return (ShapedWorkbenchRecipe) DeserializeShapedFromJson(json);
 		}
 
 		@Nullable

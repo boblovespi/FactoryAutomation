@@ -10,11 +10,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -337,25 +337,19 @@ public class RecipeHandler
 	} */
 
 	@SubscribeEvent
-	public static void RegisterSerializers(RegistryEvent.Register<RecipeSerializer<?>> event)
+	public static void RegisterSerializers(RegisterEvent event)
 	{
-		BasicCircuitRecipe.SERIALIZER.setRegistryName(MODID, "basic_circuit");
-		event.getRegistry().register(BasicCircuitRecipe.SERIALIZER);
-		WorkbenchRecipeHandler.SHAPED_SERIALIZER.setRegistryName(MODID, "workbench_shaped");
-		event.getRegistry().register(WorkbenchRecipeHandler.SHAPED_SERIALIZER);
-		HammerRecipe.SERIALIZER.setRegistryName(MODID, "hammer_recipe");
-		event.getRegistry().register(HammerRecipe.SERIALIZER);
-		AxeRecipe.SERIALIZER.setRegistryName(MODID, "axe_recipe");
-		event.getRegistry().register(AxeRecipe.SERIALIZER);
-		ChoppingBlockRecipe.SERIALIZER.setRegistryName(MODID, "chopping_block");
-		event.getRegistry().register(ChoppingBlockRecipe.SERIALIZER);
-		MillstoneRecipe.SERIALIZER.setRegistryName(MODID, "millstone");
-		event.getRegistry().register(MillstoneRecipe.SERIALIZER);
-		CampfireRecipe.SERIALIZER.setRegistryName(MODID, "campfire");
-		event.getRegistry().register(CampfireRecipe.SERIALIZER);
-		TripHammerRecipe.SERIALIZER.setRegistryName(MODID, "trip_hammer");
-		event.getRegistry().register(TripHammerRecipe.SERIALIZER);
-		TumblingBarrelRecipe.SERIALIZER.setRegistryName(MODID, "tumbling_barrel");
-		event.getRegistry().register(TumblingBarrelRecipe.SERIALIZER);
+		event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, helper ->
+		{
+			helper.register("basic_circuit", BasicCircuitRecipe.SERIALIZER);
+			helper.register("workbench_shaped", WorkbenchRecipeHandler.SHAPED_SERIALIZER);
+			helper.register("hammer_recipe", HammerRecipe.SERIALIZER);
+			helper.register("axe_recipe", AxeRecipe.SERIALIZER);
+			helper.register("chopping_block", ChoppingBlockRecipe.SERIALIZER);
+			helper.register("millstone", MillstoneRecipe.SERIALIZER);
+			helper.register("campfire", CampfireRecipe.SERIALIZER);
+			helper.register("trip_hammer", TripHammerRecipe.SERIALIZER);
+			helper.register("tumbling_barrel", TumblingBarrelRecipe.SERIALIZER);
+		});
 	}
 }
