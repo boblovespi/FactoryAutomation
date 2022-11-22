@@ -59,7 +59,7 @@ public class TETripHammerController extends BlockEntity implements IMultiblockCo
 
 	public TETripHammerController(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teTripHammerController, pos, state);
+		super(TileEntityHandler.teTripHammerController.get(), pos, state);
 		itemHandler = new ItemStackHandler(2)
 		{
 			@Override

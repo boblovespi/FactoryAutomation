@@ -2,24 +2,17 @@ package boblovespi.factoryautomation.common.handler;
 
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange;
 import boblovespi.factoryautomation.common.config.SyncOnConfigChange.Priority;
-import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.tools.ToolMaterial;
-import boblovespi.factoryautomation.common.util.FATags;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.TierSortingRegistry;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistry;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-import static boblovespi.factoryautomation.common.config.ConfigFields.blockMiningLevelCat;
 
 /**
  * Created by Willi on 4/30/2018.
@@ -43,7 +36,7 @@ public class VanillaTweakHandler
 	@SubscribeEvent
 	public static void CheckMiningLevel(PlayerEvent.HarvestCheck event)
 	{
-		ItemStack stack = event.getPlayer().getMainHandItem();
+		ItemStack stack = event.getEntity().getMainHandItem();
 		BlockState state = event.getTargetBlock();
 		Tier tier = Tiers.WOOD;
 		if (stack.getItem() instanceof TieredItem te)
@@ -120,12 +113,12 @@ public class VanillaTweakHandler
 		Items.IRON_SWORD.maxDamage = 320;
 	}
 
-	public static void RemoveItems(RegistryEvent.Register<Item> event)
+	/*public static void RemoveItems(RegistryEvent.Register<Item> event)
 	{
 		if (event.getRegistry() instanceof ForgeRegistry)
 		{
 			ForgeRegistry<Item> registry = (ForgeRegistry<Item>) event.getRegistry();
 			registry.remove(new ResourceLocation("minecraft", "wooden_pickaxe"));
 		}
-	}
+	}*/
 }

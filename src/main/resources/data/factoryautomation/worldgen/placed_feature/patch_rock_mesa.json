@@ -2,7 +2,7 @@
   "feature": "factoryautomation:patch_rock_mesa",
   "placement": [
     {
-      "count": 5,
+      "count": 2,
       "type": "minecraft:count"
     },
     {

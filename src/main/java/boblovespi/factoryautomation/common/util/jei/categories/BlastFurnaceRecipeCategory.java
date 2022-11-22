@@ -3,17 +3,16 @@ package boblovespi.factoryautomation.common.util.jei.categories;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.util.jei.wrappers.BlastFurnaceRecipeWrapper;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
@@ -22,37 +21,29 @@ import javax.annotation.Nonnull;
  */
 public class BlastFurnaceRecipeCategory implements IRecipeCategory<BlastFurnaceRecipeWrapper>
 {
-	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "blast_furnace");
+	public static final RecipeType<BlastFurnaceRecipeWrapper> TYPE = RecipeType.create(FactoryAutomation.MODID,
+			"blast_furnace", BlastFurnaceRecipeWrapper.class);
 	private IDrawable background;
 	private IDrawable icon;
 
 	public BlastFurnaceRecipeCategory(IGuiHelper helper)
 	{
-		background = helper
-				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/blast_furnace.png"), 4,
-						4, 168, 78);
-		icon = helper.createDrawableIngredient(new ItemStack(FABlocks.blastFurnaceController));
+		background = helper.createDrawable(
+				new ResourceLocation("factoryautomation:textures/gui/container/blast_furnace.png"), 4, 4, 168, 78);
+		icon = helper.createDrawableItemStack(new ItemStack(FABlocks.blastFurnaceController));
 	}
 
-	@Nonnull
 	@Override
-	public ResourceLocation getUid()
+	public RecipeType<BlastFurnaceRecipeWrapper> getRecipeType()
 	{
-		return ID;
-	}
-
-	@Nonnull
-	@Override
-	public Class<? extends BlastFurnaceRecipeWrapper> getRecipeClass()
-	{
-		return BlastFurnaceRecipeWrapper.class;
+		return TYPE;
 	}
 
 	@Nonnull
 	@Override
 	public Component getTitle()
 	{
-		return new TranslatableComponent("gui.blast_furnace.name");
+		return Component.translatable("gui.blast_furnace.name");
 	}
 
 	@Nonnull
@@ -69,24 +60,11 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory<BlastFurnaceR
 	}
 
 	@Override
-	public void setIngredients(BlastFurnaceRecipeWrapper recipe, IIngredients ingredients)
+	public void setRecipe(IRecipeLayoutBuilder builder, BlastFurnaceRecipeWrapper recipe, IFocusGroup focuses)
 	{
-		recipe.fillIngredients(ingredients);
-	}
-
-	@Override
-	public void setRecipe(IRecipeLayout layout, BlastFurnaceRecipeWrapper recipe, IIngredients ingredients)
-	{
-		IGuiItemStackGroup group = layout.getItemStacks();
-		group.init(0, true, 42, 12);
-		group.init(1, true, 60, 12);
-		group.init(2, false, 111, 30);
-		group.init(3, false, 137, 30);
-
-		group.set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
-		group.set(1, ingredients.getInputs(VanillaTypes.ITEM).get(1));
-
-		group.set(2, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
-		group.set(3, ingredients.getOutputs(VanillaTypes.ITEM).get(1));
+		builder.addSlot(RecipeIngredientRole.INPUT, 42, 12).addIngredients(recipe.getIngot());
+		builder.addSlot(RecipeIngredientRole.INPUT, 60, 12).addIngredients(recipe.getFlux());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 111, 30).addItemStack(recipe.getOutput());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 137, 30).addItemStack(recipe.getSlag());
 	}
 }

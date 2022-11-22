@@ -18,10 +18,4 @@ public class BrickFirebox extends FABaseBlock /*implements ITileEntityProvider*/
 			  Properties.of(Material.STONE).strength(2f).requiresCorrectToolForDrops(), new Item.Properties().tab(FAItemGroups.heat));
 		TileEntityHandler.tiles.add(TESolidFueledFirebox.class);
 	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
-	}
 }

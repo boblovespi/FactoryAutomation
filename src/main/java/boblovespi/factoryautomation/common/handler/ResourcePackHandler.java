@@ -81,7 +81,7 @@ public class ResourcePackHandler
 
 		@Override
 		public Collection<ResourceLocation> getResources(PackType type, String namespaceIn,
-				String pathIn, int maxDepthIn, Predicate<String> filterIn)
+				String pathIn, Predicate<ResourceLocation> filterIn)
 		{
 			if (type == PackType.CLIENT_RESOURCES)
 				return Collections.emptyList();
@@ -103,12 +103,12 @@ public class ResourcePackHandler
 						filesystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
 					}
 					Path path = filesystem.getPath("/" + type.getDirectory());
-					collectResources(all, maxDepthIn, namespaceIn, path, pathIn, filterIn);
+					collectResources(all, namespaceIn, path, pathIn, filterIn);
 				} else if ("file".equals(uri.getScheme()))
 				{
 					URL url1 = new URL(url.toString().substring(0, url.toString().length() - "pack.mcmeta".length()));
 					Path path = Paths.get(url1.toURI());
-					collectResources(all, maxDepthIn, namespaceIn, path, pathIn, filterIn);
+					collectResources(all, namespaceIn, path, pathIn, filterIn);
 				}
 			} catch (IOException | URISyntaxException exception)
 			{
@@ -132,16 +132,15 @@ public class ResourcePackHandler
 
 		}
 
-		private void collectResources(Collection<ResourceLocation> locations, int maxDepthIn, String namespaceIn,
-				Path pathIn, String pathNameIn, Predicate<String> filterIn) throws IOException
+		private void collectResources(Collection<ResourceLocation> locations, String namespaceIn,
+				Path pathIn, String pathNameIn, Predicate<ResourceLocation> filterIn) throws IOException
 		{
 			Path path = pathIn.resolve(namespaceIn);
 
-			try (Stream<Path> stream = Files.walk(path.resolve(pathNameIn), maxDepthIn))
+			try (Stream<Path> stream = Files.walk(path.resolve(pathNameIn)))
 			{
-				stream.filter((n) -> !n.endsWith(".mcmeta") && Files.isRegularFile(n) && filterIn
-						.test(n.getFileName().toString())).map((n) -> new ResourceLocation(namespaceIn,
-						path.relativize(n).toString().replaceAll("\\\\", "/"))).forEach(locations::add);
+				stream.filter((n) -> !n.endsWith(".mcmeta") && Files.isRegularFile(n)).map((n) -> new ResourceLocation(namespaceIn,
+						path.relativize(n).toString().replaceAll("\\\\", "/"))).filter(filterIn).forEach(locations::add);
 			}
 		}
 	}

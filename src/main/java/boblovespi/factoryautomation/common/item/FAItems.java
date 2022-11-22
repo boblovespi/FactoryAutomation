@@ -18,21 +18,20 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.TallowForms;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.FATags;
-import boblovespi.factoryautomation.common.util.Log;
+import boblovespi.factoryautomation.common.util.RegistryObjectWrapper;
 import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
@@ -44,7 +43,7 @@ import static boblovespi.factoryautomation.common.item.tools.ToolMaterial.*;
 public class FAItems
 {
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
-	public static final List<Item> items = new ArrayList<>(100);
+	public static final List<RegistryObjectWrapper<Item>> items = new ArrayList<>(100);
 
 	// metal resources
 
@@ -53,14 +52,14 @@ public class FAItems
 	public static MultiTypeItem<Metals> sheet;
 	public static MultiTypeItem<Metals> coin;
 	public static MultiTypeItem<Metals> rod;
-	public static FAItem diamondCoin;
-	public static FAItem voidsteelIngot;
+	public static Item diamondCoin;
+	public static Item voidsteelIngot;
 
 	// metallurgy misc
 
-	public static FAItem slag;
-	public static FAItem coalCoke;
-	public static FAItem ironShard;
+	public static Item slag;
+	public static Item coalCoke;
+	public static Item ironShard;
 	public static MultiTypeItem<TallowForms> pigTallowParts;
 	public static MultiTypeItem<TallowForms> pigTallowMolds;
 	public static MultiTypeItem<TallowForms> firedMolds;
@@ -73,112 +72,112 @@ public class FAItems
 
 	// food
 
-	public static FAItem riceGrain;
-	public static FAItem toastedBread;
-	public static FAItem wheatFlour;
-	public static FAItem[] iceCream;
-	public static FAItem pancake;
-	public static FAItem honeyPancake;
+	public static Item riceGrain;
+	public static Item toastedBread;
+	public static Item wheatFlour;
+	public static Item[] iceCream;
+	public static Item pancake;
+	public static Item honeyPancake;
 
 	// resources
 
-	public static FAItem diamondGravel;
-	public static FAItem stoneDust;
-	public static FAItem porcelainClay;
-	public static FAItem siliconQuartz;
-	public static FAItem ash;
-	public static FAItem liquidGlycerin;
-	public static FAItem dryGlycerin;
-	public static FAItem acidPowder;
-	public static FAItem rawRubber;
-	public static FAItem rubber;
-	public static FAItem graphite;
-	public static FAItem terraclay;
-	public static FAItem terraclayBrick;
-	public static FAItem plantFiber;
-	public static FAItem pigTallow;
-	public static FAItem tanbarkDust;
-	public static FAItem calciteDust;
-	public static FAItem quicklime;
-	public static FAItem cleanedLeather;
-	public static FAItem processedLeather;
+	public static Item diamondGravel;
+	public static Item stoneDust;
+	public static Item porcelainClay;
+	public static Item siliconQuartz;
+	public static Item ash;
+	public static Item liquidGlycerin;
+	public static Item dryGlycerin;
+	public static Item acidPowder;
+	public static Item rawRubber;
+	public static Item rubber;
+	public static Item graphite;
+	public static Item terraclay;
+	public static Item terraclayBrick;
+	public static Item plantFiber;
+	public static Item pigTallow;
+	public static Item tanbarkDust;
+	public static Item calciteDust;
+	public static Item quicklime;
+	public static Item cleanedLeather;
+	public static Item processedLeather;
 
 	// crafting components
 
 	public static MultiTypeItem<Gearbox.GearType> gear;
-	public static FAItem glassLens;
-	public static FAItem airPiston;
-	public static FAItem bronzeFlywheel;
-	public static FAItem stirlingGeneratorCore;
+	public static Item glassLens;
+	public static Item airPiston;
+	public static Item bronzeFlywheel;
+	public static Item stirlingGeneratorCore;
 
 	// crafting parts
 
-	public static FAItem screw;
+	public static Item screw;
 
 	// electrical parts
 
-	public static FAItem copperWire;
-	public static FAItem basicChip;
-	public static FAItem circuitFrame;
-	public static FAItem dataprintCircuit;
+	public static Item copperWire;
+	public static Item basicChip;
+	public static Item circuitFrame;
+	public static Item dataprintCircuit;
 
 	// regular tools
 
-	public static FAItem bronzePickaxe;
-	public static FAItem bronzeAxe;
-	public static FAItem bronzeHoe;
-	public static FAItem bronzeShovel;
-	public static FAItem bronzeSword;
+	public static Item bronzePickaxe;
+	public static Item bronzeAxe;
+	public static Item bronzeHoe;
+	public static Item bronzeShovel;
+	public static Item bronzeSword;
 
-	public static FAItem steelPickaxe;
-	public static FAItem steelAxe;
-	public static FAItem steelHoe;
-	public static FAItem steelShovel;
-	public static FAItem steelSword;
+	public static Item steelPickaxe;
+	public static Item steelAxe;
+	public static Item steelHoe;
+	public static Item steelShovel;
+	public static Item steelSword;
 
-	public static FAItem copperPickaxe;
-	public static FAItem copperAxe;
-	public static FAItem copperHoe;
-	public static FAItem copperShovel;
-	public static FAItem copperSword;
-	public static FAItem copperShears;
+	public static Item copperPickaxe;
+	public static Item copperAxe;
+	public static Item copperHoe;
+	public static Item copperShovel;
+	public static Item copperSword;
+	public static Item copperShears;
 
-	public static FAItem voidsteelPickaxe;
-	public static FAItem voidsteelAxe;
-	public static FAItem voidsteelHoe;
-	public static FAItem voidsteelShovel;
-	public static FAItem voidsteelSword;
+	public static Item voidsteelPickaxe;
+	public static Item voidsteelAxe;
+	public static Item voidsteelHoe;
+	public static Item voidsteelShovel;
+	public static Item voidsteelSword;
 
-	public static FAItem flintPickaxe;
+	public static Item flintPickaxe;
 
-	public static FAItem choppingBlade;
-	public static FAItem firebow;
+	public static Item choppingBlade;
+	public static Item firebow;
 
 	// workbench tools
 
-	public static FAItem copperHammer;
-	public static FAItem ironHammer;
-	public static FAItem steelHammer;
-	public static FAItem ironWrench;
-	public static FAItem bronzeWrench;
-	public static FAItem steelWrench;
-	public static FAItem steelPinchers;
-	public static FAItem sandpaper;
-	public static FAItem advancedFlintAndSteel;
+	public static Item copperHammer;
+	public static Item ironHammer;
+	public static Item steelHammer;
+	public static Item ironWrench;
+	public static Item bronzeWrench;
+	public static Item steelWrench;
+	public static Item steelPinchers;
+	public static Item sandpaper;
+	public static Item advancedFlintAndSteel;
 
 	// misc tools
 
-	public static FAItem clayCrucible;
+	public static Item clayCrucible;
 	public static MultiTypeItem<MachineTiers> wearPlate;
 
 	// fluid canister
 
-	public static FAItem fluidCanister;
+	public static Item fluidCanister;
 
 	// misc
 
-	public static FAItem factoryDisc;
-	public static FAItem meterDisc;
+	public static Item factoryDisc;
+	public static Item meterDisc;
 
 	// guidebook
 
@@ -192,12 +191,12 @@ public class FAItems
 		// metal resources
 
 		ingot = new Ingot();
-		items.remove(ingot.GetItem(Metals.IRON));
-		items.remove(ingot.GetItem(Metals.GOLD));
-		items.remove(ingot.GetItem(Metals.COPPER));
+		RemoveItem(ingot.GetItem(Metals.IRON));
+		RemoveItem(ingot.GetItem(Metals.GOLD));
+		RemoveItem(ingot.GetItem(Metals.COPPER));
 		nugget = new Nugget();
-		items.remove(nugget.GetItem(Metals.IRON));
-		items.remove(nugget.GetItem(Metals.GOLD));
+		RemoveItem(nugget.GetItem(Metals.IRON));
+		RemoveItem(nugget.GetItem(Metals.GOLD));
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
 		diamondCoin = new FABaseItem("coin_diamond", CreativeModeTab.TAB_MISC);
@@ -226,7 +225,7 @@ public class FAItems
 		toastedBread = new FAFood(
 				"toasted_bread", 5, 4, 32, false, false, Collections.emptyList(), Collections.emptyList());
 		wheatFlour = new FABaseItem("wheat_flour", FAItemGroups.resources);
-		iceCream = new FAItem[IceCreams.values().length];
+		iceCream = new Item[IceCreams.values().length];
 		for (int i = 0; i < iceCream.length; i++)
 		{
 			iceCream[i] = new FAFood("ice_cream_" + IceCreams.values()[i].name().toLowerCase(), 8, 12, 32, false, true,
@@ -336,8 +335,10 @@ public class FAItems
 
 		// misc
 
-		factoryDisc = new MusicDisc("disc_factory", 15, () -> SoundHandler.factoryDisc, Prop().tab(CreativeModeTab.TAB_MISC));
-		meterDisc = new MusicDisc("disc_meter", 15, () -> SoundHandler.meterDisc, Prop().tab(CreativeModeTab.TAB_MISC));
+		factoryDisc = new MusicDisc("disc_factory", 15, () -> SoundHandler.factoryDisc.obj(),
+				Prop().tab(CreativeModeTab.TAB_MISC), 1 * 60 * 20 + 3 * 20);
+		meterDisc = new MusicDisc("disc_meter", 15, () -> SoundHandler.meterDisc.obj(),
+				Prop().tab(CreativeModeTab.TAB_MISC), 2 * 60 * 20 + 53 * 20);
 	}
 
 	public static Item.Properties Prop()
@@ -350,9 +351,14 @@ public class FAItems
 		return Prop().tab(CreativeModeTab.TAB_BUILDING_BLOCKS);
 	}
 
+	public static void RemoveItem(Item item)
+	{
+		items.removeIf(i -> i.obj() == item);
+	}
+
 	public static void RegisterItemRenders()
 	{
-		for (Item item : items)
+		/*for (Item item : items)
 		{
 			Log.LogInfo("new item!", Objects.requireNonNull(item.getRegistryName()));
 			// Log.LogInfo("Item unlocalized name", item.getUnlocalizedName());
@@ -366,15 +372,15 @@ public class FAItems
 					else
 						RegisterItemBlock((BlockItem) item);
 
-				} /*else if (item instanceof MultiTypeItem)
+				} *//*else if (item instanceof MultiTypeItem)
 				{
 					MultiTypeItem<?> variantItem = (MultiTypeItem<?>) item;
 					RegisterRenders(variantItem);
-				}*/ /*else if (item instanceof MultiStateItemBlock)
+				}*//* *//*else if (item instanceof MultiStateItemBlock)
 				{
 					MultiStateItemBlock variantItem = (MultiStateItemBlock) item;
 					RegisterRenders(variantItem);
-				}*/ else
+				}*//* else
 				{
 					RegisterRender((FAItem) item, 0);
 				}
@@ -386,14 +392,14 @@ public class FAItems
 				// is a vanilla item, so we need to use a vanilla item method
 				RegisterVanillaRender(item);
 			}
-		}
+		}*/
 	}
 
 	@SuppressWarnings("MethodCallSideOnly")
 	private static void RegisterFluidBlock(FAItemBlock item)
 	{
-		final ModelResourceLocation loc = new ModelResourceLocation(
-				new ResourceLocation(FactoryAutomation.MODID, item.GetMetaFilePath(0)), "inventory");
+		// final ModelResourceLocation loc = new ModelResourceLocation(
+				// new ResourceLocation(FactoryAutomation.MODID, item.GetMetaFilePath(0)), "inventory");
 		//		ModelBakery.registerItemVariants(item.ToItem(), loc);
 		//		ModelLoader.setCustomModelResourceLocation(item.ToItem(), 0, loc);
 		//		ModelLoader.setCustomMeshDefinition(item.ToItem(), stack -> loc);
@@ -407,8 +413,8 @@ public class FAItems
 		//			}
 		//		});
 	}
-
 	/*@SideOnly(Side.CLIENT)*/
+
 	@SuppressWarnings("MethodCallSideOnly")
 	private static void RegisterRender(FAItem item, int meta)
 	{
@@ -428,10 +434,9 @@ public class FAItems
 	{
 		for (int meta = 0; meta < item.itemTypes.getEnumConstants().length; meta++)
 		{
-			RegisterRender(item, meta);
+			// RegisterRender(item, meta);
 		}
 	}
-
 	//	private static void RegisterRenders(MultiStateItemBlock item)
 	//	{
 	//		for (int meta = 0; meta < item.blockTypes.getEnumConstants().length; meta++)
@@ -440,11 +445,12 @@ public class FAItems
 	//		}
 	//	}
 
+
 	@SuppressWarnings("MethodCallSideOnly")
 	private static void RegisterVanillaRender(Item item)
 	{
 		// Log.LogInfo("Registering a vanilla Item class");
-		final ModelResourceLocation loc = new ModelResourceLocation(item.getRegistryName(), "inventory");
+		// final ModelResourceLocation loc = new ModelResourceLocation(item.getRegistryName(), "inventory");
 		//		ModelBakery.registerItemVariants(item, loc);
 		//		ModelLoader.setCustomModelResourceLocation(item, 0, loc);
 		//		ModelLoader.setCustomMeshDefinition(item, stack -> loc);
@@ -474,11 +480,11 @@ public class FAItems
 	}
 
 	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event)
+	public static void registerItems(RegisterEvent event)
 	{
 		Init();
 
-		items.forEach(event.getRegistry()::register);
+		event.register(ForgeRegistries.Keys.ITEMS, n -> items.forEach(i -> n.register(i.name(), i.obj())));
 
 		// VanillaTweakHandler.RemoveItems(event);
 

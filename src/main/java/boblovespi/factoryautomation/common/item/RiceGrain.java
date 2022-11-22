@@ -40,7 +40,7 @@ public class RiceGrain extends FABaseItem implements IPlantable
 	@Override
 	public BlockState getPlant(BlockGetter iBlockAccess, BlockPos blockPos)
 	{
-		return FABlocks.riceCrop.ToBlock().defaultBlockState();
+		return FABlocks.riceCrop.defaultBlockState();
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class RiceGrain extends FABaseItem implements IPlantable
 			if (state.getBlock().canSustainPlant(state, world, pos.above(), Direction.UP, this) && world
 					.isEmptyBlock(pos.above(2)))
 			{
-				world.setBlockAndUpdate(pos.above(2), FABlocks.riceCrop.ToBlock().defaultBlockState());
+				world.setBlockAndUpdate(pos.above(2), FABlocks.riceCrop.defaultBlockState());
 				items.shrink(1);
 
 				return InteractionResult.SUCCESS;

@@ -16,12 +16,6 @@ public class CharcoalPile extends FABaseBlock
 				new Item.Properties().tab(FAItemGroups.resources));
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "resources/" + RegistryName();
-	}
-
 	// TODO: add loot tables
 	//	/**
 	//	 * Get the Item that this Block should drop when harvested.

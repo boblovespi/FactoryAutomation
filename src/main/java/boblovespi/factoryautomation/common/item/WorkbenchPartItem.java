@@ -11,10 +11,4 @@ public class WorkbenchPartItem extends FABaseItem
 	{
 		super(name, creativeTab);
 	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "parts/" + super.GetMetaFilePath(meta);
-	}
 }

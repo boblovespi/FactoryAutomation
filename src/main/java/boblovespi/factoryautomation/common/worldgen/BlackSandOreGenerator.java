@@ -29,7 +29,7 @@ public class BlackSandOreGenerator extends Feature<NoneFeatureConfiguration>
 		var pos = context.origin();
 		var random = context.random();
 		var world = context.level();
-		BlockState toGen = FABlocks.blackSand.ToBlock().defaultBlockState();
+		BlockState toGen = FABlocks.blackSand.defaultBlockState();
 
 		BlockPos.MutableBlockPos genPos = pos.mutable();
 		for (int y = -10; y < 10; y++)

@@ -1,12 +1,8 @@
 package boblovespi.factoryautomation;
 
-import boblovespi.factoryautomation.api.energy.heat.CapabilityHeatUser;
 import boblovespi.factoryautomation.api.energy.heat.IHeatUser;
-import boblovespi.factoryautomation.api.energy.mechanical.CapabilityMechanicalUser;
 import boblovespi.factoryautomation.api.energy.mechanical.IMechanicalUser;
-import boblovespi.factoryautomation.api.misc.CapabilityBellowsUser;
 import boblovespi.factoryautomation.api.misc.IBellowsable;
-import boblovespi.factoryautomation.api.pollution.CapabilityPollutedChunk;
 import boblovespi.factoryautomation.api.pollution.IPollutedChunk;
 import boblovespi.factoryautomation.client.ClientProxy;
 import boblovespi.factoryautomation.client.gui.GuiHandler;
@@ -25,6 +21,7 @@ import boblovespi.factoryautomation.common.multiblock.MultiblockHandler;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructurePattern;
 import boblovespi.factoryautomation.common.multiblock.MultiblockStructures;
 import boblovespi.factoryautomation.common.network.PacketHandler;
+import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TETripHammerController;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEWaterwheel;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCrucible;
@@ -33,27 +30,28 @@ import boblovespi.factoryautomation.common.util.FuelHandler;
 import boblovespi.factoryautomation.common.util.Log;
 import boblovespi.factoryautomation.common.util.ModCompatHandler;
 import boblovespi.factoryautomation.common.util.TooltipHandler;
-import boblovespi.factoryautomation.common.worldgen.RockBlockPlacer;
 import boblovespi.factoryautomation.common.worldgen.WorldGenHandler;
 import boblovespi.factoryautomation.datagen.loottable.FALootTableProvider;
 import boblovespi.factoryautomation.datagen.recipe.FARecipeProvider;
+import boblovespi.factoryautomation.datagen.tags.FABiomeTagProvider;
 import boblovespi.factoryautomation.datagen.tags.FABlockTagProvider;
 import boblovespi.factoryautomation.datagen.tags.FAItemTagProvider;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
-import software.bernie.example.GeckoLibMod;
 import software.bernie.geckolib3.GeckoLib;
 
 /**
@@ -61,7 +59,7 @@ import software.bernie.geckolib3.GeckoLib;
  * main mod class
  */
 @Mod(FactoryAutomation.MODID/*, name = FactoryAutomation.NAME, version = FactoryAutomation.VERSION/*, guiFactory = FactoryAutomation.GUI_FACTORY*/)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = FactoryAutomation.MODID)
 public class FactoryAutomation
 {
 	public static final String MODID = "factoryautomation";
@@ -70,6 +68,7 @@ public class FactoryAutomation
 	public static final String SERVER_PROXY_CLASS = "boblovespi.factoryautomation.common.ServerProxy";
 	public static final String CLIENT_PROXY_CLASS = "boblovespi.factoryautomation.client.ClientProxy";
 	public static final String GUI_FACTORY = "net.minecraftforge.fml.client.DefaultGuiFactory";
+	private static boolean hasInit = false;
 	// @Mod.Instance(MODID)
 	// public static FactoryAutomation instance = new FactoryAutomation();
 	// @SidedProxy(serverSide = SERVER_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
@@ -88,7 +87,9 @@ public class FactoryAutomation
 		GeckoLib.initialize();
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::Setup);
 		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::ClientSetup);
+		TileEntityHandler.TE_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
 		Fluids.FLUID_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
+		Fluids.FLUID_TYPE_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 		WorldGenHandler.deferredRegister.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// RockBlockPlacer.REGISTRY.register(FMLJavaModLoadingContext.get().getModEventBus());
 		// ResourcePackHandler p; // lol
@@ -98,6 +99,12 @@ public class FactoryAutomation
 	@SubscribeEvent
 	public static void Setup(FMLCommonSetupEvent event)
 	{
+		if (hasInit)
+		{
+			Log.LogError("WTF I have initialized already!");
+			return;
+		}
+		hasInit = true;
 		Log.getLogger().info("Preinitialization");
 
 		ConfigFields.AddClass(VanillaTweakHandler.class);
@@ -111,7 +118,7 @@ public class FactoryAutomation
 		// CapabilityBellowsUser.Register();
 
 		// FAConfig.PreInit();
-		PacketHandler.CreateChannel(MODID);
+		PacketHandler.CreateChannel("main");
 		proxy.PreInit();
 
 		FAItems.Init();
@@ -130,10 +137,7 @@ public class FactoryAutomation
 	public static void ClientSetup(FMLClientSetupEvent event)
 	{
 		// TODO: RenderTypeLookup.setRenderLayer();
-		proxy.RegisterRenders();
 		GuiHandler.RegisterGuis();
-		ItemBlockRenderTypes.setRenderLayer(FABlocks.riceCrop.ToBlock(), RenderType.cutoutMipped());
-		ItemBlockRenderTypes.setRenderLayer(FABlocks.ironWorkbench.ToBlock(), RenderType.cutoutMipped());
 	}
 
 	@SubscribeEvent
@@ -142,10 +146,11 @@ public class FactoryAutomation
 		DataGenerator generator = event.getGenerator();
 		ExistingFileHelper helper = event.getExistingFileHelper();
 		FABlockTagProvider blockTags = new FABlockTagProvider(generator, helper);
-		generator.addProvider(blockTags);
-		generator.addProvider(new FAItemTagProvider(generator, blockTags, helper));
-		generator.addProvider(new FALootTableProvider(generator));
-		generator.addProvider(new FARecipeProvider(generator));
+		generator.addProvider(true, blockTags);
+		generator.addProvider(true, new FAItemTagProvider(generator, blockTags, helper));
+		generator.addProvider(true, new FALootTableProvider(generator));
+		generator.addProvider(true, new FARecipeProvider(generator));
+		generator.addProvider(true, new FABiomeTagProvider(generator, helper));
 	}
 
 	@SuppressWarnings("unused")
@@ -155,6 +160,7 @@ public class FactoryAutomation
 		Log.getLogger().info("Initialization");
 		proxy.Init();
 		// GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
+		// TileEntityHandler.RegisterTileEntities();
 		FuelHandler.RegisterFuels();
 		RecipeHandler.registerIRecipes(); // TODO: figure out when to actually call, or move to json
 		// OreDictionaryHandler.registerOreDictionary();
@@ -191,7 +197,7 @@ public class FactoryAutomation
 
 		MinecraftForge.EVENT_BUS.register(WorldTickHandler.GetInstance());
 		LootTableHandler.RegisterTables();
-		ModCompatHandler.Init();
+
 	}
 
 	@SuppressWarnings("unused")
@@ -216,5 +222,19 @@ public class FactoryAutomation
 		event.register(IMechanicalUser.class);
 		event.register(IBellowsable.class);
 		event.register(IPollutedChunk.class);
+	}
+
+	@SubscribeEvent
+	public void ModCompatEvent(InterModEnqueueEvent event)
+	{
+		ModCompatHandler.Init();
+	}
+
+	@SubscribeEvent
+	public void RegisterRendersEvent(EntityRenderersEvent.RegisterRenderers event)
+	{
+		proxy.RegisterRenders();
+		ItemBlockRenderTypes.setRenderLayer(FABlocks.riceCrop, RenderType.cutoutMipped());
+		ItemBlockRenderTypes.setRenderLayer(FABlocks.ironWorkbench, RenderType.cutoutMipped());
 	}
 }

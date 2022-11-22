@@ -1,0 +1,8 @@
+{
+  "values": [
+    "minecraft:desert",
+    "#minecraft:is_jungle",
+    "#minecraft:is_taiga",
+    "#forge:is_swamp"
+  ]
+}

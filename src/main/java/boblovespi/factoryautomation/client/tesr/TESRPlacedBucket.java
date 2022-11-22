@@ -56,7 +56,7 @@ public class TESRPlacedBucket implements BlockEntityRenderer<TEPlacedBucket>
 			// buffer1.pos(1, 0, 0).tex(maxU, minV).endVertex();
 			Minecraft.getInstance().getBlockRenderer().renderLiquid(te.getBlockPos(), te.getLevel(),
 					buffer.getBuffer(ItemBlockRenderTypes.getRenderLayer(fluidStack.getFluid().defaultFluidState())),
-					fluidStack.getFluid().defaultFluidState());
+					fluidStack.getFluid().defaultFluidState().createLegacyBlock(), fluidStack.getFluid().defaultFluidState());
 			// TODO: draw quads manually for efficiency
 
 			// tessellator.draw();

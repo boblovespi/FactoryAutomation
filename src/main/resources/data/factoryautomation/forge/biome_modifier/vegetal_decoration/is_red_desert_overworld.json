@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#factoryautomation:is_red_desert_overworld",
+  "features": ["factoryautomation:patch_rock_mesa"],
+  "step": "vegetal_decoration"
+}

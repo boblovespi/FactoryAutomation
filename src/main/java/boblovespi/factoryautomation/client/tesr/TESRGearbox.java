@@ -4,27 +4,19 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox.GearType;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
-import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import org.lwjgl.opengl.GL11;
+import net.minecraftforge.client.model.data.ModelData;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
@@ -134,7 +126,7 @@ public class TESRGearbox implements BlockEntityRenderer<TEGearbox>
 	private void RenderAxle(TEGearbox te, Vec3 pos, Vec3 rotVec, float length, float rotation, Direction facing,
 			PoseStack matrix, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		BlockState state = FABlocks.powerShaft.ToBlock().defaultBlockState().setValue(PowerShaft.AXIS, Direction.Axis.Z)
+		BlockState state = FABlocks.powerShaft.defaultBlockState().setValue(PowerShaft.AXIS, Direction.Axis.Z)
 											  .setValue(PowerShaft.IS_TESR, true);
 
 		matrix.pushPose();
@@ -167,7 +159,7 @@ public class TESRGearbox implements BlockEntityRenderer<TEGearbox>
 			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 			// IBakedModel model = dispatcher.getModelForState(state);
 
-			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, ModelData.EMPTY, null);
 			// tessellator.draw();
 
 			// Lighting.turnBackOn();

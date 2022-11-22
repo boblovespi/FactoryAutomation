@@ -75,7 +75,7 @@ public class MultiblockHelper
 							if (part.AllowsAnyBlock() && state.isAir())
 								continue;
 
-							world.setBlockAndUpdate(loc, FABlocks.multiblockPart.ToBlock().defaultBlockState());
+							world.setBlockAndUpdate(loc, FABlocks.multiblockPart.defaultBlockState());
 							TEMultiblockPart newPart = (TEMultiblockPart) world.getBlockEntity(loc);
 
 							newPart.SetMultiblockInformation(structureId, new BlockPos(x, y, z),

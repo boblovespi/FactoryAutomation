@@ -53,7 +53,7 @@ public class TEGearbox extends BlockEntity implements IMechanicalUser, ITickable
 
 	public TEGearbox(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teGearbox, pos, state);
+		super(TileEntityHandler.teGearbox.get(), pos, state);
 	}
 
 	public boolean SideIsInput(Direction side)

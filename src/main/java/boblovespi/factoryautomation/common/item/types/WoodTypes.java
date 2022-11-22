@@ -1,11 +1,12 @@
 package boblovespi.factoryautomation.common.item.types;
 
+import boblovespi.factoryautomation.common.util.FATags;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.tags.BlockTags;
 
 /**
  * Created by Willi on 11/29/2019.
@@ -42,17 +43,17 @@ public enum WoodTypes
 
 	public static WoodTypes FromLog(Block log)
 	{
-		if (BlockTags.OAK_LOGS.contains(log))
+		if (FATags.Contains(BlockTags.OAK_LOGS, log))
 			return OAK;
-		if (BlockTags.SPRUCE_LOGS.contains(log))
+		if (FATags.Contains(BlockTags.SPRUCE_LOGS, log))
 			return SPRUCE;
-		if (BlockTags.BIRCH_LOGS.contains(log))
+		if (FATags.Contains(BlockTags.BIRCH_LOGS, log))
 			return BIRCH;
-		if (BlockTags.JUNGLE_LOGS.contains(log))
+		if (FATags.Contains(BlockTags.JUNGLE_LOGS, log))
 			return JUNGLE;
-		if (BlockTags.ACACIA_LOGS.contains(log))
+		if (FATags.Contains(BlockTags.ACACIA_LOGS, log))
 			return ACACIA;
-		if (BlockTags.DARK_OAK_LOGS.contains(log))
+		if (FATags.Contains(BlockTags.DARK_OAK_LOGS, log))
 			return DARK_OAK;
 		return OAK;
 	}

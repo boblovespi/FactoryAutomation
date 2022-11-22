@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#forge:is_swamp",
+  "features": ["factoryautomation:ore_limonite_normal"],
+  "step": "underground_ores"
+}

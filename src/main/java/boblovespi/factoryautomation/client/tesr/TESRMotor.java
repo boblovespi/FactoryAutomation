@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 /**
  * Created by Willi on 5/26/2018.
@@ -101,7 +101,7 @@ public class TESRMotor implements BlockEntityRenderer<TEMotor>
 	private void RenderAxle(TEGearbox te, Vec3 pos, Vec3 rotVec, float length, float rotation, Direction facing,
 							PoseStack matrix, MultiBufferSource buffer, int combinedLight, int combinedOverlay)
 	{
-		BlockState state = FABlocks.powerShaft.ToBlock().defaultBlockState().setValue(PowerShaft.AXIS, Direction.Axis.Z)
+		BlockState state = FABlocks.powerShaft.defaultBlockState().setValue(PowerShaft.AXIS, Direction.Axis.Z)
 				.setValue(PowerShaft.IS_TESR, true);
 
 		matrix.pushPose();
@@ -134,7 +134,7 @@ public class TESRMotor implements BlockEntityRenderer<TEMotor>
 			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 			// IBakedModel model = dispatcher.getModelForState(state);
 
-			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, ModelData.EMPTY, null);
 			// tessellator.draw();
 
 			// Lighting.turnBackOn();

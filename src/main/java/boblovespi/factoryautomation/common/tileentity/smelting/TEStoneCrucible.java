@@ -21,7 +21,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -140,7 +139,7 @@ public class TEStoneCrucible extends BlockEntity
 
 	public TEStoneCrucible(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teStoneCrucible, pos, state);
+		super(TileEntityHandler.teStoneCrucible.get(), pos, state);
 		metals = new MetalHelper(MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 2300 * 1000, 300);
@@ -185,7 +184,7 @@ public class TEStoneCrucible extends BlockEntity
 		// tags now (formerly oredict)
 		for (MetalInfo info : infos)
 		{
-			if (FATags.ForgeItemTag(info.ore).contains(item))
+			if (FATags.Contains(FATags.ForgeItemTag(info.ore), item))
 				return info.metal;
 		}
 		return "none";
@@ -227,7 +226,7 @@ public class TEStoneCrucible extends BlockEntity
 		// Item tag
 		for (MetalInfo info : infos)
 		{
-			if (FATags.ForgeItemTag(info.ore).contains(item))
+			if (FATags.Contains(FATags.ForgeItemTag(info.ore), item))
 				return info.amount * mult;
 		}
 		return 0;
@@ -459,7 +458,7 @@ public class TEStoneCrucible extends BlockEntity
 	@Override
 	public Component getDisplayName()
 	{
-		return new TextComponent("");
+		return Component.empty();
 	}
 
 	@Nullable

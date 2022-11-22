@@ -18,19 +18,19 @@ public class TESRTumblingBarrel extends GeoBlockRenderer<TETumblingBarrel>
 		super(rendererDispatcherIn, new AnimatedGeoModel<>()
 		{
 			@Override
-			public ResourceLocation getAnimationFileLocation(TETumblingBarrel animatable)
+			public ResourceLocation getAnimationResource(TETumblingBarrel animatable)
 			{
 				return new ResourceLocation(MODID, "animations/tumbling_barrel.animation.json");
 			}
 
 			@Override
-			public ResourceLocation getModelLocation(TETumblingBarrel object)
+			public ResourceLocation getModelResource(TETumblingBarrel object)
 			{
 				return new ResourceLocation(MODID, "geo/tumbling_barrel.geo.json");
 			}
 
 			@Override
-			public ResourceLocation getTextureLocation(TETumblingBarrel object)
+			public ResourceLocation getTextureResource(TETumblingBarrel object)
 			{
 				return new ResourceLocation(MODID, "textures/blocks/machines/tumbling_barrel.png");
 			}

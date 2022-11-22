@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -27,7 +26,7 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class MillstoneRecipe extends ChancelessMachineRecipe
 {
 	public static final Serializer SERIALIZER = new MillstoneRecipe.Serializer();
-	public static final RecipeType<MillstoneRecipe> TYPE = RecipeType.register(MODID + ":millstone");
+	public static final RecipeType<MillstoneRecipe> TYPE = RecipeType.simple(new ResourceLocation(MODID, "millstone"));
 	private static final HashMap<String, MillstoneRecipe> STRING_MAP = new HashMap<>();
 	private static final HashMap<Item, MillstoneRecipe> ITEM_MAP = new HashMap<>();
 	private static final HashMap<String, MillstoneRecipe> OREDICT_MAP = new HashMap<>();
@@ -74,12 +73,12 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 			return ITEM_MAP.get(input.getItem());
 		else
 		{
-			Set<ResourceLocation> oreIDs = input.getItem().getTags();
+			/*Set<ResourceLocation> oreIDs = input.getItem().getTags();
 			for (ResourceLocation id : oreIDs)
 			{
 				if (OREDICT_MAP.containsKey(id.toString()))
 					return OREDICT_MAP.get(id.toString());
-			}
+			}*/
 			return null;
 		}
 	}
@@ -132,7 +131,7 @@ public class MillstoneRecipe extends ChancelessMachineRecipe
 		return TYPE;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<MillstoneRecipe>
+	public static class Serializer implements RecipeSerializer<MillstoneRecipe>
 	{
 		@Override
 		public MillstoneRecipe fromJson(ResourceLocation name, JsonObject json)

@@ -142,12 +142,6 @@ public class Gearbox extends FABaseBlock implements EntityBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "mechanical/" + RegistryName();
-	}
-
-	@Override
 	public VoxelShape getOcclusionShape(BlockState state, BlockGetter levelIn, BlockPos pos)
 	{
 		return Shapes.empty();

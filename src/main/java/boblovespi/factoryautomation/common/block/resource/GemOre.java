@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.block.resource;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -18,14 +19,12 @@ import java.util.Random;
 public class GemOre extends FABaseBlock
 {
 	private final OreData data;
-	private final Random random;
 
 	public GemOre(String name, OreData data)
 	{
 		super(name, false, Properties.of(Material.STONE).strength(data.hardness, data.resistance).requiresCorrectToolForDrops(),
 				new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS));
 		this.data = data;
-		random = new Random();
 	}
 
 	/**
@@ -66,15 +65,8 @@ public class GemOre extends FABaseBlock
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, LevelReader level, BlockPos pos, int fortune, int silktouch)
+	public int getExpDrop(BlockState state, LevelReader level, RandomSource rand, BlockPos pos, int fortune, int silktouch)
 	{
-		Random rand = level instanceof Level ? ((Level) level).random : random;
 		return data.xpChance.apply(rand, fortune);
-	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "ores/" + RegistryName();
 	}
 }

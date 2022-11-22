@@ -5,15 +5,12 @@ import boblovespi.factoryautomation.client.gui.component.GuiBar;
 import boblovespi.factoryautomation.common.container.ContainerBrickFoundry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 /**
  * Created by Willi on 4/11/2019.
@@ -27,7 +24,7 @@ public class GuiBrickFoundry extends AbstractContainerScreen<ContainerBrickFound
 
 	public GuiBrickFoundry(ContainerBrickFoundry container, Inventory playerInv, Component unused)
 	{
-		super(container, playerInv, new TranslatableComponent("gui.brick_foundry"));
+		super(container, playerInv, Component.translatable("gui.brick_foundry"));
 		tempBar = new GuiBar(53, 16, 176, 17, 6, 61, GuiBar.ProgressDirection.UP);
 		flameBar = new GuiBar(67, 40, 176, 0, 14, 14, GuiBar.ProgressDirection.UP);
 		progressBar = new GuiBar(84, 21, 194, 2, 22, 10, GuiBar.ProgressDirection.RIGHT);
@@ -48,17 +45,17 @@ public class GuiBrickFoundry extends AbstractContainerScreen<ContainerBrickFound
 		super.renderTooltip(matrix, mouseX, mouseY);
 		if (isHovering(53, 16, 6, 61, mouseX, mouseY))
 		{
-			Component text = new TextComponent(I18n.get("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", menu.GetBar(6) / 10f));
+			Component text = Component.literal(I18n.get("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", menu.GetBar(6) / 10f));
 			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 		if (isHovering(107, 17, 16, 59, mouseX, mouseY))
 		{
-			Component text = new TextComponent(I18n.get(menu.GetMetalName()) + ": " + menu.GetBar(7));
+			Component text = Component.literal(I18n.get(menu.GetMetalName()) + ": " + menu.GetBar(7));
 			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 		if (isHovering(87, 61, 16, 16, mouseX, mouseY))
 		{
-			Component text = new TextComponent(
+			Component text = Component.literal(
 					I18n.get("gui.misc.efficiency") + ": " + String.format("%1$.0f", menu.GetBar(8) / 100f) + "%");
 			renderTooltip(matrix, text, mouseX, mouseY);
 		}

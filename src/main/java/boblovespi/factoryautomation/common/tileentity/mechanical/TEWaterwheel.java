@@ -43,7 +43,7 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 
 	public TEWaterwheel(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teWaterwheel, pos, state);
+		super(TileEntityHandler.teWaterwheel.get(), pos, state);
 		user = new MechanicalUser();
 	}
 
@@ -150,7 +150,7 @@ public class TEWaterwheel extends BlockEntity implements IMultiblockControllerTE
 			{
 				user.SetSpeedOnFace(out, 0);
 				user.SetTorqueOnFace(out, 0);
-			} else if (level.getBiome(worldPosition).getRegistryName() == Biomes.RIVER.location())
+			} else if (level.getBiome(worldPosition).is(Biomes.RIVER))
 			{
 				user.SetSpeedOnFace(out, 10);
 				user.SetTorqueOnFace(out, 25);

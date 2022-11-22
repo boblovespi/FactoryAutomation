@@ -6,13 +6,11 @@ import boblovespi.factoryautomation.common.tileentity.mechanical.TEMillstone;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 /**
  * Created by Willi on 2/12/2019.
@@ -20,7 +18,6 @@ import net.minecraftforge.client.model.data.EmptyModelData;
 public class TESRMillstone implements BlockEntityRenderer<TEMillstone>
 {
 	private BlockEntityRendererProvider.Context context;
-	private BakedModel cache = null;
 	private BlockState state = null;
 
 	public TESRMillstone(BlockEntityRendererProvider.Context context)
@@ -34,7 +31,7 @@ public class TESRMillstone implements BlockEntityRenderer<TEMillstone>
 	{
 		float toRotate = te.rotation + partialTicks * te.GetSpeed();
 		if (state == null)
-			state = FABlocks.millstone.ToBlock().defaultBlockState().setValue(Millstone.IS_TOP, true);
+			state = FABlocks.millstone.defaultBlockState().setValue(Millstone.IS_TOP, true);
 		matrix.pushPose();
 		{
 			matrix.translate(0.5, 0, 0.5);
@@ -57,11 +54,7 @@ public class TESRMillstone implements BlockEntityRenderer<TEMillstone>
 			// BufferBuilder buffer = tessellator.getBuffer();
 			// buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
 			BlockRenderDispatcher dispatcher = context.getBlockRenderDispatcher();
-			if (cache == null)
-				cache = dispatcher.getBlockModel(state);
-			dispatcher.getModelRenderer()
-					  .renderModel(matrix.last(), buffer.getBuffer(Sheets.cutoutBlockSheet()), state, cache, 1f,
-							  1f, 1f, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, ModelData.EMPTY, null);
 			// tessellator.draw();
 
 			// Lighting.turnBackOn();

@@ -56,7 +56,7 @@ public class TELeatherBellows extends BlockEntity implements ITickable, IBellows
 
 	public TELeatherBellows(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teLeatherBellows, pos, state);
+		super(TileEntityHandler.teLeatherBellows.get(), pos, state);
 		mechanicalUser = new MechanicalUser();
 		factory = new AnimationFactory(this);
 	}

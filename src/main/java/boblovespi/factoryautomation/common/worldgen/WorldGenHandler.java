@@ -4,13 +4,11 @@ import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.biome.Biome.BiomeCategory;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -54,7 +52,7 @@ public class WorldGenHandler
 		// flintGenerator = new SurfaceWorldGenerator(FABlocks.flintRock.ToBlock().defaultBlockState(), 5, surfaceBlocks);
 	}*/
 
-	@SubscribeEvent(priority = EventPriority.HIGH)
+	/*@SubscribeEvent(priority = EventPriority.HIGH)
 	public static void BiomeLoadingEvent(BiomeLoadingEvent event)
 	{
 		ConfiguredFeatures.init();
@@ -63,7 +61,7 @@ public class WorldGenHandler
 		BiomeGenerationSettingsBuilder biome = event.getGeneration();
 		if (category != BiomeCategory.NETHER && category != BiomeCategory.THEEND && category != BiomeCategory.NONE)
 		{
-			/*AddOre(biome,
+			AddOre(biome,
 					new OreConfiguration(NATURAL_STONE, FABlocks.metalOres.GetBlock(COPPER).defaultBlockState(), 10),
 					CountRange(9, 64));
 			AddOre(biome,
@@ -74,7 +72,7 @@ public class WorldGenHandler
 					new SimpleBlockPlacer()).tries(1).build()).count(1));
 			biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.configured(new RandomPatchConfiguration.GrassConfigurationBuilder(
 					new SimpleStateProvider(FABlocks.rock.ToBlock().defaultBlockState()), new RockBlockPlacer())
-																						 .tries(2).build()).count(5));*/
+																						 .tries(2).build()).count(5));
 			// rocks
 			switch (category)
 			{
@@ -99,15 +97,15 @@ public class WorldGenHandler
 		}
 		else if (category == BiomeCategory.THEEND)
 		{
-			/*AddOre(biome, new OreConfiguration(
+			AddOre(biome, new OreConfiguration(
 					new BlockMatchTest(Blocks.END_STONE),
-					FABlocks.siliconQuartzOre.ToBlock().defaultBlockState(), 9), CountRange(2, 255));*/
+					FABlocks.siliconQuartzOre.ToBlock().defaultBlockState(), 9), CountRange(2, 255));
 		}
 		else if (category == BiomeCategory.NETHER)
 		{
-			/*biome.addFeature(UNDERGROUND_ORES, limoniteGen.get().configured(NoneFeatureConfiguration.NONE).chance(17));*/
+			biome.addFeature(UNDERGROUND_ORES, limoniteGen.get().configured(NoneFeatureConfiguration.NONE).chance(17));
 		}
-	}
+	}*/
 
 	private static PlacedFeature GetFeature(String name)
 	{

@@ -61,7 +61,7 @@ public class ContainerStoneFoundry extends AbstractContainerMenu
 		ItemStack previous = ItemStack.EMPTY;
 		Slot slot = this.slots.get(fromSlot);
 
-		if (slot != null && slot.hasItem())
+		if (slot.hasItem())
 		{
 			ItemStack current = slot.getItem();
 			previous = current.copy();

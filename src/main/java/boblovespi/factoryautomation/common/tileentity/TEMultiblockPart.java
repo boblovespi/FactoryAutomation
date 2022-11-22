@@ -34,7 +34,7 @@ public class TEMultiblockPart extends BlockEntity
 
 	public TEMultiblockPart(BlockPos pos, BlockState state)
 	{
-		super(teMultiblockPart, pos, state);
+		super(teMultiblockPart.get(), pos, state);
 	}
 
 	/**

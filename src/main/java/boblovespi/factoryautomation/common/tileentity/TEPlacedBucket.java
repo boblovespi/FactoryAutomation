@@ -30,7 +30,7 @@ public class TEPlacedBucket extends BlockEntity
 
 	public TEPlacedBucket(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePlacedBucket, pos, state);
+		super(TileEntityHandler.tePlacedBucket.get(), pos, state);
 		handler = new FluidTank(1000)
 		{
 			@Override

@@ -6,6 +6,7 @@ import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -42,19 +43,13 @@ public class BrickMaker extends FABaseBlock
 		registerDefaultState(stateDefinition.any().setValue(CONTENTS, Contents.EMPTY));
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
-	}
-
 	public int tickRate(LevelReader levelIn)
 	{
 		return 3000;
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
 	{
 		Contents value = state.getValue(CONTENTS);
 		if (value.CanDry())
@@ -101,12 +96,12 @@ public class BrickMaker extends FABaseBlock
 			if (value.CanRemoveBrick())
 			{
 				world.setBlockAndUpdate(pos, state.setValue(CONTENTS, value.RemoveClay()));
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick.ToItem()), world);
+				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclayBrick), world);
 
 			} else if (value.CanRemoveClay())
 			{
 				world.setBlockAndUpdate(pos, state.setValue(CONTENTS, value.RemoveClay()));
-				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay.ToItem()), world);
+				ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FAItems.terraclay), world);
 			}
 		}
 		return InteractionResult.SUCCESS;

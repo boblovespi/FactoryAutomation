@@ -6,12 +6,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.material.EmptyFluid;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
@@ -48,10 +49,10 @@ public class GuiFluidTank
 		float aPercentage = 1 - percentage;
 		RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
 		var sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-				.apply(fluid.getAttributes().getStillTexture());
+				.apply(IClientFluidTypeExtensions.of(fluid).getStillTexture());
 		//		gui.blit(matrix, guiLeft + x, guiTop + y + (int) (h * aPercentage), sprite., 0, 16,
 		//				 (int) (16 * percentage));
-		var color = fluid.getAttributes().getColor();
+		var color = IClientFluidTypeExtensions.of(fluid).getTintColor();
 		float red = (color >> 16 & 255) / 255.0F;
 		float green = (color >> 8 & 255) / 255.0F;
 		float blue = (color & 255) / 255.0F;
@@ -78,7 +79,7 @@ public class GuiFluidTank
 	{
 		if (mouseX >= x + gui.getGuiLeft() && mouseX <= x + gui.getGuiLeft() + w && mouseY >= y + gui.getGuiTop() && mouseY <= y + gui.getGuiTop() + h)
 		{
-			gui.renderComponentTooltip(matrix, List.of(fluid.getAttributes().getDisplayName(FluidStack.EMPTY), new TranslatableComponent("gui.misc.millibucket", amount).withStyle(ChatFormatting.GRAY)), mouseX, mouseY);
+			gui.renderComponentTooltip(matrix, List.of(fluid.getFluidType().getDescription(FluidStack.EMPTY), Component.translatable("gui.misc.millibucket", amount).withStyle(ChatFormatting.GRAY)), mouseX, mouseY);
 		}
 	}
 }

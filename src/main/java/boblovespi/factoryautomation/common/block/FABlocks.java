@@ -22,6 +22,7 @@ import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.Log;
+import boblovespi.factoryautomation.common.util.RegistryObjectWrapper;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -30,9 +31,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,123 +54,123 @@ public class FABlocks
 {
 	private static final AtomicBoolean isInit = new AtomicBoolean(false);
 
-	public static List<Block> blocks;
+	public static List<RegistryObjectWrapper<Block>> blocks;
 
 	// multiblock controllers
 
-	public static FABlock steelmakingFurnaceController;
-	public static FABlock blastFurnaceController;
-	public static FABlock tripHammerController;
-	public static FABlock brickKiln;
-	public static FABlock waterwheel;
+	public static Block steelmakingFurnaceController;
+	public static Block blastFurnaceController;
+	public static Block tripHammerController;
+	public static Block brickKiln;
+	public static Block waterwheel;
 
 	// misc - need to organize
 
-	public static FABlock concrete;
-	public static FABlock riceCrop;
+	public static Block concrete;
+	public static Block riceCrop;
 	public static ConcreteSlab concreteSlab;
 	// public static ConcreteSlab concreteDoubleSlab;
 
-	public static FABlock multiblockPart;
-	public static FABlock cable;
-	public static FABlock solarPanel;
-	public static FABlock treetap;
-	public static FABlock placedBucket;
-	public static FABlock factorySign;
-	public static FABlock solidfueledfirebox;
+	public static Block multiblockPart;
+	public static Block cable;
+	public static Block solarPanel;
+	public static Block treetap;
+	public static Block placedBucket;
+	public static Block factorySign;
+	public static Block solidfueledfirebox;
 	// all the chopping blocks
-	public static FABlock woodChoppingBlock;
-	public static List<FABlock> woodChoppingBlocks;
-	public static FABlock campfire;
-	public static FABlock brickMakerFrame;
-	public static FABlock ironCharcoalMix;
+	public static Block woodChoppingBlock;
+	public static List<Block> woodChoppingBlocks;
+	public static Block campfire;
+	public static Block brickMakerFrame;
+	public static Block ironCharcoalMix;
 
 	// metal blocks
 
 	public static MultiTypeBlock<Metals> metalBlock;
 	public static MultiTypeBlock<Metals> metalPlateBlock;
 	//public static MultiTypeBlock<Metals> metalPatternedPlateBlock;
-	public static FABlock ironPatternedPlateBlock;
+	public static Block ironPatternedPlateBlock;
 
 	//The soo many pillars update
-	public static FABlock pillarBronze, pillarCopper, pillarIron, pillarMagmaticBrass, pillarPigIron, pillarSteel, pillarTin;
-	public static FABlock altpillarBronze, altpillarCopper, altpillarIron, altpillarMagmaticBrass, altpillarPigIron, altpillarSteel, altpillarTin;
+	public static Block pillarBronze, pillarCopper, pillarIron, pillarMagmaticBrass, pillarPigIron, pillarSteel, pillarTin;
+	public static Block altpillarBronze, altpillarCopper, altpillarIron, altpillarMagmaticBrass, altpillarPigIron, altpillarSteel, altpillarTin;
 
 	// ores
 
 	public static MultiTypeBlock<MetalOres> metalOres;
 	public static MultiTypeBlock<Ore.Grade> limoniteOre;
 	public static MultiTypeBlock<Ore.Grade> magnetiteOre;
-	public static FABlock siliconQuartzOre;
-	public static FABlock rock;
-	public static FABlock flintRock;
-	public static FABlock blackSand;
+	public static Block siliconQuartzOre;
+	public static Block rock;
+	public static Block flintRock;
+	public static Block blackSand;
 
 	// raw chunks
-	public static FABlock cassiteriteRawBlock;
-	public static FABlock limoniteRawBlock;
+	public static Block cassiteriteRawBlock;
+	public static Block limoniteRawBlock;
 
 	// workbenches
 
-	public static FABlock stoneWorkbench;
-	public static FABlock ironWorkbench;
-	public static FABlock chipCreator;
+	public static Block stoneWorkbench;
+	public static Block ironWorkbench;
+	public static Block chipCreator;
 
 	// fluids
 
-	public static FABlock steam;
-	public static FABlock rubberSap;
-	public static FABlock moltenNetherMetal;
+	public static Block steam;
+	public static Block rubberSap;
+	public static Block moltenNetherMetal;
 
 	// decoration blocks
 
-	public static FABlock bronzeCauldron;
-	public static FABlock bronzeFence;
-	public static FABlock slagGlass;
+	public static Block bronzeCauldron;
+	public static Block bronzeFence;
+	public static Block slagGlass;
 
 	// smelting
 
-	public static FABlock stoneCrucible;
-	public static FABlock stoneCastingVessel;
-	public static FABlock brickCrucible;
-	public static FABlock brickCastingVessel;
-	public static FABlock brickFirebox;
-	public static FABlock paperBellows;
-	public static FABlock leatherBellows;
+	public static Block stoneCrucible;
+	public static Block stoneCastingVessel;
+	public static Block brickCrucible;
+	public static Block brickCastingVessel;
+	public static Block brickFirebox;
+	public static Block paperBellows;
+	public static Block leatherBellows;
 
 	// mechanical
 
-	public static List<FABlock> powerShafts;
-	public static FABlock powerShaft;
-	public static FABlock powerShaftWood;
-	public static FABlock gearbox;
-	public static FABlock bevelGear;
-	public static FABlock splitterIron;
+	public static List<Block> powerShafts;
+	public static Block powerShaft;
+	public static Block powerShaftWood;
+	public static Block gearbox;
+	public static Block bevelGear;
+	public static Block splitterIron;
 
-	public static FABlock jawCrusher;
-	public static FABlock creativeMechanicalSource;
-	public static FABlock motor;
-	public static FABlock handCrank;
-	public static FABlock millstone;
-	public static FABlock horseEngine;
-	public static FABlock screwPump;
-	public static FABlock tumblingBarrel;
+	public static Block jawCrusher;
+	public static Block creativeMechanicalSource;
+	public static Block motor;
+	public static Block handCrank;
+	public static Block millstone;
+	public static Block horseEngine;
+	public static Block screwPump;
+	public static Block tumblingBarrel;
 
 	// transfer
 
-	public static FABlock ironPipe;
-	public static FABlock woodPipe;
-	public static FABlock pump;
-	public static FABlock woodenTank;
+	public static Block ironPipe;
+	public static Block woodPipe;
+	public static Block pump;
+	public static Block woodenTank;
 
 	// resource blocks
 
-	public static FABlock greenSand;
-	public static FABlock charcoalPile;
-	public static FABlock logPile;
-	public static FABlock terraclayBrickBlock;
-	public static FABlock terraclayBlock;
-	public static FABlock ironBloom;
+	public static Block greenSand;
+	public static Block charcoalPile;
+	public static Block logPile;
+	public static Block terraclayBrickBlock;
+	public static Block terraclayBlock;
+	public static Block ironBloom;
 
 	public static void Init()
 	{
@@ -194,7 +196,7 @@ public class FABlocks
 
 		concreteSlab = new ConcreteSlab();
 		// concreteDoubleSlab = new ConcreteSlab.Double();
-		FAItems.items.add(new FAItemBlock(concreteSlab, Building()));
+		FAItems.items.add(RegistryObjectWrapper.Item("concrete_slab", new FAItemBlock(concreteSlab, Building())));
 		multiblockPart = new MultiblockComponent();
 
 		cable = new Cable();
@@ -219,7 +221,7 @@ public class FABlocks
 		placedBucket = new PlacedBucket();
 
 		metalBlock = new MetalBlock("metal_block",
-				of(Material.METAL).strength(5, 30).requiresCorrectToolForDrops());
+				of(Material.METAL).strength(5, 30).requiresCorrectToolForDrops(), true);
 		metalPlateBlock = new MetalBlock("metal_plate_block",
 				of(Material.METAL).strength(5, 30).requiresCorrectToolForDrops());
 
@@ -227,13 +229,13 @@ public class FABlocks
 				of(Material.METAL).strength(1, 40).requiresCorrectToolForDrops(),
 				Building());
 
-		blocks.remove(metalBlock.GetBlock(Metals.IRON).ToBlock());
-		blocks.remove(metalBlock.GetBlock(Metals.GOLD).ToBlock());
-		blocks.remove(metalBlock.GetBlock(Metals.COPPER).ToBlock());
+		RemoveBlock(metalBlock.GetBlock(Metals.IRON));
+		RemoveBlock(metalBlock.GetBlock(Metals.GOLD));
+		RemoveBlock(metalBlock.GetBlock(Metals.COPPER));
 
-		FAItems.items.remove(metalBlock.GetBlock(Metals.IRON).GetItem().ToItem());
-		FAItems.items.remove(metalBlock.GetBlock(Metals.GOLD).GetItem().ToItem());
-		FAItems.items.remove(metalBlock.GetBlock(Metals.COPPER).GetItem().ToItem());
+		FAItems.RemoveItem(metalBlock.GetBlock(Metals.IRON).GetItem());
+		FAItems.RemoveItem(metalBlock.GetBlock(Metals.GOLD).GetItem());
+		FAItems.RemoveItem(metalBlock.GetBlock(Metals.COPPER).GetItem());
 
 		factorySign = new FABaseBlock("factory_sign_block", false,
 				of(Material.METAL).strength(1, 10),
@@ -247,7 +249,7 @@ public class FABlocks
 		// woodChoppingBlocks.add(woodChoppingBlock);
 		for (int i = 0; i < 6; i++)
 		{
-			FABlock tempChoppingBlock = new ChoppingBlock("wood_chopping_block_" + WoodTypes.values()[i].GetName(), 10,
+			Block tempChoppingBlock = new ChoppingBlock("wood_chopping_block_" + WoodTypes.values()[i].GetName(), 10,
 					of(Material.WOOD, WoodTypes.values()[i].GetColor()).strength(4).sound(SoundType.WOOD));
 			woodChoppingBlocks.add(tempChoppingBlock);
 		}
@@ -283,7 +285,7 @@ public class FABlocks
 				of(Material.STONE).strength(3f, 16), Building());
 		// .Init(n -> n.setHardness(3f).setResistance(16));
 		siliconQuartzOre = new GemOre("ore_silicon_quartz",
-				new OreData(FAItems.siliconQuartz.ToItem()).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
+				new OreData(FAItems.siliconQuartz).SetDropChance(n -> 1).SetXpChance((r, n) -> 12)
 						.SetMiningLevel(STEEL).SetHardness(2.5f).SetResistance(14));
 
 		rock = new Rock();
@@ -355,7 +357,7 @@ public class FABlocks
 
 	public static void RegisterRenders()
 	{
-		RegisterRender(concrete, 0);
+		// RegisterRender(concrete, 0);
 	}
 
 	private static void RegisterRender(FABlock block, int meta)
@@ -377,17 +379,17 @@ public class FABlocks
 		//		}
 	}
 
+	private static void RemoveBlock(Block block)
+	{
+		if (blocks == null)
+			return;
+		blocks.removeIf(b -> b.obj() == block);
+	}
+
 	@SubscribeEvent
-	public static void registerBlocks(RegistryEvent.Register<Block> event)
+	public static void registerBlocks(RegisterEvent event)
 	{
 		Init();
-
-		if (blocks == null)
-			Log.LogWarning("Blocks is null!");
-		if (event == null || event.getRegistry() == null)
-			Log.LogWarning("Event is null!");
-		assert event != null;
-		// blocks.forEach(n -> System.out.println(n.getRegistryName()));
-		blocks.forEach(event.getRegistry()::register);
+		event.register(ForgeRegistries.Keys.BLOCKS, n -> blocks.forEach(b -> b.Register(n)));
 	}
 }

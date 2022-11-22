@@ -57,7 +57,7 @@ public class StoneWorkbench extends Workbench implements EntityBlock
 		if (!world.isClientSide && player instanceof ServerPlayer)
 			// playerIn.openGui(FactoryAutomation.instance, GuiHandler.GuiID.WORKBENCH.id, levelIn, pos.getX(), pos.getY(),
 			// 		pos.getZ());
-			NetworkHooks.openGui((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+			NetworkHooks.openScreen((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 		return InteractionResult.SUCCESS;
 	}
 

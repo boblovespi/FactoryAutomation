@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.common.util.jei.categories;
 
 import boblovespi.factoryautomation.api.recipe.IMachineRecipe;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -12,7 +11,7 @@ import java.util.List;
 
 public abstract class AbstractMachineRecipeCategory<T extends IMachineRecipe> implements IRecipeCategory<T>
 {
-	@Override
+	/*@Override
 	public void setIngredients(T recipe, IIngredients ingredients)
 	{
 		if (!recipe.GetItemInputs().isEmpty() && !recipe.GetItemInputs().get(0).isEmpty())
@@ -37,5 +36,5 @@ public abstract class AbstractMachineRecipeCategory<T extends IMachineRecipe> im
 			fluids.addAll(recipe.GetSecondaryFluidOutputs().keySet());
 			ingredients.setOutputs(VanillaTypes.FLUID, fluids);
 		}
-	}
+	}*/
 }

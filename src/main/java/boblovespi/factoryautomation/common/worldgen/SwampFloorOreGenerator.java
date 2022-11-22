@@ -1,6 +1,7 @@
 package boblovespi.factoryautomation.common.worldgen;
 
 import boblovespi.factoryautomation.common.block.resource.Ore;
+import boblovespi.factoryautomation.common.util.FATags;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
@@ -54,8 +55,8 @@ public class SwampFloorOreGenerator extends Feature<NoneFeatureConfiguration>
 				{
 					BlockPos pos = basePos.offset(x, y, z);
 					if (pos.distSqr(basePos) <= radius * radius
-								&& FluidTags.WATER.contains(world.getFluidState(pos.above()).getType()) && world.getFluidState(pos).isEmpty()
-								&& rand.nextFloat() < spawnChance * (1 - pos.below(y).distSqr(basePos) / (radius * radius)))
+						&& FATags.Contains(FluidTags.WATER, world.getFluidState(pos.above()).getType()) && world.getFluidState(pos).isEmpty()
+						&& rand.nextFloat() < spawnChance * (1 - pos.below(y).distSqr(basePos) / (radius * radius)))
 						setBlock(world, pos, toGen);
 				}
 			}

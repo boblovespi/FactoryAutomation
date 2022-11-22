@@ -40,7 +40,7 @@ public class TEMotor extends BlockEntity implements IMechanicalUser, IRequiresEn
 
 	public TEMotor(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teMotor, pos, state);
+		super(TileEntityHandler.teMotor.get(), pos, state);
 	}
 
 	@Override
@@ -201,7 +201,6 @@ public class TEMotor extends BlockEntity implements IMechanicalUser, IRequiresEn
 	@Override
 	public void saveAdditional(CompoundTag compound)
 	{
-		super.save(compound);
 		compound.putFloat("energyProvided", energyProvided);
 		compound.putFloat("speed", speed);
 		compound.putFloat("torque", torque);

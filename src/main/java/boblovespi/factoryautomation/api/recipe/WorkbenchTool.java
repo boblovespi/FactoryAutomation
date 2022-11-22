@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.common.item.FAItems;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 
@@ -14,28 +14,28 @@ public class WorkbenchTool
 {
 	public static final HashMap<ResourceLocation, WorkbenchTool> tools = new HashMap<>(5);
 	public static final WorkbenchTool HAMMER = new WorkbenchTool(new ResourceLocation("factoryautomation", "hammer"),
-			new HashMap<Item, Integer>()
+			new HashMap<>()
 			{{
-				put(FAItems.copperHammer.ToItem(), 1);
-				put(FAItems.ironHammer.ToItem(), 2);
-				put(FAItems.steelHammer.ToItem(), 3);
+				put(FAItems.copperHammer, 1);
+				put(FAItems.ironHammer, 2);
+				put(FAItems.steelHammer, 3);
 			}});
 	public static final WorkbenchTool WRENCH = new WorkbenchTool(new ResourceLocation("factoryautomation", "wrench"),
-			new HashMap<Item, Integer>()
+			new HashMap<>()
 			{{
-				put(FAItems.ironWrench.ToItem(), 1);
-				put(FAItems.bronzeWrench.ToItem(), 2);
-				put(FAItems.steelWrench.ToItem(), 3);
+				put(FAItems.ironWrench, 1);
+				put(FAItems.bronzeWrench, 2);
+				put(FAItems.steelWrench, 3);
 			}});
 	public static final WorkbenchTool PINCHERS = new WorkbenchTool(
 			new ResourceLocation("factoryautomation", "pinchers"), new HashMap<Item, Integer>()
 	{{
-		put(FAItems.steelPinchers.ToItem(), 2);
+		put(FAItems.steelPinchers, 2);
 	}});
 	public static final WorkbenchTool SANDPAPER = new WorkbenchTool(
 			new ResourceLocation("factoryautomation", "sandpaper"), new HashMap<Item, Integer>()
 	{{
-		put(FAItems.sandpaper.ToItem(), 1);
+		put(FAItems.sandpaper, 1);
 	}});
 
 	private ResourceLocation id;

@@ -13,7 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,21 +23,22 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.builder.ILoopType;
 import software.bernie.geckolib3.core.controller.AnimationController;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import javax.annotation.Nonnull;
 import java.util.BitSet;
@@ -88,7 +88,7 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 
 	public TETumblingBarrel(BlockPos pos, BlockState state)
 	{
-		super(1, TileEntityHandler.teTumblingBarrel, pos, state);
+		super(1, TileEntityHandler.teTumblingBarrel.get(), pos, state);
 		input = new FluidTank(2 * 1000)
 		{
 			@Override
@@ -154,7 +154,7 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 		Direction.Axis axis = state.getValue(BlockStateProperties.HORIZONTAL_AXIS);
 		user = new MechanicalUser(EnumSet.of(Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE),
 											 Direction.fromAxisAndDirection(axis, Direction.AxisDirection.NEGATIVE)));
-		factory = new AnimationFactory(this);
+		factory = GeckoLibUtil.createFactory(this);
 	}
 
 	@Nonnull
@@ -282,11 +282,11 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side)
 	{
-		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		if (cap == ForgeCapabilities.ITEM_HANDLER)
 			return side == Direction.DOWN ? LazyOptional.of(() -> outputWrapper).cast() : LazyOptional.of(() -> inputWrapper).cast();
 		else if (cap == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> user).cast();
-		else if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+		else if (cap == ForgeCapabilities.ITEM_HANDLER)
 			return side == Direction.DOWN ? LazyOptional.of(() -> output).cast() : LazyOptional.of(() -> input).cast();
 		return super.getCapability(cap, side);
 	}
@@ -294,7 +294,7 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 	@Override
 	public Component getDisplayName()
 	{
-		return new TextComponent("");
+		return Component.empty();
 	}
 
 	public float GetSpeed()
@@ -315,7 +315,8 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 		data.addAnimationController(new AnimationController(this, "controller", 0, event -> {
 			if (user.GetSpeed() > 0)
 			{
-				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.tumbling_barrel.active", true));
+				event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.tumbling_barrel.active",
+																					   ILoopType.EDefaultLoopTypes.LOOP));
 				return PlayState.CONTINUE;
 			}
 			else return PlayState.STOP;

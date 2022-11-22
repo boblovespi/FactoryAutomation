@@ -1,27 +1,26 @@
 package boblovespi.factoryautomation.datagen.recipe;
 
-import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.ores.OreForms;
 import boblovespi.factoryautomation.common.item.types.Metals;
 import boblovespi.factoryautomation.common.util.FATags;
-import net.minecraft.data.*;
-import net.minecraft.world.item.Item;
-import net.minecraft.tags.Tag;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
-
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 
 public class FARecipeProvider extends RecipeProvider
 {
@@ -86,9 +85,9 @@ public class FARecipeProvider extends RecipeProvider
 		AddRawBlock(consumer, FABlocks.cassiteriteRawBlock, FATags.CreateForgeItemTag("raw_ores/tin"), FAItems.processedCassiterite.GetItem(OreForms.CHUNK));
 	}
 
-	private void AddToolRecipes(Consumer<FinishedRecipe> consumer, String materialName, @Nonnull Tag<Item> ingot,
-			@Nonnull Tag<Item> stick, @Nullable FAItem pickaxe, @Nullable FAItem axe, @Nullable FAItem sword,
-			@Nullable FAItem hoe, @Nullable FAItem shovel)
+	private void AddToolRecipes(Consumer<FinishedRecipe> consumer, String materialName, @Nonnull TagKey<Item> ingot,
+			@Nonnull TagKey<Item> stick, @Nullable Item pickaxe, @Nullable Item axe, @Nullable Item sword,
+			@Nullable Item hoe, @Nullable Item shovel)
 	{
 		if (pickaxe != null)
 		{
@@ -122,18 +121,16 @@ public class FARecipeProvider extends RecipeProvider
 		}
 	}
 
-	private void AddRawBlock(Consumer<FinishedRecipe> consumer, FABlock rawOre, Tag<Item> fromChunk, FAItem toChunk)
+	private void AddRawBlock(Consumer<FinishedRecipe> consumer, Block rawOre, TagKey<Item> fromChunk, Item toChunk)
 	{
-		ShapelessRecipeBuilder.shapeless(toChunk, 9)
-				.requires(rawOre)
-				.group(toChunk.RegistryName())
-				.unlockedBy("has_" + rawOre.RegistryName(), has(rawOre))
-				.save(consumer, new ResourceLocation(MODID, rawOre.RegistryName() + "_to_" + toChunk.RegistryName()));
+		ShapelessRecipeBuilder.shapeless(toChunk, 9).requires(rawOre).group(toChunk.toString())
+							  .unlockedBy("has_" + ForgeRegistries.BLOCKS.getKey(rawOre).getPath(), has(rawOre))
+							  .save(consumer, new ResourceLocation(MODID,
+									  ForgeRegistries.BLOCKS.getKey(rawOre).getPath() + "_to_" + toChunk));
 
-		ShapedRecipeBuilder.shaped(rawOre).pattern("III").pattern("III").pattern("III")
-				.define('I', fromChunk)
-				.group(rawOre.RegistryName())
-				.unlockedBy("has_" + toChunk.RegistryName(), has(fromChunk))
-				.save(consumer, new ResourceLocation(MODID, toChunk.RegistryName() + "_to_" + rawOre.RegistryName()));
+		ShapedRecipeBuilder.shaped(rawOre).pattern("III").pattern("III").pattern("III").define('I', fromChunk)
+						   .group(ForgeRegistries.BLOCKS.getKey(rawOre).getPath())
+						   .unlockedBy("has_" + toChunk, has(fromChunk)).save(consumer,
+								   new ResourceLocation(MODID, toChunk + "_to_" + ForgeRegistries.BLOCKS.getKey(rawOre).getPath()));
 	}
 }

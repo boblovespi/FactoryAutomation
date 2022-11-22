@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -47,12 +48,6 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
-	}
-
-	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter levelIn, BlockPos pos, CollisionContext context)
 	{
 		return BOUNDING_BOX;
@@ -76,12 +71,12 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
 	{
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
 		{
-			world.setBlockAndUpdate(pos, FABlocks.charcoalPile.ToBlock().defaultBlockState());
+			world.setBlockAndUpdate(pos, FABlocks.charcoalPile.defaultBlockState());
 			for (Direction dir : Direction.values())
 			{
 				BlockPos offset = pos.relative(dir);
@@ -164,7 +159,7 @@ public class LogPile extends FABaseBlock
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
 	{
 		if (!state.getValue(ACTIVATED))
 			return;

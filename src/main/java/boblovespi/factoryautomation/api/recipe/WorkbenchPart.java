@@ -1,9 +1,9 @@
 package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.common.item.FAItems;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 
@@ -14,9 +14,9 @@ public class WorkbenchPart
 {
 	public static final HashMap<ResourceLocation, WorkbenchPart> parts = new HashMap<>(5);
 	public static final WorkbenchPart SCREW = new WorkbenchPart(
-			new ResourceLocation("factoryautomation", "screw"), new HashMap<Item, Integer>()
+			new ResourceLocation("factoryautomation", "screw"), new HashMap<>()
 	{{
-		put(FAItems.screw.ToItem(), 1);
+		put(FAItems.screw, 1);
 	}});
 
 	private HashMap<Item, Integer> items;

@@ -23,19 +23,19 @@ public abstract class TESRBellows<T extends BlockEntity & IBellowsTE & IAnimatab
 		super(context, new AnimatedGeoModel<>()
 		{
 			@Override
-			public ResourceLocation getAnimationFileLocation(T animatable)
+			public ResourceLocation getAnimationResource(T animatable)
 			{
 				return new ResourceLocation(FactoryAutomation.MODID, "animations/bellows.animation.json");
 			}
 
 			@Override
-			public ResourceLocation getModelLocation(T object)
+			public ResourceLocation getModelResource(T object)
 			{
 				return new ResourceLocation(FactoryAutomation.MODID, "geo/bellows.geo.json");
 			}
 
 			@Override
-			public ResourceLocation getTextureLocation(T object)
+			public ResourceLocation getTextureResource(T object)
 			{
 				return new ResourceLocation(FactoryAutomation.MODID, texture);
 			}

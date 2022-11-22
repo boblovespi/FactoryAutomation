@@ -37,7 +37,7 @@ public class TEBevelGear extends BlockEntity implements ITickable
 
 	public TEBevelGear(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teBevelGear, pos, state);
+		super(TileEntityHandler.teBevelGear.get(), pos, state);
 		user = new MechanicalUser();
 	}
 

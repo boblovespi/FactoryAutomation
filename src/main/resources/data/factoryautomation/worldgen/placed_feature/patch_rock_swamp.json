@@ -2,7 +2,7 @@
   "feature": "factoryautomation:patch_rock_swamp",
   "placement": [
     {
-      "count": 5,
+      "count": 2,
       "type": "minecraft:count"
     },
     {

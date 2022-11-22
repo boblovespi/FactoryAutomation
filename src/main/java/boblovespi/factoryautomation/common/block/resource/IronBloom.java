@@ -16,11 +16,6 @@ public class IronBloom extends FABaseBlock
 				new Item.Properties().tab(FAItemGroups.metallurgy));
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "resources/" + RegistryName();
-	}
 	// TODO: loot tables
 	//	/**
 	//	 * This gets a complete list of items dropped from this block.

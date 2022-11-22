@@ -9,6 +9,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
@@ -49,6 +50,12 @@ public class ContainerStoneCastingVessel extends AbstractContainerMenu
 	public ContainerStoneCastingVessel(int id, Inventory playerInv, FriendlyByteBuf extraData)
 	{
 		this(id, playerInv, extraData.readBlockPos(), new SimpleContainerData(1));
+	}
+
+	@Override
+	public ItemStack quickMoveStack(Player p_38941_, int p_38942_)
+	{
+		return ItemStack.EMPTY;
 	}
 
 	/**

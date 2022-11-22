@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#factoryautomation:is_yellow_desert_overworld",
+  "features": ["factoryautomation:patch_rock_desert"],
+  "step": "vegetal_decoration"
+}

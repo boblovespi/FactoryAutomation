@@ -109,10 +109,4 @@ public class PowerShaft extends FABaseBlock implements EntityBlock
 	{
 		return this.defaultBlockState().setValue(AXIS, context.getClickedFace().getAxis());
 	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "mechanical/" + RegistryName();
-	}
 }

@@ -1,22 +1,20 @@
 package boblovespi.factoryautomation.api.recipe;
 
-import boblovespi.factoryautomation.common.block.crafter.workbench.Workbench;
+import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.common.util.Log;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.lwjgl.system.CallbackI;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -28,7 +26,8 @@ import java.util.Map;
 public class WorkbenchRecipeHandler
 {
 	public static final HashMap<ResourceLocation, IWorkbenchRecipe> recipes = new HashMap<>(50);
-	public static final RecipeType<IWorkbenchRecipe> WORKBENCH_RECIPE_TYPE = RecipeType.register("workbench_recipe");
+	public static final RecipeType<IWorkbenchRecipe> WORKBENCH_RECIPE_TYPE = RecipeType.simple(new ResourceLocation(
+			FactoryAutomation.MODID, "workbench_shaped"));
 	public static final ShapedSerializer SHAPED_SERIALIZER = new ShapedSerializer();
 
 	public static void AddRecipe(ResourceLocation id, IWorkbenchRecipe recipe)
@@ -319,8 +318,7 @@ public class WorkbenchRecipeHandler
 		return map;
 	}
 
-	public static class ShapedSerializer extends RegistryObject<RecipeSerializer<?>>
-			implements RecipeSerializer<ShapedWorkbenchRecipe>
+	public static class ShapedSerializer implements RecipeSerializer<ShapedWorkbenchRecipe>
 	{
 		@Override
 		public ShapedWorkbenchRecipe fromJson(ResourceLocation recipeId, JsonObject json)
@@ -346,7 +344,7 @@ public class WorkbenchRecipeHandler
 			}
 			HashMap<WorkbenchTool.Instance, Integer> tools = DeserializeToolsFromBuffer(buffer);
 			HashMap<WorkbenchPart.Instance, Integer> parts = DeserializePartsFromBuffer(buffer);
-			return (ShapedWorkbenchRecipe) new ShapedWorkbenchRecipe(tier, ingredients, tools, parts, result).setRegistryName(recipeId);
+			return new ShapedWorkbenchRecipe(tier, ingredients, tools, parts, result);
 		}
 
 		@Override

@@ -88,7 +88,7 @@ public class SteelmakingFurnaceController extends FABaseBlock implements EntityB
 				if (te instanceof TESteelmakingFurnace tesf)
 				{
 					tesf.CreateStructure();
-					NetworkHooks.openGui((ServerPlayer) player, TEHelper.GetContainer(te), pos);
+					NetworkHooks.openScreen((ServerPlayer) player, TEHelper.GetContainer(te), pos);
 				}
 			} else
 			{

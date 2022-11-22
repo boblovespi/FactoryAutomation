@@ -52,7 +52,7 @@ public class SolidFueledFirebox extends FABaseBlock implements EntityBlock
 								 InteractionHand handIn, BlockHitResult hit)
 	{
 		if (!world.isClientSide)
-			NetworkHooks.openGui((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+			NetworkHooks.openScreen((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 		return InteractionResult.SUCCESS;
 	}
 

@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -23,7 +22,8 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class TripHammerRecipe extends ChancelessMachineRecipe
 {
 	public static final Serializer SERIALIZER = new Serializer();
-	public static final RecipeType<TripHammerRecipe> TYPE = RecipeType.register(MODID + ":trip_hammer");
+	public static final RecipeType<TripHammerRecipe> TYPE = RecipeType.simple(
+			new ResourceLocation(MODID, "trip_hammer"));
 	public static final Map<String, TripHammerRecipe> STRING_TRIP_HAMMER_RECIPE_MAP = new HashMap<>();
 
 	public final String name;
@@ -54,9 +54,9 @@ public class TripHammerRecipe extends ChancelessMachineRecipe
 	}
 
 	@Override
-	public RecipeType<?> getType()
+	public ResourceLocation getId()
 	{
-		return TYPE;
+		return new ResourceLocation(name);
 	}
 
 	@Override
@@ -66,12 +66,12 @@ public class TripHammerRecipe extends ChancelessMachineRecipe
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public RecipeType<?> getType()
 	{
-		return new ResourceLocation(name);
+		return TYPE;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<TripHammerRecipe>
+	public static class Serializer implements RecipeSerializer<TripHammerRecipe>
 	{
 		@Override
 		public TripHammerRecipe fromJson(ResourceLocation name, JsonObject json)

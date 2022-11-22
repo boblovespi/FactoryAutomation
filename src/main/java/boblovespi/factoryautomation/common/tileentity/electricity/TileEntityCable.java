@@ -29,7 +29,7 @@ public class TileEntityCable extends BlockEntity implements ICapabilityProvider
 
 	public TileEntityCable(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teCable, pos, state);
+		super(TileEntityHandler.teCable.get(), pos, state);
 		energyStorage = new EnergyStorage(128);
 	}
 

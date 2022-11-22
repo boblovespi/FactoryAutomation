@@ -22,12 +22,6 @@ public class Workbench extends FABaseBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "workbench/" + RegistryName();
-	}
-
-	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(HORIZONTAL_FACING);

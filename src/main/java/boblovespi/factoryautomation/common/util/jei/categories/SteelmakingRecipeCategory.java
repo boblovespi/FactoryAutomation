@@ -3,31 +3,28 @@ package boblovespi.factoryautomation.common.util.jei.categories;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.recipe.SteelmakingRecipe;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Willi on 5/26/2018.
  */
 public class SteelmakingRecipeCategory implements IRecipeCategory<SteelmakingRecipe>
 {
-	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "steelmaking_furnace");
+	public static final RecipeType<SteelmakingRecipe> TYPE = RecipeType.create(FactoryAutomation.MODID,
+			"steelmaking_furnace", SteelmakingRecipe.class);
 	private static final int u = 7;
 	private static final int v = 7;
 	private IDrawableStatic background;
@@ -40,27 +37,21 @@ public class SteelmakingRecipeCategory implements IRecipeCategory<SteelmakingRec
 		background = guiHelper.createDrawable(
 				new ResourceLocation("factoryautomation:textures/gui/container/steelmaking_furnace.png"), u, v, 153,
 				85);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.steelmakingFurnaceController));
+		icon = guiHelper.createDrawableItemStack(new ItemStack(FABlocks.steelmakingFurnaceController));
 	}
 
 	@Nonnull
 	@Override
-	public ResourceLocation getUid()
+	public RecipeType<SteelmakingRecipe> getRecipeType()
 	{
-		return ID;
-	}
-
-	@Override
-	public Class<? extends SteelmakingRecipe> getRecipeClass()
-	{
-		return SteelmakingRecipe.class;
+		return TYPE;
 	}
 
 	@Nonnull
 	@Override
 	public Component getTitle()
 	{
-		return new TranslatableComponent("gui.steelmaking_furnace.name");
+		return Component.translatable("gui.steelmaking_furnace.name");
 	}
 
 	@Nonnull
@@ -78,43 +69,26 @@ public class SteelmakingRecipeCategory implements IRecipeCategory<SteelmakingRec
 	}
 
 	@Override
-	public void setIngredients(SteelmakingRecipe recipe, IIngredients ingredients)
+	public void setRecipe(IRecipeLayoutBuilder builder, SteelmakingRecipe recipe, IFocusGroup focuses)
 	{
-		ingredients.setInputLists(VanillaTypes.ITEM,
-				recipe.GetItemInputs().stream().map(n -> Arrays.asList(n.getItems()))
-					  .collect(Collectors.toList()));
-		if (recipe.GetFluidInputs() != null)
-			ingredients.setInputs(VanillaTypes.FLUID, recipe.GetFluidInputs());
-		ingredients.setOutputs(VanillaTypes.ITEM, recipe.GetPrimaryItemOutputs());
-	}
+		IRecipeSlotBuilder[] slots = new IRecipeSlotBuilder[8];
 
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, @Nonnull SteelmakingRecipe recipe, IIngredients ing)
-	{
-		// TODO: add fluids!
+		slots[0] = builder.addSlot(RecipeIngredientRole.INPUT, 58 - u - 1, 20 - v - 1);
+		slots[1] = builder.addSlot(RecipeIngredientRole.INPUT, 76 - u - 1, 20 - v - 1);
+		slots[2] = builder.addSlot(RecipeIngredientRole.INPUT, 58 - u - 1, 38 - v - 1);
+		slots[3] = builder.addSlot(RecipeIngredientRole.INPUT, 76 - u - 1, 38 - v - 1);
 
-		List<List<ItemStack>> inputs = ing.getInputs(VanillaTypes.ITEM);
-		List<List<ItemStack>> outputs = ing.getOutputs(VanillaTypes.ITEM);
+		slots[4] = builder.addSlot(RecipeIngredientRole.OUTPUT, 124 - u - 1, 20 - v - 1);
+		slots[5] = builder.addSlot(RecipeIngredientRole.OUTPUT, 142 - u - 1, 20 - v - 1);
+		slots[6] = builder.addSlot(RecipeIngredientRole.OUTPUT, 124 - u - 1, 38 - v - 1);
+		slots[7] = builder.addSlot(RecipeIngredientRole.OUTPUT, 142 - u - 1, 38 - v - 1);
 
-		IGuiItemStackGroup gui = recipeLayout.getItemStacks();
-		gui.init(0, true, 58 - u - 1, 20 - v - 1);
-		gui.init(1, true, 76 - u - 1, 20 - v - 1);
-		gui.init(2, true, 58 - u - 1, 38 - v - 1);
-		gui.init(3, true, 76 - u - 1, 38 - v - 1);
-
-		gui.init(4, false, 124 - u - 1, 20 - v - 1);
-		gui.init(5, false, 142 - u - 1, 20 - v - 1);
-		gui.init(6, false, 124 - u - 1, 38 - v - 1);
-		gui.init(7, false, 142 - u - 1, 38 - v - 1);
-
+		var inputs = recipe.GetItemInputs();
 		for (int i = 0; i < inputs.size(); i++)
-		{
-			gui.set(i, inputs.get(i));
-		}
+			slots[i].addIngredients(inputs.get(i));
 
+		var outputs = recipe.GetPrimaryItemOutputs();
 		for (int i = 0; i < outputs.size(); i++)
-		{
-			gui.set(i + 4, outputs.get(i));
-		}
+			slots[i + 4].addItemStack(outputs.get(i));
 	}
 }

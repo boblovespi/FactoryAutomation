@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -39,19 +40,13 @@ public class IronCharcoalMix extends FABaseBlock
 		registerDefaultState(stateDefinition.any().setValue(ACTIVATED, false));
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
-	}
-
 	public int tickRate(LevelReader levelIn)
 	{
 		return 6000;
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel world, BlockPos pos, Random rand)
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand)
 	{
 		boolean activated = state.getValue(ACTIVATED);
 		if (activated)
@@ -59,7 +54,7 @@ public class IronCharcoalMix extends FABaseBlock
 			if (isSurrounded(
 					world, pos, n -> n.getBlock() == FABlocks.metalPlateBlock.GetBlock(Metals.COPPER)
 							|| n.getBlock() == FABlocks.ironBloom || (n.getBlock() == this && n.getValue(ACTIVATED))))
-				world.setBlockAndUpdate(pos, FABlocks.ironBloom.ToBlock().defaultBlockState());
+				world.setBlockAndUpdate(pos, FABlocks.ironBloom.defaultBlockState());
 			else
 				world.setBlockAndUpdate(pos, state.setValue(ACTIVATED, false));
 		}
@@ -144,7 +139,7 @@ public class IronCharcoalMix extends FABaseBlock
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
 	{
 		if (!state.getValue(ACTIVATED))
 			return;

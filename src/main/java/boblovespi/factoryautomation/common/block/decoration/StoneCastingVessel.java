@@ -56,12 +56,6 @@ public class StoneCastingVessel extends FABaseBlock implements EntityBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
-	}
-
-	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(MOLD);
@@ -102,7 +96,7 @@ public class StoneCastingVessel extends FABaseBlock implements EntityBlock
 
 			if (player.getItemInHand(hand).getItem() == Items.STICK && player instanceof ServerPlayer && te != null && te.HasSpace())
 			{
-				NetworkHooks.openGui((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+				NetworkHooks.openScreen((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 			} else
 			{
 				if (te != null)

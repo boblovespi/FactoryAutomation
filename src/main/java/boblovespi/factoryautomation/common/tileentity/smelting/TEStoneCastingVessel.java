@@ -10,7 +10,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
@@ -69,7 +68,7 @@ public class TEStoneCastingVessel extends BlockEntity
 
 	public TEStoneCastingVessel(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teStoneCastingVessel, pos, state);
+		super(TileEntityHandler.teStoneCastingVessel.get(), pos, state);
 		slot = new ItemStackHandler(1);
 		form = TEStoneCrucible.MetalForms.NONE;
 	}
@@ -133,16 +132,16 @@ public class TEStoneCastingVessel extends BlockEntity
 				ItemHelper.PutItemsInInventoryOrDrop(player, taken, level);
 				if (hasSand)
 				{
-					ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand.ToBlock()), level);
+					ItemHelper.PutItemsInInventoryOrDrop(player, new ItemStack(FABlocks.greenSand), level);
 					SetForm(CastingVesselStates.EMPTY);
 				}
 			} else
 			{
 				player.hurt(DamageSource.GENERIC, (temp - 40f) / (temp + 100f) * 20f);
 				player.displayClientMessage(
-						new TextComponent("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
+						Component.translatable("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
 			}
-		} else if (item.getItem() == Item.byBlock(FABlocks.greenSand.ToBlock())
+		} else if (item.getItem() == Item.byBlock(FABlocks.greenSand)
 				&& getBlockState().getValue(MOLD) == CastingVesselStates.EMPTY)
 		{
 			item.shrink(1);
@@ -234,7 +233,7 @@ public class TEStoneCastingVessel extends BlockEntity
 	@Override
 	public Component getDisplayName()
 	{
-		return new TextComponent("");
+		return Component.empty();
 	}
 
 	@Nullable

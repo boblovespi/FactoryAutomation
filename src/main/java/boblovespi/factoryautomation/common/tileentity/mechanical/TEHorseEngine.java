@@ -47,7 +47,7 @@ public class TEHorseEngine extends BlockEntity implements ITickable
 
 	public TEHorseEngine(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teHorseEngine, pos, state);
+		super(TileEntityHandler.teHorseEngine.get(), pos, state);
 		user = new MechanicalUser(EnumSet.of(Direction.UP));
 		lazyUser = LazyOptional.of(() -> user);
 	}

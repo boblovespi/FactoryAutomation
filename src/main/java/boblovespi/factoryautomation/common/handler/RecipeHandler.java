@@ -181,7 +181,7 @@ public class RecipeHandler
 						"stone-to-cobblestone", 20, 10, 10));
 
 		JawCrusherRecipe.AddRecipe(new JawCrusherRecipe(Ingredient.of(Blocks.DIAMOND_ORE),
-				n -> new ItemStack(FAItems.diamondGravel.ToItem()), 0, "diamond-processing", 20, 10, 100));
+				n -> new ItemStack(FAItems.diamondGravel), 0, "diamond-processing", 20, 10, 100));
 
 		JawCrusherRecipe.AddRecipe(
 				new JawCrusherRecipe(Ingredient.of(FAItems.processedMagnetite.GetItem(CHUNK)),
@@ -206,7 +206,7 @@ public class RecipeHandler
 
 		// ChoppingBlockRecipe.AddRecipe("plank_to_stick", new ResourceLocation("minecraft:planks"), new ItemStack(Items.STICK, 4));
 		ChoppingBlockRecipe
-				.AddRecipe("grass_to_fiber", Blocks.GRASS.asItem(), new ItemStack(FAItems.plantFiber.ToItem(), 2));
+				.AddRecipe("grass_to_fiber", Blocks.GRASS.asItem(), new ItemStack(FAItems.plantFiber, 2));
 
 		// campfire recipes
 		CampfireRecipe.AddRecipe("cooked_pork", Items.PORKCHOP, new ItemStack(Items.COOKED_PORKCHOP), 20 * 60 * 4);
@@ -216,7 +216,7 @@ public class RecipeHandler
 		CampfireRecipe.AddRecipe("mutton", Items.MUTTON, new ItemStack(Items.COOKED_MUTTON), 20 * 60 * 3);
 		CampfireRecipe.AddRecipe("chorus_popcorn", Items.CHORUS_FRUIT, new ItemStack(Items.POPPED_CHORUS_FRUIT), 600);
 		CampfireRecipe.AddRecipe("baked_potato", Items.POTATO, new ItemStack(Items.BAKED_POTATO), 600);
-		CampfireRecipe.AddRecipe("toasted_bread", Items.BREAD, new ItemStack(FAItems.toastedBread.ToItem()), 300);
+		CampfireRecipe.AddRecipe("toasted_bread", Items.BREAD, new ItemStack(FAItems.toastedBread), 300);
 		//CampfireRecipe.AddRecipe("flatbread", Items.CHORUS_FRUIT, 0, new ItemStack(Items.CHORUS_FRUIT_POPPED),
 		//		20 * 60 * 3); // TODO: add basic bread
 		// fish
@@ -224,7 +224,7 @@ public class RecipeHandler
 		CampfireRecipe.AddRecipe("cod", Items.COD, new ItemStack(Items.COOKED_COD, 1), 20 * 60 * 3);
 
 		// millstone recipes
-		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 50, 1, new ItemStack(FAItems.wheatFlour.ToItem()));
+		MillstoneRecipe.AddRecipe("wheat_flour", Items.WHEAT, 50, 1, new ItemStack(FAItems.wheatFlour));
 		MillstoneRecipe.AddRecipe("bone_meal", Items.BONE, 30, 5, new ItemStack(Items.BONE_MEAL, 4));
 
 		//
@@ -350,6 +350,16 @@ public class RecipeHandler
 			helper.register("campfire", CampfireRecipe.SERIALIZER);
 			helper.register("trip_hammer", TripHammerRecipe.SERIALIZER);
 			helper.register("tumbling_barrel", TumblingBarrelRecipe.SERIALIZER);
+		});
+		event.register(ForgeRegistries.Keys.RECIPE_TYPES, helper ->
+		{
+			helper.register("basic_circuit_creator", BasicCircuitRecipe.TYPE);
+			helper.register("workbench_shaped", WorkbenchRecipeHandler.WORKBENCH_RECIPE_TYPE);
+			helper.register("chopping_block", ChoppingBlockRecipe.TYPE);
+			helper.register("millstone", MillstoneRecipe.TYPE);
+			helper.register("campfire", CampfireRecipe.TYPE);
+			helper.register("trip_hammer", TripHammerRecipe.TYPE);
+			helper.register("tumbling_barrel", TumblingBarrelRecipe.TYPE);
 		});
 	}
 }

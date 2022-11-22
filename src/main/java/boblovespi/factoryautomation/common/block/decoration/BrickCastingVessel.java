@@ -45,12 +45,6 @@ public class BrickCastingVessel extends FABaseBlock implements EntityBlock
 	}
 
 	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
-	}
-
-	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(MOLD);
@@ -83,7 +77,7 @@ public class BrickCastingVessel extends FABaseBlock implements EntityBlock
 			TEStoneCastingVessel vessel = (TEStoneCastingVessel) te;
 			if (player.getItemInHand(hand).getItem() == Items.STICK)
 			{
-				NetworkHooks.openGui((ServerPlayer) player, vessel, pos);
+				NetworkHooks.openScreen((ServerPlayer) player, vessel, pos);
 			} else
 			{
 				vessel.TakeOrPlace(player.getItemInHand(hand), player);

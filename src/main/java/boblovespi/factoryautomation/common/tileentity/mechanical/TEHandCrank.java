@@ -43,7 +43,7 @@ public class TEHandCrank extends BlockEntity implements ITickable
 
 	public TEHandCrank(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teHandCrank, pos, state);
+		super(TileEntityHandler.teHandCrank.get(), pos, state);
 		this.mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
 		this.isRotating = false;
 	}

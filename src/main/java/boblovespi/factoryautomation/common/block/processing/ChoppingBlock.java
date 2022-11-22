@@ -37,12 +37,6 @@ public class ChoppingBlock extends FABaseBlock implements EntityBlock
 		this.maxUses = maxUses;
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
-	}
-
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)

@@ -1,0 +1,19 @@
+{
+  "feature": "factoryautomation:ore_limonite",
+  "placement": [
+    {
+      "count": 17,
+      "type": "minecraft:rarity_filter"
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "heightmap": "OCEAN_FLOOR_WG",
+      "type": "minecraft:heightmap"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

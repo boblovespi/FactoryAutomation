@@ -9,7 +9,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -22,7 +21,7 @@ public class GuiTumblingBarrel extends AbstractContainerScreen<ContainerTumbling
 
 	public GuiTumblingBarrel(ContainerTumblingBarrel container, Inventory playerInv, Component unused)
 	{
-		super(container, playerInv, new TranslatableComponent("gui.tumbling_barrel"));
+		super(container, playerInv, Component.translatable("gui.tumbling_barrel"));
 		progressBar = new GuiBar(80, 34, 177, 14, 22, 16, GuiBar.ProgressDirection.RIGHT);
 		input = new GuiFluidTank(8, 8, 182, 32, 16, 59, guiImage);
 		output = new GuiFluidTank(152, 8, 182, 32, 16, 59, guiImage);

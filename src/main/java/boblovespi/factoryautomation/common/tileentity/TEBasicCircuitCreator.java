@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -45,7 +46,7 @@ public class TEBasicCircuitCreator extends BlockEntity implements MenuProvider
 
 	public TEBasicCircuitCreator(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teBasicCircuitCreator, pos, state);
+		super(TileEntityHandler.teBasicCircuitCreator.get(), pos, state);
 		inventory = new ItemStackHandler(5)
 		{
 			@Override
@@ -139,7 +140,7 @@ public class TEBasicCircuitCreator extends BlockEntity implements MenuProvider
 				return;
 			break;
 		case WIRE:
-			if (!inventory.insertItem(2, new ItemStack(FAItems.copperWire.ToItem()), false).isEmpty())
+			if (!inventory.insertItem(2, new ItemStack(FAItems.copperWire), false).isEmpty())
 				return;
 			break;
 		}
@@ -151,7 +152,7 @@ public class TEBasicCircuitCreator extends BlockEntity implements MenuProvider
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		if (capability == ForgeCapabilities.ITEM_HANDLER)
 			return LazyOptional.of(() -> (T) inventory);
 		return super.getCapability(capability, facing);
 	}

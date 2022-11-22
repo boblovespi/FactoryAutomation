@@ -2,10 +2,10 @@ package boblovespi.factoryautomation.common.container;
 
 import boblovespi.factoryautomation.common.container.workbench.ContainerIronWorkbench;
 import boblovespi.factoryautomation.common.container.workbench.ContainerStoneWorkbench;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -13,17 +13,20 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class ContainerManager
 {
 	@SubscribeEvent
-	public static void RegisterTypes(RegistryEvent.Register<MenuType<?>> event)
+	public static void RegisterTypes(RegisterEvent event)
 	{
-		event.getRegistry().register(ContainerBasicCircuitCreator.TYPE.setRegistryName(MODID, "basic_circuit_creator"));
-		event.getRegistry().register(ContainerBlastFurnace.TYPE.setRegistryName(MODID, "blast_furnace"));
-		event.getRegistry().register(ContainerBrickFoundry.TYPE.setRegistryName(MODID, "brick_foundry"));
-		event.getRegistry().register(ContainerSolidFueledFirebox.TYPE.setRegistryName(MODID, "solid_fueled_firebox"));
-		event.getRegistry().register(ContainerSteelmakingFurnace.TYPE.setRegistryName(MODID, "steelmaking_furnace"));
-		event.getRegistry().register(ContainerStoneCastingVessel.TYPE.setRegistryName(MODID, "stone_casting_vessel"));
-		event.getRegistry().register(ContainerStoneFoundry.TYPE.setRegistryName(MODID, "stone_foundry"));
-		event.getRegistry().register(ContainerIronWorkbench.TYPE.setRegistryName(MODID, "iron_workbench"));
-		event.getRegistry().register(ContainerStoneWorkbench.TYPE.setRegistryName(MODID, "stone_workbench"));
-		event.getRegistry().register(ContainerTumblingBarrel.TYPE.setRegistryName(MODID, "tumbling_barrel"));
+		event.register(ForgeRegistries.Keys.MENU_TYPES, n ->
+		{
+			n.register("basic_circuit_creator", ContainerBasicCircuitCreator.TYPE);
+			n.register("blast_furnace", ContainerBlastFurnace.TYPE);
+			n.register("brick_foundry", ContainerBrickFoundry.TYPE);
+			n.register("solid_fueled_firebox", ContainerSolidFueledFirebox.TYPE);
+			n.register("steelmaking_furnace", ContainerSteelmakingFurnace.TYPE);
+			n.register("stone_casting_vessel", ContainerStoneCastingVessel.TYPE);
+			n.register("stone_foundry", ContainerStoneFoundry.TYPE);
+			n.register("iron_workbench", ContainerIronWorkbench.TYPE);
+			n.register("stone_workbench", ContainerStoneWorkbench.TYPE);
+			n.register("tumbling_barrel", ContainerTumblingBarrel.TYPE);
+		});
 	}
 }

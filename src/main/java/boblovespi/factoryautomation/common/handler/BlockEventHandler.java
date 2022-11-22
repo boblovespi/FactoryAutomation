@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -121,7 +121,7 @@ public class BlockEventHandler
 	public static void OnBlockBrokenEvent(BlockEvent.BreakEvent event)
 	{
 		BlockPos pos = event.getPos();
-		LevelAccessor world = event.getWorld();
+		LevelAccessor world = event.getLevel();
 		if (FABlocks.multiblockPart == event.getState().getBlock())
 		{
 			Log.LogInfo("something broke!");
@@ -172,7 +172,7 @@ public class BlockEventHandler
 	{
 		BlockState state = event.getState();
 		BlockPos pos = event.getPos().immutable();
-		LevelAccessor level = event.getWorld();
+		LevelAccessor level = event.getLevel();
 		if (state.getBlock() == Blocks.FIRE)
 		{
 			if (!ashFires.containsKey(pos))
@@ -180,7 +180,7 @@ public class BlockEventHandler
 				ashFires.put(pos, new HashSet<>(6));
 				for (Direction offset : Direction.values())
 				{
-					if (FATags.FABlockTag("gives_ash").contains(level.getBlockState(pos.offset(offset.getNormal())).getBlock()))
+					if (FATags.Contains(FATags.FABlockTag("gives_ash"), level.getBlockState(pos.relative(offset)).getBlock()))
 						ashFires.get(pos).add(offset);
 					else
 						ashFires.get(pos).remove(offset);
@@ -192,7 +192,7 @@ public class BlockEventHandler
 			{
 				for (Direction facing : ashFires.get(pos))
 				{
-					BlockPos oldWoodPos = pos.offset(facing.getNormal());
+					BlockPos oldWoodPos = pos.relative(facing);
 					CheckAndSpawnAsh(level, level.getBlockState(oldWoodPos), oldWoodPos);
 				}
 				ashFires.remove(pos);
@@ -203,14 +203,14 @@ public class BlockEventHandler
 	@SubscribeEvent
 	public static void OnLeftClickBLockEvent(PlayerInteractEvent.LeftClickBlock event)
 	{
-		BlockState state = event.getWorld().getBlockState(event.getPos());
+		BlockState state = event.getLevel().getBlockState(event.getPos());
 		BlockPos pos = event.getPos().immutable();
-		Level world = event.getWorld();
-		Player player = event.getPlayer();
+		Level world = event.getLevel();
+		Player player = event.getEntity();
 
-		if (BlockTags.LOGS.contains(state.getBlock()))
+		if (FATags.Contains(BlockTags.LOGS, state.getBlock()))
 		{
-			if (!FATags.FAItemTag("tools/axes").contains(player.getItemInHand(InteractionHand.MAIN_HAND).getItem()))
+			if (!FATags.Contains(FATags.FAItemTag("tools/axes"), player.getItemInHand(InteractionHand.MAIN_HAND).getItem()))
 			{
 				player.hurt(DamageSource.GENERIC, 1);
 				event.setUseBlock(Event.Result.DENY);
@@ -230,7 +230,7 @@ public class BlockEventHandler
 		if (state.getBlock() == Blocks.FIRE || state.getBlock() == Blocks.AIR)
 		{
 			ItemEntity item = new ItemEntity((Level) level, pos.getX(), pos.getY(), pos.getZ(),
-					new ItemStack(FAItems.ash.ToItem(), level.getRandom().nextInt(2) + 1));
+					new ItemStack(FAItems.ash, level.getRandom().nextInt(2) + 1));
 			item.setInvulnerable(true);
 			level.addFreshEntity(item);
 		}

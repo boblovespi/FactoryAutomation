@@ -2,16 +2,15 @@ package boblovespi.factoryautomation.common.util.recipes;
 
 import boblovespi.factoryautomation.common.util.Randoms;
 import com.google.gson.JsonObject;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,9 +23,16 @@ public class AxeRecipe extends ShapedRecipe
 	public static final Serializer SERIALIZER = new Serializer();
 
 	public AxeRecipe(ResourceLocation idIn, String groupIn, int recipeWidthIn, int recipeHeightIn,
-			NonNullList<Ingredient> recipeItemsIn, ItemStack recipeOutputIn)
+					 NonNullList<Ingredient> recipeItemsIn, ItemStack recipeOutputIn)
 	{
 		super(idIn, groupIn, recipeWidthIn, recipeHeightIn, recipeItemsIn, recipeOutputIn);
+	}
+
+	private static AxeRecipe From(ShapedRecipe read)
+	{
+		return new AxeRecipe(
+				read.getId(), read.getGroup(), read.getRecipeWidth(), read.getRecipeHeight(), read.getIngredients(),
+				read.getResultItem());
 	}
 
 	@Nonnull
@@ -54,8 +60,7 @@ public class AxeRecipe extends ShapedRecipe
 		return SERIALIZER;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
-			implements RecipeSerializer<AxeRecipe>
+	public static class Serializer implements RecipeSerializer<AxeRecipe>
 	{
 		@Override
 		public AxeRecipe fromJson(ResourceLocation recipeId, JsonObject json)
@@ -75,12 +80,5 @@ public class AxeRecipe extends ShapedRecipe
 		{
 			RecipeSerializer.SHAPED_RECIPE.toNetwork(buffer, recipe);
 		}
-	}
-
-	private static AxeRecipe From(ShapedRecipe read)
-	{
-		return new AxeRecipe(
-				read.getId(), read.getGroup(), read.getRecipeWidth(), read.getRecipeHeight(), read.getIngredients(),
-				read.getResultItem());
 	}
 }

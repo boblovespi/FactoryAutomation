@@ -17,7 +17,7 @@ public class TEIronWorkbench extends TEWorkbench
 {
 	public TEIronWorkbench(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teIronWorkbench, 5, 2, pos, state);
+		super(TileEntityHandler.teIronWorkbench.get(), 5, 2, pos, state);
 	}
 
 	@Nullable

@@ -42,7 +42,7 @@ public class TEPump extends BlockEntity implements ITickable
 
 	public TEPump(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePump, pos, state);
+		super(TileEntityHandler.tePump.get(), pos, state);
 		this.timer = 0;
 		mechanicalUser = new MechanicalUser();
 	}

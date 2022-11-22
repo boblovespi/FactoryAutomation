@@ -1,18 +1,16 @@
 package boblovespi.factoryautomation.client.tesr;
 
-import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.mechanical.PowerShaft;
 import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 /**
  * Created by Willi on 1/15/2018.
@@ -80,7 +78,7 @@ public class TESRPowerShaft implements BlockEntityRenderer<TEPowerShaft>
 			// bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
 			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 
-			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, ModelData.EMPTY, null);
 			// tessellator.draw();
 			// RenderHelper.setupFor3DItems();
 			// Lighting.turnBackOn();

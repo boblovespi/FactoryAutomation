@@ -9,6 +9,7 @@ import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TEBlastFurnaceController;
 import boblovespi.factoryautomation.common.tileentity.TEMultiblockPart;
 import boblovespi.factoryautomation.common.util.Log;
+import boblovespi.factoryautomation.common.util.RegistryObjectWrapper;
 import boblovespi.factoryautomation.common.util.TEHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -44,7 +45,7 @@ import java.util.Objects;
  */
 @SuppressWarnings("SpellCheckingInspection")
 public class BlastFurnaceController extends Block
-		implements FABlock, EntityBlock/*, ITileEntityProvider, IMultiblockStructureController*/
+		implements EntityBlock/*, ITileEntityProvider, IMultiblockStructureController*/
 {
 	// TODO: implement tile entity stuff
 
@@ -57,28 +58,15 @@ public class BlastFurnaceController extends Block
 	{
 		super(Properties.of(Material.METAL).strength(10).requiresCorrectToolForDrops());
 		// setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
+		// setRegistryName(RegistryName());
 		// setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
 		// setHardness(10);
 		// setResistance(10000);
 		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(MULTIBLOCK_COMPLETE, false));
-		FABlocks.blocks.add(this);
+		FABlocks.blocks.add(RegistryObjectWrapper.Block("blast_furnace_controller", this));
 		//		new FAItemBlock(this);
-		FAItems.items.add(new BlockItem(this, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS))
-				.setRegistryName(Objects.requireNonNull(getRegistryName())));
+		FAItems.items.add(RegistryObjectWrapper.Item("blast_furnace_controller", new BlockItem(this, new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS))));
 
-	}
-
-	@Override
-	public String UnlocalizedName()
-	{
-		return "blast_furnace_controller";
-	}
-
-	@Override
-	public Block ToBlock()
-	{
-		return this;
 	}
 
 	@Nullable
@@ -122,8 +110,7 @@ public class BlastFurnaceController extends Block
 					world.setBlockAndUpdate(pos, world.getBlockState(pos).setValue(MULTIBLOCK_COMPLETE, true));
 				}
 
-				NetworkHooks
-						.openGui((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+				NetworkHooks.openScreen((ServerPlayer) player, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 			} else
 			{
 				if (world.getBlockState(pos).getValue(MULTIBLOCK_COMPLETE))
@@ -300,7 +287,7 @@ public class BlastFurnaceController extends Block
 								continue;
 
 							world.setBlockAndUpdate(lowerLeftFront.offset(x, y, z),
-									FABlocks.multiblockPart.ToBlock().defaultBlockState());
+									FABlocks.multiblockPart.defaultBlockState());
 							BlockEntity te = world.getBlockEntity(lowerLeftFront.offset(x, y, z));
 							assert te instanceof TEMultiblockPart;
 							TEMultiblockPart part = (TEMultiblockPart) te;
@@ -330,7 +317,7 @@ public class BlastFurnaceController extends Block
 								continue;
 
 							world.setBlockAndUpdate(lowerLeftFront.offset(-x, y, -z),
-									FABlocks.multiblockPart.ToBlock().defaultBlockState());
+									FABlocks.multiblockPart.defaultBlockState());
 							BlockEntity te = world.getBlockEntity(lowerLeftFront.offset(-x, y, -z));
 							assert te instanceof TEMultiblockPart;
 							TEMultiblockPart part = (TEMultiblockPart) te;
@@ -360,7 +347,7 @@ public class BlastFurnaceController extends Block
 								continue;
 
 							world.setBlockAndUpdate(lowerLeftFront.offset(-z, y, x),
-									FABlocks.multiblockPart.ToBlock().defaultBlockState());
+									FABlocks.multiblockPart.defaultBlockState());
 							BlockEntity te = world.getBlockEntity(lowerLeftFront.offset(-z, y, x));
 							assert te instanceof TEMultiblockPart;
 							TEMultiblockPart part = (TEMultiblockPart) te;
@@ -390,7 +377,7 @@ public class BlastFurnaceController extends Block
 								continue;
 
 							world.setBlockAndUpdate(lowerLeftFront.offset(z, y, -x),
-									FABlocks.multiblockPart.ToBlock().defaultBlockState());
+									FABlocks.multiblockPart.defaultBlockState());
 							BlockEntity te = world.getBlockEntity(lowerLeftFront.offset(z, y, -x));
 							assert te instanceof TEMultiblockPart;
 							TEMultiblockPart part = (TEMultiblockPart) te;

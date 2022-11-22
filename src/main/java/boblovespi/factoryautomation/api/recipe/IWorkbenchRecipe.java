@@ -1,14 +1,13 @@
 package boblovespi.factoryautomation.api.recipe;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * Created by Willi on 4/10/2018.
  */
-public interface IWorkbenchRecipe extends IForgeRegistry<IWorkbenchRecipe>, Recipe<Container>
+public interface IWorkbenchRecipe extends Recipe<Container>
 {
 	boolean CanFitTier(int x, int y, int tier);
 
@@ -65,6 +64,6 @@ public interface IWorkbenchRecipe extends IForgeRegistry<IWorkbenchRecipe>, Reci
 	@Override
 	default ResourceLocation getId()
 	{
-		return getRegistryName();
+		return null;
 	}
 }

@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 /**
  * Created by Willi on 9/9/2018.
@@ -64,7 +64,7 @@ public class TESRHandCrank implements BlockEntityRenderer<TEHandCrank>
 			//		combinedLight, combinedOverlay, 1, 1, 1, 1);
 			BlockState state = te.getBlockState();
 			BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
-			TESRUtils.RenderBlockModel(dispatcher, state, matrix, buffer, combinedLight, combinedOverlay, EmptyModelData.INSTANCE);
+			dispatcher.renderSingleBlock(state, matrix, buffer, combinedLight, combinedOverlay, ModelData.EMPTY, null);
 
 		}
 		matrix.popPose();

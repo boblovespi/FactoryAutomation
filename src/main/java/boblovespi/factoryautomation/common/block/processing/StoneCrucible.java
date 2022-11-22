@@ -100,7 +100,7 @@ public class StoneCrucible extends FABaseBlock implements EntityBlock
 					if (hit.getDirection() == state.getValue(FACING).getCounterClockWise())
 						foundry.PourInto(hit.getDirection());
 					else
-						NetworkHooks.openGui((ServerPlayer) player, foundry, pos);
+						NetworkHooks.openScreen((ServerPlayer) player, foundry, pos);
 				}
 			} else
 			{

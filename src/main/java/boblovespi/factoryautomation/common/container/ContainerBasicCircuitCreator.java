@@ -43,7 +43,7 @@ public class ContainerBasicCircuitCreator extends AbstractContainerMenu
 		addSlot(new SlotRestrictedPredicate(inv, 1, 8, 9, Ingredient.of(FATags.ForgeItemTag("nuggets/tin"))));
 		addSlot(new SlotRestrictedPredicate(inv, 2, 8, 27, Ingredient.of(FATags.ForgeItemTag("wires/copper"))));
 		addSlot(new SlotItemHandler(inv, 3, 8, 45));
-		addSlot(new SlotRestrictedItem(inv, 4, 8, 63, Collections.singletonList(FAItems.circuitFrame.ToItem())));
+		addSlot(new SlotRestrictedItem(inv, 4, 8, 63, Collections.singletonList(FAItems.circuitFrame)));
 		int x = 24;
 		int y = 84;
 

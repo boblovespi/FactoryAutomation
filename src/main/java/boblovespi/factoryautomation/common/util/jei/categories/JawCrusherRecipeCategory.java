@@ -3,32 +3,27 @@ package boblovespi.factoryautomation.common.util.jei.categories;
 import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.recipe.JawCrusherRecipe;
 import boblovespi.factoryautomation.common.block.FABlocks;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Willi on 5/26/2018.
  */
 public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecipe>
 {
-	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "jaw_crusher");
+	public static final RecipeType<JawCrusherRecipe> TYPE = RecipeType.create(FactoryAutomation.MODID, "jaw_crusher",
+			JawCrusherRecipe.class);
 	private static final int u = 54;
 	private static final int v = 16;
 	private IDrawableStatic background;
@@ -38,30 +33,22 @@ public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecip
 	public JawCrusherRecipeCategory(IGuiHelper guiHelper)
 	{
 		this.guiHelper = guiHelper;
-		background = guiHelper
-				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/machine_base.png"), u, v,
-						83, 54);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.jawCrusher));
+		background = guiHelper.createDrawable(
+				new ResourceLocation("factoryautomation:textures/gui/container/machine_base.png"), u, v, 83, 54);
+		icon = guiHelper.createDrawableItemStack(new ItemStack(FABlocks.jawCrusher));
 	}
 
 	@Override
-	public ResourceLocation getUid()
+	public RecipeType<JawCrusherRecipe> getRecipeType()
 	{
-		return ID;
-	}
-
-	@Nonnull
-	@Override
-	public Class<? extends JawCrusherRecipe> getRecipeClass()
-	{
-		return JawCrusherRecipe.class;
+		return TYPE;
 	}
 
 	@Nonnull
 	@Override
 	public Component getTitle()
 	{
-		return new TranslatableComponent("tile.jaw_crusher.name");
+		return Component.translatable("tile.jaw_crusher.name");
 	}
 
 	@Nonnull
@@ -79,26 +66,11 @@ public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecip
 	}
 
 	@Override
-	public void setIngredients(JawCrusherRecipe recipe, IIngredients ingredients)
+	public void setRecipe(IRecipeLayoutBuilder builder, JawCrusherRecipe recipe, IFocusGroup focuses)
 	{
-		ingredients.setInputLists(VanillaTypes.ITEM,
-				Collections.singletonList(Arrays.asList(recipe.GetItemInputs().get(0).getItems())));
-		ingredients.setOutputs(VanillaTypes.ITEM, recipe.GetPrimaryItemOutputs());
-	}
-
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, JawCrusherRecipe recipeWrapper, IIngredients ing)
-	{
-		List<List<ItemStack>> inputs = ing.getInputs(VanillaTypes.ITEM);
-		List<List<ItemStack>> outputs = ing.getOutputs(VanillaTypes.ITEM);
-
-		IGuiItemStackGroup gui = recipeLayout.getItemStacks();
-
-		gui.init(0, true, 55 - u, 17 - v - 1);
-		gui.init(1, false, 116 - u, 35 - v - 1);
-
-		gui.set(0, inputs.get(0));
-		gui.set(1, outputs.get(0));
+		builder.addSlot(RecipeIngredientRole.INPUT, 55 - u, 17 - v - 1).addIngredients(recipe.GetItemInputs().get(0));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 116 - u, 35 - v - 1)
+			   .addItemStack(recipe.GetPrimaryItemOutputs().get(0));
 	}
 }
 

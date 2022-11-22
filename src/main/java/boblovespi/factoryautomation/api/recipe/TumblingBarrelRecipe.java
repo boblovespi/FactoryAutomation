@@ -11,7 +11,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -22,7 +21,8 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class TumblingBarrelRecipe implements IMachineRecipe
 {
 	public static final TumblingBarrelRecipe.Serializer SERIALIZER = new TumblingBarrelRecipe.Serializer();
-	public static final RecipeType<TumblingBarrelRecipe> TYPE = RecipeType.register(MODID + ":tumbling_barrel");
+	public static final RecipeType<TumblingBarrelRecipe> TYPE = RecipeType.simple(
+			new ResourceLocation(MODID, "tumbling_barrel"));
 
 	private Ingredient input;
 	private ItemStack output;
@@ -133,7 +133,7 @@ public class TumblingBarrelRecipe implements IMachineRecipe
 		return maxSpeed;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<TumblingBarrelRecipe>
+	public static class Serializer implements RecipeSerializer<TumblingBarrelRecipe>
 	{
 		@Override
 		public TumblingBarrelRecipe fromJson(ResourceLocation name, JsonObject json)

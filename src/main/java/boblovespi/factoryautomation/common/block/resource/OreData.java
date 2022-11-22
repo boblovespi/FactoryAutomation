@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.block.resource;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 
 import java.util.Random;
@@ -17,7 +18,7 @@ public class OreData
 	public float hardness = 0;
 	public float resistance = 0;
 	Function<Random, Integer> dropChance;
-	BiFunction<Random, Integer, Integer> xpChance;
+	BiFunction<RandomSource, Integer, Integer> xpChance;
 
 	public OreData(Item ore)
 	{
@@ -30,7 +31,7 @@ public class OreData
 		return this;
 	}
 
-	public OreData SetXpChance(BiFunction<Random, Integer, Integer> func)
+	public OreData SetXpChance(BiFunction<RandomSource, Integer, Integer> func)
 	{
 		xpChance = func;
 		return this;

@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.common.item;
 
+import boblovespi.factoryautomation.common.util.RegistryObjectWrapper;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,10 +26,8 @@ import java.util.List;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class FAFood extends Item implements FAItem
+public class FAFood extends Item
 {
-	private String unName;
-
 	private final int amountOfFood;
 	private final int saturationAmount;
 	private final boolean isWolfFood;
@@ -37,7 +36,7 @@ public class FAFood extends Item implements FAItem
 	private final int itemUseTime;
 	private final boolean alwaysEdible;
 
-	public FAFood(String unName, int amount, int saturation, int eatTime, boolean WolfFood, boolean canAlwaysEat,
+	public FAFood(String name, int amount, int saturation, int eatTime, boolean WolfFood, boolean canAlwaysEat,
 			List<MobEffectInstance> potionEffects, List<Float> potionChances)
 	{
 		super(new Properties().tab(CreativeModeTab.TAB_FOOD));
@@ -45,9 +44,7 @@ public class FAFood extends Item implements FAItem
 		if (potionEffects.size() != potionChances.size())
 			throw new IndexOutOfBoundsException("the potionEffects and potionEffectChances sizes are not the same");
 
-		this.unName = unName;
 		// setUnlocalizedName(UnlocalizedName()); TODO: localization!!!
-		setRegistryName(RegistryName());
 		//setHasSubtypes(true);
 
 		this.amountOfFood = amount;
@@ -58,25 +55,7 @@ public class FAFood extends Item implements FAItem
 		this.potionEffectChances = potionChances;
 		this.alwaysEdible = canAlwaysEat;
 
-		FAItems.items.add(this);
-	}
-
-	@Override
-	public String UnlocalizedName()
-	{
-		return unName;
-	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "foods/" + unName;
-	}
-
-	@Override
-	public Item ToItem()
-	{
-		return this;
+		FAItems.items.add(RegistryObjectWrapper.Item(name, this));
 	}
 
 	protected void applyPotionAffects(ItemStack stack, Level world, LivingEntity player)

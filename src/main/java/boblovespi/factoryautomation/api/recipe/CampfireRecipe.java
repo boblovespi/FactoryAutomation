@@ -25,7 +25,8 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class CampfireRecipe extends ChancelessMachineRecipe
 {
 	public static final Serializer SERIALIZER = new Serializer();
-	public static final RecipeType<CampfireRecipe> TYPE = RecipeType.register(MODID + ":campfire");
+	public static final RecipeType<CampfireRecipe> TYPE = RecipeType.simple(
+			new ResourceLocation(MODID, "campfire"));
 	private static final HashMap<String, CampfireRecipe> STRING_MAP = new HashMap<>();
 	private static final HashMap<Item, CampfireRecipe> ITEM_MAP = new HashMap<>();
 	private static final HashMap<String, CampfireRecipe> OREDICT_MAP = new HashMap<>();

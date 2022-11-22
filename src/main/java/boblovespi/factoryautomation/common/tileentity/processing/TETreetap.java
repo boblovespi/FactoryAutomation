@@ -29,7 +29,7 @@ public class TETreetap extends BlockEntity implements ITickable
 
 	public TETreetap(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teTreetap, pos, state);
+		super(TileEntityHandler.teTreetap.get(), pos, state);
 	}
 
 	/**

@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 
@@ -23,7 +22,7 @@ public class HammerRecipe extends ShapedRecipe
 	public static final Serializer SERIALIZER = new Serializer();
 
 	public HammerRecipe(ResourceLocation idIn, String groupIn, int recipeWidthIn, int recipeHeightIn,
-			NonNullList<Ingredient> recipeItemsIn, ItemStack recipeOutputIn)
+						NonNullList<Ingredient> recipeItemsIn, ItemStack recipeOutputIn)
 	{
 		super(idIn, groupIn, recipeWidthIn, recipeHeightIn, recipeItemsIn, recipeOutputIn);
 	}
@@ -52,8 +51,7 @@ public class HammerRecipe extends ShapedRecipe
 		return SERIALIZER;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
-			implements RecipeSerializer<HammerRecipe>
+	public static class Serializer implements RecipeSerializer<HammerRecipe>
 	{
 		@Override
 		public HammerRecipe fromJson(ResourceLocation recipeId, JsonObject json)

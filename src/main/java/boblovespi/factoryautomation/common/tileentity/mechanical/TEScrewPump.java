@@ -37,7 +37,7 @@ public class TEScrewPump extends BlockEntity implements ITickable
 
 	public TEScrewPump(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teScrewPump, pos, state);
+		super(TileEntityHandler.teScrewPump.get(), pos, state);
 		user = new MechanicalUser(EnumSet.of(Direction.UP));
 	}
 

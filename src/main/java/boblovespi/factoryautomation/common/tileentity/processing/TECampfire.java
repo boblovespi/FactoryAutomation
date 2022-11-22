@@ -35,7 +35,7 @@ public class TECampfire extends BlockEntity implements ITickable
 
 	public TECampfire(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teCampfire, pos, state);
+		super(TileEntityHandler.teCampfire.get(), pos, state);
 		slot = new ItemStackHandler(1);
 	}
 

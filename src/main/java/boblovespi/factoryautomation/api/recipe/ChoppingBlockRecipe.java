@@ -5,19 +5,20 @@ import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -27,7 +28,8 @@ import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 {
 	public static final Serializer SERIALIZER = new ChoppingBlockRecipe.Serializer();
-	public static final RecipeType<ChoppingBlockRecipe> TYPE = RecipeType.register(MODID + ":chopping_block");
+	public static final RecipeType<ChoppingBlockRecipe> TYPE = RecipeType.simple(
+			new ResourceLocation(MODID , "chopping_block"));
 	private static final HashMap<String, ChoppingBlockRecipe> STRING_MAP = new HashMap<>();
 	private static final HashMap<Item, ChoppingBlockRecipe> ITEM_MAP = new HashMap<>();
 	private static final HashMap<String, ChoppingBlockRecipe> OREDICT_MAP = new HashMap<>();
@@ -58,7 +60,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		if (STRING_MAP.containsKey(name))
 			return;
 		ChoppingBlockRecipe recipe = new ChoppingBlockRecipe(
-				name, Ingredient.of(ItemTags.getAllTags().getTagOrEmpty(oreName)), output);
+				name, Ingredient.of(ItemTags.create(oreName)), output);
 		STRING_MAP.putIfAbsent(name, recipe);
 		OREDICT_MAP.put(oreName.toString(), recipe);
 	}
@@ -82,7 +84,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 			return ITEM_MAP.get(input.getItem());
 		else
 		{
-			Set<ResourceLocation> oreIDs = input.getItem().getTags();
+			Set<ResourceLocation> oreIDs = input.getTags().map(TagKey::location).collect(Collectors.toSet());
 			for (ResourceLocation id : oreIDs)
 			{
 				if (OREDICT_MAP.containsKey(id.toString()))
@@ -135,7 +137,7 @@ public class ChoppingBlockRecipe extends ChancelessMachineRecipe
 		return TYPE;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<ChoppingBlockRecipe>
+	public static class Serializer implements RecipeSerializer<ChoppingBlockRecipe>
 	{
 		@Override
 		public ChoppingBlockRecipe fromJson(ResourceLocation name, JsonObject json)

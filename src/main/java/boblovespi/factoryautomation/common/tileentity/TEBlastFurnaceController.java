@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,8 +21,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -96,7 +95,7 @@ public class TEBlastFurnaceController extends BlockEntity
 
 	public TEBlastFurnaceController(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teBlastFurnaceController, pos, state);
+		super(TileEntityHandler.teBlastFurnaceController.get(), pos, state);
 		itemHandler = new ItemStackHandler(7);
 		inputHopperWrapper = new RestrictedSlotItemHandler(new BitSet(7)
 		{{
@@ -130,7 +129,7 @@ public class TEBlastFurnaceController extends BlockEntity
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compound)
+	public void saveAdditional(CompoundTag compound)
 	{
 		compound.putInt("burnTime", (int) burnTime);
 		compound.putInt("fuelBurnTime", (int) fuelBurnTime);
@@ -141,8 +140,6 @@ public class TEBlastFurnaceController extends BlockEntity
 		compound.putBoolean("isSmeltingItem", isSmeltingItem);
 
 		compound.put("itemHandler", itemHandler.serializeNBT());
-
-		return super.save(compound);
 	}
 
 	@Override
@@ -171,7 +168,7 @@ public class TEBlastFurnaceController extends BlockEntity
 					itemHandler.extractItem(IRON_SLOT, 1, false);
 					itemHandler.extractItem(FLUX_SLOT, 1, false);
 					itemHandler.insertItem(OUTPUT_SLOT, new ItemStack(FAItems.ingot.GetItem(Metals.PIG_IRON)), false);
-					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag.ToItem(), 1), false);
+					itemHandler.insertItem(SLAG_SLOT, new ItemStack(FAItems.slag, 1), false);
 				}
 			} else
 			{
@@ -239,7 +236,7 @@ public class TEBlastFurnaceController extends BlockEntity
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		if (capability == ForgeCapabilities.ITEM_HANDLER)
 			return LazyOptional.of(() -> (T) itemHandler);
 		return super.getCapability(capability, facing);
 	}
@@ -326,7 +323,7 @@ public class TEBlastFurnaceController extends BlockEntity
 	public <T> LazyOptional<T> GetCapability(Capability<T> capability, int[] offset, Direction side)
 	{
 		if (offset[0] == 1 && offset[1] == 4 && offset[2] == 1 && side == Direction.UP
-				&& capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+				&& capability == ForgeCapabilities.ITEM_HANDLER)
 			return LazyOptional.of(() -> (T) inputHopperWrapper);
 		return null;
 	}
@@ -334,7 +331,7 @@ public class TEBlastFurnaceController extends BlockEntity
 	@Override
 	public Component getDisplayName()
 	{
-		return new TextComponent("");
+		return Component.empty();
 	}
 
 	@Nullable

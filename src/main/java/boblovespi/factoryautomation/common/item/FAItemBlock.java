@@ -1,47 +1,24 @@
 package boblovespi.factoryautomation.common.item;
 
-import boblovespi.factoryautomation.common.block.FABlock;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-
-import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.level.block.Block;
 
 /**
  * Created by Willi on 11/9/2017.
  * usable again!
  */
-public class FAItemBlock extends BlockItem implements FAItem
+public class FAItemBlock extends BlockItem
 {
-
-	public final FABlock faBlock;
+	public final Block faBlock;
 	private final Block block;
 
-	public FAItemBlock(FABlock base, Properties properties)
+	public FAItemBlock(Block base, Properties properties)
 	{
-		super(base.ToBlock(), properties);
-		this.block = base.ToBlock();
+		super(base, properties);
+		this.block = base;
 		this.faBlock = base;
 		// setUnlocalizedName(UnlocalizedName());
-		setRegistryName(RegistryName());
+		// setRegistryName(RegistryName());
 		// FAItems.items.add(this);
-	}
-
-	@Override
-	public String UnlocalizedName()
-	{
-		return faBlock.UnlocalizedName();
-	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return faBlock.GetMetaFilePath(meta);
-	}
-
-	@Override
-	public Item ToItem()
-	{
-		return this;
 	}
 }

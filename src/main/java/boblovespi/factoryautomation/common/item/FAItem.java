@@ -10,6 +10,7 @@ import java.util.function.Consumer;
  * Created by Willi on 4/12/2017.
  * the default interface for all factory automation items.  every item MUST implement this
  */
+@Deprecated
 public interface FAItem extends ItemLike
 {
 	String UnlocalizedName();

@@ -22,7 +22,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -111,7 +110,7 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 
 	public TEBrickCrucible(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teBrickCrucible, pos, state);
+		super(TileEntityHandler.teBrickCrucible.get(), pos, state);
 		metals = new MultiMetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3, 1.5f);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 2300 * 1000, 300);
@@ -365,7 +364,7 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 	@Override
 	public Component getDisplayName()
 	{
-		return new TextComponent("");
+		return Component.empty();
 	}
 
 	@Nullable

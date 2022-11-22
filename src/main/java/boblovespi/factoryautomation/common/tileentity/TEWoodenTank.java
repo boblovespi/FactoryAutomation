@@ -22,7 +22,7 @@ public class TEWoodenTank extends BlockEntity
 
 	public TEWoodenTank(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teWoodenTank, pos, state);
+		super(TileEntityHandler.teWoodenTank.get(), pos, state);
 		handler = new FluidTank(bucketsCanHold * 1000)
 		{
 			@Override

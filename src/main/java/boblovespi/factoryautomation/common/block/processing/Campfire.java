@@ -7,6 +7,7 @@ import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -52,12 +53,6 @@ public class Campfire extends FABaseBlock implements EntityBlock
 				new Item.Properties().tab(FAItemGroups.primitive));
 		registerDefaultState(defaultBlockState().setValue(LIT, false));
 		TileEntityHandler.tiles.add(TECampfire.class);
-	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
 	}
 
 	@Nullable
@@ -114,7 +109,7 @@ public class Campfire extends FABaseBlock implements EntityBlock
 			ItemStack stack = player.getItemInHand(hand);
 			Item item = stack.getItem();
 			if (canLight && (item == Items.TORCH || item == Items.FLINT_AND_STEEL
-					|| item == FAItems.advancedFlintAndSteel.ToItem()))
+					|| item == FAItems.advancedFlintAndSteel))
 			{
 				world.setBlockAndUpdate(pos, state.setValue(LIT, true));
 				BlockEntity te = world.getBlockEntity(pos);
@@ -131,7 +126,7 @@ public class Campfire extends FABaseBlock implements EntityBlock
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
+	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
 	{
 		if (!state.getValue(LIT))
 			return;

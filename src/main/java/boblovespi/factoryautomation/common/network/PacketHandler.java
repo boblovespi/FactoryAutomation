@@ -7,6 +7,8 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.Optional;
 
+import static boblovespi.factoryautomation.FactoryAutomation.MODID;
+
 /**
  * Created by Willi on 6/9/2018.
  */
@@ -23,7 +25,9 @@ public class PacketHandler
 
 	public static void CreateChannel(String channelName)
 	{
-		INSTANCE = NetworkRegistry.newSimpleChannel(ResourceLocation.tryParse(channelName), () -> PROTOCOL_VERSION,
+		if (INSTANCE != null)
+			return;
+		INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, channelName), () -> PROTOCOL_VERSION,
 													PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals);
 		RegisterMessages();
 	}

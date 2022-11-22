@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#factoryautomation:is_surface_overworld",
+  "features": ["factoryautomation:patch_flint_normal"],
+  "step": "vegetal_decoration"
+}

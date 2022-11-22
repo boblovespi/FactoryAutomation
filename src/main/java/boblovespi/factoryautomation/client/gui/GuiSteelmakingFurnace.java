@@ -5,18 +5,12 @@ import boblovespi.factoryautomation.client.gui.component.GuiBar;
 import boblovespi.factoryautomation.common.container.ContainerSteelmakingFurnace;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 /**
  * Created by Willi on 12/24/2017.
@@ -32,7 +26,7 @@ public class GuiSteelmakingFurnace extends AbstractContainerScreen<ContainerStee
 	public GuiSteelmakingFurnace(ContainerSteelmakingFurnace container, Inventory playerInv,
 								 Component unused)
 	{
-		super(container, playerInv, new TranslatableComponent("gui.steelmaking_furnace"));
+		super(container, playerInv, Component.translatable("gui.steelmaking_furnace"));
 
 		this.imageWidth = 176;
 		this.imageHeight = 180;
@@ -87,7 +81,7 @@ public class GuiSteelmakingFurnace extends AbstractContainerScreen<ContainerStee
 		super.renderTooltip(matrix, mouseX, mouseY);
 		if (isHovering(48, 7, 6, 61, mouseX, mouseY))
 		{
-			Component text = new TextComponent(I18n.get("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", menu.GetBar(3) / 10f));
+			Component text = Component.literal(I18n.get("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", menu.GetBar(3) / 10f));
 			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 	}

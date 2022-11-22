@@ -32,12 +32,6 @@ public class Pillar extends FABaseBlock
 		registerDefaultState(stateDefinition.any().setValue(HEIGHT, 1));
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "metals/" + RegistryName();
-	}
-
 	/**
 	 * Called when a neighboring block was changed and marks that this state should perform any checks during a neighbor
 	 * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid

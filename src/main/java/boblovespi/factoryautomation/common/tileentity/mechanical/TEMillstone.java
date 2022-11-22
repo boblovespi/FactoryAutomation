@@ -46,7 +46,7 @@ public class TEMillstone extends TEMachine<MillstoneRecipe>
 
 	public TEMillstone(BlockPos pos, BlockState state)
 	{
-		super(0, TileEntityHandler.teMillstone, pos, state);
+		super(0, TileEntityHandler.teMillstone.get(), pos, state);
 		mechanicalUser = new MechanicalUser(EnumSet.of(Direction.DOWN));
 	}
 

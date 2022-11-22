@@ -46,9 +46,9 @@ public class ContainerBlastFurnace extends AbstractContainerMenu
 		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.FLUX_SLOT, 65, 17,
 				Ingredient.of(Items.REDSTONE)));
 		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.COKE_SLOTS[0], 47, 53,
-				Ingredient.of(FAItems.coalCoke.ToItem())));
+				Ingredient.of(FAItems.coalCoke)));
 		addSlot(new SlotRestrictedPredicate(handler, TEBlastFurnaceController.COKE_SLOTS[1], 65, 53,
-				Ingredient.of(FAItems.coalCoke.ToItem())));
+				Ingredient.of(FAItems.coalCoke)));
 		addSlot(new SlotOutputItem(handler, TEBlastFurnaceController.OUTPUT_SLOT, 116, 35));
 		addSlot(new SlotOutputItem(handler, TEBlastFurnaceController.SLAG_SLOT, 142, 35));
 

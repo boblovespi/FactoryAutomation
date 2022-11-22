@@ -2,6 +2,7 @@ package boblovespi.factoryautomation.common.item.tools;
 
 import boblovespi.factoryautomation.common.item.FAItem;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.util.RegistryObjectWrapper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShearsItem;
 
@@ -14,9 +15,7 @@ public class FAShears extends ShearsItem implements FAItem
 	public FAShears(String name, Properties properties)
 	{
 		super(properties);
-		this.name = name;
-		setRegistryName(RegistryName());
-		FAItems.items.add(this);
+		FAItems.items.add(RegistryObjectWrapper.Item(name, this));
 	}
 
 	@Override

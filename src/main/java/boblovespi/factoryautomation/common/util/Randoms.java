@@ -1,5 +1,7 @@
 package boblovespi.factoryautomation.common.util;
 
+import net.minecraft.util.RandomSource;
+
 import java.util.Random;
 
 /**
@@ -9,10 +11,10 @@ public enum Randoms
 {
 	MAIN
 
-	;public final Random r;
+	;public final RandomSource r;
 
 	Randoms()
 	{
-		r = new Random();
+		r = RandomSource.create();
 	}
 }

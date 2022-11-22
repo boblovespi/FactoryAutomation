@@ -45,7 +45,7 @@ public class TEPowerShaft extends BlockEntity implements IMechanicalUser, ITicka
 
 	public TEPowerShaft(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePowerShaft, pos, state);
+		super(TileEntityHandler.tePowerShaft.get(), pos, state);
 		if (state.getBlock() instanceof PowerShaft ps)
 		{
 			maxSpeed = ps.maxSpeed;

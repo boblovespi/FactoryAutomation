@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_beach",
+  "features": ["factoryautomation:ore_black_sand_normal"],
+  "step": "underground_ores"
+}

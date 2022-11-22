@@ -38,12 +38,6 @@ public class Firebow extends FABaseItem
 		super("firebow", new Properties().tab(FAItemGroups.primitive).durability(15));
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "tools/" + RegistryName();
-	}
-
 	/**
 	 * Called when a Block is right-clicked with this Item
 	 */

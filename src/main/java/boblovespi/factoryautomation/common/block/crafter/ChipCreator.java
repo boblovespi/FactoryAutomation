@@ -30,12 +30,6 @@ public class ChipCreator extends FABaseBlock implements EntityBlock
 		TileEntityHandler.tiles.add(TEBasicCircuitCreator.class);
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "workbench/" + RegistryName();
-	}
-
 	/**
 	 * Returns a new instance of a block's tile entity class. Called on placing the block.
 	 */
@@ -51,7 +45,7 @@ public class ChipCreator extends FABaseBlock implements EntityBlock
 								 BlockHitResult hit)
 	{
 		if (!world.isClientSide && player instanceof ServerPlayer sp)
-			NetworkHooks.openGui(sp, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
+			NetworkHooks.openScreen(sp, TEHelper.GetContainer(world.getBlockEntity(pos)), pos);
 		return InteractionResult.SUCCESS;
 	}
 }

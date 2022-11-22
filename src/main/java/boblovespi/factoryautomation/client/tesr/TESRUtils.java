@@ -2,7 +2,6 @@ package boblovespi.factoryautomation.client.tesr;
 
 import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
-import boblovespi.factoryautomation.common.tileentity.mechanical.TEGearbox;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -21,21 +20,19 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Willi on 7/25/2018.
@@ -82,14 +79,14 @@ public class TESRUtils
 			float f = (float) (k >> 16 & 255) / 255.0F;
 			float f1 = (float) (k >> 8 & 255) / 255.0F;
 			float f2 = (float) (k & 255) / 255.0F;
-			buffer.putBulkData(matrix.last(), bakedquad, f, f1, f2, combinedLight, combinedOverlay, true);
+			buffer.putBulkData(matrix.last(), bakedquad, f, f1, f2, combinedLight, combinedOverlay /*, true*/);
 		}
 	}
 
 	private static void RenderModel(BakedModel modelIn, ItemStack stack, int combinedLightIn, int combinedOverlayIn,
 			PoseStack matrixStackIn, VertexConsumer bufferIn, int color)
 	{
-		Random random = new Random();
+		RandomSource random = RandomSource.create();
 		long i = 42L;
 
 		for (Direction direction : Direction.values())
@@ -182,13 +179,14 @@ public class TESRUtils
 		matrix.popPose();
 	}
 
-	public static void RenderBlockModel(BlockRenderDispatcher dispatcher, BlockState state, PoseStack stack, MultiBufferSource buffer, int i1, int i2, IModelData modelData)
+	@Deprecated
+	public static void RenderBlockModel(BlockRenderDispatcher dispatcher, BlockState state, PoseStack stack, MultiBufferSource buffer, int i1, int i2, ModelData modelData)
 	{
 		BakedModel bakedmodel = dispatcher.getBlockModel(state);
 		int i = Minecraft.getInstance().getBlockColors().getColor(state, null, null, 0);
 		float f = (float)(i >> 16 & 255) / 255.0F;
 		float f1 = (float)(i >> 8 & 255) / 255.0F;
 		float f2 = (float)(i & 255) / 255.0F;
-		dispatcher.getModelRenderer().renderModel(stack.last(), buffer.getBuffer(ItemBlockRenderTypes.getRenderType(state, false)), state, bakedmodel, f, f1, f2, i1, i2, modelData);
+		// dispatcher.getModelRenderer().renderModel(stack.last(), buffer.getBuffer(ItemBlockRenderTypes.getRenderType(state, false)), state, bakedmodel, f, f1, f2, i1, i2, modelData);
 	}
 }

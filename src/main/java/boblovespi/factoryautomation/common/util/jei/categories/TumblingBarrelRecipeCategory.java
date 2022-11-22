@@ -4,25 +4,28 @@ import boblovespi.factoryautomation.FactoryAutomation;
 import boblovespi.factoryautomation.api.recipe.TumblingBarrelRecipe;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.forge.ForgeTypes;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class TumblingBarrelRecipeCategory extends AbstractMachineRecipeCategory<TumblingBarrelRecipe>
+public class TumblingBarrelRecipeCategory implements IRecipeCategory<TumblingBarrelRecipe>
 {
-	public static final ResourceLocation ID = new ResourceLocation(FactoryAutomation.MODID, "tumbling_barrel");
+	public static final RecipeType<TumblingBarrelRecipe> TYPE = RecipeType.create(FactoryAutomation.MODID,
+			"tumbling_barrel", TumblingBarrelRecipe.class);
 	private static final int u = 7;
 	private static final int v = 7;
 	private final IGuiHelper guiHelper;
@@ -35,29 +38,23 @@ public class TumblingBarrelRecipeCategory extends AbstractMachineRecipeCategory<
 		this.guiHelper = guiHelper;
 		background = guiHelper
 				.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/tumbling_barrel.png"),
-								u, v, 162, 61);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(FABlocks.tumblingBarrel));
-		tank = guiHelper.createDrawable(new ResourceLocation("factoryautomation:textures/gui/container/tumbling_barrel.png"), 182, 32, 16, 59);
-	}
-
-	@Nonnull
-	@Override
-	public ResourceLocation getUid()
-	{
-		return ID;
+						u, v, 162, 61);
+		icon = guiHelper.createDrawableItemStack(new ItemStack(FABlocks.tumblingBarrel));
+		tank = guiHelper.createDrawable(
+				new ResourceLocation("factoryautomation:textures/gui/container/tumbling_barrel.png"), 182, 32, 16, 59);
 	}
 
 	@Override
-	public Class<? extends TumblingBarrelRecipe> getRecipeClass()
+	public RecipeType<TumblingBarrelRecipe> getRecipeType()
 	{
-		return TumblingBarrelRecipe.class;
+		return TYPE;
 	}
 
 	@Nonnull
 	@Override
 	public Component getTitle()
 	{
-		return new TranslatableComponent("gui.tumbling_barrel");
+		return Component.translatable("gui.tumbling_barrel");
 	}
 
 	@Nonnull
@@ -74,40 +71,31 @@ public class TumblingBarrelRecipeCategory extends AbstractMachineRecipeCategory<
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, TumblingBarrelRecipe recipe, IIngredients ing)
+	public void setRecipe(IRecipeLayoutBuilder builder, TumblingBarrelRecipe recipe, IFocusGroup focuses)
 	{
-		var inputs = ing.getInputs(VanillaTypes.ITEM);
-		var outputs = ing.getOutputs(VanillaTypes.ITEM);
-		var fluidIn = ing.getInputs(VanillaTypes.FLUID);
-		var fluidOut = ing.getOutputs(VanillaTypes.FLUID);
+		var input = builder.addSlot(RecipeIngredientRole.INPUT, 56 - u, 34 - v - 1);
+		var output = builder.addSlot(RecipeIngredientRole.OUTPUT, 108 - u, 34 - v - 1);
+		var fluidIn = builder.addSlot(RecipeIngredientRole.INPUT, 8 - u, 8 - v)
+							 .setFluidRenderer(2000, false, 16, 59).setOverlay(tank, 0, 0);
+		var fluidOut = builder.addSlot(RecipeIngredientRole.OUTPUT, 152 - u, 8 - v)
+							  .setFluidRenderer(2000, false, 16, 59).setOverlay(tank, 0, 0);
 
-		IGuiItemStackGroup gui = recipeLayout.getItemStacks();
-		var fluids = recipeLayout.getFluidStacks();
-
-		gui.init(0, true, 56 - u, 34 - v - 1);
-		gui.init(1, false, 108 - u, 34 - v - 1);
-
-		if (!inputs.get(0).isEmpty() && !inputs.get(0).get(0).isEmpty())
-			gui.set(0, inputs.get(0));
-		if (!outputs.isEmpty() && !outputs.get(0).isEmpty() && !outputs.get(0).get(0).isEmpty())
-			gui.set(1, outputs.get(0));
-
-		fluids.init(0, true, 8 - u, 8 - v, 16, 59, 2000, false, tank);
-		fluids.init(1, false, 152 - u, 8 - v, 16, 59, 2000, false, tank);
-
-		if (!fluidIn.get(0).isEmpty() && !fluidIn.get(0).get(0).isEmpty())
-			fluids.set(0, fluidIn.get(0));
-		if (!fluidOut.get(0).isEmpty() && !fluidOut.get(0).get(0).isEmpty())
-			fluids.set(1, fluidOut.get(0));
+		if (!recipe.GetInput().isEmpty())
+			input.addIngredients(recipe.GetInput());
+		if (!recipe.GetPrimaryItemOutputs().get(0).isEmpty())
+			output.addItemStack(recipe.GetPrimaryItemOutputs().get(0));
+		if (!recipe.GetFluidInputs().get(0).isEmpty())
+			fluidIn.addIngredient(ForgeTypes.FLUID_STACK, recipe.GetFluidInputs().get(0));
+		if (!recipe.GetPrimaryFluidOutputs().get(0).isEmpty())
+			fluidOut.addIngredient(ForgeTypes.FLUID_STACK, recipe.GetPrimaryFluidOutputs().get(0));
 	}
 
 	@Override
-	public void draw(TumblingBarrelRecipe recipe, PoseStack stack, double mouseX, double mouseY)
+	public void draw(TumblingBarrelRecipe recipe, IRecipeSlotsView view, PoseStack stack, double mouseX, double mouseY)
 	{
-		super.draw(recipe, stack, mouseX, mouseY);
-		var text = new TranslatableComponent("jei.min_max_speed", recipe.GetMinSpeed(), recipe.GetMaxSpeed())
-				.withStyle(ChatFormatting.DARK_GRAY);
+		IRecipeCategory.super.draw(recipe, view, stack, mouseX, mouseY);
+		var text = Component.translatable("jei.min_max_speed", recipe.GetMinSpeed(), recipe.GetMaxSpeed())
+							.withStyle(ChatFormatting.DARK_GRAY);
 		Minecraft.getInstance().font.draw(stack, text, 54 - u, 60 - v - 1, 1);
 	}
 }
-

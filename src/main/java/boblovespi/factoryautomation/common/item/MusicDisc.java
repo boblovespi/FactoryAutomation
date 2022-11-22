@@ -1,41 +1,17 @@
 package boblovespi.factoryautomation.common.item;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.RecordItem;
-import net.minecraft.world.item.Rarity;
+import boblovespi.factoryautomation.common.util.RegistryObjectWrapper;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.RecordItem;
 
 import java.util.function.Supplier;
 
-import net.minecraft.world.item.Item.Properties;
-
-public class MusicDisc extends RecordItem implements FAItem
+public class MusicDisc extends RecordItem
 {
-	private final String name;
-
-	public MusicDisc(String name, int comparatorValue, Supplier<SoundEvent> soundSupplier, Properties builder)
+	public MusicDisc(String name, int comparatorValue, Supplier<SoundEvent> soundSupplier, Properties builder, int length)
 	{
-		super(comparatorValue, soundSupplier, builder.stacksTo(1).rarity(Rarity.RARE));
-		this.name = name;
-		setRegistryName(RegistryName());
-		FAItems.items.add(this);
-	}
-
-	@Override
-	public String UnlocalizedName()
-	{
-		return name;
-	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return UnlocalizedName();
-	}
-
-	@Override
-	public Item ToItem()
-	{
-		return this;
+		super(comparatorValue, soundSupplier, builder.stacksTo(1).rarity(Rarity.RARE), length);
+		FAItems.items.add(RegistryObjectWrapper.Item(name, this));
 	}
 }

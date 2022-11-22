@@ -5,15 +5,12 @@ import boblovespi.factoryautomation.client.gui.component.GuiBar;
 import boblovespi.factoryautomation.common.container.ContainerSolidFueledFirebox;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
 /**
  * Created by Willi on 10/28/2018.
@@ -26,7 +23,7 @@ public class GuiSolidFueledFirebox extends AbstractContainerScreen<ContainerSoli
 	public GuiSolidFueledFirebox(ContainerSolidFueledFirebox container, Inventory playerInv,
 								 Component unused)
 	{
-		super(container, playerInv, new TranslatableComponent("gui.solid_fueled_firebox"));
+		super(container, playerInv, Component.translatable("gui.solid_fueled_firebox"));
 		tempBar = new GuiBar(103, 9, 176, 14, 6, 61, GuiBar.ProgressDirection.UP);
 		flameBar = new GuiBar(80, 36, 176, 0, 14, 14, GuiBar.ProgressDirection.UP);
 	}
@@ -44,8 +41,7 @@ public class GuiSolidFueledFirebox extends AbstractContainerScreen<ContainerSoli
 		super.renderTooltip(matrix, mouseX, mouseY);
 		if (isHovering(103, 9, 6, 61, mouseX, mouseY))
 		{
-			Component text = new TextComponent(I18n.get("gui.misc.temperature") + ": " + String
-																											.format("%1$.1f\u00b0C", menu.GetBar(0) / 10f));
+			Component text = Component.literal(I18n.get("gui.misc.temperature") + ": " + String.format("%1$.1f\u00b0C", menu.GetBar(0) / 10f));
 			renderTooltip(matrix, text, mouseX, mouseY);
 		}
 	}

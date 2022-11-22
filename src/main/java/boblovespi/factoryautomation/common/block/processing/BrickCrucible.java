@@ -52,12 +52,6 @@ public class BrickCrucible extends FABaseBlock implements EntityBlock
 		registerDefaultState(defaultBlockState().setValue(MULTIBLOCK_COMPLETE, false));
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "processing/" + RegistryName();
-	}
-
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
@@ -101,7 +95,7 @@ public class BrickCrucible extends FABaseBlock implements EntityBlock
 					if (hit.getDirection() == state.getValue(FACING).getCounterClockWise())
 						foundry.PourInto(hit.getDirection());
 					else
-						NetworkHooks.openGui((ServerPlayer) player, foundry, pos);
+						NetworkHooks.openScreen((ServerPlayer) player, foundry, pos);
 				}
 			} else
 			{

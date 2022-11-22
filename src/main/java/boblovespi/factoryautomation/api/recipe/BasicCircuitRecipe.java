@@ -1,19 +1,18 @@
 package boblovespi.factoryautomation.api.recipe;
 
 import boblovespi.factoryautomation.FactoryAutomation;
-import boblovespi.factoryautomation.common.handler.RecipeHandler;
 import boblovespi.factoryautomation.common.tileentity.TEBasicCircuitCreator.Layout.Element;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.CraftingHelper;
 
@@ -26,8 +25,8 @@ import java.util.HashMap;
 public class BasicCircuitRecipe implements Recipe<Container>
 {
 	public static final HashMap<ResourceLocation, BasicCircuitRecipe> recipes = new HashMap<>(2);
-	public static final RecipeType<BasicCircuitRecipe> TYPE = RecipeType
-			.register(FactoryAutomation.MODID + ":basic_circuit_creator");
+	public static final RecipeType<BasicCircuitRecipe> TYPE = RecipeType.simple(
+			new ResourceLocation(FactoryAutomation.MODID, "basic_circuit_creator"));
 	public static final Serializer SERIALIZER = new Serializer();
 	private final ResourceLocation id;
 	private final ItemStack result;

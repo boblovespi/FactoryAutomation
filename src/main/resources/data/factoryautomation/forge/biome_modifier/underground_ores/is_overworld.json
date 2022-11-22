@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": ["factoryautomation:ore_cassiterite_small_normal"],
+  "step": "underground_ores"
+}

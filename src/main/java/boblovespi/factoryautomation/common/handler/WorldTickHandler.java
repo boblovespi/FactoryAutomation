@@ -32,11 +32,11 @@ public class WorldTickHandler
 	}
 
 	@SubscribeEvent
-	public void OnWorldTick(TickEvent.WorldTickEvent tickEvent)
+	public void OnWorldTick(TickEvent.LevelTickEvent tickEvent)
 	{
 		if (tickEvent.phase == TickEvent.Phase.START
-				|| tickEvent.world.isClientSide)
+				|| tickEvent.level.isClientSide)
 			return;
-		handlers.forEach(n -> n.Update(tickEvent.world));
+		handlers.forEach(n -> n.Update(tickEvent.level));
 	}
 }

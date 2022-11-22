@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,9 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
@@ -106,7 +104,7 @@ public class TESteelmakingFurnace extends BlockEntity
 
 	public TESteelmakingFurnace(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teSteelmakingFurnace, pos, state);
+		super(TileEntityHandler.teSteelmakingFurnace.get(), pos, state);
 		itemHandler = new ItemStackHandler(11);
 		fluidHandler = new MultiFluidTank(2, 1000/*magic number moment*/ * 10);
 	}
@@ -274,9 +272,9 @@ public class TESteelmakingFurnace extends BlockEntity
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing)
 	{
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		if (capability == ForgeCapabilities.ITEM_HANDLER)
 			return LazyOptional.of(() -> (T) itemHandler);
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+		if (capability == ForgeCapabilities.FLUID_HANDLER)
 			return LazyOptional.of(() -> (T) fluidHandler);
 		return super.getCapability(capability, facing);
 	}
@@ -360,7 +358,7 @@ public class TESteelmakingFurnace extends BlockEntity
 	@Override
 	public Component getDisplayName()
 	{
-		return new TextComponent("");
+		return Component.empty();
 	}
 
 	@Nullable

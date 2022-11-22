@@ -29,7 +29,7 @@ public class TECreativeMechanicalSource extends BlockEntity implements IMechanic
 
 	public TECreativeMechanicalSource(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teCreativeMechanicalSource, pos, state);
+		super(TileEntityHandler.teCreativeMechanicalSource.get(), pos, state);
 	}
 
 	@Override

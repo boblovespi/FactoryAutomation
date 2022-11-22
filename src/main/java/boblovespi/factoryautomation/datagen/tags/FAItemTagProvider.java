@@ -29,19 +29,19 @@ public class FAItemTagProvider extends ItemTagsProvider
 		copy(FATags.CreateForgeBlockTag("slabs/cobblestone"), FATags.CreateForgeItemTag("slabs/cobblestone"));
 		copy(FATags.CreateForgeBlockTag("dirt"), FATags.CreateForgeItemTag("dirt"));
 
-		tag(FATags.CreateForgeItemTag("slag")).add(FAItems.slag.ToItem());
-		tag(FATags.CreateForgeItemTag("rice")).add(FAItems.riceGrain.ToItem());
-		tag(FATags.CreateForgeItemTag("wires/copper")).add(FAItems.copperWire.ToItem());
-		tag(FATags.CreateForgeItemTag("dusts/stone")).add(FAItems.stoneDust.ToItem());
-		tag(FATags.CreateForgeItemTag("dusts/ash")).add(FAItems.ash.ToItem());
-		tag(FATags.CreateForgeItemTag("dusts/acid")).add(FAItems.acidPowder.ToItem());
-		tag(FATags.CreateForgeItemTag("dusts/calcium_carbonate")).add(FAItems.calciteDust.ToItem());
-		tag(FATags.CreateForgeItemTag("dusts/quicklime")).add(FAItems.quicklime.ToItem());
-		tag(FATags.CreateForgeItemTag("bowls/glycerin")).add(FAItems.liquidGlycerin.ToItem());
-		tag(FATags.CreateForgeItemTag("glycerin")).add(FAItems.dryGlycerin.ToItem());
-		tag(FATags.CreateForgeItemTag("ingots/rubber")).add(FAItems.rubber.ToItem());
-		tag(FATags.CreateForgeItemTag("gems/graphite")).add(FAItems.graphite.ToItem());
-		tag(FATags.CreateForgeItemTag("tallow")).add(FAItems.pigTallow.ToItem());
+		tag(FATags.CreateForgeItemTag("slag")).add(FAItems.slag);
+		tag(FATags.CreateForgeItemTag("rice")).add(FAItems.riceGrain);
+		tag(FATags.CreateForgeItemTag("wires/copper")).add(FAItems.copperWire);
+		tag(FATags.CreateForgeItemTag("dusts/stone")).add(FAItems.stoneDust);
+		tag(FATags.CreateForgeItemTag("dusts/ash")).add(FAItems.ash);
+		tag(FATags.CreateForgeItemTag("dusts/acid")).add(FAItems.acidPowder);
+		tag(FATags.CreateForgeItemTag("dusts/calcium_carbonate")).add(FAItems.calciteDust);
+		tag(FATags.CreateForgeItemTag("dusts/quicklime")).add(FAItems.quicklime);
+		tag(FATags.CreateForgeItemTag("bowls/glycerin")).add(FAItems.liquidGlycerin);
+		tag(FATags.CreateForgeItemTag("glycerin")).add(FAItems.dryGlycerin);
+		tag(FATags.CreateForgeItemTag("ingots/rubber")).add(FAItems.rubber);
+		tag(FATags.CreateForgeItemTag("gems/graphite")).add(FAItems.graphite);
+		tag(FATags.CreateForgeItemTag("tallow")).add(FAItems.pigTallow);
 
 		for (MetalOres ore : MetalOres.values())
 		{
@@ -117,11 +117,11 @@ public class FAItemTagProvider extends ItemTagsProvider
 
 		tag(FATags.CreateFAItemTag("tools/axes"))
 				.add(Items.WOODEN_AXE, Items.STONE_AXE, Items.GOLDEN_AXE, Items.IRON_AXE, Items.DIAMOND_AXE,
-						FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem(), FAItems.copperAxe.ToItem(),
-						FAItems.choppingBlade.ToItem(), FAItems.voidsteelAxe.ToItem());
-		tag(FATags.CreateFAItemTag("tools/silks_grass")).add(Items.SHEARS, FAItems.choppingBlade.ToItem());
+						FAItems.bronzeAxe, FAItems.steelAxe, FAItems.copperAxe,
+						FAItems.choppingBlade, FAItems.voidsteelAxe);
+		tag(FATags.CreateFAItemTag("tools/silks_grass")).add(Items.SHEARS, FAItems.choppingBlade);
 		tag(FATags.CreateFAItemTag("tools/good_axes"))
-				.add(Items.IRON_AXE, Items.DIAMOND_AXE, FAItems.bronzeAxe.ToItem(), FAItems.steelAxe.ToItem(), FAItems.voidsteelAxe.ToItem());
-		tag(FATags.CreateFAItemTag("tools/hammers")).add(FAItems.copperHammer.ToItem(), FAItems.ironHammer.ToItem(), FAItems.steelHammer.ToItem());
+				.add(Items.IRON_AXE, Items.DIAMOND_AXE, FAItems.bronzeAxe, FAItems.steelAxe, FAItems.voidsteelAxe);
+		tag(FATags.CreateFAItemTag("tools/hammers")).add(FAItems.copperHammer, FAItems.ironHammer, FAItems.steelHammer);
 	}
 }

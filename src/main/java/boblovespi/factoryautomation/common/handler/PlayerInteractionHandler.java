@@ -12,7 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -31,9 +31,9 @@ public class PlayerInteractionHandler
 		Item item = stack.getItem();
 		BlockPos pos = event.getPos();
 		Direction facing = event.getFace();
-		Level world = event.getWorld();
+		Level world = event.getLevel();
 
-		if (item == Items.BUCKET && event.getEntityLiving().isCrouching())
+		if (item == Items.BUCKET && event.getEntity().isCrouching())
 		{
 			event.setCanceled(true);
 			if (!world.isClientSide)
@@ -41,16 +41,16 @@ public class PlayerInteractionHandler
 				if (facing != null)
 				{
 					stack.shrink(1);
-					world.setBlockAndUpdate(pos.relative(facing), FABlocks.placedBucket.ToBlock().defaultBlockState());
+					world.setBlockAndUpdate(pos.relative(facing), FABlocks.placedBucket.defaultBlockState());
 				}
 			}
 		}
 	}
 
 	@SubscribeEvent
-	public static void OnPlayerSpawnEvent(EntityJoinWorldEvent event)
+	public static void OnPlayerSpawnEvent(EntityJoinLevelEvent event)
 	{
-		if (!event.getWorld().isClientSide)
+		if (!event.getLevel().isClientSide)
 		{
 			if (event.getEntity() instanceof Player && !(event.getEntity() instanceof FakePlayer)) // is player
 			{

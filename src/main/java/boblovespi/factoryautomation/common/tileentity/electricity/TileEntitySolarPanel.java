@@ -38,7 +38,7 @@ public class TileEntitySolarPanel extends BlockEntity
 
 	public TileEntitySolarPanel(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teSolarPanel, pos, state);
+		super(TileEntityHandler.teSolarPanel.get(), pos, state);
 		energyConnections = new ArrayList<>(256);
 		energyStorage = new InternalEnergyStorage(20);
 	}

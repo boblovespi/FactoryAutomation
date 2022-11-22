@@ -40,7 +40,7 @@ public class TEPipe extends BlockEntity implements ITickable
 
 	public TEPipe(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePipe, pos, state);
+		super(TileEntityHandler.tePipe.get(), pos, state);
 		tanks = new FluidTank[6];
 		for (int i = 0; i < 6; i++)
 		{

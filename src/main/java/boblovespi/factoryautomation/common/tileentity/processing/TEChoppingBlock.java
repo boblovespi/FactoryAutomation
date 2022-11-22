@@ -39,7 +39,7 @@ public class TEChoppingBlock extends BlockEntity
 
 	public TEChoppingBlock(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teChoppingBlock, pos, state);
+		super(TileEntityHandler.teChoppingBlock.get(), pos, state);
 		slot = new ItemStackHandler(1);
 	}
 
@@ -106,7 +106,7 @@ public class TEChoppingBlock extends BlockEntity
 		if (recipe.equals("none"))
 			return false;
 		Item item = tool.getItem();
-		if (item instanceof AxeItem || FATags.FAItemTag("axes").contains(item))
+		if (item instanceof AxeItem || FATags.Contains(FATags.FAItemTag("axes"), item))
 		{
 			clicksLeft--;
 			if (clicksLeft <= 0)

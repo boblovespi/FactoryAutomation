@@ -30,7 +30,7 @@ public class TEPaperBellows extends BlockEntity implements ITickable, IBellowsTE
 
 	public TEPaperBellows(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.tePaperBellows, pos, state);
+		super(TileEntityHandler.tePaperBellows.get(), pos, state);
 		factory = new AnimationFactory(this);
 	}
 

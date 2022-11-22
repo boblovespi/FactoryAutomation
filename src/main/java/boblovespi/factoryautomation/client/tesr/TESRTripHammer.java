@@ -17,19 +17,19 @@ public class TESRTripHammer extends GeoBlockRenderer<TETripHammerController>
 		super(rendererDispatcherIn, new AnimatedGeoModel<>()
 		{
 			@Override
-			public ResourceLocation getAnimationFileLocation(TETripHammerController animatable)
+			public ResourceLocation getAnimationResource(TETripHammerController animatable)
 			{
 				return new ResourceLocation(MODID, "animations/trip_hammer.animation.json");
 			}
 
 			@Override
-			public ResourceLocation getModelLocation(TETripHammerController object)
+			public ResourceLocation getModelResource(TETripHammerController object)
 			{
 				return new ResourceLocation(MODID, "geo/trip_hammer.geo.json");
 			}
 
 			@Override
-			public ResourceLocation getTextureLocation(TETripHammerController object)
+			public ResourceLocation getTextureResource(TETripHammerController object)
 			{
 				return new ResourceLocation(MODID, "textures/blocks/machines/trip_hammer.png");
 			}

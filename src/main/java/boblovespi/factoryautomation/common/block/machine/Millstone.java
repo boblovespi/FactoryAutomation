@@ -53,12 +53,6 @@ public class Millstone extends FABaseBlock implements EntityBlock
 		registerDefaultState(stateDefinition.any().setValue(IS_TOP, false));
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "mechanical/" + RegistryName();
-	}
-
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)

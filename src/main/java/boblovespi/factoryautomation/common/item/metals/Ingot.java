@@ -14,13 +14,4 @@ public class Ingot extends MetalItem
 	{
 		super(unlocalizedName);
 	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		if (meta > 1 && meta < itemTypes.getEnumConstants().length)
-			return super.GetMetaFilePath(meta);
-		else
-			return super.GetMetaFilePath(2);
-	}
 }

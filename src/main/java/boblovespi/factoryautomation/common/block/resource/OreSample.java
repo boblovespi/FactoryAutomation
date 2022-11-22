@@ -64,12 +64,6 @@ public class OreSample extends FABaseBlock
 		return BOUNDING_BOX_VS;
 	}
 
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "resources/" + RegistryName();
-	}
-
 	/**
 	 * Called when a neighboring block was changed and marks that this state should perform any checks during a neighbor
 	 * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid

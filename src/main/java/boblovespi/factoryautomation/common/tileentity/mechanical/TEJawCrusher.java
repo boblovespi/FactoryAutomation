@@ -52,7 +52,7 @@ public class TEJawCrusher extends TEMachine<JawCrusherRecipe> implements IMechan
 
 	public TEJawCrusher(BlockPos pos, BlockState state)
 	{
-		super(1, TileEntityHandler.teJawCrusher, pos, state);
+		super(1, TileEntityHandler.teJawCrusher.get(), pos, state);
 		wearPlate = new ItemStackHandler();
 		inputWrapper = new RestrictedSlotItemHandler(new BitSet(2)
 		{{

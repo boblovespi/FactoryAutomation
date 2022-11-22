@@ -78,7 +78,7 @@ public class Cable extends FABaseBlock
 	public static boolean CanConnectTo(BlockState state, Direction side, BlockGetter level, BlockPos pos)
 	{
 		Block block = state.getBlock();
-		if (FABlocks.cable.ToBlock() == block)
+		if (FABlocks.cable == block)
 			return true;
 		if (block instanceof IEnergyBlock)
 			return ((IEnergyBlock) block).CanConnectCable(state, side, level, pos);
@@ -201,7 +201,7 @@ public class Cable extends FABaseBlock
 		List<Pair<IUsesEnergy_, Integer>> machines = GetEnergyMachines(
 				world, pos, actualState, stop, new ArrayList<>(100));
 
-		machines.forEach(n -> System.out.println(n.getKey().GetTe().getTileData().toString()));
+		machines.forEach(n -> System.out.println(n.getKey().GetTe().getBlockPos()));
 
 		if (machines.size() <= 1)
 			return;
@@ -214,8 +214,8 @@ public class Cable extends FABaseBlock
 				{
 					if (consumer.getKey() instanceof IRequiresEnergy_)
 					{
-						System.out.println("consumer = " + consumer.getKey().GetTe().getTileData().toString());
-						System.out.println("producer = " + machine.getKey().GetTe().getTileData().toString());
+						System.out.println("consumer = " + consumer.getKey().GetTe().toString());
+						System.out.println("producer = " + machine.getKey().GetTe().toString());
 						EnergyNetwork_.GetFromWorld((ServerLevel) world).AddConnection(
 								new EnergyConnection_((IProducesEnergy_) machine.getKey(),
 										(IRequiresEnergy_) consumer.getKey(),

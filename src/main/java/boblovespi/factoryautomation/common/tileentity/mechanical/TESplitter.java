@@ -35,7 +35,7 @@ public class TESplitter extends BlockEntity implements ITickable
 
 	public TESplitter(BlockPos pos, BlockState state)
 	{
-		super(TileEntityHandler.teSplitter, pos, state);
+		super(TileEntityHandler.teSplitter.get(), pos, state);
 		in = new MechanicalUser(EnumSet.of(state.getValue(HORIZONTAL_FACING)));
 		out = new MechanicalUser(EnumSet.of(state.getValue(HORIZONTAL_FACING)
 													.getClockWise(), state.getValue(HORIZONTAL_FACING)

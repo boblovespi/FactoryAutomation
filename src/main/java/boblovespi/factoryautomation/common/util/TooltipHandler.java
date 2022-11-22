@@ -1,11 +1,10 @@
 package boblovespi.factoryautomation.common.util;
 
 import boblovespi.factoryautomation.FactoryAutomation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -63,7 +62,7 @@ public class TooltipHandler
 				for (String key : keys)
 				{
 					Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(key));
-					tooltips.putIfAbsent(item, new TextComponent("\u00A77" + info));
+					tooltips.putIfAbsent(item, Component.translatable("\u00A77" + info));
 				}
 			}
 

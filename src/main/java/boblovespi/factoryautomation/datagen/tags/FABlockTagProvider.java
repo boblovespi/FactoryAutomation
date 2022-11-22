@@ -1,6 +1,5 @@
 package boblovespi.factoryautomation.datagen.tags;
 
-import boblovespi.factoryautomation.common.block.FABlock;
 import boblovespi.factoryautomation.common.block.FABlocks;
 import boblovespi.factoryautomation.common.block.resource.Ore;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -29,7 +27,7 @@ public class FABlockTagProvider extends BlockTagsProvider
 	@Override
 	protected void addTags()
 	{
-		tag(FATags.CreateForgeBlockTag("concrete")).add(FABlocks.concrete.ToBlock());
+		tag(FATags.CreateForgeBlockTag("concrete")).add(FABlocks.concrete);
 		tag(FATags.CreateForgeBlockTag("clay")).add(Blocks.CLAY);
 		tag(FATags.CreateForgeBlockTag("slabs/cobblestone"))
 				.add(Blocks.COBBLESTONE_SLAB, Blocks.MOSSY_COBBLESTONE_SLAB);
@@ -53,35 +51,35 @@ public class FABlockTagProvider extends BlockTagsProvider
 		tag(FATags.CreateFABlockTag("storage_blocks/t1"))
 				.addTags(FATags.CreateForgeBlockTag("storage_blocks/copper"), FATags.CreateFABlockTag("storage_blocks/t2"));
 
-		tag(FATags.CreateFABlockTag("campfire")).add(FABlocks.campfire.ToBlock(), Blocks.CAMPFIRE);
+		tag(FATags.CreateFABlockTag("campfire")).add(FABlocks.campfire, Blocks.CAMPFIRE);
 
 		tag(BlockTags.MINEABLE_WITH_PICKAXE)
-				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n).ToBlock())
+				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n))
 							 .toArray(Block[]::new))
-				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n).ToBlock())
+				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n))
 							 .toArray(Block[]::new))
-				.add(Arrays.stream(Ore.Grade.values()).map(n -> FABlocks.limoniteOre.GetBlock(n).ToBlock())
+				.add(Arrays.stream(Ore.Grade.values()).map(n -> FABlocks.limoniteOre.GetBlock(n))
 							 .toArray(Block[]::new))
-				.add(Arrays.stream(MetalOres.values()).map(n -> FABlocks.metalOres.GetBlock(n).ToBlock())
+				.add(Arrays.stream(MetalOres.values()).map(n -> FABlocks.metalOres.GetBlock(n))
 							 .toArray(Block[]::new))
-				.add(FABlocks.ironPatternedPlateBlock.ToBlock(), FABlocks.factorySign.ToBlock(), FABlocks.terraclayBrickBlock.ToBlock(), FABlocks.slagGlass.ToBlock())
-				.add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock(), FABlocks.brickFirebox.ToBlock(), FABlocks.brickCrucible.ToBlock())
-				.add(FABlocks.stoneCastingVessel.ToBlock(), FABlocks.stoneCrucible.ToBlock(), FABlocks.powerShaft.ToBlock())
-				.add(FABlocks.ironPipe.ToBlock());
-		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame.ToBlock(), FABlocks.logPile.ToBlock()).add(FABlocks.woodChoppingBlocks.stream().map(FABlock::ToBlock).toArray(Block[]::new))
-				.add(FABlocks.campfire.ToBlock(), FABlocks.powerShaftWood.ToBlock(), FABlocks.woodenTank.ToBlock(), FABlocks.tumblingBarrel.ToBlock())
-				.add(FABlocks.woodPipe.ToBlock());
-		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(FABlocks.charcoalPile.ToBlock()).add(FABlocks.ironCharcoalMix.ToBlock()).add(FABlocks.greenSand.ToBlock()).add(FABlocks.terraclayBlock.ToBlock());
-		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom.ToBlock()).add(Blocks.COBBLESTONE).add(Blocks.CALCITE);
+				.add(FABlocks.ironPatternedPlateBlock, FABlocks.factorySign, FABlocks.terraclayBrickBlock, FABlocks.slagGlass)
+				.add(FABlocks.cassiteriteRawBlock, FABlocks.limoniteRawBlock, FABlocks.brickFirebox, FABlocks.brickCrucible)
+				.add(FABlocks.stoneCastingVessel, FABlocks.stoneCrucible, FABlocks.powerShaft)
+				.add(FABlocks.ironPipe);
+		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame, FABlocks.logPile).add(FABlocks.woodChoppingBlocks.toArray(Block[]::new))
+				.add(FABlocks.campfire, FABlocks.powerShaftWood, FABlocks.woodenTank, FABlocks.tumblingBarrel)
+				.add(FABlocks.woodPipe);
+		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(FABlocks.charcoalPile).add(FABlocks.ironCharcoalMix).add(FABlocks.greenSand).add(FABlocks.terraclayBlock);
+		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom).add(Blocks.COBBLESTONE).add(Blocks.CALCITE);
 		tag(FATags.NEEDS_FLINT_TOOL);
-		tag(BlockTags.NEEDS_STONE_TOOL).add(FABlocks.cassiteriteRawBlock.ToBlock(), FABlocks.limoniteRawBlock.ToBlock());
+		tag(BlockTags.NEEDS_STONE_TOOL).add(FABlocks.cassiteriteRawBlock, FABlocks.limoniteRawBlock);
 		tag(FATags.NEEDS_COPPER_TOOL)
-				.add(Arrays.stream(Ore.Grade.values()).skip(3).map(n -> FABlocks.limoniteOre.GetBlock(n).ToBlock())
+				.add(Arrays.stream(Ore.Grade.values()).skip(3).map(n -> FABlocks.limoniteOre.GetBlock(n))
 							 .toArray(Block[]::new))
-				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n).ToBlock())
+				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n))
 							 .toArray(Block[]::new))
-				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n).ToBlock())
-							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock.ToBlock()).add(FABlocks.factorySign.ToBlock())
-				.add(FABlocks.powerShaft.ToBlock(), FABlocks.ironPipe.ToBlock());
+				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n))
+							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock).add(FABlocks.factorySign)
+				.add(FABlocks.powerShaft, FABlocks.ironPipe);
 	}
 }

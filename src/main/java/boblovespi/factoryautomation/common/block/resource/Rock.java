@@ -8,6 +8,8 @@ import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.WoodTypes;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
+import boblovespi.factoryautomation.common.util.FATags;
+import boblovespi.factoryautomation.common.util.RegistryObjectWrapper;
 import boblovespi.factoryautomation.common.util.SoundHandler;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -48,7 +50,7 @@ public class Rock extends FABaseBlock
 		// super(Materials.ROCKS, "rock", FAItemGroups.resources, true);
 		registerDefaultState(stateDefinition.any().setValue(VARIANTS, Variants.COBBLESTONE));
 		item = new RockItem(this);
-		FAItems.items.add(item);
+		FAItems.items.add(RegistryObjectWrapper.Item("rock", item));
 		// setSoundType(SoundHandler.rock);
 	}
 
@@ -62,12 +64,6 @@ public class Rock extends FABaseBlock
 	public VoxelShape getShape(BlockState state, BlockGetter levelIn, BlockPos pos, CollisionContext context)
 	{
 		return BOUNDING_BOX;
-	}
-
-	@Override
-	public String GetMetaFilePath(int meta)
-	{
-		return "resources/" + RegistryName();
 	}
 
 	// TODO: loot tables
@@ -149,7 +145,7 @@ public class Rock extends FABaseBlock
 
 	public static class RockItem extends FAItemBlock
 	{
-		public RockItem(FABlock base)
+		public RockItem(Rock base)
 		{
 			super(base, new Item.Properties().tab(FAItemGroups.resources));
 		}
@@ -160,13 +156,13 @@ public class Rock extends FABaseBlock
 			Level world = context.getLevel();
 			BlockPos pos = context.getClickedPos();
 			Block block = world.getBlockState(pos).getBlock();
-			if (context.isSecondaryUseActive() /*isPlayerSneaking*/ && BlockTags.LOGS.contains(block))
+			if (context.isSecondaryUseActive() /*isPlayerSneaking*/ && FATags.Contains(BlockTags.LOGS, block))
 			{
 				if (!world.isClientSide)
 				{
 					world.destroyBlock(pos, false);
 					world.addFreshEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(),
-							new ItemStack(FABlocks.woodChoppingBlocks.get(WoodTypes.FromLog(block).Index()).ToBlock(),
+							new ItemStack(FABlocks.woodChoppingBlocks.get(WoodTypes.FromLog(block).Index()),
 									2)));
 				}
 				return InteractionResult.SUCCESS;
