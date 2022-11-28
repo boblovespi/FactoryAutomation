@@ -2,7 +2,7 @@
   "feature": "factoryautomation:ore_limonite",
   "placement": [
     {
-      "count": 17,
+      "chance": 17,
       "type": "minecraft:rarity_filter"
     },
     {

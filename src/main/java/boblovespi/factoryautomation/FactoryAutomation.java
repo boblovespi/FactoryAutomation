@@ -160,7 +160,7 @@ public class FactoryAutomation
 		Log.getLogger().info("Initialization");
 		proxy.Init();
 		// GameRegistry.registerWorldGenerator(new WorldGenHandler(), 0);
-		// TileEntityHandler.RegisterTileEntities();
+		TileEntityHandler.RegisterTileEntities();
 		FuelHandler.RegisterFuels();
 		RecipeHandler.registerIRecipes(); // TODO: figure out when to actually call, or move to json
 		// OreDictionaryHandler.registerOreDictionary();

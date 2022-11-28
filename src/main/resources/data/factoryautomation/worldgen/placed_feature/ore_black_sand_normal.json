@@ -2,7 +2,7 @@
   "feature": "factoryautomation:ore_black_sand",
   "placement": [
     {
-      "count": 200,
+      "chance": 200,
       "type": "minecraft:rarity_filter"
     },
     {

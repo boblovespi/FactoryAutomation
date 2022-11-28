@@ -18,6 +18,11 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & StringRepresenta
 
 	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Function<T, Item.Properties> properties)
 	{
+		this(name, types, resourceFolder, properties, 0L);
+	}
+
+	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Function<T, Item.Properties> properties, long ignore)
+	{
 		this.name = name;
 		itemTypes = types;
 		this.resourceFolder = resourceFolder;
@@ -26,6 +31,8 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & StringRepresenta
 
 		for (int i = 0; i < items.length; i++)
 		{
+			if ((1L << i & ignore) != 0)
+				continue;
 			items[i] = new FABaseItem(name + "_" + itemTypes.getEnumConstants()[i].getSerializedName(),
 									  properties.apply(itemTypes.getEnumConstants()[i]));
 		}

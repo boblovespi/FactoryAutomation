@@ -81,6 +81,7 @@ public class TileEntityHandler
 
 	static
 	{
+		// FABlocks.Init();
 		// RegisterTileEntities();
 	}
 
@@ -136,7 +137,8 @@ public class TileEntityHandler
 			System.err.println("how wtf");
 		var loc = new ResourceLocation(MODID, name);
 		tileTypes.add(RegistryObjectWrapper.Of(name, BlockEntityType.Builder.of(supplier, block).build(null)));
-		return RegistryObject.create(loc, ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, MODID);
+		return RegistryObject.create(loc, ForgeRegistries.BLOCK_ENTITY_TYPES);
+		// return TE_TYPES.register(name, () -> BlockEntityType.Builder.of(supplier, block).build(null));
 	}
 
 	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> BuildType(
@@ -145,13 +147,14 @@ public class TileEntityHandler
 	{
 		var loc = new ResourceLocation(MODID, name);
 		tileTypes.add(RegistryObjectWrapper.Of(name, BlockEntityType.Builder.of(supplier, blocks.toArray(Block[]::new)).build(null)));
-		return RegistryObject.create(loc, ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, MODID);
+		return RegistryObject.create(loc, ForgeRegistries.BLOCK_ENTITY_TYPES);
+		// return TE_TYPES.register(name, () -> BlockEntityType.Builder.of(supplier, blocks.toArray(Block[]::new)).build(null));
 	}
 
 	@SubscribeEvent
 	public static void RegisterTypes(RegisterEvent event)
 	{
-		RegisterTileEntities();
+		// RegisterTileEntities();
 		event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, n -> tileTypes.forEach(t -> t.Register(n)));
 	}
 }

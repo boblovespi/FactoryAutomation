@@ -196,7 +196,7 @@ public class FABlocks
 
 		concreteSlab = new ConcreteSlab();
 		// concreteDoubleSlab = new ConcreteSlab.Double();
-		FAItems.items.add(RegistryObjectWrapper.Item("concrete_slab", new FAItemBlock(concreteSlab, Building())));
+		// FAItems.items.add(RegistryObjectWrapper.Item("concrete_slab", new FAItemBlock(concreteSlab, Building())));
 		multiblockPart = new MultiblockComponent();
 
 		cable = new Cable();
@@ -229,13 +229,13 @@ public class FABlocks
 				of(Material.METAL).strength(1, 40).requiresCorrectToolForDrops(),
 				Building());
 
-		RemoveBlock(metalBlock.GetBlock(Metals.IRON));
+		/*RemoveBlock(metalBlock.GetBlock(Metals.IRON));
 		RemoveBlock(metalBlock.GetBlock(Metals.GOLD));
 		RemoveBlock(metalBlock.GetBlock(Metals.COPPER));
 
 		FAItems.RemoveItem(metalBlock.GetBlock(Metals.IRON).GetItem());
 		FAItems.RemoveItem(metalBlock.GetBlock(Metals.GOLD).GetItem());
-		FAItems.RemoveItem(metalBlock.GetBlock(Metals.COPPER).GetItem());
+		FAItems.RemoveItem(metalBlock.GetBlock(Metals.COPPER).GetItem());*/
 
 		factorySign = new FABaseBlock("factory_sign_block", false,
 				of(Material.METAL).strength(1, 10),

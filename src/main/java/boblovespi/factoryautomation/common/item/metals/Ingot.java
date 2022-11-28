@@ -7,11 +7,6 @@ public class Ingot extends MetalItem
 {
 	public Ingot()
 	{
-		super("ingot");
-	}
-
-	protected Ingot(String unlocalizedName)
-	{
-		super(unlocalizedName);
+		super("ingot", 0b111);
 	}
 }

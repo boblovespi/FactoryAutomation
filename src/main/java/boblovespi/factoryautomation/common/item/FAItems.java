@@ -191,12 +191,12 @@ public class FAItems
 		// metal resources
 
 		ingot = new Ingot();
-		RemoveItem(ingot.GetItem(Metals.IRON));
+		/*RemoveItem(ingot.GetItem(Metals.IRON));
 		RemoveItem(ingot.GetItem(Metals.GOLD));
-		RemoveItem(ingot.GetItem(Metals.COPPER));
+		RemoveItem(ingot.GetItem(Metals.COPPER));*/
 		nugget = new Nugget();
-		RemoveItem(nugget.GetItem(Metals.IRON));
-		RemoveItem(nugget.GetItem(Metals.GOLD));
+		/*RemoveItem(nugget.GetItem(Metals.IRON));
+		RemoveItem(nugget.GetItem(Metals.GOLD));*/
 		sheet = new Sheet();
 		coin = new MetalItem("coin");
 		diamondCoin = new FABaseItem("coin_diamond", CreativeModeTab.TAB_MISC);
