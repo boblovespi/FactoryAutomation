@@ -219,6 +219,8 @@ public class BlockEventHandler
 		}
 		if (FABlocks.woodChoppingBlocks.contains(state.getBlock()))
 		{
+			if (world.isClientSide)
+				return;
 			BlockEntity te = world.getBlockEntity(pos);
 			if (te instanceof TEChoppingBlock)
 				((TEChoppingBlock) te).LeftClick(player.getItemInHand(InteractionHand.MAIN_HAND));

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Willi on 4/10/2018.
  */
-public interface IWorkbenchRecipe extends Recipe<Container>
+public interface IWorkbenchRecipe extends Recipe<Container>, INamed
 {
 	boolean CanFitTier(int x, int y, int tier);
 
@@ -64,6 +64,6 @@ public interface IWorkbenchRecipe extends Recipe<Container>
 	@Override
 	default ResourceLocation getId()
 	{
-		return null;
+		return getName();
 	}
 }

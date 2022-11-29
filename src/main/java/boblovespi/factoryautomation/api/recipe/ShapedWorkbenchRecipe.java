@@ -1,5 +1,6 @@
 package boblovespi.factoryautomation.api.recipe;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * Created by Willi on 4/11/2018.
  */
-public class ShapedWorkbenchRecipe implements IWorkbenchRecipe
+public class ShapedWorkbenchRecipe extends NamedRecipe implements IWorkbenchRecipe
 {
 	private final int tier;
 	private final int sizeX;

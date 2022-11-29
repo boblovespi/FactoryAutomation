@@ -323,7 +323,9 @@ public class WorkbenchRecipeHandler
 		@Override
 		public ShapedWorkbenchRecipe fromJson(ResourceLocation recipeId, JsonObject json)
 		{
-			return (ShapedWorkbenchRecipe) DeserializeShapedFromJson(json);
+			var recipe = (ShapedWorkbenchRecipe) DeserializeShapedFromJson(json);
+			recipe.setName(recipeId);
+			return recipe;
 		}
 
 		@Nullable
@@ -344,7 +346,9 @@ public class WorkbenchRecipeHandler
 			}
 			HashMap<WorkbenchTool.Instance, Integer> tools = DeserializeToolsFromBuffer(buffer);
 			HashMap<WorkbenchPart.Instance, Integer> parts = DeserializePartsFromBuffer(buffer);
-			return new ShapedWorkbenchRecipe(tier, ingredients, tools, parts, result);
+			var recipe = new ShapedWorkbenchRecipe(tier, ingredients, tools, parts, result);
+			recipe.setName(recipeId);
+			return recipe;
 		}
 
 		@Override

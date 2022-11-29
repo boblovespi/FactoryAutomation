@@ -29,6 +29,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static boblovespi.factoryautomation.FactoryAutomation.MODID;
 
@@ -43,41 +44,41 @@ public class TileEntityHandler
 
 	public static List<Class<? extends BlockEntity>> tiles = new ArrayList<>(32);
 	public static List<RegistryObjectWrapper<BlockEntityType<?>>> tileTypes = new ArrayList<>(32);
-	public static RegistryObject<BlockEntityType<TECreativeMechanicalSource>> teCreativeMechanicalSource;
-	public static RegistryObject<BlockEntityType<TEMultiblockPart>> teMultiblockPart;
-	public static RegistryObject<BlockEntityType<TESolidFueledFirebox>> teSolidFueledFirebox;
-	public static RegistryObject<BlockEntityType<TEHorseEngine>> teHorseEngine;
-	public static RegistryObject<BlockEntityType<TEBasicCircuitCreator>> teBasicCircuitCreator;
-	public static RegistryObject<BlockEntityType<TEBlastFurnaceController>> teBlastFurnaceController;
-	public static RegistryObject<BlockEntityType<TESteelmakingFurnace>> teSteelmakingFurnace;
-	public static RegistryObject<BlockEntityType<TEPipe>> tePipe;
-	public static RegistryObject<BlockEntityType<TEPlacedBucket>> tePlacedBucket;
-	public static RegistryObject<BlockEntityType<TEPump>> tePump;
-	public static RegistryObject<BlockEntityType<TEBevelGear>> teBevelGear;
-	public static RegistryObject<BlockEntityType<TEGearbox>> teGearbox;
-	public static RegistryObject<BlockEntityType<TEHandCrank>> teHandCrank;
-	public static RegistryObject<BlockEntityType<TEJawCrusher>> teJawCrusher;
-	public static RegistryObject<BlockEntityType<TEMillstone>> teMillstone;
-	public static RegistryObject<BlockEntityType<TELeatherBellows>> teLeatherBellows;
-	public static RegistryObject<BlockEntityType<TEMotor>> teMotor;
-	public static RegistryObject<BlockEntityType<TEPowerShaft>> tePowerShaft;
-	public static RegistryObject<BlockEntityType<TETripHammerController>> teTripHammerController;
-	public static RegistryObject<BlockEntityType<TEWaterwheel>> teWaterwheel;
-	public static RegistryObject<BlockEntityType<TECampfire>> teCampfire;
-	public static RegistryObject<BlockEntityType<TEChoppingBlock>> teChoppingBlock;
-	public static RegistryObject<BlockEntityType<TETreetap>> teTreetap;
-	public static RegistryObject<BlockEntityType<TEBrickCrucible>> teBrickCrucible;
-	public static RegistryObject<BlockEntityType<TEPaperBellows>> tePaperBellows;
-	public static RegistryObject<BlockEntityType<TEStoneCastingVessel>> teStoneCastingVessel;
-	public static RegistryObject<BlockEntityType<TEStoneCrucible>> teStoneCrucible;
-	public static RegistryObject<BlockEntityType<TEIronWorkbench>> teIronWorkbench;
-	public static RegistryObject<BlockEntityType<TEStoneWorkbench>> teStoneWorkbench;
-	public static RegistryObject<BlockEntityType<TileEntitySolarPanel>> teSolarPanel;
-	public static RegistryObject<BlockEntityType<TileEntityCable>> teCable;
-	public static RegistryObject<BlockEntityType<TEScrewPump>> teScrewPump;
-	public static RegistryObject<BlockEntityType<TEWoodenTank>> teWoodenTank;
-	public static RegistryObject<BlockEntityType<TESplitter>> teSplitter;
-	public static RegistryObject<BlockEntityType<TETumblingBarrel>> teTumblingBarrel;
+	public static Supplier<BlockEntityType<TECreativeMechanicalSource>> teCreativeMechanicalSource;
+	public static Supplier<BlockEntityType<TEMultiblockPart>> teMultiblockPart;
+	public static Supplier<BlockEntityType<TESolidFueledFirebox>> teSolidFueledFirebox;
+	public static Supplier<BlockEntityType<TEHorseEngine>> teHorseEngine;
+	public static Supplier<BlockEntityType<TEBasicCircuitCreator>> teBasicCircuitCreator;
+	public static Supplier<BlockEntityType<TEBlastFurnaceController>> teBlastFurnaceController;
+	public static Supplier<BlockEntityType<TESteelmakingFurnace>> teSteelmakingFurnace;
+	public static Supplier<BlockEntityType<TEPipe>> tePipe;
+	public static Supplier<BlockEntityType<TEPlacedBucket>> tePlacedBucket;
+	public static Supplier<BlockEntityType<TEPump>> tePump;
+	public static Supplier<BlockEntityType<TEBevelGear>> teBevelGear;
+	public static Supplier<BlockEntityType<TEGearbox>> teGearbox;
+	public static Supplier<BlockEntityType<TEHandCrank>> teHandCrank;
+	public static Supplier<BlockEntityType<TEJawCrusher>> teJawCrusher;
+	public static Supplier<BlockEntityType<TEMillstone>> teMillstone;
+	public static Supplier<BlockEntityType<TELeatherBellows>> teLeatherBellows;
+	public static Supplier<BlockEntityType<TEMotor>> teMotor;
+	public static Supplier<BlockEntityType<TEPowerShaft>> tePowerShaft;
+	public static Supplier<BlockEntityType<TETripHammerController>> teTripHammerController;
+	public static Supplier<BlockEntityType<TEWaterwheel>> teWaterwheel;
+	public static Supplier<BlockEntityType<TECampfire>> teCampfire;
+	public static Supplier<BlockEntityType<TEChoppingBlock>> teChoppingBlock;
+	public static Supplier<BlockEntityType<TETreetap>> teTreetap;
+	public static Supplier<BlockEntityType<TEBrickCrucible>> teBrickCrucible;
+	public static Supplier<BlockEntityType<TEPaperBellows>> tePaperBellows;
+	public static Supplier<BlockEntityType<TEStoneCastingVessel>> teStoneCastingVessel;
+	public static Supplier<BlockEntityType<TEStoneCrucible>> teStoneCrucible;
+	public static Supplier<BlockEntityType<TEIronWorkbench>> teIronWorkbench;
+	public static Supplier<BlockEntityType<TEStoneWorkbench>> teStoneWorkbench;
+	public static Supplier<BlockEntityType<TileEntitySolarPanel>> teSolarPanel;
+	public static Supplier<BlockEntityType<TileEntityCable>> teCable;
+	public static Supplier<BlockEntityType<TEScrewPump>> teScrewPump;
+	public static Supplier<BlockEntityType<TEWoodenTank>> teWoodenTank;
+	public static Supplier<BlockEntityType<TESplitter>> teSplitter;
+	public static Supplier<BlockEntityType<TETumblingBarrel>> teTumblingBarrel;
 
 	static
 	{
@@ -87,6 +88,9 @@ public class TileEntityHandler
 
 	public static void RegisterTileEntities()
 	{
+		if (!tileTypes.isEmpty())
+			return;
+
 		teCreativeMechanicalSource = BuildType(TECreativeMechanicalSource::new, FABlocks.creativeMechanicalSource,
 				"creative_mechanical_source");
 		teMultiblockPart = BuildType(TEMultiblockPart::new, FABlocks.multiblockPart, "multiblock_part");
@@ -129,32 +133,34 @@ public class TileEntityHandler
 		teTumblingBarrel = BuildType(TETumblingBarrel::new, FABlocks.tumblingBarrel, "tumbling_barrel");
 	}
 
-	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> BuildType(
+	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> BuildType(
 			BlockEntityType.BlockEntitySupplier<T> supplier,
 			Block block, String name)
 	{
 		if (block == null)
 			System.err.println("how wtf");
 		var loc = new ResourceLocation(MODID, name);
-		tileTypes.add(RegistryObjectWrapper.Of(name, BlockEntityType.Builder.of(supplier, block).build(null)));
-		return RegistryObject.create(loc, ForgeRegistries.BLOCK_ENTITY_TYPES);
+		var type = RegistryObjectWrapper.Of(name, BlockEntityType.Builder.of(supplier, block).build(null));
+		tileTypes.add((RegistryObjectWrapper) type);
+		return type::obj;
 		// return TE_TYPES.register(name, () -> BlockEntityType.Builder.of(supplier, block).build(null));
 	}
 
-	private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> BuildType(
+	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> BuildType(
 			BlockEntityType.BlockEntitySupplier<T> supplier,
 			List<Block> blocks, String name)
 	{
 		var loc = new ResourceLocation(MODID, name);
-		tileTypes.add(RegistryObjectWrapper.Of(name, BlockEntityType.Builder.of(supplier, blocks.toArray(Block[]::new)).build(null)));
-		return RegistryObject.create(loc, ForgeRegistries.BLOCK_ENTITY_TYPES);
+		var type = RegistryObjectWrapper.Of(name, BlockEntityType.Builder.of(supplier, blocks.toArray(Block[]::new)).build(null));
+		tileTypes.add((RegistryObjectWrapper) type);
+		return type::obj;
 		// return TE_TYPES.register(name, () -> BlockEntityType.Builder.of(supplier, blocks.toArray(Block[]::new)).build(null));
 	}
 
 	@SubscribeEvent
 	public static void RegisterTypes(RegisterEvent event)
 	{
-		// RegisterTileEntities();
+		RegisterTileEntities();
 		event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, n -> tileTypes.forEach(t -> t.Register(n)));
 	}
 }

@@ -211,6 +211,6 @@ public abstract class TEWorkbench extends BlockEntity implements MenuProvider
 	@Override
 	public Component getDisplayName()
 	{
-		return null;
+		return Component.empty();
 	}
 }
