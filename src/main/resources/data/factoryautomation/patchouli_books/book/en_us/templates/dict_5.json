@@ -1,0 +1,62 @@
+{
+  "components": [
+    {
+      "type": "patchouli:header",
+      "text": "#title#",
+      "x": -1,
+      "y": -1
+    },
+    {
+      "type": "patchouli:separator",
+      "x": -1,
+      "y": -1
+    }
+  ],
+  "include": [
+    {
+      "template": "dictentry",
+      "as": "e1",
+      "y": 20,
+      "using": {
+        "text": "#t1",
+        "item": "#i1"
+      }
+    },
+    {
+      "template": "dictentry",
+      "as": "e2",
+      "y": 36,
+      "using": {
+        "text": "#t2",
+        "item": "#i2"
+      }
+    },
+    {
+      "template": "dictentry",
+      "as": "e3",
+      "y": 52,
+      "using": {
+        "text": "#t3",
+        "item": "#i3"
+      }
+    },
+    {
+      "template": "dictentry",
+      "as": "e4",
+      "y": 68,
+      "using": {
+        "text": "#t4",
+        "item": "#i4"
+      }
+    },
+    {
+      "template": "dictentry",
+      "as": "e5",
+      "y": 84,
+      "using": {
+        "text": "#t5",
+        "item": "#i5"
+      }
+    }
+  ]
+}

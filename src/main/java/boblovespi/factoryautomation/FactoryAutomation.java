@@ -213,6 +213,8 @@ public class FactoryAutomation
 
 		// RecipeHandler.RemoveSmeltingRecipes();
 
+		ModCompatHandler.Init();
+
 		Log.getLogger().info("Postinitialization end");
 	}
 
@@ -227,7 +229,7 @@ public class FactoryAutomation
 	@SubscribeEvent
 	public void ModCompatEvent(InterModEnqueueEvent event)
 	{
-		ModCompatHandler.Init();
+		// ModCompatHandler.Init();
 	}
 
 	@SubscribeEvent

@@ -12,7 +12,7 @@
       "type": "empty"
     },
     {
-      "type": "factoryautomation:dictionary",
+      "type": "factoryautomation:dict_8",
       "title": "Melting Points",
       "anchor": "meltingpoints",
       "i1": "minecraft:iron_ingot",
@@ -33,7 +33,7 @@
       "t8": "10,000 \u00B0C"
     },
     {
-      "type": "factoryautomation:dictionary",
+      "type": "factoryautomation:dict_5",
       "title": "cont.",
       "i1": "factoryautomation:ingot_silver",
       "t1": "10,000 \u00B0C",
@@ -47,7 +47,7 @@
       "t5": "10,000 \u00B0C"
     },
     {
-      "type": "factoryautomation:dictionary",
+      "type": "factoryautomation:dict_8",
       "title": "Densities",
       "anchor": "densities",
       "i1": "minecraft:iron_ingot",
@@ -68,7 +68,7 @@
       "t8": "0 kg/m\u00B3"
     },
     {
-      "type": "factoryautomation:dictionary",
+      "type": "factoryautomation:dict_5",
       "title": "cont.",
       "i1": "factoryautomation:ingot_silver",
       "t1": "10,500 kg/m\u00B3",
@@ -82,7 +82,7 @@
       "t5": "0 kg/m\u00B3"
     },
     {
-      "type": "factoryautomation:dictionary",
+      "type": "factoryautomation:dict_8",
       "title": "Mass Heat Capacities",
       "anchor": "mhcs",
       "i1": "minecraft:iron_ingot",
@@ -103,7 +103,7 @@
       "t8": "0 J/(kg*K)"
     },
     {
-      "type": "factoryautomation:dictionary",
+      "type": "factoryautomation:dict_5",
       "title": "cont.",
       "i1": "factoryautomation:ingot_silver",
       "t1": "235 J/(kg*K)",

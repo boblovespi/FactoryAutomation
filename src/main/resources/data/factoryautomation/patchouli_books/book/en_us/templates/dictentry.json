@@ -1,0 +1,16 @@
+{
+  "components": [
+    {
+      "type": "patchouli:item",
+      "item": "#item#",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "patchouli:text",
+      "text": "#text#",
+      "x": 20,
+      "y": 0
+    }
+  ]
+}

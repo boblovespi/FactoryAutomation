@@ -13,7 +13,7 @@
     },
     {
       "type": "patchouli:item",
-      "guard": "#i1->exists",
+      "guard": "#i1->exists#",
       "item": "#i1#",
       "x": 0,
       "y": 20
@@ -26,7 +26,7 @@
     },
     {
       "type": "patchouli:item",
-      "guard": "#i2->exists",
+      "guard": "#i2->exists#",
       "item": "#i2#",
       "x": 0,
       "y": 36
@@ -39,7 +39,7 @@
     },
     {
       "type": "patchouli:item",
-      "guard": "#i3->exists",
+      "guard": "#i3->exists#",
       "item": "#i3#",
       "x": 0,
       "y": 52
@@ -52,7 +52,7 @@
     },
     {
       "type": "patchouli:item",
-      "guard": "#i4->exists",
+      "guard": "#i4->exists#",
       "item": "#i4#",
       "x": 0,
       "y": 68
@@ -65,7 +65,7 @@
     },
     {
       "type": "patchouli:item",
-      "guard": "#i5->exists",
+      "guard": "#i5->exists#",
       "item": "#i5#",
       "x": 0,
       "y": 84
@@ -78,7 +78,7 @@
     },
     {
       "type": "patchouli:item",
-      "guard": "#i6->exists",
+      "guard": "#i6->exists#",
       "item": "#i6#",
       "x": 0,
       "y": 100
@@ -91,7 +91,7 @@
     },
     {
       "type": "patchouli:item",
-      "guard": "#i7->exists",
+      "guard": "#i7->exists#",
       "item": "#i7#",
       "x": 0,
       "y": 116
@@ -104,7 +104,7 @@
     },
     {
       "type": "patchouli:item",
-      "guard": "#i8->exists",
+      "guard": "#i8->exists#",
       "item": "#i8#",
       "x": 0,
       "y": 132
