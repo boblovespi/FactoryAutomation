@@ -1,3 +1,6 @@
+## Version 0.5.0 - beta
+- updated to Minecraft 1.19.2
+- changed leather bellows formula (certain efficiencies need a minimum speed now)
 ### Version 0.4.1 - beta
 - added black sand to worldgen
 - added wooden power shaft

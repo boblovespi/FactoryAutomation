@@ -5,5 +5,9 @@ package boblovespi.factoryautomation.api.misc;
  */
 public interface IBellowsable
 {
+	/**
+	 * @param efficiency the efficiency of the bellows application, from 50% to 100%
+	 * @param time       the time in ticks to blow
+	 */
 	void Blow(float efficiency, int time);
 }
