@@ -62,6 +62,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipeCategories(new BrickMakerRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new MillstoneRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 		registry.addRecipeCategories(new TumblingBarrelRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+		registry.addRecipeCategories(new TripHammerRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
 	}
 
 	@Override
@@ -76,6 +77,7 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipes(BrickMakerRecipeCategory.TYPE, Collections.singletonList(new BrickMakerRecipeWrapper()));
 		registry.addRecipes(MillstoneRecipeCategory.TYPE, Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(MillstoneRecipe.TYPE));
 		registry.addRecipes(TumblingBarrelRecipeCategory.TYPE, Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(TumblingBarrelRecipe.TYPE));
+		registry.addRecipes(TripHammerRecipeCategory.TYPE, Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(TripHammerRecipe.TYPE));
 		RegisterDescriptions(registry);
 	}
 
@@ -108,5 +110,6 @@ public class JEIPlugin implements IModPlugin
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.brickMakerFrame), BrickMakerRecipeCategory.TYPE);
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.millstone), MillstoneRecipeCategory.TYPE);
 		registry.addRecipeCatalyst(new ItemStack(FABlocks.tumblingBarrel), TumblingBarrelRecipeCategory.TYPE);
+		registry.addRecipeCatalyst(new ItemStack(FABlocks.tripHammerController), TripHammerRecipeCategory.TYPE);
 	}
 }

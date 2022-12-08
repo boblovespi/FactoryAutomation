@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:trip_hammer",
+  "input": {
+    "tag": "forge:ingots/aluminum"
+  },
+  "output": {
+    "item": "factoryautomation:rod_aluminum",
+    "count": 1
+  },
+  "time": 80,
+  "torque": 10
+}

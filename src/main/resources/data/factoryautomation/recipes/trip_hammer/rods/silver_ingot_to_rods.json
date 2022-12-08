@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:trip_hammer",
+  "input": {
+    "tag": "forge:ingots/silver"
+  },
+  "output": {
+    "item": "factoryautomation:rod_silver",
+    "count": 1
+  },
+  "time": 80,
+  "torque": 10
+}

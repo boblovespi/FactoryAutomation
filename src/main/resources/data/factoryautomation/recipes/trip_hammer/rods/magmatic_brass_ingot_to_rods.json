@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:trip_hammer",
+  "input": {
+    "tag": "forge:ingots/magmatic_brass"
+  },
+  "output": {
+    "item": "factoryautomation:rod_magmatic_brass",
+    "count": 1
+  },
+  "time": 80,
+  "torque": 10
+}

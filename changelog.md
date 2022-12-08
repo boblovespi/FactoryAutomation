@@ -2,6 +2,8 @@
 - updated to Minecraft 1.19.2
 - added many dye recipes to millstone
 - added glowstone and blaze powder to millstone
+- added JEI integration to trip hammer
+- added rod recipes for trip hammer
 - changed leather bellows formula (certain efficiencies need a minimum speed now)
 ### Version 0.4.1 - beta
 - added black sand to worldgen

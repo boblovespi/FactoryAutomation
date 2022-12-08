@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:trip_hammer",
+  "input": {
+    "tag": "forge:ingots/tin"
+  },
+  "output": {
+    "item": "factoryautomation:rod_tin",
+    "count": 1
+  },
+  "time": 80,
+  "torque": 10
+}
