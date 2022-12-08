@@ -69,8 +69,8 @@ public class MillstoneRecipeCategory implements IRecipeCategory<MillstoneRecipe>
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, MillstoneRecipe recipe, IFocusGroup focuses)
 	{
-		builder.addSlot(RecipeIngredientRole.INPUT, 54 - u, 35 - v - 1).addIngredients(recipe.GetInput());
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 115 - u, 35 - v - 1).addItemStacks(List.of(recipe.GetOutputs()));
+		builder.addSlot(RecipeIngredientRole.INPUT, 55 - u, 35 - v).addIngredients(recipe.GetInput());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 116 - u, 35 - v).addItemStacks(List.of(recipe.GetOutputs()));
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public class ChoppingBlockRecipeCategory implements IRecipeCategory<ChoppingBloc
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, ChoppingBlockRecipe recipe, IFocusGroup focuses)
 	{
-		builder.addSlot(RecipeIngredientRole.INPUT, 54 - u, 35 - v - 1).addIngredients(recipe.GetInput());
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 115 - u, 35 - v - 1).addItemStack(recipe.GetOutput());
+		builder.addSlot(RecipeIngredientRole.INPUT, 55 - u, 35 - v).addIngredients(recipe.GetInput());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 116 - u, 35 - v).addItemStack(recipe.GetOutput());
 	}
 }

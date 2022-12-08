@@ -62,9 +62,9 @@ public class BlastFurnaceRecipeCategory implements IRecipeCategory<BlastFurnaceR
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, BlastFurnaceRecipeWrapper recipe, IFocusGroup focuses)
 	{
-		builder.addSlot(RecipeIngredientRole.INPUT, 42, 12).addIngredients(recipe.getIngot());
-		builder.addSlot(RecipeIngredientRole.INPUT, 60, 12).addIngredients(recipe.getFlux());
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 111, 30).addItemStack(recipe.getOutput());
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 137, 30).addItemStack(recipe.getSlag());
+		builder.addSlot(RecipeIngredientRole.INPUT, 43, 13).addIngredients(recipe.getIngot());
+		builder.addSlot(RecipeIngredientRole.INPUT, 61, 13).addIngredients(recipe.getFlux());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 112, 31).addItemStack(recipe.getOutput());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 138, 31).addItemStack(recipe.getSlag());
 	}
 }

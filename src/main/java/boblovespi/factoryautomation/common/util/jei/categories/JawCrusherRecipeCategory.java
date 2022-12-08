@@ -68,8 +68,8 @@ public class JawCrusherRecipeCategory implements IRecipeCategory<JawCrusherRecip
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, JawCrusherRecipe recipe, IFocusGroup focuses)
 	{
-		builder.addSlot(RecipeIngredientRole.INPUT, 55 - u, 17 - v - 1).addIngredients(recipe.GetItemInputs().get(0));
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 116 - u, 35 - v - 1)
+		builder.addSlot(RecipeIngredientRole.INPUT, 55 - u, 17 - v).addIngredients(recipe.GetItemInputs().get(0));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 116 - u, 35 - v)
 			   .addItemStack(recipe.GetPrimaryItemOutputs().get(0));
 	}
 }

@@ -70,8 +70,8 @@ public class BrickMakerRecipeCategory implements IRecipeCategory<BrickMakerRecip
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, BrickMakerRecipeWrapper recipe, IFocusGroup focuses)
 	{
-		builder.addSlot(RecipeIngredientRole.INPUT, 54 - u, 35 - v - 1).addIngredients(recipe.getInput());
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 115 - u, 35 - v - 1).addIngredients(recipe.getOutput());
+		builder.addSlot(RecipeIngredientRole.INPUT, 55 - u, 35 - v).addIngredients(recipe.getInput());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 116 - u, 35 - v).addIngredients(recipe.getOutput());
 	}
 
 	@Override

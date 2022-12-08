@@ -73,15 +73,15 @@ public class SteelmakingRecipeCategory implements IRecipeCategory<SteelmakingRec
 	{
 		IRecipeSlotBuilder[] slots = new IRecipeSlotBuilder[8];
 
-		slots[0] = builder.addSlot(RecipeIngredientRole.INPUT, 58 - u - 1, 20 - v - 1);
-		slots[1] = builder.addSlot(RecipeIngredientRole.INPUT, 76 - u - 1, 20 - v - 1);
-		slots[2] = builder.addSlot(RecipeIngredientRole.INPUT, 58 - u - 1, 38 - v - 1);
-		slots[3] = builder.addSlot(RecipeIngredientRole.INPUT, 76 - u - 1, 38 - v - 1);
+		slots[0] = builder.addSlot(RecipeIngredientRole.INPUT, 58 - u, 20 - v);
+		slots[1] = builder.addSlot(RecipeIngredientRole.INPUT, 76 - u, 20 - v);
+		slots[2] = builder.addSlot(RecipeIngredientRole.INPUT, 58 - u, 38 - v);
+		slots[3] = builder.addSlot(RecipeIngredientRole.INPUT, 76 - u, 38 - v);
 
-		slots[4] = builder.addSlot(RecipeIngredientRole.OUTPUT, 124 - u - 1, 20 - v - 1);
-		slots[5] = builder.addSlot(RecipeIngredientRole.OUTPUT, 142 - u - 1, 20 - v - 1);
-		slots[6] = builder.addSlot(RecipeIngredientRole.OUTPUT, 124 - u - 1, 38 - v - 1);
-		slots[7] = builder.addSlot(RecipeIngredientRole.OUTPUT, 142 - u - 1, 38 - v - 1);
+		slots[4] = builder.addSlot(RecipeIngredientRole.OUTPUT, 124 - u, 20 - v);
+		slots[5] = builder.addSlot(RecipeIngredientRole.OUTPUT, 142 - u, 20 - v);
+		slots[6] = builder.addSlot(RecipeIngredientRole.OUTPUT, 124 - u, 38 - v);
+		slots[7] = builder.addSlot(RecipeIngredientRole.OUTPUT, 142 - u, 38 - v);
 
 		var inputs = recipe.GetItemInputs();
 		for (int i = 0; i < inputs.size(); i++)

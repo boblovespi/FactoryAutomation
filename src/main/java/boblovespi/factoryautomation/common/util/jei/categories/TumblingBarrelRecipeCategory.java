@@ -73,8 +73,8 @@ public class TumblingBarrelRecipeCategory implements IRecipeCategory<TumblingBar
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, TumblingBarrelRecipe recipe, IFocusGroup focuses)
 	{
-		var input = builder.addSlot(RecipeIngredientRole.INPUT, 56 - u, 34 - v - 1);
-		var output = builder.addSlot(RecipeIngredientRole.OUTPUT, 108 - u, 34 - v - 1);
+		var input = builder.addSlot(RecipeIngredientRole.INPUT, 57 - u, 34 - v);
+		var output = builder.addSlot(RecipeIngredientRole.OUTPUT, 109 - u, 34 - v);
 		var fluidIn = builder.addSlot(RecipeIngredientRole.INPUT, 8 - u, 8 - v)
 							 .setFluidRenderer(2000, false, 16, 59).setOverlay(tank, 0, 0);
 		var fluidOut = builder.addSlot(RecipeIngredientRole.OUTPUT, 152 - u, 8 - v)

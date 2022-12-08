@@ -73,7 +73,7 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, IWorkbenchRecipe recipe, IFocusGroup focuses)
 	{
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 197 - u, 52 - v).addItemStack(recipe.GetResultItem());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 198 - u, 53 - v).addItemStack(recipe.GetResultItem());
 		List<Ingredient> inputs = recipe.GetJeiRecipe();
 		IRecipeSlotBuilder[] slots = new IRecipeSlotBuilder[7 * 5];
 
@@ -82,7 +82,7 @@ public class WorkbenchRecipeCategory implements IRecipeCategory<IWorkbenchRecipe
 			for (int j = 0; j < 5; j++)
 			{
 				slots[j + i * 5] = builder.addSlot(RecipeIngredientRole.INPUT,
-						15 + (i < 1 ? 0 : 26 + (i < 2 ? 0 : 26 + (i - 2) * 18)) - u, 16 + 18 * j - v);
+						16 + (i < 1 ? 0 : 26 + (i < 2 ? 0 : 26 + (i - 2) * 18)) - u, 17 + 18 * j - v);
 			}
 		}
 
