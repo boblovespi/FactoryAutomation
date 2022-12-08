@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "item": "minecraft:rose_bush"
+  },
+  "output": {
+    "item": "minecraft:red_dye",
+    "count": 4
+  },
+  "time": 10,
+  "torque": 1
+}

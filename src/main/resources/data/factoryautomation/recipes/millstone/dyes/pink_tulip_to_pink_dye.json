@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "item": "minecraft:pink_tulip"
+  },
+  "output": {
+    "item": "minecraft:pink_dye",
+    "count": 2
+  },
+  "time": 10,
+  "torque": 1
+}

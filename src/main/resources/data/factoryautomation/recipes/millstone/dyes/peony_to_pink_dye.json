@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "item": "minecraft:peony"
+  },
+  "output": {
+    "item": "minecraft:pink_dye",
+    "count": 4
+  },
+  "time": 10,
+  "torque": 1
+}

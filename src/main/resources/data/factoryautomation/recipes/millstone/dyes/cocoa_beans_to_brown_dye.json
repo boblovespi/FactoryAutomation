@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "item": "minecraft:cocoa_beans"
+  },
+  "output": {
+    "item": "minecraft:brown_dye",
+    "count": 2
+  },
+  "time": 10,
+  "torque": 1
+}

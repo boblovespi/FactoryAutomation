@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "item": "minecraft:sunflower"
+  },
+  "output": {
+    "item": "minecraft:yellow_dye",
+    "count": 4
+  },
+  "time": 10,
+  "torque": 1
+}

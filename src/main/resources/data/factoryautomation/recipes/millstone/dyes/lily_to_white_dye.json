@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "item": "minecraft:lily_of_the_valley"
+  },
+  "output": {
+    "item": "minecraft:white_dye",
+    "count": 2
+  },
+  "time": 10,
+  "torque": 1
+}
