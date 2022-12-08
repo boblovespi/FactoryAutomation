@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:trip_hammer",
+  "input": {
+    "tag": "forge:rods/gold"
+  },
+  "output": {
+    "item": "factoryautomation:gold_rail",
+    "count": 1
+  },
+  "time": 80,
+  "torque": 10
+}

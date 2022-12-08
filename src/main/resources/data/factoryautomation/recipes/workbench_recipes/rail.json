@@ -1,0 +1,29 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 2,
+  "pattern": ["i   i", "isssi", "i   i", "isssi", "i   i"],
+  "key": {
+    "i": {
+      "item": "factoryautomation:iron_rail"
+    },
+    "s": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 2,
+      "durabilityUse": 10
+    }
+  },
+  "parts": {
+    "factoryautomation:screw": {
+      "tier": 1,
+      "itemUse": 6
+    }
+  },
+  "result": {
+    "item": "minecraft:rail",
+    "count": 32
+  }
+}

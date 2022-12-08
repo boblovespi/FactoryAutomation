@@ -4,6 +4,7 @@
 - added glowstone and blaze powder to millstone
 - added JEI integration to trip hammer
 - added rod recipes for trip hammer
+- added new way to obtain rails and powered rails for cheap
 - changed leather bellows formula (certain efficiencies need a minimum speed now)
 ### Version 0.4.1 - beta
 - added black sand to worldgen

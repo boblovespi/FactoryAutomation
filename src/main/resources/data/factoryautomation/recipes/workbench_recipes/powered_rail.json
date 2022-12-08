@@ -1,0 +1,35 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 2,
+  "pattern": ["igrgi", "igsgi", "igrgi", "igsgi", "igrgi"],
+  "key": {
+    "i": {
+      "item": "factoryautomation:iron_rail"
+    },
+    "g": {
+      "item": "factoryautomation:gold_rail"
+    },
+    "s": {
+      "tag": "forge:rods/wooden"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 2,
+      "durabilityUse": 10
+    }
+  },
+  "parts": {
+    "factoryautomation:screw": {
+      "tier": 1,
+      "itemUse": 6
+    }
+  },
+  "result": {
+    "item": "minecraft:powered_rail",
+    "count": 32
+  }
+}

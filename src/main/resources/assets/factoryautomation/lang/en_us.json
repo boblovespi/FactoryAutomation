@@ -245,6 +245,9 @@
   "item.factoryautomation.copper_wire": "Copper Wire",
   "item.factoryautomation.circuit_frame": "Circuit Frame",
   
+  "item.factoryautomation.iron_rail": "Iron Rail",
+  "item.factoryautomation.gold_rail": "Gold Rail",
+  
   
   "_comment": "items - circuits",
   

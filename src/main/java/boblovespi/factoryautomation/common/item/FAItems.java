@@ -63,6 +63,8 @@ public class FAItems
 	public static MultiTypeItem<TallowForms> pigTallowParts;
 	public static MultiTypeItem<TallowForms> pigTallowMolds;
 	public static MultiTypeItem<TallowForms> firedMolds;
+	public static Item ironRail;
+	public static Item goldRail;
 
 	// ore processing forms
 
@@ -212,6 +214,8 @@ public class FAItems
 				"tallow_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy));
 		firedMolds = new MultiTypeItem<>(
 				"fired_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy));
+		ironRail = new FABaseItem("iron_rail", CreativeModeTab.TAB_MATERIALS);
+		goldRail = new FABaseItem("gold_rail", CreativeModeTab.TAB_MATERIALS);
 
 		// ore processing forms
 
