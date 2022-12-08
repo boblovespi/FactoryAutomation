@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "tag": "forge:rods/blaze"
+  },
+  "output": {
+    "item": "minecraft:blaze_powder",
+    "count": 4
+  },
+  "time": 50,
+  "torque": 4
+}

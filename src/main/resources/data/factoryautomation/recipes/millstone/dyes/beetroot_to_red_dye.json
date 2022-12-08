@@ -1,0 +1,12 @@
+{
+  "type": "factoryautomation:millstone",
+  "input": {
+    "item": "minecraft:beetroot"
+  },
+  "output": {
+    "item": "minecraft:red_dye",
+    "count": 2
+  },
+  "time": 10,
+  "torque": 1
+}

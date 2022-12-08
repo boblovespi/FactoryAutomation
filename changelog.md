@@ -1,6 +1,7 @@
 ## Version 0.5.0 - beta
 - updated to Minecraft 1.19.2
 - added many dye recipes to millstone
+- added glowstone and blaze powder to millstone
 - changed leather bellows formula (certain efficiencies need a minimum speed now)
 ### Version 0.4.1 - beta
 - added black sand to worldgen
