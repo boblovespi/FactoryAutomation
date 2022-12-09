@@ -72,9 +72,7 @@ public class FactoryAutomation
 	// @Mod.Instance(MODID)
 	// public static FactoryAutomation instance = new FactoryAutomation();
 	// @SidedProxy(serverSide = SERVER_PROXY_CLASS, clientSide = CLIENT_PROXY_CLASS)
-	@SuppressWarnings("Convert2MethodRef")
-	public static CommonProxy proxy = DistExecutor
-			.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+	public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
 	//	static
 	//	{
@@ -219,7 +217,8 @@ public class FactoryAutomation
 	}
 
 	@SubscribeEvent
-	public void RegisterCaps(RegisterCapabilitiesEvent event) {
+	public static void RegisterCaps(RegisterCapabilitiesEvent event)
+	{
 		event.register(IHeatUser.class);
 		event.register(IMechanicalUser.class);
 		event.register(IBellowsable.class);
@@ -227,13 +226,13 @@ public class FactoryAutomation
 	}
 
 	@SubscribeEvent
-	public void ModCompatEvent(InterModEnqueueEvent event)
+	public static void ModCompatEvent(InterModEnqueueEvent event)
 	{
 		// ModCompatHandler.Init();
 	}
 
 	@SubscribeEvent
-	public void RegisterRendersEvent(EntityRenderersEvent.RegisterRenderers event)
+	public static void RegisterRendersEvent(EntityRenderersEvent.RegisterRenderers event)
 	{
 		proxy.RegisterRenders();
 		ItemBlockRenderTypes.setRenderLayer(FABlocks.riceCrop, RenderType.cutoutMipped());

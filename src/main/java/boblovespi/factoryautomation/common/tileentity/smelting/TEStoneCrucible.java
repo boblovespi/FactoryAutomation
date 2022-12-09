@@ -431,7 +431,7 @@ public class TEStoneCrucible extends BlockEntity
 	{
 		if (metals.metal.equals("none"))
 			return "";
-		return "metal" + metals.metal + "name";
+		return "metal." + metals.metal + ".name";
 	}
 
 	public int GetAmountMetal()
