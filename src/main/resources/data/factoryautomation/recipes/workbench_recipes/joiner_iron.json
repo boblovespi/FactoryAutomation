@@ -1,0 +1,36 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["isi", "gsg", "iii"],
+  "key": {
+    "s": {
+      "tag": "forge:rods/iron"
+    },
+    "g": {
+      "tag": "forge:gears/iron"
+    },
+    "i": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 2,
+      "durabilityUse": 5
+    },
+    "factoryautomation:wrench": {
+      "tier": 1,
+      "durabilityUse": 5
+    }
+  },
+  "parts": {
+    "factoryautomation:screw": {
+      "tier": 1,
+      "itemUse": 4
+    }
+  },
+  "result": {
+    "item": "factoryautomation:joiner_iron",
+    "count": 1
+  }
+}
