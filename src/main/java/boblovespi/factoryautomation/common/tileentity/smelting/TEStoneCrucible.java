@@ -156,18 +156,19 @@ public class TEStoneCrucible extends BlockEntity
 			return "iron";
 		if (item == Items.GOLD_INGOT || item == Items.GOLD_NUGGET || item == Items.GOLD_BLOCK)
 			return "gold";
-		for (Metals metal : Metals.values())
+
+		// unnecessary, just use tags
+		/*for (Metals metal : Metals.values())
 		{
-			if (metal != Metals.IRON && metal != Metals.GOLD)
+			if (metal == Metals.IRON || metal == Metals.GOLD)
 			{
-				if (item == FAItems.ingot.GetItem(metal) || item == FAItems.nugget.GetItem(metal)
-						|| item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal)
-						|| item == FABlocks.metalBlock.GetBlock(metal).GetItem())
+				if (item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal))
 					return metal.getSerializedName();
-			} else if (item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal)
-					|| item == FABlocks.metalBlock.GetBlock(metal).GetItem())
-				return metal.getSerializedName();
-		}
+			} else if (metal == Metals.COPPER)
+				if (item == FAItems.nugget.GetItem(metal) || item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal))
+					return metal.getSerializedName();
+				else if (item == FAItems.nugget.GetItem(metal) || item == FAItems.sheet.GetItem(metal) || item == FAItems.rod.GetItem(metal))
+		}*/
 
 		// ores and other raw forms
 		if (item == Items.GOLD_ORE)
