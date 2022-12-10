@@ -1,0 +1,37 @@
+{
+  "name": "Better Casting II",
+  "icon": "factoryautomation:brick_casting_vessel",
+  "category": "factoryautomation:age2",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "The brick casting vessel is a great innovation. Not only does it use better molds, it also can cool things faster than a stone casting vessel! Of course, it does not cool things faster by default, so you will need to set up some infrastructure to do that.",
+      "title": "Better Casting II"
+    },
+    {
+      "type": "spotlight",
+      "item": "factoryautomation:brick_casting_vessel",
+      "link_recipe": "true",
+      "text": "The brick casting vessel is crafted in the workbench; use JEI to view the recipe. It takes 2 $(item)iron sheets$(), 2 $(item)bricks$(), and 3 $(item)brick slabs$(). It also requires a hammer of copper or better.",
+      "title": "Crafting the Vessel"
+    },
+    {
+      "type": "image",
+      "images": ["factoryautomation:textures/patchouli/brick_casting_vessel_setup.png"],
+      "title": "A Vessel In Use",
+      "border": true,
+      "text": ""
+    },
+    {
+      "type": "text",
+      "text": "To use the vessel, simply right click to place your molds inside. It then functions the similarly as a stone casting vessel. Right click again when there is no metal inside to remove your molds from the vessel. You can still get burned when using a brick casting vessel, so remember to keep in mind the temperature!",
+      "title": "Use of the Vessel"
+    },
+    {
+      "type": "text",
+      "text": "In order to speed up the casting vessel, water must be supplied to it. It does not accept buckets; you must use pipes or a screw pump. Every tick, the casting vessel will use up to 10mB of water to cool the metal inside at a $(o)much$() faster rate. A copper ingot can be cooled in just 2.5 seconds with enough water!",
+      "title": "Overclocked Cooling"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Better Casting I",
+  "icon": "factoryautomation:brick_casting_vessel",
+  "category": "factoryautomation:age2",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "text",
+      "text": "Your stone casting vessel is very slow and wasteful. It may be time for an upgrade.",
+      "title": "Better Casting I"
+    },
+    {
+      "type": "spotlight",
+      "item": "factoryautomation:pig_tallow",
+      "link_recipe": "true",
+      "text": "First, you need to make better molds. Roughly shaped green sand isn't cutting it anymore. Killing pigs sometimes gives you pig tallow, which will be the first step in making better molds.",
+      "title": "Getting Tallow"
+    },
+    {
+      "type": "crafting",
+      "recipe": "factoryautomation:crafting_recipes/pig_tallow/ingot",
+      "text": "Pig tallow needs to be shaped into the forms you want, as the first step in lost wax casting. Unlike green sand molds, you can make molds for whole blocks of metals! Craft pig tallow cubes if you want block molds.",
+      "title": "Shaping Tallow"
+    },
+    {
+      "type": "crafting",
+      "recipe": "factoryautomation:crafting_recipes/honey_pancake",
+      "text": "Next, surround your formed pig tallow with clay, in preparation to be fired.",
+      "title": "Forming Molds"
+    },
+    {
+      "type": "spotlight",
+      "item": "factoryautomation:fired_mold_ingot",
+      "link_recipe": "true",
+      "text": "Unfired molds can be fired just like bricks. Now you have a clay mold. Keep in mind that clay molds have 10 uses before they break, so you may need to make a lot. Now you can $(l:age2/1brickcastingvesselparttwo)read on$() to see how to use your new molds.",
+      "title": "Firing Molds"
+    }
+  ]
+}

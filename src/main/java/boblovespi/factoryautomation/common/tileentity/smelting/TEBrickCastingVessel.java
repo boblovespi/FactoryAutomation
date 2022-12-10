@@ -68,7 +68,8 @@ public class TEBrickCastingVessel extends BlockEntity implements ITickable, ICas
 		items.setStackInSlot(1, stack.copy());
 		DamageCast();
 		this.temp = temp;
-		SpawnEffects();
+		if (!tank.isEmpty())
+			SpawnEffects();
 		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), UPDATE_NO_RERENDER);
 	}
 

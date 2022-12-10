@@ -14,7 +14,7 @@ introstring = """{
     }"""
 startstring = """,
     {
-      "type": "factoryautomation:dictionary","""
+      "type": "factoryautomation:dict_<>","""
 joinstring = """
     }"""
 endstring = """
@@ -56,7 +56,7 @@ for i in range(3, len(metals)):
 file = open(root + "0metals.json", 'w')
 file.write(introstring)
 for info in infos:
-  file.write(startstring)
+  file.write(startstring.replace("<>", 8))
   file.write(f'\n      "title": "{fancystringmap.get(info)}"')
   file.write(f',\n      "anchor": "{info}"')
   for i in range(len(metals)):
@@ -66,7 +66,7 @@ for info in infos:
     file.write(f',\n      "t{i % 8 + 1}": "{formatmap.get(info).replace("<>", fnumber)}"')
     if i == 7:
       file.write(joinstring)
-      file.write(startstring)
+      file.write(startstring.replace("<>", len(metals) % 8))
       file.write(f'\n      "title": "{"cont."}"')
   file.write(endstring)
 file.write(finalstring)
