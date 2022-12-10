@@ -12,13 +12,21 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public enum TallowForms implements IMultiTypeEnum, StringRepresentable
 {
-	CUBE("cube"), INGOT("ingot"), SHEET("sheet"), COIN("coin"), NUGGET("nugget"), ROD("rod"), GEAR("gear");
+	CUBE("cube", "storage_block"), INGOT("ingot"), SHEET("sheet", "plate"), COIN("coin"), NUGGET("nugget"), ROD("rod"), GEAR("gear");
 
 	private final String name;
+	private final String tagName;
 
 	TallowForms(String name)
 	{
 		this.name = name;
+		tagName = name;
+	}
+
+	TallowForms(String name, String tagName)
+	{
+		this.name = name;
+		this.tagName = tagName;
 	}
 
 	@Override
@@ -31,5 +39,10 @@ public enum TallowForms implements IMultiTypeEnum, StringRepresentable
 	public String getSerializedName()
 	{
 		return name;
+	}
+
+	public String GetTagName()
+	{
+		return tagName;
 	}
 }

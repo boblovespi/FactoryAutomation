@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.block.decoration.StoneCastingVessel.CastingVesselStates;
 import boblovespi.factoryautomation.common.tileentity.ITickable;
 import boblovespi.factoryautomation.common.tileentity.TileEntityHandler;
+import boblovespi.factoryautomation.common.tileentity.smelting.TEBrickCastingVessel;
 import boblovespi.factoryautomation.common.tileentity.smelting.TEStoneCastingVessel;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import net.minecraft.core.BlockPos;
@@ -41,7 +42,7 @@ public class BrickCastingVessel extends FABaseBlock implements EntityBlock
 				Properties.of(Material.STONE).strength(2f).requiresCorrectToolForDrops(), new Item.Properties().tab(FAItemGroups.metallurgy));
 		// super(Material.STONE, "brick_casting_vessel", FAItemGroups.metallurgy);
 		registerDefaultState(stateDefinition.any().setValue(MOLD, CastingVesselStates.EMPTY));
-		TileEntityHandler.tiles.add(TEStoneCastingVessel.class);
+		TileEntityHandler.tiles.add(TEBrickCastingVessel.class);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class BrickCastingVessel extends FABaseBlock implements EntityBlock
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return new TEStoneCastingVessel(pos, state);
+		return new TEBrickCastingVessel(pos, state);
 	}
 
 	@Nullable
@@ -72,16 +73,9 @@ public class BrickCastingVessel extends FABaseBlock implements EntityBlock
 								 InteractionHand hand, BlockHitResult hit)
 	{
 		BlockEntity te = world.getBlockEntity(pos);
-		if (te instanceof TEStoneCastingVessel && !world.isClientSide)
+		if (te instanceof TEBrickCastingVessel vessel && !world.isClientSide)
 		{
-			TEStoneCastingVessel vessel = (TEStoneCastingVessel) te;
-			if (player.getItemInHand(hand).getItem() == Items.STICK)
-			{
-				NetworkHooks.openScreen((ServerPlayer) player, vessel, pos);
-			} else
-			{
-				vessel.TakeOrPlace(player.getItemInHand(hand), player);
-			}
+			vessel.TakeOrPlace(player.getItemInHand(hand), player);
 		}
 		return InteractionResult.SUCCESS;
 	}

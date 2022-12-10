@@ -111,7 +111,7 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 	public TEBrickCrucible(BlockPos pos, BlockState state)
 	{
 		super(TileEntityHandler.teBrickCrucible.get(), pos, state);
-		metals = new MultiMetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3, 1.5f);
+		metals = new MultiMetalHelper(TEStoneCrucible.MetalForms.INGOT.amount * 9 * 3);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 2300 * 1000, 300);
 		bellowsUser = new BellowsUser(0.5f);
@@ -338,15 +338,15 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 	public void PourInto(Direction facing)
 	{
 		BlockEntity te1 = Objects.requireNonNull(level).getBlockEntity(worldPosition.below().relative(facing));
-		if (te1 instanceof ICastingVessel)
+		if (te1 instanceof ICastingVessel te)
 		{
-			ICastingVessel te = (ICastingVessel) te1;
 			TEStoneCrucible.MetalForms form = te.GetForm();
 			if (!(form == TEStoneCrucible.MetalForms.NONE) && te.HasSpace())
 			{
 				StringBuilder metalOut = new StringBuilder();
-				ItemStack item = metals.CastItem(form, metalOut, heatUser);
-				te.CastInto(item, Metals.GetFromName(metalOut.toString()).meltTemp);
+				ItemStack item = metals.CastItem(form, metalOut, heatUser, te.GetLoss());
+				if (!metalOut.isEmpty())
+					te.CastInto(item, Metals.GetFromName(metalOut.toString()).meltTemp);
 			}
 		}
 	}
@@ -377,15 +377,13 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 	private class MultiMetalHelper
 	{
 		final int maxCapacity;
-		final float wasteFactor;
 		String metal = "none";
 		int amount = 0;
 		Map<String, Float> metals;
 
-		public MultiMetalHelper(int maxCapacity, float wasteFactor)
+		public MultiMetalHelper(int maxCapacity)
 		{
 			this.maxCapacity = maxCapacity;
-			this.wasteFactor = wasteFactor;
 			metals = new HashMap<>();
 		}
 
@@ -459,7 +457,7 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 			return tag;
 		}
 
-		public ItemStack CastItem(TEStoneCrucible.MetalForms form, StringBuilder metalOut, HeatUser user)
+		public ItemStack CastItem(TEStoneCrucible.MetalForms form, StringBuilder metalOut, HeatUser user, float wasteFactor)
 		{
 			if (metal.equals("none") || amount == 0 || metal.equals("unknown"))
 				return ItemStack.EMPTY;
@@ -492,6 +490,8 @@ public class TEBrickCrucible extends BlockEntity implements IMultiblockControlle
 						return new ItemStack(Items.IRON_INGOT);
 					else if (drainMetal.equals("gold"))
 						return new ItemStack(Items.GOLD_INGOT);
+					else if (drainMetal.equals("copper"))
+						return new ItemStack(Items.COPPER_INGOT);
 					return new ItemStack(FAItems.ingot.GetItem(Metals.GetFromName(drainMetal)));
 				case NUGGET:
 					if (drainMetal.equals("iron"))

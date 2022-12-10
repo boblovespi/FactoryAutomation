@@ -139,7 +139,7 @@ public class TEStoneCastingVessel extends BlockEntity
 			{
 				player.hurt(DamageSource.GENERIC, (temp - 40f) / (temp + 100f) * 20f);
 				player.displayClientMessage(
-						Component.translatable("Too hot: " + String.format("%1$.1f\u00b0C", temp)), true);
+						Component.translatable("info.too_hot", String.format("%1$.1f\u00b0C", temp)), true);
 			}
 		} else if (item.getItem() == Item.byBlock(FABlocks.greenSand)
 				&& getBlockState().getValue(MOLD) == CastingVesselStates.EMPTY)

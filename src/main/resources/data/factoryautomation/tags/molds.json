@@ -1,0 +1,11 @@
+{
+  "values": [
+    "#factoryautomation:molds/storage_block",
+    "#factoryautomation:molds/ingot",
+    "#factoryautomation:molds/plate",
+    "#factoryautomation:molds/coin",
+    "#factoryautomation:molds/nugget",
+    "#factoryautomation:molds/rod",
+    "#factoryautomation:molds/gear"
+  ]
+}

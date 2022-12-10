@@ -5,6 +5,7 @@
 - added JEI integration to trip hammer
 - added rod recipes for trip hammer
 - added new way to obtain rails and powered rails for cheap
+- added brick casting vessel logic
 - changed leather bellows formula (certain efficiencies need a minimum speed now)
 ### Version 0.4.1 - beta
 - added black sand to worldgen

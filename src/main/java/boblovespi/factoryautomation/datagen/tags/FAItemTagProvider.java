@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.block.mechanical.Gearbox;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
+import boblovespi.factoryautomation.common.item.types.TallowForms;
 import boblovespi.factoryautomation.common.util.FATags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -123,5 +124,12 @@ public class FAItemTagProvider extends ItemTagsProvider
 		tag(FATags.CreateFAItemTag("tools/good_axes"))
 				.add(Items.IRON_AXE, Items.DIAMOND_AXE, FAItems.bronzeAxe, FAItems.steelAxe, FAItems.voidsteelAxe);
 		tag(FATags.CreateFAItemTag("tools/hammers")).add(FAItems.copperHammer, FAItems.ironHammer, FAItems.steelHammer);
+
+		var molds = tag(FATags.CreateFAItemTag("molds"));
+		for (TallowForms form : TallowForms.values())
+		{
+			tag(FATags.CreateFAItemTag("molds/" + form.GetTagName())).add(FAItems.firedMolds.GetItem(form));
+			molds.addTag(FATags.CreateFAItemTag("molds/" + form.GetTagName()));
+		}
 	}
 }

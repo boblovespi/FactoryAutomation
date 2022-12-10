@@ -490,6 +490,9 @@
   "_comment": "subtitles",
   "factoryautomation.subtitle.break_rock": "Rock broken",
   
+  "_comment": "info blurbs",
+  "info.too_hot": "Too hot: %s",
+  
   "_comment": "jei description",
   "factoryautomation.jei.logs": "To obtain logs, first craft a chopping blade",
   "gui.steelmaking_furnace.name": "Steelmaking Furnace",

@@ -213,7 +213,7 @@ public class FAItems
 		pigTallowMolds = new MultiTypeItem<>(
 				"tallow_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy));
 		firedMolds = new MultiTypeItem<>(
-				"fired_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy));
+				"fired_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy).durability(10));
 		ironRail = new FABaseItem("iron_rail", CreativeModeTab.TAB_MATERIALS);
 		goldRail = new FABaseItem("gold_rail", CreativeModeTab.TAB_MATERIALS);
 

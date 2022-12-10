@@ -140,7 +140,7 @@ public class TEStoneCrucible extends BlockEntity
 	public TEStoneCrucible(BlockPos pos, BlockState state)
 	{
 		super(TileEntityHandler.teStoneCrucible.get(), pos, state);
-		metals = new MetalHelper(MetalForms.INGOT.amount * 9 * 3, 1.5f);
+		metals = new MetalHelper(MetalForms.INGOT.amount * 9 * 3);
 		inventory = new ItemStackHandler(2);
 		heatUser = new HeatUser(20, 2300 * 1000, 300);
 		metalName = new StringIntArray(8);
@@ -444,14 +444,13 @@ public class TEStoneCrucible extends BlockEntity
 		if (metals.amount == 0)
 			return;
 		BlockEntity te1 = Objects.requireNonNull(level).getBlockEntity(worldPosition.below().relative(facing));
-		if (te1 instanceof ICastingVessel)
+		if (te1 instanceof ICastingVessel te)
 		{
-			ICastingVessel te = (ICastingVessel) te1;
 			MetalForms form = te.GetForm();
 			if (!(form == MetalForms.NONE) && te.HasSpace())
 			{
 				StringBuilder metalOut = new StringBuilder();
-				te.CastInto(metals.CastItem(form, metalOut, heatUser), Metals.GetFromName(metalOut.toString()).meltTemp);
+				te.CastInto(metals.CastItem(form, metalOut, heatUser, te.GetLoss()), Metals.GetFromName(metalOut.toString()).meltTemp);
 			}
 		}
 	}
@@ -471,7 +470,7 @@ public class TEStoneCrucible extends BlockEntity
 
 	public enum MetalForms
 	{
-		INGOT(18), NUGGET(2), SHEET(18), ROD(9), GEAR(72), COIN(2), NONE(0);
+		INGOT(18), NUGGET(2), SHEET(18), ROD(9), GEAR(72), COIN(2), NONE(0), BLOCK(INGOT.amount * 9);
 		public final int amount;
 
 		MetalForms(int amount)
@@ -483,17 +482,15 @@ public class TEStoneCrucible extends BlockEntity
 	public static class MetalHelper
 	{
 		final int maxCapacity;
-		private final float wasteFactor;
 		String metal = "none";
 		int amount = 0;
 
-		public MetalHelper(int maxCapacity, float wasteFactor)
+		public MetalHelper(int maxCapacity)
 		{
 			this.maxCapacity = maxCapacity;
-			this.wasteFactor = wasteFactor;
 		}
 
-		public ItemStack CastItem(MetalForms form, StringBuilder metalOut, HeatUser user)
+		public ItemStack CastItem(MetalForms form, StringBuilder metalOut, HeatUser user, float wasteFactor)
 		{
 			if (metal.equals("none") || amount == 0)
 				return ItemStack.EMPTY;

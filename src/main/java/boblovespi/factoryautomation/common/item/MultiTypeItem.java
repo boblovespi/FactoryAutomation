@@ -4,6 +4,7 @@ import boblovespi.factoryautomation.common.item.types.IMultiTypeEnum;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -23,6 +24,12 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & StringRepresenta
 
 	public MultiTypeItem(String name, Class<T> types, String resourceFolder, Function<T, Item.Properties> properties, long ignore)
 	{
+		this(name, types, resourceFolder, (t, n) -> new FABaseItem(n, properties.apply(t)), ignore);
+	}
+
+	public MultiTypeItem(String name, Class<T> types, String resourceFolder,
+						 BiFunction<T, String, ? extends FABaseItem> constructor, long ignore)
+	{
 		this.name = name;
 		itemTypes = types;
 		this.resourceFolder = resourceFolder;
@@ -33,8 +40,10 @@ public class MultiTypeItem<T extends Enum<T> & IMultiTypeEnum & StringRepresenta
 		{
 			if ((1L << i & ignore) != 0)
 				continue;
-			items[i] = new FABaseItem(name + "_" + itemTypes.getEnumConstants()[i].getSerializedName(),
-									  properties.apply(itemTypes.getEnumConstants()[i]));
+			items[i] = constructor.apply(itemTypes.getEnumConstants()[i],
+					name + "_" + itemTypes.getEnumConstants()[i].getSerializedName());
+			//new FABaseItem(name + "_" + itemTypes.getEnumConstants()[i].getSerializedName(),
+			// properties.apply(itemTypes.getEnumConstants()[i]));
 		}
 	}
 
