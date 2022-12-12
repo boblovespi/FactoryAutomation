@@ -85,7 +85,7 @@
               }
             }
           ],
-          "name": "factoryautomation:ingot_copper"
+          "name": "minecraft:copper_ingot"
         },
         {
           "type": "minecraft:item",
