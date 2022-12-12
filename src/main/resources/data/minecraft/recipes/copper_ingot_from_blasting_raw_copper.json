@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "minecraft:raw_copper"
+  },
+  "result": "minecraft:air",
+  "experience": 0.0,
+  "cookingtime": 100
+}

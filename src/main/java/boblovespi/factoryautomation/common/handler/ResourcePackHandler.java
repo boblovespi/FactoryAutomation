@@ -37,12 +37,12 @@ public class ResourcePackHandler
 	@SubscribeEvent
 	public static void OnServerStart(ServerAboutToStartEvent event)
 	{
-		event.getServer().getPackRepository().addPackFinder(new FAOverridePackFinder());
+		/*event.getServer().getPackRepository().addPackFinder(new FAOverridePackFinder());
 		event.getServer().getPackRepository().reload();
 		List<String> ids = Lists.newArrayList(event.getServer().getPackRepository().getSelectedIds());
 		ids.add("zfa_override_pack");
 		event.getServer().getPackRepository().setSelected(ids);
-		event.getServer().reloadResources(event.getServer().getPackRepository().getSelectedIds());
+		event.getServer().reloadResources(event.getServer().getPackRepository().getSelectedIds());*/
 	}
 
 	public static class FAOverridePackFinder implements RepositorySource
@@ -104,7 +104,7 @@ public class ResourcePackHandler
 					}
 					Path path = filesystem.getPath("/" + type.getDirectory());
 					collectResources(all, namespaceIn, path, pathIn, filterIn);
-				} else if ("file".equals(uri.getScheme()))
+				} else if ("file".equals(uri.getScheme()) || "union".equals(uri.getScheme()))
 				{
 					URL url1 = new URL(url.toString().substring(0, url.toString().length() - "pack.mcmeta".length()));
 					Path path = Paths.get(url1.toURI());
