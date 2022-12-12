@@ -7,6 +7,7 @@
 - added new way to obtain rails and powered rails for cheap
 - added brick casting vessel logic
 - added Patchouli guides to the iron age
+- added recipes for clay molds
 - changed leather bellows formula (certain efficiencies need a minimum speed now)
 ### Version 0.4.1 - beta
 - added black sand to worldgen

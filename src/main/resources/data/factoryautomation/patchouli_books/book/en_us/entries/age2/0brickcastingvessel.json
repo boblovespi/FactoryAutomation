@@ -24,7 +24,7 @@
     },
     {
       "type": "crafting",
-      "recipe": "factoryautomation:crafting_recipes/honey_pancake",
+      "recipe": "factoryautomation:crafting_recipes/tallow_to_mold/ingot",
       "text": "Next, surround your formed pig tallow with clay, in preparation to be fired.",
       "title": "Forming Molds"
     },
