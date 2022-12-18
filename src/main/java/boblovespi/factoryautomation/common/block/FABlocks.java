@@ -15,7 +15,6 @@ import boblovespi.factoryautomation.common.block.powercable.Cable;
 import boblovespi.factoryautomation.common.block.processing.*;
 import boblovespi.factoryautomation.common.block.resource.*;
 import boblovespi.factoryautomation.common.fluid.Fluids;
-import boblovespi.factoryautomation.common.item.FAItemBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
 import boblovespi.factoryautomation.common.item.types.MetalOres;
 import boblovespi.factoryautomation.common.item.types.Metals;
