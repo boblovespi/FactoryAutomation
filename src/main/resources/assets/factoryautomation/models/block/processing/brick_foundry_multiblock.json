@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "block/bricks",
-		"1": "factoryautomation:blocks/processing/brick_foundry",
+		"1": "factoryautomation:blocks/processing/brick_foundry_front",
 		"2": "factoryautomation:blocks/metals/iron_plate_block"
 	},
 	"elements": [
