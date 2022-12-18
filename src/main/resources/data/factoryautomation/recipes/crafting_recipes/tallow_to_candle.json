@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["s","t"],
+  "key": {
+    "s": {
+      "tag": "forge:string"
+    },
+    "t": {
+      "item": "factoryautomation:pig_tallow"
+    }
+  },
+  "result": {
+    "item": "minecraft:candle"
+  }
+}

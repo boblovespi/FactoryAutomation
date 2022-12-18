@@ -8,6 +8,7 @@
 - added brick casting vessel logic
 - added Patchouli guides to the iron age
 - added recipes for clay molds
+- added recipe for candle from tallow
 - changed leather bellows formula (certain efficiencies need a minimum speed now)
 ### Version 0.4.1 - beta
 - added black sand to worldgen
