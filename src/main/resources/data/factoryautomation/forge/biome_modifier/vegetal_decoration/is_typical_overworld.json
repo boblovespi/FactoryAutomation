@@ -1,6 +1,6 @@
 {
   "type": "forge:add_features",
-  "biomes": "#factoryautomation:is_surface_overworld",
+  "biomes": "#factoryautomation:is_typical_overworld",
   "features": ["factoryautomation:patch_rock_normal"],
   "step": "vegetal_decoration"
 }

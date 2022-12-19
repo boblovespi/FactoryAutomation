@@ -2,7 +2,7 @@
   "values": [
     "#factoryautomation:is_red_desert_overworld",
     "#factoryautomation:is_yellow_desert_overworld",
-    "#factoryautomation:is_yellow_desert_overworld",
+    "#factoryautomation:is_wet_overworld",
     "#factoryautomation:is_typical_overworld"
   ]
 }
