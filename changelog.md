@@ -10,6 +10,7 @@
 - added recipes for clay molds
 - added recipe for candle from tallow
 - changed leather bellows formula (certain efficiencies need a minimum speed now)
+- fixed flint pickaxe not being repaired with flint
 ### Version 0.4.1 - beta
 - added black sand to worldgen
 - added wooden power shaft

@@ -213,7 +213,7 @@ public class FAItems
 		pigTallowMolds = new MultiTypeItem<>(
 				"tallow_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy));
 		firedMolds = new MultiTypeItem<>(
-				"fired_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy).durability(10));
+				"fired_mold", TallowForms.class, "molds", Prop().tab(FAItemGroups.metallurgy).durability(20));
 		ironRail = new FABaseItem("iron_rail", CreativeModeTab.TAB_MATERIALS);
 		goldRail = new FABaseItem("gold_rail", CreativeModeTab.TAB_MATERIALS);
 
@@ -308,9 +308,9 @@ public class FAItems
 		voidsteelPickaxe = new FAPickaxe(voidsteelMaterial, "voidsteel_pickaxe");
 		voidsteelSword = new FASword(voidsteelMaterial, "voidsteel_sword");
 
-		flintPickaxe = new FAPickaxe(Tiers.WOOD, "flint_pickaxe");
+		flintPickaxe = new FAPickaxe(goodFlintMaterial, "flint_pickaxe");
 
-		choppingBlade = new FAAxe(flintMaterial, "chopping_blade");
+		choppingBlade = new FAAxe(badFlintMaterial, "chopping_blade");
 		firebow = new Firebow();
 
 		// workbench tools
