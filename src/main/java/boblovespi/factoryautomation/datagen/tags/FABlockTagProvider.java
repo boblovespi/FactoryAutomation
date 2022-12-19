@@ -65,7 +65,7 @@ public class FABlockTagProvider extends BlockTagsProvider
 				.add(FABlocks.ironPatternedPlateBlock, FABlocks.factorySign, FABlocks.terraclayBrickBlock, FABlocks.slagGlass)
 				.add(FABlocks.cassiteriteRawBlock, FABlocks.limoniteRawBlock, FABlocks.brickFirebox, FABlocks.brickCrucible)
 				.add(FABlocks.stoneCastingVessel, FABlocks.stoneCrucible, FABlocks.powerShaft)
-				.add(FABlocks.ironPipe);
+				.add(FABlocks.ironPipe, FABlocks.brickCastingVessel);
 		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame, FABlocks.logPile).add(FABlocks.woodChoppingBlocks.toArray(Block[]::new))
 				.add(FABlocks.campfire, FABlocks.powerShaftWood, FABlocks.woodenTank, FABlocks.tumblingBarrel)
 				.add(FABlocks.woodPipe);
@@ -80,6 +80,6 @@ public class FABlockTagProvider extends BlockTagsProvider
 							 .toArray(Block[]::new))
 				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n))
 							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock).add(FABlocks.factorySign)
-				.add(FABlocks.powerShaft, FABlocks.ironPipe);
+				.add(FABlocks.powerShaft, FABlocks.ironPipe, FABlocks.brickCastingVessel);
 	}
 }

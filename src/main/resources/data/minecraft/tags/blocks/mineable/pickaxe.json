@@ -40,6 +40,7 @@
     "factoryautomation:stone_casting_vessel",
     "factoryautomation:stone_crucible",
     "factoryautomation:power_shaft",
-    "factoryautomation:iron_pipe"
+    "factoryautomation:iron_pipe",
+    "factoryautomation:brick_casting_vessel"
   ]
 }
