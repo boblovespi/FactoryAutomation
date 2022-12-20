@@ -12,7 +12,7 @@
 		{
             "type": "spotlight",
             "item": "factoryautomation:metal_plate_block_copper",
-			"text": "To craft a single copper plate block, you will need: $(li)9 copper plates$(li)6 screws $(br) 4 screws is 1 copper rod and 3 copper nuggets (it can also be crafted with higher tier metals). Again, these recipes are crafted in the stone workbench so they can't be shown here.",
+			"text": "To craft a single copper plate block, you will need: $(li)9 copper plates$(li)6 screws $(br)4 screws is 1 copper rod and 3 copper nuggets (it can also be crafted with higher tier metals). Again, these recipes are crafted in the stone workbench so they can't be shown here.",
 			"title": "Copper, Copper, COPPER!"
         },
 		{

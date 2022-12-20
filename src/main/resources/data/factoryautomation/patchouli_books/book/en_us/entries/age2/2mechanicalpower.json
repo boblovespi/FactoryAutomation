@@ -1,0 +1,50 @@
+{
+  "name": "Intro to Rotational Energy",
+  "icon": "factoryautomation:gear_wood",
+  "category": "factoryautomation:age2",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "All that manual labor sure is exhausting; thank goodness we have rotational energy to automate tasks now! But first, what is rotational energy? Rotational energy is the first energy system available in Factory Automation. You may recognize similarities to RotaryCraft, Crossroads, or even Create. In short, rotational energy leverages spinning shafts to do work.",
+      "title": "Intro to Rotational Energy"
+    },
+    {
+      "type": "empty"
+    },
+    {
+      "type": "text",
+      "text": "Before we can understand how to use rotational energy, it is important to know the different quantities and the units we use to measure them. $(li)Torque, measured in Nm (Newton meters), which represents how 'forceful' something is spinning $(li)Rotational speed, measured in rad/s (radians per second), which is how fast something is spinning",
+      "title": "A Primer on Units"
+    },
+    {
+      "type": "text",
+      "text": "$(li)Power, measured in W (Watts), which is torque times rotational speed, which is the rate work is done $(li)Work (also known as energy), measured in J (Joules), which is power times time, which is, well, a measurement of the amount of work done",
+      "title": "cont."
+    },
+    {
+      "type": "spotlight",
+      "item": "factoryautomation:power_shaft",
+      "text": "Of course, mechanical energy needs to be transferred from your generators to your machines. Because mechanical energy comes from spinning shafts, it can only be transferred in a straight line. Luckily with gears, we can create contraptions that change the direction energy is transferred.",
+      "title": "Power Transfer"
+    },
+    {
+      "type": "spotlight",
+      "item": "factoryautomation:bevel_gear",
+      "text": "A bevel gear can be used to change the direction of power transfer. $(br2)All rotational transfer devices have multiple tiers. Wood devices have a maximum speed of 10 rad/s and torque of 10 Nm, while iron devices have a maximum speed of 25 rad/s and a torque of 25 Nm. Check the references for specifics for other tiers.",
+      "title": "Changing Directions"
+    },
+    {
+      "type": "spotlight",
+      "item": "factoryautomation:splitter_iron",
+      "text": "Power can also be split between two directions. A splitter splits power into two directions, although the torque output in both is halved.",
+      "title": "Branching Paths"
+    },
+    {
+      "type": "spotlight",
+      "item": "factoryautomation:splitter_iron",
+      "text": "Sometimes, the power output of a single generator is not enough, and we need to combine two generators together. A joiner lets us do that. Note that the rotational speed of both inputs must be the same for the joiner to work.",
+      "title": "Merging Master"
+    }
+  ]
+}

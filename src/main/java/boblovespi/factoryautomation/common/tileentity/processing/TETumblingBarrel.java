@@ -286,7 +286,7 @@ public class TETumblingBarrel extends TEMachine<TumblingBarrelRecipe> implements
 			return side == Direction.DOWN ? LazyOptional.of(() -> outputWrapper).cast() : LazyOptional.of(() -> inputWrapper).cast();
 		else if (cap == CapabilityMechanicalUser.MECHANICAL_USER_CAPABILITY)
 			return LazyOptional.of(() -> user).cast();
-		else if (cap == ForgeCapabilities.ITEM_HANDLER)
+		else if (cap == ForgeCapabilities.FLUID_HANDLER)
 			return side == Direction.DOWN ? LazyOptional.of(() -> output).cast() : LazyOptional.of(() -> input).cast();
 		return super.getCapability(cap, side);
 	}
