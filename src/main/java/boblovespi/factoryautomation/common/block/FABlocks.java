@@ -145,6 +145,7 @@ public class FABlocks
 	public static Block gearbox;
 	public static Block bevelGear;
 	public static Block splitterIron;
+	public static Block joinerIron;
 
 	public static Block jawCrusher;
 	public static Block creativeMechanicalSource;
@@ -209,6 +210,7 @@ public class FABlocks
 		gearbox = new Gearbox();
 		bevelGear = new BevelGear();
 		splitterIron = new Splitter("splitter_iron", 25, 25);
+		joinerIron = new Joiner("joiner_iron", MechanicalTiers.IRON.maxSpeed, MechanicalTiers.IRON.maxTorque);
 
 		jawCrusher = new JawCrusher();
 

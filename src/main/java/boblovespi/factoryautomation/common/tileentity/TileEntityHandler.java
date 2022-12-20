@@ -77,6 +77,7 @@ public class TileEntityHandler
 	public static Supplier<BlockEntityType<TESplitter>> teSplitter;
 	public static Supplier<BlockEntityType<TETumblingBarrel>> teTumblingBarrel;
 	public static Supplier<BlockEntityType<TEBrickCastingVessel>> teBrickCastingVessel;
+	public static Supplier<BlockEntityType<TEJoiner>> teJoiner;
 
 	static
 	{
@@ -130,6 +131,7 @@ public class TileEntityHandler
 		teSplitter = BuildType(TESplitter::new, FABlocks.splitterIron, "splitter");
 		teTumblingBarrel = BuildType(TETumblingBarrel::new, FABlocks.tumblingBarrel, "tumbling_barrel");
 		teBrickCastingVessel = BuildType(TEBrickCastingVessel::new, FABlocks.brickCastingVessel, "brick_casting_vessel");
+		teJoiner = BuildType(TEJoiner::new, FABlocks.joinerIron, "joiner");
 	}
 
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> BuildType(

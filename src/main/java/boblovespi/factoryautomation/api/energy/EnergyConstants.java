@@ -16,6 +16,6 @@ public class EnergyConstants
 
 	public static float RadiansSecondToDegreesTick(float radiansSecond)
 	{
-		return (float) (Math.toDegrees(radiansSecond) / 20);
+		return (float) (Math.toDegrees(radiansSecond) / TICKS_IN_SECOND);
 	}
 }

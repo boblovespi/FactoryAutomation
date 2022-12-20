@@ -31,6 +31,16 @@ public class TEHelper
 		return te.getCapability(MECHANICAL_USER_CAPABILITY, face).orElse(null);
 	}
 
+	public static float GetTorqueOnFace(BlockEntity te, Direction face)
+	{
+		return IsMechanicalFace(te, face) ? GetUser(te, face).GetTorqueOnFace(face) : 0;
+	}
+
+	public static float GetSpeedOnFace(BlockEntity te, Direction face)
+	{
+		return IsMechanicalFace(te, face) ? GetUser(te, face).GetSpeedOnFace(face) : 0;
+	}
+
 	public static void TransferHeat(IHeatUser from, IHeatUser to)
 	{
 		float K_d = from.GetTemperature() - to.GetTemperature();

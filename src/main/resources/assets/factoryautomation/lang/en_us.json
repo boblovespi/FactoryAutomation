@@ -184,6 +184,7 @@
   "item.factoryautomation.guidebook": "F.A. Guidebook",
   "item.factoryautomation.copper_shears": "Copper Shears",
   
+  "item.factoryautomation.omnimeter": "Omni-Meter",
   
   "_comment": "items-jaw_plates",
   
@@ -356,10 +357,13 @@
   "block.factoryautomation.solar_panel": "Solar Panel",
   
   "_comment": "mechanical blocks",
+  
+  "_comment": "power shafts",
   "block.factoryautomation.power_shaft": "Iron Power Shaft",
   "block.factoryautomation.power_shaft_wood": "Wood Power Shaft",
   
   "block.factoryautomation.splitter_iron": "Iron Splitter",
+  "block.factoryautomation.joiner_iron": "Iron Joiner",
   
   "block.factoryautomation.creative_mechanical_source": "Radial Tachyon Accelerator",
   "block.factoryautomation.motor": "Motor",
@@ -493,6 +497,9 @@
   
   "_comment": "info blurbs",
   "info.too_hot": "Too hot: %s",
+  "info.heat_user": "%s J @ %s \u00b0C, %s J/K",
+  "info.mechanical_user": "%s W @ %s Nm, %s rad/s",
+  "info.fluid_container": "%s B of %s",
   
   "_comment": "jei description",
   "factoryautomation.jei.logs": "To obtain logs, first craft a chopping blade",

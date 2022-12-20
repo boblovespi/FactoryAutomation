@@ -169,6 +169,7 @@ public class FAItems
 
 	// misc tools
 
+	public static Item omniMeter;
 	public static Item clayCrucible;
 	public static MultiTypeItem<MachineTiers> wearPlate;
 
@@ -328,6 +329,7 @@ public class FAItems
 
 		// misc tools
 
+		omniMeter = new OmniMeter();
 		wearPlate = new MultiTypeItem<>("wear_plate", MachineTiers.class, "", Prop());
 		clayCrucible = new ClayCrucible();
 
