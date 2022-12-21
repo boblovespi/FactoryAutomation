@@ -124,6 +124,7 @@ public class FAItemTagProvider extends ItemTagsProvider
 		tag(FATags.CreateFAItemTag("tools/good_axes"))
 				.add(Items.IRON_AXE, Items.DIAMOND_AXE, FAItems.bronzeAxe, FAItems.steelAxe, FAItems.voidsteelAxe);
 		tag(FATags.CreateFAItemTag("tools/hammers")).add(FAItems.copperHammer, FAItems.ironHammer, FAItems.steelHammer);
+		tag(FATags.CreateForgeItemTag("shears")).add(FAItems.copperShears);
 
 		var molds = tag(FATags.CreateFAItemTag("molds"));
 		for (TallowForms form : TallowForms.values())

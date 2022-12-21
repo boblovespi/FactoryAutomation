@@ -1,8 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:shears",
-    "factoryautomation:copper_shears",
+    "#forge:shears",
     "factoryautomation:chopping_blade"
   ]
 }

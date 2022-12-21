@@ -151,6 +151,10 @@ public class FAItems
 	public static Item voidsteelSword;
 
 	public static Item flintPickaxe;
+	public static Item flintAxe;
+	public static Item flintHoe;
+	public static Item flintShovel;
+	public static Item flintSword;
 
 	public static Item choppingBlade;
 	public static Item firebow;
@@ -309,6 +313,10 @@ public class FAItems
 		voidsteelPickaxe = new FAPickaxe(voidsteelMaterial, "voidsteel_pickaxe");
 		voidsteelSword = new FASword(voidsteelMaterial, "voidsteel_sword");
 
+		flintAxe = new FAAxe(goodFlintMaterial, "flint_axe");
+		flintHoe = new FAHoe(goodFlintMaterial, "flint_hoe", -3f);
+		flintShovel = new FAShovel(goodFlintMaterial, "flint_shovel");
+		flintSword = new FASword(goodFlintMaterial, "flint_sword");
 		flintPickaxe = new FAPickaxe(goodFlintMaterial, "flint_pickaxe");
 
 		choppingBlade = new FAAxe(badFlintMaterial, "chopping_blade");

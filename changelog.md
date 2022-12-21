@@ -9,6 +9,8 @@
 - added Patchouli guides to the iron age
 - added recipes for clay molds
 - added recipe for candle from tallow
+- added screw pump
+- added more flint tools
 - changed leather bellows formula (certain efficiencies need a minimum speed now)
 - changed terraclay recipe yield (2 to 3)
 - fixed flint pickaxe not being repaired with flint
