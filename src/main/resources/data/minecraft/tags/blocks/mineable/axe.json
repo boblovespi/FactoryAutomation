@@ -16,6 +16,7 @@
     "factoryautomation:gearbox_wood",
     "factoryautomation:bevel_gear_wood",
     "factoryautomation:splitter_wood",
-    "factoryautomation:joiner_wood"
+    "factoryautomation:joiner_wood",
+    "factoryautomation:horse_engine"
   ]
 }

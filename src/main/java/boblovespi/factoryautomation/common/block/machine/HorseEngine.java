@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -39,7 +40,8 @@ public class HorseEngine extends FABaseBlock implements EntityBlock
 
 	public HorseEngine()
 	{
-		super(Materials.WOOD_MACHINE, "horse_engine", FAItemGroups.mechanical);
+		super("horse_engine", false, Properties.of(Materials.WOOD_MACHINE).requiresCorrectToolForDrops().strength(1.5f),
+				new Item.Properties().tab(FAItemGroups.mechanical));
 		registerDefaultState(defaultBlockState().setValue(PART, Part.TOP));
 		TileEntityHandler.tiles.add(TEHorseEngine.class);
 	}

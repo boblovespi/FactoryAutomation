@@ -45,7 +45,8 @@ public class BevelGear extends FABaseBlock implements EntityBlock
 
 	public BevelGear(String name, float maxSpeed, float maxTorque)
 	{
-		super(name, false, Properties.of(Material.METAL).noOcclusion(), new Item.Properties().tab(FAItemGroups.mechanical));
+		super(name, false, Properties.of(Material.METAL).noOcclusion().requiresCorrectToolForDrops().strength(1.5f),
+				new Item.Properties().tab(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TEBevelGear.class);
 	}
 

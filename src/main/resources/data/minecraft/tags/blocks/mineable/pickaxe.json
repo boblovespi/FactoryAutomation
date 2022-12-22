@@ -44,6 +44,8 @@
     "factoryautomation:brick_casting_vessel",
     "factoryautomation:splitter_iron",
     "factoryautomation:joiner_iron",
-    "factoryautomation:gearbox"
+    "factoryautomation:gearbox",
+    "factoryautomation:millstone",
+    "factoryautomation:screw_pump"
   ]
 }
