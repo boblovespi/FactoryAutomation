@@ -47,9 +47,14 @@ public class Gearbox extends FABaseBlock implements EntityBlock
 {
 	public static DirectionProperty FACING = BlockStateProperties.FACING;
 
-	public Gearbox()
+	public Gearbox(String name, MechanicalTiers tier)
 	{
-		super(Material.METAL, "gearbox", FAItemGroups.mechanical);
+		this(name, tier.maxSpeed, tier.maxTorque);
+	}
+
+	public Gearbox(String name, float maxSpeed, float maxTorque)
+	{
+		super(Material.METAL, name, FAItemGroups.mechanical);
 		registerDefaultState(stateDefinition.any().setValue(FACING, Direction.WEST));
 		TileEntityHandler.tiles.add(TEGearbox.class);
 	}

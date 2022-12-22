@@ -43,7 +43,7 @@ public class TESRBevelGear implements BlockEntityRenderer<TEBevelGear>
 			// RenderSystem.enableRescaleNormal();
 
 			BlockState state = te.getBlockState();
-			if (state.getBlock() != FABlocks.bevelGear)
+			if (!(state.getBlock() instanceof BevelGear))
 				return;
 
 			Direction facing = state.getValue(BevelGear.FACING);

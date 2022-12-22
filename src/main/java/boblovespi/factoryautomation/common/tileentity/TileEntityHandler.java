@@ -104,8 +104,8 @@ public class TileEntityHandler
 		tePipe = BuildType(TEPipe::new, List.of(FABlocks.ironPipe, FABlocks.woodPipe), "pipe");
 		tePlacedBucket = BuildType(TEPlacedBucket::new, FABlocks.placedBucket, "placed_bucket");
 		tePump = BuildType(TEPump::new, FABlocks.pump, "pump");
-		teBevelGear = BuildType(TEBevelGear::new, FABlocks.bevelGear, "bevel_gear");
-		teGearbox = BuildType(TEGearbox::new, FABlocks.gearbox, "gearbox");
+		teBevelGear = BuildType(TEBevelGear::new, FABlocks.bevelGears, "bevel_gear");
+		teGearbox = BuildType(TEGearbox::new, FABlocks.gearboxes, "gearbox");
 		teHandCrank = BuildType(TEHandCrank::new, FABlocks.handCrank, "hand_crank");
 		teJawCrusher = BuildType(TEJawCrusher::new, FABlocks.jawCrusher, "jaw_crusher");
 		teMillstone = BuildType(TEMillstone::new, FABlocks.millstone, "millstone");
@@ -128,10 +128,10 @@ public class TileEntityHandler
 		teCable = BuildType(TileEntityCable::new, FABlocks.cable, "cable");
 		teScrewPump = BuildType(TEScrewPump::new, FABlocks.screwPump, "screw_pump");
 		teWoodenTank = BuildType(TEWoodenTank::new, FABlocks.woodenTank, "wooden_tank");
-		teSplitter = BuildType(TESplitter::new, FABlocks.splitterIron, "splitter");
+		teSplitter = BuildType(TESplitter::new, FABlocks.splitters, "splitter");
 		teTumblingBarrel = BuildType(TETumblingBarrel::new, FABlocks.tumblingBarrel, "tumbling_barrel");
 		teBrickCastingVessel = BuildType(TEBrickCastingVessel::new, FABlocks.brickCastingVessel, "brick_casting_vessel");
-		teJoiner = BuildType(TEJoiner::new, FABlocks.joinerIron, "joiner");
+		teJoiner = BuildType(TEJoiner::new, FABlocks.joiners, "joiner");
 	}
 
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> BuildType(

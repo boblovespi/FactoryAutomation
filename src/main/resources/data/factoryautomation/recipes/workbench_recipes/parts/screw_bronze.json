@@ -1,0 +1,24 @@
+{
+  "type": "factoryautomation:workbench_shaped",
+  "tier": 1,
+  "pattern": ["nnn", " s "],
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/bronze"
+    },
+    "s": {
+      "tag": "forge:rods/bronze"
+    }
+  },
+  "tools": {
+    "factoryautomation:hammer": {
+      "tier": 2,
+      "durabilityUse": 1
+    }
+  },
+  "parts": {},
+  "result": {
+    "item": "factoryautomation:screw",
+    "count": 8
+  }
+}

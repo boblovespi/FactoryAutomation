@@ -30,6 +30,11 @@ public class Joiner extends FABaseBlock implements EntityBlock
 	public final float maxSpeed;
 	public final float maxTorque;
 
+	public Joiner(String name, MechanicalTiers tier)
+	{
+		this(name, tier.maxSpeed, tier.maxTorque);
+	}
+
 	public Joiner(String name, float maxSpeed, float maxTorque)
 	{
 		super(name, false, Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(1.5f),

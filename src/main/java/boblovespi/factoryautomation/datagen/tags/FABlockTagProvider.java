@@ -54,32 +54,29 @@ public class FABlockTagProvider extends BlockTagsProvider
 		tag(FATags.CreateFABlockTag("campfire")).add(FABlocks.campfire, Blocks.CAMPFIRE);
 
 		tag(BlockTags.MINEABLE_WITH_PICKAXE)
-				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n))
-							 .toArray(Block[]::new))
-				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n))
-							 .toArray(Block[]::new))
-				.add(Arrays.stream(Ore.Grade.values()).map(n -> FABlocks.limoniteOre.GetBlock(n))
-							 .toArray(Block[]::new))
-				.add(Arrays.stream(MetalOres.values()).map(n -> FABlocks.metalOres.GetBlock(n))
-							 .toArray(Block[]::new))
+				.add(Arrays.stream(Metals.values()).skip(3).map(FABlocks.metalBlock::GetBlock).toArray(Block[]::new))
+				.add(Arrays.stream(Metals.values()).map(FABlocks.metalPlateBlock::GetBlock).toArray(Block[]::new))
+				.add(Arrays.stream(Ore.Grade.values()).map(FABlocks.limoniteOre::GetBlock).toArray(Block[]::new))
+				.add(Arrays.stream(MetalOres.values()).map(FABlocks.metalOres::GetBlock).toArray(Block[]::new))
 				.add(FABlocks.ironPatternedPlateBlock, FABlocks.factorySign, FABlocks.terraclayBrickBlock, FABlocks.slagGlass)
 				.add(FABlocks.cassiteriteRawBlock, FABlocks.limoniteRawBlock, FABlocks.brickFirebox, FABlocks.brickCrucible)
-				.add(FABlocks.stoneCastingVessel, FABlocks.stoneCrucible, FABlocks.powerShaft)
-				.add(FABlocks.ironPipe, FABlocks.brickCastingVessel);
+				.add(FABlocks.stoneCastingVessel, FABlocks.stoneCrucible, FABlocks.powerShaft, FABlocks.bevelGear)
+				.add(FABlocks.ironPipe, FABlocks.brickCastingVessel, FABlocks.splitterIron, FABlocks.joinerIron)
+				.add(FABlocks.gearbox);
 		tag(BlockTags.MINEABLE_WITH_AXE).add(FABlocks.brickMakerFrame, FABlocks.logPile).add(FABlocks.woodChoppingBlocks.toArray(Block[]::new))
 				.add(FABlocks.campfire, FABlocks.powerShaftWood, FABlocks.woodenTank, FABlocks.tumblingBarrel)
-				.add(FABlocks.woodPipe);
+				.add(FABlocks.woodPipe, FABlocks.gearboxWood, FABlocks.bevelGearWood, FABlocks.splitterWood)
+				.add(FABlocks.joinerWood);
 		tag(BlockTags.MINEABLE_WITH_SHOVEL).add(FABlocks.charcoalPile).add(FABlocks.ironCharcoalMix).add(FABlocks.greenSand).add(FABlocks.terraclayBlock);
 		tag(FATags.HAMMER_TOOL).add(Blocks.STONE).add(FABlocks.ironBloom).add(Blocks.COBBLESTONE).add(Blocks.CALCITE);
 		tag(FATags.NEEDS_FLINT_TOOL);
 		tag(BlockTags.NEEDS_STONE_TOOL).add(FABlocks.cassiteriteRawBlock, FABlocks.limoniteRawBlock);
 		tag(FATags.NEEDS_COPPER_TOOL)
-				.add(Arrays.stream(Ore.Grade.values()).skip(3).map(n -> FABlocks.limoniteOre.GetBlock(n))
-							 .toArray(Block[]::new))
-				.add(Arrays.stream(Metals.values()).skip(3).map(n -> FABlocks.metalBlock.GetBlock(n))
-							 .toArray(Block[]::new))
-				.add(Arrays.stream(Metals.values()).map(n -> FABlocks.metalPlateBlock.GetBlock(n))
-							 .toArray(Block[]::new)).add(FABlocks.ironPatternedPlateBlock).add(FABlocks.factorySign)
-				.add(FABlocks.powerShaft, FABlocks.ironPipe, FABlocks.brickCastingVessel);
+				.add(Arrays.stream(Ore.Grade.values()).skip(3).map(FABlocks.limoniteOre::GetBlock).toArray(Block[]::new))
+				.add(Arrays.stream(Metals.values()).skip(3).map(FABlocks.metalBlock::GetBlock).toArray(Block[]::new))
+				.add(Arrays.stream(Metals.values()).map(FABlocks.metalPlateBlock::GetBlock).toArray(Block[]::new))
+				.add(FABlocks.ironPatternedPlateBlock).add(FABlocks.factorySign, FABlocks.gearbox, FABlocks.bevelGear)
+				.add(FABlocks.powerShaft, FABlocks.ironPipe, FABlocks.brickCastingVessel, FABlocks.joinerIron)
+				.add(FABlocks.splitterIron);
 	}
 }

@@ -139,13 +139,29 @@ public class FABlocks
 
 	// mechanical
 
+	// tiered
+
 	public static List<Block> powerShafts;
 	public static Block powerShaft;
 	public static Block powerShaftWood;
+
+	public static List<Block> gearboxes;
 	public static Block gearbox;
+	public static Block gearboxWood;
+
+	public static List<Block> bevelGears;
 	public static Block bevelGear;
+	public static Block bevelGearWood;
+
+	public static List<Block> splitters;
 	public static Block splitterIron;
+	public static Block splitterWood;
+
+	public static List<Block> joiners;
 	public static Block joinerIron;
+	public static Block joinerWood;
+
+	// non-tiered
 
 	public static Block jawCrusher;
 	public static Block creativeMechanicalSource;
@@ -203,14 +219,25 @@ public class FABlocks
 		solarPanel = new SolarPanel();
 		metalOres = new MetalOre();
 
-		powerShaft = new PowerShaft("power_shaft", 25, 25);
-		powerShaftWood = new PowerShaft("power_shaft_wood", 10, 10);
+		powerShaft = new PowerShaft("power_shaft", MechanicalTiers.IRON);
+		powerShaftWood = new PowerShaft("power_shaft_wood", MechanicalTiers.WOOD);
 		powerShafts = List.of(powerShaftWood, powerShaft);
 
-		gearbox = new Gearbox();
-		bevelGear = new BevelGear();
-		splitterIron = new Splitter("splitter_iron", 25, 25);
-		joinerIron = new Joiner("joiner_iron", MechanicalTiers.IRON.maxSpeed, MechanicalTiers.IRON.maxTorque);
+		gearbox = new Gearbox("gearbox", MechanicalTiers.IRON);
+		gearboxWood = new Gearbox("gearbox_wood", MechanicalTiers.WOOD);
+		gearboxes = List.of(gearboxWood, gearbox);
+
+		bevelGear = new BevelGear("bevel_gear", MechanicalTiers.IRON);
+		bevelGearWood = new BevelGear("bevel_gear_wood", MechanicalTiers.WOOD);
+		bevelGears = List.of(bevelGearWood, bevelGear);
+
+		splitterIron = new Splitter("splitter_iron", MechanicalTiers.IRON);
+		splitterWood = new Splitter("splitter_wood", MechanicalTiers.WOOD);
+		splitters = List.of(splitterWood, splitterIron);
+
+		joinerIron = new Joiner("joiner_iron", MechanicalTiers.IRON);
+		joinerWood = new Joiner("joiner_wood", MechanicalTiers.WOOD);
+		joiners = List.of(joinerWood, joinerIron);
 
 		jawCrusher = new JawCrusher();
 

@@ -131,9 +131,16 @@ public class FABlockLootTables extends BlockLoot
 		dropSelf(FABlocks.powerShaftWood);
 
 		dropSelf(FABlocks.gearbox);
+		dropSelf(FABlocks.gearboxWood);
+
 		dropSelf(FABlocks.bevelGear);
+		dropSelf(FABlocks.bevelGearWood);
+
 		dropSelf(FABlocks.splitterIron);
+		dropSelf(FABlocks.splitterWood);
+
 		dropSelf(FABlocks.joinerIron);
+		dropSelf(FABlocks.joinerWood);
 
 		dropSelf(FABlocks.jawCrusher);
 		dropSelf(FABlocks.creativeMechanicalSource);

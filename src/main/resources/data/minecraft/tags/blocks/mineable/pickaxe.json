@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "factoryautomation:metal_block_tin",
     "factoryautomation:metal_block_bronze",
@@ -40,7 +39,11 @@
     "factoryautomation:stone_casting_vessel",
     "factoryautomation:stone_crucible",
     "factoryautomation:power_shaft",
+    "factoryautomation:bevel_gear",
     "factoryautomation:iron_pipe",
-    "factoryautomation:brick_casting_vessel"
+    "factoryautomation:brick_casting_vessel",
+    "factoryautomation:splitter_iron",
+    "factoryautomation:joiner_iron",
+    "factoryautomation:gearbox"
   ]
 }

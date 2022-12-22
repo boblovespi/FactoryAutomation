@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "factoryautomation:brick_maker_frame",
     "factoryautomation:log_pile",
@@ -13,6 +12,10 @@
     "factoryautomation:power_shaft_wood",
     "factoryautomation:wooden_tank",
     "factoryautomation:tumbling_barrel",
-    "factoryautomation:wood_pipe"
+    "factoryautomation:wood_pipe",
+    "factoryautomation:gearbox_wood",
+    "factoryautomation:bevel_gear_wood",
+    "factoryautomation:splitter_wood",
+    "factoryautomation:joiner_wood"
   ]
 }

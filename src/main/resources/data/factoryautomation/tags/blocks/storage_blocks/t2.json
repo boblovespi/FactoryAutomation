@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "#forge:storage_blocks/iron",
     "#factoryautomation:storage_blocks/t3"

@@ -38,9 +38,14 @@ public class BevelGear extends FABaseBlock implements EntityBlock
 	public static IntegerProperty LAYER = IntegerProperty.create("layer", 0, 2);
 	public static DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public BevelGear()
+	public BevelGear(String name, MechanicalTiers tier)
 	{
-		super("bevel_gear", false, Properties.of(Material.METAL).noOcclusion(), new Item.Properties().tab(FAItemGroups.mechanical));
+		this(name, tier.maxSpeed, tier.maxTorque);
+	}
+
+	public BevelGear(String name, float maxSpeed, float maxTorque)
+	{
+		super(name, false, Properties.of(Material.METAL).noOcclusion(), new Item.Properties().tab(FAItemGroups.mechanical));
 		TileEntityHandler.tiles.add(TEBevelGear.class);
 	}
 

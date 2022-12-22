@@ -325,7 +325,6 @@
   
   "block.factoryautomation.brick_casting_vessel": "Brick Casting Vessel",
   "block.factoryautomation.solid_fueled_firebox": "Solid Fueled Firebox",
-  "block.factoryautomation.bevel_gear": "Bevel Gearbox",
   "block.factoryautomation.waterwheel": "Water Wheel",
   "block.factoryautomation.trip_hammer": "Trip Hammer",
   
@@ -366,12 +365,24 @@
   "block.factoryautomation.power_shaft": "Iron Power Shaft",
   "block.factoryautomation.power_shaft_wood": "Wood Power Shaft",
   
+  "_comment": "gearboxes",
+  "block.factoryautomation.gearbox": "Iron Gearbox",
+  "block.factoryautomation.gearbox_wood": "Wood Gearbox",
+  
+  "_comment": "bevel gears",
+  "block.factoryautomation.bevel_gear": "Iron Bevel Gearbox",
+  "block.factoryautomation.bevel_gear_wood": "Wood Bevel Gearbox",
+  
+  "_comment": "splitters",
   "block.factoryautomation.splitter_iron": "Iron Splitter",
+  "block.factoryautomation.splitter_wood": "Wood Splitter",
+  
+  "_comment": "joiners",
   "block.factoryautomation.joiner_iron": "Iron Joiner",
+  "block.factoryautomation.joiner_wood": "Wood Joiner",
   
   "block.factoryautomation.creative_mechanical_source": "Radial Tachyon Accelerator",
   "block.factoryautomation.motor": "Motor",
-  "block.factoryautomation.gearbox": "Gearbox",
   "block.factoryautomation.hand_crank": "Hand Crank",
   
   "block.factoryautomation.jaw_crusher": "Jaw Crusher",
