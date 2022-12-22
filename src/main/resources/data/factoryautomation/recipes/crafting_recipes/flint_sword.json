@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [" f ", "pfp", " s "],
+  "key": {
+    "f": {
+      "item": "minecraft:flint"
+    },
+    "s": {
+      "tag": "forge:rods/wooden"
+    },
+    "p": {
+      "item": "factoryautomation:plant_fiber"
+    }
+  },
+  "result": {
+    "item": "factoryautomation:flint_sword"
+  }
+}
