@@ -350,6 +350,7 @@ public class RecipeHandler
 			helper.register("campfire", CampfireRecipe.SERIALIZER);
 			helper.register("trip_hammer", TripHammerRecipe.SERIALIZER);
 			helper.register("tumbling_barrel", TumblingBarrelRecipe.SERIALIZER);
+			helper.register("brick_maker", BrickMakerRecipe.SERIALIZER);
 		});
 		event.register(ForgeRegistries.Keys.RECIPE_TYPES, helper ->
 		{
@@ -360,6 +361,7 @@ public class RecipeHandler
 			helper.register("campfire", CampfireRecipe.TYPE);
 			helper.register("trip_hammer", TripHammerRecipe.TYPE);
 			helper.register("tumbling_barrel", TumblingBarrelRecipe.TYPE);
+			helper.register("brick_maker", BrickMakerRecipe.TYPE);
 		});
 	}
 }

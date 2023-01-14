@@ -28,7 +28,10 @@ public interface IMachineRecipe extends Recipe<Container>
 	/**
 	 * @return A list of all the fluid inputs
 	 */
-	List<FluidStack> GetFluidInputs();
+	default List<FluidStack> GetFluidInputs()
+	{
+		return null;
+	}
 
 	/**
 	 * @return A list of all the item outputs with a 100% chance of being produced
@@ -38,19 +41,28 @@ public interface IMachineRecipe extends Recipe<Container>
 	/**
 	 * @return A list of all the fluid outputs with a 100% chance of being produced
 	 */
-	List<FluidStack> GetPrimaryFluidOutputs();
+	default List<FluidStack> GetPrimaryFluidOutputs()
+	{
+		return null;
+	}
 
 	/**
 	 * @return A list of all the item outputs with chances. Null if there are none
 	 */
 	@Nullable
-	Map<ItemStack, Float> GetSecondaryItemOutputs();
+	default Map<ItemStack, Float> GetSecondaryItemOutputs()
+	{
+		return null;
+	}
 
 	/**
 	 * @return A list of all the fluid outputs with chances. Null if there are none
 	 */
 	@Nullable
-	Map<FluidStack, Float> GetSecondaryFluidOutputs();
+	default Map<FluidStack, Float> GetSecondaryFluidOutputs()
+	{
+		return null;
+	}
 
 	void WriteToNBT(CompoundTag tag);
 

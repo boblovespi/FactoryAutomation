@@ -40,6 +40,7 @@ public class ClientProxy implements CommonProxy
 		BlockEntityRenderers.register(TileEntityHandler.teBevelGear.get(), TESRBevelGear::new);
 		BlockEntityRenderers.register(TileEntityHandler.teTripHammerController.get(), TESRTripHammer::new);
 		BlockEntityRenderers.register(TileEntityHandler.teTumblingBarrel.get(), TESRTumblingBarrel::new);
+		BlockEntityRenderers.register(TileEntityHandler.teBrickMaker.get(), TESRBrickMaker::new);
 
 		// block render layers
 		ItemBlockRenderTypes.setRenderLayer(FABlocks.bevelGear, RenderType.cutoutMipped());

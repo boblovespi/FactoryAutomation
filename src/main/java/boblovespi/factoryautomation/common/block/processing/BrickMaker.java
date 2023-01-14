@@ -2,6 +2,8 @@ package boblovespi.factoryautomation.common.block.processing;
 
 import boblovespi.factoryautomation.common.block.FABaseBlock;
 import boblovespi.factoryautomation.common.item.FAItems;
+import boblovespi.factoryautomation.common.tileentity.mechanical.TEPowerShaft;
+import boblovespi.factoryautomation.common.tileentity.processing.TEBrickMaker;
 import boblovespi.factoryautomation.common.util.FAItemGroups;
 import boblovespi.factoryautomation.common.util.ItemHelper;
 import net.minecraft.core.BlockPos;
@@ -17,6 +19,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -25,22 +29,22 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.ticks.ScheduledTick;
 
-import java.util.Random;
+import javax.annotation.Nullable;
 
 /**
  * Created by Willi on 2/2/2019.
  */
-public class BrickMaker extends FABaseBlock
+public class BrickMaker extends FABaseBlock implements EntityBlock
 {
 	public static EnumProperty<Contents> CONTENTS = EnumProperty.create("contents", Contents.class);
+	public static EnumProperty<Render> RENDER = EnumProperty.create("render", Render.class);
 	public static VoxelShape BOUNDING_BOX = Block.box(0, 0, 0, 16, 6, 16);
 
 	public BrickMaker()
 	{
 		super("brick_maker_frame", false, Properties.of(Material.WOOD).strength(2), new Item.Properties().tab(FAItemGroups.primitive));
-		registerDefaultState(stateDefinition.any().setValue(CONTENTS, Contents.EMPTY));
+		registerDefaultState(stateDefinition.any().setValue(CONTENTS, Contents.EMPTY).setValue(RENDER, Render.FRAME));
 	}
 
 	public int tickRate(LevelReader levelIn)
@@ -111,6 +115,13 @@ public class BrickMaker extends FABaseBlock
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
 	{
 		builder.add(CONTENTS);
+	}
+
+	@Nullable
+	@Override
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
+	{
+		return new TEBrickMaker(pos, state);
 	}
 
 	public enum Contents implements StringRepresentable
@@ -221,6 +232,24 @@ public class BrickMaker extends FABaseBlock
 			default:
 				return this;
 			}
+		}
+	}
+
+	public enum Render implements StringRepresentable
+	{
+		FRAME("frame"), LEFT("left"), RIGHT("right");
+
+		private String name;
+
+		Render(String name)
+		{
+			this.name = name;
+		}
+
+		@Override
+		public String getSerializedName()
+		{
+			return name;
 		}
 	}
 }

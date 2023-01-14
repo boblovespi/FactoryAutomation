@@ -1,14 +1,12 @@
 package boblovespi.factoryautomation.common.tileentity;
 
 import boblovespi.factoryautomation.common.block.FABlocks;
+import boblovespi.factoryautomation.common.container.StringIntArray;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntityCable;
 import boblovespi.factoryautomation.common.tileentity.electricity.TileEntitySolarPanel;
 import boblovespi.factoryautomation.common.tileentity.mechanical.*;
 import boblovespi.factoryautomation.common.tileentity.pipe.TEPipe;
-import boblovespi.factoryautomation.common.tileentity.processing.TECampfire;
-import boblovespi.factoryautomation.common.tileentity.processing.TEChoppingBlock;
-import boblovespi.factoryautomation.common.tileentity.processing.TETreetap;
-import boblovespi.factoryautomation.common.tileentity.processing.TETumblingBarrel;
+import boblovespi.factoryautomation.common.tileentity.processing.*;
 import boblovespi.factoryautomation.common.tileentity.smelting.*;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEIronWorkbench;
 import boblovespi.factoryautomation.common.tileentity.workbench.TEStoneWorkbench;
@@ -78,6 +76,7 @@ public class TileEntityHandler
 	public static Supplier<BlockEntityType<TETumblingBarrel>> teTumblingBarrel;
 	public static Supplier<BlockEntityType<TEBrickCastingVessel>> teBrickCastingVessel;
 	public static Supplier<BlockEntityType<TEJoiner>> teJoiner;
+	public static Supplier<BlockEntityType<TEBrickMaker>> teBrickMaker;
 
 	static
 	{
@@ -132,6 +131,7 @@ public class TileEntityHandler
 		teTumblingBarrel = BuildType(TETumblingBarrel::new, FABlocks.tumblingBarrel, "tumbling_barrel");
 		teBrickCastingVessel = BuildType(TEBrickCastingVessel::new, FABlocks.brickCastingVessel, "brick_casting_vessel");
 		teJoiner = BuildType(TEJoiner::new, FABlocks.joiners, "joiner");
+		teBrickMaker = BuildType(TEBrickMaker::new, FABlocks.brickMakerFrame, "brick_maker");
 	}
 
 	private static <T extends BlockEntity> Supplier<BlockEntityType<T>> BuildType(
